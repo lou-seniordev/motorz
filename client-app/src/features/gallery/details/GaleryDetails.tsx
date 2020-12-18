@@ -1,19 +1,28 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Card, Image } from 'semantic-ui-react';
-import { IMotofy } from '../../../app/models/motofy';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 import MotofyStore from '../../../app/stores/motofyStore';
 
-
-
-const GaleryDetails: React.FC = () => {
+interface DetailParams {
+  id: string
+}
+const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({match, history}) => {
   const motofyStore = useContext(MotofyStore);
   const {
-    selectedMotofy: motofy,
-    openEditForm,
-    cancelSelectedMotofy,
+    motofy,
+    loadMotofy,
+    loadingInitial
   } = motofyStore;
 
+  useEffect(() => {
+    loadMotofy(match.params.id);
+  },[loadMotofy, match.params.id])
+
+  if (loadingInitial || !motofy) return <LoadingComponent content='Loading motofies...'/>
+
+  // return <h1>This be motofy details</h1>
   return (
     <Card fluid>
       <Image src={`/assets/placeholder.png`} wrapped ui={false} />
@@ -27,13 +36,14 @@ const GaleryDetails: React.FC = () => {
       <Card.Content extra>
         <Button.Group widths={2}>
           <Button
-            onClick={() => openEditForm(motofy!.id)}
+            // onClick={() => openEditForm(motofy!.id)}
+            as={Link} to={`/manageGallery/${motofy.id }`}
             basic
             color='blue'
             content='edit'
           />
           <Button
-            onClick={cancelSelectedMotofy}
+            onClick={() => history.push('/gallery')}
             basic
             color='grey'
             content='cancel'

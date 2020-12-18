@@ -1,56 +1,56 @@
-import React, { FormEvent, useContext, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { IMotofy } from '../../../app/models/motofy';
 import { v4 as uuid } from 'uuid';
 import MotofyStore from '../../../app/stores/motofyStore';
 import { observer } from 'mobx-react-lite';
+import { RouteComponentProps } from 'react-router-dom';
 
-interface IProps {
-  // setEditMode: (editMode: boolean) => void;
-  motofy: IMotofy;
-  // createMotofy: (motofy: IMotofy) => void;
-  // editMotofy: (motofy: IMotofy) => void;
-  // testMotofy: (motofy: IMotofy) => void;
+interface DetailParams {
+  id: string;
 }
-const GalleryForm: React.FC<IProps> = ({
-  // setEditMode,
-  motofy: initalFormState,
-  // createMotofy,
-  // editMotofy,
-  // testMotofy
+const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
+  match,
+  history
 }) => {
   const motofyStore = useContext(MotofyStore);
   const {
     createMotofy,
     editMotofy,
     submitting,
-    cancelFormOpen,
     editMode,
+    motofy: initalFormState,
+    loadMotofy,
+    clearMotofy
   } = motofyStore;
 
-  const initalizeForm = () => {
-    if (initalFormState) {
-      return initalFormState;
-    } else {
-      return {
-        id: '',
-        name: '',
-        brand: '',
-        model: '',
-        cubicCentimeters: '',
-        photoUrl: '',
-        description: '',
-        yearOfProduction: '',
-        datePublished: '',
-        city: '',
-        country: '',
-        pricePaid: '',
-        estimatedValue: '',
-        numberOfKilometers: '',
-      };
+  const [motofy, setMotofy] = useState<IMotofy>({
+    id: '',
+    name: '',
+    brand: '',
+    model: '',
+    cubicCentimeters: '',
+    photoUrl: '',
+    description: '',
+    yearOfProduction: '',
+    datePublished: '',
+    city: '',
+    country: '',
+    pricePaid: '',
+    estimatedValue: '',
+    numberOfKilometers: '',
+  });
+
+  useEffect(() => {
+    if (match.params.id && motofy.id.length === 0) {
+      loadMotofy(match.params.id).then(
+        () => initalFormState && setMotofy(initalFormState)
+        );
     }
-  };
-  const [motofy, setMotofy] = useState<IMotofy>(initalizeForm);
+    return () => {
+      clearMotofy();
+    }
+  }, [loadMotofy, match.params.id, clearMotofy, initalFormState, motofy.id.length]);
 
   const handleSubmit = () => {
     if (motofy.id.length === 0) {
@@ -59,12 +59,9 @@ const GalleryForm: React.FC<IProps> = ({
         id: uuid(),
         datePublished: new Date().toISOString(),
       };
-      createMotofy(newMotofy);
-      // console.log('motofy', newMotofy)
-      // console.log('type', typeof (newMotofy.pricePaid))
+      createMotofy(newMotofy).then(() => history.push(`/gallery/${newMotofy.id}`));
     } else {
-      // console.log('motofy', motofy)
-      editMotofy(motofy);
+      editMotofy(motofy).then(() => history.push(`/gallery/${motofy.id}`));
     }
   };
 
@@ -161,7 +158,7 @@ const GalleryForm: React.FC<IProps> = ({
           content='submit'
         />
         <Button
-          onClick={cancelFormOpen}
+          onClick={()=> history.push('/gallery')}
           floated='right'
           type='button'
           content='cancel'

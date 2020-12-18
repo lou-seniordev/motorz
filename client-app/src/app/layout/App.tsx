@@ -34,24 +34,19 @@ import MechanicForm from '../../features/mechanics/form/MechanicForm';
 import GalleryForm from '../../features/gallery/form/GalleryForm';
 
 //t
-import MotofyStore from '../../app/stores/motofyStore';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
   const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
   const { getUser } = rootStore.userStore;
-//t
-  const motofyStore = useContext(MotofyStore)
-  const {loadMotofies} = motofyStore;
+
   useEffect(() => {
-    //t
-    loadMotofies();
     if (token) {
       getUser().finally(() => setAppLoaded());
     } else {
       setAppLoaded();
     }
-  }, [getUser, setAppLoaded, token, loadMotofies]);
+  }, [getUser, setAppLoaded, token]);
 
   if (!appLoaded) return <LoadingComponent content={'Loading app...'} />;
   return (
@@ -77,7 +72,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <Route exact path='/gallery' component={GalleryDashboard} />
                 <Route path='/gallery/:id' component={GaleryDetails} />
                 <Route
-                  path='/galleryForm'
+                  path={['/galleryForm', '/manageGallery/:id']}
                   key={location.key}
                   component={GalleryForm}
                 />

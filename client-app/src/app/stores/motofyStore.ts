@@ -10,10 +10,8 @@ class MotofyStore {
   @observable motofyRegistry = new Map();
 
   @observable motofies: IMotofy[] = [];
-  @observable motofy: IMotofy | undefined;
+  @observable motofy: IMotofy | null = null;
 
-  // temp
-  @observable selectedMotofy: IMotofy | undefined;
 
   @observable editMode = false;
   @observable loadingInitial = false;
@@ -31,8 +29,7 @@ class MotofyStore {
 
     try {
       const motofies = await agent.Motofies.list();
-      console.log('motofies', motofies);
-      runInAction('loading mototofies', () => {
+      runInAction('loading motofies', () => {
         motofies.forEach((motofy) => {
           motofy.datePublished = motofy.datePublished?.split('.')[0];
           this.motofyRegistry.set(motofy.id, motofy);
@@ -45,6 +42,34 @@ class MotofyStore {
       });
       console.log(error);
     }
+  };
+
+  @action loadMotofy = async (id: string) => {
+    let motofy = this.getMotofy(id);
+    if (motofy) {
+      this.motofy = motofy;
+    } else {
+      this.loadingInitial = true;
+      try {
+        motofy = await agent.Motofies.details(id);
+        runInAction('getting motofy', () => {
+          this.motofy = motofy;
+          this.loadingInitial = false;
+        });
+      } catch (error) {
+        runInAction('get motofy error', () => {
+          this.loadingInitial = false;
+        });
+        console.log(error);
+      }
+    }
+  };
+  @action clearMotofy = () => {
+    this.motofy = null;
+  };
+
+  getMotofy = (id: string) => {
+    return this.motofyRegistry.get(id);
   };
 
   @action createMotofy = async (motofy: IMotofy) => {
@@ -86,7 +111,7 @@ class MotofyStore {
       await agent.Motofies.update(motofy);
       runInAction('editing motofy', () => {
         this.motofyRegistry.set(motofy.id, motofy);
-        this.selectedMotofy = motofy;
+        this.motofy = motofy;
         this.editMode = false;
         this.submitting = false;
       });
@@ -122,7 +147,7 @@ class MotofyStore {
 
   @action openCreateForm = () => {
     this.editMode = true;
-    this.motofy = undefined;
+    this.motofy = null;
   };
 
   // @action loadMotofy = async (id: string) => {
@@ -148,12 +173,12 @@ class MotofyStore {
   // };
 
   @action openEditForm = (id: string) => {
-    this.selectedMotofy = this.motofyRegistry.get(id);
     this.editMode = true;
+    this.motofy = this.motofyRegistry.get(id);
   };
 
   @action cancelSelectedMotofy = () => {
-    this.selectedMotofy = undefined;
+    this.motofy = null;
   };
 
   @action cancelFormOpen = () => {
@@ -161,12 +186,8 @@ class MotofyStore {
   };
 
   @action selectMotofy = (id: string) => {
-    this.selectedMotofy = this.motofyRegistry.get(id);
+    this.motofy = this.motofyRegistry.get(id);
     this.editMode = false;
-  };
-
-  getMotofy = (id: string) => {
-    return this.motofies.find((x) => x.id === id);
   };
 }
 

@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
-import { IMotofy } from '../../../app/models/motofy';
 import { observer } from 'mobx-react-lite';
 import MotofyStore from '../../../app/stores/motofyStore';
+import { Link } from 'react-router-dom';
 
 
 const GalleryList: React.FC = () => {
   const motofyStore = useContext(MotofyStore);
-  const {motofiesByDate, selectMotofy, deleteMotofy, submitting, target} = motofyStore;
+  const {motofiesByDate,  deleteMotofy} = motofyStore;
 
   return (
     <Segment clearing>
@@ -25,7 +25,8 @@ const GalleryList: React.FC = () => {
               </Item.Description>
               <Item.Extra>
                 <Button
-                  onClick={() => selectMotofy(motofy.id)}
+                  // onClick={() => selectMotofy(motofy.id)}
+                  as={Link} to={`/gallery/${motofy.id}`}
                   floated='right'
                   content='View'
                   color='blue'
