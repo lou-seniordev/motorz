@@ -24,6 +24,21 @@ class MotofyStore {
     );
   }
 
+  // @computed get motofiesByDate() {
+  //   return this.groupMotofiesByDate(Array.from(this.motofyRegistry.values()));
+  // }
+
+  // groupMotofiesByDate(motofies: IMotofy[]) {
+  //   const sortedMotofies = motofies.sort(
+  //     (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
+  //   )
+  //   return Object.entries(sortedMotofies.reduce((motofies, motofy) => {
+  //     const date = motofy.datePublished.split('T')[0];
+  //     motofies[date] = motofies[date] ? [...motofies[date], motofy] : [motofy];
+  //     return motofies;
+  //   },{} as {[key: string]: IMotofy[]}));
+  // }
+
   @action loadMotofies = async () => {
     this.loadingInitial = true;
 
@@ -31,11 +46,13 @@ class MotofyStore {
       const motofies = await agent.Motofies.list();
       runInAction('loading motofies', () => {
         motofies.forEach((motofy) => {
-          motofy.datePublished = motofy.datePublished?.split('.')[0];
+          motofy.datePublished = motofy.datePublished?.split('T')[0];
           this.motofyRegistry.set(motofy.id, motofy);
         });
         this.loadingInitial = false;
       });
+      console.log(motofies);
+
     } catch (error) {
       runInAction(() => {
         this.loadingInitial = false;

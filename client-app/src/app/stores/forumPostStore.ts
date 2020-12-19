@@ -16,10 +16,20 @@ class ForumPostStore {
   @observable target = '';
 
   @computed get forumpostsByDate() {
-    return Array.from(this.forumPostRegistry.values()).sort(
-      (a, b) => Date.parse(a.dateAdded) - Date.parse(b.dateAdded)
-    );
+    return this.groupForumpostsByDate(Array.from(this.forumPostRegistry.values()));
   }
+
+  groupForumpostsByDate(forumposts: IForumpost[]) {
+    const sortedForumposts = forumposts.sort(
+      (a, b) => Date.parse(a.dateAdded) - Date.parse(b.dateAdded)
+    )
+    return Object.entries(sortedForumposts.reduce((forumposts, forumpost) => {
+      const date = forumpost.dateAdded.split('T')[0];
+      forumposts[date] = forumposts[date] ? [...forumposts[date], forumpost] : [forumpost];
+      return forumposts;
+    },{} as {[key: string]: IForumpost[]}));
+  }
+
 
   @action loadForumPosts = async () => {
     this.loadingInitial = true;
@@ -31,6 +41,7 @@ class ForumPostStore {
         });
         this.loadingInitial = false;
       });
+
     } catch (error) {
       runInAction('load forumposts error', () => {
         this.loadingInitial = false;

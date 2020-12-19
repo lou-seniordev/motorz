@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect } from 'react';
-import { Container } from 'semantic-ui-react'; //Header, Icon,
+import { Container } from 'semantic-ui-react'; 
 import NavBar from '../../features/nav/NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import { observer } from 'mobx-react-lite';
@@ -11,9 +11,7 @@ import {
 } from 'react-router-dom';
 import HomePage from '../../features/home/HomePage';
 import ActivityForm from '../../features/activities/form/ActivityForm';
-// import GalleryPage from '../../features/gallery/dashboard/GalleryPage';
 import GalleryDashboard from '../../features/gallery/dashboard/GalleryDashboard';
-// import ForumPage from '../../features/forum/dashboard/ForumPage';
 import MechanicDashboard from '../../features/mechanics/dashboard/MechanicDashboard';
 import ActivityDetails from '../../features/activities/details/ActivityDetails';
 import MerchantDashboard from '../../features/shop/dashboard/MerchantDashboard';
@@ -68,7 +66,6 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
                 />
-                {/* <Route exact path='/gallery' component={GalleryPage} /> */}
                 <Route exact path='/gallery' component={GalleryDashboard} />
                 <Route path='/gallery/:id' component={GaleryDetails} />
                 <Route
@@ -83,7 +80,6 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/forumform', '/manageForum/:id']}
                   component={ForumForm}
                 />
-                {/* <Route path='/forum/:id' component={ForumPage} /> */}
                 <Route exact path='/mechanics' component={MechanicDashboard} />
                 <Route path='/mechanics/:id' component={MechanicDetails} />
                 <Route
@@ -91,7 +87,6 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/mechanicForm', '/manageMechanic/:id']}
                   component={MechanicForm}
                 />
-                {/* <Route path='/mechanics/:id' component={MechanicsPage} /> */}
                 <Route path='/merchant' component={MerchantDashboard} />
                 <Route path='/merchant/:id' component={MerchantDetails} />
                 <Route path='/profile/:username' component={ProfilePage} />

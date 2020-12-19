@@ -16,9 +16,7 @@ class MechanicStore {
 
   @observable target = '';
 
-  // @computed get mechanicsByDate() {  // === refactor for map
-  //   return this.mechanics.sort((a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished))
-  // }
+ 
   @computed get mechanicsByDate() {
     return Array.from(this.mechanicRegistry.values()).sort(
       (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
@@ -31,7 +29,8 @@ class MechanicStore {
       const mechanics = await agent.Mechanics.list();
       runInAction('loading mechanics', () => {
         mechanics.forEach((mechanic) => {
-          mechanic.datePublished = mechanic.datePublished?.split('.')[0];
+          mechanic.datePublished = mechanic.datePublished?.split('T')[0];
+          console.log(mechanic.datePublished);
           // this.mechanics.push(mechanic); // === refactor for map
           this.mechanicRegistry.set(mechanic.id, mechanic);
         });

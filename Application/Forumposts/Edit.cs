@@ -14,9 +14,11 @@ namespace Application.Forumposts
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            public DateTime? DateAdded { get; set; }
+            // public DateTime? DateAdded { get; set; }
             public string Title { get; set; }
             public string Body { get; set; }
+            public string Category { get; set; }
+
         }
 
         public class Handler : IRequestHandler<Command>
@@ -39,7 +41,8 @@ namespace Application.Forumposts
 
                 forumpost.Title = request.Title ?? forumpost.Title;
                 forumpost.Body = request.Body ?? forumpost.Body;
-                forumpost.DateAdded = request.DateAdded ?? forumpost.DateAdded;
+                // forumpost.DateAdded = request.DateAdded ?? forumpost.DateAdded;
+                forumpost.Category = request.Category ?? forumpost.Category;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

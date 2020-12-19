@@ -1,5 +1,5 @@
 import React, { FormEvent, useContext, useEffect, useState } from 'react';
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Segment } from 'semantic-ui-react';
 import { IForumpost } from '../../../app/models/forumpost';
 import { v4 as uuid } from 'uuid';
 import ForumPostStore from '../../../app/stores/forumPostStore';
@@ -75,42 +75,47 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
   // if (loadingInitial) return <LoadingComponent content="Loading forum post details..."/>
 
   return (
-    <Segment clearing>
-      <Form onSubmit={handleSubmit}>
-        <Form.Input
-          onChange={handleInputChange}
-          name='title'
-          placeholder='title'
-          value={forumpost.title}
-        />
-        <Form.TextArea
-          onChange={handleInputChange}
-          name='body'
-          rows={4}
-          placeholder='body'
-          value={forumpost.body}
-        />
-        <Form.Input
-          onChange={handleInputChange}
-          name='category'
-          placeholder='category'
-          value={forumpost.category}
-        />
-        <Button
-          loading={submitting}
-          floated='right'
-          positive
-          type='submit'
-          content='submit'
-        />
-        <Button
-          floated='right'
-          type='butoon'
-          content='cancel'
-          onClick={cancelFormOpen}
-        />
-      </Form>
-    </Segment>
+    <Grid>
+      <Grid.Column width={3} />
+      <Grid.Column width={10}>
+        <Segment clearing>
+          <Form onSubmit={handleSubmit}>
+            <Form.Input
+              onChange={handleInputChange}
+              name='title'
+              placeholder='title'
+              value={forumpost.title}
+            />
+            <Form.TextArea
+              onChange={handleInputChange}
+              name='body'
+              rows={4}
+              placeholder='body'
+              value={forumpost.body}
+            />
+            <Form.Input
+              onChange={handleInputChange}
+              name='category'
+              placeholder='category'
+              value={forumpost.category}
+            />
+            <Button
+              loading={submitting}
+              floated='right'
+              positive
+              type='submit'
+              content='submit'
+            />
+            <Button
+              floated='right'
+              type='butoon'
+              content='cancel'
+              onClick={cancelFormOpen}
+            />
+          </Form>
+        </Segment>
+      </Grid.Column>
+    </Grid>
   );
 };
 

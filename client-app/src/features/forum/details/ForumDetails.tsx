@@ -1,15 +1,19 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Card, Image, Label } from 'semantic-ui-react';
+import {  RouteComponentProps } from 'react-router-dom';
+import {  Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 import ForumPostStore from '../../../app/stores/forumPostStore';
+import ForumDetailedChat from './ForumDetailedChat';
+import ForumDetailedHeader from './ForumDetailedHeader';
+import ForumDetailedInfo from './ForumDetailedInfo';
+import ForumDetailedSidebar from './ForumDetailedSidebar';
 
 interface DetailParams {
   id: string
 }
-const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match, history}) => {
+const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) => {
   const forumpostStore = useContext(ForumPostStore);
   const {
     forumpost,
@@ -23,38 +27,17 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match, histo
   if (loadingInitial || !forumpost) return <LoadingComponent content="Loading forum post details..."/> 
 
   return (
-    <Card fluid>
-      <Image
-        src={`/assets/forumCategoryImages/${forumpost!.category}.jpg`}
-        wrapped
-        ui={false}
-      />
 
-      <Card.Content>
-        <Card.Header>{forumpost!.title}</Card.Header>
-        <Label>{forumpost!.category}</Label>
-        <Card.Meta>
-          <span>{forumpost!.dateAdded}</span>
-        </Card.Meta>
-        <Card.Description>{forumpost!.body}</Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <Button.Group widths={2}>
-          <Button
-            basic
-            color='blue'
-            content='edit'
-            as={Link} to={`/manageForum/${forumpost.id}`}
-          />
-          <Button
-            basic
-            color='grey'
-            content='cancel'
-            onClick={()=> history.push('/forum')}
-          />
-        </Button.Group>
-      </Card.Content>
-    </Card>
+    <Grid>
+      <Grid.Column width={12}>
+        <ForumDetailedInfo forumpost={forumpost}/>
+        <ForumDetailedChat forumpost={forumpost}/>
+      </Grid.Column>
+      <Grid.Column width={4}>
+        <ForumDetailedHeader forumpost={forumpost}/>
+      <ForumDetailedSidebar/>
+      </Grid.Column>
+    </Grid>
   );
 };
 

@@ -7,7 +7,7 @@ export interface IMotofy {
     photoUrl?: string | null;
     description?: string;
     yearOfProduction?: string;// Date;
-    datePublished?: string; // Date | undefined;
+    datePublished: string; // Date | undefined;
     city: string;
     country: string;
     pricePaid?: string;

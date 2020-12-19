@@ -29,7 +29,7 @@ const HomePage = () => {
               inverted
               content={`Welcome back to Motoranza ${user.displayName}`}
             />
-            <Button as={Link} to='/activities' size='huge' inverted>
+            <Button as={Link} to='/gallery' size='huge' inverted>
               Enter Motoranza
             </Button>
           </Fragment>
