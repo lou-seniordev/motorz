@@ -1,16 +1,62 @@
 import { observer } from 'mobx-react-lite';
-import React, { FormEvent, useContext, useEffect, useState } from 'react';
+import React, {  useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Grid, Segment } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
 
-import { IMechanic } from '../../../app/models/mechanic';
+import { MechanicFromValues } from '../../../app/models/mechanic';
 import MechanicStore from '../../../app/stores/mechanicStore';
 
-// interface IProps {
-//   // setEditMode: (editMode: boolean) => void;
-//   mechanic: IMechanic;
-// }
+import { Form as FinalForm, Field } from 'react-final-form';
+import TextInput from '../../../app/common/form/TextInput';
+import TextAreaInput from '../../../app/common/form/TextAreaInput';
+
+import { year } from '../../../app/common/options/yearOptions';
+
+import SelectInput from '../../../app/common/form/SelectInput';
+import {
+  combineValidators,
+  composeValidators,
+  hasLengthGreaterThan,
+  isRequired,
+  isNumeric,
+  createValidator
+} from 'revalidate';
+
+const isValidEmail = createValidator(
+  message => value => {
+    if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      return message
+    }
+  },
+  'Invalid email address'
+)
+const validate = combineValidators({
+  name: isRequired({ message: 'The name is required' }),
+  description: composeValidators(
+    isRequired('Description'),
+    hasLengthGreaterThan(4)({
+      message: 'Description needs to be at least 5 characters',
+    })
+  )(),
+  photoUrl: isRequired('Photo'),
+  country: isRequired('Country'),
+  city: isRequired('City'),
+  address: isRequired('address'),
+  phone: composeValidators(
+    isNumeric('Phone'),
+    isRequired('Phone'),
+    hasLengthGreaterThan(4)({
+      message: 'Description needs to be at least 5 characters',
+    })
+  )(),
+  email: composeValidators(
+    isRequired('Email'),
+    isValidEmail
+  )(),
+  website: isRequired('Website'),
+  yearOfStart: isRequired('Year Of Start'),
+});
 interface DetailParams {
   id: string;
 }
@@ -24,64 +70,36 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     editMechanic,
     submitting,
     editMode,
-    cancelFormOpen,
-    mechanic: initalFormState,
+    // mechanic: initalFormState,
     loadMechanic,
-    clearMechanic,
   } = mechanicStore;
 
-  const [mechanic, setMechanic] = useState<IMechanic>({
-    id: '',
-    photoUrl: '',
-    name: '',
-    description: '',
-    yearOfStart: '',
-    datePublished: '',
-    country: '',
-    city: '',
-    address: '',
-  });
+  const [mechanic, setMechanic] = useState(new MechanicFromValues());
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (match.params.id && mechanic.id.length === 0) {
-      loadMechanic(match.params.id).then(() => {
-        initalFormState && setMechanic(initalFormState);
-      });
+    if (match.params.id) {
+      setLoading(true);
+      loadMechanic(match.params.id)
+        .then((mechanic) => {
+          setMechanic(new MechanicFromValues(mechanic));
+        })
+        .finally(() => setLoading(false));
     }
-    return () => {
-      clearMechanic();
-    };
-  }, [
-    loadMechanic,
-    clearMechanic,
-    match.params.id,
-    initalFormState,
-    mechanic.id.length,
-  ]);
+  }, [loadMechanic, match.params.id]);
 
-  const handleSubmit = () => {
-    if (mechanic.id.length === 0) {
+  const handleFinalFormSubmit = (values: any) => {
+    const { ...mechanic } = values;
+    if (!mechanic.id) {
       let newMechanic = {
         ...mechanic,
         id: uuid(),
         datePublished: new Date().toISOString(),
       };
-      createMechanic(newMechanic).then(() =>
-        history.push(`/mechanics/${newMechanic.id}`)
-      );
+      createMechanic(newMechanic);
     } else {
-      editMechanic(mechanic).then(() =>
-        history.push(`/mechanics/${mechanic.id}`)
-      );
+      editMechanic(mechanic);
     }
-  };
-
-  // input into virtual DOM
-  const handleInputChange = (
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.currentTarget;
-    setMechanic({ ...mechanic, [name]: value });
   };
 
   return (
@@ -89,61 +107,99 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
       <Grid.Column width={3} />
       <Grid.Column width={10}>
         <Segment clearing>
-          <Form onSubmit={handleSubmit}>
-            <Form.Input
-              onChange={handleInputChange}
-              name='name'
-              placeholder='Name'
-              value={mechanic.name}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name='country'
-              placeholder='Country'
-              value={mechanic.country}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name='city'
-              placeholder='City'
-              value={mechanic.city}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name='address'
-              placeholder='Address'
-              value={mechanic.address}
-            />
-            {!editMode && (
-              <Form.Input
-                onChange={handleInputChange}
-                name='yearOfStart'
-                // type='datetime-local'
-                placeholder='Year of Start'
-                value={mechanic.yearOfStart}
-              />
+          <FinalForm
+            validate={validate}
+            initialValues={mechanic}
+            onSubmit={handleFinalFormSubmit}
+            render={({ handleSubmit, invalid, pristine }) => (
+              <Form onSubmit={handleSubmit} loading={loading}>
+                <Field
+                  name='name'
+                  placeholder='Name'
+                  value={mechanic.name}
+                  component={TextInput}
+                />
+                <Field
+                  name='photoUrl'
+                  placeholder='Photo'
+                  value={mechanic.photoUrl}
+                  component={TextInput}
+                />
+                <Field
+                  name='country'
+                  placeholder='Country'
+                  value={mechanic.country}
+                  component={TextInput}
+                />
+                <Field
+                  name='city'
+                  placeholder='City'
+                  value={mechanic.city}
+                  component={TextInput}
+                />
+                <Field
+                  name='address'
+                  placeholder='Address'
+                  value={mechanic.address}
+                  component={TextInput}
+                />
+                <Field
+                  name='phone'
+                  placeholder='Phone'
+                  value={mechanic.phone}
+                  component={TextInput}
+                />
+                <Field
+                  name='email'
+                  placeholder='Email'
+                  value={mechanic.email}
+                  component={TextInput}
+                />
+                <Field
+                  name='website'
+                  placeholder='Website'
+                  value={mechanic.website}
+                  component={TextInput}
+                />
+                {!editMode && (
+                  <Field
+                    name='yearOfStart'
+                    // type='datetime-local'
+                    placeholder='Year of Start'
+                    value={mechanic.yearOfStart}
+                    options={year}
+                    component={SelectInput}
+                  />
+                )}
+                <Field
+                  name='description'
+                  raws={3}
+                  placeholder='Description'
+                  value={mechanic.description}
+                  component={TextAreaInput}
+                />
+                <Button
+                  loading={submitting}
+                  disabled={loading || invalid || pristine}
+                  positive
+                  floated='right'
+                  type='submit'
+                  content='submit'
+                />
+                <Button
+                  onClick={
+                    mechanic.id
+                      ? () => history.push(`/mechanics/${mechanic.id}`)
+                      : () => history.push('/mechanics')
+                  }
+                  disabled={loading }
+                  floated='right'
+                  type='button'
+                  content='cancel'
+                />
+              </Form>
             )}
-            <Form.TextArea
-              onChange={handleInputChange}
-              name='description'
-              raws={3}
-              placeholder='Description'
-              value={mechanic.description}
-            />
-            <Button
-              loading={submitting}
-              positive
-              floated='right'
-              type='submit'
-              content='submit'
-            />
-            <Button
-              onClick={cancelFormOpen}
-              floated='right'
-              type='button'
-              content='cancel'
-            />
-          </Form>
+          />
         </Segment>
       </Grid.Column>
     </Grid>

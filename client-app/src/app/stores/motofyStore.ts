@@ -3,6 +3,9 @@ import { observable, action, runInAction, computed, configure } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
 import { createContext, SyntheticEvent } from 'react';
+import { history } from '../..';
+import { toast } from 'react-toastify';
+
 
 configure({ enforceActions: 'always' });
 
@@ -51,7 +54,6 @@ class MotofyStore {
         });
         this.loadingInitial = false;
       });
-      console.log(motofies);
 
     } catch (error) {
       runInAction(() => {
@@ -65,14 +67,17 @@ class MotofyStore {
     let motofy = this.getMotofy(id);
     if (motofy) {
       this.motofy = motofy;
+      return motofy;
     } else {
       this.loadingInitial = true;
       try {
         motofy = await agent.Motofies.details(id);
         runInAction('getting motofy', () => {
           this.motofy = motofy;
+          this.motofyRegistry.set(motofy.id, motofy);
           this.loadingInitial = false;
         });
+        return motofy;
       } catch (error) {
         runInAction('get motofy error', () => {
           this.loadingInitial = false;
@@ -98,10 +103,12 @@ class MotofyStore {
         this.editMode = false;
         this.submitting = false;
       });
+      history.push(`/gallery/${motofy.id}`)
     } catch (error) {
       runInAction(() => {
         this.submitting = false;
       });
+      toast.error('Problem submitting data');
       console.log(error);
     }
   };
@@ -132,6 +139,7 @@ class MotofyStore {
         this.editMode = false;
         this.submitting = false;
       });
+      history.push(`/gallery/${motofy.id}`)
     } catch (error) {
       runInAction('edit motofy error', () => {
         this.submitting = false;

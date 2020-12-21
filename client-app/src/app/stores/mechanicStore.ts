@@ -1,7 +1,10 @@
 import { action, observable, computed, configure, runInAction } from 'mobx';
 import { createContext, SyntheticEvent } from 'react';
+import { history } from '../..';
 import agent from '../api/agent';
 import { IMechanic } from '../models/mechanic';
+import { toast } from 'react-toastify';
+
 
 configure({ enforceActions: 'always' });
 
@@ -30,7 +33,7 @@ class MechanicStore {
       runInAction('loading mechanics', () => {
         mechanics.forEach((mechanic) => {
           mechanic.datePublished = mechanic.datePublished?.split('T')[0];
-          console.log(mechanic.datePublished);
+          console.log(mechanic.datePublished); 
           // this.mechanics.push(mechanic); // === refactor for map
           this.mechanicRegistry.set(mechanic.id, mechanic);
         });
@@ -48,6 +51,7 @@ class MechanicStore {
     let mechanic = this.getMechanic(id);
     if (mechanic) {
       this.mechanic = mechanic;
+      return mechanic;
     } else {
       this.loadingInitial = true;
       try {
@@ -56,6 +60,7 @@ class MechanicStore {
           this.mechanic = mechanic;
           this.loadingInitial = false;
         });
+        return mechanic;
       } catch (error) {
         runInAction('get mechanic error', () => {
           this.loadingInitial = false;
@@ -82,11 +87,13 @@ class MechanicStore {
         this.editMode = false;
         this.submitting = false;
       });
+      history.push(`/mechanics/${mechanic.id}`)
     } catch (error) {
       runInAction('create mechanic error', () => {
         this.submitting = false;
       });
-      console.log(error);
+      toast.error('Problem submitting data');
+      console.log(error.response);
     }
   };
 
@@ -101,11 +108,13 @@ class MechanicStore {
         this.editMode = false;
         this.submitting = false;
       });
+      history.push(`/mechanics/${mechanic.id}`)
     } catch (error) {
       runInAction('create mechanic error', () => {
         this.submitting = false;
       });
-      console.log(error);
+      toast.error('Problem submitting data');
+      console.log(error.response);
     }
   };
 

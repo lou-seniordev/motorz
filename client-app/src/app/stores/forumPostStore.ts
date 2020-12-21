@@ -1,7 +1,10 @@
 import { observable, action, computed, configure, runInAction } from 'mobx';
 import { createContext, SyntheticEvent } from 'react';
+import { history } from '../..';
 import agent from '../api/agent';
 import { IForumpost } from '../models/forumpost';
+import { toast } from 'react-toastify';
+
 
 configure({ enforceActions: 'always' });
 
@@ -49,30 +52,22 @@ class ForumPostStore {
       console.log(error);
     }
   };
-  // === PROMISE (same functionality as a reference)===
-  // @action loadForumPosts = () => {
-  //   this.loadingInitial = true;
-  //   agent.Forumposts.list()
-  //     .then(forumPosts => {
-  //       forumPosts.forEach((forumpost) => {
-  //         forumpost.dateAdded = forumpost.dateAdded.split('.')[0];
-  //         this.forumposts.push(forumpost);
-  //       });
-  //     }).finally(() => (this.loadingInitial = false));
-  // };
 
   @action loadForumPost = async (id: string) => {
-    let forumPost = this.getForumPost(id);
-    if (forumPost) {
-      this.forumpost = forumPost;
+    let forumpost = this.getForumPost(id);
+    if (forumpost) {
+      this.forumpost = forumpost;
+      return forumpost;
     } else {
       this.loadingInitial = true;
       try {
-        forumPost = await agent.Forumposts.details(id);
+        forumpost = await agent.Forumposts.details(id);
         runInAction('getting forumpost', () => {
-          this.forumpost = forumPost;
+          this.forumpost = forumpost;
+          this.forumPostRegistry.set(forumpost.id, forumpost);
           this.loadingInitial = false;
         });
+        this.forumpost = forumpost;
       } catch (error) {
         runInAction('get forumpost error', () => {
           this.loadingInitial = false;
@@ -96,13 +91,15 @@ class ForumPostStore {
       await agent.Forumposts.create(forumpost);
       runInAction('creating forumposts', () => {
         this.forumPostRegistry.set(forumpost.id, forumpost);
-        this.editMode = false;
+        // this.editMode = false;
         this.submitting = false;
       });
+      history.push(`/forum/${forumpost.id}`)
     } catch (error) {
       runInAction('create forumpost error', () => {
         this.submitting = false;
       });
+      toast.error('Problem submitting data');
       console.log(error);
     }
   };
@@ -116,6 +113,7 @@ class ForumPostStore {
         this.editMode = false;
         this.submitting = false;
       });
+      history.push(`/forum/${forumpost.id}`)
     } catch (error) {
       runInAction('edit forumpost error', () => {
         this.submitting = false;

@@ -1,10 +1,34 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form, Grid, Segment } from 'semantic-ui-react';
-import { IForumpost } from '../../../app/models/forumpost';
+import { ForumpostFormValues } from '../../../app/models/forumpost';
 import { v4 as uuid } from 'uuid';
 import ForumPostStore from '../../../app/stores/forumPostStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router-dom';
+import { category } from '../../../app/common/options/forumCategoryOptions';
+
+import { Form as FinalForm, Field } from 'react-final-form';
+import TextInput from '../../../app/common/form/TextInput';
+import TextAreaInput from '../../../app/common/form/TextAreaInput';
+
+import {
+  combineValidators,
+  composeValidators,
+  hasLengthGreaterThan,
+  isRequired,
+} from 'revalidate';
+import SelectInput from '../../../app/common/form/SelectInput';
+
+const validate = combineValidators({
+  title: isRequired({ message: 'The event title is required' }),
+  category: isRequired('Category'),
+  body: composeValidators(
+    isRequired('Body'),
+    hasLengthGreaterThan(4)({
+      message: 'Body needs to be at least 5 characters',
+    })
+  )()
+});
 
 interface DetailParams {
   id: string;
@@ -18,58 +42,44 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
     createForumpost,
     editForumpost,
     submitting,
-    cancelFormOpen,
-    forumpost: initialFormState,
+    // cancelFormOpen,
+    // forumpost: initialFormState,
     loadForumPost,
-    clearForumPost,
+    // clearForumPost,
   } = forumPostStore;
 
-  const [forumpost, setForumpost] = useState<IForumpost>({
-    id: '',
-    title: '',
-    category: '',
-    body: '',
-    dateAdded: '',
-  });
-  useEffect(() => {
-    if (match.params.id && forumpost.id.length === 0) {
-      loadForumPost(match.params.id).then(
-        () => initialFormState && setForumpost(initialFormState)
-      );
-    }
-    return () => {
-      clearForumPost();
-    };
-  }, [
-    loadForumPost,
-    clearForumPost,
-    match.params.id,
-    initialFormState,
-    forumpost.id.length,
-  ]);
+  const [forumpost, setForumpost] = useState(new ForumpostFormValues());
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    if (forumpost.id.length === 0) {
+  useEffect(() => {
+    if (match.params.id) {
+      setLoading(true);
+      loadForumPost(match.params.id)
+        .then((forumpost) => setForumpost(new ForumpostFormValues(forumpost)))
+        .finally(() => setLoading(false));
+    }
+  }, [loadForumPost, match.params.id]);
+
+
+  // const handleInputChange = (
+  //   event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { name, value } = event.currentTarget;
+  //   setForumpost({ ...forumpost, [name]: value });
+  // };
+
+  const handleFinalFormSubmit = (values: any) => {
+    const {...forumpost} = values;
+  if (!forumpost.id) {
       let newForumpost = {
         ...forumpost,
         id: uuid(),
         dateAdded: new Date().toISOString(),
       };
-      createForumpost(newForumpost).then(() =>
-        history.push(`/forum/${newForumpost.id}`)
-      );
+      createForumpost(newForumpost)
     } else {
-      editForumpost(forumpost).then(() =>
-        history.push(`/forum/${forumpost.id}`)
-      );
+      editForumpost(forumpost);
     }
-  };
-
-  const handleInputChange = (
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.currentTarget;
-    setForumpost({ ...forumpost, [name]: value });
   };
 
   // if (loadingInitial) return <LoadingComponent content="Loading forum post details..."/>
@@ -79,40 +89,55 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
       <Grid.Column width={3} />
       <Grid.Column width={10}>
         <Segment clearing>
-          <Form onSubmit={handleSubmit}>
-            <Form.Input
-              onChange={handleInputChange}
-              name='title'
-              placeholder='title'
-              value={forumpost.title}
-            />
-            <Form.TextArea
-              onChange={handleInputChange}
-              name='body'
-              rows={4}
-              placeholder='body'
-              value={forumpost.body}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name='category'
-              placeholder='category'
-              value={forumpost.category}
-            />
-            <Button
-              loading={submitting}
-              floated='right'
-              positive
-              type='submit'
-              content='submit'
-            />
-            <Button
-              floated='right'
-              type='butoon'
-              content='cancel'
-              onClick={cancelFormOpen}
-            />
-          </Form>
+          <FinalForm
+          validate={validate}
+            initialValues={forumpost}
+            onSubmit={handleFinalFormSubmit}
+            render={({ handleSubmit, invalid, pristine }) => (
+              <Form onSubmit={handleSubmit} loading={loading}>
+                <Field
+                  name='title'
+                  placeholder='title'
+                  value={forumpost.title}
+                  component={TextInput}
+                />
+                <Field
+                  // onChange={handleInputChange}
+                  name='body'
+                  rows={4}
+                  placeholder='body'
+                  value={forumpost.body}
+                  component={TextAreaInput}
+                />
+                <Field
+                  name='category'
+                  placeholder='category'
+                  options={category}
+                  value={forumpost.category}
+                  component={SelectInput}
+                />
+                <Button
+                  loading={submitting}
+                  disabled={loading || invalid || pristine}
+                  floated='right'
+                  positive
+                  type='submit'
+                  content='submit'
+                />
+                <Button
+                  floated='right'
+                  disabled={loading}
+                  type='button'
+                  content='cancel'
+                  onClick={
+                    forumpost.id
+                      ? () => history.push(`/forum/${forumpost.id}`)
+                      : () => history.push('/forum')
+                  }
+                />
+              </Form>
+            )}
+          />
         </Segment>
       </Grid.Column>
     </Grid>

@@ -24,6 +24,9 @@ namespace Application.Mechanics
             public string Country { get; set; }
             public string City { get; set; }
             public string Address { get; set; }
+            public string Phone { get; set; }
+            public string Email { get; set; }
+            public string Website { get; set; }
 
         }
         public class CommandValidator : AbstractValidator<Command>
@@ -39,7 +42,10 @@ namespace Application.Mechanics
                 RuleFor(x => x.City).NotEmpty();
                 RuleFor(x => x.Country).NotEmpty();
                 RuleFor(x => x.Address).NotEmpty();
-            
+                RuleFor(x => x.Phone).NotEmpty();
+                RuleFor(x => x.Email).NotEmpty();
+                RuleFor(x => x.Website).NotEmpty();
+
             }
         }
         public class Handler : IRequestHandler<Command>
@@ -70,7 +76,11 @@ namespace Application.Mechanics
                     DatePublished = DateTime.Now,
                     Country = request.Country,
                     City = request.City,
-                    Address = request.Address
+                    Address = request.Address,
+                    PhotoUrl = request.PhotoUrl,
+                    Phone = request.Phone,
+                    Email = request.Email,
+                    Website = request.Website
 
                 };
 

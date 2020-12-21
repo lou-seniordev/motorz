@@ -8,7 +8,7 @@ const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
     <Segment.Group>
       <Segment>
         <Item>
-          <Item.Image size='tiny' circular src={`/assets/forumCategoryImages/${forumpost.category}.jpg`} />
+          <Item.Image size='tiny' src={`/assets/forumCategoryImages/${forumpost.category}.jpg`} />
           <Item.Content>
             <Item.Header as='a'>{forumpost.title}</Item.Header>
             <Item.Meta>{forumpost.dateAdded}</Item.Meta>

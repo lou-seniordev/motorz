@@ -9,4 +9,28 @@ export interface IMechanic {
     country: string;
     city: string;
     address: string;
+    email: string;
+    phone: string;
+    website: string;
+}
+
+export class MechanicFromValues {
+    id?: string;
+    photoUrl: string = '';
+    name: string = '';
+    description: string = '';
+    yearOfStart: string = '';
+    datePublished: string = '';
+    country: string = '';
+    city: string = '';
+    address: string = '';
+    email: string= '';
+    phone: string= '';
+    website: string= '';
+
+
+    constructor(init?: MechanicFromValues ) {
+        if (init)
+        Object.assign(this, init);
+    }
 }

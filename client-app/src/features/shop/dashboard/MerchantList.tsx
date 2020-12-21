@@ -1,11 +1,16 @@
-import React from 'react'
+import React from 'react';
 
 const MerchantList = () => {
-    return (
-        <div>
-            Merchant lists products to sell etc
-        </div>
-    )
-}
+  return (
+    <div>
+      <h1>
+        <p>
+          Section that will make possible for our members to sell and buy
+          products is coming soon
+        </p>
+      </h1>
+    </div>
+  );
+};
 
-export default MerchantList
+export default MerchantList;

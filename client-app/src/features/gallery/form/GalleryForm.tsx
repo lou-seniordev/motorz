@@ -1,14 +1,54 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react';
+import React, {  useContext, useEffect, useState } from 'react';
 import { Button, Form, Grid, Segment } from 'semantic-ui-react';
-import { IMotofy } from '../../../app/models/motofy';
+import {  MotofyFormValues } from '../../../app/models/motofy';
 import { v4 as uuid } from 'uuid';
 import MotofyStore from '../../../app/stores/motofyStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router-dom';
+import { Form as FinalForm, Field } from 'react-final-form';
+import TextInput from '../../../app/common/form/TextInput';
+import TextAreaInput from '../../../app/common/form/TextAreaInput';
+import SelectInput from '../../../app/common/form/SelectInput';
 
-// import { brand } from '../../../app/common/options/brandOptions';
-// import SelectInput from '../../../app/common/form/SelectInput';
+import { brand } from '../../../app/common/options/brandOptions';
+import { year } from '../../../app/common/options/yearOptions';
+import {
+  combineValidators,
+  composeValidators,
+  hasLengthGreaterThan,
+  isRequired,
+  isNumeric,
+} from 'revalidate';
 
+const validate = combineValidators({
+  name: isRequired({ message: 'The event name is required' }),
+  description: composeValidators(
+    isRequired('Description'),
+    hasLengthGreaterThan(4)({
+      message: 'Description needs to be at least 5 characters',
+    })
+  )(),
+  city: isRequired('City'),
+  country: isRequired('Country'),
+  model: isRequired('model'),
+  pricePaid: composeValidators(
+    isNumeric('Price paid'),
+    isRequired('Price paid')
+  )(),
+  cubicCentimeters: composeValidators(
+    isNumeric('Power of engine'),
+    isRequired('Power of engine')
+  )(),
+  yearOfProduction: isRequired('Year of production'),
+  numberOfKilometers: composeValidators(
+    isNumeric('Number of kilometers'),
+    isRequired('Number of kilometers')
+  )(),
+  estimatedValue: composeValidators(
+    isNumeric('Estimated valude'),
+    isRequired('Estimated valude')
+  )(),
+});
 
 interface DetailParams {
   id: string;
@@ -23,164 +63,144 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     editMotofy,
     submitting,
     editMode,
-    motofy: initalFormState,
     loadMotofy,
-    clearMotofy,
   } = motofyStore;
 
-  const [motofy, setMotofy] = useState<IMotofy>({
-    id: '',
-    name: '',
-    brand: '',
-    model: '',
-    cubicCentimeters: '',
-    photoUrl: '',
-    description: '',
-    yearOfProduction: '',
-    datePublished: '',
-    city: '',
-    country: '',
-    pricePaid: '',
-    estimatedValue: '',
-    numberOfKilometers: '',
-  });
+  const [motofy, setMotofy] = useState(new MotofyFormValues());
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (match.params.id && motofy.id.length === 0) {
-      loadMotofy(match.params.id).then(
-        () => initalFormState && setMotofy(initalFormState)
-      );
+    if (match.params.id) {
+      setLoading(true);
+      loadMotofy(match.params.id)
+        .then((motofy) => setMotofy(new MotofyFormValues(motofy)))
+        .finally(() => setLoading(false));
     }
-    return () => {
-      clearMotofy();
-    };
-  }, [
-    loadMotofy,
-    match.params.id,
-    clearMotofy,
-    initalFormState,
-    motofy.id.length,
-  ]);
+  }, [loadMotofy, match.params.id]);
 
-  const handleSubmit = () => {
-    if (motofy.id.length === 0) {
+  const handleFinalFormSubmit = (values: any) => {
+    const { ...motofy } = values;
+
+    if (!motofy.id) {
       let newMotofy = {
         ...motofy,
         id: uuid(),
         datePublished: new Date().toISOString(),
       };
-      createMotofy(newMotofy).then(() =>
-        history.push(`/gallery/${newMotofy.id}`)
-      );
+      // console.log(newMotofy);
+      createMotofy(newMotofy);
     } else {
-      editMotofy(motofy).then(() => history.push(`/gallery/${motofy.id}`));
+      editMotofy(motofy);
     }
   };
-
-  // == this is to enable input ==
-  const handleInputChange = (
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.currentTarget;
-    setMotofy({ ...motofy, [name]: value });
-  };
-
   return (
     <Grid>
       <Grid.Column width={3} />
       <Grid.Column width={10}>
         <Segment clearing>
-          <Form onSubmit={handleSubmit}>
-            <Form.Input
-              onChange={handleInputChange}
-              name='name'
-              placeholder='Name'
-              value={motofy.name}
-            />
-            <Form.TextArea
-              onChange={handleInputChange}
-              name='description'
-              raws={3}
-              placeholder='Description'
-              value={motofy.description}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name='city'
-              placeholder='City'
-              value={motofy.city}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name='country'
-              placeholder='Country'
-              value={motofy.country}
-            />
-              <Form.Input
-            onChange={handleInputChange}
-            name='brand'
-            placeholder='Brand'
-            // options={brand}
-            value={motofy.brand}
-            // component={SelectInput}
-          />
-            {!editMode && (
-              <Segment>
-                <Form.Input
-                  onChange={handleInputChange}
-                  name='model'
-                  placeholder='Model'
-                  value={motofy.model}
+          <FinalForm
+            validate={validate}
+            initialValues={motofy}
+            onSubmit={handleFinalFormSubmit}
+            render={({ handleSubmit, invalid, pristine }) => (
+              <Form onSubmit={handleSubmit} loading={loading}>
+                <Field
+                  // onChange={handleInputChange}
+                  name='name'
+                  placeholder='Name'
+                  value={motofy.name}
+                  component={TextInput}
                 />
-                <Form.Input
-                  onChange={handleInputChange}
-                  name='cubicCentimeters'
-                  // type='number'
-                  placeholder='Cubics'
-                  value={motofy.cubicCentimeters}
+                <Field
+                  name='description'
+                  raws={3}
+                  placeholder='Description'
+                  value={motofy.description}
+                  component={TextAreaInput}
                 />
-                <Form.Input
-                  onChange={handleInputChange}
-                  name='yearOfProduction'
-                  // type='datetime-local'
-                  placeholder='Year of production'
-                  value={motofy.yearOfProduction}
+                <Field
+                  name='city'
+                  placeholder='City'
+                  value={motofy.city}
+                  component={TextInput}
                 />
-                <Form.Input
-                  onChange={handleInputChange}
-                  name='numberOfKilometers'
-                  placeholder='Number of kilometers'
-                  value={motofy.numberOfKilometers}
+                <Field
+                  name='country'
+                  placeholder='Country'
+                  value={motofy.country}
+                  component={TextInput}
                 />
-                <Form.Input
-                  onChange={handleInputChange}
-                  name='pricePaid'
-                  placeholder='Price paid'
-                  value={motofy.pricePaid}
+                <Field
+                  name='brand'
+                  placeholder='Brand'
+                  options={brand}
+                  value={motofy.brand}
+                  component={SelectInput}
                 />
-                <Form.Input
-                  onChange={handleInputChange}
-                  name='estimatedValue'
-                  placeholder='Estimated value'
-                  value={motofy.estimatedValue}
-                />
-              </Segment>
-            )}
+                {!editMode && (
+                  <Segment>
+                    <Field
+                      name='model'
+                      placeholder='Model'
+                      value={motofy.model}
+                      component={TextInput}
+                    />
+                    <Field
+                      name='cubicCentimeters'
+                      placeholder='Cubics'
+                      value={motofy.cubicCentimeters}
+                      component={TextInput}
+                    />
+                    <Field
+                      name='yearOfProduction'
+                      placeholder='Year of production'
+                      options={year}
+                      value={motofy.yearOfProduction}
+                      component={SelectInput}
+                    />
+                    <Field
+                      name='numberOfKilometers'
+                      placeholder='Number of kilometers'
+                      value={motofy.numberOfKilometers}
+                      component={TextInput}
+                    />
+                    <Field
+                      name='pricePaid'
+                      placeholder='Price paid'
+                      value={motofy.pricePaid}
+                      component={TextInput}
+                    />
+                    <Field
+                      name='estimatedValue'
+                      placeholder='Estimated value'
+                      value={motofy.estimatedValue}
+                      component={TextInput}
+                    />
+                  </Segment>
+                )}
 
-            <Button
-              loading={submitting}
-              positive
-              floated='right'
-              type='submit'
-              content='submit'
-            />
-            <Button
-              onClick={() => history.push('/gallery')}
-              floated='right'
-              type='button'
-              content='cancel'
-            />
-          </Form>
+                <Button
+                  loading={submitting}
+                  disabled={loading|| invalid || pristine}
+                  positive
+                  floated='right'
+                  type='submit'
+                  content='submit'
+                />
+                <Button
+                  onClick={
+                    motofy.id
+                      ? () => history.push(`/gallery/${motofy.id}`)
+                      : () => history.push('/gallery')
+                  }
+                  disabled={loading}
+                  floated='right'
+                  type='button'
+                  content='cancel'
+                />
+              </Form>
+            )}
+          />
         </Segment>
       </Grid.Column>
     </Grid>

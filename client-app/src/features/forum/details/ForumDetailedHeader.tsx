@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Segment, Item, Header, Button, Image } from 'semantic-ui-react';
 import { IForumpost } from '../../../app/models/forumpost';
 
@@ -49,7 +50,7 @@ const ForumDetailedHeader: React.FC<{ forumpost: IForumpost }> = ({
       <Segment clearing attached='bottom'>
         {/* <Button color='teal'>Join Activity</Button>
           <Button>Cancel attendance</Button> */}
-        <Button color='orange' floated='left'>
+        <Button as={Link} to={`/manageForum/${forumpost.id}`} color='orange' floated='left'>
           Manage Your Post
         </Button>
       </Segment>

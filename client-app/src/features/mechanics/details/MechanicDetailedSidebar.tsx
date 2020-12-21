@@ -14,7 +14,7 @@ const MechanicDetailedSidebar = () => {
           inverted
           color='teal'
         >
-          3 People know this shop
+          3 People are customers of this shop
         </Segment>
         <Segment attached>
           <List relaxed divided>
@@ -31,7 +31,7 @@ const MechanicDetailedSidebar = () => {
                 <Item.Header as='h3'>
                   <Link to={`#`}>Bob</Link>
                 </Item.Header>
-                <Item.Extra style={{ color: 'orange' }}>Following</Item.Extra>
+                <Item.Extra style={{ color: 'orange' }}>Customer</Item.Extra>
               </Item.Content>
             </Item>
 
@@ -41,7 +41,7 @@ const MechanicDetailedSidebar = () => {
                 <Item.Header as='h3'>
                   <Link to={`#`}>Tom</Link>
                 </Item.Header>
-                <Item.Extra style={{ color: 'orange' }}>Following</Item.Extra>
+                <Item.Extra style={{ color: 'orange' }}>Customer</Item.Extra>
               </Item.Content>
             </Item>
 
@@ -51,6 +51,7 @@ const MechanicDetailedSidebar = () => {
                 <Item.Header as='h3'>
                   <Link to={`#`}>Sally</Link>
                 </Item.Header>
+                <Item.Extra style={{ color: 'orange' }}>Customer</Item.Extra>
               </Item.Content>
             </Item>
           </List>

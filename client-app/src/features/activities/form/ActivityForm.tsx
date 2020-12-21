@@ -11,13 +11,13 @@ import SelectInput from '../../../app/common/form/SelectInput';
 import { category } from '../../../app/common/options/categoryOptions';
 import DateInput from '../../../app/common/form/DateInput';
 import { combineDateAndTime } from '../../../app/common/util/util';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import {
   combineValidators,
   composeValidators,
   hasLengthGreaterThan,
   isRequired,
 } from 'revalidate';
-import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const validate = combineValidators({
   title: isRequired({ message: 'The event title is required' }),
@@ -77,13 +77,6 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     }
   };
 
-  // const handleInputChange = (
-  //   event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { name, value } = event.currentTarget;
-  //   setActivity({ ...activity, [name]: value });
-  // };
-
   return (
     <Grid>
       <Grid.Column width={3} />
@@ -96,7 +89,6 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
             render={({ handleSubmit, invalid, pristine }) => (
               <Form onSubmit={handleSubmit} loading={loading}>
                 <Field
-                  // onChange={handleInputChange}
                   name='title'
                   placeholder='Title'
                   value={activity.title}

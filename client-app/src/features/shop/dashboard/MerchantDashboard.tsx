@@ -5,11 +5,12 @@ import MerchantList from './MerchantList'
 const MerchantDashboard = () => {
     return (
         <Grid>
-        <Grid.Column width={10}>
+           <Grid.Column width={2}></Grid.Column>
+        <Grid.Column width={14}>
           <MerchantList/>
         </Grid.Column>
-        <Grid.Column width={6}>
-          <h2>Merchant Filters Go Here</h2>
+        <Grid.Column width={2}>
+          {/* <h2>Merchant Filters Go Here</h2> */}
         
         </Grid.Column>
       </Grid>

@@ -40,11 +40,31 @@ const MechanicDetailedInfo: React.FC<{mechanic: IMechanic}> = ({mechanic}) => {
       </Segment>
       <Segment attached>
         <Grid verticalAlign='middle'>
-          <Grid.Column width={1}>
+        <Grid.Column width={1}>
             <Icon name='tty' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={11}>
-            <span>{'phone number email address placeholder'}</span>
+            <span>Phone number: {mechanic.phone}</span>          
+          </Grid.Column>
+        </Grid>
+      </Segment>
+      <Segment attached>
+        <Grid verticalAlign='middle'>
+        <Grid.Column width={1}>
+            <Icon name='envelope open' size='large' color='teal' />
+          </Grid.Column>
+          <Grid.Column width={11}>
+            <span>Email address: {mechanic.email}</span>
+          </Grid.Column>
+        </Grid>
+      </Segment>
+      <Segment attached>
+        <Grid verticalAlign='middle'>
+        <Grid.Column width={1}>
+            <Icon name='internet explorer' size='large' color='teal' />
+          </Grid.Column>
+          <Grid.Column width={11}>
+            <span>Website: {mechanic.website}</span>
           </Grid.Column>
         </Grid>
       </Segment>
