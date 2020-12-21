@@ -1,10 +1,26 @@
 import React from 'react';
-import { Segment, Grid, Icon } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Image } from 'semantic-ui-react';
 import { IMotofy } from '../../../app/models/motofy';
 
 const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
   return (
     <Segment.Group>
+      <Segment attached='top'>
+        <Grid>
+          <Grid.Column width={1}>
+            {/* <Icon size='large' color='teal' name='info' /> */}
+            <Image
+              size='mini'
+              src={`/assets/brandImages/${motofy.brand}.png`}
+            />
+          </Grid.Column>
+          <Grid.Column width={15}>
+            <p>
+              <strong>{motofy.brand} - </strong> {motofy.model}
+            </p>
+          </Grid.Column>
+        </Grid>
+      </Segment>
       <Segment attached='top'>
         <Grid>
           <Grid.Column width={1}>

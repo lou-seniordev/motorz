@@ -6,6 +6,10 @@ import MotofyStore from '../../../app/stores/motofyStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router-dom';
 
+// import { brand } from '../../../app/common/options/brandOptions';
+// import SelectInput from '../../../app/common/form/SelectInput';
+
+
 interface DetailParams {
   id: string;
 }
@@ -112,12 +116,14 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
               placeholder='Country'
               value={motofy.country}
             />
-            {/* <Form.Input
-          onChange={handleInputChange}
-          name='brand'
-          placeholder='Brand'
-          value={motofy.brand}
-        /> */}
+              <Form.Input
+            onChange={handleInputChange}
+            name='brand'
+            placeholder='Brand'
+            // options={brand}
+            value={motofy.brand}
+            // component={SelectInput}
+          />
             {!editMode && (
               <Segment>
                 <Form.Input

@@ -36,9 +36,9 @@ axios.interceptors.response.use(undefined, (error) => {
   ) {
     history.push('/notfound');
   }
-  // if((status === 404) || (status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id'))) {
-  //   history.push('/notfound')
-  // }
+  if((status === 404) || (status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id'))) {
+    history.push('/notfound')
+  }
   if (status === 500) {
     toast.error('Server error - check the terminal for more info!');
   }
@@ -108,6 +108,15 @@ const Motofies = {
     requests.put(`/motofies/${motofy.id}`, motofy),
   delete: (id: string) => requests.delete(`/motofies/${id}`),
 };
+const Brands = {
+  list: (): Promise<IMotofy[]> => requests.get('brands'),
+  details: (id: string) => requests.get(`/brand/${id}`),
+  // DONT THINK IM GONNA LET USER... 
+  // create: (motofy: IMotofy) => requests.post('/brands', motofy),
+  // update: (motofy: IMotofy) =>
+  //   requests.put(`/brands/${motofy.id}`, motofy),
+  // delete: (id: string) => requests.delete(`/brands/${id}`),
+};
 
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
@@ -135,5 +144,6 @@ export default {
   Motofies,
   Profiles,
   Forumposts,
-  Mechanics
+  Mechanics,
+  Brands
 };

@@ -8,6 +8,7 @@ using Persistence;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using FluentValidation;
 
 namespace Application.Motofies
 {
@@ -15,8 +16,9 @@ namespace Application.Motofies
     {
         public class Command : IRequest
         {
+            public Guid Id { get; set; }
             public string Name { get; set; }
-            // public virtual Brand Brand { get; set; } 
+            public string Brand { get; set; }
             public string Model { get; set; }
             public string CubicCentimeters { get; set; }
             // public string PhotoUrl { get; set; }
@@ -32,6 +34,25 @@ namespace Application.Motofies
 
         }
 
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Id).NotEmpty();
+                RuleFor(x => x.Brand).NotEmpty();
+                RuleFor(x => x.Name).NotEmpty();
+                RuleFor(x => x.Model).NotEmpty();
+                RuleFor(x => x.CubicCentimeters).NotEmpty();
+                RuleFor(x => x.Description).NotEmpty();
+                RuleFor(x => x.YearOfProduction).NotEmpty();
+                RuleFor(x => x.DatePublished).NotEmpty();
+                RuleFor(x => x.City).NotEmpty();
+                RuleFor(x => x.Country).NotEmpty();
+                RuleFor(x => x.PricePaid).NotEmpty();
+                RuleFor(x => x.EstimatedValue).NotEmpty();
+                RuleFor(x => x.NumberOfKilometers).NotEmpty();
+            }
+        }
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
@@ -54,9 +75,9 @@ namespace Application.Motofies
 
                 var motofy = new Motofy
                 {
-
+                    Id = request.Id,
                     Name = request.Name,
-                    // Brand = request.Brand,
+                    Brand = request.Brand,
                     Model = request.Model,
                     CubicCentimeters = request.CubicCentimeters,
                     Description = request.Description,

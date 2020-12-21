@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
+import { Button, Icon, Item, Label, Segment, Image } from 'semantic-ui-react';
 // import MotofyStore from '../../../app/stores/motofyStore';
 
 import { IMotofy } from '../../../app/models/motofy';
@@ -23,11 +23,14 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
           </Item.Group>
           <Item.Content>
             <Item.Header as='a'>{motofy.name}</Item.Header>
-            <Item.Meta>{motofy.brand}</Item.Meta>
-
+            {/* <Item.Meta>{motofy.brand}</Item.Meta> */}
+            <Image
+              size='mini'
+              src={`/assets/brandImages/${motofy.brand}.png`}
+            />
+              <Label basic content={motofy.brand} />
             <Item.Description>Owned by Bob</Item.Description>
             <Item.Extra>
-              <Label basic content={motofy.city} />
             </Item.Extra>
           </Item.Content>
         </Item>

@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201218074825_AllEntitiesAdded")]
+    [Migration("20201220223019_AllEntitiesAdded")]
     partial class AllEntitiesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -207,9 +207,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AuthorId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
@@ -222,18 +219,28 @@ namespace Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Owner")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phone")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("YearOfStart")
+                    b.Property<string>("Website")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("YearOfStart")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("Mechanics");
                 });
@@ -242,6 +249,9 @@ namespace Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Brand")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("BrandId")
@@ -309,6 +319,23 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("Domain.Testimonial", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Testimonials");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>
@@ -529,17 +556,10 @@ namespace Persistence.Migrations
                         .HasForeignKey("AuthorId");
                 });
 
-            modelBuilder.Entity("Domain.Mechanic", b =>
-                {
-                    b.HasOne("Domain.AppUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-                });
-
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
-                    b.HasOne("Domain.Brand", "Brand")
-                        .WithMany()
+                    b.HasOne("Domain.Brand", null)
+                        .WithMany("Motofies")
                         .HasForeignKey("BrandId");
                 });
 

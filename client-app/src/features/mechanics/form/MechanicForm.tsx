@@ -30,25 +30,6 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     clearMechanic,
   } = mechanicStore;
 
-  // const initalizeForm = () => {
-  //   if (initalFormState) {
-  //     return initalFormState;
-  //   } else {
-  //     return {
-  //       id: '',
-  //       // author: '', // add author in API
-  //       photoUrl: '',
-  //       name: '',
-  //       description: '',
-  //       yearOfStart: '',
-  //       datePublished: '',
-  //       country: '',
-  //       city: '',
-  //       address: '',
-  //     };
-  //   }
-  // };
-
   const [mechanic, setMechanic] = useState<IMechanic>({
     id: '',
     photoUrl: '',

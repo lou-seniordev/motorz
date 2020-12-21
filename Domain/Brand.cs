@@ -10,7 +10,7 @@ namespace Domain
         public string LogoUrl { get; set; }
         public string LandOfOrigin { get; set; }
         public string CityOfOrigin { get; set; }
-        // public virtual ICollection<Motofy> Motofies { get; set; }
+        public virtual ICollection<Motofy> Motofies { get; set; }
         
     }
 }

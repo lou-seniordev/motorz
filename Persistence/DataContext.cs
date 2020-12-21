@@ -23,6 +23,7 @@ namespace Persistence
         public DbSet<Motofy> Motofies { get; set; }
         public DbSet<Forumpost> Forumposts { get; set; } 
         public DbSet<Mechanic> Mechanics { get; set; }
+        public DbSet<Testimonial> Testimonials { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

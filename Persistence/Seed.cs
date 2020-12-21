@@ -367,6 +367,8 @@ namespace Persistence
                     {
                         Name = "Lillie",
                         Model = "620 Dark",
+                        // BrandId = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
+                        Brand = "Ducati",
                         // Brand = new Brand
                         // {
                         //     Id = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
@@ -393,7 +395,7 @@ namespace Persistence
                         Name = "King",
                         Model = "Sportster",
                         // BrandId = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
-                        // Brand = "Harley-Davidson",
+                        Brand = "Harley-Davidson",
                         // Brand = new Brand
                         // {
                         //     Id = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
@@ -421,7 +423,7 @@ namespace Persistence
                         Name = "Fly",
                         Model = "Hornet",
                         // BrandId = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
-                        // Brand = "Honda",
+                        Brand = "Honda",
                         // Brand = new Brand
                         // {
                         //     Id = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
@@ -449,7 +451,7 @@ namespace Persistence
                         Name = "Tripp",
                         Model = "R 1200GS LC Adventure",
                         // BrandId = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
-                        // Brand = "BMW",
+                        Brand = "BMW",
                         // Brand = new Brand
                         // {
                         //     Id = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
@@ -485,9 +487,9 @@ namespace Persistence
                     new Mechanic
                     {
                       Name = "Corrado",
-                      PhotoUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2F%40SumeetKhanna%2Fwhat-are-the-characteristics-of-a-good-auto-repair-mechanic-c366d4473ef3&psig=AOvVaw0xra-NJpcyS0iDcgeu6yeU&ust=1607101396013000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIicw7Glsu0CFQAAAAAdAAAAABAD",
+                      PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1547320881/prgbklusjdbenfbqtqfy.jpg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
-                      YearOfStart = DateTime.Now.AddYears(-10),
+                      YearOfStart = "2008",//DateTime.Now.AddYears(-10),
                       DatePublished = DateTime.Now.AddDays(-40),
                       Country = "Italy",
                       City = "Rome",
@@ -497,9 +499,9 @@ namespace Persistence
                     new Mechanic
                     {
                       Name = "Serena",
-                      PhotoUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2F%40SumeetKhanna%2Fwhat-are-the-characteristics-of-a-good-auto-repair-mechanic-c366d4473ef3&psig=AOvVaw0xra-NJpcyS0iDcgeu6yeU&ust=1607101396013000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIicw7Glsu0CFQAAAAAdAAAAABAD",
+                      PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
-                      YearOfStart = DateTime.Now.AddYears(-8),
+                      YearOfStart = "1999", //DateTime.Now.AddYears(-8),
                       DatePublished = DateTime.Now.AddDays(-10),
                       Country = "Italy",
                       City = "Rome",
@@ -511,7 +513,7 @@ namespace Persistence
                       Name = "Gian Luca",
                       PhotoUrl = "https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
-                      YearOfStart = DateTime.Now.AddYears(-2),
+                      YearOfStart = "2017",//DateTime.Now.AddYears(-2),
                       DatePublished = DateTime.Now.AddDays(-3),
                       Country = "Italy",
                       City = "Rome",

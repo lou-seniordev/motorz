@@ -82,6 +82,42 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Mechanics",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Owner = table.Column<string>(nullable: true),
+                    PhotoUrl = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    YearOfStart = table.Column<string>(nullable: true),
+                    DatePublished = table.Column<DateTime>(nullable: false),
+                    Country = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Website = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Mechanics", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Testimonials",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    DateAdded = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Testimonials", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Values",
                 columns: table => new
                 {
@@ -274,32 +310,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Mechanics",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    PhotoUrl = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    YearOfStart = table.Column<DateTime>(nullable: false),
-                    DatePublished = table.Column<DateTime>(nullable: false),
-                    Country = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Mechanics", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Mechanics_AspNetUsers_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Photos",
                 columns: table => new
                 {
@@ -351,7 +361,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    BrandId = table.Column<Guid>(nullable: true),
+                    Brand = table.Column<string>(nullable: true),
                     Model = table.Column<string>(nullable: true),
                     CubicCentimeters = table.Column<string>(nullable: true),
                     PhotoUrl = table.Column<string>(nullable: true),
@@ -362,7 +372,8 @@ namespace Persistence.Migrations
                     Country = table.Column<string>(nullable: true),
                     PricePaid = table.Column<string>(nullable: true),
                     EstimatedValue = table.Column<string>(nullable: true),
-                    NumberOfKilometers = table.Column<string>(nullable: true)
+                    NumberOfKilometers = table.Column<string>(nullable: true),
+                    BrandId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -453,11 +464,6 @@ namespace Persistence.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mechanics_AuthorId",
-                table: "Mechanics",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Motofies_BrandId",
                 table: "Motofies",
                 column: "BrandId");
@@ -507,6 +513,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Photos");
+
+            migrationBuilder.DropTable(
+                name: "Testimonials");
 
             migrationBuilder.DropTable(
                 name: "UserActivities");

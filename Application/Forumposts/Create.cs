@@ -8,6 +8,7 @@ using Persistence;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using FluentValidation;
 
 namespace Application.Forumposts
 {
@@ -22,8 +23,19 @@ namespace Application.Forumposts
             public string Body { get; set; }
             // public string Username { get; set; }
             public string Category { get; set; }
+        }
 
-
+          public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Id).NotEmpty();
+                RuleFor(x => x.DateAdded).NotEmpty();
+                RuleFor(x => x.Title).NotEmpty();
+                RuleFor(x => x.Body).NotEmpty();
+                RuleFor(x => x.Category).NotEmpty();
+              
+            }
         }
 
         public class Handler : IRequestHandler<Command>
