@@ -2,7 +2,6 @@ import React, {  useContext, useEffect, useState } from 'react';
 import { Button, Form, Grid, Segment } from 'semantic-ui-react';
 import {  MotofyFormValues } from '../../../app/models/motofy';
 import { v4 as uuid } from 'uuid';
-import MotofyStore from '../../../app/stores/motofyStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router-dom';
 import { Form as FinalForm, Field } from 'react-final-form';
@@ -19,6 +18,7 @@ import {
   isRequired,
   isNumeric,
 } from 'revalidate';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const validate = combineValidators({
   name: isRequired({ message: 'The event name is required' }),
@@ -57,14 +57,15 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const motofyStore = useContext(MotofyStore);
+  const rootStore = useContext(RootStoreContext);
+
   const {
     createMotofy,
     editMotofy,
     submitting,
     editMode,
     loadMotofy,
-  } = motofyStore;
+  } = rootStore.motofyStore;
 
   const [motofy, setMotofy] = useState(new MotofyFormValues());
   const [loading, setLoading] = useState(false);

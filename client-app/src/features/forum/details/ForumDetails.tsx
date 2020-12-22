@@ -4,7 +4,7 @@ import {  RouteComponentProps } from 'react-router-dom';
 import {  Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
-import ForumPostStore from '../../../app/stores/forumPostStore';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import ForumDetailedChat from './ForumDetailedChat';
 import ForumDetailedHeader from './ForumDetailedHeader';
 import ForumDetailedInfo from './ForumDetailedInfo';
@@ -14,12 +14,13 @@ interface DetailParams {
   id: string
 }
 const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) => {
-  const forumpostStore = useContext(ForumPostStore);
+  
+  const rootStore = useContext(RootStoreContext);
   const {
     forumpost,
     loadForumPost,
     loadingInitial
-  } = forumpostStore;
+  } = rootStore.forumPostStore;
 
   useEffect(()=> {
     loadForumPost(match.params.id)

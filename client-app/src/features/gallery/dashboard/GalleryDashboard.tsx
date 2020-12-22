@@ -2,13 +2,15 @@ import React, { useContext, useEffect } from 'react';
 import { Grid, } from 'semantic-ui-react';
 import GalleryList from './GalleryList';
 import { observer } from 'mobx-react-lite';
-import MotofyStore from '../../../app/stores/motofyStore';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 
 const GalleryDashboard: React.FC = () => {
-  const motofyStore = useContext(MotofyStore)
-  const {loadMotofies, loadingInitial} = motofyStore;
+  const rootStore = useContext(RootStoreContext);
+  const {loadMotofies, loadingInitial } = rootStore.motofyStore;
+
+ 
   useEffect(() => {
     //t
     loadMotofies();

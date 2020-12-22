@@ -5,7 +5,6 @@ import { Button, Form, Grid, Segment } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
 
 import { MechanicFromValues } from '../../../app/models/mechanic';
-import MechanicStore from '../../../app/stores/mechanicStore';
 
 import { Form as FinalForm, Field } from 'react-final-form';
 import TextInput from '../../../app/common/form/TextInput';
@@ -22,6 +21,7 @@ import {
   isNumeric,
   createValidator
 } from 'revalidate';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const isValidEmail = createValidator(
   message => value => {
@@ -64,7 +64,8 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
   match,
 }) => {
-  const mechanicStore = useContext(MechanicStore);
+  const rootStore = useContext(RootStoreContext);
+
   const {
     createMechanic,
     editMechanic,
@@ -72,7 +73,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     editMode,
     // mechanic: initalFormState,
     loadMechanic,
-  } = mechanicStore;
+  } = rootStore.mechanicStore;
 
   const [mechanic, setMechanic] = useState(new MechanicFromValues());
   const [loading, setLoading] = useState(false);

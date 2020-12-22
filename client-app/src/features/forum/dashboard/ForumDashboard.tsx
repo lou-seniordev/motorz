@@ -3,17 +3,18 @@ import { Grid } from 'semantic-ui-react';
 import ForumList from './ForumList';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
-import ForumPostStore from '../../../app/stores/forumPostStore';
 import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const ForumDashboard = () => {
-  const forumpostStore = useContext(ForumPostStore);
+  const rootStore = useContext(RootStoreContext);
+  const {loadForumPosts,loadingInitial } = rootStore.forumPostStore;
 
   useEffect(() => {
-    forumpostStore.loadForumPosts();
-  }, [forumpostStore]);
+    loadForumPosts();
+  }, [loadForumPosts]);
 
-  if (forumpostStore.loadingInitial)
+  if (loadingInitial)
     return <LoadingComponent content='Loading forum posts...' />;
 
   return (

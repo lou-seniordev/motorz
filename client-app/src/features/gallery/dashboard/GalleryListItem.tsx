@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Item, Label, Segment, Image } from 'semantic-ui-react';
-// import MotofyStore from '../../../app/stores/motofyStore';
 
 import { IMotofy } from '../../../app/models/motofy';
 
@@ -9,10 +8,8 @@ interface IProps {
   motofy: IMotofy;
 }
 
-// this. props are probably redundant
 const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
-  // const motofyStore = useContext(MotofyStore);
-  // const {  deleteMotofy} = motofyStore;
+
   return (
     <Segment.Group>
       <Segment>

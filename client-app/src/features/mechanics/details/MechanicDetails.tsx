@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import MechanicStore from '../../../app/stores/mechanicStore';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import MechanicDetailedHeader from './MechanicDetailedHeader';
 import MechanicDetailedInfo from './MechanicDetailedInfo';
 import MechanicDetailedSidebar from './MechanicDetailedSidebar';
@@ -12,12 +12,13 @@ interface DetailParams {
   id: string
 }
 const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) => {
-  const mechanicStore = useContext(MechanicStore);
+  const rootStore = useContext(RootStoreContext);
+
   const {
     mechanic,
     loadMechanic,
     loadingInitial
-  } = mechanicStore;
+  } = rootStore.mechanicStore;
 
   useEffect(() => {
     loadMechanic(match.params.id)

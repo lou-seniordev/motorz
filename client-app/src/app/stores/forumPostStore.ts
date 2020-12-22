@@ -1,14 +1,18 @@
-import { observable, action, computed, configure, runInAction } from 'mobx';
-import { createContext, SyntheticEvent } from 'react';
+import { observable, action, computed, runInAction } from 'mobx';
+import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import agent from '../api/agent';
 import { IForumpost } from '../models/forumpost';
 import { toast } from 'react-toastify';
+import { RootStore } from './rootStore';
 
+// configure({ enforceActions: 'always' });
 
-configure({ enforceActions: 'always' });
-
-class ForumPostStore {
+export default class ForumPostStore {
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
   @observable forumPostRegistry = new Map();
   @observable forumposts: IForumpost[] = [];
   @observable forumpost: IForumpost | null = null;
@@ -19,20 +23,25 @@ class ForumPostStore {
   @observable target = '';
 
   @computed get forumpostsByDate() {
-    return this.groupForumpostsByDate(Array.from(this.forumPostRegistry.values()));
+    return this.groupForumpostsByDate(
+      Array.from(this.forumPostRegistry.values())
+    );
   }
 
   groupForumpostsByDate(forumposts: IForumpost[]) {
     const sortedForumposts = forumposts.sort(
       (a, b) => Date.parse(a.dateAdded) - Date.parse(b.dateAdded)
-    )
-    return Object.entries(sortedForumposts.reduce((forumposts, forumpost) => {
-      const date = forumpost.dateAdded.split('T')[0];
-      forumposts[date] = forumposts[date] ? [...forumposts[date], forumpost] : [forumpost];
-      return forumposts;
-    },{} as {[key: string]: IForumpost[]}));
+    );
+    return Object.entries(
+      sortedForumposts.reduce((forumposts, forumpost) => {
+        const date = forumpost.dateAdded.split('T')[0];
+        forumposts[date] = forumposts[date]
+          ? [...forumposts[date], forumpost]
+          : [forumpost];
+        return forumposts;
+      }, {} as { [key: string]: IForumpost[] })
+    );
   }
-
 
   @action loadForumPosts = async () => {
     this.loadingInitial = true;
@@ -44,7 +53,6 @@ class ForumPostStore {
         });
         this.loadingInitial = false;
       });
-
     } catch (error) {
       runInAction('load forumposts error', () => {
         this.loadingInitial = false;
@@ -79,7 +87,7 @@ class ForumPostStore {
 
   @action clearForumPost = () => {
     this.forumpost = null;
-  }
+  };
 
   getForumPost = (id: string) => {
     return this.forumPostRegistry.get(id);
@@ -94,7 +102,7 @@ class ForumPostStore {
         // this.editMode = false;
         this.submitting = false;
       });
-      history.push(`/forum/${forumpost.id}`)
+      history.push(`/forum/${forumpost.id}`);
     } catch (error) {
       runInAction('create forumpost error', () => {
         this.submitting = false;
@@ -113,7 +121,7 @@ class ForumPostStore {
         this.editMode = false;
         this.submitting = false;
       });
-      history.push(`/forum/${forumpost.id}`)
+      history.push(`/forum/${forumpost.id}`);
     } catch (error) {
       runInAction('edit forumpost error', () => {
         this.submitting = false;
@@ -169,4 +177,4 @@ class ForumPostStore {
   };
 }
 
-export default createContext(new ForumPostStore());
+// export default createContext(new ForumPostStore());

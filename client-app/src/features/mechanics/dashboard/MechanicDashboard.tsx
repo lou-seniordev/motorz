@@ -2,19 +2,21 @@ import React, { useContext, useEffect } from 'react';
 import { Grid, Sticky } from 'semantic-ui-react';
 
 import MechanicList from './MechanicList';
-import MechanicStore from '../../../app/stores/mechanicStore';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const MechanicDashboard = () => {
-  const mechanicStore = useContext(MechanicStore);
+  const rootStore = useContext(RootStoreContext);
+  const {loadMechanics, loadingInitial } = rootStore.mechanicStore;
+
 
 
   useEffect(() => {
-    mechanicStore.loadMechanics();
-  }, [mechanicStore]);
+    loadMechanics();
+  }, [loadMechanics]);
 
-  if (mechanicStore.loadingInitial) return <LoadingComponent content='Loading mechanics...' />;
+  if (loadingInitial) return <LoadingComponent content='Loading mechanics...' />;
 
   return (
     <Grid>

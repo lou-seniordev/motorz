@@ -1,14 +1,13 @@
 import React, { Fragment, useContext } from 'react';
 import {  Item, Label, Segment } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import MotofyStore from '../../../app/stores/motofyStore';
 import GalleryListItem from './GalleryListItem';
 import { IMotofy } from '../../../app/models/motofy';
-
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const GalleryList: React.FC = () => {
-  const motofyStore = useContext(MotofyStore);
-  const {motofiesByDate} = motofyStore;
+  const rootStore = useContext(RootStoreContext);
+  const {motofiesByDate } = rootStore.motofyStore;
 
   return (
     <Segment secondary>

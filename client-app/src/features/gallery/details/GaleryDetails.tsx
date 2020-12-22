@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import {  Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import MotofyStore from '../../../app/stores/motofyStore';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import GaleryDetailedChat from './GaleryDetailedChat';
 import GaleryDetailedHeader from './GaleryDetailedHeader';
 import GaleryDetailedRating from './GaleryDetailedRating';
@@ -16,8 +16,8 @@ interface DetailParams {
 const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({  
   match,
 }) => {
-  const motofyStore = useContext(MotofyStore);
-  const { motofy, loadMotofy, loadingInitial } = motofyStore;
+  const rootStore = useContext(RootStoreContext);
+  const {motofy, loadMotofy, loadingInitial } = rootStore.motofyStore;
 
   useEffect(() => {
     loadMotofy(match.params.id);

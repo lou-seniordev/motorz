@@ -1,15 +1,21 @@
 // import { RootStore } from './rootStore';
-import { observable, action, runInAction, computed, configure } from 'mobx';
+import { observable, action, runInAction, computed } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
-import { createContext, SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import { toast } from 'react-toastify';
+import { RootStore } from './rootStore';
 
 
-configure({ enforceActions: 'always' });
+// configure({ enforceActions: 'always' });
 
-class MotofyStore {
+export default class MotofyStore {
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
+
   @observable motofyRegistry = new Map();
 
   @observable motofies: IMotofy[] = [];
@@ -216,4 +222,4 @@ class MotofyStore {
   };
 }
 
-export default createContext(new MotofyStore());
+// export default createContext(new MotofyStore());

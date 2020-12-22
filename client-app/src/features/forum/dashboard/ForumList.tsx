@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useContext } from 'react';
 import { Item, Label, Segment } from 'semantic-ui-react';
-import ForumPostStore from '../../../app/stores/forumPostStore';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import ForumListItem from './ForumListItem';
 
 const ForumList: React.FC = () => {
-  const forumpostStore = useContext(ForumPostStore);
-  const { forumpostsByDate } = forumpostStore; //selectForum,
+  const rootStore = useContext(RootStoreContext);
+  const {forumpostsByDate } = rootStore.forumPostStore;
 
   return (
     <Fragment>

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form, Grid, Segment } from 'semantic-ui-react';
 import { ForumpostFormValues } from '../../../app/models/forumpost';
 import { v4 as uuid } from 'uuid';
-import ForumPostStore from '../../../app/stores/forumPostStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router-dom';
 import { category } from '../../../app/common/options/forumCategoryOptions';
@@ -18,6 +17,7 @@ import {
   isRequired,
 } from 'revalidate';
 import SelectInput from '../../../app/common/form/SelectInput';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const validate = combineValidators({
   title: isRequired({ message: 'The event title is required' }),
@@ -37,16 +37,15 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const forumPostStore = useContext(ForumPostStore);
+  const rootStore = useContext(RootStoreContext);
+  // const {forumpostsByDate } = rootStore.forumPostStore;
+
   const {
     createForumpost,
     editForumpost,
     submitting,
-    // cancelFormOpen,
-    // forumpost: initialFormState,
     loadForumPost,
-    // clearForumPost,
-  } = forumPostStore;
+  } = rootStore.forumPostStore;
 
   const [forumpost, setForumpost] = useState(new ForumpostFormValues());
   const [loading, setLoading] = useState(false);
