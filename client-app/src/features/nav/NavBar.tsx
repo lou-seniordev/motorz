@@ -62,27 +62,21 @@ const NavBar: React.FC = () => {
         <Menu.Item name='forum' exact as={NavLink} to='/forum' />
         <Menu.Item name='repair shops' exact as={NavLink} to='/mechanics' />
         <Menu.Item name='shop' exact as={NavLink} to='/merchant' />
-        {/* <Menu.Item>
-          <Button
-            as={Link}
-            to='/createActivity'
-            // onClick={activityStore.openCreateForm}
-            positive
-            content='Create Riding Route'
-          />
-        </Menu.Item> */}
-        <Menu.Item>
-          <Dropdown
-            button
-            className='icon'
-            floating
-            labeled
-            icon='world'
-            options={createOptions}
-            search
-            text='Create'
-          />
-        </Menu.Item>
+        {user && (
+          <Menu.Item>
+            <Dropdown
+              button
+              item
+              className='icon'
+              floating
+              labeled
+              icon='world'
+              options={createOptions}
+              // search // no, because it does not close
+              text='Create'
+            />
+          </Menu.Item>
+        )}
         {user && (
           <Menu.Item position='right'>
             <Image

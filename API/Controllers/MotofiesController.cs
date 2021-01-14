@@ -30,11 +30,30 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("{id}")]
-        // [Authorize(Policy = "IsForumpostOwner")]
+        [Authorize(Policy = "IsMotofyOwner")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
             command.Id = id;
             return await Mediator.Send(command);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Policy = "IsMotofyOwner")]
+        public async Task<ActionResult<Unit>> Delete(Guid id)
+        {
+            return await Mediator.Send(new Delete.Command { Id = id });
+        }
+
+        [HttpPost("{id}/embrace")]
+        public async Task<ActionResult<Unit>> Embrace(Guid id)
+        {
+            return await Mediator.Send(new Embrace.Command{Id = id});
+        }
+
+        [HttpDelete("{id}/embrace")]
+        public async Task<ActionResult<Unit>> Unembrace (Guid id)
+        {
+            return await Mediator.Send(new Unembrace.Command{Id = id});
         }
     }
 }

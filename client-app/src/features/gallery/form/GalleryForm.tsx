@@ -28,6 +28,7 @@ const validate = combineValidators({
       message: 'Description needs to be at least 5 characters',
     })
   )(),
+  photoUrl: isRequired('Photo'),
   city: isRequired('City'),
   country: isRequired('Country'),
   model: isRequired('model'),
@@ -118,6 +119,12 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   placeholder='Description'
                   value={motofy.description}
                   component={TextAreaInput}
+                />
+                <Field
+                  name='photo'
+                  placeholder='PhotoUrl'
+                  value={motofy.photoUrl}
+                  component={TextInput}
                 />
                 <Field
                   name='city'

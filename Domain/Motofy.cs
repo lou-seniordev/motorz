@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
@@ -19,5 +20,6 @@ namespace Domain
         public string PricePaid { get; set; }
         public string EstimatedValue { get; set; }
         public string NumberOfKilometers { get; set; }
+        public virtual ICollection<UserMotofy> UserMotofies { get; set; }
     }
 }

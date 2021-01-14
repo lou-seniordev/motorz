@@ -23,6 +23,9 @@ namespace Persistence
         public DbSet<Motofy> Motofies { get; set; }
         public DbSet<Forumpost> Forumposts { get; set; } 
         public DbSet<Mechanic> Mechanics { get; set; }
+
+        public DbSet<UserMotofy> UserMotofies { get; set; }
+        // coming soon...
         public DbSet<Testimonial> Testimonials { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -49,6 +52,22 @@ namespace Persistence
                 .HasOne(a => a.Activity)
                 .WithMany(a => a.UserActivities)
                 .HasForeignKey(a => a.ActivityId);
+            // ==== end ====
+
+            // ==== One more many2many ====
+            builder.Entity<UserMotofy>(x => x.HasKey(um => 
+                new {um.AppUserId, um.MotofyId}));
+
+            builder.Entity<UserMotofy>()
+                .HasOne(u => u.AppUser)
+                .WithMany(m => m.UserMotofies)
+                .HasForeignKey(u => u.AppUserId);
+
+            builder.Entity<UserMotofy>()
+                .HasOne(m => m.Motofy)
+                .WithMany(u => u.UserMotofies)
+                .HasForeignKey(m => m.MotofyId);
+
             // ==== end ====
 
             // === define one2many relationship ===

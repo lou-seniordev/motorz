@@ -25,10 +25,11 @@ namespace Application.Motofies
 
             public async Task<List<MotofyDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                // === Eager loading -> this plus virtual keyword ===
+                // // === Eager loading -> this plus virtual keyword ===
                 // var motofies =
                 //     await _context.Motofies
-                //         .Include(x => x.Brand)
+                //         .Include(x => x.UserMotofies)
+                //         .ThenInclude(x => x.AppUser)
                 //         .ToListAsync();
 
 

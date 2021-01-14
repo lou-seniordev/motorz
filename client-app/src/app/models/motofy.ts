@@ -26,7 +26,7 @@ export class MotofyFormValues implements IMotofyFormValues {
     brand: string= '';
     model: string= '';
     cubicCentimeters: string= '';
-    photoUrl: string | null = '';
+    photoUrl: string  = '';
     description: string= '';
     yearOfProduction: string= '';
     // datePublished?: Date = undefined;

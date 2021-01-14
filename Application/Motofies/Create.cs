@@ -21,7 +21,7 @@ namespace Application.Motofies
             public string Brand { get; set; }
             public string Model { get; set; }
             public string CubicCentimeters { get; set; }
-            // public string PhotoUrl { get; set; }
+            public string PhotoUrl { get; set; }
             public string Description { get; set; }
             public string YearOfProduction { get; set; }
             public DateTime DatePublished { get; set; }
@@ -43,6 +43,7 @@ namespace Application.Motofies
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.Model).NotEmpty();
                 RuleFor(x => x.CubicCentimeters).NotEmpty();
+                RuleFor(x => x.PhotoUrl).NotEmpty();
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.YearOfProduction).NotEmpty();
                 RuleFor(x => x.DatePublished).NotEmpty();
@@ -73,6 +74,9 @@ namespace Application.Motofies
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
+              
+
+
                 var motofy = new Motofy
                 {
                     Id = request.Id,
@@ -80,6 +84,7 @@ namespace Application.Motofies
                     Brand = request.Brand,
                     Model = request.Model,
                     CubicCentimeters = request.CubicCentimeters,
+                    PhotoUrl = request.PhotoUrl,
                     Description = request.Description,
                     YearOfProduction = request.YearOfProduction,
                     NumberOfKilometers = request.NumberOfKilometers,
@@ -88,8 +93,17 @@ namespace Application.Motofies
                     PricePaid = request.PricePaid,
                     EstimatedValue = request.EstimatedValue,
                     DatePublished = request.DatePublished
-
                 };
+
+                // === still not sure what will it be ===
+                var embracer = new UserMotofy
+                {
+                    AppUser = user,
+                    Motofy = motofy,
+                    IsOwner = true,
+                    DateEmbraced = DateTime.Now
+                };           
+                _context.UserMotofies.Add(embracer);
 
                 _context.Motofies.Add(motofy);
 

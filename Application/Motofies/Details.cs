@@ -30,12 +30,13 @@ namespace Application.Motofies
             public async Task<MotofyDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 // === Eager loading -> this plus virtual keyword ===
-                // var activity = await _context.Activities
-                // .Include(x => x.UserActivities)
+                // var motofy = await _context.Motofies
+                // .Include(x => x.UserMotofies)
                 // .ThenInclude(x => x.AppUser)
+                // // cannot use FindAsync() here
                 // .SingleOrDefaultAsync(x => x.Id == request.Id);
                
-               // === Lazy loading ===
+            //    === Lazy loading ===
                 var motofy = await _context.Motofies
                 .FindAsync(request.Id);
 

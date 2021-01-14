@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
-import { Grid, Loader } from 'semantic-ui-react';
+import { Grid, Loader, Sticky } from 'semantic-ui-react';
 import ActivityList from './ActivityList';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { RootStoreContext } from '../../../app/stores/rootStore';
@@ -17,7 +17,7 @@ const ActivityDashboard: React.FC = () => {
     totalPages,
   } = rootStore.activityStore;
 
-  const [loadingNext, setLoadingNext] = useState(false); 
+  const [loadingNext, setLoadingNext] = useState(false);
 
   const handleGetNext = () => {
     setLoadingNext(true);
@@ -45,10 +45,13 @@ const ActivityDashboard: React.FC = () => {
         </InfiniteScroll>
       </Grid.Column>
       <Grid.Column width={6}>
-        <ActivityFilters/>
+        <Sticky style={{marginRight: 30, position: 'fixed'}} >
+
+          <ActivityFilters />
+        </Sticky>
       </Grid.Column>
       <Grid.Column width={10}>
-        <Loader active={loadingNext}/>
+        <Loader active={loadingNext} />
       </Grid.Column>
     </Grid>
   );

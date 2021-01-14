@@ -48,8 +48,8 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
         </Segment>
       </Segment>
       <Segment clearing attached='bottom'>
-        <Button color='teal'>Vote up</Button>
-        <Button>Not impressed</Button>
+        <Button color='teal'>Embrace</Button>
+        <Button>Compliment</Button>
         <Button as={Link} to={`/manageGallery/${motofy.id}`} color='orange' floated='right'>
           Manage
         </Button>

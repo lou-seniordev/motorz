@@ -42,6 +42,7 @@ namespace API
         {
             services.AddDbContext<DataContext>(opt =>
             {
+                // === must add in order to use Lazy Loading Proxies ===
                 opt.UseLazyLoadingProxies();
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
@@ -95,6 +96,17 @@ namespace API
                 });
             });
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
+
+            // === IS ACTIVITY HOST (ONE POSSIBLE WAY)===
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("IsMotofyOwner", policy =>
+                {
+                    policy.Requirements.Add(new IsOwnerRequirement());
+                });
+            });
+            // === AddTransient() - only for the life time of operation, not the complete request ===
+            services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
 
             // === AUTHENTICATION === 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));

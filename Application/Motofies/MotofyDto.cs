@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Application.Motofies
@@ -20,5 +21,7 @@ namespace Application.Motofies
         public string PricePaid { get; set; }
         public string EstimatedValue { get; set; }
         public string NumberOfKilometers { get; set; }
+        [JsonPropertyName("embracers")]
+        public ICollection<EmbracerDto> UserMotofies { get; set; }
     }
 }

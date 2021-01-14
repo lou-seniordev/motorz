@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Grid, Sticky } from 'semantic-ui-react';
+import React, { useContext, useEffect, createRef } from 'react';
+import { Grid,  Sticky } from 'semantic-ui-react';//Rail,
 
 import MechanicList from './MechanicList';
 import { observer } from 'mobx-react-lite';
@@ -10,6 +10,9 @@ const MechanicDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const {loadMechanics, loadingInitial } = rootStore.mechanicStore;
 
+
+  
+  const contextRef: React.RefObject<any>  = createRef();
 
 
   useEffect(() => {
@@ -25,9 +28,13 @@ const MechanicDashboard = () => {
       </Grid.Column>
 
       <Grid.Column width={6}>
-        <Sticky> 
-         <h2>Mechanic filters go here</h2>
+      {/*  */}
+      {/* <Rail position='left'> */}
+      {/* context={contextRef} */}
+        <Sticky style={{marginRight: 30, position: 'fixed'}}> 
+         <h2 >Mechanic filters go here</h2>
         </Sticky>
+      {/* </Rail> */}
       </Grid.Column>
     </Grid>
   );
