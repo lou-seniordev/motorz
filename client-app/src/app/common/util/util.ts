@@ -1,4 +1,5 @@
 import { IActivity, IAttendee } from '../../models/activity';
+import { IEmbracer, IMotofy } from '../../models/motofy';
 import { IUser } from '../../models/user';
 
 export const combineDateAndTime = (date: Date, time: Date) => {
@@ -23,6 +24,16 @@ export const setActivityProps = (activity: IActivity, user: IUser) => {
   return activity;
 };
 
+export const setMotofyProps = (motofy: IMotofy, user: IUser) => {
+  motofy.embraced = motofy.embracers.some(
+    a => a.username === user?.userName
+  )
+  motofy.isOwner = motofy.embracers.some(
+    a => a.username === user.userName && a.isOwner
+  )
+  return motofy;
+}
+
 export const createAttendee = (user: IUser):IAttendee => {
     return {
         displayName: user.displayName,
@@ -31,3 +42,13 @@ export const createAttendee = (user: IUser):IAttendee => {
         image: user.image!
     }
 }
+
+export const createEmbracer = (user: IUser) : IEmbracer => {
+  return {
+    displayName: user.displayName,
+    isOwner: false,
+    username: user.userName,
+    image: user.image!
+  }
+}
+

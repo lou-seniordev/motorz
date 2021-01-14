@@ -7,13 +7,15 @@ export interface IMotofy {
     photoUrl?: string | null;
     description?: string;
     yearOfProduction?: string;// Date;
-    // datePublished?: Date;// = undefined;//string; 
     datePublished?: string;
     city: string;
     country: string;
     pricePaid: string;
     estimatedValue: string;
-    numberOfKilometers: string;
+    numberOfKilometers: string; 
+    embraced: boolean;
+    isOwner: boolean;
+    embracers: IEmbracer[];
 }
 
 export interface IMotofyFormValues extends Partial<IMotofy> {
@@ -42,3 +44,11 @@ export class MotofyFormValues implements IMotofyFormValues {
         Object.assign(this, init);
     }
 } 
+
+export interface IEmbracer {
+    username: string;
+    displayName: string;
+    image: string;
+    isOwner: boolean;
+}
+

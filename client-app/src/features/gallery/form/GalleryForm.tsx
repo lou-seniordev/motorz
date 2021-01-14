@@ -121,7 +121,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   component={TextAreaInput}
                 />
                 <Field
-                  name='photo'
+                  name='photoUrl'
                   placeholder='PhotoUrl'
                   value={motofy.photoUrl}
                   component={TextInput}

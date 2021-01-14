@@ -109,6 +109,8 @@ const Motofies = {
   update: (motofy: IMotofy) =>
     requests.put(`/motofies/${motofy.id}`, motofy),
   delete: (id: string) => requests.delete(`/motofies/${id}`),
+  embrace: (id:any) => requests.post(`/motofies/${id}/embrace`, {}),
+  unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`)
 };
 const Brands = {
   list: (): Promise<IMotofy[]> => requests.get('brands'),

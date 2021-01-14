@@ -1,4 +1,3 @@
-// import { RootStore } from './rootStore';
 import { observable, action, runInAction, computed } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
@@ -6,7 +5,7 @@ import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
-
+import { createEmbracer, setMotofyProps } from '../common/util/util';
 
 // configure({ enforceActions: 'always' });
 
@@ -21,11 +20,11 @@ export default class MotofyStore {
   @observable motofies: IMotofy[] = [];
   @observable motofy: IMotofy | null = null;
 
-
   @observable editMode = false;
   @observable loadingInitial = false;
   @observable submitting = false;
   @observable target = '';
+  @observable loading = false;
 
   @computed get motofiesByDate() {
     return Array.from(this.motofyRegistry.values()).sort(
@@ -50,17 +49,18 @@ export default class MotofyStore {
 
   @action loadMotofies = async () => {
     this.loadingInitial = true;
-
+    // const user = ;
     try {
       const motofies = await agent.Motofies.list();
       runInAction('loading motofies', () => {
         motofies.forEach((motofy) => {
           motofy.datePublished = motofy.datePublished?.split('T')[0];
+          // === Util Class ===
+          setMotofyProps(motofy, this.rootStore.userStore.user!);
           this.motofyRegistry.set(motofy.id, motofy);
         });
         this.loadingInitial = false;
       });
-
     } catch (error) {
       runInAction(() => {
         this.loadingInitial = false;
@@ -79,6 +79,8 @@ export default class MotofyStore {
       try {
         motofy = await agent.Motofies.details(id);
         runInAction('getting motofy', () => {
+          // === why not using date here??? ===
+          setMotofyProps(motofy, this.rootStore.userStore.user!);
           this.motofy = motofy;
           this.motofyRegistry.set(motofy.id, motofy);
           this.loadingInitial = false;
@@ -104,12 +106,19 @@ export default class MotofyStore {
     this.submitting = true;
     try {
       await agent.Motofies.create(motofy);
+      const embracer = createEmbracer(this.rootStore.userStore.user!);
+      embracer.isOwner = true;
+      let embracers = [];
+      embracers.push(embracer);
+      motofy.embracers = embracers;
+      motofy.isOwner = true;
       runInAction('create motofy', () => {
         this.motofyRegistry.set(motofy.id, motofy);
-        this.editMode = false;
+        // CHECK IF IT IS GOING TO BE NEEDED!!
+        // this.editMode = false;
         this.submitting = false;
       });
-      history.push(`/gallery/${motofy.id}`)
+      history.push(`/gallery/${motofy.id}`);
     } catch (error) {
       runInAction(() => {
         this.submitting = false;
@@ -145,7 +154,7 @@ export default class MotofyStore {
         this.editMode = false;
         this.submitting = false;
       });
-      history.push(`/gallery/${motofy.id}`)
+      history.push(`/gallery/${motofy.id}`);
     } catch (error) {
       runInAction('edit motofy error', () => {
         this.submitting = false;
@@ -173,6 +182,49 @@ export default class MotofyStore {
         this.target = '';
       });
       console.log(error);
+    }
+  };
+
+  @action embraceMotofy = async () => {
+    const embracer = createEmbracer(this.rootStore.userStore.user!);
+    this.loading = true;
+    try {
+      await agent.Motofies.embrace(this.motofy!.id);
+      runInAction(() => {
+        if (this.motofy) {
+          this.motofy.embracers.push(embracer);
+          this.motofy.embraced = true;
+          this.motofyRegistry.set(this.motofy.id, this.motofy);
+          this.loading = false;
+        }
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loading = false;
+      });
+      toast.error('Problem embracing this motofy');
+    }
+  };
+
+  @action unembraceMotofy = async () => {
+    this.loading = true;
+    try {
+      await agent.Motofies.unembrace(this.motofy!.id);
+      runInAction(() => {
+        if (this.motofy) {
+          this.motofy.embracers = this.motofy.embracers.filter(
+            (a) => a.username !== this.rootStore.userStore.user!.userName
+          );
+          this.motofy.embraced = false;
+          this.motofyRegistry.set(this.motofy.id, this.motofy);
+        }
+        this.loading = false;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loading = false;
+      });
+      toast.error('Problem embracing this motofy');
     }
   };
 

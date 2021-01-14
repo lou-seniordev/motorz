@@ -79,8 +79,8 @@ export default class ForumPostStore {
       } catch (error) {
         runInAction('get forumpost error', () => {
           this.loadingInitial = false;
+          console.log(error);
         });
-        console.log(error);
       }
     }
   };

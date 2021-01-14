@@ -36,7 +36,7 @@ const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
         <GaleryDetailedChat />
       </Grid.Column>
       <Grid.Column width={4}>
-        <GaleryDetailedSidebar />
+        <GaleryDetailedSidebar embracers={motofy.embracers}/>
       </Grid.Column>
     </Grid>
   );
