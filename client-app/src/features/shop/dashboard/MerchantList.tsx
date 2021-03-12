@@ -5,14 +5,17 @@ const MerchantList = () => {
     <div>
       <h1>
         <p>
-          Section that will make possible for our members to sell and buy
-          products is coming soon. 
-        </p>
-        <p>
-          Thank you so much for you patience.
+          This section will make possible 
+          for all our members 
+          to sell and buy
+          products.
+          It is is coming soon. 
         </p>
         <p>
           You are the most awesome crowd ever!
+        </p>
+        <p>
+          Thank you so much for you patience.
         </p>
       </h1>
     </div>

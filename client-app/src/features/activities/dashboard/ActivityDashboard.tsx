@@ -2,10 +2,11 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Loader, Sticky } from 'semantic-ui-react';
 import ActivityList from './ActivityList';
-import LoadingComponent from '../../../app/layout/LoadingComponent';
+// import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import InfiniteScroll from 'react-infinite-scroller';
 import ActivityFilters from './ActivityFilters';
+import ActivityListItemPlaceholder from './ActivityListItemPlaceholder';
 
 const ActivityDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
@@ -29,12 +30,14 @@ const ActivityDashboard: React.FC = () => {
     loadActivities();
   }, [loadActivities]);
 
-  if (loadingInitial && page === 0)
-    return <LoadingComponent content='Loading Activities...' />;
+  // if (loadingInitial && page === 0)
+  //   return <LoadingComponent content='Loading Activities...' />;
 
   return (
     <Grid>
       <Grid.Column width={10}>
+        {loadingInitial && page === 0 ? <ActivityListItemPlaceholder/> : (
+
         <InfiniteScroll
           pageStart={0}
           loadMore={handleGetNext}
@@ -43,6 +46,7 @@ const ActivityDashboard: React.FC = () => {
         >
           <ActivityList />
         </InfiniteScroll>
+        )}
       </Grid.Column>
       <Grid.Column width={6}>
         <Sticky style={{marginRight: 30, position: 'fixed'}} >

@@ -1,6 +1,7 @@
 // using Application.Activities;
 // using Application.Brands;
 using System.Text;
+using System;
 using API.Middleware;
 using Application.Activities;
 using Application.Interfaces;
@@ -44,7 +45,8 @@ namespace API
             {
                 // === must add in order to use Lazy Loading Proxies ===
                 opt.UseLazyLoadingProxies();
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                // opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddControllers(opt =>
             {
@@ -61,8 +63,11 @@ namespace API
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000")
-                        .AllowCredentials();
+                    policy.AllowAnyHeader()
+                          .AllowAnyMethod() 
+                          .WithExposedHeaders("WWW-Authenticate")
+                          .WithOrigins("http://localhost:3000")
+                          .AllowCredentials();
                 });
             });
 
@@ -118,7 +123,9 @@ namespace API
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
                         ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                     };
 
                     // === add token to signal R ===
@@ -160,6 +167,10 @@ namespace API
 
             // app.UseHttpsRedirection();
 
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
@@ -175,6 +186,9 @@ namespace API
 
                 // === additional endpoints form SignalR ===
                 endpoints.MapHub<ChatHub>("/chat");
+
+                // === 
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }

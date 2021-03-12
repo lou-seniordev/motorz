@@ -30,6 +30,7 @@ import ForumDetails from '../../features/forum/details/ForumDetails';
 import MechanicDetails from '../../features/mechanics/details/MechanicDetails';
 import MechanicForm from '../../features/mechanics/form/MechanicForm';
 import GalleryForm from '../../features/gallery/form/GalleryForm';
+import PrivateRoute from './PrivateRoute';
 
 //t
 
@@ -59,37 +60,37 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <NavBar />
             <Container style={{ marginTop: '7em' }}>
               <Switch>
-                <Route exact path='/activities' component={ActivityDashboard} />
-                <Route path='/activities/:id' component={ActivityDetails} />
-                <Route
+                <PrivateRoute exact path='/activities' component={ActivityDashboard} />
+                <PrivateRoute path='/activities/:id' component={ActivityDetails} />
+                <PrivateRoute
                   key={location.key}
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
                 />
-                <Route exact path='/gallery' component={GalleryDashboard} />
-                <Route path='/gallery/:id' component={GaleryDetails} />
-                <Route
+                <PrivateRoute exact path='/gallery' component={GalleryDashboard} />
+                <PrivateRoute path='/gallery/:id' component={GaleryDetails} />
+                <PrivateRoute
                   path={['/galleryForm', '/manageGallery/:id']}
                   key={location.key}
                   component={GalleryForm}
                 />
-                <Route exact path='/forum' component={ForumDashboard} />
-                <Route exact path='/forum/:id' component={ForumDetails} />
-                <Route
+                <PrivateRoute exact path='/forum' component={ForumDashboard} />
+                <PrivateRoute exact path='/forum/:id' component={ForumDetails} />
+                <PrivateRoute
                   key={location.key}
                   path={['/forumform', '/manageForum/:id']}
                   component={ForumForm}
                 />
-                <Route exact path='/mechanics' component={MechanicDashboard} />
-                <Route path='/mechanics/:id' component={MechanicDetails} />
-                <Route
+                <PrivateRoute exact path='/mechanics' component={MechanicDashboard} />
+                <PrivateRoute path='/mechanics/:id' component={MechanicDetails} />
+                <PrivateRoute
                   key={location.key}
                   path={['/mechanicForm', '/manageMechanic/:id']}
                   component={MechanicForm}
                 />
-                <Route path='/merchant' component={MerchantDashboard} />
-                <Route path='/merchant/:id' component={MerchantDetails} />
-                <Route path='/profile/:username' component={ProfilePage} />
+                <PrivateRoute path='/merchant' component={MerchantDashboard} />
+                <PrivateRoute path='/merchant/:id' component={MerchantDetails} />
+                <PrivateRoute path='/profile/:username' component={ProfilePage} />
                 <Route path='/login' component={LoginForm} />
                 <Route component={NotFound} />
               </Switch>
