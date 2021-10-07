@@ -11,6 +11,9 @@ interface IProps {
 
 const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
   const owner = motofy.embracers.filter(x => x.isOwner)[0] || 'unknown testing';
+  //==test!
+  const publisher = motofy.embracers.filter(x => x)[0];
+  // console.log(owner)
 
   return (
     <Segment.Group>
@@ -28,6 +31,11 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
               src={`/assets/brandImages/${motofy.brand}.png`}
             />
             <Label basic content={motofy.brand} />
+            <Item.Description>Published by {publisher.displayName || 'unknown'}</Item.Description>
+            {/* <Image
+              size='mini'
+              src={publisher.image || '/assets/user.png'}
+            /> */}
             <Item.Description>Owned by {owner.displayName || 'unknown'}</Item.Description>
             {motofy.isOwner && (
               <Item.Description>

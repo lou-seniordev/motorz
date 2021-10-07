@@ -1,23 +1,27 @@
-import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import {  Grid } from 'semantic-ui-react';
-import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import GaleryDetailedChat from './GaleryDetailedChat';
-import GaleryDetailedHeader from './GaleryDetailedHeader';
-import GaleryDetailedRating from './GaleryDetailedRating';
-import GaleryDetailedSidebar from './GaleryDetailedSidebar';
-import GalleryDetailedInfo from './GalleryDetailedInfo';
+import { observer } from "mobx-react-lite";
+import React, { useContext, useEffect } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { Grid } from "semantic-ui-react";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { RootStoreContext } from "../../../app/stores/rootStore";
+import GaleryDetailedChat from "./GaleryDetailedChat";
+import GaleryDetailedHeader from "./GaleryDetailedHeader";
+import GaleryDetailedRating from "./GaleryDetailedRating";
+import GaleryDetailedSidebar from "./GaleryDetailedSidebar";
+import GalleryDetailedInfo from "./GalleryDetailedInfo";
 
 interface DetailParams {
   id: string;
 }
-const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({  
+const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const {motofy, loadMotofy, loadingInitial } = rootStore.motofyStore;
+  const { motofy, loadMotofy, loadingInitial } = rootStore.motofyStore;
+
+  //test
+  console.log("motofy.embracers");
+  // console.log(motofy!.embracers);
 
   useEffect(() => {
     loadMotofy(match.params.id);
@@ -29,14 +33,14 @@ const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   return (
     <Grid>
       <Grid.Column width={12}>
-        <GaleryDetailedHeader motofy={motofy}/>
-        <GaleryDetailedRating/>
-        <GalleryDetailedInfo motofy={motofy}/>
+        <GaleryDetailedHeader motofy={motofy} />
+        <GaleryDetailedRating />
+        <GalleryDetailedInfo motofy={motofy} />
 
         <GaleryDetailedChat />
       </Grid.Column>
       <Grid.Column width={4}>
-        <GaleryDetailedSidebar embracers={motofy.embracers}/>
+        <GaleryDetailedSidebar embracers={motofy.embracers} />
       </Grid.Column>
     </Grid>
   );

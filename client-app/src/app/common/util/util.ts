@@ -39,6 +39,9 @@ export const setMotofyProps = (motofy: IMotofy, user: IUser) => {
 }
 
 export const createAttendee = (user: IUser):IAttendee => {
+  //test
+  console.log('user IAttendee: ')
+  console.log(user)
     return {
         displayName: user.displayName,
         isHost: false,
@@ -48,6 +51,9 @@ export const createAttendee = (user: IUser):IAttendee => {
 }
 
 export const createEmbracer = (user: IUser) : IEmbracer => {
+  //test
+  console.log('user IEmbracer: ')
+  console.log(user)
   return {
     displayName: user.displayName,
     isOwner: false,

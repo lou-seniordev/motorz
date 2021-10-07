@@ -10,6 +10,10 @@ const styles = {
   borderWidth: 2
 }
 const ActivityListItemAttendees: React.FC<IProps> = ({ attendees }) => {
+  //test
+  // attendees.map(attendee => {
+  //   console.log(attendee.image);
+  // })
   return (
     <List horizontal>
       {attendees.map((attendee) => (

@@ -1,49 +1,50 @@
-import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
 import {
   Container,
   Dropdown,
   Image,
   Menu,
   Responsive,
-} from 'semantic-ui-react';
-import { RootStoreContext } from '../../app/stores/rootStore';
+} from "semantic-ui-react";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 const NavBar: React.FC = () => {
   const createOptions = [
     {
-      key: 'Mecanic',
-      text: 'Mecanics Shop',
-      value: 'Mecanic',
+      key: "Mecanic",
+      text: "Mecanics Shop",
+      value: "Mecanic",
       as: Link,
-      to: '/mechanicForm',
+      to: "/mechanicForm",
     },
     {
-      key: 'Riding',
-      text: 'Riding Route',
-      value: 'Riding',
+      key: "Riding",
+      text: "Riding Route",
+      value: "Riding",
       as: Link,
-      to: '/createActivity',
+      to: "/createActivity",
     },
     {
-      key: 'Post',
-      text: 'Gallery Post',
-      value: 'Post',
+      key: "Post",
+      text: "Gallery Post",
+      value: "Post",
       as: Link,
-      to: '/galleryForm',
+      to: "/galleryForm",
     },
     {
-      key: 'Forum',
-      text: 'Forum Post',
-      value: 'Forum',
+      key: "Forum",
+      text: "Forum Post",
+      value: "Forum",
       as: Link,
-      to: '/forumform',
+      to: "/forumform",
     },
   ];
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout } = rootStore.userStore;
+
   return (
     <Menu fixed='top' stackable inverted>
       {/* pointing secondary */}
@@ -52,12 +53,13 @@ const NavBar: React.FC = () => {
           <img
             src='/assets/logo.png'
             alt='logo'
-            style={{ marginRight: '10' }}
+            style={{ marginRight: "10" }}
           />
           Motoranza
         </Menu.Item>
         <Responsive />
-        <Menu.Item name='gallery' exact as={NavLink} to='/gallery' />
+        {/* ex gallery */}
+        <Menu.Item name='motofy' exact as={NavLink} to='/gallery' />
         <Menu.Item name='riding routes' exact as={NavLink} to='/activities' />
         <Menu.Item name='forum' exact as={NavLink} to='/forum' />
         <Menu.Item name='repair shops' exact as={NavLink} to='/mechanics' />
@@ -82,7 +84,7 @@ const NavBar: React.FC = () => {
             <Image
               avatar
               spaced='right'
-              src={user.image || '/assets/user.png'}
+              src={user.image || "/assets/user.png"}
             />
             <Dropdown pointing='top left' text={user.displayName}>
               <Dropdown.Menu>

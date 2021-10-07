@@ -6,10 +6,12 @@ interface IProps {
   embracers: IEmbracer[];
 }
 const GalleryListItemEmbracers: React.FC<IProps> = ({ embracers }) => {
+  // console.log(embracers);
   return (
     <List horizontal>
       {embracers.map(embracer => (
         <List.Item key={embracer.username}>
+          
             <Popup
                 header={embracer.displayName}
                 trigger={<Image size='mini' circular src={embracer.image || '/assets/user.png'} />}

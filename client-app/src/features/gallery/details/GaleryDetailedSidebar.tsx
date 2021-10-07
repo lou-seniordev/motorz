@@ -8,7 +8,7 @@ interface IProps {
   embracers: IEmbracer[];
 }
 const GaleryDetailedSidebar: React.FC<IProps> = ({ embracers }) => {
-  // const isOwner = false;
+ 
   return (
     <Fragment>
       <Segment

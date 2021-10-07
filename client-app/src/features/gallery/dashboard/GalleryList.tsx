@@ -9,6 +9,10 @@ const GalleryList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const {motofiesByDate } = rootStore.motofyStore;
 
+  //test
+  // motofiesByDate.map( m => {
+  //   console.log(m)
+  // })
   return (
     <Segment secondary>
       <Item.Group divided>
@@ -16,7 +20,9 @@ const GalleryList: React.FC = () => {
           <Fragment key={motofy.id}>
             <Label size='large' color='blue'><span>Name:</span> {motofy.name}</Label>
             <GalleryListItem motofy={motofy}/>
+
           </Fragment>
+          
         ))}
       </Item.Group>
     </Segment>

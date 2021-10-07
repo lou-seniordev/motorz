@@ -153,7 +153,8 @@ export default class ActivityStore {
       const {activities, activityCount} = activitiesEnvelope;
       runInAction('loading activities', () => {
         activities.forEach((activity) => {
-          // console.log('activity is: ',activity)
+          //test
+          console.log('activity is: ',activity)
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
         });
@@ -196,6 +197,8 @@ export default class ActivityStore {
           this.activity = activity;
           this.activityRegistry.set(activity.id, activity);
           this.loadingInitial = false;
+          //  console.log('activity is: ',activity)
+
         });
         return activity;
       } catch (error) {
@@ -237,7 +240,8 @@ export default class ActivityStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data!');
-      console.log(error.response);
+      //error2check
+      // console.log(error.response);
     }
   };
 
@@ -256,7 +260,8 @@ export default class ActivityStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data!');
-      console.log(error.response);
+      //error2check
+      // console.log(error.response);
     }
   };
 

@@ -36,6 +36,48 @@ namespace Persistence
                         UserName = "tom",
                         Email = "tom@test.com"
                     },
+                    new AppUser
+                    {
+                        Id = "d",
+                        DisplayName = "Jerry",
+                        UserName = "jerry",
+                        Email = "jerry@test.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "e",
+                        DisplayName = "Joe",
+                        UserName = "joe",
+                        Email = "joe@test.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "f",
+                        DisplayName = "Emir",
+                        UserName = "emir",
+                        Email = "emir@test.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "g",
+                        DisplayName = "Nina",
+                        UserName = "nina",
+                        Email = "nina@test.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "h",
+                        DisplayName = "Cato",
+                        UserName = "cato",
+                        Email = "cato@test.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "i",
+                        DisplayName = "Giulietta",
+                        UserName = "giulietta",
+                        Email = "giulietta@test.com"
+                    },
                 };
                 foreach (var user in users)
                 {
@@ -389,6 +431,16 @@ namespace Persistence
                         PricePaid = "2000",
                         EstimatedValue = "3000",
                         NumberOfKilometers = "67100",
+
+                        UserMotofies = new List<UserMotofy>
+                        {
+                            new UserMotofy
+                            {
+                                AppUserId = "a",
+                                IsOwner = true,
+                                DateEmbraced = DateTime.Now.AddMonths(-2)
+                            }
+                        }
                     },
                     new Motofy
                     {
@@ -416,6 +468,15 @@ namespace Persistence
                         PricePaid = "4000",
                         EstimatedValue = "4000",
                         NumberOfKilometers = "107100",
+                         UserMotofies = new List<UserMotofy>
+                        {
+                            new UserMotofy
+                            {
+                                AppUserId = "b",
+                                IsOwner = true,
+                                DateEmbraced = DateTime.Now.AddMonths(-1)
+                            }
+                        }
 
                     },
                     new Motofy
@@ -444,6 +505,15 @@ namespace Persistence
                         PricePaid = "2000",
                         EstimatedValue = "2000",
                         NumberOfKilometers = "30100",
+                        UserMotofies = new List<UserMotofy>
+                        {
+                            new UserMotofy
+                            {
+                                AppUserId = "c",
+                                IsOwner = true,
+                                DateEmbraced = DateTime.Now.AddMonths(-2)
+                            }
+                        }
 
                     },
                     new Motofy
@@ -472,6 +542,15 @@ namespace Persistence
                         PricePaid = "12000",
                         EstimatedValue = "10000",
                         NumberOfKilometers = "7100",
+                        UserMotofies = new List<UserMotofy>
+                        {
+                            new UserMotofy
+                            {
+                                AppUserId = "a",
+                                IsOwner = false,
+                                DateEmbraced = DateTime.Now.AddMonths(-2)
+                            }
+                        }
 
                     },
 

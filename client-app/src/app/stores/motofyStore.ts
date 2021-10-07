@@ -54,6 +54,9 @@ export default class MotofyStore {
       const motofies = await agent.Motofies.list();
       runInAction('loading motofies', () => {
         motofies.forEach((motofy) => {
+          //testlog
+          console.log('motofy is: ',motofy)
+
           motofy.datePublished = motofy.datePublished?.split('T')[0];
           // === Util Class ===
           setMotofyProps(motofy, this.rootStore.userStore.user!);
@@ -193,6 +196,9 @@ export default class MotofyStore {
       runInAction(() => {
         if (this.motofy) {
           this.motofy.embracers.push(embracer);
+          //test
+          // console.log("embracer: ");
+          // console.log(embracer);
           this.motofy.embraced = true;
           this.motofyRegistry.set(this.motofy.id, this.motofy);
           this.loading = false;

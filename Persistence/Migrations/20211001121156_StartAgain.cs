@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class PostgressInitial : Migration
+    public partial class StartAgain : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -123,7 +122,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -136,7 +135,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -157,7 +156,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -416,13 +415,22 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Values",
                 columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Value 101 First" },
-                    { 2, "Value 102 Second" },
-                    { 3, "Value 103 Third" },
-                    { 4, "Value 104 Fourth" }
-                });
+                values: new object[] { 1, "Value 101 First" });
+
+            migrationBuilder.InsertData(
+                table: "Values",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Value 102 Second" });
+
+            migrationBuilder.InsertData(
+                table: "Values",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 3, "Value 103 Third" });
+
+            migrationBuilder.InsertData(
+                table: "Values",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 4, "Value 104 Fourth" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

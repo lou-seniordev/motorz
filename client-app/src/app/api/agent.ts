@@ -100,6 +100,18 @@ const Activities = {
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
 };
 
+const Motofies = {
+  list: (): Promise<IMotofy[]> => requests.get('motofies'),
+  details: (id: string) => requests.get(`/motofies/${id}`),
+  // TODO: 
+  create: (motofy: IMotofy) => requests.post('/motofies', motofy),
+  update: (motofy: IMotofy) =>
+    requests.put(`/motofies/${motofy.id}`, motofy),
+  delete: (id: string) => requests.delete(`/motofies/${id}`),
+  embrace: (id: any) => requests.post(`/motofies/${id}/embrace`, {}),
+  unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`)
+};
+
 const Forumposts = {
   list: (): Promise<IForumpost[]> => requests.get('/forumposts'),
   details: (id: string) => requests.get(`/forumposts/${id}`),
@@ -119,17 +131,7 @@ const Mechanics = {
   delete: (id: string) => requests.delete(`/mechanics/${id}`),
 };
 
-const Motofies = {
-  list: (): Promise<IMotofy[]> => requests.get('motofies'),
-  details: (id: string) => requests.get(`/motofies/${id}`),
-  // TODO: 
-  create: (motofy: IMotofy) => requests.post('/motofies', motofy),
-  update: (motofy: IMotofy) =>
-    requests.put(`/motofies/${motofy.id}`, motofy),
-  delete: (id: string) => requests.delete(`/motofies/${id}`),
-  embrace: (id: any) => requests.post(`/motofies/${id}/embrace`, {}),
-  unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`)
-};
+
 const Brands = {
   list: (): Promise<IMotofy[]> => requests.get('brands'),
   details: (id: string) => requests.get(`/brand/${id}`),
