@@ -249,9 +249,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Brand")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid?>("BrandId")
                         .HasColumnType("TEXT");
 
@@ -577,7 +574,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
-                    b.HasOne("Domain.Brand", null)
+                    b.HasOne("Domain.Brand", "Brand")
                         .WithMany("Motofies")
                         .HasForeignKey("BrandId");
                 });

@@ -6,15 +6,18 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Application.Motofies.List;
+
 namespace API.Controllers
 {
     public class MotofiesController: BaseController
     {
         [HttpGet]
         [AllowAnonymous]
-         public async Task<ActionResult<List<MotofyDto>>> List()
+         public async Task<ActionResult<List.MotofiesEnvelope>> List(int? limit, int? offset, 
+            bool iEmbraced, bool iOwn, bool winningFive)
         {
-            return await Mediator.Send(new List.Query());
+            return await Mediator.Send(new List.Query(limit, offset, iEmbraced, iOwn, winningFive));
         }
 
         [HttpGet("{id}")]

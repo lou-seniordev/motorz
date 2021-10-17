@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class StartAgain : Migration
+    public partial class NewBrandsAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -361,7 +361,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Brand = table.Column<string>(nullable: true),
+                    BrandId = table.Column<Guid>(nullable: true),
                     Model = table.Column<string>(nullable: true),
                     CubicCentimeters = table.Column<string>(nullable: true),
                     PhotoUrl = table.Column<string>(nullable: true),
@@ -372,8 +372,7 @@ namespace Persistence.Migrations
                     Country = table.Column<string>(nullable: true),
                     PricePaid = table.Column<string>(nullable: true),
                     EstimatedValue = table.Column<string>(nullable: true),
-                    NumberOfKilometers = table.Column<string>(nullable: true),
-                    BrandId = table.Column<Guid>(nullable: true)
+                    NumberOfKilometers = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -8,15 +8,14 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
       <Segment attached='top'>
         <Grid>
           <Grid.Column width={1}>
-            {/* <Icon size='large' color='teal' name='info' /> */}
             <Image
               size='mini'
-              src={`/assets/brandImages/${motofy.brand}.png`}
+              src={motofy.brandLogoUrl}
             />
           </Grid.Column>
           <Grid.Column width={15}>
             <p>
-              <strong>{motofy.brand} - </strong> {motofy.model}
+              <strong>{motofy.brandName} - </strong> {motofy.model}
             </p>
           </Grid.Column>
         </Grid>

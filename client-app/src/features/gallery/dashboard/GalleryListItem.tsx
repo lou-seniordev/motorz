@@ -13,7 +13,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
   const owner = motofy.embracers.filter(x => x.isOwner)[0] || 'unknown testing';
   //==test!
   const publisher = motofy.embracers.filter(x => x)[0];
-  // console.log(owner)
+  // console.log(motofy.brand)
 
   return (
     <Segment.Group>
@@ -25,12 +25,13 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
           </Item.Group>
           <Item.Content>
             <Item.Header as={Link} to={`/gallery/${motofy.id}`}>{motofy.name}</Item.Header>
-            {/* <Item.Meta>{motofy.brand}</Item.Meta> */}
+            <Item.Meta>{motofy.brandName}</Item.Meta>
             <Image
               size='mini'
-              src={`/assets/brandImages/${motofy.brand}.png`}
+              src={motofy.brandLogoUrl}
             />
-            <Label basic content={motofy.brand} />
+            <Label basic content={motofy.brandId} />
+
             <Item.Description>Published by {publisher.displayName || 'unknown'}</Item.Description>
             {/* <Image
               size='mini'

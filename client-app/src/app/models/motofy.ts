@@ -1,7 +1,17 @@
+// import { IBrand } from "./brand";
+
+// import { IBrand } from "./brand";
+
+export interface IMotofyEnvelope {
+    motofies: IMotofy[];
+    motofyCount: number;
+}
 export interface IMotofy {
     id?: string;
     name: string;
-    brand: string;
+    brandId: string;
+    brandName: string;
+    brandLogoUrl: string;
     model: string;
     cubicCentimeters: string;
     photoUrl?: string | null;
@@ -18,7 +28,7 @@ export interface IMotofy {
     embracers: IEmbracer[];
 }
 
-export interface IMotofyFormValues extends Partial<IMotofy> {
+export interface IMotofyFormValues extends Partial<IMotofy>{//, Partial<IBrand> 
 
 }
 
@@ -26,6 +36,8 @@ export class MotofyFormValues implements IMotofyFormValues {
     id?: string = '';
     name: string = '';
     brand: string= '';
+    brandName: string= '';
+    brandId: string= '';
     model: string= '';
     cubicCentimeters: string= '';
     photoUrl: string  = '';
@@ -38,9 +50,12 @@ export class MotofyFormValues implements IMotofyFormValues {
     pricePaid: string= '';
     estimatedValue: string= '';
     numberOfKilometers: string= '';
+    // brands?: IBrand[];
 
-    constructor(init?: MotofyFormValues ) {
-        if (init)
+    constructor(init?: MotofyFormValues ) {//, brandsToSelect?: IBrand[]
+        if (init ) {//&& brandsToSelect
+            // init.brands = brandsToSelect;
+        }
         Object.assign(this, init);
     }
 } 

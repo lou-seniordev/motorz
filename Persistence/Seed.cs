@@ -347,6 +347,156 @@ namespace Persistence
                                 DateJoined = DateTime.Now.AddMonths(8)
                             },
                         }
+                    },
+                    new Activity
+                    {
+                        Title = "Future Activity 9",
+                        Date = DateTime.Now.AddMonths(9),
+                        Description = "Activity 9 months in future",
+                        Category = "Drinks",
+                        City = "London",
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "b",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                        }
+                    },
+                    new Activity
+                    {
+                        Title = "Future Activity 10",
+                        Date = DateTime.Now.AddMonths(10),
+                        Description = "Activity 10 months in future",
+                        Category = "Drinks",
+                        City = "London",
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "b",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            }
+                        }
+                    },
+                    new Activity
+                    {
+                        Title = "Far future uture Activity 11",
+                        Date = DateTime.Now.AddMonths(11),
+                        Description = "Activity 11 months in future",
+                        Category = "Drinks",
+                        City = "London",
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "d",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "i",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                        }
+                    },
+                    new Activity
+                    {
+                        Title = "Far future Activity 12",
+                        Date = DateTime.Now.AddMonths(12),
+                        Description = "Activity 12 months in future",
+                        Category = "Drinks",
+                        City = "London",
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "f",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            }
+                        }
+                    },
+                    new Activity
+                    {
+                        Title = "Long far future Activity 13",
+                        Date = DateTime.Now.AddMonths(13),
+                        Description = "Activity 13 months in future",
+                        Category = "Drinks",
+                        City = "London",
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "e",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            }
+                        }
+                    },
+                    new Activity
+                    {
+                        Title = "Long far future Activity 14",
+                        Date = DateTime.Now.AddMonths(14),
+                        Description = "Activity 14 months in future",
+                        Category = "Drinks",
+                        City = "London",
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "g",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "d",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                        }
+                    },
+                    new Activity
+                    {
+                        Title = "Never to happen future Activity 15",
+                        Date = DateTime.Now.AddMonths(15),
+                        Description = "Activity 15 months in future",
+                        Category = "Drinks",
+                        City = "London",
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "i",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "c",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                        }
                     }
                 };
 
@@ -354,52 +504,52 @@ namespace Persistence
                 await context.SaveChangesAsync();
             }
 
-            if (!context.Brands.Any())
-            {
-                var brands = new List<Brand>
-                {
-                    new Brand
-                    {
-                        Id = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
-                        Name = "Ducati",
-                        DateOfEstablishment = DateTime.Now.AddYears(-94),//AddMonths(-200),
-                        LogoUrl = "https://unsplash.com/photos/s0QMav76pmQ",
-                        LandOfOrigin = "Italy",
-                        CityOfOrigin = "Bologna",
-                    },
-                    new Brand
-                    {
-                        Id = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
-                        Name = "Honda",
-                        DateOfEstablishment = DateTime.Now.AddYears(-72),
-                        LogoUrl = "https://unsplash.com/photos/5CchtuTTFs8",
-                        LandOfOrigin = "Japan",
-                        CityOfOrigin = "Hamamatsu, Shizuoka",
-                    },
-                    new Brand
-                    {
-                        Id = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
-                        Name = "BMW",
-                        DateOfEstablishment = DateTime.Now.AddYears(-104),
-                        LogoUrl = "https://unsplash.com/photos/WuRsjF4iZK0",
-                        LandOfOrigin = "Germany",
-                        CityOfOrigin = "Munchen",
-                    },
-                    new Brand
-                    {
-                        Id = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
-                        Name = "Harley-Davidson",
-                        DateOfEstablishment = DateTime.Now.AddYears(-117),
-                        LogoUrl = "https://unsplash.com/photos/YRGsG4oiNIg",
-                        LandOfOrigin = "USA",
-                        CityOfOrigin = "Milwaukee, Wisconsin",
-                    },
+            // if (!context.Brands.Any())
+            // {
+            //     var brands = new List<Brand>
+            //     {
+            //         new Brand
+            //         {
+            //             Id = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
+            //             Name = "Ducati",
+            //             DateOfEstablishment = DateTime.Now.AddYears(-94),//AddMonths(-200),
+            //             LogoUrl = "https://unsplash.com/photos/s0QMav76pmQ",
+            //             LandOfOrigin = "Italy",
+            //             CityOfOrigin = "Bologna",
+            //         },
+            //         new Brand
+            //         {
+            //             Id = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
+            //             Name = "Honda",
+            //             DateOfEstablishment = DateTime.Now.AddYears(-72),
+            //             LogoUrl = "https://unsplash.com/photos/5CchtuTTFs8",
+            //             LandOfOrigin = "Japan",
+            //             CityOfOrigin = "Hamamatsu, Shizuoka",
+            //         },
+            //         new Brand
+            //         {
+            //             Id = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
+            //             Name = "BMW",
+            //             DateOfEstablishment = DateTime.Now.AddYears(-104),
+            //             LogoUrl = "https://unsplash.com/photos/WuRsjF4iZK0",
+            //             LandOfOrigin = "Germany",
+            //             CityOfOrigin = "Munchen",
+            //         },
+            //         new Brand
+            //         {
+            //             Id = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
+            //             Name = "Harley-Davidson",
+            //             DateOfEstablishment = DateTime.Now.AddYears(-117),
+            //             LogoUrl = "https://unsplash.com/photos/YRGsG4oiNIg",
+            //             LandOfOrigin = "USA",
+            //             CityOfOrigin = "Milwaukee, Wisconsin",
+            //         },
 
-                };
+            //     };
 
-                context.Brands.AddRange(brands);
-                context.SaveChanges();
-            }
+            //     context.Brands.AddRange(brands);
+            //     context.SaveChanges();
+            // }
 
             if (!context.Motofies.Any())
             {
@@ -410,16 +560,18 @@ namespace Persistence
                         Name = "Lillie",
                         Model = "620 Dark",
                         // BrandId = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
-                        Brand = "Ducati",
-                        // Brand = new Brand
-                        // {
-                        //     Id = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
-                        //     Name = "Ducati",
-                        //     DateOfEstablishment = DateTime.Now.AddYears(-94),//AddMonths(-200),
-                        //     LogoUrl = "https://unsplash.com/photos/s0QMav76pmQ",
-                        //     LandOfOrigin = "Italy",
-                        //     CityOfOrigin = "Bologna",
-                        // },
+
+                        // Brand = "Ducati",
+
+                        Brand = new Brand
+                        {
+                            Id = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
+                            Name = "Ducati",
+                            DateOfEstablishment = DateTime.Now.AddYears(-94),//AddMonths(-200),
+                            LogoUrl = "https://unsplash.com/photos/s0QMav76pmQ",
+                            LandOfOrigin = "Italy",
+                            CityOfOrigin = "Bologna",
+                        },
                         CubicCentimeters = "620",
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
                         Description = "The often forgotten about Multistrada 620 is an absolutely brilliant bike for those looking for a practical do-it-all that has a bit of Italian charm without too many of the associated hassles.",
@@ -447,16 +599,18 @@ namespace Persistence
                         Name = "King",
                         Model = "Sportster",
                         // BrandId = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
-                        Brand = "Harley-Davidson",
-                        // Brand = new Brand
-                        // {
-                        //     Id = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
-                        //     Name = "Harley-Davidson",
-                        //     DateOfEstablishment = DateTime.Now.AddYears(-117),
-                        //     LogoUrl = "https://unsplash.com/photos/YRGsG4oiNIg",
-                        //     LandOfOrigin = "USA",
-                        //     CityOfOrigin = "Milwaukee, Wisconsin",
-                        // },
+
+                        // Brand = "Harley-Davidson",
+
+                        Brand = new Brand
+                        {
+                            Id = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
+                            Name = "Harley-Davidson",
+                            DateOfEstablishment = DateTime.Now.AddYears(-117),
+                            LogoUrl = "https://unsplash.com/photos/YRGsG4oiNIg",
+                            LandOfOrigin = "USA",
+                            CityOfOrigin = "Milwaukee, Wisconsin",
+                        },
                         CubicCentimeters = "700",
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542881277/hr1axmxfrz6hnnjzmqdl.jpg",
                         Description = "Harley-Davidson Sportster cusom bikes - bobbers, choppers and cafe racers. We do NOT own the video materials and all credits belong to respectful owners. In case of copyright issues, please contact us immediately for further credits or clip delete.",
@@ -484,16 +638,17 @@ namespace Persistence
                         Name = "Fly",
                         Model = "Hornet",
                         // BrandId = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
-                        Brand = "Honda",
-                        // Brand = new Brand
-                        // {
-                        //     Id = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
-                        //     Name = "Honda",
-                        //     DateOfEstablishment = DateTime.Now.AddYears(-72),
-                        //     LogoUrl = "https://unsplash.com/photos/5CchtuTTFs8",
-                        //     LandOfOrigin = "Japan",
-                        //     CityOfOrigin = "Hamamatsu, Shizuoka",
-                        // },
+
+                        // Brand = "Honda",
+                        Brand = new Brand
+                        {
+                            Id = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
+                            Name = "Honda",
+                            DateOfEstablishment = DateTime.Now.AddYears(-72),
+                            LogoUrl = "https://unsplash.com/photos/5CchtuTTFs8",
+                            LandOfOrigin = "Japan",
+                            CityOfOrigin = "Hamamatsu, Shizuoka",
+                        },
                         CubicCentimeters = "700",
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1543859124/qwg8b9xd4z1h9nzjvuzi.jpg",
                         Description = "Honda CB Hornet 160R is powered by the same engine that used to serve Honda CB Unicorn. It houses a 162.71cc, single-cylinder, air-cooled 4-stroke SI engine with Honda Eco Technology (HET) that is mated to 5-speed gearbox.",
@@ -521,16 +676,16 @@ namespace Persistence
                         Name = "Tripp",
                         Model = "R 1200GS LC Adventure",
                         // BrandId = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
-                        Brand = "BMW",
-                        // Brand = new Brand
-                        // {
-                        //     Id = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
-                        //     Name = "BMW",
-                        //     DateOfEstablishment = DateTime.Now.AddYears(-104),
-                        //     LogoUrl = "https://unsplash.com/photos/WuRsjF4iZK0",
-                        //     LandOfOrigin = "Germany",
-                        //     CityOfOrigin = "Munchen",
-                        // },
+                        // Brand = "BMW",
+                        Brand = new Brand
+                        {
+                            Id = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
+                            Name = "BMW",
+                            DateOfEstablishment = DateTime.Now.AddYears(-104),
+                            LogoUrl = "https://unsplash.com/photos/WuRsjF4iZK0",
+                            LandOfOrigin = "Germany",
+                            CityOfOrigin = "Munchen",
+                        },
                         CubicCentimeters = "1200",
                         PhotoUrl = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
                         Description = "The BMW R1200GS is one of the best selling motorcycles of all time. And yet, as I prepared to make a purchase of a 2018 lowered rallye model, I found a surprising dearth of meaningful answers to my questions and concerns.",

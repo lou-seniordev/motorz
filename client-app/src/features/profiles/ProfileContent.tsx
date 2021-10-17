@@ -4,12 +4,29 @@ import ProfilePhotos from './ProfilePhotos';
 import ProfileDescription from './ProfileDescription';
 import ProfileFollowings from './ProfileFollowings';
 import ProfileActivities from './ProfileActivities';
+import ProfileMotofies from './ProfileMotofies';
 
 const panes = [
   { menuItem: 'About', render: () => <ProfileDescription /> },
   { menuItem: 'Photos', render: () => <ProfilePhotos /> },
   {
-    menuItem: 'Riding Sessions',
+    menuItem: 'Motofies!',
+    render: () => <ProfileMotofies />,
+  },
+  {
+    menuItem: 'Moto Sessions',
+    render: () => <ProfileActivities />,
+  },
+  {
+    menuItem: 'Motospots',
+    render: () => <ProfileActivities />,
+  },
+  {
+    menuItem: 'Motoforum',
+    render: () => <ProfileActivities />,
+  },
+  {
+    menuItem: 'Moto Mechanics',
     render: () => <ProfileActivities />,
   },
   { menuItem: 'Followers', render: () => <ProfileFollowings /> },

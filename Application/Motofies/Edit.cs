@@ -21,7 +21,7 @@ namespace Application.Motofies
             public string Description { get; set; }
             public string City { get; set; }
             public string Country { get; set; }
-            // public int NumberOfKilometers { get; set; }
+            public string NumberOfKilometers { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -32,7 +32,7 @@ namespace Application.Motofies
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.City).NotEmpty();
                 RuleFor(x => x.Country).NotEmpty();
-                // RuleFor(x => x.NumberOfKilometers).NotEmpty();
+                RuleFor(x => x.NumberOfKilometers).NotEmpty();
             }
         }
 
@@ -58,7 +58,7 @@ namespace Application.Motofies
                 motofy.Description = request.Description ?? motofy.Description;
                 motofy.City = request.City ?? motofy.City;
                 motofy.Country = request.Country ?? motofy.Country;
-                // motofy.NumberOfKilometers = request.NumberOfKilometers ?? motofy.NumberOfKilometers;
+                motofy.NumberOfKilometers = request.NumberOfKilometers ?? motofy.NumberOfKilometers;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

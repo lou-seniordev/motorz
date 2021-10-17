@@ -19,10 +19,6 @@ const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   const rootStore = useContext(RootStoreContext);
   const { motofy, loadMotofy, loadingInitial } = rootStore.motofyStore;
 
-  //test
-  console.log("motofy.embracers");
-  // console.log(motofy!.embracers);
-
   useEffect(() => {
     loadMotofy(match.params.id);
   }, [loadMotofy, match.params.id]);

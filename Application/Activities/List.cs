@@ -59,10 +59,10 @@ namespace Application.Activities
                 .OrderBy(x => x.Date)
                 .AsQueryable();
 
-                if (request.IsHost && !request.IsHost)
+                if (request.IsGoing && !request.IsHost)
                 {
-                    queryable = queryable.Where(x => x.UserActivities.Any(
-                            a => a.AppUser.UserName == _userAccessor.GetCurrentUsername()));
+                    queryable = queryable
+                    .Where(x => x.UserActivities.Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername()));
                 }
 
                 if (request.IsHost && !request.IsGoing)

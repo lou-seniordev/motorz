@@ -98,7 +98,7 @@ export default class MechanicStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data');
-      console.log(error.response);
+      // console.log(error.response);
     }
   };
 
@@ -119,7 +119,7 @@ export default class MechanicStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data');
-      console.log(error.response);
+      // console.log(error.response);
     }
   };
 

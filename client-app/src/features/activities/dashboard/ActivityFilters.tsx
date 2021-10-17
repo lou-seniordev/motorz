@@ -37,7 +37,7 @@ const ActivityFilters = () => {
         icon={'calendar'}
         attached
         color={'teal'}
-        content={'Select Date'}
+        content={'Select Date (and moto sessions after)'}
       />
       <Calendar
         onChange={(date) => setPredicate('startDate', date!)}

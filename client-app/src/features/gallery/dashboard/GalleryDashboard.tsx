@@ -1,38 +1,52 @@
-import React, { useContext, useEffect } from "react";
-import { Grid, Sticky } from "semantic-ui-react";
+import React, { useContext, useEffect, useState } from "react";
+import { Grid, Loader, Sticky } from "semantic-ui-react";
 import GalleryList from "./GalleryList";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import InfiniteScroll from "react-infinite-scroller";
+import GalleryFilters from "./GalleryFilters";
 
 const GalleryDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadMotofies, loadingInitial } = rootStore.motofyStore;
+  const { loadMotofies, loadingInitial, setPage, page, totalPages } =
+    rootStore.motofyStore;
+  const [loadingNext, setLoadingNext] = useState(false);
+
+  const handleGetNext = () => {
+    setLoadingNext(true);
+    setPage(page + 1);
+    loadMotofies().then(() => setLoadingNext(false));
+  };
 
   useEffect(() => {
     //t
     loadMotofies();
   }, [loadMotofies]);
 
-  if (loadingInitial)
+  if (loadingInitial && page === 0)
     return <LoadingComponent content={"Loading motofies..."} />;
+
   return (
     <Grid>
-      {/* <Grid.Column width={3}>
-        <Sticky style={{ marginRight: 30, position: "fixed" }}>
-          <h2>Motofy filters left</h2>
-        </Sticky>
-      </Grid.Column> */}
-      <Grid.Column width={10}>
-        <GalleryList />
+      <Grid.Column width={9}>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={handleGetNext}
+          hasMore={!loadingNext && page + 1 < totalPages}
+          initialLoad={false}
+        >
+          <GalleryList />
+        </InfiniteScroll>
+       
       </Grid.Column>
-      <Grid.Column width={6}>
+      <Grid.Column width={7}>
         <Sticky style={{ marginRight: 30, position: "fixed" }}>
-          <h2>Motofy I embraced</h2>
-          <h2>Motofy The bests</h2>
-          <h2>Motofy fMotofies my people</h2>
-          <h2>Motofy on a date</h2>
+          <GalleryFilters/>
         </Sticky>
+      </Grid.Column>
+      <Grid.Column width={10}>
+        <Loader active={loadingNext}/>
       </Grid.Column>
     </Grid>
   );

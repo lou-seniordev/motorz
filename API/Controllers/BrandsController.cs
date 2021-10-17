@@ -18,13 +18,13 @@ namespace API.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<List<Brand>>> List()
+        public async Task<ActionResult<List<BrandToSelectDto>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
 
         // [HttpGet("{id}")]
-        // public async Task<ActionResult<Brand>> Details(Guid id)
+        // public async Task<ActionResult<BrandDto>> Details(Guid id)
         // {
         //     return await Mediator.Send(new Details.Query { Id = id });
         // }

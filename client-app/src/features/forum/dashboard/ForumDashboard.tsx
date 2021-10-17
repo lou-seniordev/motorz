@@ -24,7 +24,9 @@ const ForumDashboard = () => {
           <ForumList />
         </Grid.Column>
         <Grid.Column width={6}>
-          <h2>Forum post filters will come here</h2>
+          <h2>Trending</h2>
+          <h2>Your people are asking</h2>
+          <h2>You might be interested</h2>
           {/* {forumpost && !editMode && <ForumDetails />}
           {editMode && (
             <ForumForm

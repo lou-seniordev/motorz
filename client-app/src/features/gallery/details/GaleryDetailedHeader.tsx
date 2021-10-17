@@ -62,7 +62,7 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
           </Button>
         ) : motofy.embraced ? (
           <Button loading={loading} onClick={unembraceMotofy}>
-            Maybe not...
+            Embraced
           </Button>
         ) : (
           <Button loading={loading} onClick={embraceMotofy} color='teal'>

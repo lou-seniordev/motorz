@@ -21,5 +21,12 @@ export interface IUserActivity {
     category: string;
     date: Date;
 }
+export interface IUserMotofy {
+    id: string;
+    name: string;
+    yearOfProduction: string;
+    datePublished: Date;
+    photoUrl: string;
+}
 
 

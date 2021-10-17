@@ -1,53 +1,56 @@
-import React, {  useContext, useEffect, useState } from 'react';
-import { Button, Form, Grid, Segment } from 'semantic-ui-react';
-import {  MotofyFormValues } from '../../../app/models/motofy';
-import { v4 as uuid } from 'uuid';
-import { observer } from 'mobx-react-lite';
-import { RouteComponentProps } from 'react-router-dom';
-import { Form as FinalForm, Field } from 'react-final-form';
-import TextInput from '../../../app/common/form/TextInput';
-import TextAreaInput from '../../../app/common/form/TextAreaInput';
-import SelectInput from '../../../app/common/form/SelectInput';
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Form, Grid, Segment } from "semantic-ui-react";
+import { MotofyFormValues } from "../../../app/models/motofy";
+import { v4 as uuid } from "uuid";
+import { observer } from "mobx-react-lite";
+import { RouteComponentProps } from "react-router-dom";
+import { Form as FinalForm, Field } from "react-final-form";
+import TextInput from "../../../app/common/form/TextInput";
+import TextAreaInput from "../../../app/common/form/TextAreaInput";
+import SelectInput from "../../../app/common/form/SelectInput";
 
-import { brand } from '../../../app/common/options/brandOptions';
-import { year } from '../../../app/common/options/yearOptions';
+// import { brand } from '../../../app/common/options/brandOptions';
+import { year } from "../../../app/common/options/yearOptions";
 import {
   combineValidators,
   composeValidators,
   hasLengthGreaterThan,
   isRequired,
   isNumeric,
-} from 'revalidate';
-import { RootStoreContext } from '../../../app/stores/rootStore';
+} from "revalidate";
+import { RootStoreContext } from "../../../app/stores/rootStore";
+// import { IBrandToSelect} from "../../../app/models/brand";
+// import { brand } from "../../../app/common/options/brandOptions";
+// import { BrandFormValues } from "../../../app/models/brand";
 
 const validate = combineValidators({
-  name: isRequired({ message: 'The event name is required' }),
+  name: isRequired({ message: "The event name is required" }),
   description: composeValidators(
-    isRequired('Description'),
+    isRequired("Description"),
     hasLengthGreaterThan(4)({
-      message: 'Description needs to be at least 5 characters',
+      message: "Description needs to be at least 5 characters",
     })
   )(),
-  photoUrl: isRequired('Photo'),
-  city: isRequired('City'),
-  country: isRequired('Country'),
-  model: isRequired('model'),
+  photoUrl: isRequired("Photo"),
+  city: isRequired("City"),
+  country: isRequired("Country"),
+  model: isRequired("model"),
   pricePaid: composeValidators(
-    isNumeric('Price paid'),
-    isRequired('Price paid')
+    isNumeric("Price paid"),
+    isRequired("Price paid")
   )(),
   cubicCentimeters: composeValidators(
-    isNumeric('Power of engine'),
-    isRequired('Power of engine')
+    isNumeric("Power of engine"),
+    isRequired("Power of engine")
   )(),
-  yearOfProduction: isRequired('Year of production'),
+  yearOfProduction: isRequired("Year of production"),
   numberOfKilometers: composeValidators(
-    isNumeric('Number of kilometers'),
-    isRequired('Number of kilometers')
+    isNumeric("Number of kilometers"),
+    isRequired("Number of kilometers")
   )(),
   estimatedValue: composeValidators(
-    isNumeric('Estimated valude'),
-    isRequired('Estimated valude')
+    isNumeric("Estimated valude"),
+    isRequired("Estimated valude")
   )(),
 });
 
@@ -61,25 +64,47 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const rootStore = useContext(RootStoreContext);
 
   const {
-    createMotofy,
+    createMotofy, 
     editMotofy,
     submitting,
     editMode,
     loadMotofy,
   } = rootStore.motofyStore;
 
+  const { loadBrandsToSelect, brands } = rootStore.brandStore;
+
   const [motofy, setMotofy] = useState(new MotofyFormValues());
   const [loading, setLoading] = useState(false);
 
+  // const [brands, setBrands] = useState([]); //new BrandFormValues()
+  // const setBrands()
+
+  let old: boolean = true;
+
   useEffect(() => {
+    // setBrands(()=> )
+    // handlePopulateBrands();
+    // setBrands(() => (loadBrandsToSelect))
+    old = true;
+
+    loadBrandsToSelect();
     if (match.params.id) {
+      old = false;
       setLoading(true);
+      // .then((brands)=>
+      console.log("test", brands);
+
+      // )
       loadMotofy(match.params.id)
         .then((motofy) => setMotofy(new MotofyFormValues(motofy)))
         .finally(() => setLoading(false));
     }
-  }, [loadMotofy, match.params.id]);
+  }, [loadMotofy, match.params.id]); // ,loadBrandsToSelect, brands
 
+  // const handlePopulateBrands = () => {
+  //   const { ...brand } = loadBrandsToSelect();
+  //   console.log('brands', brand);
+  // }
   const handleFinalFormSubmit = (values: any) => {
     const { ...motofy } = values;
 
@@ -89,12 +114,14 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         id: uuid(),
         datePublished: new Date().toISOString(),
       };
-      // console.log(newMotofy);
+      console.log(newMotofy);
       createMotofy(newMotofy);
     } else {
+      console.log(motofy);
       editMotofy(motofy);
     }
   };
+
   return (
     <Grid>
       <Grid.Column width={3} />
@@ -138,13 +165,33 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   value={motofy.country}
                   component={TextInput}
                 />
-                <Field
-                  name='brand'
-                  placeholder='Brand'
-                  options={brand}
-                  value={motofy.brand}
-                  component={SelectInput}
-                />
+                {!old && (
+                  <Field
+                    name='brandName'
+                    placeholder='Brand'
+                    options={brands}
+                    value={motofy.brandName}
+                    component={SelectInput}
+                  />
+                )}
+                {old && (
+                  <Field
+                  // name is naming the value
+                    name='brandName'
+                    // placeholder={old}
+
+                    placeholder={'Please pick your brand'}//
+                    // placeholder={motofy.brandName} //'Brand'
+                    options={brands}
+                    // value={brands}
+                    value={motofy.brandId}
+                    component={SelectInput}
+                    // component={TextInput}
+
+                  />
+                )}
+              
+                {/*REASON - cannot edit what??? */}
                 {!editMode && (
                   <Segment>
                     <Field
@@ -189,7 +236,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
                 <Button
                   loading={submitting}
-                  disabled={loading|| invalid || pristine}
+                  disabled={loading || invalid || pristine}
                   positive
                   floated='right'
                   type='submit'
@@ -199,7 +246,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   onClick={
                     motofy.id
                       ? () => history.push(`/gallery/${motofy.id}`)
-                      : () => history.push('/gallery')
+                      : () => history.push("/gallery")
                   }
                   disabled={loading}
                   floated='right'

@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211001121156_StartAgain")]
-    partial class StartAgain
+    [Migration("20211013091432_NewBrandsAdded")]
+    partial class NewBrandsAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -249,9 +249,6 @@ namespace Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Brand")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("BrandId")
@@ -579,7 +576,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
-                    b.HasOne("Domain.Brand", null)
+                    b.HasOne("Domain.Brand", "Brand")
                         .WithMany("Motofies")
                         .HasForeignKey("BrandId");
                 });

@@ -150,11 +150,14 @@ export default class ActivityStore {
     this.loadingInitial = true;
     try {
       const activitiesEnvelope = await agent.Activities.list(this.axiosParams);
+      // const activitiesEnvelope = await agent.Activities.list(LIMIT, this.page);
+
       const {activities, activityCount} = activitiesEnvelope;
+     
+
       runInAction('loading activities', () => {
         activities.forEach((activity) => {
-          //test
-          console.log('activity is: ',activity)
+        
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
         });

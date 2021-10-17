@@ -2,7 +2,7 @@ import { action, computed, observable, reaction, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 
 import agent from '../api/agent';
-import { IPhoto, IProfile, IUserActivity } from '../models/profile';
+import { IPhoto, IProfile, IUserActivity, IUserMotofy } from '../models/profile';
 import { RootStore } from './rootStore';
 
 export default class ProfileStore {
@@ -32,6 +32,9 @@ export default class ProfileStore {
 
   @observable userActivities: IUserActivity[] = [];
   @observable loadingActivities = false;
+  
+  @observable userMotofies: IUserMotofy[] = [];
+  @observable loadingMotofies = false;
 
   
   @computed get isCurrentUser() {
@@ -44,6 +47,8 @@ export default class ProfileStore {
   
   @action loadUserActivities = async (username: string, predicate?: string) => {
     this.loadingActivities = true;
+    console.log('predicate', predicate);
+
     try {
       const activities = await agent.Profiles.listActivities(username, predicate!);
       runInAction(() => {
@@ -54,6 +59,24 @@ export default class ProfileStore {
       toast.error('Problem loading user activities');
       runInAction(() => {
         this.loadingActivities = false;
+      })
+    }
+  }
+  @action loadUserMotofies = async (username: string, predicate?: string ) => {
+    this.loadingMotofies = true;
+    if(predicate === undefined) {
+      predicate='iEmbraced'
+    }
+    try {
+      const motofies = await agent.Profiles.listMotofies(username, predicate!);
+      runInAction(() => {
+        this.userMotofies = motofies;
+        this.loadingMotofies = false;
+      })
+    } catch (error) {
+      toast.error('Problem loading user activities');
+      runInAction(() => {
+        this.loadingMotofies = false;
       })
     }
   }

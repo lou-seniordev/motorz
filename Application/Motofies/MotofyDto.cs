@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Domain;
 
 namespace Application.Motofies
 {
@@ -8,8 +9,11 @@ namespace Application.Motofies
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        // [JsonPropertyName("brand")]
-        public string Brand { get; set; }
+        //brand
+        public string BrandName { get; set; }
+        public string BrandId { get; set; }
+        public string BrandLogoUrl { get; set; }
+
         public string Model { get; set; }
         public string CubicCentimeters { get; set; }
         public string PhotoUrl { get; set; }

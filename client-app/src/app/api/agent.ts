@@ -1,14 +1,18 @@
+import { IMotofy, IMotofyEnvelope } from './../models/motofy';
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
 import { IActivity, IActivitiesEnvelope } from '../models/activity';
 import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
-import { IMotofy } from '../models/motofy';
+// import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost } from '../models/forumpost';
 import { IMechanic } from '../models/mechanic';
+import { IBrand } from '../models/brand';
+// import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+// axios.defaults.baseURL = 'http://localhost:5000/api';
 
 axios.interceptors.request.use(
   (config) => {
@@ -59,23 +63,30 @@ const responseBody = (response: AxiosResponse) => response.data;
 //     setTimeout(() => resolve(response), ms)
 //   );
 
+//test log
+// const show = (greet: string) => (response: AxiosResponse) => 
+//   new Promise<AxiosResponse>((resolve) => 
+//     console.log(greet)
+//   );
+
+
 const requests = {
-  get: (url: string) => 
+  get: (url: string) =>
     axios.get(url)
-    // .then(sleep(1000))
-    .then(responseBody),
-  post: (url: string, body: {}) => 
+      // .then(sleep(1000))
+      .then(responseBody),
+  post: (url: string, body: {}) =>
     axios.post(url, body)
-    // .then(sleep(1000))
-    .then(responseBody),
+      // .then(sleep(1000))
+      .then(responseBody),
   put: (url: string, body: {}) =>
     axios.put(url, body)
-    // .then(sleep(1000))
-    .then(responseBody),
+      // .then(sleep(1000))
+      .then(responseBody),
   delete: (url: string) =>
     axios.delete(url)
-    // .then(sleep(1000))
-    .then(responseBody),
+      // .then(sleep(1000))
+      .then(responseBody),
   postForm: (url: string, file: Blob) => {
     let formData = new FormData();
     formData.append('File', file);
@@ -86,11 +97,14 @@ const requests = {
 };
 
 const Activities = {
+  // list: (limit?: number, page?: number): Promise<IActivitiesEnvelope> => 
+  // requests.get(`/activities?limit=${limit}&offset=${page ? page * limit! : 0}`),
+
   list: (params: URLSearchParams): Promise<IActivitiesEnvelope> =>
     axios.get('/activities', { params: params })
-    // .then(sleep(1000))
-    .then(responseBody),
-  // requests.get(`/activities?limit=${limit}&offset=${page ? page * limit! : 0}`),
+      // .then(sleep(1000))
+      .then(responseBody),
+      
   details: (id: string) => requests.get(`/activities/${id}`),
   create: (activity: IActivity) => requests.post('/activities', activity),
   update: (activity: IActivity) =>
@@ -101,7 +115,15 @@ const Activities = {
 };
 
 const Motofies = {
-  list: (): Promise<IMotofy[]> => requests.get('motofies'),
+  // list: (limit?: number, page?: number): Promise<IMotofyEnvelope> => 
+  // requests.get(`motofies?limit=${limit}&offset=${page ? page * limit! : 0}`),
+
+  list: (params: URLSearchParams): Promise<IMotofyEnvelope> => 
+    axios.get('/motofies', {params: params})
+    // .then(sleep(1000))
+    .then(responseBody),
+    
+    // .then(show('new string'))
   details: (id: string) => requests.get(`/motofies/${id}`),
   // TODO: 
   create: (motofy: IMotofy) => requests.post('/motofies', motofy),
@@ -133,10 +155,12 @@ const Mechanics = {
 
 
 const Brands = {
-  list: (): Promise<IMotofy[]> => requests.get('brands'),
+  list: (): Promise<IBrand[]> => requests.get('brands'),
   details: (id: string) => requests.get(`/brand/${id}`),
   // DONT THINK IM GONNA LET USER... 
-  // create: (motofy: IMotofy) => requests.post('/brands', motofy),
+  // but i might let admin
+  //NOT finished!!!
+  create: (motofy: IBrand) => requests.post('/brands', motofy),
   // update: (motofy: IMotofy) =>
   //   requests.put(`/brands/${motofy.id}`, motofy),
   // delete: (id: string) => requests.delete(`/brands/${id}`),
@@ -162,7 +186,9 @@ const Profiles = {
   listFollowings: (username: string, predicate: string) =>
     requests.get(`/profiles/${username}/follow?predicate=${predicate}`),
   listActivities: (username: string, predicate: string) =>
-    requests.get(`/profiles/${username}/activities?predicate=${predicate}`)
+    requests.get(`/profiles/${username}/activities?predicate=${predicate}`),
+  listMotofies: (username: string, predicate: string) =>
+    requests.get(`/profiles/${username}/motofies?predicate=${predicate}`)
 
 };
 

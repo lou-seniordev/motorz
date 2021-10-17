@@ -32,7 +32,9 @@ const MechanicDashboard = () => {
       {/* <Rail position='left'> */}
       {/* context={contextRef} */}
         <Sticky style={{marginRight: 30, position: 'fixed'}}> 
-         <h2 >Mechanic filters go here</h2>
+         <h2 >Mechanic around you</h2>
+         <h2 >Mechanic You went to</h2>
+         <h2 >Mechanics everbody praized</h2>
         </Sticky>
       {/* </Rail> */}
       </Grid.Column>

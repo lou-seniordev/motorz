@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed } from 'mobx';
+import { observable, action, runInAction, computed, reaction } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
 import { SyntheticEvent } from 'react';
@@ -8,11 +8,22 @@ import { RootStore } from './rootStore';
 import { createEmbracer, setMotofyProps } from '../common/util/util';
 
 // configure({ enforceActions: 'always' });
+const LIMIT = 2;
 
 export default class MotofyStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+
+    reaction(
+      () => this.predicate.keys(),
+      () => {
+        this.page = 0;
+        this.motofyRegistry.clear();
+        this.loadMotofies();
+      }
+    )
+
   }
 
   @observable motofyRegistry = new Map();
@@ -26,42 +37,75 @@ export default class MotofyStore {
   @observable target = '';
   @observable loading = false;
 
+  //dunno if need signalR here...
+
+  // === PAGING ===
+  @observable motofyCount = 0;
+  @observable page = 0;
+
+  // === FILTERING ===
+  @observable predicate = new Map();
+
+  @action setPredicate = (predicate: string, value: string  ) => { //| Date
+    this.predicate.clear();
+    if (predicate !== 'all') {
+      this.predicate.set(predicate, value);
+      console.log(predicate);
+    }
+  }
+
+  @computed get axiosParams () {
+    const params = new URLSearchParams();
+    params.append('limit', String(LIMIT));
+    params.append('offset', `${this.page ? this.page * LIMIT : 0}`);
+    // params.append('iEmbraced', 'false');
+    // params.append('iOwn', 'false');
+    // params.append('winningFive', 'false');
+    this.predicate.forEach((value, key) => {
+        params.append(key, value )
+    })
+    return params;
+  }  
+
+
+  // === PAGING ===
+  @computed get totalPages() {
+    return Math.ceil(this.motofyCount / LIMIT);
+  }
+  @action setPage = (page: number) => {
+    this.page = page;
+  }
+
+
   @computed get motofiesByDate() {
     return Array.from(this.motofyRegistry.values()).sort(
       (a, b) => Date.parse(a.date) - Date.parse(b.date)
     );
   }
 
-  // @computed get motofiesByDate() {
-  //   return this.groupMotofiesByDate(Array.from(this.motofyRegistry.values()));
-  // }
-
-  // groupMotofiesByDate(motofies: IMotofy[]) {
-  //   const sortedMotofies = motofies.sort(
-  //     (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-  //   )
-  //   return Object.entries(sortedMotofies.reduce((motofies, motofy) => {
-  //     const date = motofy.datePublished.split('T')[0];
-  //     motofies[date] = motofies[date] ? [...motofies[date], motofy] : [motofy];
-  //     return motofies;
-  //   },{} as {[key: string]: IMotofy[]}));
-  // }
 
   @action loadMotofies = async () => {
     this.loadingInitial = true;
-    // const user = ;
     try {
-      const motofies = await agent.Motofies.list();
-      runInAction('loading motofies', () => {
-        motofies.forEach((motofy) => {
-          //testlog
-          console.log('motofy is: ',motofy)
+      
+      // const motofiesEnvelope = await agent.Motofies.list(LIMIT, this.page);
 
+      const motofiesEnvelope = await agent.Motofies.list(this.axiosParams);
+
+      const { motofies, motofyCount} = motofiesEnvelope;
+     
+      // console.log("mostEmbracedList: ", mostEmbracedList)
+      runInAction('loading motofies', () => {
+        
+        motofies.forEach((motofy) => {
           motofy.datePublished = motofy.datePublished?.split('T')[0];
           // === Util Class ===
+          // console.log("motofy: ", motofy)
           setMotofyProps(motofy, this.rootStore.userStore.user!);
+          // console.log("motofy user: ", this.rootStore.userStore.user!)
           this.motofyRegistry.set(motofy.id, motofy);
         });
+        this.motofyCount = motofyCount;
         this.loadingInitial = false;
       });
     } catch (error) {
@@ -76,6 +120,9 @@ export default class MotofyStore {
     let motofy = this.getMotofy(id);
     if (motofy) {
       this.motofy = motofy;
+      // //test
+      // console.log('id:', id);
+      // console.log('motofy:', this.getMotofy(id));
       return motofy;
     } else {
       this.loadingInitial = true;

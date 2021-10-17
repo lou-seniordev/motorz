@@ -18,7 +18,8 @@ namespace Application.Motofies
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
-            public string Brand { get; set; }
+            public string BrandName { get; set; }
+            // public Guid BrandId { get; set; }
             public string Model { get; set; }
             public string CubicCentimeters { get; set; }
             public string PhotoUrl { get; set; }
@@ -39,7 +40,8 @@ namespace Application.Motofies
             public CommandValidator()
             {
                 RuleFor(x => x.Id).NotEmpty();
-                RuleFor(x => x.Brand).NotEmpty();
+                RuleFor(x => x.BrandName).NotEmpty();
+                // RuleFor(x => x.BrandId).NotEmpty();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.Model).NotEmpty();
                 RuleFor(x => x.CubicCentimeters).NotEmpty();
@@ -74,14 +76,17 @@ namespace Application.Motofies
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
-              
+
+                //NEW
+                // var brand = await _context.Brands.FindAsync(request.BrandId);
+                var brand = await _context.Brands.SingleOrDefaultAsync(x => x.Name == request.BrandName);
 
 
                 var motofy = new Motofy
                 {
                     Id = request.Id,
                     Name = request.Name,
-                    Brand = request.Brand,
+                    Brand = brand,
                     Model = request.Model,
                     CubicCentimeters = request.CubicCentimeters,
                     PhotoUrl = request.PhotoUrl,
