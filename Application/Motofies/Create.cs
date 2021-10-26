@@ -9,6 +9,8 @@ using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
+// using Application.MotofyPhotos;
 
 namespace Application.Motofies
 {
@@ -22,7 +24,8 @@ namespace Application.Motofies
             // public Guid BrandId { get; set; }
             public string Model { get; set; }
             public string CubicCentimeters { get; set; }
-            public string PhotoUrl { get; set; }
+            // public string PhotoUrl { get; set; }
+            public IFormFile File { get; set; }
             public string Description { get; set; }
             public string YearOfProduction { get; set; }
             public DateTime DatePublished { get; set; }
@@ -45,10 +48,10 @@ namespace Application.Motofies
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.Model).NotEmpty();
                 RuleFor(x => x.CubicCentimeters).NotEmpty();
-                RuleFor(x => x.PhotoUrl).NotEmpty();
+                RuleFor(x => x.File).NotEmpty();
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.YearOfProduction).NotEmpty();
-                RuleFor(x => x.DatePublished).NotEmpty();
+                // RuleFor(x => x.DatePublished).NotEmpty();
                 RuleFor(x => x.City).NotEmpty();
                 RuleFor(x => x.Country).NotEmpty();
                 RuleFor(x => x.PricePaid).NotEmpty();
@@ -61,8 +64,10 @@ namespace Application.Motofies
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
-            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper)
+            private readonly IMotofyPhotoAccessor _motofyPhotoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper, IMotofyPhotoAccessor motofyPhotoAccessor)
             {
+                _motofyPhotoAccessor = motofyPhotoAccessor;
                 _mapper = mapper;
                 _userAccessor = userAccessor;
                 _context = context;
@@ -89,7 +94,7 @@ namespace Application.Motofies
                     Brand = brand,
                     Model = request.Model,
                     CubicCentimeters = request.CubicCentimeters,
-                    PhotoUrl = request.PhotoUrl,
+                    // PhotoUrl = request.PhotoUrl,
                     Description = request.Description,
                     YearOfProduction = request.YearOfProduction,
                     NumberOfKilometers = request.NumberOfKilometers,
@@ -107,10 +112,23 @@ namespace Application.Motofies
                     Motofy = motofy,
                     IsOwner = true,
                     DateEmbraced = DateTime.Now
-                };           
+                };
                 _context.UserMotofies.Add(embracer);
 
                 _context.Motofies.Add(motofy);
+
+                var MotorfyId = motofy.Id;
+                var photoUploadResult = _motofyPhotoAccessor.AddPhoto(request.File);
+                var motofyForPhoto = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == MotorfyId);
+                var photoForMotofy = new MotofyPhoto
+                {
+                    Url = photoUploadResult.Url,
+                    Id = photoUploadResult.PublicId,
+                    DateUploaded = DateTime.Now,
+                    MotofyForeignKey = MotorfyId
+                };
+
+                motofy.MotofyPhoto = photoForMotofy;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

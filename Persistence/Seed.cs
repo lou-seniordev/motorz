@@ -551,12 +551,51 @@ namespace Persistence
             //     context.SaveChanges();
             // }
 
+            // if (!context.MotofyPhotos.Any())
+            // {
+            //     var motofyPhotos = new List<MotofyPhoto>
+            //     {
+            //         new MotofyPhoto
+            //         {
+            //             // Id = context.Motofies.FirstOrDefault(m => m.Name == "Lillie").Id,
+            //             Id = Guid.Parse("084c3b38-6ded-4d5f-ad49-63dd9dca46ae"),
+            //             Url = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
+            //             DateUploaded = DateTime.Now
+            //         },
+            //         new MotofyPhoto
+            //         {
+            //             // Id = context.Motofies.FirstOrDefault(m => m.Name == "King").Id,
+            //             Id = Guid.Parse("62d2f63a-46d3-4dd1-84d1-67cdf3c9fb92"),
+            //             Url = "https://res.cloudinary.com/motofy/image/upload/v1542881277/hr1axmxfrz6hnnjzmqdl.jpg",
+            //             DateUploaded = DateTime.Now
+
+            //         },
+            //         new MotofyPhoto
+            //         {
+            //             // Id = context.Motofies.FirstOrDefault(m => m.Name == "Fly").Id,
+            //             Id = Guid.Parse("edc693f8-90b7-4c0a-af6b-5b2c6947becf"),
+            //             Url = "https://res.cloudinary.com/motofy/image/upload/v1543859124/qwg8b9xd4z1h9nzjvuzi.jpg",
+            //             DateUploaded = DateTime.Now
+            //         },
+            //         new MotofyPhoto
+            //         {
+            //             // Id = context.Motofies.FirstOrDefault(m => m.Name == "Tripp").Id,
+            //             Id = Guid.Parse("c525b36c-ab52-4e04-8d87-6facd3d70234"),
+            //             Url = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
+            //             DateUploaded = DateTime.Now
+            //         },
+
+            //     };
+            //     context.MotofyPhotos.AddRange(motofyPhotos);
+            //     context.SaveChanges();
+            // }
             if (!context.Motofies.Any())
             {
                 var motofies = new List<Motofy>
                 {
                     new Motofy
                     {
+                        Id = Guid.Parse("71d0f37a-4954-425e-9773-300e0669d9bd"),
                         Name = "Lillie",
                         Model = "620 Dark",
                         // BrandId = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
@@ -568,14 +607,24 @@ namespace Persistence
                             Id = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
                             Name = "Ducati",
                             DateOfEstablishment = DateTime.Now.AddYears(-94),//AddMonths(-200),
-                            LogoUrl = "https://unsplash.com/photos/s0QMav76pmQ",
+                            LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1634591641/ducati.png",
                             LandOfOrigin = "Italy",
                             CityOfOrigin = "Bologna",
                         },
                         CubicCentimeters = "620",
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
+                      
+                        //Url = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
                         Description = "The often forgotten about Multistrada 620 is an absolutely brilliant bike for those looking for a practical do-it-all that has a bit of Italian charm without too many of the associated hassles.",
                         // YearOfProduction = DateTime.Now.AddYears(-15),
+                        MotofyPhoto = new MotofyPhoto {
+                            // Id = context.MotofyPhotos.FirstOrDefault(s => s.Id == Guid.Parse("084c3b38-6ded-4d5f-ad49-63dd9dca46ae")).Id,
+                            // Id = Guid.Parse("084c3b38-6ded-4d5f-ad49-63dd9dca46ae"),
+                            Id = "084c3b38-6ded-4d5f-ad49-63dd9dca46ae",
+                            Url = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
+                            DateUploaded = DateTime.Now,
+                            MotofyForeignKey = Guid.Parse("71d0f37a-4954-425e-9773-300e0669d9bd")
+                        },
                         YearOfProduction = "2005",
                         DatePublished = DateTime.Now.AddDays(-100),
                         City = "Rome",
@@ -596,6 +645,7 @@ namespace Persistence
                     },
                     new Motofy
                     {
+                        Id = Guid.Parse("7c54ae0d-f927-4fc0-bde5-7c18a6514928"),
                         Name = "King",
                         Model = "Sportster",
                         // BrandId = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
@@ -607,14 +657,24 @@ namespace Persistence
                             Id = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
                             Name = "Harley-Davidson",
                             DateOfEstablishment = DateTime.Now.AddYears(-117),
-                            LogoUrl = "https://unsplash.com/photos/YRGsG4oiNIg",
+                            LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1634592025/harley.png",
                             LandOfOrigin = "USA",
                             CityOfOrigin = "Milwaukee, Wisconsin",
                         },
                         CubicCentimeters = "700",
+                        // PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542881277/hr1axmxfrz6hnnjzmqdl.jpg",
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542881277/hr1axmxfrz6hnnjzmqdl.jpg",
+
                         Description = "Harley-Davidson Sportster cusom bikes - bobbers, choppers and cafe racers. We do NOT own the video materials and all credits belong to respectful owners. In case of copyright issues, please contact us immediately for further credits or clip delete.",
                         // YearOfProduction = DateTime.Now.AddYears(-25),
+                        MotofyPhoto = new MotofyPhoto {
+                            // Id = Guid.Parse("62d2f63a-46d3-4dd1-84d1-67cdf3c9fb92"),
+                            Id = "62d2f63a-46d3-4dd1-84d1-67cdf3c9fb92",
+                            Url = "https://res.cloudinary.com/motofy/image/upload/v1542881277/hr1axmxfrz6hnnjzmqdl.jpg",
+                            DateUploaded = DateTime.Now,
+                            MotofyForeignKey = Guid.Parse("7c54ae0d-f927-4fc0-bde5-7c18a6514928"),
+                            // Id = context.MotofyPhotos.FirstOrDefault(s => s.Id == Guid.Parse("62d2f63a-46d3-4dd1-84d1-67cdf3c9fb92")).Id,
+                        },
                         YearOfProduction = "2015",
                         DatePublished = DateTime.Now.AddDays(-10),
                         City = "Berlin",
@@ -635,6 +695,7 @@ namespace Persistence
                     },
                     new Motofy
                     {
+                        Id = Guid.Parse("b2613251-e8aa-4d30-b9ab-4f243b64075d"),
                         Name = "Fly",
                         Model = "Hornet",
                         // BrandId = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
@@ -645,14 +706,24 @@ namespace Persistence
                             Id = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
                             Name = "Honda",
                             DateOfEstablishment = DateTime.Now.AddYears(-72),
-                            LogoUrl = "https://unsplash.com/photos/5CchtuTTFs8",
+                            LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1634591918/honda.png",
                             LandOfOrigin = "Japan",
                             CityOfOrigin = "Hamamatsu, Shizuoka",
                         },
                         CubicCentimeters = "700",
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1543859124/qwg8b9xd4z1h9nzjvuzi.jpg",
+
                         Description = "Honda CB Hornet 160R is powered by the same engine that used to serve Honda CB Unicorn. It houses a 162.71cc, single-cylinder, air-cooled 4-stroke SI engine with Honda Eco Technology (HET) that is mated to 5-speed gearbox.",
-                        // YearOfProduction = DateTime.Now.AddYears(-8),
+                        // YearOfProduction = DateTime.Now.AddYears(-8), edc693f8-90b7-4c0a-af6b-5b2c6947becf
+                        MotofyPhoto = new MotofyPhoto {
+                            // Id = context.MotofyPhotos.FirstOrDefault(s => s.Id == Guid.Parse("edc693f8-90b7-4c0a-af6b-5b2c6947becf")).Id,
+                            // Id = Guid.Parse("edc693f8-90b7-4c0a-af6b-5b2c6947becf"),
+                            Id = "edc693f8-90b7-4c0a-af6b-5b2c6947becf",
+                            Url = "https://res.cloudinary.com/motofy/image/upload/v1543859124/qwg8b9xd4z1h9nzjvuzi.jpg",
+                            DateUploaded = DateTime.Now,
+                            MotofyForeignKey = Guid.Parse("b2613251-e8aa-4d30-b9ab-4f243b64075d")
+
+                        },
                         YearOfProduction = "2018",
                         DatePublished = DateTime.Now.AddDays(-85),
                         City = "Ljubljana",
@@ -673,6 +744,7 @@ namespace Persistence
                     },
                     new Motofy
                     {
+                        Id = Guid.Parse("02d05033-ec4c-4fb5-9477-95ddb8ce5e39"),
                         Name = "Tripp",
                         Model = "R 1200GS LC Adventure",
                         // BrandId = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
@@ -682,14 +754,24 @@ namespace Persistence
                             Id = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
                             Name = "BMW",
                             DateOfEstablishment = DateTime.Now.AddYears(-104),
-                            LogoUrl = "https://unsplash.com/photos/WuRsjF4iZK0",
+                            LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1634591827/bmw.png",
                             LandOfOrigin = "Germany",
                             CityOfOrigin = "Munchen",
                         },
                         CubicCentimeters = "1200",
                         PhotoUrl = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
+
                         Description = "The BMW R1200GS is one of the best selling motorcycles of all time. And yet, as I prepared to make a purchase of a 2018 lowered rallye model, I found a surprising dearth of meaningful answers to my questions and concerns.",
                         // YearOfProduction = DateTime.Now.AddYears(-2),
+                        MotofyPhoto = new MotofyPhoto {
+                            // Id = context.MotofyPhotos.FirstOrDefault(s => s.Id == Guid.Parse("c525b36c-ab52-4e04-8d87-6facd3d70234")).Id,
+                            // Id = Guid.Parse("c525b36c-ab52-4e04-8d87-6facd3d70234"),
+                            Id = "c525b36c-ab52-4e04-8d87-6facd3d70234",
+                            Url = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
+                            DateUploaded = DateTime.Now,
+                            MotofyForeignKey = Guid.Parse("02d05033-ec4c-4fb5-9477-95ddb8ce5e39")
+
+                        },
                         YearOfProduction = "2012",
                         DatePublished = DateTime.Now.AddDays(-40),
                         City = "Zurich",
@@ -714,6 +796,7 @@ namespace Persistence
                 context.Motofies.AddRange(motofies);
                 context.SaveChanges();
             }
+
             if (!context.Mechanics.Any())
             {
                 var mechanics = new List<Mechanic>

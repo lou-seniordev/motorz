@@ -21,7 +21,8 @@ namespace Persistence
         // === MOTOFY ===
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Motofy> Motofies { get; set; }
-        public DbSet<Forumpost> Forumposts { get; set; } 
+        public DbSet<MotofyPhoto> MotofyPhotos { get; set; }
+        public DbSet<Forumpost> Forumposts { get; set; }
         public DbSet<Mechanic> Mechanics { get; set; }
 
         public DbSet<UserMotofy> UserMotofies { get; set; }
@@ -47,7 +48,7 @@ namespace Persistence
                 .HasOne(u => u.AppUser)
                 .WithMany(a => a.UserActivities)
                 .HasForeignKey(u => u.AppUserId);
-            
+
             builder.Entity<UserActivity>()
                 .HasOne(a => a.Activity)
                 .WithMany(a => a.UserActivities)
@@ -55,8 +56,8 @@ namespace Persistence
             // ==== end ====
 
             // ==== One more many2many ====
-            builder.Entity<UserMotofy>(x => x.HasKey(um => 
-                new {um.AppUserId, um.MotofyId}));
+            builder.Entity<UserMotofy>(x => x.HasKey(um =>
+                new { um.AppUserId, um.MotofyId }));
 
             builder.Entity<UserMotofy>()
                 .HasOne(u => u.AppUser)
@@ -77,21 +78,37 @@ namespace Persistence
             //     .OnDelete(DeleteBehavior.SetNull);
 
             // === selfreferencing many2many relationship ===
-            builder.Entity<UserFollowing>(b => 
+            builder.Entity<UserFollowing>(b =>
             {
-                b.HasKey(k => new {k.ObserverId, k.TargetId});
+                b.HasKey(k => new { k.ObserverId, k.TargetId });
 
                 b.HasOne(o => o.Observer)
-                    .WithMany(f => f.Followings) 
+                    .WithMany(f => f.Followings)
                     .HasForeignKey(o => o.ObserverId)
                     .OnDelete(DeleteBehavior.Restrict);
                 b.HasOne(o => o.Target)
-                    .WithMany(f => f.Followers) 
+                    .WithMany(f => f.Followers)
                     .HasForeignKey(o => o.TargetId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
             // ==== end ====
-             
+
+            // ==== one to one ===
+            builder.Entity<Motofy>()
+            .HasOne(a => a.MotofyPhoto)
+            .WithOne(m => m.Motofy)
+            .HasForeignKey<MotofyPhoto>(m => m.MotofyForeignKey);
+
+            // builder.Entity<AppUser>()
+            // .HasOne(a => a.MotofyPhoto)
+            // .WithOne(a => a.AppUser)
+            // .HasPrincipalKey<MotofyPhoto>(c => c.Id);
+
+            // builder.Entity<MotofyPhoto>()
+            // .HasOne(a => a.AppUser)
+            // .WithOne(a => a.MotofyPhoto)
+            // .HasPrincipalKey<AppUser>(c => c.Id);
+
         }
     }
 }

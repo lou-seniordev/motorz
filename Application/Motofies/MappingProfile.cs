@@ -7,7 +7,10 @@ namespace Application.Motofies
     {
         public MappingProfile()
         {
-            CreateMap<Motofy, MotofyDto>();
+            // CreateMap<MotofyPhoto, Motofy>()
+            // .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Url));
+            CreateMap<Motofy, MotofyDto>()
+            .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.MotofyPhoto.Url));
             CreateMap<UserMotofy, EmbracerDto>()
             .ForMember(d => d.Username , o => o.MapFrom(s => s.AppUser.UserName))
             .ForMember(d => d.DisplayName , o => o.MapFrom(s => s.AppUser.DisplayName))

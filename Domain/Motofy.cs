@@ -21,5 +21,6 @@ namespace Domain
         public string EstimatedValue { get; set; }
         public string NumberOfKilometers { get; set; }
         public virtual ICollection<UserMotofy> UserMotofies { get; set; }
+        public virtual MotofyPhoto MotofyPhoto { get; set; }
     }
 }
