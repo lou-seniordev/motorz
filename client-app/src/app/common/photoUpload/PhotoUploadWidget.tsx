@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { Header, Grid, Button } from 'semantic-ui-react';
-import { observer } from 'mobx-react-lite';
-import PhotoWidgetDropzone from './PhotoWidgetDropzone';
-import PhotoWidgetCropper from './PhotoWidgetCropper';
+import React, { Fragment, useEffect, useState } from "react";
+import { Header, Grid, Button } from "semantic-ui-react";
+import { observer } from "mobx-react-lite";
+import PhotoWidgetDropzone from "./PhotoWidgetDropzone";
+import PhotoWidgetCropper from "./PhotoWidgetCropper";
+// import { RootStoreContext } from "../../stores/rootStore";
 
 interface IProps {
   loading: boolean;
@@ -12,16 +13,21 @@ const PhotoUploadWidget: React.FC<IProps> = ({ loading, uploadPhoto }) => {
   const [files, setFiles] = useState<any[]>([]);
   const [image, setImage] = useState<Blob | null>(null);
 
+  
+
   // == this is to clean up the uploaded file from memory ==
   useEffect(() => {
-    return () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+ 
+      return () => {
+        files.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   });
 
   return (
     <Fragment>
       <Grid>
+     
+
         <Grid.Column width={4}>
           <Header color='teal' sub content='Step 1 - Add Photo' />
           <PhotoWidgetDropzone setFiles={setFiles} />
@@ -37,6 +43,7 @@ const PhotoUploadWidget: React.FC<IProps> = ({ loading, uploadPhoto }) => {
           )}
         </Grid.Column>
         <Grid.Column width={1} />
+       
         <Grid.Column width={4}>
           <Header sub color='teal' content='Step 3 - Preview & Upload' />
           {files.length > 0 && (
@@ -60,11 +67,10 @@ const PhotoUploadWidget: React.FC<IProps> = ({ loading, uploadPhoto }) => {
               </Button.Group>
             </Fragment>
           )}
-        </Grid.Column>
+        </Grid.Column>       
       </Grid>
     </Fragment>
   );
 };
 
 export default observer(PhotoUploadWidget);
-

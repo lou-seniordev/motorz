@@ -15,12 +15,11 @@ const ProfilePhotos = () => {
     loading,
     deletePhoto,
   } = rootStore.profileStore;
-  const [addPhotoMode, setAddPhotoMode] = useState(true);
+  const [addPhotoMode, setAddPhotoMode] = useState(false);//false
   const [target, setTarget] = useState<string | undefined>(undefined);
   const [deleteTarget, setDeleteTarget] = useState<string | undefined>(
     undefined
   );
-
   const handleUplaodImage = (photo: Blob) => {
     uploadPhoto(photo).then(() => setAddPhotoMode(false));
   };

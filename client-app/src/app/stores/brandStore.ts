@@ -37,7 +37,7 @@ export default class BrandStore {
     this.loadingInitial = true;
     try {
       const brands = await agent.Brands.list();
-      console.log('brands', brands)
+      console.log('brands again', brands)
       runInAction('loading brands', () => {
         this.brands = brands;
       })

@@ -37,6 +37,10 @@ export default class MotofyStore {
   @observable target = '';
   @observable loading = false;
 
+
+  @observable uploadingMotofyPhoto = false;
+
+
   //dunno if need signalR here...
 
   // === PAGING ===
@@ -153,21 +157,21 @@ export default class MotofyStore {
   };
 
   @action createMotofy = async (motofy: IMotofy) => {
+    //deleteit     
+    console.log('From motofyStory: ', motofy)
     this.submitting = true;
     try {
       await agent.Motofies.create(motofy);
-      const embracer = createEmbracer(this.rootStore.userStore.user!);
-      embracer.isOwner = true;
-      let embracers = [];
-      embracers.push(embracer);
-      motofy.embracers = embracers;
-      motofy.isOwner = true;
-      runInAction('create motofy', () => {
-        this.motofyRegistry.set(motofy.id, motofy);
-        // CHECK IF IT IS GOING TO BE NEEDED!!
-        // this.editMode = false;
-        this.submitting = false;
-      });
+      // const embracer = createEmbracer(this.rootStore.userStore.user!);
+      // embracer.isOwner = true;
+      // let embracers = [];
+      // embracers.push(embracer);
+      // motofy.embracers = embracers;
+      // motofy.isOwner = true;
+      // runInAction('create motofy', () => {
+      //   this.motofyRegistry.set(motofy.id, motofy);   // CHECK IF IT IS GOING TO BE NEEDED!! // this.editMode = false;
+      //   this.submitting = false;
+      // });
       history.push(`/gallery/${motofy.id}`);
     } catch (error) {
       runInAction(() => {
@@ -177,21 +181,35 @@ export default class MotofyStore {
       console.log(error);
     }
   };
-  // @action createMotofy = async (motofy: IMotofy) => {
+
+  // @action createMotofy2 = async (motofy: IMotofy) => {
+  //   //deleteit     console.log('motofy.file: ', motofy)
   //   this.submitting = true;
   //   try {
   //     await agent.Motofies.create(motofy);
-  //     runInAction(() => {
-  //       this.motofies.push(motofy);
-  //       this.editMode = false;
+  //     const embracer = createEmbracer(this.rootStore.userStore.user!);
+  //     embracer.isOwner = true;
+  //     let embracers = [];
+  //     embracers.push(embracer);
+  //     motofy.embracers = embracers;
+  //     motofy.isOwner = true;
+  //     // motofy.file = motofy.file
+  //     runInAction('create motofy', () => {
+  //       this.motofyRegistry.set(motofy.id, motofy);
+  //       // CHECK IF IT IS GOING TO BE NEEDED!!
+  //       // this.editMode = false;
+  //       this.submitting = false;
   //     });
+  //     history.push(`/gallery/${motofy.id}`);
   //   } catch (error) {
   //     runInAction(() => {
   //       this.submitting = false;
   //     });
+  //     toast.error('Problem submitting data');
   //     console.log(error);
   //   }
   // };
+
 
   @action editMotofy = async (motofy: IMotofy) => {
     this.submitting = true;
@@ -243,9 +261,6 @@ export default class MotofyStore {
       runInAction(() => {
         if (this.motofy) {
           this.motofy.embracers.push(embracer);
-          //test
-          // console.log("embracer: ");
-          // console.log(embracer);
           this.motofy.embraced = true;
           this.motofyRegistry.set(this.motofy.id, this.motofy);
           this.loading = false;
@@ -328,3 +343,11 @@ export default class MotofyStore {
 }
 
 // export default createContext(new MotofyStore());
+
+
+//totaltrash
+  //shit
+  // @observable motofyPreview: any;
+  // @action setPreview = (values: any) => {
+  //   this.motofyPreview = values;
+  // };

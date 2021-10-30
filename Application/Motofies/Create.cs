@@ -44,19 +44,19 @@ namespace Application.Motofies
             {
                 RuleFor(x => x.Id).NotEmpty();
                 RuleFor(x => x.BrandName).NotEmpty();
-                // RuleFor(x => x.BrandId).NotEmpty();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.Model).NotEmpty();
-                RuleFor(x => x.CubicCentimeters).NotEmpty();
-                RuleFor(x => x.File).NotEmpty();
-                RuleFor(x => x.Description).NotEmpty();
-                RuleFor(x => x.YearOfProduction).NotEmpty();
-                // RuleFor(x => x.DatePublished).NotEmpty();
-                RuleFor(x => x.City).NotEmpty();
-                RuleFor(x => x.Country).NotEmpty();
-                RuleFor(x => x.PricePaid).NotEmpty();
-                RuleFor(x => x.EstimatedValue).NotEmpty();
-                RuleFor(x => x.NumberOfKilometers).NotEmpty();
+                // RuleFor(x => x.CubicCentimeters).NotEmpty();
+                // RuleFor(x => x.File).NotEmpty();
+                // RuleFor(x => x.Description).NotEmpty();
+                // RuleFor(x => x.YearOfProduction).NotEmpty();
+                // // RuleFor(x => x.BrandId).NotEmpty();
+                // // RuleFor(x => x.DatePublished).NotEmpty();
+                // RuleFor(x => x.City).NotEmpty();
+                // RuleFor(x => x.Country).NotEmpty();
+                // RuleFor(x => x.PricePaid).NotEmpty();
+                // RuleFor(x => x.EstimatedValue).NotEmpty();
+                // RuleFor(x => x.NumberOfKilometers).NotEmpty();
             }
         }
         public class Handler : IRequestHandler<Command>
@@ -133,6 +133,8 @@ namespace Application.Motofies
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;
+
+                // return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
             }

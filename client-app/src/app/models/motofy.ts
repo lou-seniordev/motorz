@@ -1,5 +1,7 @@
 // import { IBrand } from "./brand";
 
+// import { IPhoto } from "./profile";
+
 // import { IBrand } from "./brand";
 
 export interface IMotofyEnvelope {
@@ -26,6 +28,9 @@ export interface IMotofy {
     embraced: boolean;
     isOwner: boolean;
     embracers: IEmbracer[];
+    // file: IPhoto;
+    file: Blob;
+
 }
 
 export interface IMotofyFormValues extends Partial<IMotofy>{//, Partial<IBrand> 
@@ -35,9 +40,9 @@ export interface IMotofyFormValues extends Partial<IMotofy>{//, Partial<IBrand>
 export class MotofyFormValues implements IMotofyFormValues {
     id?: string = '';
     name: string = '';
-    brand: string= '';
-    brandName: string= '';
+    // brand: string= '';
     brandId: string= '';
+    brandName: string= '';
     model: string= '';
     cubicCentimeters: string= '';
     photoUrl: string  = '';
@@ -50,6 +55,7 @@ export class MotofyFormValues implements IMotofyFormValues {
     pricePaid: string= '';
     estimatedValue: string= '';
     numberOfKilometers: string= '';
+    // file: IPhoto;
     // brands?: IBrand[];
 
     constructor(init?: MotofyFormValues ) {//, brandsToSelect?: IBrand[]

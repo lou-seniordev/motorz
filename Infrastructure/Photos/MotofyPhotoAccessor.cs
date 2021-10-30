@@ -28,7 +28,7 @@ namespace Infrastructure.Photos
 
         public PhotoUploadResult AddPhoto(IFormFile file)
         {
-                       var uploadResult = new ImageUploadResult();
+            var uploadResult = new ImageUploadResult();
 
             if(file.Length > 0) 
             {

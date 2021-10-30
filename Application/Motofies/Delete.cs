@@ -3,7 +3,9 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Motofies
@@ -18,8 +20,10 @@ namespace Application.Motofies
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IMotofyPhotoAccessor _motofyPhotoAccessor;
+            public Handler(DataContext context, IMotofyPhotoAccessor motofyPhotoAccessor)
             {
+                _motofyPhotoAccessor = motofyPhotoAccessor;
                 _context = context;
 
             }
@@ -33,11 +37,15 @@ namespace Application.Motofies
                     throw new RestException(HttpStatusCode.NotFound,
                         new { Motofy = "NotFound" });
 
-                _context.Remove(motofy);
+                var photo = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == motofy.Id);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                // _context.Remove(motofy);
 
-                if (success) return Unit.Value;
+                // var success = await _context.SaveChangesAsync() > 0;
+
+
+                // if (success) 
+                if (true) return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
             }

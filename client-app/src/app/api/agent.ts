@@ -1,4 +1,4 @@
-import { IMotofy, IMotofyEnvelope } from './../models/motofy';
+import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
 import { IActivity, IActivitiesEnvelope } from '../models/activity';
@@ -63,13 +63,6 @@ const responseBody = (response: AxiosResponse) => response.data;
 //     setTimeout(() => resolve(response), ms)
 //   );
 
-//test log
-// const show = (greet: string) => (response: AxiosResponse) => 
-//   new Promise<AxiosResponse>((resolve) => 
-//     console.log(greet)
-//   );
-
-
 const requests = {
   get: (url: string) =>
     axios.get(url)
@@ -90,10 +83,86 @@ const requests = {
   postForm: (url: string, file: Blob) => {
     let formData = new FormData();
     formData.append('File', file);
+    console.log('photo file From agent: ', file)
+
     return axios.post(url, formData, {
       headers: { 'Content-type': 'multipart/form-data' }
-    }).then(responseBody)
+    })
+      .then(responseBody)
+  }//,
+  // motofyForm: (url: string, motofy: IMotofy) => {
+  //   let motofyData = new FormData();
+  //   motofyData.append('Id', motofy.id!)
+  //   motofyData.append('Name', motofy.name)
+  //   motofyData.append('BrandName', motofy.brandName)
+  //   motofyData.append('Model', motofy.model)
+  //   motofyData.append('CubicCentimeters', motofy.cubicCentimeters)
+  //   motofyData.append('File', motofy.file);
+  //   motofyData.append('Description', motofy.description!)
+  //   motofyData.append('YearOfProduction', motofy.yearOfProduction!)
+  //   motofyData.append('DatePublished', motofy.datePublished!)
+  //   motofyData.append('City', motofy.city)
+  //   motofyData.append('Country', motofy.country)
+  //   motofyData.append('PricePaid', motofy.pricePaid)
+  //   motofyData.append('EstimatedValue', motofy.estimatedValue)
+  //   motofyData.append('NumberOfKilometers', motofy.numberOfKilometers)
+
+  //   console.log('From agent: ', motofyData)
+
+  //   return axios.post(url, motofyData, {
+  //     headers: { 'Content-type': 'multipart/form-data' }
+  //   })
+  //     .then(responseBody);
+  // }
+};
+
+const specialRequests = {
+  motofyForm: (url: string, motofy: IMotofy) => {
+    let motofyData = new FormData();
+    motofyData.append('Id', motofy.id!)
+    motofyData.append('Name', motofy.name)
+    motofyData.append('BrandName', motofy.brandName)
+    motofyData.append('Model', motofy.model)
+    motofyData.append('CubicCentimeters', motofy.cubicCentimeters)
+    motofyData.append('File', motofy.file);
+    motofyData.append('Description', motofy.description!)
+    motofyData.append('YearOfProduction', motofy.yearOfProduction!)
+    motofyData.append('DatePublished', motofy.datePublished!)
+    motofyData.append('City', motofy.city)
+    motofyData.append('Country', motofy.country)
+    motofyData.append('PricePaid', motofy.pricePaid)
+    motofyData.append('EstimatedValue', motofy.estimatedValue)
+    motofyData.append('NumberOfKilometers', motofy.numberOfKilometers)
+
+    console.log('From agent: ', motofyData)
+
+    return axios.post(url, motofyData, {
+      headers: { 'Content-type': 'multipart/form-data' }
+    })
+      .then(responseBody);
   }
+};
+const Motofies = {
+  // list: (limit?: number, page?: number): Promise<IMotofyEnvelope> => 
+  // requests.get(`motofies?limit=${limit}&offset=${page ? page * limit! : 0}`),
+  //  uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm(`/photos/`, photo),
+
+  list: (params: URLSearchParams): Promise<IMotofyEnvelope> =>
+    axios.get('/motofies', { params: params })
+      // .then(sleep(1000))
+      .then(responseBody),
+
+  // .then(show('new string'))
+  details: (id: string) => requests.get(`/motofies/${id}`),
+  // TODO: 
+  // create: (motofy: IMotofy) => requests.post('/motofies', motofy),
+  create: (motofy: IMotofy) => specialRequests.motofyForm('/motofies', motofy),//: Promise<IMotofy>
+
+  update: (motofy: IMotofy) =>
+    requests.put(`/motofies/${motofy.id}`, motofy),
+  delete: (id: string) => requests.delete(`/motofies/${id}`),
+  embrace: (id: any) => requests.post(`/motofies/${id}/embrace`, {}),
+  unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`)
 };
 
 const Activities = {
@@ -104,7 +173,7 @@ const Activities = {
     axios.get('/activities', { params: params })
       // .then(sleep(1000))
       .then(responseBody),
-      
+
   details: (id: string) => requests.get(`/activities/${id}`),
   create: (activity: IActivity) => requests.post('/activities', activity),
   update: (activity: IActivity) =>
@@ -114,25 +183,6 @@ const Activities = {
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
 };
 
-const Motofies = {
-  // list: (limit?: number, page?: number): Promise<IMotofyEnvelope> => 
-  // requests.get(`motofies?limit=${limit}&offset=${page ? page * limit! : 0}`),
-
-  list: (params: URLSearchParams): Promise<IMotofyEnvelope> => 
-    axios.get('/motofies', {params: params})
-    // .then(sleep(1000))
-    .then(responseBody),
-    
-    // .then(show('new string'))
-  details: (id: string) => requests.get(`/motofies/${id}`),
-  // TODO: 
-  create: (motofy: IMotofy) => requests.post('/motofies', motofy),
-  update: (motofy: IMotofy) =>
-    requests.put(`/motofies/${motofy.id}`, motofy),
-  delete: (id: string) => requests.delete(`/motofies/${id}`),
-  embrace: (id: any) => requests.post(`/motofies/${id}/embrace`, {}),
-  unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`)
-};
 
 const Forumposts = {
   list: (): Promise<IForumpost[]> => requests.get('/forumposts'),
