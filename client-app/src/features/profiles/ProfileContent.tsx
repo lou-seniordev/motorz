@@ -17,10 +17,10 @@ const panes = [
     menuItem: 'Moto Sessions',
     render: () => <ProfileActivities />,
   },
-  {
-    menuItem: 'Motospots',
-    render: () => <ProfileActivities />,
-  },
+  // {
+  //   menuItem: 'Motospots',
+  //   render: () => <ProfileActivities />,
+  // },
   {
     menuItem: 'Motoforum',
     render: () => <ProfileActivities />,

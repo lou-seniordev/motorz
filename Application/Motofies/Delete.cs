@@ -32,20 +32,32 @@ namespace Application.Motofies
             {
 
                 var motofy = await _context.Motofies.FindAsync(request.Id);
+                var motofyPhoto = await _context.MotofyPhotos.SingleOrDefaultAsync(m => m.MotofyForeignKey == motofy.Id);
 
                 if (motofy == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new { Motofy = "NotFound" });
+                        new { Motofy = "Motofy NotFound" });
 
-                var photo = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == motofy.Id);
+                if (motofyPhoto == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new { Motofy = "Motofy Photo NotFound" });
 
-                // _context.Remove(motofy);
+                var deletePhotoResult = _motofyPhotoAccessor.DeletePhoto(motofyPhoto.Id); 
 
-                // var success = await _context.SaveChangesAsync() > 0;
+                
+                if (deletePhotoResult == null)
+                    throw new Exception("Problem deleting photo");
 
 
-                // if (success) 
-                if (true) return Unit.Value;
+                // var photo = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == motofy.Id);
+                // var photoId = await _context.MotofyPhotos.SingleOrDefaultAsync(m => m.Id == mo);
+
+                _context.Remove(motofy);
+
+                var success = await _context.SaveChangesAsync() > 0;
+
+
+                if (success) return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
             }

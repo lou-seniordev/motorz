@@ -1,12 +1,17 @@
 import React, { Fragment, useContext } from "react";
 import { Menu, Header } from "semantic-ui-react";
-import { Calendar } from "react-widgets";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
+import GalleryMostEmbraced from "./GalleryMostEmbraced";
 
 const GalleryFilters = () => {
   const rootStore = useContext(RootStoreContext);
-  const { predicate, setPredicate } = rootStore.motofyStore;
+  const { predicate, setPredicate, mostEmbraced } = rootStore.motofyStore;
+  const motofy = toJS(mostEmbraced);
+  // console.log('mostEmbraced here', toJS(mostEmbraced))
+  // console.log('mostEmbraced motofy here', motofy)
+  // console.log('mostEmbraced here', toJS(mostEmbraced))
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%", marginTop: 50 }}>
@@ -50,13 +55,15 @@ const GalleryFilters = () => {
           content={"Oldest to newest viceversa..."}
         /> */}
       </Menu>
-      <Header
+      {/* <Header
         icon={"calendar"}
         attached
         color={"teal"}
         content={"Placeholder calendar for champion!!!"}
-      />
-      <Calendar />
+      /> */}
+      {/* <Calendar /> */}
+      {/* <GalleryListItem motofy={motofy}/> */}
+      <GalleryMostEmbraced motofyEmbraced={motofy}/>
     </Fragment>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Loader, Sticky } from "semantic-ui-react";
+import { Grid,  Sticky } from "semantic-ui-react";//Loader,
 import GalleryList from "./GalleryList";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
@@ -12,6 +12,7 @@ const GalleryDashboard: React.FC = () => {
   const { loadMotofies, loadingInitial, setPage, page, totalPages } =
     rootStore.motofyStore;
   const [loadingNext, setLoadingNext] = useState(false);
+  // const [loadingBest, setLoadingBest] = useState(null);
 
   const handleGetNext = () => {
     setLoadingNext(true);
@@ -20,9 +21,14 @@ const GalleryDashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    //t
     loadMotofies();
   }, [loadMotofies]);
+  
+  // const handleGetMostEmbraced = () => {
+  //   // console.log("mostEmbraced: ", mostEmbraced)
+  //   //   console.log(mostEmbraced);
+
+  // }
 
   if (loadingInitial && page === 0)
     return <LoadingComponent content={"Loading motofies..."} />;
@@ -40,13 +46,16 @@ const GalleryDashboard: React.FC = () => {
         </InfiniteScroll>
        
       </Grid.Column>
-      <Grid.Column width={7}>
+      <Grid.Column width={2}>
         <Sticky style={{ marginRight: 30, position: "fixed" }}>
-          <GalleryFilters/>
+        {/* handleGetMostEmbraced={handleGetMostEmbraced} */}
+          <GalleryFilters />
         </Sticky>
       </Grid.Column>
-      <Grid.Column width={10}>
-        <Loader active={loadingNext}/>
+
+      {/* Find what is it!!! */}
+      <Grid.Column width={5}>
+        {/* <Loader active={loadingNext}/> */}
       </Grid.Column>
     </Grid>
   );

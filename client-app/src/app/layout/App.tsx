@@ -31,6 +31,7 @@ import MechanicDetails from '../../features/mechanics/details/MechanicDetails';
 import MechanicForm from '../../features/mechanics/form/MechanicForm';
 import GalleryForm from '../../features/gallery/form/GalleryForm';
 import PrivateRoute from './PrivateRoute';
+import ConfirmDelete from '../../features/gallery/modal/ConfirmDelete';
 
 //t
 
@@ -92,6 +93,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute path='/merchant/:id' component={MerchantDetails} />
                 <PrivateRoute path='/profile/:username' component={ProfilePage} />
                 <Route path='/login' component={LoginForm} />
+                <Route path='/confirmDelete' component={ConfirmDelete} />
                 <Route component={NotFound} />
               </Switch>
             </Container>

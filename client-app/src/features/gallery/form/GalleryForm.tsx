@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"; //InputHTMLAttributes
-import { Button, Form, Grid, Image, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Segment } from "semantic-ui-react";
 import { MotofyFormValues } from "../../../app/models/motofy";
 import { v4 as uuid } from "uuid";
 import { observer } from "mobx-react-lite";
@@ -73,7 +73,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const {
     createMotofy,
-    editMotofy,
+    // editMotofy,
     uploadingMotofyPhoto,
     submitting,
     editMode,

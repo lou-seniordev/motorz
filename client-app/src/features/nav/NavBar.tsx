@@ -60,9 +60,9 @@ const NavBar: React.FC = () => {
         <Responsive />
         {/* ex gallery */}
         {/* name='motofy'  */}
-        <Menu.Item exact as={NavLink} to='/gallery' >Motofy!</Menu.Item>
         <Menu.Item name='moto sessions' exact as={NavLink} to='/activities' />
-        <Menu.Item name='motospots' exact as={NavLink} to='/activities' />
+        <Menu.Item exact as={NavLink} to='/gallery' >Motofy!</Menu.Item>
+        {/* <Menu.Item name='motospots' exact as={NavLink} to='/activities' /> */}
         <Menu.Item name='moto forum' exact as={NavLink} to='/forum' />
         <Menu.Item name='moto mechanics' exact as={NavLink} to='/mechanics' />
         <Menu.Item name='moto shopping' exact as={NavLink} to='/merchant' />

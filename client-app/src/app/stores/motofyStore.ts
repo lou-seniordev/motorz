@@ -1,7 +1,6 @@
 import { observable, action, runInAction, computed, reaction } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
-import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
@@ -37,9 +36,16 @@ export default class MotofyStore {
   @observable target = '';
   @observable loading = false;
 
-
+  //==check?
   @observable uploadingMotofyPhoto = false;
+  
+  
+  @observable confirmDeleteMotofy = false;
 
+  @observable mostEmbraced: any;
+  @computed get getMostEmbraced () {
+    return this.mostEmbraced;
+  }
 
   //dunno if need signalR here...
 
@@ -87,6 +93,11 @@ export default class MotofyStore {
     );
   }
 
+  // @action loadMostEmbraced = () => {
+
+  //   const { motofies, motofyCount, mostEmbraced} = motofiesEnvelope;
+
+  // }
 
   @action loadMotofies = async () => {
     this.loadingInitial = true;
@@ -96,11 +107,12 @@ export default class MotofyStore {
 
       const motofiesEnvelope = await agent.Motofies.list(this.axiosParams);
 
-      const { motofies, motofyCount} = motofiesEnvelope;
+      const { motofies, motofyCount, mostEmbraced} = motofiesEnvelope;
      
-      // console.log("mostEmbracedList: ", mostEmbracedList)
       runInAction('loading motofies', () => {
-        
+        this.mostEmbraced = mostEmbraced;
+        // console.log("mostEmbraced: ", mostEmbraced)
+
         motofies.forEach((motofy) => {
           motofy.datePublished = motofy.datePublished?.split('T')[0];
           // === Util Class ===
@@ -232,11 +244,12 @@ export default class MotofyStore {
   };
 
   @action deleteMotofy = async (
-    event: SyntheticEvent<HTMLButtonElement>,
+    // event: SyntheticEvent<HTMLButtonElement>,
     id: string
-  ) => {
-    this.submitting = true;
-    this.target = event.currentTarget.name;
+    ) => {
+      this.submitting = true;
+      console.log('deleting??? ');
+    // this.target = event.currentTarget.name;
     try {
       await agent.Motofies.delete(id);
       runInAction('deleting Motofy', () => {

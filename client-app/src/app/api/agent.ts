@@ -89,31 +89,7 @@ const requests = {
       headers: { 'Content-type': 'multipart/form-data' }
     })
       .then(responseBody)
-  }//,
-  // motofyForm: (url: string, motofy: IMotofy) => {
-  //   let motofyData = new FormData();
-  //   motofyData.append('Id', motofy.id!)
-  //   motofyData.append('Name', motofy.name)
-  //   motofyData.append('BrandName', motofy.brandName)
-  //   motofyData.append('Model', motofy.model)
-  //   motofyData.append('CubicCentimeters', motofy.cubicCentimeters)
-  //   motofyData.append('File', motofy.file);
-  //   motofyData.append('Description', motofy.description!)
-  //   motofyData.append('YearOfProduction', motofy.yearOfProduction!)
-  //   motofyData.append('DatePublished', motofy.datePublished!)
-  //   motofyData.append('City', motofy.city)
-  //   motofyData.append('Country', motofy.country)
-  //   motofyData.append('PricePaid', motofy.pricePaid)
-  //   motofyData.append('EstimatedValue', motofy.estimatedValue)
-  //   motofyData.append('NumberOfKilometers', motofy.numberOfKilometers)
-
-  //   console.log('From agent: ', motofyData)
-
-  //   return axios.post(url, motofyData, {
-  //     headers: { 'Content-type': 'multipart/form-data' }
-  //   })
-  //     .then(responseBody);
-  // }
+  }
 };
 
 const specialRequests = {

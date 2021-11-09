@@ -33,11 +33,13 @@ namespace Infrastructure.Security
             var motofyId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues
                 .SingleOrDefault(x => x.Key == "id").Value.ToString());
 
-            var motofy = _context.Motofies.FindAsync(motofyId).Result; 
+            var motofy = _context.Motofies.FindAsync(motofyId).Result;
 
-            var host = motofy.UserMotofies.FirstOrDefault(x => x.IsOwner);
+            // was host -> owner
+            var owner = motofy.UserMotofies.FirstOrDefault(x => x.IsOwner);
 
-            if(host?.AppUser?.UserName == currentUserName)
+
+            if (owner?.AppUser?.UserName == currentUserName)
                 context.Succeed(requirement);
 
             return Task.CompletedTask;

@@ -63,8 +63,10 @@ namespace Infrastructure.Photos
             var deleteParamas = new DeletionParams(publicId);
 
             var result = _cloudinary.Destroy(deleteParamas);
-
             return result.Result == "ok" ? result.Result : null;
+
+
+            // return publicId;
         }
     }
 }

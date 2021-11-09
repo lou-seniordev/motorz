@@ -1,12 +1,7 @@
-// import { IBrand } from "./brand";
-
-// import { IPhoto } from "./profile";
-
-// import { IBrand } from "./brand";
-
 export interface IMotofyEnvelope {
     motofies: IMotofy[];
     motofyCount: number;
+    mostEmbraced: IMotofy;
 }
 export interface IMotofy {
     id?: string;
