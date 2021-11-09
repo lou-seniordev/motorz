@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 import ConfirmDelete from "../modal/ConfirmDelete";
 
@@ -26,13 +26,11 @@ interface IProps {
 }
 const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
   const rootStore = useContext(RootStoreContext);
-  const { embraceMotofy, unembraceMotofy, loading, confirmDeleteMotofy, deleteMotofy } =
+  const { embraceMotofy, unembraceMotofy, loading } =
     rootStore.motofyStore;
   const { openModal } = rootStore.modalStore;
 
-  //testing sitll
   const handleDeleteMotofy = (id: string) => {
-    // deleteMotofy(id);
     openModal(<ConfirmDelete motofyId={id}/>);
   };
 

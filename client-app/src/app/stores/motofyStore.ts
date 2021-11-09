@@ -40,7 +40,6 @@ export default class MotofyStore {
   @observable uploadingMotofyPhoto = false;
   
   
-  @observable confirmDeleteMotofy = false;
 
   @observable mostEmbraced: any;
   @computed get getMostEmbraced () {

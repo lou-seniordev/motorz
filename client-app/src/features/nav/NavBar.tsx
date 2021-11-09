@@ -28,7 +28,7 @@ const NavBar: React.FC = () => {
     },
     {
       key: "Post",
-      text: "Gallery Post",
+      text: "Motofy!",
       value: "Post",
       as: Link,
       to: "/galleryForm",

@@ -12,6 +12,6 @@ namespace Domain
         public virtual ICollection<UserFollowing> Followings {get; set;}
         public virtual ICollection<UserFollowing> Followers { get; set; }
         public virtual ICollection<UserMotofy> UserMotofies { get; set; }
-        // public virtual MotofyPhoto MotofyPhoto { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }
