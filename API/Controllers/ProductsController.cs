@@ -12,8 +12,8 @@ namespace API.Controllers
     public class ProductsController : BaseController
     {
         [HttpGet]
-        [AllowAnonymous]
-         public async Task<ActionResult<List<Product>>> List()
+        // [AllowAnonymous]
+        public async Task<ActionResult<List<Product>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
@@ -23,6 +23,37 @@ namespace API.Controllers
         public async Task<ActionResult<Product>> Details(Guid id)
         {
             return await Mediator.Send(new Details.Query { Id = id });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Unit>> Create([FromForm] Create.Command command)
+        {
+            return await Mediator.Send(command);
+        }
+
+        [HttpPost("{id}/toogleActivation")]
+        public async Task<ActionResult<Unit>> ToogleActivate(Guid id, Edit.Command command)
+        {
+            command.Id = id;
+            return await Mediator.Send(command);
+        }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> Edit(Guid id, [FromForm] Edit.Command command)
+        {
+            command.Id = id;
+            return await Mediator.Send(command);
+        }
+        [HttpPatch("{id}/updatePhoto")]
+        public async Task<ActionResult<Unit>> UpdatePhoto(Guid id, [FromForm] Edit.Command command)
+        {
+            command.Id = id;
+            return await Mediator.Send(command);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> Delete(Guid id)
+        {
+            return await Mediator.Send(new Delete.Command { Id = id });
         }
     }
 }

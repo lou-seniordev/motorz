@@ -15,7 +15,7 @@ namespace Persistence.Migrations
                     Title = table.Column<string>(nullable: true),
                     Model = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Price = table.Column<long>(nullable: false),
+                    Price = table.Column<string>(nullable: true),
                     PictureUrl = table.Column<string>(nullable: true),
                     Brand = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true),

@@ -4,13 +4,11 @@ using System.Threading.Tasks;
 using Domain;
 using MediatR;
 using Persistence;
-// using FluentValidation;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
-// using Application.MotofyPhotos;
 
 namespace Application.Motofies
 {
@@ -119,7 +117,7 @@ namespace Application.Motofies
 
                 var MotorfyId = motofy.Id;
                 var photoUploadResult = _motofyPhotoAccessor.AddPhoto(request.File);
-                var motofyForPhoto = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == MotorfyId);
+                // var motofyForPhoto = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == MotorfyId);
                 var photoForMotofy = new MotofyPhoto
                 {
                     Url = photoUploadResult.Url,

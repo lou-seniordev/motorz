@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211110084445_AddProduct")]
+    [Migration("20211110093334_AddProduct")]
     partial class AddProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -382,8 +382,8 @@ namespace Persistence.Migrations
                     b.Property<string>("PictureUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("Price")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Price")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProductPhotoId")
                         .HasColumnType("TEXT");
