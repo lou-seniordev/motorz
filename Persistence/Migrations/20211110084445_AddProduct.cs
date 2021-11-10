@@ -8,18 +8,6 @@ namespace Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ProductPhoto",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductPhoto", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -50,9 +38,9 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Products_ProductPhoto_ProductPhotoId",
+                        name: "FK_Products_Photos_ProductPhotoId",
                         column: x => x.ProductPhotoId,
-                        principalTable: "ProductPhoto",
+                        principalTable: "Photos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -72,9 +60,6 @@ namespace Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "ProductPhoto");
         }
     }
 }

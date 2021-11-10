@@ -23,12 +23,16 @@ namespace Persistence
                         Brand = "Dream Time",
                         Model = "De luxe",
                         Price = 100,
-                        PictureUrl = "https://thumbs.dreamstime.com/b/two-motorcycle-gloves-black-biker-white-background-139443972.jpg",
+                        PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
                         DatePublished = DateTime.Now,
                         DateActivated = DateTime.Now,
                         IsActive = true,
                         IsAdvertised = false,
                         ActivationCounter = 1,
+                        ProductPhoto = new Photo {
+                                    Id = "gloves",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
+                                }
 
                     },
                     new Product
@@ -113,7 +117,7 @@ namespace Persistence
                                 PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
                                 Brand ="Nolan",
                                 Category = "Gear",
-                                ProductPhoto = new ProductPhoto {
+                                ProductPhoto = new Photo {
                                     Id = "709F91A5-C37B-47F9-A210-BEF3979981D6",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
                                 }
@@ -144,7 +148,7 @@ namespace Persistence
                                 PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
                                 Brand ="Nolan",
                                 Category = "Gear",
-                                ProductPhoto = new ProductPhoto {
+                                ProductPhoto = new Photo {
                                     Id = "FBC92591-FD02-4494-9129-C3459DC84D1C",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
                                 }
