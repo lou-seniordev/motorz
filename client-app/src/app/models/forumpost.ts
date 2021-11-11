@@ -17,8 +17,8 @@ export class ForumpostFormValues {
   // displayName: string = '';
   category: string = '';
 
-  constructor(init?: ForumpostFormValues ) {
+  constructor(init?: ForumpostFormValues) {
     if (init)
-    Object.assign(this, init);
-}
+      Object.assign(this, init);
+  }
 }

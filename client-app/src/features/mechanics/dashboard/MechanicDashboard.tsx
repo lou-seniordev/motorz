@@ -34,7 +34,7 @@ const MechanicDashboard = () => {
         <Sticky style={{marginRight: 30, position: 'fixed'}}> 
          <h2 >Mechanic around you</h2>
          <h2 >Mechanic You went to</h2>
-         <h2 >Mechanics everbody praized</h2>
+         <h2 >Mechanics everbody recommends</h2>
         </Sticky>
       {/* </Rail> */}
       </Grid.Column>

@@ -14,8 +14,8 @@ import ActivityForm from '../../features/activities/form/ActivityForm';
 import GalleryDashboard from '../../features/gallery/dashboard/GalleryDashboard';
 import MechanicDashboard from '../../features/mechanics/dashboard/MechanicDashboard';
 import ActivityDetails from '../../features/activities/details/ActivityDetails';
-import MerchantDashboard from '../../features/shop/dashboard/MerchantDashboard';
-import MerchantDetails from '../../features/shop/details/MerchantDetails';
+// import MerchantDashboard from '../../features/shop/dashboard/MerchantDashboard';
+import ProductDetails from '../../features/shop/details/ProductDetails';
 import NotFound from './NotFound';
 import { ToastContainer } from 'react-toastify';
 import LoginForm from '../../features/user/LoginForm';
@@ -32,6 +32,7 @@ import MechanicForm from '../../features/mechanics/form/MechanicForm';
 import GalleryForm from '../../features/gallery/form/GalleryForm';
 import PrivateRoute from './PrivateRoute';
 import ConfirmDelete from '../../features/gallery/modal/ConfirmDelete';
+import ProductDashboard from '../../features/shop/dashboard/ProductDashboard';
 
 //t
 
@@ -89,8 +90,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/mechanicForm', '/manageMechanic/:id']}
                   component={MechanicForm}
                 />
-                <PrivateRoute path='/merchant' component={MerchantDashboard} />
-                <PrivateRoute path='/merchant/:id' component={MerchantDetails} />
+                {/* <PrivateRoute path='/merchant' component={MerchantDashboard} /> */}
+                <PrivateRoute path='/shop' component={ProductDashboard} />
+                <PrivateRoute path='/shop/:id' component={ProductDetails} />
+                
                 <PrivateRoute path='/profile/:username' component={ProfilePage} />
                 <Route path='/login' component={LoginForm} />
                 <Route path='/confirmDelete' component={ConfirmDelete} />

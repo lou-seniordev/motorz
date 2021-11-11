@@ -9,6 +9,7 @@ import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost } from '../models/forumpost';
 import { IMechanic } from '../models/mechanic';
 import { IBrand } from '../models/brand';
+import { IProduct } from '../models/products';
 // import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -169,6 +170,17 @@ const Forumposts = {
   delete: (id: string) => requests.delete(`/forumposts/${id}`),
 }
 
+const Products = {
+  list: (): Promise<IProduct[]> => requests.get('/products'),
+  details: (id: string) => requests.get(`/products/${id}`),
+  create: (product: IProduct) => requests.post('/products', product),
+  update: (product: IProduct) =>
+    requests.put(`/products/${product.id}`, product),
+  delete: (id: string) => requests.delete(`/products/${id}`),
+  updatephoto: (photo: Blob, id: string ):Promise<IPhoto> => requests.postForm(`/photos/${id}/updatePhoto`, photo),
+  toogleActivate: (id: string) => requests.post(`/products/${id}/toogleActivate`, {})
+}
+
 const Mechanics = {
   list: (): Promise<IMechanic[]> => requests.get('mechanics'),
   details: (id: string) => requests.get(`/mechanics/${id}`),
@@ -225,5 +237,6 @@ export default {
   Profiles,
   Forumposts,
   Mechanics,
-  Brands
+  Brands,
+  Products
 };

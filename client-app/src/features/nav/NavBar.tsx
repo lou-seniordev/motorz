@@ -40,6 +40,13 @@ const NavBar: React.FC = () => {
       as: Link,
       to: "/forumform",
     },
+    {
+      key: "Product",
+      text: "Sell Product",
+      value: "Product",
+      as: Link,
+      to: "/productform",
+    },
   ];
   const rootStore = useContext(RootStoreContext);
 
@@ -65,7 +72,7 @@ const NavBar: React.FC = () => {
         {/* <Menu.Item name='motospots' exact as={NavLink} to='/activities' /> */}
         <Menu.Item name='moto forum' exact as={NavLink} to='/forum' />
         <Menu.Item name='moto mechanics' exact as={NavLink} to='/mechanics' />
-        <Menu.Item name='moto shopping' exact as={NavLink} to='/merchant' />
+        <Menu.Item name='moto shopping' exact as={NavLink} to='/shop' />
         {user && (
           <Menu.Item>
             <Dropdown
