@@ -13,12 +13,12 @@ namespace Application.Products
 {
     public class Details
     {
-        public class Query : IRequest<Product>
+        public class Query : IRequest<ProductDto>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Product>
+        public class Handler : IRequestHandler<Query, ProductDto>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace Application.Products
                 _context = context;
             }
 
-            public async Task<Product> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ProductDto> Handle(Query request, CancellationToken cancellationToken)
             {
 
                 // === Lazy loading ===
@@ -38,8 +38,10 @@ namespace Application.Products
                 if (product == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { activity = "NotFound" });
+                        //                var motofyToReturn = _mapper.Map<Motofy, MotofyDto>(motofy);
+                var productToReturn = _mapper.Map<Product, ProductDto>(product);
 
-                return product;
+                return productToReturn;
                 
             }
         }

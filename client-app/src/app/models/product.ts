@@ -12,6 +12,7 @@ export interface IProduct {
     datePublished: string;
     dateActivated: Date;
     dateAdvertised: Date;
+    photoUrl: string;
   }
   
 //   export class ProductFormValues {

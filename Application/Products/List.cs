@@ -11,9 +11,9 @@ namespace Application.Products
 {
     public class List
     {
-        public class Query : IRequest<List<Product>> { }
+        public class Query : IRequest<List<ProductDto>> { }
 
-        public class Handler : IRequestHandler<Query, List<Product>>
+        public class Handler : IRequestHandler<Query, List<ProductDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -23,14 +23,14 @@ namespace Application.Products
                 _context = context;
             }
 
-            public async Task<List<Product>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<ProductDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 // === Lazy loading ===
                 var products = await _context.Products.ToListAsync();
-                return products;
+                var productsToReturn = _mapper.Map<List<Product>, List<ProductDto>>(products);
+
+                return productsToReturn;
             }
-
-
         }
     }
 }

@@ -1,4 +1,4 @@
-import { IProduct } from './../models/products';
+import { IProduct } from '../models/product';
 import { observable, action, computed, runInAction } from 'mobx';
 import { SyntheticEvent } from 'react';
 import { history } from '../..';
@@ -77,7 +77,6 @@ export default class ProductStore {
             runInAction('loading products', () => {
                 products.forEach((product) => {
                     this.productRegistry.set(product.id, product);
-                    console.log('product from store: ', product)
                 });
                 this.loadingInitial = false;
             });

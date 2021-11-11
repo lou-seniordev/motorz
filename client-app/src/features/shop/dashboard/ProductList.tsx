@@ -8,7 +8,6 @@ const ProductList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { productsByDate } = rootStore.productStore;
 
-  console.log('productsByDate: ', productsByDate)
   return (
     <Fragment>
       {productsByDate.map(([group, products]) => (

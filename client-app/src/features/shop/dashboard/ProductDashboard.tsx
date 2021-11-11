@@ -17,13 +17,11 @@ const ProductDashboard = () => {
   
     return (
         <Grid>
-           <Grid.Column width={2}></Grid.Column>
+           <Grid.Column width={1}></Grid.Column>
         <Grid.Column width={14}>
           <ProductList/>
         </Grid.Column>
-        <Grid.Column width={2}>
-          {/* <h2>Merchant Filters Go Here</h2> */}
-        
+        <Grid.Column width={1}>        
         </Grid.Column>
       </Grid>
     )

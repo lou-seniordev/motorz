@@ -1,44 +1,42 @@
+import { toJS } from 'mobx';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
-import { IForumpost } from '../../../app/models/forumpost';
-import { IProduct } from '../../../app/models/products';
+import { IProduct } from '../../../app/models/product';
 
 const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
-    console.log('product: ', product)
   return (
     <Segment.Group>
-      <Segment>
+      <Segment clearing>
         <Item>
+        {/* <Item.Image size='tiny' src={`/assets/forumCategoryImages/${product.pictureUrl}.jpg`} /> */}
             <Item.Header as='a'>{product.title}</Item.Header>
-          {/* <Item.Image size='tiny' src={`/assets/forumCategoryImages/${forumpost.category}.jpg`} />
-          <Item.Content>
-            <Item.Meta>{forumpost.dateAdded}</Item.Meta>
-
-            <Item.Description>Posted by Bob</Item.Description>
-            <Item.Description>
-              <div>{forumpost.body}</div>
-            </Item.Description>
-
-            <Item.Description>
-              <div>Just to compare {forumpost.id}</div>
-            </Item.Description>
-
-            <Item.Extra>
-              <Button
-                as={Link}
-                to={`/forum/${forumpost.id}`}
-                floated='right'
-                content='view'
-                color='blue'
-              />
-              <Label basic content={forumpost.category} /> 
-            </Item.Extra>
-          </Item.Content> */}
-        </Item>
+            <Item.Content>
+                  <Label basic content={product.category} /> 
+              <Item.Meta>{product.datePublished}</Item.Meta>
+  
+              <Item.Description>Posted by Bob</Item.Description>
+              <Item.Description>
+                <div>{product.description}</div>
+              </Item.Description>
+  
+            
+              <Item.Extra>
+                <Button
+                  as={Link}
+                  to={`/product/${product.id}`}
+                  floated='right'
+                  content='view'
+                  color='blue'
+                  
+                />
+              </Item.Extra>
+            </Item.Content> 
+            </Item>
+          {/* 
       </Segment>
       <Segment>
-          {/* <Icon name='clock' /> {forumpost.dateAdded} */}
+          <Icon name='clock' /> {product.datePublished}
       </Segment>
       <Segment secondary>
         {/* 12 Responses from 3 Members */}

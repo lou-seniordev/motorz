@@ -9,7 +9,7 @@ import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost } from '../models/forumpost';
 import { IMechanic } from '../models/mechanic';
 import { IBrand } from '../models/brand';
-import { IProduct } from '../models/products';
+import { IProduct } from '../models/product';
 // import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
