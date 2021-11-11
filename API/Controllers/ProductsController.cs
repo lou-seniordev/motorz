@@ -32,10 +32,9 @@ namespace API.Controllers
         }
 
         [HttpPost("{id}/toogleActivation")]
-        public async Task<ActionResult<Unit>> ToogleActivate(Guid id, Edit.Command command)
+        public async Task<ActionResult<Unit>> ToogleActivate(Guid id)
         {
-            command.Id = id;
-            return await Mediator.Send(command);
+            return await Mediator.Send(new ToogleActivate.Command {Id = id});
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(Guid id, [FromForm] Edit.Command command)
@@ -43,8 +42,8 @@ namespace API.Controllers
             command.Id = id;
             return await Mediator.Send(command);
         }
-        [HttpPatch("{id}/updatePhoto")]
-        public async Task<ActionResult<Unit>> UpdatePhoto(Guid id, [FromForm] Edit.Command command)
+        [HttpPut("{id}/updatePhoto")]
+        public async Task<ActionResult<Unit>> UpdatePhoto(Guid id, [FromForm] UpdatePhoto.Command command)
         {
             command.Id = id;
             return await Mediator.Send(command);

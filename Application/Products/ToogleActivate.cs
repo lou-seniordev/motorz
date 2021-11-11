@@ -46,6 +46,8 @@ namespace Application.Products
                         new { activity = "NotFound" });
 
                 product.IsActive = !product.IsActive;
+                if(product.IsActive)
+                    product.ActivationCounter ++;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

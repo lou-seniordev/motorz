@@ -3,6 +3,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Interfaces;
+using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -15,9 +17,9 @@ namespace Application.Products
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-           
+
             public IFormFile File { get; set; }
-            
+
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -32,8 +34,10 @@ namespace Application.Products
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IPhotoAccessor _photoAccessor;
+            public Handler(DataContext context, IPhotoAccessor photoAccessor)
             {
+                _photoAccessor = photoAccessor;
                 _context = context;
 
             }
@@ -46,14 +50,30 @@ namespace Application.Products
                 if (product == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { activity = "NotFound" });
+                
+                //==ADD NEW==
+                var newPhotoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-                // motofy.Name = request.Name ?? motofy.Name;
-                // motofy.Description = request.Description ?? motofy.Description;
-                // motofy.City = request.City ?? motofy.City;
-                // motofy.Country = request.Country ?? motofy.Country;
-                // motofy.NumberOfKilometers = request.NumberOfKilometers ?? motofy.NumberOfKilometers;
+                var newPhoto = new Photo
+                {
+                    Url = newPhotoUploadResult.Url,
+                    Id = newPhotoUploadResult.PublicId,
+                };
 
-               
+                //==DELETE== 
+                var productPhotoToDelete = await _context.Photos.FindAsync(product.ProductPhoto.Id);
+                var productPhotoId = productPhotoToDelete.Id;
+
+                if (productPhotoId == null)
+                    throw new RestException(HttpStatusCode.NotFound, new { Photo = "Product Photo NotFound" });
+
+                var deletePhotoResult = _photoAccessor.DeletePhoto(productPhotoId); 
+
+                if (deletePhotoResult == null)
+                    throw new Exception("Problem deleting photo");
+
+                //==OVERWRITE==
+                product.ProductPhoto = newPhoto;
 
                 var success = await _context.SaveChangesAsync() > 0;
 
@@ -64,3 +84,4 @@ namespace Application.Products
         }
     }
 }
+                // motofy.Name = request.Name ?? motofy.Name;
