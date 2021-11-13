@@ -25,6 +25,7 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) => {
   useEffect(()=> {
     loadForumPost(match.params.id)
   }, [loadForumPost, match.params.id])
+  
   if (loadingInitial || !forumpost) return <LoadingComponent content="Loading forum post details..."/> 
 
   return (

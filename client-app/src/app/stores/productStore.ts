@@ -25,7 +25,7 @@ export default class ProductStore {
 
     @observable forumposts: IForumpost[] = [];
     @observable forumpost: IForumpost | null = null;
-    
+
     //--probably will be--
     @observable editMode = false;
     @observable submitting = false;
@@ -88,23 +88,24 @@ export default class ProductStore {
         }
     };
 
-    @action loadForumPost = async (id: string) => {
-        let forumpost = this.getForumPost(id);
-        if (forumpost) {
-            this.forumpost = forumpost;
-            return forumpost;
+    //--in use--
+    @action loadProduct = async (id: string) => {
+        let product = this.getProduct(id);
+        if (product) {
+            this.product = product;
+            return product;
         } else {
             this.loadingInitial = true;
             try {
-                forumpost = await agent.Forumposts.details(id);
-                runInAction('getting forumpost', () => {
-                    this.forumpost = forumpost;
-                    this.forumPostRegistry.set(forumpost.id, forumpost);
+                product = await agent.Products.details(id);
+                runInAction('getting product', () => {
+                    this.product = product;
+                    this.productRegistry.set(product.id, product);
                     this.loadingInitial = false;
                 });
-                this.forumpost = forumpost;
+                this.product = product;
             } catch (error) {
-                runInAction('get forumpost error', () => {
+                runInAction('get product error', () => {
                     this.loadingInitial = false;
                     console.log(error);
                 });
@@ -116,8 +117,13 @@ export default class ProductStore {
         this.forumpost = null;
     };
 
+    //--not in use---
     getForumPost = (id: string) => {
         return this.forumPostRegistry.get(id);
+    };
+    //--in use---
+    getProduct = (id: string) => {
+        return this.productRegistry.get(id);
     };
 
     @action createForumpost = async (forumpost: IForumpost) => {

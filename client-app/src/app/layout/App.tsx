@@ -91,8 +91,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   component={MechanicForm}
                 />
                 {/* <PrivateRoute path='/merchant' component={MerchantDashboard} /> */}
-                <PrivateRoute path='/shop' component={ProductDashboard} />
-                <PrivateRoute path='/shop/:id' component={ProductDetails} />
+                <PrivateRoute exact path='/shop' component={ProductDashboard} />
+                <PrivateRoute path='/product/:id' component={ProductDetails} />
                 
                 <PrivateRoute path='/profile/:username' component={ProfilePage} />
                 <Route path='/login' component={LoginForm} />
