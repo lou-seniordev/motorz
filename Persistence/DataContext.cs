@@ -30,6 +30,9 @@ namespace Persistence
         // coming soon...
         public DbSet<Testimonial> Testimonials { get; set; }
 
+        // === MESSAGES ===
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -109,6 +112,18 @@ namespace Persistence
             // .HasOne(a => a.AppUser)
             // .WithOne(a => a.MotofyPhoto)
             // .HasPrincipalKey<AppUser>(c => c.Id);
+
+            //==DEFINE FOR MESSAGES (many to many)==
+            //--sender
+            builder.Entity<Message>()
+            .HasOne(u => u.Recipient)
+            .WithMany(m => m.MessagesReceived)
+            .OnDelete(DeleteBehavior.Restrict); //not deleting if other party has not deleted themselves
+            //--recipient
+            builder.Entity<Message>()
+            .HasOne(u => u.Sender)
+            .WithMany(m => m.MessagesSent)
+            .OnDelete(DeleteBehavior.Restrict);
 
         }
     }
