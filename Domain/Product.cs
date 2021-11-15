@@ -12,6 +12,9 @@ namespace Domain
         public string PictureUrl { get; set; }
         public string Brand { get; set; }
         public string Category { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
         public bool IsAdvertised { get; set; }
         public DateTime DatePublished { get; set; }

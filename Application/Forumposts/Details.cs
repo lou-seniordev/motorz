@@ -42,7 +42,7 @@ namespace Application.Forumposts
 
                 if (forumpost == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new { activity = "NotFound" });
+                        new { forumpost = "NotFound" });
 
                 var forumpostToReturn = _mapper.Map<Forumpost, ForumpostDto>(forumpost);
 

@@ -42,7 +42,7 @@ namespace Application.Motofies
 
                 if (motofy == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new { activity = "NotFound" });
+                        new { motofy = "NotFound" });
 
                 var motofyToReturn = _mapper.Map<Motofy, MotofyDto>(motofy);
 

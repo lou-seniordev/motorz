@@ -16,6 +16,7 @@ namespace Application.Products
     {
         public class Command : IRequest
         {
+            //==MUSTDO - VALIDATION
             public Guid Id { get; set; }
             public string Title { get; set; }
             public string Description { get; set; }

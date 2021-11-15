@@ -18,7 +18,7 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
         inverted
         color='teal'
       >
-        {attendees.length} {attendees.length === 1 ? "Person" : "People "} Going
+        {attendees.length} {attendees.length === 1 ? "Person" : "People "} in it
       </Segment>
       <Segment attached>
         <List relaxed divided>

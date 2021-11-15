@@ -21,7 +21,7 @@ const NavBar: React.FC = () => {
     },
     {
       key: "Riding",
-      text: "Riding Route",
+      text: "Adventure",
       value: "Riding",
       as: Link,
       to: "/createActivity",
@@ -67,12 +67,15 @@ const NavBar: React.FC = () => {
         <Responsive />
         {/* ex gallery */}
         {/* name='motofy'  */}
-        <Menu.Item name='moto sessions' exact as={NavLink} to='/activities' />
+        <Menu.Item name='moto adventures' exact as={NavLink} to='/activities' />
         <Menu.Item exact as={NavLink} to='/gallery' >Motofy!</Menu.Item>
         {/* <Menu.Item name='motospots' exact as={NavLink} to='/activities' /> */}
         <Menu.Item name='moto forum' exact as={NavLink} to='/forum' />
         <Menu.Item name='moto mechanics' exact as={NavLink} to='/mechanics' />
-        <Menu.Item name='moto shopping' exact as={NavLink} to='/shop' />
+        <Menu.Item name='moto market' exact as={NavLink} to='/shop' />
+        {/* exact as={NavLink} to='/shop' */}
+        <Menu.Item name='messages'  />
+        <Menu.Item name='search motoranza' />
         {user && (
           <Menu.Item>
             <Dropdown
@@ -84,7 +87,7 @@ const NavBar: React.FC = () => {
               icon='world'
               options={createOptions}
               // search // no, because it does not close
-              text='Create'
+              text='New'
             />
           </Menu.Item>
         )}

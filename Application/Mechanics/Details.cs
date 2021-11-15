@@ -42,7 +42,7 @@ namespace Application.Mechanics
 
                 if (mechanic == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new { activity = "NotFound" });
+                        new { mechanic = "NotFound" });
 
                 // var forumpostToReturn = _mapper.Map<Forumpost, ForumpostDto>(forumpost);
 
