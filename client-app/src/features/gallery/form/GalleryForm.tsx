@@ -97,6 +97,13 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const [previewImage, setPreviewImage] = useState();
 
 
+  //==proposal for AA001 bug==
+  useEffect(() => {
+    return () => {
+            history.goForward();
+        }
+    }, []);
+
   useEffect(() => {
     loadBrandsToSelect();
     if (match.params.id) {

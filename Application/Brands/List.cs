@@ -28,17 +28,8 @@ namespace Application.Brands
 
             public async Task<List<BrandToSelectDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                // === Eager loading -> this plus virtual keyword ===
-                // var brands = 
-                //     await _context.Brands
-                //     .Include(x => x.Motofies)
-                //     .ToListAsync();
-
                 // === Lazy loading ===
-                var brands =
-                    await _context.Brands.ToListAsync();
-
-                
+                var brands = await _context.Brands.ToListAsync();
                 var brandsToReturn = _mapper.Map<List<Brand>, List<BrandToSelectDto>>(brands);
 
                 return brandsToReturn;
