@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 using Application.Errors;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Motofies
 {
     public class Edit
     {
-          public class Command : IRequest
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
+            public string BrandName { get; set; }
 
-            // SHOULD ADD THE OPTION TO CHANGE PHOTO? OR A GALLERY..? BUT NO GALLERY
-            // public string PhotoUrl { get; set; }
             public string Description { get; set; }
             public string City { get; set; }
             public string Country { get; set; }
@@ -50,11 +50,15 @@ namespace Application.Motofies
 
                 var motofy = await _context.Motofies.FindAsync(request.Id);
 
+                var brand = await _context.Brands.SingleOrDefaultAsync(x => x.Name == request.BrandName);
+
+
                 if (motofy == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { activity = "NotFound" });
 
                 motofy.Name = request.Name ?? motofy.Name;
+                motofy.Brand = brand;
                 motofy.Description = request.Description ?? motofy.Description;
                 motofy.City = request.City ?? motofy.City;
                 motofy.Country = request.Country ?? motofy.Country;

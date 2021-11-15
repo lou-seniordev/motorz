@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Item, Label, Segment, Image } from 'semantic-ui-react';
@@ -85,4 +86,4 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
   );
 };
 
-export default GalleryListItem;
+export default observer(GalleryListItem);

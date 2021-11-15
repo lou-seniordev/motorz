@@ -30,7 +30,7 @@ export default class MotofyStore {
   @observable motofies: IMotofy[] = [];
   @observable motofy: IMotofy | null = null;
 
-  @observable editMode = false;
+  // @observable editMode = false;
   @observable loadingInitial = false;
   @observable submitting = false;
   @observable target = '';
@@ -224,13 +224,13 @@ export default class MotofyStore {
 
   @action editMotofy = async (motofy: IMotofy) => {
     this.submitting = true;
-    this.editMode = true;
+    // this.editMode = true;
     try {
       await agent.Motofies.update(motofy);
       runInAction('editing motofy', () => {
         this.motofyRegistry.set(motofy.id, motofy);
         this.motofy = motofy;
-        this.editMode = false;
+        // this.editMode = false;
         this.submitting = false;
       });
       history.push(`/gallery/${motofy.id}`);
@@ -308,10 +308,7 @@ export default class MotofyStore {
     }
   };
 
-  @action openCreateForm = () => {
-    this.editMode = true;
-    this.motofy = null;
-  };
+ 
 
   // @action loadMotofy = async (id: string) => {
   //   let motofy = this.getMotofy(id);
@@ -335,23 +332,26 @@ export default class MotofyStore {
   //   }
   // };
 
-  @action openEditForm = (id: string) => {
-    this.editMode = true;
-    this.motofy = this.motofyRegistry.get(id);
-  };
 
-  @action cancelSelectedMotofy = () => {
-    this.motofy = null;
-  };
-
-  @action cancelFormOpen = () => {
-    this.editMode = false;
-  };
-
-  @action selectMotofy = (id: string) => {
-    this.motofy = this.motofyRegistry.get(id);
-    this.editMode = false;
-  };
+  //==trash candidates, because not in use anymore!!!
+  // @action openEditForm = (id: string) => {
+  //   this.editMode = true;
+  //   this.motofy = this.motofyRegistry.get(id);
+  // };
+  // @action cancelSelectedMotofy = () => {
+  //   this.motofy = null;
+  // };
+  // @action cancelFormOpen = () => {
+  //   this.editMode = false;
+  // };
+  // @action selectMotofy = (id: string) => {
+  //   this.motofy = this.motofyRegistry.get(id);
+  //   this.editMode = false;
+  // };
+  // @action openCreateForm = () => {
+  //   this.editMode = true;
+  //   this.motofy = null;
+  // };
 }
 
 // export default createContext(new MotofyStore());
