@@ -15,5 +15,7 @@ namespace Application.Messages
         public string RecipientUsername { get; set; }
         public string RecipientPhotoUrl { get; set; }
         public string Content { get; set; }
+        public DateTime DateRead { get; set; }
+        public DateTime DateSent { get; set; }
     }
 }
