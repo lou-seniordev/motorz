@@ -10,6 +10,7 @@ import MotofyStore from './motofyStore';
 import MechanicStore from './mechanicStore';
 import BrandStore from './brandStore';
 import ProductStore from './productStore';
+import MessageStore from './messageStore';
 
 // === mobx === //
 configure({ enforceActions: 'always' });
@@ -26,9 +27,8 @@ export class RootStore {
     mechanicStore: MechanicStore;
     brandStore: BrandStore;
     productStore: ProductStore;
+    messageStore: MessageStore;
 
-    //me:
-    // motofyStore: MotofyStore
 
     constructor () {
         this.activityStore = new ActivityStore(this);
@@ -41,9 +41,7 @@ export class RootStore {
         this.mechanicStore = new MechanicStore(this);
         this.brandStore = new BrandStore(this);
         this.productStore = new ProductStore(this);
-
-        // me:
-        // this.motofyStore = new MotofyStore(this);
+        this.messageStore = new MessageStore(this);
     }
 }
 

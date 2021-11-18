@@ -4,6 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import ProductMessagesPage from "../productMessages/ProductMessagesPage";
 import ProductDetailedInfo from "./ProductDetailedInfo";
 
 interface DetailParams {
@@ -24,8 +25,11 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
   return (
     <Grid>
-      <Grid.Column width={12}>
+      <Grid.Column width={9}>
         <ProductDetailedInfo product={product}/>
+      </Grid.Column>
+      <Grid.Column width={7}>
+        <ProductMessagesPage/>
       </Grid.Column>
     </Grid>
   );

@@ -33,6 +33,7 @@ import GalleryForm from '../../features/gallery/form/GalleryForm';
 import PrivateRoute from './PrivateRoute';
 import ConfirmDelete from '../../features/gallery/modal/ConfirmDelete';
 import ProductDashboard from '../../features/shop/dashboard/ProductDashboard';
+import MessagesDashboard from '../../features/messages/dashboard/MessagesDashboard';
 
 //t
 
@@ -90,9 +91,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/mechanicForm', '/manageMechanic/:id']}
                   component={MechanicForm}
                 />
-                {/* <PrivateRoute path='/merchant' component={MerchantDashboard} /> */}
                 <PrivateRoute exact path='/shop' component={ProductDashboard} />
                 <PrivateRoute path='/product/:id' component={ProductDetails} />
+
+                <PrivateRoute exact path='/messages' component={MessagesDashboard} />
                 
                 <PrivateRoute path='/profile/:username' component={ProfilePage} />
                 <Route path='/login' component={LoginForm} />

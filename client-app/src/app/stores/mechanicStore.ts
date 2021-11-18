@@ -28,10 +28,12 @@ export default class MechanicStore {
   @computed get mechanicsByDate() {
     return Array.from(this.mechanicRegistry.values()).sort(
       (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-    );
+      );
   }
 
   @action loadMechanics = async () => {
+    console.log("iem in loadMechanics")
+
     this.loadingInitial = true;
     try {
       const mechanics = await agent.Mechanics.list();

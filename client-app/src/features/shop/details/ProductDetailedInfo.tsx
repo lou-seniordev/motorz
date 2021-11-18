@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { Segment, Grid, Icon } from "semantic-ui-react";
+import { Segment, Grid, Icon, Image, Button } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
 
 const ProductDetailedInfo: React.FC<{ product: IProduct  }> = ({ product }) => {
@@ -13,6 +13,16 @@ const ProductDetailedInfo: React.FC<{ product: IProduct  }> = ({ product }) => {
           </Grid.Column>
           <Grid.Column width={15}>
             <p>Title: {product.title}</p>
+          </Grid.Column>
+        </Grid>
+      </Segment>
+      <Segment attached>
+        <Grid verticalAlign='middle'>
+          <Grid.Column width={1}>
+            <Icon name='image' size='large' color='teal' />
+          </Grid.Column>
+          <Grid.Column width={15}>
+            <Image src={product.photoUrl} size='medium'/>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -40,6 +50,16 @@ const ProductDetailedInfo: React.FC<{ product: IProduct  }> = ({ product }) => {
         <Grid verticalAlign='middle'>
           <Grid.Column width={16}>
             <span>{product.model}</span>
+          </Grid.Column>
+        </Grid>
+      </Segment>
+      <Segment attached>
+        <Grid verticalAlign='middle'>
+          <Grid.Column width={1}>
+            <Icon name='marker' size='large' color='teal' />
+          </Grid.Column>
+          <Grid.Column width={11}>
+            <Button content='contact'/>
           </Grid.Column>
         </Grid>
       </Segment>

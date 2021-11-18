@@ -22,6 +22,7 @@ namespace API.Controllers
         {
             return await Mediator.Send(new GetMessagesForUser.Query(messageParams));
         }
+        
         [HttpGet("thread/{username}")]// FromBody
         public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread (string username)
         {

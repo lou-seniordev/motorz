@@ -74,7 +74,7 @@ const NavBar: React.FC = () => {
         <Menu.Item name='find mechanics' exact as={NavLink} to='/mechanics' />
         <Menu.Item name='market' exact as={NavLink} to='/shop' />
         {/* exact as={NavLink} to='/shop' */}
-        <Menu.Item name='messages'  />
+        <Menu.Item name='messages'  exact as={NavLink} to='/messages'/>
         <Menu.Item name='search motoranza' />
         {user && (
           <Menu.Item>

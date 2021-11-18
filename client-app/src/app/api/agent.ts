@@ -1,3 +1,4 @@
+import { IMessage } from './../models/message';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
@@ -181,6 +182,16 @@ const Products = {
   toogleActivate: (id: string) => requests.post(`/products/${id}/toogleActivate`, {})
 }
 
+const Messages = {
+  list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}` ),
+  thread: (username: string): Promise<IMessage[]> => requests.get(`/messages/thread/${username}`),
+  details: (id: string) => requests.get(`/messages/${id}`),
+  create: (message: IMessage) => requests.post('/messages', message),
+  update: (message: IMessage) =>
+    requests.put(`/messages/${message.id}`, message),
+  delete: (id: string) => requests.delete(`/messages/${id}`),
+}
+
 const Mechanics = {
   list: (): Promise<IMechanic[]> => requests.get('mechanics'),
   details: (id: string) => requests.get(`/mechanics/${id}`),
@@ -238,5 +249,6 @@ export default {
   Forumposts,
   Mechanics,
   Brands,
-  Products
+  Products,
+  Messages
 };
