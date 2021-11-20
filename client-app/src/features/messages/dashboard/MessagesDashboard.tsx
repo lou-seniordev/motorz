@@ -28,7 +28,7 @@ const MessageDashboard = () => {
       </Grid.Column>
       <Grid.Column width={6}>
         {/* <Sticky style={{ marginRight: 30, position: "fixed" }}> */}
-          <MessageContent setActiveTab={setActiveTab}/>
+          {/* <MessageContent setActiveTab={setActiveTab}/> */}
         {/* </Sticky> */}
       </Grid.Column>
     </Grid>

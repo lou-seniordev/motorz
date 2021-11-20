@@ -1,5 +1,7 @@
 export interface IProduct {
     id: string;
+    sellerId: string;
+    sellerUsername: string;
     title: string;
     model: string;
     description: string;
@@ -8,7 +10,6 @@ export interface IProduct {
     category: string;
     isActive: boolean;
     isAdvertised: boolean;
-    // datePublished: Date;
     datePublished: string;
     dateActivated: Date;
     dateAdvertised: Date;

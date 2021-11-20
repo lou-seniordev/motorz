@@ -17,10 +17,11 @@ namespace Application.Messages
 {
     public class Create
     {
-        public class Command : IRequest<MessageDto>
+        public class Command : IRequest//<MessageDto>
         {
             // public Guid Id { get; set; }
             public string RecipientUsername { get; set; }
+            public string ProductId { get; set; }
             public string Content { get; set; }
 
 
@@ -29,13 +30,13 @@ namespace Application.Messages
         {
             public CommandValidator()
             {
-                // RuleFor(x => x.Id).NotEmpty();
+                RuleFor(x => x.ProductId).NotEmpty();
                 RuleFor(x => x.RecipientUsername).NotEmpty();
                 RuleFor(x => x.Content).NotEmpty();
 
             }
         }
-        public class Handler : IRequestHandler<Command, MessageDto>
+        public class Handler : IRequestHandler<Command>//, MessageDto
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
@@ -48,7 +49,8 @@ namespace Application.Messages
 
             }
 
-            public async Task<MessageDto> Handle(Command request, CancellationToken cancellationToken)
+            // public async Task<MessageDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
@@ -61,12 +63,19 @@ namespace Application.Messages
 
                 var sender = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.UserName);
                 var recipient = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.RecipientUsername);
+                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == Guid.Parse(request.ProductId));
 
                 if (recipient == null)
 
                 {
-                    return null;
+                    // return null;
                     throw new Exception("User not found");
+                }
+                if (product == null)
+
+                {
+                    // return null;
+                    throw new Exception("Product not found");
                 }
 
                 var message = new Message
@@ -75,14 +84,19 @@ namespace Application.Messages
                     Recipient = recipient,
                     SenderUsername = sender.UserName,
                     RecipientUsername = recipient.UserName,
-                    Content = request.Content
+                    Content = request.Content,
                 };
 
+                product.Messages.Add(message);
+
                 _context.Messages.Add(message);
+                // _context.Products.Add(product);
+                _context.Products.Update(product);
 
                 var success = await _context.SaveChangesAsync() > 0;
 
-                if (success) return _mapper.Map<MessageDto>(message);
+                // if (success) return _mapper.Map<MessageDto>(message);
+                if (success) return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
 

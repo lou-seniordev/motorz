@@ -1,4 +1,4 @@
-import { IMessage } from './../models/message';
+import { IMessage, IMessageToSend } from './../models/message';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
@@ -112,7 +112,7 @@ const specialRequests = {
     motofyData.append('EstimatedValue', motofy.estimatedValue)
     motofyData.append('NumberOfKilometers', motofy.numberOfKilometers)
 
-    console.log('From agent: ', motofyData)
+    // console.log('From agent: ', motofyData)
 
     return axios.post(url, motofyData, {
       headers: { 'Content-type': 'multipart/form-data' }
@@ -161,6 +161,20 @@ const Activities = {
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
 };
 
+const Messages = {
+  list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}`),
+  thread: (username: string, productId: string): Promise<IMessage[]> => requests.get(`/messages/thread/${username}/${productId}`),
+  details: (id: string) => requests.get(`/messages/${id}`),
+  // create: (username: string, productId: string, content: string) => 
+  //   requests.post(`/messages/${username}/${productId}/${content}`, {}),
+  create: (message: IMessageToSend) => requests.post('/messages/', message),
+
+
+  // create: (message: IMessage) => requests.post('/messages', message),
+  // update: (message: IMessage) =>
+  //   requests.put(`/messages/${message.id}`, message),
+  delete: (id: string) => requests.delete(`/messages/${id}`),
+}
 
 const Forumposts = {
   list: (): Promise<IForumpost[]> => requests.get('/forumposts'),
@@ -178,19 +192,11 @@ const Products = {
   update: (product: IProduct) =>
     requests.put(`/products/${product.id}`, product),
   delete: (id: string) => requests.delete(`/products/${id}`),
-  updatephoto: (photo: Blob, id: string ):Promise<IPhoto> => requests.postForm(`/photos/${id}/updatePhoto`, photo),
+  updatephoto: (photo: Blob, id: string): Promise<IPhoto> => requests.postForm(`/photos/${id}/updatePhoto`, photo),
   toogleActivate: (id: string) => requests.post(`/products/${id}/toogleActivate`, {})
 }
 
-const Messages = {
-  list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}` ),
-  thread: (username: string): Promise<IMessage[]> => requests.get(`/messages/thread/${username}`),
-  details: (id: string) => requests.get(`/messages/${id}`),
-  create: (message: IMessage) => requests.post('/messages', message),
-  update: (message: IMessage) =>
-    requests.put(`/messages/${message.id}`, message),
-  delete: (id: string) => requests.delete(`/messages/${id}`),
-}
+
 
 const Mechanics = {
   list: (): Promise<IMechanic[]> => requests.get('mechanics'),

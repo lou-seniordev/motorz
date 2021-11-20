@@ -7,7 +7,14 @@ export interface IMessage {
     recipientUsername: string;
     recipientPhotoUrl: string;
     content: string;
-    dateRead: Date;
+    dateRead: string;
     dateSent: string;
+    productId: string;
+}
+
+export interface IMessageToSend {
+    recipientUsername: string;
+    content: string;
+    productId: string;
 }
 

@@ -5,6 +5,8 @@ import { Button, Icon, Item, Label, Segment, Image } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
 
 const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
+
+  
   return (
     // <Segment.Group>
     //   <Segment clearing>

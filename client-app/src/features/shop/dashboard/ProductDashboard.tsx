@@ -18,10 +18,10 @@ const ProductDashboard = () => {
 
   return (
     <Grid>
-      <Grid.Column width={12}>
+      <Grid.Column width={9}>
         <ProductList />
       </Grid.Column>
-      <Grid.Column width={4}>
+      <Grid.Column width={7}>
         {/* <Sticky style={{ marginRight: 30, position: "fixed" }}> */}
           <ProductSidebar />
         {/* </Sticky> */}

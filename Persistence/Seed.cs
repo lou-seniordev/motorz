@@ -11,96 +11,17 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
-            if (!context.Products.Any())
-            {
-                var products = new List<Product>
-                {
-                    new Product
-                    {
-                        Id = Guid.Parse("FDC7BB35-4A57-4491-AD47-9B0AD9B18637"),
-                        Title = "Gloves",
-                        Category = "Equipment",
-                        City= "Rome",
-                        Country= "Italy",
-                        PhoneNumber= "+3933890279",
-                        Brand = "Dream Time",
-                        Model = "De luxe",
-                        Price = "100",
-                        PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
-                        DatePublished = DateTime.Now,
-                        DateActivated = DateTime.Now,
-                        IsActive = true,
-                        IsAdvertised = false,
-                        ActivationCounter = 1,
-                        ProductPhoto = new Photo {
-                                    Id = "gloves",
-                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
-                                }
+            // if (!context.Products.Any())
+            // {
+            //     var products = new List<Product>
+            //     {
+                    
+                  
+            //     };
 
-                    },
-                    new Product
-                    {
-                        Id = Guid.Parse("F84B3E8E-1F1D-45A6-8ED2-7BED090E0D3F"),
-                        Title = "Jacket",
-                        Category = "Clothing",
-                        City= "Berlin",
-                        Country= "Germany",
-                        PhoneNumber= "+4933890279",                        
-                        Brand = "Dainese",
-                        Model = "De luxe",
-                        Price = "200",
-                        PictureUrl = "https://dainese-cdn.thron.com/delivery/public/image/dainese/cbe8919f-c870-4254-9e38-3449a041fc0f/ramfdh/std/615x615/rain-master-lady-d.jpg",
-                        DatePublished = DateTime.Now,
-                        DateActivated = DateTime.Now,
-                        IsActive = true,
-                        IsAdvertised = false,
-                        ActivationCounter = 1,
-
-                    },
-                    new Product
-                    {
-                        Id = Guid.Parse("811F1598-0D5A-4CF3-91BF-2EC44CCBB7B0"),
-                        Title = "Boots",
-                        Category = "Clothing",
-                        City= "London",
-                        Country= "UK",
-                        PhoneNumber= "+4433890279",                
-                        Brand = "Riding Tribe",
-                        Model = "Speed X",
-                        Price = "75",
-                        PictureUrl = "https://img.joomcdn.net/706411a61f6af2566550479c9e9446ff29dda9b0_original.jpeg",
-                        DatePublished = DateTime.Now,
-                        DateActivated = DateTime.Now,
-                        IsActive = true,
-                        IsAdvertised = false,
-                        ActivationCounter = 1,
-
-                    },
-                    new Product
-                    {
-                        Id = Guid.Parse("0C75E9A7-B737-4838-8D59-04F2B07509C2"),
-                        Title = "Front bag",
-                        Category = "Equipment",
-                        City= "Zurich",
-                        Country= "Switzerland",
-                        PhoneNumber= "+4133890279",                         
-                        Brand = "Ghost racing",
-                        Model = "Speed X",
-                        Price = "10",
-                        PictureUrl = "https://ae01.alicdn.com/kf/HTB15bM8arr1gK0jSZFDq6z9yVXaG.jpg",
-                        DatePublished = DateTime.Now,
-                        DateActivated = DateTime.Now,
-                        IsActive = true,
-                        IsAdvertised = false,
-                        ActivationCounter = 1,
-
-                    },
-
-                };
-
-                context.Products.AddRange(products);
-                context.SaveChanges();
-            }
+            //     context.Products.AddRange(products);
+            //     context.SaveChanges();
+            // }
 
             if (!userManager.Users.Any())
             {
@@ -136,7 +57,54 @@ namespace Persistence
                                     Id = "709F91A5-C37B-47F9-A210-BEF3979981D6",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
                                 }
-                            }
+                            },
+                            new Product
+                            {
+                                Id = Guid.Parse("FDC7BB35-4A57-4491-AD47-9B0AD9B18637"),
+                                Title = "Gloves",
+                                Category = "Equipment",
+                                City= "Rome",
+                                Country= "Italy",
+                                PhoneNumber= "+3933890279",
+                                Brand = "Dream Time",
+                                Model = "De luxe",
+                                Price = "100",
+                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
+                                DatePublished = DateTime.Now,
+                                DateActivated = DateTime.Now,
+                                IsActive = true,
+                                IsAdvertised = false,
+                                ActivationCounter = 1,
+                                ProductPhoto = new Photo {
+                                            Id = "gloves",
+                                            Url = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
+                                        }
+
+                            },
+                            new Product
+                            {
+                                Id = Guid.Parse("F84B3E8E-1F1D-45A6-8ED2-7BED090E0D3F"),
+                                Title = "Jacket",
+                                Category = "Clothing",
+                                City= "Berlin",
+                                Country= "Germany",
+                                PhoneNumber= "+4933890279",
+                                Brand = "Dainese",
+                                Model = "Rain master lady d",
+                                Price = "200",
+                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
+                                DatePublished = DateTime.Now,
+                                DateActivated = DateTime.Now,
+                                IsActive = true,
+                                IsAdvertised = false,
+                                ActivationCounter = 1,
+                                // ProductPhoto = new Photo {
+                                //             Id = "rain-master-lady-d",
+                                //             Url = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
+                                //         }
+
+                            },
+
                         }
 
                     },
@@ -170,7 +138,46 @@ namespace Persistence
                                     Id = "FBC92591-FD02-4494-9129-C3459DC84D1C",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
                                 }
-                            }
+                            },
+                              new Product
+                            {
+                                Id = Guid.Parse("811F1598-0D5A-4CF3-91BF-2EC44CCBB7B0"),
+                                Title = "Boots",
+                                Category = "Clothing",
+                                City= "London",
+                                Country= "UK",
+                                PhoneNumber= "+4433890279",
+                                Brand = "Riding Tribe",
+                                Model = "Speed X",
+                                Price = "75",
+                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227585/boots.jpg",
+                                DatePublished = DateTime.Now,
+                                DateActivated = DateTime.Now,
+                                IsActive = true,
+                                IsAdvertised = false,
+                                ActivationCounter = 1,
+
+                            },
+                            new Product
+                            {
+                                Id = Guid.Parse("0C75E9A7-B737-4838-8D59-04F2B07509C2"),
+                                Title = "Front bag",
+                                Category = "Equipment",
+                                City= "Zurich",
+                                Country= "Switzerland",
+                                PhoneNumber= "+4133890279",
+                                Brand = "Ghost racing",
+                                Model = "Speed X",
+                                Price = "10",
+                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227717/front_bag.jpg",
+                                DatePublished = DateTime.Now,
+                                DateActivated = DateTime.Now,
+                                IsActive = true,
+                                IsAdvertised = false,
+                                ActivationCounter = 1,
+
+                            },
+
                         }
                     },
                     new AppUser
@@ -247,6 +254,118 @@ namespace Persistence
                 foreach (var user in users)
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
+                }
+            }
+            //==PRODUCT MESSAGES===
+            if (!context.Messages.Any())
+            {
+
+                var messages1 = new List<Message>
+                {
+                    new Message
+                    {
+                    Id= Guid.Parse("15C1E352-FAC6-4756-B915-B7D3A67347F3"),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "b",
+                    RecipientUsername= "jane",
+                    Content= "Another (sofar) Message from Bob to Jane 1!",
+                    },
+
+                    new Message
+                    {
+                    Id= Guid.Parse("AD0B7BD5-856C-4BA4-B242-151E052138C5"),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "b",
+                    RecipientUsername= "jane",
+                    Content= "New Message from Bob to Jane! 2",
+                    },
+
+                    new Message
+                    {
+                    Id= Guid.Parse("270C01F8-D970-46DB-8F1C-B5141B535F1E"),
+                    SenderId= "b",
+                    SenderUsername= "jane",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "HOW R U DOING BOBBY MY BOY is a New Message from Jane to Bob! 3",
+                    },
+                    new Message
+                    {
+                    Id= Guid.Parse("B6064B38-EE20-40FC-A248-D2563DD43779"),
+                    SenderId= "b",
+                    SenderUsername= "jane",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "TESTING Messages Jane 2 Bob! 4",
+                    },
+                };
+                var messages2 = new List<Message>
+                {
+                    new Message
+                    {
+                    Id= Guid.Parse("FF510862-5C6F-43A0-B2BE-E0B3749B730F"),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "b",
+                    RecipientUsername= "jane",
+                    Content= "Distinct Message from Bob to Jane 3!",
+                    },
+
+                    new Message
+                    {
+                    Id= Guid.Parse("C0571EC4-EC3C-4377-9836-ECD3E1AACED1"),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "b",
+                    RecipientUsername= "jane",
+                    Content= "One more Message from Bob to Jane 4",
+                    },
+                    new Message
+                    {
+                    Id= Guid.Parse("1888250C-4112-4DD8-8D29-37405E8FB7F5"),
+                    SenderId= "b",
+                    SenderUsername= "jane",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "New Message from Jane to Bob 1",
+                    },
+                    new Message
+                    {
+                    Id= Guid.Parse("75729DD9-BC90-45D7-AF7A-CD6074B5D821"),
+                    SenderId= "b",
+                    SenderUsername= "jane",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "Another New Message from Jane to Bob 2",
+                    },
+                };
+
+                await context.Messages.AddRangeAsync(messages1);
+                await context.SaveChangesAsync();
+                await context.Messages.AddRangeAsync(messages2);
+                await context.SaveChangesAsync();
+
+                Product product1 = context.Products.Find(Guid.Parse("AEE0C4FD-C8C8-4184-B91C-7BAC64213821"));
+                if (product1 != null)
+                {
+                    product1.Messages = messages1;
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+                Product product2 = context.Products.Find(Guid.Parse("D938C1D0-3321-4357-B7C3-D5144C4EEB68"));
+                if (product2 != null)
+                {
+                    product2.Messages = messages2;
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
             // === Forumposts

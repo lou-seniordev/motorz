@@ -1,16 +1,30 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
+import { Button, Grid, Icon, Item, Label, Segment } from "semantic-ui-react";
 import { IMessage } from "../../../app/models/message";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 
-const ProductMessageListItem: React.FC<{ message: IMessage }> = ({ message }) => {
-    console.log("message in list", message)
+const ProductMessageListItem: React.FC<{ message: IMessage }> = ({
+  message,
+}) => {
   return (
     <Segment.Group>
       <Segment>
-        <Item.Image size='tiny' circular src={message.senderPhotoUrl} />
-        <Label basic content={message.senderUsername} />
+      
+        <Grid>
+       
+          <Grid.Column width={3}>
+            <Item.Image size='tiny' circular src={message.senderPhotoUrl} />
+            <Item.Description>{message.senderUsername}</Item.Description>
+            {/* <Label basic content={message.senderUsername} /> */}
+          </Grid.Column>
+       
+          <Grid.Column width={12}>
+            <Item.Description>Sent: {message.dateSent}</Item.Description>
+            <Item.Description>Content: {message.content}</Item.Description>
+          </Grid.Column>
+        </Grid>
       </Segment>
     </Segment.Group>
   );

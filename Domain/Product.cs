@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
     public class Product
     {
         public Guid Id { get; set; }
+        // public string SellerId { get; set; }
+        public virtual AppUser Seller { get; set; }
         public string Title { get; set; }
         public string Model { get; set; }
         public string Description { get; set; }
@@ -22,6 +25,7 @@ namespace Domain
         public DateTime DateAdvertised { get; set; }
         public int ActivationCounter { get; set; }
         public virtual Photo ProductPhoto { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
 
     }
 }

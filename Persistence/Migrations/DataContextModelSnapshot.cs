@@ -258,6 +258,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateSent")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("RecipientDeleted")
                         .HasColumnType("INTEGER");
 
@@ -277,6 +280,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("RecipientId");
 
@@ -389,9 +394,6 @@ namespace Persistence.Migrations
                     b.Property<int>("ActivationCounter")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Brand")
                         .HasColumnType("TEXT");
 
@@ -437,14 +439,17 @@ namespace Persistence.Migrations
                     b.Property<string>("ProductPhotoId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("SellerId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("ProductPhotoId");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Products");
                 });
@@ -707,6 +712,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Message", b =>
                 {
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany("Messages")
+                        .HasForeignKey("ProductId");
+
                     b.HasOne("Domain.AppUser", "Recipient")
                         .WithMany("MessagesReceived")
                         .HasForeignKey("RecipientId")
@@ -743,13 +752,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
-                    b.HasOne("Domain.AppUser", null)
-                        .WithMany("Products")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Domain.Photo", "ProductPhoto")
                         .WithMany()
                         .HasForeignKey("ProductPhotoId");
+
+                    b.HasOne("Domain.AppUser", "Seller")
+                        .WithMany("Products")
+                        .HasForeignKey("SellerId");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>

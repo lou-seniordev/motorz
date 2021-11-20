@@ -4,6 +4,8 @@ import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
 import { IMessage } from "../../../app/models/message";
 
 const MessageListItem: React.FC<{ message: IMessage }> = ({ message }) => {
+  console.log("message in list", message.content)
+
   return (
     <Segment.Group>
       <Segment>

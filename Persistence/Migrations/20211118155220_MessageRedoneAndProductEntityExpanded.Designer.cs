@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211113173138_ExpandProduct")]
-    partial class ExpandProduct
+    [Migration("20211118155220_MessageRedoneAndProductEntityExpanded")]
+    partial class MessageRedoneAndProductEntityExpanded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -245,6 +245,53 @@ namespace Persistence.Migrations
                     b.ToTable("Mechanics");
                 });
 
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateSent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RecipientId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecipientUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderUsername")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
                     b.Property<Guid>("Id")
@@ -349,9 +396,6 @@ namespace Persistence.Migrations
                     b.Property<int>("ActivationCounter")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Brand")
                         .HasColumnType("TEXT");
 
@@ -397,14 +441,17 @@ namespace Persistence.Migrations
                     b.Property<string>("ProductPhotoId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("SellerId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("ProductPhotoId");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Products");
                 });
@@ -665,6 +712,23 @@ namespace Persistence.Migrations
                         .HasForeignKey("AuthorId");
                 });
 
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany("Messages")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("Domain.AppUser", "Recipient")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.AppUser", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
                     b.HasOne("Domain.Brand", "Brand")
@@ -690,13 +754,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
-                    b.HasOne("Domain.AppUser", null)
-                        .WithMany("Products")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Domain.Photo", "ProductPhoto")
                         .WithMany()
                         .HasForeignKey("ProductPhotoId");
+
+                    b.HasOne("Domain.AppUser", "Seller")
+                        .WithMany("Products")
+                        .HasForeignKey("SellerId");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>

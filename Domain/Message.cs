@@ -19,5 +19,6 @@ namespace Domain
         public DateTime DateSent { get; set; } = DateTime.Now;
         public bool SenderDeleted { get; set; }
         public bool RecipientDeleted { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

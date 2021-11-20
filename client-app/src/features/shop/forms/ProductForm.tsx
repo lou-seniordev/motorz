@@ -18,7 +18,7 @@ import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget
 const ProductForm = () => {
     return (
         <div>
-            
+            <h1>HELLO IM product FORM!</h1>
         </div>
     )
 }

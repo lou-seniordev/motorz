@@ -7,7 +7,7 @@ import MessageListItem from './MessageListItem';
 const MessageList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { messagesByDate } = rootStore.messageStore;
-  console.log("message in list", messagesByDate)
+  // console.log("message in list", messagesByDate)
 
 
   return (
