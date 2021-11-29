@@ -1,15 +1,15 @@
-import { toJS } from 'mobx';
-import { MessageContent } from 'semantic-ui-react';
-import { IMessage, IMessageToSend } from './../models/message';
+// import { toJS } from 'mobx';
+// import { MessageContent } from 'semantic-ui-react';
+import { IMessage } from './../models/message';//, IMessageToSend
 import { observable, action, computed, runInAction } from 'mobx';
 // import { SyntheticEvent, useState } from 'react';
-import React, { Fragment, useEffect, useState } from "react";
+// import React, { Fragment, useEffect, useState } from "react";
 
-import { history } from '../..';
+// import { history } from '../..';
 import agent from '../api/agent';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
-import { stringify } from 'querystring';
+// import { stringify } from 'querystring';
 
 // configure({ enforceActions: 'always' });
 
@@ -27,11 +27,20 @@ export default class MessageStore {
 
   @observable threadUsername: string = '';
   @observable threadProductId: string = '';
+  
+  // @observable threadSellername: string = '';
+  // @observable threadSellernameSet= false;
+  // @action setThreadSellername = (sellerName: string) => {
+  //   this.threadSellername = sellerName;
+  //   this.threadSellernameSet = true;
+  //   console.log("sellerusername in store  ---", )
+
+  // }
 
   @observable loadingThread = false;
   // @observable threadNotEmpty = false;
-  @observable threadExist = false;
-  @observable formExist = false;
+  // @observable threadExist = false;
+  // @observable formExist = false;
 
   //--in use will be---
   @computed get messagesByDate() {
@@ -99,40 +108,30 @@ export default class MessageStore {
     }
   };
 
-  @action setMessageThreadData = (username: string, productId: string) => {
+  @action setMessage = (username: string, productId: string) => {
     this.threadUsername = username;
     this.threadProductId = productId;
+  };
+  @action cleanMessage = () => {
+    this.threadUsername = '';
+    this.threadProductId = '';
 
   };
-
-  @action cleanMessageThread = () => {
-    this.messageThreadRegistry.clear();
-    this.formExist = false;
-    this.threadExist = false;
-  };
-
 
   @action sendMessage = async (messageContent: string) => {//username: string
-
-    // console.log("**********in send message*************");
-    // console.log("Message to send: this.messageContent", messageContent);
-    // console.log("Message to send: this.messageRecipient", this.threadUsername);
-    // console.log("Message to send: this.threadProductId", this.threadProductId);
-    
+  
     let messageToSend = {
       recipientUsername : this.threadUsername,
       content: messageContent,
       productId : this.threadProductId,
     }
-    // console.log("Message to send: ", messageToSend);
     try {
-      const message = await agent.Messages.create(messageToSend);
+      // const message = 
+      await agent.Messages.create(messageToSend);
+      // console.log("am i not?", messageToSend)
       runInAction('loading message ', () => {
-        if (message) {
-          console.log("This message: ", message);
-        } else {
-          console.log("No message");
-        }
+        this.rootStore.modalStore.closeModal();
+        
       });
     } catch (error) {
       runInAction('load thread error', () => {
@@ -143,47 +142,52 @@ export default class MessageStore {
   };
 
 
-  @action checkMessageThread = async () => {
-    try {
-      const messages = await agent.Messages.thread(this.threadUsername, this.threadProductId);
-      // const messages = await agent.Messages.thread("jane", "0c75e9a7-b737-4838-8d59-04f2b07509c2");
-      runInAction('loading thread', () => {
-        // 
-        //==THIS. SHOULD GO INTO THE MAIN FUNCTION AS A CHECK UPON WHICH IT WILL FILL THE THREAD, MAYBE..?
-        if (messages.length > 0) {
-          this.threadExist = true
-          // this.threadNotEmpty = true
-        } else {
-          this.threadExist = false
-          // this.threadNotEmpty = false
-          this.formExist = true;
-        }
-      });
-    } catch (error) {
-      runInAction('load thread error', () => {
+  // @action checkMessageThread = async () => {
+  //   console.log("im checking");
+  //   try {
+  //     const messages = await agent.Messages.thread(this.threadUsername, this.threadProductId);
+  //     // const messages = await agent.Messages.thread("jane", "0c75e9a7-b737-4838-8d59-04f2b07509c2");
+  //     runInAction('loading thread', () => {
+  //       // 
+  //       //==THIS. SHOULD GO INTO THE MAIN FUNCTION AS A CHECK UPON WHICH IT WILL FILL THE THREAD, MAYBE..?
+  //       if (messages.length > 0) {
+  //         this.threadExist = true
+  //         // console.log("this.threadExist");
 
-      });
-      console.log(error);
-    }
-  };
+  //         // this.threadNotEmpty = true
+  //       } else {
+  //         this.threadExist = false
+  //         // this.threadNotEmpty = false
+  //         this.formExist = true;
+  //         // console.log("this.formExist");
 
-  @action loadMessageThread = async (username: string, productId: string) => {//username: string, productId: string
+  //       }
+  //     });
+  //   } catch (error) {
+  //     runInAction('load thread error', () => {
 
-    try {
-      const messages = await agent.Messages.thread(username, productId);
-      runInAction('loading thread', () => {
-        messages.forEach((message) => {
-          message.dateSent = message.dateSent?.split('T')[0];
-          this.messageThreadRegistry.set(message.id, message);
-        });
-      });
-    } catch (error) {
-      runInAction('load thread error', () => {
+  //     });
+  //     console.log(error);
+  //   }
+  // };
 
-      });
-      console.log(error);
-    }
-  };
+  // @action loadMessageThread = async (username: string, productId: string) => {//username: string, productId: string
+
+  //   try {
+  //     const messages = await agent.Messages.thread(username, productId);
+  //     runInAction('loading thread', () => {
+  //       messages.forEach((message) => {
+  //         message.dateSent = message.dateSent?.split('T')[0];
+  //         this.messageThreadRegistry.set(message.id, message);
+  //       });
+  //     });
+  //   } catch (error) {
+  //     runInAction('load thread error', () => {
+
+  //     });
+  //     console.log(error);
+  //   }
+  // };
 
   //   @action loadForumPost = async (id: string) => {
   //     let forumpost = this.getForumPost(id);

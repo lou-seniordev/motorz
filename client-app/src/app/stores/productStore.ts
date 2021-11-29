@@ -1,10 +1,9 @@
 import { IProduct } from '../models/product';
 import { observable, action, computed, runInAction } from 'mobx';
-import { SyntheticEvent } from 'react';
-import { history } from '../..';
+// import { SyntheticEvent } from 'react';
+// import { history } from '../..';
 import agent from '../api/agent';
-import { IForumpost } from '../models/forumpost';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 
 // configure({ enforceActions: 'always' });
@@ -20,11 +19,7 @@ export default class ProductStore {
     @observable products: IProduct[] = [];
     @observable product: IProduct | null = null;
 
-    //--and not--
-    @observable forumPostRegistry = new Map();
 
-    @observable forumposts: IForumpost[] = [];
-    @observable forumpost: IForumpost | null = null;
 
     //--probably will be--
     @observable editMode = false;
@@ -38,6 +33,7 @@ export default class ProductStore {
             Array.from(this.productRegistry.values())
         );
     }
+
 
     //--in use--
     groupProductsByDate(products: IProduct[]) {
@@ -55,20 +51,7 @@ export default class ProductStore {
         );
     }
 
-    groupForumpostsByDate(forumposts: IForumpost[]) {
-        const sortedForumposts = forumposts.sort(
-            (a, b) => Date.parse(a.dateAdded) - Date.parse(b.dateAdded)
-        );
-        return Object.entries(
-            sortedForumposts.reduce((forumposts, forumpost) => {
-                const date = forumpost.dateAdded.split('T')[0];
-                forumposts[date] = forumposts[date]
-                    ? [...forumposts[date], forumpost]
-                    : [forumpost];
-                return forumposts;
-            }, {} as { [key: string]: IForumpost[] })
-        );
-    }
+
 
     @action loadProducts = async () => {
         this.loadingInitial = true;
@@ -88,6 +71,25 @@ export default class ProductStore {
         }
     };
 
+    // //==needed to set the form open
+    // @observable threadSellername: string | undefined = '';
+    // @observable threadSellernameSet = false;
+
+    // @action setThreadSellername = (sellerName: string) => {
+    //     this.threadSellername = sellerName;
+    //     this.threadSellernameSet = true;
+    //     console.log('sellerName', sellerName)
+    //     console.log('it set', this.threadSellername)
+    //     console.log('this.threadSellernameSet in product store', this.threadSellernameSet)
+    //   }
+
+    // @action unsetThreadSellername = () => {
+    //     this.threadSellername = undefined;
+    //     this.threadSellernameSet = false;
+    //     console.log('it unset to: ', this.threadSellername)
+    //     console.log('threadSellernameSet: ', this.threadSellernameSet)
+    //   }
+
     //--in use--
     @action loadProduct = async (id: string) => {
         let product = this.getProduct(id);
@@ -102,8 +104,11 @@ export default class ProductStore {
                     this.product = product;
                     this.productRegistry.set(product.id, product);
                     this.loadingInitial = false;
+                    this.product = product;
+                    // this.setThreadSellername(product.sellerUsername);
+                    // console.log('sellerName in loadproduct', this.threadSellername)
+
                 });
-                this.product = product;
             } catch (error) {
                 runInAction('get product error', () => {
                     this.loadingInitial = false;
@@ -113,101 +118,10 @@ export default class ProductStore {
         }
     };
 
-    @action clearForumPost = () => {
-        this.forumpost = null;
-    };
-
-    //--not in use---
-    getForumPost = (id: string) => {
-        return this.forumPostRegistry.get(id);
-    };
     //--in use---
     getProduct = (id: string) => {
         return this.productRegistry.get(id);
     };
-
-    @action createForumpost = async (forumpost: IForumpost) => {
-        this.submitting = true;
-        try {
-            await agent.Forumposts.create(forumpost);
-            runInAction('creating forumposts', () => {
-                this.forumPostRegistry.set(forumpost.id, forumpost);
-                // this.editMode = false;
-                this.submitting = false;
-            });
-            history.push(`/forum/${forumpost.id}`);
-        } catch (error) {
-            runInAction('create forumpost error', () => {
-                this.submitting = false;
-            });
-            toast.error('Problem submitting data');
-            console.log(error);
-        }
-    };
-    @action editForumpost = async (forumpost: IForumpost) => {
-        this.submitting = true;
-        try {
-            await agent.Forumposts.update(forumpost);
-            runInAction('editing forumpost', () => {
-                this.forumPostRegistry.set(forumpost.id, forumpost);
-                this.forumpost = forumpost;
-                this.editMode = false;
-                this.submitting = false;
-            });
-            history.push(`/forum/${forumpost.id}`);
-        } catch (error) {
-            runInAction('edit forumpost error', () => {
-                this.submitting = false;
-            });
-            console.log(error);
-        }
-    };
-
-    @action deleteForumpost = async (
-        event: SyntheticEvent<HTMLButtonElement>,
-        id: string
-    ) => {
-        this.submitting = true;
-        this.target = event.currentTarget.name;
-        try {
-            await agent.Forumposts.delete(id);
-            runInAction('deleting forumpost', () => {
-                this.forumPostRegistry.delete(id);
-                this.submitting = false;
-                this.target = '';
-            });
-        } catch (error) {
-            runInAction('delete forumpost error', () => {
-                this.submitting = false;
-                this.target = '';
-            });
-            console.log(error);
-        }
-    };
-
-    @action openCreateForm = () => {
-        this.editMode = true;
-        this.forumpost = null;
-    };
-
-    @action openEditForm = (id: string) => {
-        this.forumpost = this.forumPostRegistry.get(id);
-        this.editMode = true;
-    };
-
-    @action cancelSelectedForumpost = () => {
-        this.forumpost = null;
-    };
-
-    @action cancelFormOpen = () => {
-        this.editMode = false;
-        // TODO: GO BACK WHEREVER YOU WERE
-    };
-
-    @action selectForum = (id: string) => {
-        this.forumpost = this.forumPostRegistry.get(id);
-        this.editMode = false;
-    };
+   
 }
 
-// export default createContext(new ForumPostStore());

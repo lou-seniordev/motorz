@@ -1,6 +1,6 @@
-import { group } from "console";
+import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
-import { Item, Label, Segment } from "semantic-ui-react";
+import { Item,  Segment } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductListItem from "./ProductListItem";
 
@@ -28,4 +28,4 @@ const ProductList: React.FC = () => {
   );
 };
 
-export default ProductList;
+export default observer(ProductList);

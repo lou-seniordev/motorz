@@ -1,68 +1,29 @@
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react"; //, useState
 import { Segment, Grid, Icon, Image, Button } from "semantic-ui-react";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
+// import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IProduct } from "../../../app/models/product";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import ContactForm from "../forms/ContactForm";
 
 const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    loadMessageThread,
-    checkMessageThread,
-    cleanMessageThread,
-    // threadNotEmpty,
-    threadExist,
-    setMessageThreadData,
-  } = rootStore.messageStore; //
+  const { setMessage, cleanMessage } = rootStore.messageStore; //
+
+  const { openModal } = rootStore.modalStore;
 
   const { user } = rootStore.userStore;
-
-  // const [contactData, setContactData] = useState();
-
-  //==tmp com==
-  const handleContactSeller = (productId: string, sellerUsername: string) => {
-    // setMessageThreadData(sellerUsername, productId);
-    loadMessageThread(sellerUsername, productId);
-  };
-  //==tmp com==
-  const handleChoice = (productId: string, sellerUsername: string) => {
-    setMessageThreadData(sellerUsername, productId);
-    checkMessageThread();
-  };
 
   // if (loadingThread)
   // return <LoadingComponent content='Loading forum posts...' />;
 
-  const exe1 = () => {
-    cleanMessageThread();
-  }
-
   useEffect(() => {
-    cleanMessageThread();
-    console.log("iamworking in useEffect")
-    console.log("product id:", product.id)
-    console.log("sellerusername", product.sellerUsername)
+    setMessage(product.sellerUsername, product.id);
+
     return () => {
-      //your cleanup code codes here
+      cleanMessage();
     };
-
-
-  }, [cleanMessageThread]);
-
-//   useEffect(() => {
-//    // setMessageThreadData(sellerUsername, productId);
-//    setMessageThreadData(product.sellerUsername, product.id);
-//    checkMessageThread();
-//    console.log("iamworking in useEffect")
-//    console.log("product id:", product.id)
-//    console.log("sellerusername", product.sellerUsername)
-//    return () => {
-//      cleanMessageThread();
-//      //your cleanup code codes here
-//    };
-//  }, [cleanMessageThread, checkMessageThread, setMessageThreadData]);
+  }, [setMessage, cleanMessage, product.sellerUsername, product.id]);
 
   return (
     <Segment.Group>
@@ -124,7 +85,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
           </Grid.Column>
         </Grid>
       </Segment>
-      {product.sellerUsername !== user?.userName && (// threadNotEmpty &&
+      {product.sellerUsername !== user?.userName && ( // threadNotEmpty &&
         <Segment attached>
           <Grid verticalAlign='middle'>
             <Grid.Column width={1}>
@@ -132,14 +93,11 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             </Grid.Column>
 
             <Grid.Column width={11}>
-              {/* BUTTON HERE */}
               <Button
                 // disabled={product.sellerUsername === user?.userName}
                 content='contact the seller'
                 onClick={() => {
-                    //==tmp com==
-                  handleChoice(product.id, product.sellerUsername);
-                  handleContactSeller(product.id, product.sellerUsername);
+                  openModal(<ContactForm />);
                 }}
               />
             </Grid.Column>

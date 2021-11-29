@@ -8,14 +8,17 @@ export default class ModalStore {
     this.rootStore = rootStore;
   }
 
+  //shallow 13-11, 11:00
   @observable.shallow modal = {
     open: false,
     body: null,
+    // size: '',
   };
 
-  @action openModal = (content: any) => {
+  @action openModal = (content: any) => {//, size: string
       this.modal.open = true;
       this.modal.body = content;
+      // this.modal.size = size;
   }
 
   @action closeModal = () => {

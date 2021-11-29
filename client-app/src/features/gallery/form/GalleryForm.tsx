@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from "react"; //InputHTMLAttributes
+import React, { useContext, useEffect, useState } from "react"; //InputHTMLAttributes, useCallback
 import {
   Button,
   Form,
@@ -102,7 +102,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     return () => {
             history.goForward();
         }
-    }, []);
+    }, [history]);
 
   useEffect(() => {
     loadBrandsToSelect();
@@ -115,7 +115,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         .then((motofy) => setMotofy(new MotofyFormValues(motofy)))
         .finally(() => setLoading(false));
     }
-  }, [loadMotofy, match.params.id]);
+  }, [loadBrandsToSelect, loadMotofy, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
     const { ...motofy } = values;

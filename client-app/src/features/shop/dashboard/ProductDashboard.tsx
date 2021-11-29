@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Grid, Sticky } from "semantic-ui-react";
 import ProductList from "./ProductList";
 
-import LoadingComponent from "../../../app/layout/LoadingComponent";
+// import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -10,7 +10,7 @@ import ProductSidebar from "./ProductSidebar";
 
 const ProductDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadProducts, loadingInitial } = rootStore.productStore;
+  const { loadProducts } = rootStore.productStore;//, loadingInitial
 
   useEffect(() => {
     loadProducts();
@@ -22,9 +22,9 @@ const ProductDashboard = () => {
         <ProductList />
       </Grid.Column>
       <Grid.Column width={7}>
-        {/* <Sticky style={{ marginRight: 30, position: "fixed" }}> */}
+        <Sticky style={{ marginRight: 30, position: "fixed" }}>
           <ProductSidebar />
-        {/* </Sticky> */}
+        </Sticky>
       </Grid.Column>
     </Grid>
   );

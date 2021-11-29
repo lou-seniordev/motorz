@@ -7,47 +7,48 @@ import {
   Image,
   Menu,
   Responsive,
+  Popup,
 } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 const NavBar: React.FC = () => {
-  const createOptions = [
-    {
-      key: "Mecanic",
-      text: "Mecanics Shop",
-      value: "Mecanic",
-      as: Link,
-      to: "/mechanicForm",
-    },
-    {
-      key: "Riding",
-      text: "Adventure",
-      value: "Riding",
-      as: Link,
-      to: "/createActivity",
-    },
-    {
-      key: "Post",
-      text: "Motofy!",
-      value: "Post",
-      as: Link,
-      to: "/galleryForm",
-    },
-    {
-      key: "Forum",
-      text: "Forum Post",
-      value: "Forum",
-      as: Link,
-      to: "/forumform",
-    },
-    {
-      key: "Product",
-      text: "Sell Product",
-      value: "Product",
-      as: Link,
-      to: "/productform",
-    },
-  ];
+  // const createOptions = [
+  //   {
+  //     key: "Mecanic",
+  //     text: "Mecanics Shop",
+  //     value: "Mecanic",
+  //     as: Link,
+  //     to: "/mechanicForm",
+  //   },
+  //   {
+  //     key: "MotoDiary",
+  //     text: "What are you up tu?",
+  //     value: "MotoDiary",
+  //     as: Link,
+  //     to: "/createActivity",
+  //   },
+  //   {
+  //     key: "Post",
+  //     text: "Motofy!",
+  //     value: "Post",
+  //     as: Link,
+  //     to: "/galleryForm",
+  //   },
+  //   {
+  //     key: "Forum",
+  //     text: "Forum Post",
+  //     value: "Forum",
+  //     as: Link,
+  //     to: "/forumform",
+  //   },
+  //   {
+  //     key: "Product",
+  //     text: "Sell Product",
+  //     value: "Product",
+  //     as: Link,
+  //     to: "/productform",
+  //   },
+  // ];
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout } = rootStore.userStore;
@@ -67,18 +68,27 @@ const NavBar: React.FC = () => {
         <Responsive />
         {/* ex gallery */}
         {/* name='motofy'  */}
-        <Menu.Item name='my adventures' exact as={NavLink} to='/activities' />
-        <Menu.Item exact as={NavLink} to='/gallery' >Motofy!</Menu.Item>
+        <Menu.Item
+          name='Motorcycle Diaries'
+          exact
+          as={NavLink}
+          to='/activities'
+        />
+        <Menu.Item exact as={NavLink} to='/gallery'>
+          Motofy!
+        </Menu.Item>
         {/* <Menu.Item name='motospots' exact as={NavLink} to='/activities' /> */}
         <Menu.Item name='forum' exact as={NavLink} to='/forum' />
         <Menu.Item name='find mechanics' exact as={NavLink} to='/mechanics' />
         <Menu.Item name='market' exact as={NavLink} to='/shop' />
         {/* exact as={NavLink} to='/shop' */}
-        <Menu.Item name='messages'  exact as={NavLink} to='/messages'/>
+        <Menu.Item name='messages' exact as={NavLink} to='/messages' />
         <Menu.Item name='search motoranza' />
+
         {user && (
           <Menu.Item>
-            <Dropdown
+            {/* <Dropdown
+              text='New'
               button
               item
               className='icon'
@@ -87,8 +97,78 @@ const NavBar: React.FC = () => {
               icon='world'
               options={createOptions}
               // search // no, because it does not close
-              text='New'
-            />
+            /> */}
+
+            <Dropdown text='New' className='icon' floating labeled>
+              <Dropdown.Menu>
+                <Popup
+                  size='mini'
+                  position='right center'
+                  trigger={
+                    <Dropdown.Item
+                      text='Mecanics Shop'
+                      value='Mecanic'
+                      as={Link}
+                      to='/mechanicForm'
+                    />
+                  }
+                  content='Let us know about your shop or recommend a mecanic that you know about'
+                />
+                <Popup
+                  size='mini'
+                  position='right center'
+                  trigger={
+                    <Dropdown.Item
+                      text='What are you up tu?'
+                      value='MotoDiary'
+                      as={Link}
+                      to='/createActivity'
+                    />
+                  }
+                  content='Show us what you do, where you go? Find brothers and sisters to ride together...'
+                />
+
+                <Popup
+                  size='mini'
+                  position='right center'
+                  trigger={
+                    <Dropdown.Item
+                      text='Motofy!'
+                      value='Motofy'
+                      as={Link}
+                      to='/galleryForm'
+                    />
+                  }
+                  content='Everybody wants to see a great photo of your bike. Tell us more about it'
+                />
+                <Popup
+                  size='mini'
+                  position='right center'
+                  trigger={
+                    <Dropdown.Item
+                      text='Forum post'
+                      value='Forum'
+                      as={Link}
+                      to='/forumform'
+                    />
+                  }
+                  content='Ask about anything. Some one from community will have the right answer'
+                />
+                <Popup
+                  size='mini'
+                  position='right center'
+                  trigger={
+                    <Dropdown.Item
+                      text='Sell a product'
+                      value='Product'
+                      as={Link}
+                      to='/productform'
+                    />
+                  }
+                  content='Post and item that you want to sell'
+                />
+              </Dropdown.Menu>
+            </Dropdown>
           </Menu.Item>
         )}
         {user && (
