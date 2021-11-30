@@ -15,8 +15,8 @@ namespace Persistence
             // {
             //     var products = new List<Product>
             //     {
-                    
-                  
+
+
             //     };
 
             //     context.Products.AddRange(products);
@@ -269,7 +269,9 @@ namespace Persistence
                     SenderUsername= "bob",
                     RecipientId= "b",
                     RecipientUsername= "jane",
-                    Content= "Another (sofar) Message from Bob to Jane 1!",
+                    Content= "First Message from Bob to Jane 1!",
+                    DateSent = DateTime.Now
+
                     },
 
                     new Message
@@ -279,7 +281,8 @@ namespace Persistence
                     SenderUsername= "bob",
                     RecipientId= "b",
                     RecipientUsername= "jane",
-                    Content= "New Message from Bob to Jane! 2",
+                    Content= "Second Message from Bob to Jane! 2",
+                    DateSent = DateTime.Now
                     },
 
                     new Message
@@ -289,7 +292,8 @@ namespace Persistence
                     SenderUsername= "jane",
                     RecipientId= "a",
                     RecipientUsername= "bob",
-                    Content= "HOW R U DOING BOBBY MY BOY is a New Message from Jane to Bob! 3",
+                    Content= "First Message from Jane to Bob! 3",
+                    DateSent = DateTime.Now
                     },
                     new Message
                     {
@@ -298,47 +302,53 @@ namespace Persistence
                     SenderUsername= "jane",
                     RecipientId= "a",
                     RecipientUsername= "bob",
-                    Content= "TESTING Messages Jane 2 Bob! 4",
+                    Content= "Second Messages Jane 2 Bob! 4",
+                    DateSent = DateTime.Now
                     },
-                };
-                var messages2 = new List<Message>
-                {
-                    new Message
+                     new Message
                     {
                     Id= Guid.Parse("FF510862-5C6F-43A0-B2BE-E0B3749B730F"),
                     SenderId= "a",
                     SenderUsername= "bob",
                     RecipientId= "b",
                     RecipientUsername= "jane",
-                    Content= "Distinct Message from Bob to Jane 3!",
+                    Content= "Third Message from Bob to Jane 3!",
+                    DateSent = DateTime.Now
                     },
+                };
+                var messages2 = new List<Message>
+                {
+
 
                     new Message
                     {
                     Id= Guid.Parse("C0571EC4-EC3C-4377-9836-ECD3E1AACED1"),
                     SenderId= "a",
                     SenderUsername= "bob",
-                    RecipientId= "b",
-                    RecipientUsername= "jane",
-                    Content= "One more Message from Bob to Jane 4",
+                    RecipientId= "c",
+                    RecipientUsername= "tom",
+                    Content= "First Message from Bob to Tom 1",
+                    DateSent = DateTime.Now
                     },
                     new Message
                     {
                     Id= Guid.Parse("1888250C-4112-4DD8-8D29-37405E8FB7F5"),
-                    SenderId= "b",
-                    SenderUsername= "jane",
+                    SenderId= "c",
+                    SenderUsername= "tom",
                     RecipientId= "a",
                     RecipientUsername= "bob",
-                    Content= "New Message from Jane to Bob 1",
+                    Content= "First Message from Tom to Bob 1",
+                    DateSent = DateTime.Now
                     },
                     new Message
                     {
                     Id= Guid.Parse("75729DD9-BC90-45D7-AF7A-CD6074B5D821"),
-                    SenderId= "b",
-                    SenderUsername= "jane",
+                    SenderId= "c",
+                    SenderUsername= "tom",
                     RecipientId= "a",
                     RecipientUsername= "bob",
-                    Content= "Another New Message from Jane to Bob 2",
+                    Content= "Second Message from Tom to Bob 2",
+                    DateSent = DateTime.Now
                     },
                 };
 
@@ -366,6 +376,27 @@ namespace Persistence
                 else
                 {
                     throw new Exception();
+                }
+                if (!context.MessageThreads.Any())
+                {
+                    var messageThreads = new List<MessageThread>
+                {
+                    new MessageThread
+                    {
+                        Id = Guid.Parse("603FDB55-2DE3-4624-AA9F-2F98D336875A"),
+                        Messages = messages1
+                    },
+                    new MessageThread
+                    {
+                        Id = Guid.Parse("D5759CCD-CD56-4F18-890C-8C522C76C4E4"),
+                        Messages = messages2
+                    }
+
+
+                };
+                    await context.MessageThreads.AddRangeAsync(messageThreads);
+                    await context.SaveChangesAsync();
+
                 }
             }
             // === Forumposts

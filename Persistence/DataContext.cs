@@ -32,6 +32,7 @@ namespace Persistence
 
         // === MESSAGES ===
         public DbSet<Message> Messages { get; set; }
+        public DbSet<MessageThread> MessageThreads { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

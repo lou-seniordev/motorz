@@ -60,15 +60,15 @@ axios.interceptors.response.use(undefined, (error) => {
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-// const sleep = (ms: number) => (response: AxiosResponse) =>
-//   new Promise<AxiosResponse>((resolve) =>
-//     setTimeout(() => resolve(response), ms)
-//   );
+const sleep = (ms: number) => (response: AxiosResponse) =>
+  new Promise<AxiosResponse>((resolve) =>
+    setTimeout(() => resolve(response), ms)
+  );
 
 const requests = {
   get: (url: string) =>
     axios.get(url)
-      // .then(sleep(1000))
+      .then(sleep(1000))
       .then(responseBody),
   post: (url: string, body: {}) =>
     axios.post(url, body)
@@ -85,7 +85,7 @@ const requests = {
   postForm: (url: string, file: Blob) => {
     let formData = new FormData();
     formData.append('File', file);
-    console.log('photo file From agent: ', file)
+    // console.log('photo file From agent: ', file)
 
     return axios.post(url, formData, {
       headers: { 'Content-type': 'multipart/form-data' }

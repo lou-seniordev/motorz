@@ -20,5 +20,6 @@ namespace Domain
         public bool SenderDeleted { get; set; }
         public bool RecipientDeleted { get; set; }
         public virtual Product Product { get; set; }
+        public virtual MessageThread MessageThread { get; set; }
     }
 }

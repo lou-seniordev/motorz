@@ -10,6 +10,9 @@ export interface IMessage {
     dateRead: string;
     dateSent: string;
     productId: string;
+    productTitle?: string;
+    productPhotoUrl: string;
+    messageThreadId: string;
 }
 
 export interface IMessageToSend {

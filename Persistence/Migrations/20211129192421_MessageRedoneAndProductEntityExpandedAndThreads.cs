@@ -3,10 +3,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class MessageRedoneAndProductEntityExpanded : Migration
+    public partial class MessageRedoneAndProductEntityExpandedAndThreads : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "MessageThreads",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageThreads", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
@@ -25,6 +36,7 @@ namespace Persistence.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
                     IsAdvertised = table.Column<bool>(nullable: false),
+                    IsSold = table.Column<bool>(nullable: false),
                     DatePublished = table.Column<DateTime>(nullable: false),
                     DateActivated = table.Column<DateTime>(nullable: false),
                     DateAdvertised = table.Column<DateTime>(nullable: false),
@@ -62,11 +74,18 @@ namespace Persistence.Migrations
                     DateSent = table.Column<DateTime>(nullable: false),
                     SenderDeleted = table.Column<bool>(nullable: false),
                     RecipientDeleted = table.Column<bool>(nullable: false),
-                    ProductId = table.Column<Guid>(nullable: true)
+                    ProductId = table.Column<Guid>(nullable: true),
+                    MessageThreadId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_MessageThreads_MessageThreadId",
+                        column: x => x.MessageThreadId,
+                        principalTable: "MessageThreads",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Messages_Products_ProductId",
                         column: x => x.ProductId,
@@ -86,6 +105,11 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_MessageThreadId",
+                table: "Messages",
+                column: "MessageThreadId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ProductId",
@@ -117,6 +141,9 @@ namespace Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Messages");
+
+            migrationBuilder.DropTable(
+                name: "MessageThreads");
 
             migrationBuilder.DropTable(
                 name: "Products");

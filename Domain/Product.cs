@@ -20,6 +20,7 @@ namespace Domain
         public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
         public bool IsAdvertised { get; set; }
+        public bool IsSold { get; set; }
         public DateTime DatePublished { get; set; }
         public DateTime DateActivated { get; set; }
         public DateTime DateAdvertised { get; set; }

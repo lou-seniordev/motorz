@@ -35,6 +35,7 @@ import ConfirmDelete from '../../features/gallery/modal/ConfirmDelete';
 import ProductDashboard from '../../features/shop/dashboard/ProductDashboard';
 import MessagesDashboard from '../../features/messages/dashboard/MessagesDashboard';
 import ProductForm from '../../features/shop/forms/ProductForm';
+import MessageThreadContent from '../../features/messages/dashboard/MessageThreadContent';
 
 //t
 
@@ -102,6 +103,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 />
 
                 <PrivateRoute exact path='/messages' component={MessagesDashboard} />
+                <PrivateRoute exact path='/messageThread' component={MessageThreadContent} />
                 
                 <PrivateRoute path='/profile/:username' component={ProfilePage} />
                 <Route path='/login' component={LoginForm} />

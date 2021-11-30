@@ -8,7 +8,7 @@ using MediatR;
 
 namespace API.Controllers
 {
-    // [Authorize]
+    [Authorize]
     public class MessagesController: BaseController
     {
 
@@ -33,10 +33,15 @@ namespace API.Controllers
             return await Mediator.Send(new GetMessagesForUser.Query(messageParams));
         }
         
-        [HttpGet("thread/{username}/{productId}")]// FromBody
-        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread (string username, string productId)
+        [HttpGet("thread/{recipientUsername}/{productId}")]// FromBody [FromQuery]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread (string recipientUsername, string productId)
         {
-            return await Mediator.Send(new GetMessageThread.Query(username, productId));
+            return await Mediator.Send(new GetMessageThread.Query(recipientUsername, productId));
+        }
+        [HttpGet("messagethreads")]// FromBody [FromQuery]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThreads (string recipientUsername, string productId)
+        {
+            return await Mediator.Send(new GetMessageThread.Query(recipientUsername, productId));
         }
     }
 }

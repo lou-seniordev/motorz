@@ -19,14 +19,12 @@ namespace Application.Messages
         public class Query : IRequest<ActionResult<IEnumerable<MessageDto>>>
         {
             public string _productId { get; set; }// = "d938c1d0-3321-4357-b7c3-d5144c4eeb68";
-            public string _recipientUsername { get; set; }// = "jane";
-            public Query(string recipientUsername, string productId)
+            public string _username { get; set; }// = "jane";
+            public Query(string username, string productId)
             {
                 _productId = productId;
-                _recipientUsername = recipientUsername;
+                _username = username;
             }
-
-
         }
 
         public class Handler : IRequestHandler<Query, ActionResult<IEnumerable<MessageDto>>>
@@ -49,24 +47,49 @@ namespace Application.Messages
                 var messages = await _context.Messages
                     .Include(u => u.Sender).ThenInclude(p => p.Photos)
                     .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+                   
                     .Where(  
                         m => m.Recipient.UserName == currentUsername
                         &&
-                        m.Sender.UserName == request._recipientUsername
-                        || 
-                        m.RecipientUsername == request._recipientUsername
-                        && 
+                        // m.Sender.UserName == request._username
                         m.Sender.UserName == currentUsername
-                        // m => m.RecipientUsername == request._recipientUsername
+                        // || 
+                        // m.username == request._recipientUsername
                         // && 
                         // m.Sender.UserName == currentUsername
-                        // m => m.Sender.UserName == currentUsername
+                        
+                    ).Where(
+                        m => m.Product.Id == Guid.Parse(request._productId)
                     )
+                    // .Where(u => u.)
                     .OrderBy(m => m.DateSent)
                     .ToListAsync();
 
-                        // m => m.Product.Id == Guid.Parse(request._productId)                    
+                // var selectedProductIds = messages.GroupBy(pid => pid.Product.Id).Select(grp => grp.First().Product.Id);
+
+                // var sortedMessagesByProductId = new List<MessageThreadDto>();
+
+                
+                // foreach (var id in selectedProductIds)
+                // {
+                //     foreach(var item in messages)
+                //     {
+                //         if(id == item.Product.Id)
+                //         {
+                //         //    sortedMessagesByProductId.Add(new List<Message>() {
+                //         //     //    new Message = item;
+                //         //    });
+                //         }
+                //     }
+                // }
+
+                // var probableSolution = messages.GroupBy(pid => pid.Product.Id).ToDictionary(
+                //     grp => grp.Key,
+                //     grp => grp.ToList()
+                // );
+
                 var thread = messages.Where(m => m.Product.Id == Guid.Parse(request._productId));
+                
                 // var unreadMessages = messages
                 //     .Where(m => m.DateRead == null && m.Recipient.UserName == currentUsername)
                 //     .ToList();

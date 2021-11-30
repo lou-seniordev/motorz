@@ -258,6 +258,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateSent")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("MessageThreadId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("TEXT");
 
@@ -281,6 +284,8 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MessageThreadId");
+
                     b.HasIndex("ProductId");
 
                     b.HasIndex("RecipientId");
@@ -288,6 +293,17 @@ namespace Persistence.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Domain.MessageThread", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MessageThreads");
                 });
 
             modelBuilder.Entity("Domain.Motofy", b =>
@@ -422,6 +438,9 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsAdvertised")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsSold")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Model")
@@ -712,6 +731,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Message", b =>
                 {
+                    b.HasOne("Domain.MessageThread", "MessageThread")
+                        .WithMany("Messages")
+                        .HasForeignKey("MessageThreadId");
+
                     b.HasOne("Domain.Product", "Product")
                         .WithMany("Messages")
                         .HasForeignKey("ProductId");

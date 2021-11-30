@@ -14,8 +14,11 @@ namespace Application.Messages
         public string RecipientId { get; set; }
         public string RecipientUsername { get; set; }
         public string RecipientPhotoUrl { get; set; }
-        public string Content { get; set; }
         public Guid ProductId { get; set; }
+        public string ProductPhotoUrl { get; set; }
+        public string ProductTitle { get; set; }
+        public string MessageThreadId { get; set; }
+        public string Content { get; set; }
         public DateTime DateRead { get; set; }
         public DateTime DateSent { get; set; }
     }

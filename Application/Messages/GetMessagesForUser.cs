@@ -42,25 +42,31 @@ namespace Application.Messages
             {
 
                 request.messageParams.Username = _userAccessor.GetCurrentUsername();
+                var username = _userAccessor.GetCurrentUsername();
+
 
                 var query = _context.Messages
+                     .Where(
+                         u => u.RecipientUsername == username
+                         ||
+                         u.SenderUsername == username)
                      .OrderByDescending(m => m.DateSent)
                      .AsQueryable();
 
                 //==new_switch==
-                query = request.messageParams.Container switch
-                {
-                    "Inbox" => query.Where(u => u.Recipient.UserName == request.messageParams.Username),
-                    "Outbox" => query.Where(u => u.Sender.UserName == request.messageParams.Username),
-                    _ => query.Where(u => u.Recipient.UserName
-                        == request.messageParams.Username && u.DateRead == null)
-                };
+                // query = request.messageParams.Container switch
+                // {
+                //     "Inbox" => query.Where(u => u.Recipient.UserName == request.messageParams.Username),
+                //     "Outbox" => query.Where(u => u.Sender.UserName == request.messageParams.Username),
+                //     _ => query.Where(u => u.Recipient.UserName
+                //         == request.messageParams.Username && u.DateRead == null)
+                // };
 
 
                 var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 
                 return await messages;
-               
+
             }
 
 
