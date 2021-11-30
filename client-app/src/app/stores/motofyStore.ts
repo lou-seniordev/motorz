@@ -136,7 +136,7 @@ export default class MotofyStore {
     if (motofy) {
       this.motofy = motofy;
       // //test
-      // console.log('id:', id);
+      console.log('id:', id);
       // console.log('motofy:', this.getMotofy(id));
       return motofy;
     } else {

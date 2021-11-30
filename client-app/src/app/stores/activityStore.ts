@@ -49,7 +49,7 @@ export default class ActivityStore {
     }
   }
 
-  @computed get axiosParams () {
+  @computed get axiosParams() {
     const params = new URLSearchParams();
     params.append('limit', String(LIMIT));
     params.append('offset', `${this.page ? this.page * LIMIT : 0}`);
@@ -57,17 +57,17 @@ export default class ActivityStore {
       if (key === 'startDate') {
         params.append(key, value.toISOString())
       } else {
-        params.append(key, value )
+        params.append(key, value)
       }
     })
     return params;
   }
 
-  @computed get totalPages () {
+  @computed get totalPages() {
     return Math.ceil(this.activityCount / LIMIT);
   }
 
-  @action setPage =(page: number)=> {
+  @action setPage = (page: number) => {
     this.page = page;
   }
 
@@ -153,12 +153,12 @@ export default class ActivityStore {
       const activitiesEnvelope = await agent.Activities.list(this.axiosParams);
       // const activitiesEnvelope = await agent.Activities.list(LIMIT, this.page);
 
-      const {activities, activityCount} = activitiesEnvelope;
-     
+      const { activities, activityCount } = activitiesEnvelope;
+
 
       runInAction('loading activities', () => {
         activities.forEach((activity) => {
-        
+
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
         });
@@ -189,9 +189,14 @@ export default class ActivityStore {
 
   @action loadActivity = async (id: string) => {
     let activity = this.getActivity(id);
+    // console.log('activity is: ', activity)
+    // console.log('id is: ', id)
+    // console.log('this.activityRegistry is: ', this.activityRegistry)
+
+
     if (activity) {
       this.activity = activity;
-      return toJS(activity) ;
+      return toJS(activity);
     } else {
       this.loadingInitial = true;
       try {
@@ -201,7 +206,6 @@ export default class ActivityStore {
           this.activity = activity;
           this.activityRegistry.set(activity.id, activity);
           this.loadingInitial = false;
-          //  console.log('activity is: ',activity)
 
         });
         return activity;

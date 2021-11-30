@@ -1,7 +1,7 @@
 // import { toJS } from 'mobx';
 // import { MessageContent } from 'semantic-ui-react';
 import { IMessage } from './../models/message';//, IMessageToSend
-import { observable, action, computed, runInAction } from 'mobx';
+import { observable, action, computed, runInAction, toJS } from 'mobx';
 
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
@@ -68,6 +68,62 @@ export default class MessageStore {
     this.threadUsername = username;
     this.threadProductId = productId;
   };
+
+  @observable messageThread: IMessage[];
+  @observable loadingMessageThread = false;
+
+
+  @action setThread = (messages: IMessage[]) => {
+    this.messageThread = messages;
+    // localStorage.setItem('messageThread', JSON.stringify(this.messageThread))
+  };
+
+  @action loadMessageThread = async (id: string) => {
+
+    let messageThread = this.getMessageThread(id);
+    console.log('messageThread is: ', messageThread)
+    console.log('id is: ', id)
+    console.log('this.messageRegistry is: ', this.messageRegistry)
+
+    
+    if (messageThread) {
+      // this.messageThread = messageThread;
+      console.log('id:', id);
+      // return toJS(messageThread) ;
+
+    } else {
+        this.loadingMessageThread = true;
+      //   try {
+      //     messageThread = await agent.Motofies.details(id);
+      //     runInAction('getting motofy', () => {
+      //       // // === why not using date here??? ===
+      //       // setMotofyProps(motofy, this.rootStore.userStore.user!);
+      //       // this.motofy = motofy;
+      //       // this.motofyRegistry.set(motofy.id, motofy);
+      //       // this.loadingInitial = false;
+      //     });
+      //     return messageThread;
+      //   } catch (error) {
+      //     runInAction('get motofy error', () => {
+      //       this.loadingMessageThread = false;
+      //     });
+      //     console.log(error);
+      //   }
+    }
+  };
+
+  getMessageThread = (id: string) => {
+
+    return this.messageRegistry.get(id);
+  };
+
+  // @action getThread = () => {
+  //   if (this.messageThread !== undefined) {
+  //     return this.messageThread;
+  //   } else {
+  //     return localStorage.getItem(JSON.parse('messageThread'))
+  //   }
+  // };
 
   @action cleanMessage = () => {
     this.threadUsername = '';

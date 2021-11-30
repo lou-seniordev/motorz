@@ -1,23 +1,55 @@
-import React from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Grid, Item, Segment } from "semantic-ui-react";
 import { IMessage } from "../../../app/models/message";
+import { RootStoreContext } from "../../../app/stores/rootStore";
+// import { useLocation, useParams } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
-const MessageThreadListItem: React.FC<{ message: IMessage; messages: IMessage[] }> =
-  ({ message, messages }) => {
-    //MessageThreadListItem
-    const params = {
-      pathname: 'messageThread',
-      load: messages
-    }
-    return (
-      <Segment.Group>
-        {/* style={{ display: "block" }} */}
-        {/*  */}
-        {/* as={Link} */}
-        <Segment>
-          {/* <NavLink to='messageThread'> */}
-          <NavLink to={params}>
+//loadMessageThread
+interface DetailParams {
+  id: string;
+}
+const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
+  match,
+}) => {
+  // const MessageThreadListItem = () => {
+  const rootStore = useContext(RootStoreContext);
+  const { 
+    // loadMessageThread, loadingMessageThread ,
+    // setThread
+    messageThread
+  } = rootStore.messageStore;
+
+  // useEffect(() => {
+  //   // loadMessageThread(match.params.id);
+  // }, [
+  //   // loadMessageThread, 
+  //   setThread,
+  //   // match.params.id
+  // ]);
+
+  // if (loadingMessageThread)
+  //   return <LoadingComponent content='Loading messages...' />;
+
+  return (
+    <Segment.Group>
+      <Segment>
+        {/* <h1>Hallo</h1> */}
+
+        <Fragment>
+          {messageThread!.map( (message:any) => (
+            <Fragment key={message.id}>
+           
+                <h1>Hallo {message.senderUsername} message={message.content}</h1>
+           
+            </Fragment>
+          ))}
+        </Fragment>
+
+        {/* <NavLink to={params}>
             <Grid>
               <Grid.Column width={3}>
                 <Item.Image
@@ -28,10 +60,10 @@ const MessageThreadListItem: React.FC<{ message: IMessage; messages: IMessage[] 
                 <Item.Description>{message.productTitle}</Item.Description>
               </Grid.Column>
 
-              {/* <Grid.Column width={3}>
+              <Grid.Column width={3}>
             <Item.Image size='tiny' circular src={message.senderPhotoUrl} />
             <Item.Description>{message.senderUsername}</Item.Description>
-          </Grid.Column> */}
+          </Grid.Column>
 
               <Grid.Column width={10}>
                 <Item.Description>Message Id: {message.id}</Item.Description>
@@ -41,10 +73,10 @@ const MessageThreadListItem: React.FC<{ message: IMessage; messages: IMessage[] 
                 </Item.Description>
               </Grid.Column>
             </Grid>
-          </NavLink>
-        </Segment>
-      </Segment.Group>
-    );
-  };
+          </NavLink> */}
+      </Segment>
+    </Segment.Group>
+  );
+};
 
-export default MessageThreadListItem;
+export default observer(MessageThreadListItem);

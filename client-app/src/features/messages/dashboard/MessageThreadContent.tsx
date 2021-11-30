@@ -14,7 +14,7 @@ const MessageThreadContent = () => {
 
   const rootStore = useContext(RootStoreContext);
   const { messagesByDate } = rootStore.messageStore;
-  console.log(messagesByDate);
+  // console.log(messagesByDate);
     
   return (
     <h1>Hi im here</h1>
