@@ -115,9 +115,7 @@ export default class MotofyStore {
         motofies.forEach((motofy) => {
           motofy.datePublished = motofy.datePublished?.split('T')[0];
           // === Util Class ===
-          // console.log("motofy: ", motofy)
           setMotofyProps(motofy, this.rootStore.userStore.user!);
-          // console.log("motofy user: ", this.rootStore.userStore.user!)
           this.motofyRegistry.set(motofy.id, motofy);
         });
         this.motofyCount = motofyCount;
@@ -136,8 +134,6 @@ export default class MotofyStore {
     if (motofy) {
       this.motofy = motofy;
       // //test
-      console.log('id:', id);
-      // console.log('motofy:', this.getMotofy(id));
       return motofy;
     } else {
       this.loadingInitial = true;

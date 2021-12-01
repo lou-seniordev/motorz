@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { Grid, Item, Segment } from "semantic-ui-react";
-import { IMessage } from "../../../app/models/message";
+// import { NavLink } from "react-router-dom";
+import {  Segment } from "semantic-ui-react";//Grid, Item,
+// import { IMessage } from "../../../app/models/message";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 // import { useLocation, useParams } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
@@ -17,37 +17,50 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
 }) => {
   // const MessageThreadListItem = () => {
   const rootStore = useContext(RootStoreContext);
-  const { 
-    // loadMessageThread, loadingMessageThread ,
-    // setThread
-    messageThread
+  const {
+    loadingMessageThread ,
+    // messageThread,
+    loadMessageThread,
+    messagesFromThread
   } = rootStore.messageStore;
 
-  // useEffect(() => {
-  //   // loadMessageThread(match.params.id);
-  // }, [
-  //   // loadMessageThread, 
-  //   setThread,
-  //   // match.params.id
-  // ]);
+  useEffect(() => {
+    loadMessageThread(match.params.id)
+  }, [
+    loadMessageThread,match.params.id
+  ]);
 
-  // if (loadingMessageThread)
-  //   return <LoadingComponent content='Loading messages...' />;
+  if (loadingMessageThread)
+    return <LoadingComponent content='Loading messages...' />;
 
   return (
     <Segment.Group>
       <Segment>
-        {/* <h1>Hallo</h1> */}
+       
 
         <Fragment>
-          {messageThread!.map( (message:any) => (
+          {messagesFromThread!.map((message: any) => (
             <Fragment key={message.id}>
-           
-                <h1>Hallo {message.senderUsername} message={message.content}</h1>
-           
+              <h6>***</h6>
+              <h5>
+                Hallo from {message.senderUsername} my message is=
+                {message.content} sent on {message.dateSent}
+              </h5>
             </Fragment>
           ))}
         </Fragment>
+        {/* <Fragment>
+          {messageThread!.map((message: any) => (
+            <Fragment key={message.id}>
+              <h6>***</h6>
+              <h5>
+                Hallo from {message.senderUsername} my message is=
+                {message.content} sent on {message.dateSent}
+              </h5>
+            </Fragment>
+          ))}
+        </Fragment> */}
+
 
         {/* <NavLink to={params}>
             <Grid>

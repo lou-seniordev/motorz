@@ -163,7 +163,8 @@ const Activities = {
 
 const Messages = {
   list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}`),
-  thread: (username: string, productId: string): Promise<IMessage[]> => requests.get(`/messages/thread/${username}/${productId}`),
+  // thread: (username: string, productId: string): Promise<IMessage[]> => requests.get(`/messages/thread/${username}/${productId}`),
+  thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
   details: (id: string) => requests.get(`/messages/${id}`),
   // create: (username: string, productId: string, content: string) => 
   //   requests.post(`/messages/${username}/${productId}/${content}`, {}),

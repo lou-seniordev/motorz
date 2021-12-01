@@ -189,10 +189,6 @@ export default class ActivityStore {
 
   @action loadActivity = async (id: string) => {
     let activity = this.getActivity(id);
-    // console.log('activity is: ', activity)
-    // console.log('id is: ', id)
-    // console.log('this.activityRegistry is: ', this.activityRegistry)
-
 
     if (activity) {
       this.activity = activity;

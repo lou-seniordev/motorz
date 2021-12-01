@@ -33,15 +33,15 @@ namespace API.Controllers
             return await Mediator.Send(new GetMessagesForUser.Query(messageParams));
         }
         
-        [HttpGet("thread/{recipientUsername}/{productId}")]// FromBody [FromQuery]
-        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread (string recipientUsername, string productId)
+        [HttpGet("thread/{messageThread}")]// FromBody [FromQuery]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread (string messageThread)
         {
-            return await Mediator.Send(new GetMessageThread.Query(recipientUsername, productId));
+            return await Mediator.Send(new GetMessageThread.Query( messageThread));
         }
-        [HttpGet("messagethreads")]// FromBody [FromQuery]
-        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThreads (string recipientUsername, string productId)
-        {
-            return await Mediator.Send(new GetMessageThread.Query(recipientUsername, productId));
-        }
+        // [HttpGet("messagethreads")]// FromBody [FromQuery]
+        // public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThreads (string recipientUsername, string productId)
+        // {
+        //     return await Mediator.Send(new GetMessageThread.Query(recipientUsername, productId));
+        // }
     }
 }

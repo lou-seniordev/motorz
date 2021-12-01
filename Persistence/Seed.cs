@@ -270,8 +270,8 @@ namespace Persistence
                     RecipientId= "b",
                     RecipientUsername= "jane",
                     Content= "First Message from Bob to Jane 1!",
-                    DateSent = DateTime.Now
-
+                    DateSent = DateTime.Now.AddMinutes(1)
+// AddDays(-1),
                     },
 
                     new Message
@@ -282,7 +282,7 @@ namespace Persistence
                     RecipientId= "b",
                     RecipientUsername= "jane",
                     Content= "Second Message from Bob to Jane! 2",
-                    DateSent = DateTime.Now
+                    DateSent = DateTime.Now.AddMinutes(3)
                     },
 
                     new Message
@@ -292,8 +292,8 @@ namespace Persistence
                     SenderUsername= "jane",
                     RecipientId= "a",
                     RecipientUsername= "bob",
-                    Content= "First Message from Jane to Bob! 3",
-                    DateSent = DateTime.Now
+                    Content= "First Message from Jane to Bob! 1",
+                    DateSent = DateTime.Now.AddMinutes(2)
                     },
                     new Message
                     {
@@ -302,8 +302,8 @@ namespace Persistence
                     SenderUsername= "jane",
                     RecipientId= "a",
                     RecipientUsername= "bob",
-                    Content= "Second Messages Jane 2 Bob! 4",
-                    DateSent = DateTime.Now
+                    Content= "Second Messages Jane 2 Bob! 2",
+                    DateSent = DateTime.Now.AddMinutes(4)
                     },
                      new Message
                     {
@@ -313,7 +313,7 @@ namespace Persistence
                     RecipientId= "b",
                     RecipientUsername= "jane",
                     Content= "Third Message from Bob to Jane 3!",
-                    DateSent = DateTime.Now
+                    DateSent = DateTime.Now.AddMinutes(5)
                     },
                 };
                 var messages2 = new List<Message>
@@ -328,7 +328,7 @@ namespace Persistence
                     RecipientId= "c",
                     RecipientUsername= "tom",
                     Content= "First Message from Bob to Tom 1",
-                    DateSent = DateTime.Now
+                    DateSent = DateTime.Now.AddMinutes(1)
                     },
                     new Message
                     {
@@ -338,7 +338,7 @@ namespace Persistence
                     RecipientId= "a",
                     RecipientUsername= "bob",
                     Content= "First Message from Tom to Bob 1",
-                    DateSent = DateTime.Now
+                    DateSent = DateTime.Now.AddMinutes(2)
                     },
                     new Message
                     {
@@ -348,7 +348,7 @@ namespace Persistence
                     RecipientId= "a",
                     RecipientUsername= "bob",
                     Content= "Second Message from Tom to Bob 2",
-                    DateSent = DateTime.Now
+                    DateSent = DateTime.Now.AddMinutes(3)
                     },
                 };
 

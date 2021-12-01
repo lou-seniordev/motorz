@@ -3,8 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -18,12 +16,10 @@ namespace Application.Messages
     {
         public class Query : IRequest<ActionResult<IEnumerable<MessageDto>>>
         {
-            public string _productId { get; set; }// = "d938c1d0-3321-4357-b7c3-d5144c4eeb68";
-            public string _username { get; set; }// = "jane";
-            public Query(string username, string productId)
+            public string _messageThreadId { get; set; }
+            public Query(string messageThreadId)
             {
-                _productId = productId;
-                _username = username;
+                _messageThreadId = messageThreadId;
             }
         }
 
@@ -42,7 +38,6 @@ namespace Application.Messages
             public async Task<ActionResult<IEnumerable<MessageDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var currentUsername = _userAccessor.GetCurrentUsername();
-                // var productId = request._productId;
 
                 var messages = await _context.Messages
                     .Include(u => u.Sender).ThenInclude(p => p.Photos)
@@ -50,65 +45,19 @@ namespace Application.Messages
                    
                     .Where(  
                         m => m.Recipient.UserName == currentUsername
-                        &&
-                        // m.Sender.UserName == request._username
+                        ||
                         m.Sender.UserName == currentUsername
-                        // || 
-                        // m.username == request._recipientUsername
-                        // && 
-                        // m.Sender.UserName == currentUsername
-                        
-                    ).Where(
-                        m => m.Product.Id == Guid.Parse(request._productId)
                     )
-                    // .Where(u => u.)
-                    .OrderBy(m => m.DateSent)
+                    .Where(
+                        m => m.MessageThread.Id == Guid.Parse(request._messageThreadId)//Product.Id == Guid.Parse(request._productId)
+                    )
+                    
+                    .OrderByDescending(m => m.DateSent)
                     .ToListAsync();
 
-                // var selectedProductIds = messages.GroupBy(pid => pid.Product.Id).Select(grp => grp.First().Product.Id);
-
-                // var sortedMessagesByProductId = new List<MessageThreadDto>();
-
-                
-                // foreach (var id in selectedProductIds)
-                // {
-                //     foreach(var item in messages)
-                //     {
-                //         if(id == item.Product.Id)
-                //         {
-                //         //    sortedMessagesByProductId.Add(new List<Message>() {
-                //         //     //    new Message = item;
-                //         //    });
-                //         }
-                //     }
-                // }
-
-                // var probableSolution = messages.GroupBy(pid => pid.Product.Id).ToDictionary(
-                //     grp => grp.Key,
-                //     grp => grp.ToList()
-                // );
-
-                var thread = messages.Where(m => m.Product.Id == Guid.Parse(request._productId));
-                
-                // var unreadMessages = messages
-                //     .Where(m => m.DateRead == null && m.Recipient.UserName == currentUsername)
-                //     .ToList();
-
-                // if (unreadMessages.Any())
-                // {
-                //     foreach (var message in unreadMessages)
-                //     {
-                //         message.DateRead = DateTime.Now;
-                //     }
-
-                //     await _context.SaveChangesAsync();
-                // }
-
-                return (_mapper.Map<IEnumerable<MessageDto>>(thread)).ToList();
+                return (_mapper.Map<IEnumerable<MessageDto>>(messages)).ToList();
 
             }
-
-
         }
     }
 }

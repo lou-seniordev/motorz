@@ -104,7 +104,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 />
 
                 <PrivateRoute exact path='/messages' component={MessagesDashboard} />
-                <PrivateRoute exact path='/messageThread' component={MessageThreadListItem} />
+                <PrivateRoute exact path='/messageThread/:id' component={MessageThreadListItem} />
                 <PrivateRoute exact path='/messageThreadContent' component={MessageThreadContent} />
                 
                 <PrivateRoute path='/profile/:username' component={ProfilePage} />
