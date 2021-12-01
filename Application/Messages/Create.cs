@@ -10,8 +10,7 @@ using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Application.Errors;
-
-
+using System.Collections.Generic;
 
 namespace Application.Messages
 {
@@ -22,6 +21,7 @@ namespace Application.Messages
             // public Guid Id { get; set; }
             public string RecipientUsername { get; set; }
             public string ProductId { get; set; }
+            public string MessageThreadId { get; set; }
             public string Content { get; set; }
 
 
@@ -53,6 +53,8 @@ namespace Application.Messages
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
+
+
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 if (user.UserName.ToLower() == request.RecipientUsername.ToLower())
@@ -60,7 +62,6 @@ namespace Application.Messages
                     throw new RestException(HttpStatusCode.NotFound,
                         new { Message = "Can't send messages to yourself" });
                 }
-
                 var sender = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.UserName);
                 var recipient = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.RecipientUsername);
                 var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == Guid.Parse(request.ProductId));
@@ -68,13 +69,11 @@ namespace Application.Messages
                 if (recipient == null)
 
                 {
-                    // return null;
                     throw new Exception("User not found");
                 }
                 if (product == null)
 
                 {
-                    // return null;
                     throw new Exception("Product not found");
                 }
 
@@ -89,8 +88,29 @@ namespace Application.Messages
 
                 product.Messages.Add(message);
 
+
+                if (request.MessageThreadId == null)
+                {
+                    var messageThreadId = Guid.NewGuid();
+                    var newMessageThread = new MessageThread
+                    {
+                        Id = messageThreadId,
+                        Messages = new List<Message>()
+                    };
+                    newMessageThread.Messages.Add(message);
+                    _context.MessageThreads.Add(newMessageThread);
+
+                }
+                else
+                {
+                    var messageThread = await _context.MessageThreads.SingleOrDefaultAsync(
+                        x => x.Id == Guid.Parse(request.MessageThreadId));
+                    messageThread.Messages.Add(message);
+                    _context.MessageThreads.Update(messageThread);
+                }
+
+
                 _context.Messages.Add(message);
-                // _context.Products.Add(product);
                 _context.Products.Update(product);
 
                 var success = await _context.SaveChangesAsync() > 0;

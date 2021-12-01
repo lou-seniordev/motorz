@@ -7,15 +7,19 @@ import ProductList from "./ProductList";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductSidebar from "./ProductSidebar";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 const ProductDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadProducts } = rootStore.productStore;//, loadingInitial
+  const { loadProducts, loadingInitial } = rootStore.productStore;//, loadingInitial
 
   useEffect(() => {
     loadProducts();
   }, [loadProducts]);
 
+  if (loadingInitial)
+  return <LoadingComponent content='Loading products...' />;
+  
   return (
     <Grid>
       <Grid.Column width={9}>

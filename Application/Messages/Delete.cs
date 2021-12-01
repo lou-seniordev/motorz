@@ -26,6 +26,7 @@ namespace Application.Messages
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
+                //REMEMBER TO DELETE THE MESSAGETHREAD IF NECESSARY!!!
                 var message = await _context.Messages.FindAsync(request.Id);
 
                 if (message == null)
