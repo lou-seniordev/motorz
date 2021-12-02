@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"; //, createRef
+import React, { useContext, useEffect } from "react"; 
 import { Grid, Sticky } from "semantic-ui-react"; //Rail,
 
 import MechanicList from "./MechanicList";

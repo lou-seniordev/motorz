@@ -31,7 +31,7 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
   useEffect(() => {
     setUser(user!.userName, user!.image);
     loadMessageThread(match.params.id);
-  }, [loadMessageThread, match.params.id]);
+  }, [loadMessageThread, match.params.id, setUser, user]);
 
   if (loadingMessageThread)
     return <LoadingComponent content='Loading messages...' />;
@@ -62,7 +62,11 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
                     <Grid.Column width={14}>
                       <Item.Header>
                         <Item.Description>
-                          From {message.senderUsername} Sent: {message.dateSent}
+                          From{" "}
+                          {message.senderUsername === user?.userName
+                            ? "me"
+                            : message.senderUsername}{" "} -  
+                          Sent on: {message.dateSent}
                         </Item.Description>
                         <Divider />
                       </Item.Header>

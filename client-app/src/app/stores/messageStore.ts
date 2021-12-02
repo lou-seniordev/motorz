@@ -15,23 +15,19 @@ export default class MessageStore {
     this.rootStore = rootStore;
   }
 
-
-
   @observable username: string = '';
-
   @observable senderPhotoUrl: string;
-
   @observable messageRegistry = new Map();
   @observable messageThreadRegistry = new Map();
   @observable message: IMessage | null = null;
   @observable loadingInitial = false;
-  @observable loadingLast = false;
-  @observable lastMessage: IMessage | undefined;
-
   @observable recipientUsername: any = '';
   @observable productId: string = '';
 
-  //--in use ---
+  @observable messageThreadId: string;
+  @observable loadingMessageThread = false;
+  @observable messagesFromThread: any = [];
+
   @computed get messagesByDate() {
 
     return this.groupMessagesByThreadId(Array.from(this.messageRegistry.values()));
@@ -48,10 +44,6 @@ export default class MessageStore {
     }, {} as { [key: string]: IMessage[] }));
   }
 
-  @computed get formatDates() {
-    return null;
-  }
-
   formatDate(message: IMessage) {
     const delimiter = '.';
     message.dateSent = message.dateSent?.split(delimiter)[0];
@@ -59,16 +51,12 @@ export default class MessageStore {
   }
   @action loadMessages = async () => {
     const container = 'Inbox';
-    const delimiter = '.';
-
 
     this.loadingInitial = true;
     try {
       const messages = await agent.Messages.list(container);
       runInAction('loading messages', () => {
         messages.forEach((message) => {
-          // message.dateSent = message.dateSent?.split(delimiter)[0];
-          // message.dateSent = message.dateSent.replace('T', ' ');
           this.formatDate(message);
           this.messageRegistry.set(message.id, message);
         });
@@ -87,12 +75,6 @@ export default class MessageStore {
     this.productId = productId;
   };
 
-  @observable messageThread: IMessage[];
-  @observable messageThreadId: string;
-  @observable loadingMessageThread = false;
-
-
-  @observable messagesFromThread: any = [];
 
 
   getMessageThread = (id: string) => {
@@ -106,11 +88,27 @@ export default class MessageStore {
     return messageThread;
   };
 
-  // @action cleanReply = () => {
-  //   this.recipientUsername = '';
-  //   this.productId = '';
-  //   this.messageThreadId = '';
-  // };
+
+  @action deleteThread = (ids: string[]) => {
+
+    try {
+      // await agent.Activities.delete(id);
+      runInAction('deleting thread', () => {
+        ids.forEach((id: string) => {
+          this.messageRegistry.forEach(m => {
+            if (m.messageThreadId === id)
+              this.messageRegistry.delete(m.id);
+          })
+        });
+
+      });
+    } catch (error) {
+      runInAction('delete error thread', () => {
+        console.log(error);
+      });
+    }
+  };
+
 
   @action setUser = (username: string, userPhotoUrl: any) => {
     this.username = username;
@@ -119,7 +117,7 @@ export default class MessageStore {
   }
 
   @action setReply = (messageThread: IMessage[]) => {
-    messageThread.map((messages) => {
+    messageThread.forEach((messages) => {
 
       this.productId = messages.productId;
       this.messageThreadId = messages.messageThreadId;
@@ -129,21 +127,13 @@ export default class MessageStore {
         this.recipientUsername = messages.recipientUsername;
       }
     })
-    // console.log('SET REPLY:::');
-    // // this.recipientUsername;
-    // // console.log(tempusername);
-    // console.log(this.productId);
-    // console.log(this.messageThreadId);
-    // console.log(this.recipientUsername);
+
   };
-
-
 
   @action loadMessageThread = async (id: string) => {
 
     let messageThread = this.getMessageThread(id);
     if (messageThread) {
-      // console.log('messageThread: ', messageThread![0].content);
       this.messagesFromThread = messageThread;
       this.setReply(messageThread)
     } else {
@@ -151,7 +141,6 @@ export default class MessageStore {
       try {
         messageThread = await agent.Messages.thread(id);
         runInAction('getting messages', () => {
-          // console.log('messageThread: ', messageThread);Î
           messageThread?.map(message => {
             this.formatDate(message)
           })
@@ -203,7 +192,7 @@ export default class MessageStore {
       productId: this.productId,
       messageThreadId: this.messageThreadId
     }
-    let tempMessageForUI: IMessage = {
+    let placeholderMessageForUI: IMessage = {
       senderUsername: this.username,
       recipientUsername: this.recipientUsername,
       content: messageContent,
@@ -214,12 +203,11 @@ export default class MessageStore {
       dateSent: JSON.stringify(new Date()).replace(/['"]+/g, '')
     }
     try {
-      
-      // await agent.Messages.create(messageToSend);
+
+      await agent.Messages.create(messageToSend);
       runInAction('loading message ', () => {
-        console.log(tempMessageForUI.dateSent)
-        this.formatDate(tempMessageForUI);
-        this.messagesFromThread.unshift(tempMessageForUI);
+        this.formatDate(placeholderMessageForUI);
+        this.messagesFromThread.unshift(placeholderMessageForUI);
         this.rootStore.modalStore.closeModal();
       });
     } catch (error) {
@@ -230,21 +218,5 @@ export default class MessageStore {
   };
 }
 
-
-
-    // let myArray = Array.from(this.messagesByDate);
-
-    // let skim;//: IMessage[];
-
-
-    // for (let i = 0; i < myArray.length; i++){
-    //   // console.log('Content of message is: ', toJS(myArray[i][1]))
-    //   if(myArray[i][0] == id){
-    //     // console.log('heureka!', toJS(myArray[i][1]))
-    //     skim = myArray[i][1];
-    //   }
-    // }
-    // console.log('heureka!', toJS(skim))
-    // this.messagesFromThread = skim;
 
 

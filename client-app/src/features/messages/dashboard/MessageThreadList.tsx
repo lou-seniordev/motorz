@@ -6,27 +6,40 @@ import {
   Table,
   Image,
   Segment,
+  Button,
 } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { useHistory } from "react-router";
 
-
-const MessageThreadList: React.FC = () => {
+const MessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { messagesByDate, 
-    
-  } = rootStore.messageStore; //, setThread
+  const { user } = rootStore.userStore;
+
+  const { messagesByDate, deleteThread } = rootStore.messageStore; //, setThread
 
   let history = useHistory();
 
+  let deletionList: string[] = [];
+
+  const handleChange = (id: string, data: any) => {
+    deletionList.includes(id)
+      ? deletionList.splice(deletionList.indexOf(id), 1)
+      : deletionList.push(id);
+  };
+
+  const removeThread = () => {
+    deleteThread(deletionList);
+  };
 
   return (
     <Segment>
-      {/* <Table>
-      <Table.Header> <Table.Row>
-        //Posible solution for 
-        </Table.Row></Table.Header>
-      </Table> */}
+      <Fragment>
+        <Button
+          content='delete'
+          onClick={removeThread}
+          // disabled={Object.keys(deletionList).length === 0}
+        />
+      </Fragment>
       <Table celled selectable>
         <Table.Header>
           <Table.Row>
@@ -38,20 +51,28 @@ const MessageThreadList: React.FC = () => {
           </Table.Row>
         </Table.Header>
         <Fragment>
-          {messagesByDate.map(([group, messages]) => (
-            <Fragment key={group}>
+          {messagesByDate.map(([id, messages]) => (
+            <Fragment key={id}>
               <Table.Body>
-                {/* as={Link} to='gallery' */}
-                <Table.Row>
-                  <Table.Cell>
-                    <Checkbox />
-                  </Table.Cell>
-                  {/* <Table.Cell>{messages[0].productTitle}</Table.Cell> */}
+                <Table.Row
+                  onClick={() => {
+                    history.push(
+                      `/messageThread/${messages[0].messageThreadId}`
+                    );
+                  }}
+                >
                   <Table.Cell
-                    onClick={() => {
-                      history.push(`/messageThread/${messages[0].messageThreadId}`);
-                    }}
+                    onClick={(e: any) => e.stopPropagation()}
+                    style={{ verticalAlign: "middle", textAlign: "center" }}
                   >
+                    <Checkbox
+                      name='myCheckBox1'
+                      onChange={(e, data) =>
+                        handleChange(messages[0].messageThreadId, data)
+                      }
+                    />
+                  </Table.Cell>
+                  <Table.Cell>
                     <Header as='h4' image>
                       <Image
                         src={messages[0].productPhotoUrl}
@@ -63,27 +84,13 @@ const MessageThreadList: React.FC = () => {
                       </Header.Content>
                     </Header>
                   </Table.Cell>
-                  <Table.Cell
-                    onClick={() => {
-                      history.push(`/messageThread/${messages[0].messageThreadId}`);
-                    }}
-                  >
-                    {messages[0].senderUsername}
+                  <Table.Cell>
+                    {messages[0].senderUsername === user?.userName
+                      ? "me"
+                      : messages[0].senderUsername}
                   </Table.Cell>
-                  <Table.Cell
-                    onClick={() => {
-                      history.push(`/messageThread/${messages[0].messageThreadId}`);
-                    }}
-                  >
-                    {messages[0].content}
-                  </Table.Cell>
-                  <Table.Cell
-                    onClick={() => {
-                      history.push(`/messageThread/${messages[0].messageThreadId}`);
-                    }}
-                  >
-                    {messages[0].dateSent}
-                  </Table.Cell>
+                  <Table.Cell>{messages[0].content}</Table.Cell>
+                  <Table.Cell>{messages[0].dateSent}</Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Fragment>
