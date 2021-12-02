@@ -28,10 +28,10 @@ const validate = combineValidators({
   )(),
 });
 
-const ContactForm = () => {
+const ReplyForm = () => {
     const rootStore = useContext(RootStoreContext);
 
-    const { sendMessage } = rootStore.messageStore;
+    const { sendReply } = rootStore.messageStore;
     const {closeModal} = rootStore.modalStore
     
 
@@ -40,7 +40,7 @@ const ContactForm = () => {
  
 
     const handleFinalFormSubmit = (values: any) => {
-      sendMessage(values.content);
+      sendReply(values.content);
     };
 
     
@@ -58,7 +58,7 @@ const ContactForm = () => {
                 <Form onSubmit={handleSubmit} 
                 loading={loading}>
                   
-                <Header as='h2' content='Send message' color='teal' textAlign='center'/>
+                <Header as='h2' content='Reply to sender' color='teal' textAlign='center'/>
                   <Field
                     name='content'
                     rows={4}
@@ -71,7 +71,7 @@ const ContactForm = () => {
                     floated='right'
                     color='teal'
                     type='submit'
-                    content='submit'
+                    content='send'
                   />
                   <Button
                   floated='right'
@@ -90,4 +90,4 @@ const ContactForm = () => {
     );
   };
 
-export default observer(ContactForm);
+export default observer(ReplyForm);

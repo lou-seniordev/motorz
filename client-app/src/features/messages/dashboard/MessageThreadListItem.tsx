@@ -1,12 +1,13 @@
 import React, { Fragment, useContext, useEffect } from "react";
 // import { NavLink } from "react-router-dom";
-import {  Segment } from "semantic-ui-react";//Grid, Item,
+import { Button, Divider, Grid, Item, Segment } from "semantic-ui-react"; //Grid, Item,
 // import { IMessage } from "../../../app/models/message";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 // import { useLocation, useParams } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import ReplyForm from "../forms/ReplyForm";
 
 //loadMessageThread
 interface DetailParams {
@@ -15,20 +16,22 @@ interface DetailParams {
 const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
 }) => {
-  // const MessageThreadListItem = () => {
   const rootStore = useContext(RootStoreContext);
   const {
-    loadingMessageThread ,
-    // messageThread,
+    setUser,
+    loadingMessageThread,
     loadMessageThread,
-    messagesFromThread
+    messagesFromThread,
   } = rootStore.messageStore;
 
+  const { openModal } = rootStore.modalStore;
+
+  const { user } = rootStore.userStore;
+
   useEffect(() => {
-    loadMessageThread(match.params.id)
-  }, [
-    loadMessageThread,match.params.id
-  ]);
+    setUser(user!.userName, user!.image);
+    loadMessageThread(match.params.id);
+  }, [loadMessageThread, match.params.id]);
 
   if (loadingMessageThread)
     return <LoadingComponent content='Loading messages...' />;
@@ -36,57 +39,41 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
   return (
     <Segment.Group>
       <Segment>
-       
-
         <Fragment>
+          <Button
+            content='Reply to sender'
+            fluid
+            onClick={() => {
+              openModal(<ReplyForm />);
+            }}
+          />
           {messagesFromThread!.map((message: any) => (
             <Fragment key={message.id}>
-              <h6>***</h6>
-              <h5>
-                Hallo from {message.senderUsername} my message is=
-                {message.content} sent on {message.dateSent}
-              </h5>
+              <Segment>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column width={2}>
+                      <Item.Image
+                        size='tiny'
+                        circular
+                        src={message.senderPhotoUrl}
+                      />
+                    </Grid.Column>
+                    <Grid.Column width={14}>
+                      <Item.Header>
+                        <Item.Description>
+                          From {message.senderUsername} Sent: {message.dateSent}
+                        </Item.Description>
+                        <Divider />
+                      </Item.Header>
+                      <Item.Description>{message.content}</Item.Description>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
             </Fragment>
           ))}
         </Fragment>
-        {/* <Fragment>
-          {messageThread!.map((message: any) => (
-            <Fragment key={message.id}>
-              <h6>***</h6>
-              <h5>
-                Hallo from {message.senderUsername} my message is=
-                {message.content} sent on {message.dateSent}
-              </h5>
-            </Fragment>
-          ))}
-        </Fragment> */}
-
-
-        {/* <NavLink to={params}>
-            <Grid>
-              <Grid.Column width={3}>
-                <Item.Image
-                  size='tiny'
-                  circular
-                  src={message.productPhotoUrl}
-                />
-                <Item.Description>{message.productTitle}</Item.Description>
-              </Grid.Column>
-
-              <Grid.Column width={3}>
-            <Item.Image size='tiny' circular src={message.senderPhotoUrl} />
-            <Item.Description>{message.senderUsername}</Item.Description>
-          </Grid.Column>
-
-              <Grid.Column width={10}>
-                <Item.Description>Message Id: {message.id}</Item.Description>
-                <Item.Description>Sent: {message.dateSent}</Item.Description>
-                <Item.Description>
-                  {message.senderUsername} wrote: {message.content}
-                </Item.Description>
-              </Grid.Column>
-            </Grid>
-          </NavLink> */}
       </Segment>
     </Segment.Group>
   );

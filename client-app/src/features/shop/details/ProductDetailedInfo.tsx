@@ -12,10 +12,11 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
 
   const { openModal } = rootStore.modalStore;
 
+  //refactor to use in messageStore if possible
   const { user } = rootStore.userStore;
 
   // if (loadingThread)
-  // return <LoadingComponent content='Loading forum posts...' />;
+  // return <LoadingComponent content='Loading products...' />;
 
   useEffect(() => {
     setMessage(product.sellerUsername, product.id);
