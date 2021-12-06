@@ -1,18 +1,28 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
 using MediatR;
 using Persistence;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Application.Errors;
+using System.Net;
 
 namespace Application.Messages
 {
     public class Delete
     {
-         public class Command : IRequest
+        public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            // public Query(MessageParams messageParams)
+            // {
+            //     this.messageParams = messageParams;
+            // }
+            public DeleteParams deleteParams { get; set; }
+
+            // public Command(DeleteParams deleteParams)
+            // {
+            // }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -26,18 +36,29 @@ namespace Application.Messages
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-                //REMEMBER TO DELETE THE MESSAGETHREAD IF NECESSARY!!!
-                var message = await _context.Messages.FindAsync(request.Id);
+                // //REMEMBER TO DELETE THE MESSAGETHREAD IF NECESSARY!!!
+                // var message = await _context.Messages.FindAsync(request.Id);
+                var ids = request.deleteParams.MessageThreadIds;
 
-                if (message == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new { message = "NotFound" });
+                foreach (var id in ids)
+                {
+                    var message = await _context.Messages.SingleOrDefaultAsync(x => x.Id == Guid.Parse(id));
+                    if (message == null)
+                        throw new RestException(HttpStatusCode.NotFound, new { Message = "Message NotFound" });
+                    _context.Remove(message);
+                }
+                // var messagesToDelete = await _context.Messages.
 
-                _context.Remove(message);
+                // if (message == null)
+                //     throw new RestException(HttpStatusCode.NotFound,
+                //         new { message = "NotFound" });
+
+                // _context.Remove(message);
 
                 var success = await _context.SaveChangesAsync() > 0;
 
-                if (success) return Unit.Value;
+                // if (success) 
+                return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
             }
