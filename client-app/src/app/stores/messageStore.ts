@@ -1,5 +1,5 @@
 import { IMessage } from './../models/message';
-import { observable, action, computed, runInAction, toJS } from 'mobx';
+import { observable, action, computed, runInAction } from 'mobx';
 
 import agent from '../api/agent';
 import { RootStore } from './rootStore';

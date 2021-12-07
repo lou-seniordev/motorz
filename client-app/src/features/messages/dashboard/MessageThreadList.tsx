@@ -10,12 +10,15 @@ import {
 } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { useHistory } from "react-router";
+import ConfirmDelete from "../forms/ConfirmDelete";
 
 const MessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
-  const { messagesByDate, deleteThread } = rootStore.messageStore; //, setThread
+  const { messagesByDate } = rootStore.messageStore; //, setThread
+
+  const { openModal } = rootStore.modalStore;
 
   let history = useHistory();
 
@@ -28,7 +31,10 @@ const MessageThreadList = () => {
   };
 
   const removeThread = () => {
-    deleteThread(deletionList);
+    // deleteThread(deletionList);
+    openModal(<ConfirmDelete ids={deletionList}/>);
+    // console.log("confirm in thread list", confirm)
+
   };
 
   return (

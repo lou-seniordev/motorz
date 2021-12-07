@@ -43,10 +43,7 @@ const ReplyForm = () => {
       sendReply(values.content);
     };
 
-    
-
-    // if (loadingInitial) return <LoadingComponent content="Loading forum post details..."/>
-
+  
     return (
       
         <Grid>

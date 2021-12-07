@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import { useHistory } from "react-router";
-import { Header, Button } from "semantic-ui-react";
+import { Header, Button, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface IProps {
@@ -8,7 +8,7 @@ interface IProps {
 }
 const ConfirmDelete: React.FC<IProps> = ({ motofyId }) => {
   const rootStore = useContext(RootStoreContext);
-  const {  deleteMotofy } = rootStore.motofyStore; 
+  const { deleteMotofy } = rootStore.motofyStore;
   const { closeModal } = rootStore.modalStore;
 
   const handleDeleteMotofy = (id: string) => {
@@ -24,30 +24,32 @@ const ConfirmDelete: React.FC<IProps> = ({ motofyId }) => {
   let history = useHistory();
 
   return (
-    <>
+    <Grid>
+      <Grid.Column width={16}>
         <Header
           as='h2'
           content='Sure you want to do this (cannot undo)?'
-          color='red'
+          color='teal'
           textAlign='center'
         />
 
         <Fragment>
           <Button
+            fluid
             onClick={() => handleDeleteMotofy(motofyId)}
-            color='red'
+            color='teal'
             content='Yes, delete it!'
             floated='left'
-
           />
           <Button
+            fluid
             onClick={() => cancelDeleteMotofy()}
-            color='blue'
             content='No, cancel'
             floated='right'
           />
         </Fragment>
-    </>
+      </Grid.Column>
+    </Grid>
   );
 };
 
