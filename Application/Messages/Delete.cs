@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Application.Errors;
 using System.Net;
+using Domain;
+using Application.Interfaces;
+using System.Linq;
 
 namespace Application.Messages
 {
@@ -14,53 +17,70 @@ namespace Application.Messages
     {
         public class Command : IRequest
         {
-            // public Query(MessageParams messageParams)
-            // {
-            //     this.messageParams = messageParams;
-            // }
-            public DeleteParams deleteParams { get; set; }
+ 
+            public Guid Id { get; set; }
 
-            // public Command(DeleteParams deleteParams)
-            // {
-            // }
         }
 
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
+                _userAccessor = userAccessor;
                 _context = context;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-                // //REMEMBER TO DELETE THE MESSAGETHREAD IF NECESSARY!!!
-                // var message = await _context.Messages.FindAsync(request.Id);
-                var ids = request.deleteParams.MessageThreadIds;
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
 
-                foreach (var id in ids)
+
+                var id = request.Id;
+
+                var messages = await _context.Messages.Where(m => m.MessageThread.Id == id).ToListAsync();
+
+                if (messages.Count() == 0)
+                    throw new RestException(HttpStatusCode.NotFound, new { Messages = "Messages NotFound" });
+
+
+                var messageThread = await _context.MessageThreads
+                    .Include(u => u.Messages)
+                    .SingleOrDefaultAsync(m => m.Id == id);
+
+                if (messageThread == null)
+                    throw new RestException(HttpStatusCode.NotFound, new { MessageThread = "MessageThread NotFound" });
+
+                if (messageThread.InitUsername == user.UserName)
                 {
-                    var message = await _context.Messages.SingleOrDefaultAsync(x => x.Id == Guid.Parse(id));
-                    if (message == null)
-                        throw new RestException(HttpStatusCode.NotFound, new { Message = "Message NotFound" });
-                    _context.Remove(message);
+                    messageThread.InitDeleted = true;
                 }
-                // var messagesToDelete = await _context.Messages.
+                else if (messageThread.ReceiverUsername == user.UserName)
+                {
+                    messageThread.ReceiverDeleted = true;
+                }
 
-                // if (message == null)
-                //     throw new RestException(HttpStatusCode.NotFound,
-                //         new { message = "NotFound" });
-
-                // _context.Remove(message);
-
+                if (messageThread.InitDeleted && messageThread.ReceiverDeleted)
+                {
+                    _context.Remove(messageThread);
+                    for (int i=0; i<messages.Count(); i++)
+                    {
+                        _context.Remove(messages[i]);
+                    }
+                }
                 var success = await _context.SaveChangesAsync() > 0;
 
-                // if (success) 
-                return Unit.Value;
+                if (success) return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
+                
+
+
+
+
+
             }
         }
     }

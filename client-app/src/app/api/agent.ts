@@ -82,6 +82,12 @@ const requests = {
     axios.delete(url)
       // .then(sleep(1000))
       .then(responseBody),
+  // deleteMultiple: (url: string, params: any) =>
+  //   axios.delete(url, 
+  //     // { headers:{'Cntent-Type': 'application/json; charset=utf-8'} },
+  //     { data: {params} })
+  //     // .then(sleep(1000))
+  //     .then(responseBody),
   postForm: (url: string, file: Blob) => {
     let formData = new FormData();
     formData.append('File', file);
@@ -174,7 +180,8 @@ const Messages = {
   // create: (message: IMessage) => requests.post('/messages', message),
   // update: (message: IMessage) =>
   //   requests.put(`/messages/${message.id}`, message),
-  delete: (id: string) => requests.delete(`/messages/${id}`),
+ 
+  delete: (id: string) => requests.delete(`/messages/${id}`)
 }
 
 const Forumposts = {

@@ -95,7 +95,9 @@ namespace Application.Messages
                     var newMessageThread = new MessageThread
                     {
                         Id = messageThreadId,
-                        Messages = new List<Message>()
+                        Messages = new List<Message>(),
+                        InitUsername = user.UserName,
+                        ReceiverUsername = request.RecipientUsername
                     };
                     newMessageThread.Messages.Add(message);
                     _context.MessageThreads.Add(newMessageThread);

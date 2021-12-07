@@ -5,6 +5,8 @@ using Application.Messages;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
+using System.Net.Http;
+using System;
 
 namespace API.Controllers
 {
@@ -38,10 +40,14 @@ namespace API.Controllers
         {
             return await Mediator.Send(new GetMessageThread.Query(messageThread));
         }
-        [HttpDelete]// FromBody [FromQuery]
-        public async Task<ActionResult<Unit>> Delete([FromQuery] DeleteParams deleteParams)
+       
+        [HttpDelete("{id}")]// FromBody [FromQuery][FromBody] 
+        public async Task<ActionResult<Unit>> Delete(Guid id)
         {
-            return await Mediator.Send(new Delete.Command { deleteParams = deleteParams });
+            return await Mediator.Send(new Delete.Command { Id = id });
+                        
+
         }
+
     }
 }

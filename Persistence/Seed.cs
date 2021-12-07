@@ -384,12 +384,17 @@ namespace Persistence
                     new MessageThread
                     {
                         Id = Guid.Parse("603FDB55-2DE3-4624-AA9F-2F98D336875A"),
-                        Messages = messages1
+                        Messages = messages1,
+                        InitUsername= "bob",
+                        ReceiverUsername = "jane"
                     },
                     new MessageThread
                     {
                         Id = Guid.Parse("D5759CCD-CD56-4F18-890C-8C522C76C4E4"),
-                        Messages = messages2
+                        Messages = messages2,
+                        InitUsername= "bob",
+                        ReceiverUsername = "tome"
+
                     }
 
 

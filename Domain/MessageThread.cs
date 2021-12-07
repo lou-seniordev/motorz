@@ -9,7 +9,9 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
-        public bool SenderDeleted { get; set; }
-        public bool RecipientDeleted { get; set; }
+        public string InitUsername { get; set; }
+        public string ReceiverUsername { get; set; }
+        public bool InitDeleted { get; set; }
+        public bool ReceiverDeleted { get; set; }
     }
 }

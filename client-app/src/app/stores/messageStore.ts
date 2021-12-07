@@ -89,10 +89,14 @@ export default class MessageStore {
   };
 
 
-  @action deleteThread = (ids: string[]) => {
+  @action deleteThread = async (ids: string[]) => {
 
     try {
-      // await agent.Activities.delete(id);
+      for (let i = 0; i< ids.length; i++){
+        let id = ids[i]
+        await agent.Messages.delete(id);
+      }
+
       runInAction('deleting thread', () => {
         ids.forEach((id: string) => {
           this.messageRegistry.forEach(m => {
@@ -172,7 +176,7 @@ export default class MessageStore {
       productId: this.productId,
     }
     try {
-      // await agent.Messages.create(messageToSend);
+      await agent.Messages.create(messageToSend);
       console.log(messageToSend);
       runInAction('loading message ', () => {
         this.rootStore.modalStore.closeModal();
