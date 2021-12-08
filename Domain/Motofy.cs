@@ -22,5 +22,6 @@ namespace Domain
         public string NumberOfKilometers { get; set; }
         public virtual ICollection<UserMotofy> UserMotofies { get; set; }
         public virtual MotofyPhoto MotofyPhoto { get; set; }
+        public virtual ICollection<CommentMotofy> CommentMotofies { get; set; }
     }
 }

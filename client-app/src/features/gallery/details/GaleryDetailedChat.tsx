@@ -1,7 +1,30 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 import { Segment, Header, Form, Button, Comment } from 'semantic-ui-react'
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { Form as FinalForm, Field } from 'react-final-form';
+import { Link } from 'react-router-dom';
+import TextAreaInput from '../../../app/common/form/TextAreaInput';
+import { observer } from 'mobx-react-lite';
+import { formatDistance } from 'date-fns';
 
 const GaleryDetailedChat = () => {
+  const rootStore = useContext(RootStoreContext);
+  const {
+    createHubConnection,
+    stopHubConnection,
+    addComment,
+    motofy,
+  } = rootStore.motofyStore;
+
+  useEffect(() => {
+    console.log('motofy', motofy)
+
+    createHubConnection(motofy!.id);
+    return () => {
+      stopHubConnection();
+    };
+  }, [createHubConnection, stopHubConnection, motofy]);
+  
     return (
         <Fragment>
       <Segment
@@ -14,6 +37,52 @@ const GaleryDetailedChat = () => {
         <Header>Chat about this motofy</Header>
       </Segment>
       <Segment attached>
+        <Comment.Group>
+          {motofy &&
+            motofy.commentMotofies &&
+            motofy.commentMotofies.map((comment) => (
+              <Comment key={comment.id}>
+                <Comment.Avatar src={comment.image || '/assets/user.png'} />
+                <Comment.Content>
+                  <Comment.Author as={Link} to={`/profile/${comment.username}`}>
+                    {comment.displayName}
+                  </Comment.Author>
+                  <Comment.Metadata>
+                  <div>
+                      {formatDistance(
+                        new Date(comment.createdAt),
+                        new Date()
+                      )}
+                    </div>
+                    {/* <div>{formatDistance(comment.createdAt, new Date())}</div> */}
+                  </Comment.Metadata>
+                  <Comment.Text>{comment.body}</Comment.Text>
+                </Comment.Content>
+              </Comment>
+            ))}
+          <FinalForm
+            onSubmit={addComment}
+            render={({ handleSubmit, submitting, form }) => (
+              <Form onSubmit={() => handleSubmit()!.then(() => form.reset())}>
+                <Field 
+                name='body'
+                component={TextAreaInput}
+                rows={2}
+                placeholder='Add your comment'
+                />
+                <Button
+                  content='Add Reply'
+                  labelPosition='left'
+                  icon='edit'
+                  primary
+                  loading={submitting}
+                />
+              </Form>
+            )}
+          />
+        </Comment.Group>
+      </Segment>
+      {/* <Segment attached>
         <Comment.Group>
           <Comment>
             <Comment.Avatar src='/assets/user.png' />
@@ -53,9 +122,9 @@ const GaleryDetailedChat = () => {
             />
           </Form>
         </Comment.Group>
-      </Segment>
+      </Segment> */}
     </Fragment>
     )
 }
 
-export default GaleryDetailedChat
+export default observer(GaleryDetailedChat)

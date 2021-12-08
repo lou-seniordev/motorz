@@ -7,6 +7,8 @@ import {
   Image,
   Segment,
   Button,
+  Grid,
+  Divider,
 } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { useHistory } from "react-router";
@@ -31,21 +33,28 @@ const MessageThreadList = () => {
   };
 
   const removeThread = () => {
-    // deleteThread(deletionList);
-    openModal(<ConfirmDelete ids={deletionList}/>);
-    // console.log("confirm in thread list", confirm)
-
+    openModal(<ConfirmDelete ids={deletionList} />);
   };
 
   return (
     <Segment>
-      <Fragment>
-        <Button
-          content='delete'
-          onClick={removeThread}
-          // disabled={Object.keys(deletionList).length === 0}
-        />
-      </Fragment>
+      <Segment>
+        <Fragment>
+          <Grid>
+            <Grid.Column width={6}>
+              <Button
+                content='delete'
+                onClick={removeThread}
+                // disabled={Object.keys(deletionList).length === 0}
+              />
+              <Divider vertical>iNFO</Divider>
+            </Grid.Column>
+            <Grid.Column width={10}>
+              <h1>Statistix placeholder</h1>
+            </Grid.Column>
+          </Grid>
+        </Fragment>
+      </Segment>
       <Table celled selectable>
         <Table.Header>
           <Table.Row>

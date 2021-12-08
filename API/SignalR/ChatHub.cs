@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Application.AllComments;
 using Application.Comments;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -23,6 +24,16 @@ namespace API.SignalR
             var comment = await _mediator.Send(command);
 
             await Clients.Group(command.ActivityId.ToString()).SendAsync("RecieveComment", comment);
+        }
+        public async Task SendCommentMotofy(CreateMotofyComment.Command command)
+        {
+            string username = GetUsername();
+            command.Username = username;
+            string property = "RecieveMotofyComment";
+
+            var comment = await _mediator.Send(command);
+
+            await Clients.Group(command.MotofyId.ToString()).SendAsync(property, comment);
         }
 
         private string GetUsername()

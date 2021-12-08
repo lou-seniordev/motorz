@@ -1,10 +1,12 @@
+import { IComment } from "./comment";
+
 export interface IMotofyEnvelope {
     motofies: IMotofy[];
     motofyCount: number;
     mostEmbraced: IMotofy;
 }
 export interface IMotofy {
-    id?: string;
+    id: string;
     name: string;
     brandId: string;
     brandName: string;
@@ -23,10 +25,20 @@ export interface IMotofy {
     embraced: boolean;
     isOwner: boolean;
     embracers: IEmbracer[];
-    // file: IPhoto;
+    commentMotofies: IComment[];
     file: Blob;
-
 }
+
+// export interface IComment {
+//     id: string;
+//     createdAt: Date;
+//     body: string;
+//     username: string;
+//     displayName: string;
+//     image: string;
+  
+//   }
+
 
 export interface IMotofyFormValues extends Partial<IMotofy>{//, Partial<IBrand> 
 

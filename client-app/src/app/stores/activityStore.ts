@@ -81,6 +81,7 @@ export default class ActivityStore {
       })
       .configureLogging(LogLevel.Information)
       .build();
+      console.log('activity', this.activity!.comments)
 
     this.hubConnection
       .start()
@@ -95,13 +96,15 @@ export default class ActivityStore {
 
     this.hubConnection.on('RecieveComment', (comment) => {
       runInAction(() => {
+        // console.log('comment', comment)
+        // console.log('this.motofy!.comments', this.activity!.comments)
         this.activity!.comments.push(comment);
       });
     });
 
-    this.hubConnection.on('Send', (message) => {
-      toast.info(message);
-    });
+    // this.hubConnection.on('Send', (message) => {
+    //   toast.info(message);
+    // });
   };
 
   @action stopHubConnection = () => {

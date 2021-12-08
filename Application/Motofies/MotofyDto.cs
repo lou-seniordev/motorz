@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Application.AllComments;
 using Domain;
 
 namespace Application.Motofies
@@ -27,5 +28,6 @@ namespace Application.Motofies
         public string NumberOfKilometers { get; set; }
         [JsonPropertyName("embracers")]
         public ICollection<EmbracerDto> UserMotofies { get; set; }
+        public ICollection<CommentMotofyDto> CommentMotofies { get; set; }
     }
 }

@@ -34,6 +34,9 @@ namespace Persistence
         public DbSet<Message> Messages { get; set; }
         public DbSet<MessageThread> MessageThreads { get; set; }
 
+        //=== COMMENTS FOR THE REST OF THE SECTIONS ===
+        public DbSet<CommentMotofy> CommentMotofies { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

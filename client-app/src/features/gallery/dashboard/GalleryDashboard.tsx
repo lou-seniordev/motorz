@@ -54,9 +54,9 @@ const GalleryDashboard: React.FC = () => {
       </Grid.Column>
 
       {/* Find what is it!!! */}
-      <Grid.Column width={5}>
         {/* <Loader active={loadingNext}/> */}
-      </Grid.Column>
+      {/* <Grid.Column width={5}>
+      </Grid.Column> */}
     </Grid>
   );
 };
