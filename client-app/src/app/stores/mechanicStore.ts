@@ -5,6 +5,7 @@ import agent from '../api/agent';
 import { IMechanic } from '../models/mechanic';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 
 // configure({ enforceActions: 'always' });
@@ -16,7 +17,7 @@ export default class MechanicStore {
   }
   @observable mechanicRegistry = new Map();
 
-  @observable mechanics: IMechanic[] = [];
+  // @observable mechanics: IMechanic[] = [];
   @observable mechanic: IMechanic | null = null;
   @observable loadingInitial = false;
   @observable editMode = false;
@@ -24,6 +25,60 @@ export default class MechanicStore {
 
   @observable target = '';
 
+  @observable.ref hubConnection: HubConnection | null = null;
+
+  @action createHubConnection = (id: string, connectionArgument: string) => {//, motofy: IMotofy
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
+        accessTokenFactory: () => this.rootStore.commonStore.token!,
+      })
+      .configureLogging(LogLevel.Information)
+      .build();
+      // console.log('motofy', this.motofy)
+      // console.log('motofy', motofy)
+
+
+    this.hubConnection
+      .start()
+      .then(() => console.log(this.hubConnection!.state))
+      .then(() => {
+        console.log('Attempting to join group');
+        if (this.hubConnection!.state === 'Connected') {
+          this.hubConnection?.invoke('AddToGroup', id);
+        }
+      })
+      .catch((error) => console.log('Error establishing connection', error));
+
+    this.hubConnection.on(connectionArgument, (comment) => {
+      runInAction(() => {
+        this.mechanic!.commentMechanics.push(comment);
+      });
+    });
+
+    this.hubConnection.on('Send', (message) => {
+      toast.info(message);
+    });
+  };
+
+  @action stopHubConnection = () => {
+    this.hubConnection
+      ?.invoke('RemoveFromGroup', this.mechanic!.id)
+      .then(() => {
+        this.hubConnection?.stop();
+      })
+      .then(() => console.log('Connection stopped!'))
+      .catch(error => console.log(error));
+  };
+
+  @action addComment = async (values: any) => {
+    console.log(values);
+    values.id = this.mechanic!.id;
+    try {
+      await this.hubConnection!.invoke('SendCommentMechanic', values);
+    } catch (error) {
+      console.log(error);
+    }
+  };
  
   @computed get mechanicsByDate() {
     return Array.from(this.mechanicRegistry.values()).sort(
@@ -32,7 +87,7 @@ export default class MechanicStore {
   }
 
   @action loadMechanics = async () => {
-    console.log("iem in loadMechanics")
+    // console.log("iem in loadMechanics")
 
     this.loadingInitial = true;
     try {

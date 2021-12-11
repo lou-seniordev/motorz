@@ -95,9 +95,7 @@ export default class ActivityStore {
       .catch((error) => console.log('Error establishing connection'));
 
     this.hubConnection.on('RecieveComment', (comment) => {
-      runInAction(() => {
-        // console.log('comment', comment)
-        // console.log('this.motofy!.comments', this.activity!.comments)
+      runInAction(() => { 
         this.activity!.comments.push(comment);
       });
     });

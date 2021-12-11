@@ -7,26 +7,27 @@ import { Form as FinalForm, Field } from "react-final-form";
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
 
-const ForumDetailedChat= () => {
+const MechanicDetailedChat= () => {
 
-  const rootStore = useContext(RootStoreContext);
-  const {
-    createHubConnection,
-    stopHubConnection,
-    addComment,
-    forumpost,
-  } = rootStore.forumPostStore;
+    const rootStore = useContext(RootStoreContext);
+    const {
+      createHubConnection,
+      stopHubConnection,
+      addComment,
+      mechanic,
+    } = rootStore.mechanicStore;
 
-  const connectionArgument = 'RecieveForumPostComment';
-  useEffect(() => {
-    // console.log('mechanic', mechanic)
-
-    createHubConnection(forumpost!.id, connectionArgument);//, mechanic!
-    return () => {
-      stopHubConnection();
-    };
-  }, [createHubConnection, stopHubConnection, forumpost]);
+    const connectionArgument = 'RecieveMechanicComment';
+    useEffect(() => {
+      // console.log('mechanic', mechanic)
   
+      createHubConnection(mechanic!.id, connectionArgument);//, mechanic!
+      return () => {
+        stopHubConnection();
+      };
+    }, [createHubConnection, stopHubConnection, mechanic]);
+  
+    
   return (
     <Fragment>
     <Segment
@@ -36,13 +37,13 @@ const ForumDetailedChat= () => {
       color='teal'
       style={{ border: "none" }}
     >
-      <Header>Get Involved</Header>
+      <Header>Chat about this motofy</Header>
     </Segment>
     <Segment attached>
       <Comment.Group>
-        {forumpost &&
-          forumpost.commentForumPosts &&
-          forumpost.commentForumPosts.map((comment) => (
+        {mechanic &&
+          mechanic.commentMechanics &&
+          mechanic.commentMechanics.map((comment) => (
             <Comment key={comment.id}>
               <Comment.Avatar src={comment.image || "/assets/user.png"} />
               <Comment.Content>
@@ -85,4 +86,4 @@ const ForumDetailedChat= () => {
   );
 };
 
-export default observer(ForumDetailedChat);
+export default observer(MechanicDetailedChat);

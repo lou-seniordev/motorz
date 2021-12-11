@@ -12,14 +12,14 @@ namespace API.Controllers
     public class MechanicsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Mechanic>>> List()
+        public async Task<ActionResult<List<MechanicDto>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")]
         // [Authorize]
-        public async Task<ActionResult<Mechanic>> Details(Guid id)
+        public async Task<ActionResult<MechanicDto>> Details(Guid id)
         {
             return await Mediator.Send(new Details.Query { Id = id });
         }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Domain
 {
@@ -18,6 +20,8 @@ namespace Domain
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
+
+        public virtual ICollection<CommentMechanic> CommentMechanics { get; set; }
         
         // public virtual Brand Brand { get; set; } list of brands?
         // public virtual AverageRating { get; set; } ??

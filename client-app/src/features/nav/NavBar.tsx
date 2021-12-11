@@ -119,7 +119,7 @@ const NavBar: React.FC = () => {
                   position='right center'
                   trigger={
                     <Dropdown.Item
-                      text='What are you up tu?'
+                      text='Motorcycle Diary'
                       value='MotoDiary'
                       as={Link}
                       to='/createActivity'

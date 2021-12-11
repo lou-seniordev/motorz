@@ -11,16 +11,16 @@ using Persistence;
 
 namespace Application.AllComments
 {
-    public class CreateMotofyComment
+    public class CreateMechanicComment
     {
-        public class Command : IRequest<CommentMotofyDto>
+          public class Command : IRequest<CommentMechanicDto>
         {
             public string Body { get; set; }
             public Guid Id { get; set; }
             public string Username { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, CommentMotofyDto>
+        public class Handler : IRequestHandler<Command, CommentMechanicDto>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -31,36 +31,34 @@ namespace Application.AllComments
 
             }
 
-            public async Task<CommentMotofyDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<CommentMechanicDto> Handle(Command request, CancellationToken cancellationToken)
             {
 
 
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
 
 
-                var motofy = await _context.Motofies.FindAsync(request.Id);
+                var mechanic = await _context.Mechanics.FindAsync(request.Id);
 
-                if (motofy == null)
-                    throw new RestException(HttpStatusCode.NotFound, new { Motofy = "Not found" });
+                if (mechanic == null)
+                    throw new RestException(HttpStatusCode.NotFound, new { Mechanic = "Not found" });
 
-                var comment = new CommentMotofy
+                var comment = new CommentMechanic
                 {
                     Author = user,
-                    Motofy = motofy,
+                    Mechanic = mechanic,
                     Body = request.Body,
                     CreatedAt = DateTime.Now
                 };
 
 
 
-                // comment.Motofy = motofy;
-
-                motofy.CommentMotofies.Add(comment);
+                mechanic.CommentMechanics.Add(comment);
 
                 var success = await _context.SaveChangesAsync() > 0;
 
-                // mapping to  // mapping from 
-                if (success) return _mapper.Map<CommentMotofyDto>(comment);
+                                                  // mapping to  // mapping from 
+                if (success) return _mapper.Map<CommentMechanicDto>(comment);
 
                 throw new Exception("Problem Saving Changes");
             }

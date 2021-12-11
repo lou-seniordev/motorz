@@ -29,11 +29,32 @@ namespace API.SignalR
         {
             string username = GetUsername();
             command.Username = username;
-            string property = "RecieveMotofyComment";
+            string connectionArgument = "RecieveMotofyComment";
+            // command.ConnectionArgument = connectionArgument;
 
             var comment = await _mediator.Send(command);
 
-            await Clients.Group(command.MotofyId.ToString()).SendAsync(property, comment);
+            await Clients.Group(command.Id.ToString()).SendAsync(connectionArgument, comment);
+        }
+        public async Task SendCommentMechanic(CreateMechanicComment.Command command)
+        {
+            string username = GetUsername();
+            command.Username = username;
+            string connectionArgument = "RecieveMechanicComment";
+
+            var comment = await _mediator.Send(command);
+
+            await Clients.Group(command.Id.ToString()).SendAsync(connectionArgument, comment);
+        }
+        public async Task SendCommentForumPost(CreateForumPostComment.Command command)
+        {
+            string username = GetUsername();
+            command.Username = username;
+            string connectionArgument = "RecieveForumPostComment";
+
+            var comment = await _mediator.Send(command);
+
+            await Clients.Group(command.Id.ToString()).SendAsync(connectionArgument, comment);
         }
 
         private string GetUsername()

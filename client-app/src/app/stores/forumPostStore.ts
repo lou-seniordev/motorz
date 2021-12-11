@@ -5,6 +5,7 @@ import agent from '../api/agent';
 import { IForumpost } from '../models/forumpost';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 // configure({ enforceActions: 'always' });
 
@@ -14,7 +15,7 @@ export default class ForumPostStore {
     this.rootStore = rootStore;
   }
   @observable forumPostRegistry = new Map();
-  @observable forumposts: IForumpost[] = [];
+  // @observable forumposts: IForumpost[] = [];
   @observable forumpost: IForumpost | null = null;
   @observable loadingInitial = false;
   @observable editMode = false;
@@ -22,6 +23,59 @@ export default class ForumPostStore {
 
   @observable target = '';
 
+  @observable.ref hubConnection: HubConnection | null = null;
+
+  @action createHubConnection = (id: string, connectionArgument: string) => {//, motofy: IMotofy
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
+        accessTokenFactory: () => this.rootStore.commonStore.token!,
+      })
+      .configureLogging(LogLevel.Information)
+      .build();
+
+    this.hubConnection
+      .start()
+      .then(() => console.log(this.hubConnection!.state))
+      .then(() => {
+        console.log('Attempting to join group');
+        if (this.hubConnection!.state === 'Connected') {
+          this.hubConnection?.invoke('AddToGroup', id);
+        }
+      })
+      .catch((error) => console.log('Error establishing connection', error));
+
+    this.hubConnection.on(connectionArgument, (comment) => {
+      runInAction(() => {
+        console.log('comment', comment)
+        this.forumpost!.commentForumPosts.push(comment);
+      });
+    });
+
+    this.hubConnection.on('Send', (message) => {
+      toast.info(message);
+    });
+  };
+
+  @action stopHubConnection = () => {
+    this.hubConnection
+      ?.invoke('RemoveFromGroup', this.forumpost!.id)
+      .then(() => {
+        this.hubConnection?.stop();
+      })
+      .then(() => console.log('Connection stopped!'))
+      .catch(error => console.log(error));
+  };
+
+  @action addComment = async (values: any) => {
+    console.log(values);
+    values.id = this.forumpost!.id;
+    try {
+      await this.hubConnection!.invoke('SendCommentForumPost', values);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   @computed get forumpostsByDate() {
     return this.groupForumpostsByDate(
       Array.from(this.forumPostRegistry.values())

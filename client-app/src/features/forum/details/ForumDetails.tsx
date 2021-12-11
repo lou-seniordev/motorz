@@ -33,7 +33,8 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) => {
     <Grid>
       <Grid.Column width={12}>
         <ForumDetailedInfo forumpost={forumpost}/>
-        <ForumDetailedChat forumpost={forumpost}/>
+        <ForumDetailedChat />
+        {/* forumpost={forumpost} */}
       </Grid.Column>
       <Grid.Column width={4}>
         <ForumDetailedHeader forumpost={forumpost}/>

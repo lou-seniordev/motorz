@@ -11,9 +11,9 @@ namespace Application.Mechanics
 {
     public class List
     {
-        public class Query : IRequest<List<Mechanic>> { }
+        public class Query : IRequest<List<MechanicDto>> { }
 
-        public class Handler : IRequestHandler<Query, List<Mechanic>>
+        public class Handler : IRequestHandler<Query, List<MechanicDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -23,12 +23,14 @@ namespace Application.Mechanics
                 _context = context;
             }
 
-            public async Task<List<Mechanic>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<MechanicDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 // === Lazy loading ===
                 var mechanics = await _context.Mechanics.ToListAsync();
 
-                return mechanics;
+                    // Motofies = _mapper.Map<List<Motofy>, List<MotofyDto>>(motofies),
+
+                return _mapper.Map<List<Mechanic>, List<MechanicDto>>(mechanics);//.ToListAsync();
             }
 
 

@@ -36,6 +36,8 @@ namespace Persistence
 
         //=== COMMENTS FOR THE REST OF THE SECTIONS ===
         public DbSet<CommentMotofy> CommentMotofies { get; set; }
+        public DbSet<CommentMechanic> CommentMechanics { get; set; }
+        public DbSet<CommentForumPost> CommentForumPosts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import MechanicDetailedChat from './MechanicDetailedChat';
 import MechanicDetailedHeader from './MechanicDetailedHeader';
 import MechanicDetailedInfo from './MechanicDetailedInfo';
 import MechanicDetailedSidebar from './MechanicDetailedSidebar';
@@ -31,6 +32,8 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) =
       <Grid.Column width={8}>
         <MechanicDetailedHeader mechanic={mechanic}/>
         <MechanicDetailedInfo mechanic={mechanic}/>
+        <MechanicDetailedChat />
+        {/* mechanic={mechanic} */}
       </Grid.Column>
       <Grid.Column width={8}>
         <MechanicDetailedSidebar/>

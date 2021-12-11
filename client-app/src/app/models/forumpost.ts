@@ -1,3 +1,5 @@
+import { IComment } from "./comment";
+
 export interface IForumpost {
   id: string;
   title: string;
@@ -6,6 +8,7 @@ export interface IForumpost {
   dateAdded: string;
   // displayName: string;
   category: string;
+  commentForumPosts: IComment[];
 }
 
 export class ForumpostFormValues {

@@ -9,18 +9,19 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
+
 namespace Application.AllComments
 {
-    public class CreateMotofyComment
+    public class CreateForumPostComment
     {
-        public class Command : IRequest<CommentMotofyDto>
+        public class Command : IRequest<CommentForumPostDto>
         {
             public string Body { get; set; }
             public Guid Id { get; set; }
             public string Username { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, CommentMotofyDto>
+        public class Handler : IRequestHandler<Command, CommentForumPostDto>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -31,36 +32,36 @@ namespace Application.AllComments
 
             }
 
-            public async Task<CommentMotofyDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<CommentForumPostDto> Handle(Command request, CancellationToken cancellationToken)
             {
 
 
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
 
 
-                var motofy = await _context.Motofies.FindAsync(request.Id);
+                var forumpost = await _context.Forumposts.FindAsync(request.Id);
 
-                if (motofy == null)
-                    throw new RestException(HttpStatusCode.NotFound, new { Motofy = "Not found" });
+                if (forumpost == null)
+                    throw new RestException(HttpStatusCode.NotFound, new { Forumpost = "Not found" });
 
-                var comment = new CommentMotofy
+                var comment = new CommentForumPost
                 {
                     Author = user,
-                    Motofy = motofy,
+                    Forumpost = forumpost,
                     Body = request.Body,
                     CreatedAt = DateTime.Now
                 };
 
 
 
-                // comment.Motofy = motofy;
+                // comment.forumpost = forumpost;
 
-                motofy.CommentMotofies.Add(comment);
+                forumpost.CommentForumPosts.Add(comment);
 
                 var success = await _context.SaveChangesAsync() > 0;
 
                 // mapping to  // mapping from 
-                if (success) return _mapper.Map<CommentMotofyDto>(comment);
+                if (success) return _mapper.Map<CommentForumPostDto>(comment);
 
                 throw new Exception("Problem Saving Changes");
             }

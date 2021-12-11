@@ -41,14 +41,15 @@ export default class MotofyStore {
   @observable uploadingMotofyPhoto = false;
   @observable.ref hubConnection: HubConnection | null = null;
   
-  @action createHubConnection = (motofyId: string) => {
+  @action createHubConnection = (id: string, connectionArgument: string) => {//, motofy: IMotofy
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
         accessTokenFactory: () => this.rootStore.commonStore.token!,
       })
       .configureLogging(LogLevel.Information)
       .build();
-      //console.log('motofy', this.motofy!.commentMotofies)
+      // console.log('motofy', this.motofy)
+      // console.log('motofy', motofy)
 
 
     this.hubConnection
@@ -57,15 +58,13 @@ export default class MotofyStore {
       .then(() => {
         console.log('Attempting to join group');
         if (this.hubConnection!.state === 'Connected') {
-          this.hubConnection?.invoke('AddToGroup', motofyId);
+          this.hubConnection?.invoke('AddToGroup', id);
         }
       })
       .catch((error) => console.log('Error establishing connection', error));
 
-    this.hubConnection.on('RecieveMotofyComment', (comment) => {
+    this.hubConnection.on(connectionArgument, (comment) => {
       runInAction(() => {
-        // console.log('comment', comment)
-        // console.log('this.motofy!.comments', this.motofy!.commentMotofies)
         this.motofy!.commentMotofies.push(comment);
       });
     });
@@ -87,7 +86,7 @@ export default class MotofyStore {
 
   @action addComment = async (values: any) => {
     console.log(values);
-    values.motofyId = this.motofy!.id;
+    values.id = this.motofy!.id;
     try {
       await this.hubConnection!.invoke('SendCommentMotofy', values);
     } catch (error) {

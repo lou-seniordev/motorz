@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
@@ -12,6 +13,7 @@ namespace Domain
 
         // category will have a set photo in client app
         public string Category { get; set; }
+        public virtual ICollection<CommentForumPost> CommentForumPosts { get; set; }
      
     }
 }

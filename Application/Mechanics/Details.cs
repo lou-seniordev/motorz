@@ -13,12 +13,12 @@ namespace Application.Mechanics
 {
     public class Details
     {
-          public class Query : IRequest<Mechanic>
+          public class Query : IRequest<MechanicDto>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Mechanic>
+        public class Handler : IRequestHandler<Query, MechanicDto>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace Application.Mechanics
                 _context = context;
             }
 
-            public async Task<Mechanic> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<MechanicDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 // === Eager loading -> this plus virtual keyword ===
                 // var activity = await _context.Activities
@@ -44,11 +44,8 @@ namespace Application.Mechanics
                     throw new RestException(HttpStatusCode.NotFound,
                         new { mechanic = "NotFound" });
 
-                // var forumpostToReturn = _mapper.Map<Forumpost, ForumpostDto>(forumpost);
-
-
               
-                return mechanic;
+                return _mapper.Map<Mechanic, MechanicDto>(mechanic);
             }
         }
     }

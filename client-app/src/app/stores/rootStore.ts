@@ -11,6 +11,7 @@ import MechanicStore from './mechanicStore';
 import BrandStore from './brandStore';
 import ProductStore from './productStore';
 import MessageStore from './messageStore';
+import CommentStore from './commentStore';
 
 // === mobx === //
 configure({ enforceActions: 'always' });
@@ -28,6 +29,7 @@ export class RootStore {
     brandStore: BrandStore;
     productStore: ProductStore;
     messageStore: MessageStore;
+    commentStore: CommentStore
 
 
     constructor () {
@@ -42,6 +44,7 @@ export class RootStore {
         this.brandStore = new BrandStore(this);
         this.productStore = new ProductStore(this);
         this.messageStore = new MessageStore(this);
+        this.commentStore = new CommentStore(this);
     }
 }
 

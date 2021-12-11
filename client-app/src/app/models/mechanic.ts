@@ -1,3 +1,5 @@
+import { IComment } from "./comment";
+
 export interface IMechanic {
     id: string;
     // author: string | null;
@@ -12,6 +14,7 @@ export interface IMechanic {
     email: string;
     phone: string;
     website: string;
+    commentMechanics: IComment[];
 }
 
 export class MechanicFromValues {
