@@ -96,7 +96,7 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
               <Form onSubmit={handleSubmit} loading={loading}>
                 <Field
                   name='title'
-                  placeholder='title'
+                  placeholder='Title'
                   value={forumpost.title}
                   component={TextInput}
                 />
@@ -104,13 +104,13 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   // onChange={handleInputChange}
                   name='body'
                   rows={4}
-                  placeholder='body'
+                  placeholder='Body'
                   value={forumpost.body}
                   component={TextAreaInput}
                 />
                 <Field
                   name='category'
-                  placeholder='category'
+                  placeholder='Category'
                   options={category}
                   value={forumpost.category}
                   component={SelectInput}

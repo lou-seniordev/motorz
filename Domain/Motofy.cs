@@ -7,7 +7,7 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public virtual Brand Brand { get; set; } 
+        public virtual Brand Brand { get; set; }
         // public string Brand { get; set; } 
         public string Model { get; set; }
         public string CubicCentimeters { get; set; }
@@ -16,7 +16,9 @@ namespace Domain
         public string YearOfProduction { get; set; }
         public DateTime DatePublished { get; set; }
         public string City { get; set; }
-        public string Country { get; set; }
+        // public string Country { get; set; }
+        public virtual Country Country { get; set; }
+
         public string PricePaid { get; set; }
         public string EstimatedValue { get; set; }
         public string NumberOfKilometers { get; set; }

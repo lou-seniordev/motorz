@@ -63,7 +63,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
       </Segment>
       <Segment>
         <Icon name='clock' /> {motofy.datePublished}
-        <Icon name='marker' /> {motofy.city}, {motofy.country}
+        <Icon name='marker' /> {motofy.city}, {motofy.countryName}
       </Segment>
       <Segment>
         <Icon name='motorcycle' /> {motofy.model} /

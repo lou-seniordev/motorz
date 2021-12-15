@@ -1,4 +1,3 @@
-// import { IMotofy } from './motofy';
 export interface IBrand {
     id: string,
     name : string,
@@ -7,23 +6,20 @@ export interface IBrand {
     landOfOrigin : string,
     cityOfOrigin : string,
 }
-// export interface IBrandToSelect {
-//     text: string,
-//     value : string,
+
+
+// export interface IBrandFormValues extends Partial<IBrand>{
+
 // }
 
-export interface IBrandFormValues extends Partial<IBrand>{
+// export class BrandFormValues implements IBrandFormValues {
 
-}
-
-export class BrandFormValues implements IBrandFormValues {
-
-    id: string = '';
-    name : string = '';
-    key: string = this.name;
+//     id: string = '';
+//     name : string = '';
+//     key: string = this.name;
     
-    constructor(init?: BrandFormValues ) {
-        if (init)
-        Object.assign(this, init);
-    }
-}
+//     constructor(init?: BrandFormValues ) {
+//         if (init)
+//         Object.assign(this, init);
+//     }
+// }

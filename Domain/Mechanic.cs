@@ -14,13 +14,13 @@ namespace Domain
         // public DateTime YearOfStart { get; set; }
         public string YearOfStart { get; set; }
         public DateTime DatePublished { get; set; }
-        public string Country { get; set; }
+        // public string Country { get; set; }
+        public virtual Country Country { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
-
         public virtual ICollection<CommentMechanic> CommentMechanics { get; set; }
         
         // public virtual Brand Brand { get; set; } list of brands?

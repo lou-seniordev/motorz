@@ -18,7 +18,8 @@ namespace Application.Products
         public string Brand { get; set; }
         public string Category { get; set; }
         public string City { get; set; }
-        public string Country { get; set; }
+        public string CountryName { get; set; }
+        public string CountryId { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
         public bool IsAdvertised { get; set; }

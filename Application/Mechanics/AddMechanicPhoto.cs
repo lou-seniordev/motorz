@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.MotofyPhotos
+namespace Application.Mechanics
 {
-    public class AddMotofyPhoto
+    public class AddMechanicPhoto
     {
         public class Command : IRequest<MotofyPhoto>
         {
@@ -49,8 +49,7 @@ namespace Application.MotofyPhotos
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId,
                     DateUploaded = DateTime.Now,
-                    MotofyForeignKey = request.MotorfyId
-                    // Motofy.
+                     MotofyForeignKey = request.MotorfyId
                     // MotofyForeignKey = Guid.Parse("7fc52731-24a2-425e-bd88-fbd5a7c8d602")
                 };
 

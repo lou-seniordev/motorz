@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211208202009_CommentMotofyMechanicForumPostActivityEntites")]
-    partial class CommentMotofyMechanicForumPostActivityEntites
+    [Migration("20211213141938_RefactorMechanicProductMotofyEntityAndCleanAll")]
+    partial class RefactorMechanicProductMotofyEntityAndCleanAll
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -278,6 +278,23 @@ namespace Persistence.Migrations
                     b.ToTable("CommentMotofies");
                 });
 
+            modelBuilder.Entity("Domain.Country", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CountryCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
+                });
+
             modelBuilder.Entity("Domain.Forumpost", b =>
                 {
                     b.Property<Guid>("Id")
@@ -318,7 +335,7 @@ namespace Persistence.Migrations
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Country")
+                    b.Property<Guid?>("CountryId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DatePublished")
@@ -349,6 +366,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Mechanics");
                 });
@@ -440,7 +459,7 @@ namespace Persistence.Migrations
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Country")
+                    b.Property<Guid?>("CountryId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CubicCentimeters")
@@ -476,6 +495,8 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Motofies");
                 });
@@ -541,7 +562,7 @@ namespace Persistence.Migrations
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Country")
+                    b.Property<Guid?>("CountryId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateActivated")
@@ -587,6 +608,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("ProductPhotoId");
 
@@ -895,6 +918,13 @@ namespace Persistence.Migrations
                         .HasForeignKey("AuthorId");
                 });
 
+            modelBuilder.Entity("Domain.Mechanic", b =>
+                {
+                    b.HasOne("Domain.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+                });
+
             modelBuilder.Entity("Domain.Message", b =>
                 {
                     b.HasOne("Domain.MessageThread", "MessageThread")
@@ -921,6 +951,10 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Brand", "Brand")
                         .WithMany("Motofies")
                         .HasForeignKey("BrandId");
+
+                    b.HasOne("Domain.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
                 });
 
             modelBuilder.Entity("Domain.MotofyPhoto", b =>
@@ -941,6 +975,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
+                    b.HasOne("Domain.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+
                     b.HasOne("Domain.Photo", "ProductPhoto")
                         .WithMany()
                         .HasForeignKey("ProductPhotoId");

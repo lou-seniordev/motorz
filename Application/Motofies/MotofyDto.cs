@@ -22,7 +22,8 @@ namespace Application.Motofies
         public string YearOfProduction { get; set; }
         public DateTime DatePublished { get; set; }
         public string City { get; set; }
-        public string Country { get; set; }
+        public string CountryName { get; set; }
+        public string CountryId { get; set; }
         public string PricePaid { get; set; }
         public string EstimatedValue { get; set; }
         public string NumberOfKilometers { get; set; }

@@ -54,7 +54,7 @@ namespace Application.Mechanics
 
                 mechanic.Name = request.Name ?? mechanic.Name;
                 mechanic.Description = request.Description ?? mechanic.Description;
-                mechanic.Country = request.Country ?? mechanic.Country;
+                // mechanic.Country = request.Country ?? mechanic.Country;
                 mechanic.City = request.City ?? mechanic.City;
                 mechanic.Address = request.Address ?? mechanic.Address;
 

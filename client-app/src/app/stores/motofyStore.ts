@@ -38,7 +38,7 @@ export default class MotofyStore {
   @observable loading = false;
 
   //==check?
-  @observable uploadingMotofyPhoto = false;
+  // @observable uploadingMotofyPhoto = false;
   @observable.ref hubConnection: HubConnection | null = null;
   
   @action createHubConnection = (id: string, connectionArgument: string) => {//, motofy: IMotofy
@@ -100,7 +100,6 @@ export default class MotofyStore {
     return this.mostEmbraced;
   }
 
-  //dunno if need signalR here...
 
   // === PAGING ===
   @observable motofyCount = 0;
@@ -219,20 +218,21 @@ export default class MotofyStore {
 
   @action createMotofy = async (motofy: IMotofy) => {
     //deleteit     
-    console.log('From motofyStory: ', motofy)
+    
     this.submitting = true;
     try {
       await agent.Motofies.create(motofy);
-      // const embracer = createEmbracer(this.rootStore.userStore.user!);
-      // embracer.isOwner = true;
-      // let embracers = [];
-      // embracers.push(embracer);
-      // motofy.embracers = embracers;
-      // motofy.isOwner = true;
-      // runInAction('create motofy', () => {
-      //   this.motofyRegistry.set(motofy.id, motofy);   // CHECK IF IT IS GOING TO BE NEEDED!! // this.editMode = false;
-      //   this.submitting = false;
-      // });
+      const embracer = createEmbracer(this.rootStore.userStore.user!);
+      embracer.isOwner = true;
+      let embracers = [];
+      embracers.push(embracer);
+      motofy.embracers = embracers;
+      motofy.isOwner = true;
+      console.log('From motofyStory: ', motofy)
+      runInAction('create motofy', () => {
+        this.motofyRegistry.set(motofy.id, motofy);   // CHECK IF IT IS GOING TO BE NEEDED!! // this.editMode = false;
+        this.submitting = false;
+      });
       history.push(`/gallery/${motofy.id}`);
     } catch (error) {
       runInAction(() => {

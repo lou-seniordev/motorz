@@ -15,7 +15,8 @@ namespace Application.Mechanics
         public string Description { get; set; }
         public string YearOfStart { get; set; }
         public DateTime DatePublished { get; set; }
-        public string Country { get; set; }
+        public string CountryName { get; set; }
+        public string CountryId { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }

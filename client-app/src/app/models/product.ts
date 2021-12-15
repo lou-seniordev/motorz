@@ -1,33 +1,52 @@
 export interface IProduct {
-    id: string;
-    sellerId: string;
-    sellerUsername: string;
-    title: string;
-    model: string;
-    description: string;
-    price: string;
-    brand: string;
-    category: string;
-    isActive: boolean;
-    isAdvertised: boolean;
-    datePublished: string;
-    dateActivated: Date;
-    dateAdvertised: Date;
-    photoUrl: string;
+  id: string;
+  sellerId: string;
+  sellerUsername: string;
+  title: string;
+  model: string;
+  description: string;
+  price: string;
+  brand: string;
+  category: string;
+  countryName: string;
+  countryId: string;
+  city: string;
+  phoneNumber: string;
+  isActive: boolean;
+  isAdvertised: boolean;
+  datePublished: string;
+  dateActivated: Date;
+  dateAdvertised: Date;
+  photoUrl: string;
+  file: Blob;
+
+}
+
+export class ProductFormValues {
+  id: string;
+  sellerId: string = '';
+  sellerUsername: string = '';
+  title: string = '';
+  model: string = '';
+  description: string = '';
+  price: string = '';
+  brand: string = '';
+  category: string = '';
+  countryName: string;
+  countryId: string;
+  city: string = '';
+  phoneNumber: string = '';
+  isActive: boolean;
+  isAdvertised: boolean;
+  datePublished: string = '';
+  dateActivated: Date;
+  dateAdvertised: Date;
+  photoUrl: string = '';
+  file: Blob;
+
+
+  constructor(init?: ProductFormValues) {
+    if (init)
+      Object.assign(this, init);
   }
-  
-//   export class ProductFormValues {
-//     id?: string;
-//     title: string = '';
-//     body: string = '';
-//     // dateAdded: Date = '';
-//     dateAdded: string = '';
-//     // displayName: string = '';
-//     category: string = '';
-  
-//     constructor(init?: ProductFormValues) {
-//       if (init)
-//         Object.assign(this, init);
-//     }
-//   }
-  
+}

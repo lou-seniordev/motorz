@@ -1,9 +1,9 @@
 import { IProduct } from '../models/product';
 import { observable, action, computed, runInAction } from 'mobx';
-// import { SyntheticEvent } from 'react';
-// import { history } from '../..';
+import { SyntheticEvent } from 'react';
+import { history } from '../..';
 import agent from '../api/agent';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 
 // configure({ enforceActions: 'always' });
@@ -71,24 +71,7 @@ export default class ProductStore {
         }
     };
 
-    // //==needed to set the form open
-    // @observable threadSellername: string | undefined = '';
-    // @observable threadSellernameSet = false;
-
-    // @action setThreadSellername = (sellerName: string) => {
-    //     this.threadSellername = sellerName;
-    //     this.threadSellernameSet = true;
-    //     console.log('sellerName', sellerName)
-    //     console.log('it set', this.threadSellername)
-    //     console.log('this.threadSellernameSet in product store', this.threadSellernameSet)
-    //   }
-
-    // @action unsetThreadSellername = () => {
-    //     this.threadSellername = undefined;
-    //     this.threadSellernameSet = false;
-    //     console.log('it unset to: ', this.threadSellername)
-    //     console.log('threadSellernameSet: ', this.threadSellernameSet)
-    //   }
+  
 
     //--in use--
     @action loadProduct = async (id: string) => {
@@ -118,10 +101,73 @@ export default class ProductStore {
         }
     };
 
-    //--in use---
+    //--in use---???check
     getProduct = (id: string) => {
         return this.productRegistry.get(id);
     };
+
+
+    @action createProduct = async (product: IProduct) => {
+        this.submitting = true;
+        try {
+          await agent.Products.create(product);
+          runInAction('creating products', () => {
+            this.productRegistry.set(product.id, product);
+            this.editMode = false;
+            this.submitting = false;
+          });
+          history.push(`/products/${product.id}`)
+        } catch (error) {
+          runInAction('create product error', () => {
+            this.submitting = false;
+          });
+          toast.error('Problem submitting data');
+          // console.log(error.response);
+        }
+      };
+
+      @action editProduct = async (product: IProduct) => {
+        this.submitting = true;
+        try {
+          // console.log('product', product);
+          await agent.Products.update(product);
+          runInAction('creating product', () => {
+            this.productRegistry.set(product.id, product);
+            this.product = product;
+            this.editMode = false;
+            this.submitting = false;
+          });
+          history.push(`/products/${product.id}`)
+        } catch (error) {
+          runInAction('create product error', () => {
+            this.submitting = false;
+          });
+          toast.error('Problem submitting data');
+          // console.log(error.response);
+        }
+      };
+    
+      @action deleteProduct = async (
+        event: SyntheticEvent<HTMLButtonElement>,
+        id: string
+      ) => {
+        this.submitting = true;
+        this.target = event.currentTarget.name;
+        try {
+          await agent.Products.delete(id);
+          runInAction('deleting product', () => {
+            this.productRegistry.delete(id);
+            this.submitting = false;
+            this.target = '';
+          });
+        } catch (error) {
+          runInAction('delete product error', () => {
+            this.submitting = false;
+            this.target = '';
+          });
+          console.log(error);
+        }
+      };
    
 }
 

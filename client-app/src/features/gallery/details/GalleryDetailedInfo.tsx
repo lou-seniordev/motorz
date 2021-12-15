@@ -47,7 +47,7 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
           </Grid.Column>
           <Grid.Column width={11}>
             <span>
-              In {motofy.city}, {motofy.country}
+              In {motofy.city}, {motofy.countryName}
             </span>
           </Grid.Column>
         </Grid>

@@ -18,7 +18,10 @@ export interface IMotofy {
     yearOfProduction?: string;// Date;
     datePublished?: string;
     city: string;
-    country: string;
+
+    countryName: string;
+    countryId: string;
+
     pricePaid: string;
     estimatedValue: string;
     numberOfKilometers: string; 
@@ -28,17 +31,6 @@ export interface IMotofy {
     commentMotofies: IComment[];
     file: Blob;
 }
-
-// export interface IComment {
-//     id: string;
-//     createdAt: Date;
-//     body: string;
-//     username: string;
-//     displayName: string;
-//     image: string;
-  
-//   }
-
 
 export interface IMotofyFormValues extends Partial<IMotofy>{//, Partial<IBrand> 
 
@@ -58,7 +50,8 @@ export class MotofyFormValues implements IMotofyFormValues {
     // datePublished?: Date = undefined;
     datePublished?: string= '';
     city: string= '';
-    country: string= '';
+    countryName: string= '';
+    countryId: string= '';
     pricePaid: string= '';
     estimatedValue: string= '';
     numberOfKilometers: string= '';

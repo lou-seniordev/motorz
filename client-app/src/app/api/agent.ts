@@ -1,3 +1,4 @@
+import { MechanicFromValues } from './../models/mechanic';
 import { IMessage, IMessageToSend } from './../models/message';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
@@ -10,7 +11,8 @@ import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost } from '../models/forumpost';
 import { IMechanic } from '../models/mechanic';
 import { IBrand } from '../models/brand';
-import { IProduct } from '../models/product';
+import { IProduct, ProductFormValues } from '../models/product';
+import { ICountry } from '../models/country';
 // import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -82,12 +84,7 @@ const requests = {
     axios.delete(url)
       // .then(sleep(1000))
       .then(responseBody),
-  // deleteMultiple: (url: string, params: any) =>
-  //   axios.delete(url, 
-  //     // { headers:{'Cntent-Type': 'application/json; charset=utf-8'} },
-  //     { data: {params} })
-  //     // .then(sleep(1000))
-  //     .then(responseBody),
+  
   postForm: (url: string, file: Blob) => {
     let formData = new FormData();
     formData.append('File', file);
@@ -113,14 +110,55 @@ const specialRequests = {
     motofyData.append('YearOfProduction', motofy.yearOfProduction!)
     motofyData.append('DatePublished', motofy.datePublished!)
     motofyData.append('City', motofy.city)
-    motofyData.append('Country', motofy.country)
+    motofyData.append('Country', motofy.countryName)
     motofyData.append('PricePaid', motofy.pricePaid)
     motofyData.append('EstimatedValue', motofy.estimatedValue)
     motofyData.append('NumberOfKilometers', motofy.numberOfKilometers)
-
-    // console.log('From agent: ', motofyData)
-
     return axios.post(url, motofyData, {
+      headers: { 'Content-type': 'multipart/form-data' }
+    })
+      .then(responseBody);
+  }
+};
+
+const postProduct = {
+  productForm: (url: string, product: IProduct) => {
+    let productData = new FormData();
+    productData.append('Id', product.id!)
+    productData.append('Title', product.title)
+    productData.append('Description', product.description!)
+    productData.append('brand', product.brand)
+    productData.append('Model', product.model)
+    productData.append('Category', product.category)
+    productData.append('File', product.file);
+    productData.append('CountryId', product.countryId!)
+    productData.append('City', product.city)
+    productData.append('Price', product.price)
+    productData.append('PhoneNumber', product.phoneNumber)
+    return axios.post(url, productData, {
+      headers: { 'Content-type': 'multipart/form-data' }
+    })
+      .then(responseBody);
+  }
+};
+
+
+const postMechanic = {
+  mechanicForm: (url: string, mechanic: IMechanic) => {
+    console.log('mechanic', mechanic)
+    let mechanicData = new FormData();
+    mechanicData.append('Id', mechanic.id!)
+    mechanicData.append('Name', mechanic.name)
+    mechanicData.append('Description', mechanic.description!)
+    mechanicData.append('YearOfStart', mechanic.yearOfStart!)
+    mechanicData.append('CountryName', mechanic.countryName)
+    mechanicData.append('City', mechanic.city)
+    mechanicData.append('Address', mechanic.address)
+    mechanicData.append('Email', mechanic.email)
+    mechanicData.append('Phone', mechanic.phone)
+    mechanicData.append('Website', mechanic.website)
+    mechanicData.append('File', mechanic.file);
+    return axios.post(url, mechanicData, {
       headers: { 'Content-type': 'multipart/form-data' }
     })
       .then(responseBody);
@@ -148,6 +186,26 @@ const Motofies = {
   embrace: (id: any) => requests.post(`/motofies/${id}/embrace`, {}),
   unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`)
 };
+
+const Mechanics = {
+  list: (): Promise<IMechanic[]> => requests.get('mechanics'),
+  details: (id: string) => requests.get(`/mechanics/${id}`),
+  // // TODO: 
+  // create: (mechanic: IMechanic) => requests.post('/mechanics', mechanic),
+  create: (mechanic: IMechanic) => postMechanic.mechanicForm('/mechanics', mechanic),
+  update: (mechanic: IMechanic) => requests.put(`/mechanics/${mechanic.id}`, mechanic),
+  delete: (id: string) => requests.delete(`/mechanics/${id}`),
+};
+
+const Products = {
+  list: (): Promise<IProduct[]> => requests.get('/products'),
+  details: (id: string) => requests.get(`/products/${id}`),
+  create: (product: IProduct) => postProduct.productForm('/products', product),
+  update: (product: IProduct) => requests.put(`/products/${product.id}`, product),
+  delete: (id: string) => requests.delete(`/products/${id}`),
+  updatephoto: (photo: Blob, id: string): Promise<IPhoto> => requests.postForm(`/photos/${id}/updatePhoto`, photo),
+  toogleActivate: (id: string) => requests.post(`/products/${id}/toogleActivate`, {})
+}
 
 const Activities = {
   // list: (limit?: number, page?: number): Promise<IActivitiesEnvelope> => 
@@ -193,28 +251,11 @@ const Forumposts = {
   delete: (id: string) => requests.delete(`/forumposts/${id}`),
 }
 
-const Products = {
-  list: (): Promise<IProduct[]> => requests.get('/products'),
-  details: (id: string) => requests.get(`/products/${id}`),
-  create: (product: IProduct) => requests.post('/products', product),
-  update: (product: IProduct) =>
-    requests.put(`/products/${product.id}`, product),
-  delete: (id: string) => requests.delete(`/products/${id}`),
-  updatephoto: (photo: Blob, id: string): Promise<IPhoto> => requests.postForm(`/photos/${id}/updatePhoto`, photo),
-  toogleActivate: (id: string) => requests.post(`/products/${id}/toogleActivate`, {})
-}
 
 
 
-const Mechanics = {
-  list: (): Promise<IMechanic[]> => requests.get('mechanics'),
-  details: (id: string) => requests.get(`/mechanics/${id}`),
-  // // TODO: 
-  create: (mechanic: IMechanic) => requests.post('/mechanics', mechanic),
-  update: (mechanic: IMechanic) =>
-    requests.put(`/mechanics/${mechanic.id}`, mechanic),
-  delete: (id: string) => requests.delete(`/mechanics/${id}`),
-};
+
+
 
 
 const Brands = {
@@ -227,6 +268,9 @@ const Brands = {
   // update: (motofy: IMotofy) =>
   //   requests.put(`/brands/${motofy.id}`, motofy),
   // delete: (id: string) => requests.delete(`/brands/${id}`),
+};
+const Countries = {
+  list: (): Promise<ICountry[]> => requests.get('countries'),
 };
 
 const User = {
@@ -264,5 +308,6 @@ export default {
   Mechanics,
   Brands,
   Products,
-  Messages
+  Messages,
+  Countries
 };

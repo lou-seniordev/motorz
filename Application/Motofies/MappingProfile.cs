@@ -19,6 +19,10 @@ namespace Application.Motofies
             .ForMember(d => d.BrandName, o => o.MapFrom(s => s.Name))
             .ForMember(d => d.BrandId, o => o.MapFrom(s => s.Id))
             .ForMember(d => d.BrandLogoUrl, o => o.MapFrom(s => s.LogoUrl));
+            CreateMap<Country, MotofyDto>()
+            .ForMember(d => d.CountryName, o => o.MapFrom(s => s.Name))
+            .ForMember(d => d.CountryId, o => o.MapFrom(s => s.Id));
+
         }
     }
 }

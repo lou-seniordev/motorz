@@ -39,6 +39,9 @@ namespace Persistence
         public DbSet<CommentMechanic> CommentMechanics { get; set; }
         public DbSet<CommentForumPost> CommentForumPosts { get; set; }
 
+        //=== Refactor Mechanic ===
+        public DbSet<Country> Countries { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

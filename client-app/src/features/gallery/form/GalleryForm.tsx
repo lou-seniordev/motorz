@@ -31,6 +31,7 @@ import {
 } from "revalidate";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
+// import { toJS } from "mobx";
 
 //NOTSHIT
 const validate = combineValidators({
@@ -42,7 +43,7 @@ const validate = combineValidators({
     })
   )(),
   city: isRequired("City"),
-  country: isRequired("Country"),
+  countryName: isRequired("countryName"),
   model: isRequired("model"),
   pricePaid: composeValidators(
     isNumeric("Price paid"),
@@ -75,17 +76,19 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const {
     createMotofy,
     editMotofy,
-    uploadingMotofyPhoto,
+    // uploadingMotofyPhoto,
     submitting,
     loadMotofy,
   } = rootStore.motofyStore;
 
   const { loadBrandsToSelect, brands } = rootStore.brandStore;
+  const { loadCountriesToSelect, countries } = rootStore.countryStore;
 
   const [motofy, setMotofy] = useState(new MotofyFormValues());
   const [loading, setLoading] = useState(false);
 
   const [modeForBrand, setModeForBrand] = useState(true);
+  const [modeForCountry, setModeForCountry] = useState(true);
 
   const [uploaded, setUploaded] = useState(false);
 
@@ -96,26 +99,29 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   let image: any;
   const [previewImage, setPreviewImage] = useState();
 
-
   //==proposal for AA001 bug==
   useEffect(() => {
     return () => {
-            history.goForward();
-        }
-    }, [history]);
+      history.goForward();
+    };
+  }, [history]);
 
   useEffect(() => {
+    // console.log("modeForCountry out", modeForCountry)
     loadBrandsToSelect();
+    loadCountriesToSelect();
     if (match.params.id) {
       setModeForBrand(false);
+      setModeForCountry(false);
       setUploaded(true);
       setLoading(true);
       setEdited(true);
+      // console.log("modeForCountry in", modeForCountry)
       loadMotofy(match.params.id)
         .then((motofy) => setMotofy(new MotofyFormValues(motofy)))
         .finally(() => setLoading(false));
     }
-  }, [loadBrandsToSelect, loadMotofy, match.params.id]);
+  }, [loadBrandsToSelect, loadCountriesToSelect, loadMotofy, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
     const { ...motofy } = values;
@@ -126,16 +132,17 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         id: uuid(),
         datePublished: new Date().toISOString(),
         file: imageToUpload,
+        photoUrl: previewImage
       };
 
       createMotofy(newMotofy);
+
     } else {
       editMotofy(motofy);
     }
   };
 
   const setPreview = (imageToSet: any) => {
-
     Object.assign(image, {
       preview: URL.createObjectURL(imageToSet),
     });
@@ -145,9 +152,11 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const handleUploadImage = (photo: any) => {
     setImageToUpload(photo);
     image = photo;
-    setPreview(photo); 
+    setPreview(photo);
     setUploaded(true);
     toast.info("Your image is uploaded, please give us more details");
+    console.log('uploaded, edited', uploaded, edited);
+
   };
 
   return (
@@ -155,11 +164,11 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
       {!uploaded && (
         <Grid.Column width={16}>
           <Segment>
-          <PhotoUploadWidget
-            uploadPhoto={handleUploadImage}
-            loading={uploadingMotofyPhoto}
-          />
-        </Segment>
+            <PhotoUploadWidget
+              uploadPhoto={handleUploadImage}
+              loading={uploaded}
+            />
+          </Segment>
         </Grid.Column>
       )}
       {uploaded && (
@@ -190,12 +199,30 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     value={motofy.city}
                     component={TextInput}
                   />
-                  <Field
+                  {/* <Field
                     name='country'
                     placeholder='Country'
                     value={motofy.country}
                     component={TextInput}
-                  />
+                  /> */}
+                  {!modeForCountry && (
+                    <Field
+                      name='countryName'
+                      placeholder='Country' //==neednot
+                      options={countries}
+                      value={motofy.countryName}
+                      component={SelectInput}
+                    />
+                  )}
+                  {modeForCountry && (
+                    <Field
+                      name='countryName'
+                      placeholder={"Country"} //
+                      options={countries}
+                      value={motofy.countryId}
+                      component={SelectInput}
+                    />
+                  )}
                   {!modeForBrand && (
                     <Field
                       name='brandName'

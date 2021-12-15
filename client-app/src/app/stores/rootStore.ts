@@ -12,6 +12,7 @@ import BrandStore from './brandStore';
 import ProductStore from './productStore';
 import MessageStore from './messageStore';
 import CommentStore from './commentStore';
+import CountryStore from './countryStore';
 
 // === mobx === //
 configure({ enforceActions: 'always' });
@@ -29,7 +30,8 @@ export class RootStore {
     brandStore: BrandStore;
     productStore: ProductStore;
     messageStore: MessageStore;
-    commentStore: CommentStore
+    commentStore: CommentStore;
+    countryStore: CountryStore;
 
 
     constructor () {
@@ -45,6 +47,7 @@ export class RootStore {
         this.productStore = new ProductStore(this);
         this.messageStore = new MessageStore(this);
         this.commentStore = new CommentStore(this);
+        this.countryStore = new CountryStore(this);
     }
 }
 

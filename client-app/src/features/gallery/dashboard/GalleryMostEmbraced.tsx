@@ -35,7 +35,7 @@ const GalleryMostEmbraced: React.FC<{ motofyEmbraced: IMotofy }> = ({
                     </Item.Header>
                     <Item.Description>
                       <p>
-                        {motofy.city}, {motofy.country}, {motofy.yearOfProduction}
+                        {motofy.city}, {motofy.countryName}, {motofy.yearOfProduction}
                       </p>
                     </Item.Description>
 

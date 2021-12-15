@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class NewBrandsAdded : Migration
+    public partial class RefactorMechanicProductMotofyEntityAndCleanAll : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,26 +82,31 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Mechanics",
+                name: "Countries",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Owner = table.Column<string>(nullable: true),
-                    PhotoUrl = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    YearOfStart = table.Column<string>(nullable: true),
-                    DatePublished = table.Column<DateTime>(nullable: false),
-                    Country = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Website = table.Column<string>(nullable: true)
+                    CountryCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Mechanics", x => x.Id);
+                    table.PrimaryKey("PK_Countries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MessageThreads",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    InitUsername = table.Column<string>(nullable: true),
+                    ReceiverUsername = table.Column<string>(nullable: true),
+                    InitDeleted = table.Column<bool>(nullable: false),
+                    ReceiverDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageThreads", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -237,6 +242,33 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CommentActivity",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Body = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    AuthorId = table.Column<string>(nullable: true),
+                    ActivityId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentActivity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CommentActivity_Activities_ActivityId",
+                        column: x => x.ActivityId,
+                        principalTable: "Activities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CommentActivity_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -356,6 +388,35 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Mechanics",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Owner = table.Column<string>(nullable: true),
+                    PhotoUrl = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    YearOfStart = table.Column<string>(nullable: true),
+                    DatePublished = table.Column<DateTime>(nullable: false),
+                    CountryId = table.Column<Guid>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Website = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Mechanics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Mechanics_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Motofies",
                 columns: table => new
                 {
@@ -369,7 +430,7 @@ namespace Persistence.Migrations
                     YearOfProduction = table.Column<string>(nullable: true),
                     DatePublished = table.Column<DateTime>(nullable: false),
                     City = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
+                    CountryId = table.Column<Guid>(nullable: true),
                     PricePaid = table.Column<string>(nullable: true),
                     EstimatedValue = table.Column<string>(nullable: true),
                     NumberOfKilometers = table.Column<string>(nullable: true)
@@ -383,6 +444,161 @@ namespace Persistence.Migrations
                         principalTable: "Brands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Motofies_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommentForumPosts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Body = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    AuthorId = table.Column<string>(nullable: true),
+                    ForumpostId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentForumPosts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CommentForumPosts_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CommentForumPosts_Forumposts_ForumpostId",
+                        column: x => x.ForumpostId,
+                        principalTable: "Forumposts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    SellerId = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Price = table.Column<string>(nullable: true),
+                    PictureUrl = table.Column<string>(nullable: true),
+                    Brand = table.Column<string>(nullable: true),
+                    Category = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    CountryId = table.Column<Guid>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsAdvertised = table.Column<bool>(nullable: false),
+                    IsSold = table.Column<bool>(nullable: false),
+                    DatePublished = table.Column<DateTime>(nullable: false),
+                    DateActivated = table.Column<DateTime>(nullable: false),
+                    DateAdvertised = table.Column<DateTime>(nullable: false),
+                    ActivationCounter = table.Column<int>(nullable: false),
+                    ProductPhotoId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_Photos_ProductPhotoId",
+                        column: x => x.ProductPhotoId,
+                        principalTable: "Photos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommentMechanics",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Body = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    AuthorId = table.Column<string>(nullable: true),
+                    MechanicId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentMechanics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CommentMechanics_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CommentMechanics_Mechanics_MechanicId",
+                        column: x => x.MechanicId,
+                        principalTable: "Mechanics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommentMotofies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Body = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    AuthorId = table.Column<string>(nullable: true),
+                    MotofyId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentMotofies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CommentMotofies_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CommentMotofies_Motofies_MotofyId",
+                        column: x => x.MotofyId,
+                        principalTable: "Motofies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MotofyPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: true),
+                    DateUploaded = table.Column<DateTime>(nullable: false),
+                    MotofyForeignKey = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MotofyPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MotofyPhotos_Motofies_MotofyForeignKey",
+                        column: x => x.MotofyForeignKey,
+                        principalTable: "Motofies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -409,6 +625,52 @@ namespace Persistence.Migrations
                         principalTable: "Motofies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    SenderId = table.Column<string>(nullable: true),
+                    SenderUsername = table.Column<string>(nullable: true),
+                    RecipientId = table.Column<string>(nullable: true),
+                    RecipientUsername = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    DateRead = table.Column<DateTime>(nullable: true),
+                    DateSent = table.Column<DateTime>(nullable: false),
+                    SenderDeleted = table.Column<bool>(nullable: false),
+                    RecipientDeleted = table.Column<bool>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: true),
+                    MessageThreadId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_MessageThreads_MessageThreadId",
+                        column: x => x.MessageThreadId,
+                        principalTable: "MessageThreads",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Messages_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -469,6 +731,46 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_CommentActivity_ActivityId",
+                table: "CommentActivity",
+                column: "ActivityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentActivity_AuthorId",
+                table: "CommentActivity",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentForumPosts_AuthorId",
+                table: "CommentForumPosts",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentForumPosts_ForumpostId",
+                table: "CommentForumPosts",
+                column: "ForumpostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentMechanics_AuthorId",
+                table: "CommentMechanics",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentMechanics_MechanicId",
+                table: "CommentMechanics",
+                column: "MechanicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentMotofies_AuthorId",
+                table: "CommentMotofies",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentMotofies_MotofyId",
+                table: "CommentMotofies",
+                column: "MotofyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_ActivityId",
                 table: "Comments",
                 column: "ActivityId");
@@ -489,14 +791,65 @@ namespace Persistence.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Mechanics_CountryId",
+                table: "Mechanics",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_MessageThreadId",
+                table: "Messages",
+                column: "MessageThreadId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_ProductId",
+                table: "Messages",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_RecipientId",
+                table: "Messages",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Motofies_BrandId",
                 table: "Motofies",
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Motofies_CountryId",
+                table: "Motofies",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MotofyPhotos_MotofyForeignKey",
+                table: "MotofyPhotos",
+                column: "MotofyForeignKey",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Photos_AppUserId",
                 table: "Photos",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CountryId",
+                table: "Products",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductPhotoId",
+                table: "Products",
+                column: "ProductPhotoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_SellerId",
+                table: "Products",
+                column: "SellerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserActivities_ActivityId",
@@ -527,19 +880,28 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CommentActivity");
+
+            migrationBuilder.DropTable(
+                name: "CommentForumPosts");
+
+            migrationBuilder.DropTable(
+                name: "CommentMechanics");
+
+            migrationBuilder.DropTable(
+                name: "CommentMotofies");
+
+            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "Followings");
 
             migrationBuilder.DropTable(
-                name: "Forumposts");
+                name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Mechanics");
-
-            migrationBuilder.DropTable(
-                name: "Photos");
+                name: "MotofyPhotos");
 
             migrationBuilder.DropTable(
                 name: "Testimonials");
@@ -557,16 +919,34 @@ namespace Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Activities");
+                name: "Forumposts");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Mechanics");
+
+            migrationBuilder.DropTable(
+                name: "MessageThreads");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Activities");
 
             migrationBuilder.DropTable(
                 name: "Motofies");
 
             migrationBuilder.DropTable(
+                name: "Photos");
+
+            migrationBuilder.DropTable(
                 name: "Brands");
+
+            migrationBuilder.DropTable(
+                name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

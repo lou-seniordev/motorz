@@ -84,6 +84,7 @@ namespace Application.Motofies
                 // var brand = await _context.Brands.FindAsync(request.BrandId);
                 var brand = await _context.Brands.SingleOrDefaultAsync(x => x.Name == request.BrandName);
 
+                var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.Country);
 
                 var motofy = new Motofy
                 {
@@ -97,7 +98,7 @@ namespace Application.Motofies
                     YearOfProduction = request.YearOfProduction,
                     NumberOfKilometers = request.NumberOfKilometers,
                     City = request.City,
-                    Country = request.Country,
+                    Country = country,
                     PricePaid = request.PricePaid,
                     EstimatedValue = request.EstimatedValue,
                     DatePublished = request.DatePublished

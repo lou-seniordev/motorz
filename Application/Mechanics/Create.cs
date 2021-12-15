@@ -66,6 +66,7 @@ namespace Application.Mechanics
 
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
+                var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.Country);
 
                 var mechanic = new Mechanic
                 {
@@ -74,7 +75,7 @@ namespace Application.Mechanics
                     Description = request.Description,
                     YearOfStart = request.YearOfStart,
                     DatePublished = DateTime.Now,
-                    Country = request.Country,
+                    Country = country,
                     City = request.City,
                     Address = request.Address,
                     PhotoUrl = request.PhotoUrl,

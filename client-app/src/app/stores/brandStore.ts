@@ -1,9 +1,9 @@
 import { action, observable,  runInAction } from 'mobx';//computed,
 // import { SyntheticEvent } from 'react';
-import { history } from '../..';
+// import { history } from '../..';
 import agent from '../api/agent';
 import {  IBrand } from '../models/brand'; //BrandFormValues,
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 
 //==non of which is actually in use before the admin panel!!!!!!!!!==
@@ -13,7 +13,7 @@ export default class BrandStore {
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
   }
-  @observable brandRegistry = new Map();
+  // @observable brandRegistry = new Map();
 
   @observable brands: IBrand[] = [];
   // @observable brandToSelect: BrandFormValues[] = [];
@@ -22,16 +22,7 @@ export default class BrandStore {
   @observable editMode = false;
   @observable submitting = false;
 
-  @observable target = '';
-
-
-  // @computed get brandsByDate() {
-  //   return this.brands;
-  //   // Array.from(this.brandRegistry.values());
-  //   // return Array.from(this.brandRegistry.values()).sort(
-  //   //   (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-  //   // );
-  // }
+  // @observable target = '';
 
   @action loadBrandsToSelect = async () => {
     this.loadingInitial = true;
@@ -39,6 +30,8 @@ export default class BrandStore {
       const brands = await agent.Brands.list();
       runInAction('loading brands', () => {
         this.brands = brands;
+        // console.log('brands', brands);
+
       })
     } catch (error) {
       runInAction('load brands error', () => {
@@ -80,55 +73,56 @@ export default class BrandStore {
   //   }
   // };
 
-  @action loadBrand = async (id: string) => {
-    let brand = this.getBrand(id);
-    if (brand) {
-      this.brand = brand;
-      return brand;
-    } else {
-      this.loadingInitial = true;
-      try {
-        brand = await agent.Brands.details(id);
-        runInAction('getting brand', () => {
-          this.brand = brand;
-          this.loadingInitial = false;
-        });
-        return brand;
-      } catch (error) {
-        runInAction('get brand error', () => {
-          this.loadingInitial = false;
-        });
-        console.log(error);
-      }
-    }
-  };
+  //??--isreally needed
+  // @action loadBrand = async (id: string) => {
+  //   let brand = this.getBrand(id);
+  //   if (brand) {
+  //     this.brand = brand;
+  //     return brand;
+  //   } else {
+  //     this.loadingInitial = true;
+  //     try {
+  //       brand = await agent.Brands.details(id);
+  //       runInAction('getting brand', () => {
+  //         this.brand = brand;
+  //         this.loadingInitial = false;
+  //       });
+  //       return brand;
+  //     } catch (error) {
+  //       runInAction('get brand error', () => {
+  //         this.loadingInitial = false;
+  //       });
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
-  @action clearBrand = () => {
-    this.brand = null;
-  }
+  // @action clearBrand = () => {
+  //   this.brand = null;
+  // }
 
-  getBrand = (id: string) => {
-    return this.brandRegistry.get(id);
-  };
+  // getBrand = (id: string) => {
+  //   return this.brandRegistry.get(id);
+  // };
 
-  @action createBrand = async (brand: IBrand) => {
-    this.submitting = true;
-    try {
-      await agent.Brands.create(brand);
-      runInAction('creating brands', () => {
-        this.brandRegistry.set(brand.id, brand);
-        this.editMode = false;
-        this.submitting = false;
-      });
-      history.push(`/brands/${brand.id}`)
-    } catch (error) {
-      runInAction('create brand error', () => {
-        this.submitting = false;
-      });
-      toast.error('Problem submitting data');
-      // console.log(error.response);
-    }
-  };
+  // @action createBrand = async (brand: IBrand) => {
+  //   this.submitting = true;
+  //   try {
+  //     await agent.Brands.create(brand);
+  //     runInAction('creating brands', () => {
+  //       this.brandRegistry.set(brand.id, brand);
+  //       this.editMode = false;
+  //       this.submitting = false;
+  //     });
+  //     history.push(`/brands/${brand.id}`)
+  //   } catch (error) {
+  //     runInAction('create brand error', () => {
+  //       this.submitting = false;
+  //     });
+  //     toast.error('Problem submitting data');
+  //     // console.log(error.response);
+  //   }
+  // };
 
   // //LATER!!!
   // @action editbrand = async (brand: IBrand) => {
@@ -175,26 +169,26 @@ export default class BrandStore {
   //   }
   // };
 
-  @action openCreateForm = () => {
-    this.editMode = true;
-    this.brand = null;
-  };
-  @action openEditForm = (id: string) => {
-    this.brand = this.brandRegistry.get(id);
-    // console.log(this.brand?.yearOfStart);
-    this.editMode = true;
-  };
-  @action cancelSelectedBrand = () => {
-    this.brand = null;
-  };
-  @action cancelFormOpen = () => {
-    this.editMode = false;
-    // TODO: GO BACK WHEREVER YOU WERE
-  };
+  // @action openCreateForm = () => {
+  //   this.editMode = true;
+  //   this.brand = null;
+  // };
+  // @action openEditForm = (id: string) => {
+  //   this.brand = this.brandRegistry.get(id);
+  //   // console.log(this.brand?.yearOfStart);
+  //   this.editMode = true;
+  // };
+  // @action cancelSelectedBrand = () => {
+  //   this.brand = null;
+  // };
+  // @action cancelFormOpen = () => {
+  //   this.editMode = false;
+  //   // TODO: GO BACK WHEREVER YOU WERE
+  // };
 
-  @action selectBrand = (id: string) => {
-    // this.selectedbrand = this.brands.find(m => m.id === id); // === refactor for map
-    this.brand = this.brandRegistry.get(id);
-    this.editMode = false;
-  };
+  // @action selectBrand = (id: string) => {
+  //   // this.selectedbrand = this.brands.find(m => m.id === id); // === refactor for map
+  //   this.brand = this.brandRegistry.get(id);
+  //   this.editMode = false;
+  // };
 }

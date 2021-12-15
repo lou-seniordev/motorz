@@ -9,12 +9,16 @@ export interface IMechanic {
     yearOfStart: string;//Date;
     datePublished: string;// Date | undefined;
     country: string;
+    countryName: string;
+    countryId: string;
     city: string;
     address: string;
     email: string;
     phone: string;
     website: string;
     commentMechanics: IComment[];
+    file: Blob;
+
 }
 
 export class MechanicFromValues {
@@ -25,11 +29,15 @@ export class MechanicFromValues {
     yearOfStart: string = '';
     datePublished: string = '';
     country: string = '';
+    countryName: string= '';
+    countryId: string= '';
     city: string = '';
     address: string = '';
     email: string= '';
     phone: string= '';
     website: string= '';
+    file: Blob;
+
 
 
     constructor(init?: MechanicFromValues ) {

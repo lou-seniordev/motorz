@@ -51,6 +51,8 @@ namespace Application.Motofies
                 var motofy = await _context.Motofies.FindAsync(request.Id);
 
                 var brand = await _context.Brands.SingleOrDefaultAsync(x => x.Name == request.BrandName);
+                
+                var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.Country);
 
 
                 if (motofy == null)
@@ -61,7 +63,7 @@ namespace Application.Motofies
                 motofy.Brand = brand;
                 motofy.Description = request.Description ?? motofy.Description;
                 motofy.City = request.City ?? motofy.City;
-                motofy.Country = request.Country ?? motofy.Country;
+                motofy.Country = country ?? motofy.Country;
                 motofy.NumberOfKilometers = request.NumberOfKilometers ?? motofy.NumberOfKilometers;
 
                 var success = await _context.SaveChangesAsync() > 0;

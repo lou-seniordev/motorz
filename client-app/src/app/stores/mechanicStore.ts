@@ -95,7 +95,7 @@ export default class MechanicStore {
       runInAction('loading mechanics', () => {
         mechanics.forEach((mechanic) => {
           mechanic.datePublished = mechanic.datePublished?.split('T')[0];
-          console.log(mechanic.datePublished); 
+          console.log('mechanic', mechanic ); 
           // this.mechanics.push(mechanic); // === refactor for map
           this.mechanicRegistry.set(mechanic.id, mechanic);
         });
@@ -141,6 +141,8 @@ export default class MechanicStore {
   };
 
   @action createMechanic = async (mechanic: IMechanic) => {
+    console.log('From mechanicStory: ', mechanic)
+
     this.submitting = true;
     try {
       await agent.Mechanics.create(mechanic);
@@ -155,7 +157,7 @@ export default class MechanicStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data');
-      // console.log(error.response);
+      console.log(error);
     }
   };
 
