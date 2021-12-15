@@ -131,7 +131,7 @@ const postProduct = {
     productData.append('Model', product.model)
     productData.append('Category', product.category)
     productData.append('File', product.file);
-    productData.append('CountryId', product.countryId!)
+    productData.append('Country', product.countryName)
     productData.append('City', product.city)
     productData.append('Price', product.price)
     productData.append('PhoneNumber', product.phoneNumber)

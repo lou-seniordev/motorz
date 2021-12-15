@@ -25,6 +25,8 @@ namespace Application.Products
             public string PictureUrl { get; set; }
             public string Brand { get; set; }
             public string Category { get; set; }
+            public string City { get; set; }
+            public string Country { get; set; }
             public IFormFile File { get; set; }
             public bool IsActive { get; set; }
             public bool IsAdvertised { get; set; }
@@ -78,6 +80,8 @@ namespace Application.Products
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
+                var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.Country);
+
 
                 var product = new Product
                 {
@@ -89,6 +93,8 @@ namespace Application.Products
                     PictureUrl = request.PictureUrl,
                     Brand = request.Brand,
                     Category = request.Category,
+                    Country = country,
+                    City = request.City,
                     IsActive = true,
                     IsAdvertised = false,
                     DatePublished = DateTime.Now,
@@ -116,11 +122,11 @@ namespace Application.Products
 
                 _context.Products.Add(product);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                // var success = await _context.SaveChangesAsync() > 0;
 
-                if (success) return Unit.Value;
+                // if (success) return Unit.Value;
 
-                // return Unit.Value;
+                return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
             }
