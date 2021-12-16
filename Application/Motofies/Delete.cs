@@ -20,10 +20,10 @@ namespace Application.Motofies
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            private readonly IMotofyPhotoAccessor _motofyPhotoAccessor;
-            public Handler(DataContext context, IMotofyPhotoAccessor motofyPhotoAccessor)
+            private readonly IEntityPhotoAccessor _entityPhotoAccessor;
+            public Handler(DataContext context, IEntityPhotoAccessor entityPhotoAccessor)
             {
-                _motofyPhotoAccessor = motofyPhotoAccessor;
+                _entityPhotoAccessor = entityPhotoAccessor;
                 _context = context;
 
             }
@@ -42,7 +42,7 @@ namespace Application.Motofies
                     throw new RestException(HttpStatusCode.NotFound,
                         new { Motofy = "Motofy Photo NotFound" });
 
-                var deletePhotoResult = _motofyPhotoAccessor.DeletePhoto(motofyPhoto.Id); 
+                var deletePhotoResult = _entityPhotoAccessor.DeletePhoto(motofyPhoto.Id); 
 
                 
                 if (deletePhotoResult == null)

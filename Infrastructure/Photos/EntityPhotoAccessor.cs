@@ -11,11 +11,11 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Photos
 {
-    public class MotofyPhotoAccessor : IMotofyPhotoAccessor
+    public class EntityPhotoAccessor : IEntityPhotoAccessor
     {
         private readonly Cloudinary _cloudinary;
 
-        public MotofyPhotoAccessor(IOptions<CloudinarySettings> config)
+        public EntityPhotoAccessor(IOptions<CloudinarySettings> config)
         {
              var acc = new Account(
                 config.Value.CloudName,
@@ -26,7 +26,7 @@ namespace Infrastructure.Photos
             _cloudinary = new Cloudinary(acc);
         }
 
-        public PhotoUploadResult AddPhoto(IFormFile file)
+        public PhotoUploadResult AddPhoto(IFormFile file, int height, int width)
         {
             var uploadResult = new ImageUploadResult();
 
@@ -38,8 +38,8 @@ namespace Infrastructure.Photos
                     {
                         File = new FileDescription(file.FileName, stream),
                         Transformation = new Transformation()
-                            .Height(400)
-                            .Width(500)
+                            .Height(height)
+                            .Width(width)
                             .Crop("fill")  //   fill
                             .Gravity("center")
                     };
