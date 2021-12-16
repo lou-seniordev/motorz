@@ -35,30 +35,30 @@ namespace Application.Mechanics
 
             }
 
-            public async Task<MotofyPhoto> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var photoUploadResult = _photoAccessor.AddPhoto(request.File);
+            public  Task<MotofyPhoto> Handle(Command request, CancellationToken cancellationToken)
+            {//async
+                // var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-                // var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
+                // // var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
 
-                // var motofy = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == request.MotorfyId);
-                var motofy = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == Guid.Parse("7fc52731-24a2-425e-bd88-fbd5a7c8d602"));
+                // // var motofy = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == request.MotorfyId);
+                // var motofy = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == Guid.Parse("7fc52731-24a2-425e-bd88-fbd5a7c8d602"));
 
-                var motofyPhoto = new MotofyPhoto
-                {
-                    Url = photoUploadResult.Url,
-                    Id = photoUploadResult.PublicId,
-                    DateUploaded = DateTime.Now,
-                     MotofyForeignKey = request.MotorfyId
-                    // MotofyForeignKey = Guid.Parse("7fc52731-24a2-425e-bd88-fbd5a7c8d602")
-                };
+                // var motofyPhoto = new MechanicPhoto
+                // {
+                //     Url = photoUploadResult.Url,
+                //     Id = photoUploadResult.PublicId,
+                //     // DateUploaded = DateTime.Now,
+                //      MechanicForeignKey = request.MotorfyId
+                //     // MotofyForeignKey = Guid.Parse("7fc52731-24a2-425e-bd88-fbd5a7c8d602")
+                // };
 
-                // //==HERE I need some sort of check...
-                motofy.MotofyPhoto = motofyPhoto;
+                // // //==HERE I need some sort of check...
+                // motofy.MotofyPhoto = motofyPhoto;
 
-                var success = await _context.SaveChangesAsync() > 0;
+                // var success = await _context.SaveChangesAsync() > 0;
 
-                if (success) return motofyPhoto;
+                // if (success) return motofyPhoto;
 
                 throw new Exception("Problem Saving Changes");
                 // return motofyPhoto;

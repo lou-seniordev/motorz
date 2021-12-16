@@ -297,9 +297,9 @@ namespace Persistence
                                 City= "Zagreb",
                                 // Country= "Croatia",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),//"Italy",
-
+                                ActivationCounter = 0,
                                 PhoneNumber= "+38533890279",
-                                ProductPhoto = new Photo {
+                                ProductPhoto = new ProductPhoto {
                                     Id = "709F91A5-C37B-47F9-A210-BEF3979981D6",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
                                 }
@@ -316,13 +316,13 @@ namespace Persistence
                                 Brand = "Dream Time",
                                 Model = "De luxe",
                                 Price = "100",
-                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
+                                //PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
                                 DatePublished = DateTime.Now,
                                 DateActivated = DateTime.Now,
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 1,
-                                ProductPhoto = new Photo {
+                                ProductPhoto = new ProductPhoto {
                                             Id = "gloves",
                                             Url = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
                                         }
@@ -341,16 +341,16 @@ namespace Persistence
                                 Brand = "Dainese",
                                 Model = "Rain master lady d",
                                 Price = "200",
-                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
+                                //PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
                                 DatePublished = DateTime.Now,
                                 DateActivated = DateTime.Now,
                                 IsActive = true,
                                 IsAdvertised = false,
-                                ActivationCounter = 1,
-                                // ProductPhoto = new Photo {
-                                //             Id = "rain-master-lady-d",
-                                //             Url = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
-                                //         }
+                                ActivationCounter = 0,
+                                ProductPhoto = new ProductPhoto {
+                                            Id = "rain-master-lady-d",
+                                            Url = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
+                                        }
 
                             },
 
@@ -377,14 +377,14 @@ namespace Persistence
                                 Model = "Jack & Jones Nolan Biker Jacket",
                                 Price = "35",
                                 Description = "Jack & jones Nolan Biker Jacket in the Men´s clothing category from your online fashion store, you can find other products related with Jackets.",
-                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
+                                // PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
                                 Brand ="Nolan",
                                 Category = "Gear",
                                 City= "Ljubljana",
                                 // Country= "Slovenia",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),//"Italy",
                                 PhoneNumber= "+38633890279",
-                                ProductPhoto = new Photo {
+                                ProductPhoto = new ProductPhoto {
                                     Id = "FBC92591-FD02-4494-9129-C3459DC84D1C",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
                                 }
@@ -401,12 +401,16 @@ namespace Persistence
                                 Brand = "Riding Tribe",
                                 Model = "Speed X",
                                 Price = "75",
-                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227585/boots.jpg",
+                                // PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227585/boots.jpg",
                                 DatePublished = DateTime.Now,
                                 DateActivated = DateTime.Now,
                                 IsActive = true,
                                 IsAdvertised = false,
-                                ActivationCounter = 1,
+                                ActivationCounter = 0,
+                                 ProductPhoto = new ProductPhoto {
+                                    Id = "42EDB659-CB21-43EF-9726-43648A254144",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1637227585/boots.jpg",
+                                }
 
                             },
                             new Product
@@ -421,12 +425,16 @@ namespace Persistence
                                 Brand = "Ghost racing",
                                 Model = "Speed X",
                                 Price = "10",
-                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227717/front_bag.jpg",
+                                //PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227717/front_bag.jpg",
                                 DatePublished = DateTime.Now,
                                 DateActivated = DateTime.Now,
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 1,
+                                ProductPhoto = new ProductPhoto {
+                                    Id = "3AEE7FCA-C73E-4BF6-8799-B938E260A0D8",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1637227717/front_bag.jpg",
+                                }
 
                             },
 
@@ -1212,7 +1220,7 @@ namespace Persistence
                             // Id = Guid.Parse("084c3b38-6ded-4d5f-ad49-63dd9dca46ae"),
                             Id = "084c3b38-6ded-4d5f-ad49-63dd9dca46ae",
                             Url = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
-                            DateUploaded = DateTime.Now,
+                            // DateUploaded = DateTime.Now,
                             MotofyForeignKey = Guid.Parse("71d0f37a-4954-425e-9773-300e0669d9bd")
                         },
                         YearOfProduction = "2005",
@@ -1263,7 +1271,7 @@ namespace Persistence
                             // Id = Guid.Parse("62d2f63a-46d3-4dd1-84d1-67cdf3c9fb92"),
                             Id = "62d2f63a-46d3-4dd1-84d1-67cdf3c9fb92",
                             Url = "https://res.cloudinary.com/motofy/image/upload/v1542881277/hr1axmxfrz6hnnjzmqdl.jpg",
-                            DateUploaded = DateTime.Now,
+                            // DateUploaded = DateTime.Now,
                             MotofyForeignKey = Guid.Parse("7c54ae0d-f927-4fc0-bde5-7c18a6514928"),
                             // Id = context.MotofyPhotos.FirstOrDefault(s => s.Id == Guid.Parse("62d2f63a-46d3-4dd1-84d1-67cdf3c9fb92")).Id,
                         },
@@ -1314,7 +1322,7 @@ namespace Persistence
                             // Id = Guid.Parse("edc693f8-90b7-4c0a-af6b-5b2c6947becf"),
                             Id = "edc693f8-90b7-4c0a-af6b-5b2c6947becf",
                             Url = "https://res.cloudinary.com/motofy/image/upload/v1543859124/qwg8b9xd4z1h9nzjvuzi.jpg",
-                            DateUploaded = DateTime.Now,
+                            // DateUploaded = DateTime.Now,
                             MotofyForeignKey = Guid.Parse("b2613251-e8aa-4d30-b9ab-4f243b64075d")
 
                         },
@@ -1364,7 +1372,7 @@ namespace Persistence
                             // Id = Guid.Parse("c525b36c-ab52-4e04-8d87-6facd3d70234"),
                             Id = "c525b36c-ab52-4e04-8d87-6facd3d70234",
                             Url = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
-                            DateUploaded = DateTime.Now,
+                            // DateUploaded = DateTime.Now,
                             MotofyForeignKey = Guid.Parse("02d05033-ec4c-4fb5-9477-95ddb8ce5e39")
 
                         },
@@ -1402,19 +1410,23 @@ namespace Persistence
                     new Mechanic
                     {
                       Name = "Corrado",
-                      PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1547320881/prgbklusjdbenfbqtqfy.jpg",
+                    //   PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1547320881/prgbklusjdbenfbqtqfy.jpg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "2008",//DateTime.Now.AddYears(-10),
                       DatePublished = DateTime.Now.AddDays(-40),
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),//"Italy",
                       City = "Rome",
                       Address = "Tor Pignattara 107",
+                      MechanicPhoto = new MechanicPhoto{
+                          Id = "B0ABFC9B-77E3-4068-96E0-DF704F156768",
+                          Url="https://res.cloudinary.com/motofy/image/upload/v1547320881/prgbklusjdbenfbqtqfy.jpg",
+                      }
 
                     },
                     new Mechanic
                     {
                       Name = "Serena",
-                      PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
+                    //   PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "1999", //DateTime.Now.AddYears(-8),
                       DatePublished = DateTime.Now.AddDays(-10),
@@ -1422,12 +1434,16 @@ namespace Persistence
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Rome",
                       Address = "Via Riccardo Riccardi 10",
+                       MechanicPhoto = new MechanicPhoto{
+                          Id = "D07EB32A-19F7-438B-B8A6-2B7A471EC72D",
+                          Url="https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
+                      }
 
                     },
                     new Mechanic
                     {
                       Name = "Gian Luca",
-                      PhotoUrl = "https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
+                      //PhotoUrl = "https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "2017",//DateTime.Now.AddYears(-2),
                       DatePublished = DateTime.Now.AddDays(-3),
@@ -1435,7 +1451,10 @@ namespace Persistence
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Rome",
                       Address = "Via Del Corso 107",
-
+                         MechanicPhoto = new MechanicPhoto{
+                          Id = "E73715A2-C2D0-4A37-A36C-B74BE9D0C697",
+                          Url="https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
+                      }
                     },
                 };
                 context.Mechanics.AddRange(mechanics);

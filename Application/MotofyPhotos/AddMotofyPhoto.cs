@@ -48,7 +48,7 @@ namespace Application.MotofyPhotos
                 {
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId,
-                    DateUploaded = DateTime.Now,
+                    // DateUploaded = DateTime.Now,
                     MotofyForeignKey = request.MotorfyId
                     // Motofy.
                     // MotofyForeignKey = Guid.Parse("7fc52731-24a2-425e-bd88-fbd5a7c8d602")

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-    public class Activity
+    public class Activity//: BaseEntity
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

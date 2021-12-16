@@ -54,7 +54,7 @@ namespace Application.Products
                 //==ADD NEW==
                 var newPhotoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-                var newPhoto = new Photo
+                var newPhoto = new ProductPhoto
                 {
                     Url = newPhotoUploadResult.Url,
                     Id = newPhotoUploadResult.PublicId,

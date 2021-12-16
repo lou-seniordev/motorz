@@ -110,7 +110,7 @@ namespace Application.Products
 
                 var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-                var photoForProduct = new Photo
+                var photoForProduct = new ProductPhoto
                 {
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId,

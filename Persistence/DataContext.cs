@@ -42,6 +42,10 @@ namespace Persistence
         //=== Refactor Mechanic ===
         public DbSet<Country> Countries { get; set; }
 
+        //=== Entity Photos ===
+        public DbSet<ProductPhoto> ProductPhotos { get; set; }
+        public DbSet<MechanicPhoto> MechanicPhotos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -111,6 +115,16 @@ namespace Persistence
             .HasOne(a => a.MotofyPhoto)
             .WithOne(m => m.Motofy)
             .HasForeignKey<MotofyPhoto>(m => m.MotofyForeignKey);
+            
+            builder.Entity<Mechanic>()
+            .HasOne(a => a.MechanicPhoto)
+            .WithOne(m => m.Mechanic)
+            .HasForeignKey<MechanicPhoto>(m => m.MechanicForeignKey);
+           
+            builder.Entity<Product>()
+            .HasOne(a => a.ProductPhoto)
+            .WithOne(m => m.Product)
+            .HasForeignKey<ProductPhoto>(m => m.ProductForeignKey);
 
             // builder.Entity<AppUser>()
             // .HasOne(a => a.MotofyPhoto)

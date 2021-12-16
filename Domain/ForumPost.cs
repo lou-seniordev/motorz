@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-    public class Forumpost
+    public class Forumpost//: BaseEntity
     {
         public Guid Id { get; set; }
         public virtual AppUser Author {get; set;}

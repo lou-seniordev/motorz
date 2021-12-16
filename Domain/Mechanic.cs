@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-    public class Mechanic
+    public class Mechanic//: BaseEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -22,6 +22,8 @@ namespace Domain
         public string Email { get; set; }
         public string Website { get; set; }
         public virtual ICollection<CommentMechanic> CommentMechanics { get; set; }
+        public virtual MechanicPhoto MechanicPhoto { get; set; }
+
         
         // public virtual Brand Brand { get; set; } list of brands?
         // public virtual AverageRating { get; set; } ??

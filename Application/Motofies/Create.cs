@@ -123,7 +123,7 @@ namespace Application.Motofies
                 {
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId,
-                    DateUploaded = DateTime.Now,
+                    // DateUploaded = DateTime.Now,
                     MotofyForeignKey = MotorfyId
                 };
 

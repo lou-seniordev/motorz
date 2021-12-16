@@ -9,7 +9,8 @@ namespace Application.Mechanics
          public MappingProfile()
         {
            
-            CreateMap<Mechanic, MechanicDto>();
+            CreateMap<Mechanic, MechanicDto>()
+            .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.MechanicPhoto.Url));
             CreateMap<Country, MechanicDto>()
             .ForMember(d => d.CountryName, o => o.MapFrom(s => s.Name))
             .ForMember(d => d.CountryId, o => o.MapFrom(s => s.Id));

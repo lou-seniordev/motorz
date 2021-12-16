@@ -370,6 +370,28 @@ namespace Persistence.Migrations
                     b.ToTable("Mechanics");
                 });
 
+            modelBuilder.Entity("Domain.MechanicPhoto", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateUploaded")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("MechanicForeignKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MechanicForeignKey")
+                        .IsUnique();
+
+                    b.ToTable("MechanicPhotos");
+                });
+
             modelBuilder.Entity("Domain.Message", b =>
                 {
                     b.Property<Guid>("Id")
@@ -504,9 +526,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateUploaded")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid>("MotofyForeignKey")
                         .HasColumnType("TEXT");
 
@@ -596,9 +615,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProductPhotoId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("SellerId")
                         .HasColumnType("TEXT");
 
@@ -609,11 +625,28 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.HasIndex("ProductPhotoId");
-
                     b.HasIndex("SellerId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Domain.ProductPhoto", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProductForeignKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductForeignKey")
+                        .IsUnique();
+
+                    b.ToTable("ProductPhotos");
                 });
 
             modelBuilder.Entity("Domain.Testimonial", b =>
@@ -923,6 +956,15 @@ namespace Persistence.Migrations
                         .HasForeignKey("CountryId");
                 });
 
+            modelBuilder.Entity("Domain.MechanicPhoto", b =>
+                {
+                    b.HasOne("Domain.Mechanic", "Mechanic")
+                        .WithOne("MechanicPhoto")
+                        .HasForeignKey("Domain.MechanicPhoto", "MechanicForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Message", b =>
                 {
                     b.HasOne("Domain.MessageThread", "MessageThread")
@@ -977,13 +1019,18 @@ namespace Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("CountryId");
 
-                    b.HasOne("Domain.Photo", "ProductPhoto")
-                        .WithMany()
-                        .HasForeignKey("ProductPhotoId");
-
                     b.HasOne("Domain.AppUser", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId");
+                });
+
+            modelBuilder.Entity("Domain.ProductPhoto", b =>
+                {
+                    b.HasOne("Domain.Product", "Product")
+                        .WithOne("ProductPhoto")
+                        .HasForeignKey("Domain.ProductPhoto", "ProductForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>

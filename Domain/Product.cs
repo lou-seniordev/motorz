@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-    public class Product
+    public class Product //: BaseEntity
     {
         public Guid Id { get; set; }
         // public string SellerId { get; set; }
@@ -27,9 +27,9 @@ namespace Domain
         public DateTime DateActivated { get; set; }
         public DateTime DateAdvertised { get; set; }
         public int ActivationCounter { get; set; }
-        public virtual Photo ProductPhoto { get; set; }
+        // public virtual Photo ProductPhoto { get; set; }
                 
-        // public virtual ProductPhoto ProductPhoto { get; set; }
+        public virtual ProductPhoto ProductPhoto { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
 
