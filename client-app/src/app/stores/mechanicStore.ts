@@ -164,6 +164,11 @@ export default class MechanicStore {
 
   @action editMechanic = async (mechanic: IMechanic) => {
     this.submitting = true;
+    if (mechanic.email === null) mechanic.email = 'Not assigned';
+    if (mechanic.website === null) mechanic.website = 'Not assigned';
+    mechanic.country = mechanic.countryName;
+    console.log(mechanic);
+
     try {
       // console.log('mechanic', mechanic);
       await agent.Mechanics.update(mechanic);
@@ -186,7 +191,7 @@ export default class MechanicStore {
   @action deleteMechanic = async (id: string) => {
     this.submitting = true;
     console.log('this.mechanicRegistry out of try', this.mechanicRegistry)
-     try {
+    try {
       await agent.Mechanics.delete(id);
       runInAction('deleting mechanic', () => {
         // console.log('id before: ', id)

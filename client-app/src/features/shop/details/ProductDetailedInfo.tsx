@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect } from "react"; //, useState
+import React, { Fragment, useContext, useEffect } from "react"; //, useState
+import { Link } from "react-router-dom";
 import { Segment, Grid, Icon, Image, Button } from "semantic-ui-react";
 // import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IProduct } from "../../../app/models/product";
@@ -29,7 +30,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   // const { openModal } = rootStore.modalStore;
 
   const handleDeleteProduct = (id: string) => {
-    openModal(<ConfirmDelete productId={id}/>);
+    openModal(<ConfirmDelete productId={id} />);
     // console.log("id", id);
   };
 
@@ -109,20 +110,30 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                   openModal(<ContactForm />);
                 }}
               />
-            ):
-            (<Button
-              onClick={() => {
-                // () =>
-                
-                handleDeleteProduct(product.id!);
-                // history.push("/gallery");
-              }}
-              color='red'
-              floated='left'
-              >
-              Delete
-            </Button>)
-            }
+            ) : (
+              <Fragment>
+                <Button
+                  onClick={() => {
+                    // () =>
+
+                    handleDeleteProduct(product.id!);
+                    // history.push("/gallery");
+                  }}
+                  color='red'
+                  floated='left'
+                >
+                  Delete
+                </Button>
+                <Button
+                  as={Link}
+                  to={`/manageProduct/${product.id}`}
+                  color='orange'
+                  floated='right'
+                >
+                  Manage Post
+                </Button>
+              </Fragment>
+            )}
           </Grid.Column>
         </Grid>
       </Segment>

@@ -61,8 +61,9 @@ const validate = combineValidators({
       message: "Description needs to be at least 5 characters",
     })
   )(),
-  email: composeValidators(isRequired("Email"), isValidEmail)(),
-  website: isRequired("Website"),
+  // email: composeValidators(isRequired("Email"), isValidEmail)(),
+  email: isValidEmail(),
+  // website: isRequired("Website"),
   yearOfStart: isRequired("Year Of Start"),
 });
 interface DetailParams {
@@ -132,8 +133,8 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
       createMechanic(newMechanic);
       // console.log(newMechanic);
     } else {
-      // editMechanic(mechanic);
-      console.log(mechanic);
+      editMechanic(mechanic);
+      // console.log(mechanic);
     }
   };
 

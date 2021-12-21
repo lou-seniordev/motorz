@@ -20,6 +20,9 @@ namespace Application.Mechanics
             public string Country { get; set; }
             public string City { get; set; }
             public string Address { get; set; }
+            public string Phone { get; set; }
+            public string Email { get; set; }
+            public string Website { get; set; }
 
         }
 
@@ -57,6 +60,9 @@ namespace Application.Mechanics
                 // mechanic.Country = request.Country ?? mechanic.Country;
                 mechanic.City = request.City ?? mechanic.City;
                 mechanic.Address = request.Address ?? mechanic.Address;
+                mechanic.Phone = request.Phone ?? mechanic.Phone;
+                mechanic.Email = request.Email ?? mechanic.Email;
+                mechanic.Website = request.Website ?? mechanic.Website;
 
                 var success = await _context.SaveChangesAsync() > 0;
 
