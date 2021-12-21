@@ -1,4 +1,4 @@
-import { MechanicFromValues } from './../models/mechanic';
+// import { MechanicFromValues } from './../models/mechanic';
 import { IMessage, IMessageToSend } from './../models/message';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
@@ -11,7 +11,7 @@ import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost } from '../models/forumpost';
 import { IMechanic } from '../models/mechanic';
 import { IBrand } from '../models/brand';
-import { IProduct, ProductFormValues } from '../models/product';
+import { IProduct } from '../models/product';//, ProductFormValues
 import { ICountry } from '../models/country';
 // import { resolve } from 'dns';
 
@@ -145,13 +145,13 @@ const postProduct = {
 
 const postMechanic = {
   mechanicForm: (url: string, mechanic: IMechanic) => {
-    console.log('mechanic', mechanic)
+    // console.log('mechanic', mechanic) 
     let mechanicData = new FormData();
     mechanicData.append('Id', mechanic.id!)
     mechanicData.append('Name', mechanic.name)
     mechanicData.append('Description', mechanic.description!)
     mechanicData.append('YearOfStart', mechanic.yearOfStart!)
-    mechanicData.append('CountryName', mechanic.countryName)
+    mechanicData.append('Country', mechanic.countryName)
     mechanicData.append('City', mechanic.city)
     mechanicData.append('Address', mechanic.address)
     mechanicData.append('Email', mechanic.email)
@@ -203,7 +203,7 @@ const Products = {
   create: (product: IProduct) => postProduct.productForm('/products', product),
   update: (product: IProduct) => requests.put(`/products/${product.id}`, product),
   delete: (id: string) => requests.delete(`/products/${id}`),
-  updatephoto: (photo: Blob, id: string): Promise<IPhoto> => requests.postForm(`/photos/${id}/updatePhoto`, photo),
+  // updatephoto: (photo: Blob, id: string): Promise<IPhoto> => requests.postForm(`/photos/${id}/updatePhoto`, photo),
   toogleActivate: (id: string) => requests.post(`/products/${id}/toogleActivate`, {})
 }
 

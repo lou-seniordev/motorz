@@ -264,8 +264,8 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   <Button
                     onClick={
                       product.id
-                        ? () => history.push(`/products/${product.id}`)
-                        : () => history.push("/products")
+                        ? () => history.push(`/product/${product.id}`)
+                        : () => history.push('/product')
                     }
                     disabled={loading}
                     floated='right'

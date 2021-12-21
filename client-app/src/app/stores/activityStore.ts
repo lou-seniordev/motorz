@@ -225,6 +225,9 @@ export default class ActivityStore {
   };
 
   @action createActivity = async (activity: IActivity) => {
+
+    console.log('From activityStore: ', activity)
+
     this.submitting = true;
     try {
       await agent.Activities.create(activity);
@@ -271,22 +274,25 @@ export default class ActivityStore {
   };
 
   @action deleteActivity = async (
-    event: SyntheticEvent<HTMLButtonElement>,
+    // event: SyntheticEvent<HTMLButtonElement>,
     id: string
   ) => {
     this.submitting = true;
-    this.target = event.currentTarget.name;
+    // this.target = event.currentTarget.name;
     try {
       await agent.Activities.delete(id);
       runInAction('deleting activity', () => {
         this.activityRegistry.delete(id);
+
+        // console.log('this.activityRegistry', this.activityRegistry)
+
         this.submitting = false;
-        this.target = '';
+        // this.target = '';
       });
     } catch (error) {
       runInAction('delete error activity', () => {
         this.submitting = false;
-        this.target = '';
+        // this.target = '';
         console.log(error);
       });
     }

@@ -24,7 +24,7 @@ namespace API.Controllers
             return await Mediator.Send(new Details.Query { Id = id });
         }
         [HttpPost]
-        public async Task<ActionResult<Unit>> Create([FromBody]Create.Command command)
+        public async Task<ActionResult<Unit>> Create([FromForm]Create.Command command)
         {
             return await Mediator.Send(command);
         }

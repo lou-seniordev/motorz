@@ -6,13 +6,13 @@ import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 // import { useHistory } from "react-router-dom";
 
-import ConfirmDelete from "../modal/ConfirmDelete";
+import ConfirmDelete from "../modals/ConfirmDelete";
 
-const activityImageStyle = {
+const motofyImageStyle = {
   filter: "brightness(90%)",
 };
 
-const activityImageTextStyle = {
+const motofyImageTextStyle = {
   position: "absolute",
   top: "50%",
   left: "5%",
@@ -40,9 +40,9 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
         <Image
           src={motofy!.photoUrl || `/assets/placeholder.png`}
           fluid
-          style={activityImageStyle}
+          style={motofyImageStyle}
         />
-        <Segment basic style={activityImageTextStyle}>
+        <Segment basic style={motofyImageTextStyle}>
           <Item.Group>
             <Item>
               <Item.Content>

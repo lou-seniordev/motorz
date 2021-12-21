@@ -5,6 +5,7 @@ import { Segment, Grid, Icon, Image, Button } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ContactForm from "../forms/ContactForm";
+import ConfirmDelete from "../modals/ConfirmDelete";
 
 const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   const rootStore = useContext(RootStoreContext);
@@ -12,7 +13,6 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
 
   const { openModal } = rootStore.modalStore;
 
-  //refactor to use in messageStore if possible
   const { user } = rootStore.userStore;
 
   // if (loadingThread)
@@ -25,6 +25,13 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
       cleanMessage();
     };
   }, [setMessage, cleanMessage, product.sellerUsername, product.id]);
+
+  // const { openModal } = rootStore.modalStore;
+
+  const handleDeleteProduct = (id: string) => {
+    openModal(<ConfirmDelete productId={id}/>);
+    // console.log("id", id);
+  };
 
   return (
     <Segment.Group>
@@ -86,14 +93,15 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
           </Grid.Column>
         </Grid>
       </Segment>
-      {product.sellerUsername !== user?.userName && ( // threadNotEmpty &&
-        <Segment attached>
-          <Grid verticalAlign='middle'>
-            <Grid.Column width={1}>
-              <Icon name='marker' size='large' color='teal' />
-            </Grid.Column>
 
-            <Grid.Column width={11}>
+      <Segment attached>
+        <Grid verticalAlign='middle'>
+          <Grid.Column width={1}>
+            <Icon name='marker' size='large' color='teal' />
+          </Grid.Column>
+
+          <Grid.Column width={11}>
+            {product.sellerUsername !== user?.userName ? ( // threadNotEmpty &&
               <Button
                 // disabled={product.sellerUsername === user?.userName}
                 content='contact the seller'
@@ -101,10 +109,23 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                   openModal(<ContactForm />);
                 }}
               />
-            </Grid.Column>
-          </Grid>
-        </Segment>
-      )}
+            ):
+            (<Button
+              onClick={() => {
+                // () =>
+                
+                handleDeleteProduct(product.id!);
+                // history.push("/gallery");
+              }}
+              color='red'
+              floated='left'
+              >
+              Delete
+            </Button>)
+            }
+          </Grid.Column>
+        </Grid>
+      </Segment>
     </Segment.Group>
   );
 };

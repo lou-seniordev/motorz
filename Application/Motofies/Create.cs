@@ -63,7 +63,8 @@ namespace Application.Motofies
             private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
             private readonly IEntityPhotoAccessor __entityPhotoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper, IEntityPhotoAccessor _entityPhotoAccessor)
+            public Handler(DataContext context, IUserAccessor userAccessor, 
+            IMapper mapper, IEntityPhotoAccessor _entityPhotoAccessor)
             {
                 __entityPhotoAccessor = _entityPhotoAccessor;
                 _mapper = mapper;
@@ -116,7 +117,7 @@ namespace Application.Motofies
 
                 _context.Motofies.Add(motofy);
 
-                var MotorfyId = motofy.Id;
+                var motofyId = motofy.Id;
                 var photoUploadResult = __entityPhotoAccessor.AddPhoto(request.File, 400, 500);
                 // var motofyForPhoto = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == MotorfyId);
                 var photoForMotofy = new MotofyPhoto
@@ -124,7 +125,7 @@ namespace Application.Motofies
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId,
                     // DateUploaded = DateTime.Now,
-                    MotofyForeignKey = MotorfyId
+                    MotofyForeignKey = motofyId
                 };
 
                 motofy.MotofyPhoto = photoForMotofy;

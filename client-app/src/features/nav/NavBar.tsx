@@ -159,7 +159,7 @@ const NavBar: React.FC = () => {
                   position='right center'
                   trigger={
                     <Dropdown.Item
-                      text='Sell a product'
+                      text='Product to sell'
                       value='Product'
                       as={Link}
                       to='/productform'

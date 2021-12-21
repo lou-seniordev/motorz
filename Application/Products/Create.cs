@@ -64,10 +64,11 @@ namespace Application.Products
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper, IPhotoAccessor photoAccessor)
+            private readonly IEntityPhotoAccessor __entityPhotoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper, 
+            IEntityPhotoAccessor _entityPhotoAccessor)
             {
-                _photoAccessor = photoAccessor;
+                __entityPhotoAccessor = _entityPhotoAccessor;
                 _mapper = mapper;
                 _userAccessor = userAccessor;
                 _context = context;
@@ -108,7 +109,7 @@ namespace Application.Products
 
                 var ProductId = product.Id;
 
-                var photoUploadResult = _photoAccessor.AddPhoto(request.File);
+                var photoUploadResult = __entityPhotoAccessor.AddPhoto(request.File, 400, 500);
 
                 var photoForProduct = new ProductPhoto
                 {
@@ -122,11 +123,11 @@ namespace Application.Products
 
                 _context.Products.Add(product);
 
-                // var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync() > 0;
 
-                // if (success) return Unit.Value;
+                if (success) return Unit.Value;
 
-                return Unit.Value;
+                // return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
             }

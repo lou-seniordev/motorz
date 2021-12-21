@@ -33,7 +33,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
             />
             <Label basic content={motofy.brandId} />
 
-            <Item.Description>Published by {publisher.displayName || 'unknown'}</Item.Description>
+            <Item.Description>Published by {publisher.displayName! || 'unknown'}</Item.Description>
             {/* <Image
               size='mini'
               src={publisher.image || '/assets/user.png'}

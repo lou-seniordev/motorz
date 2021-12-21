@@ -130,7 +130,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
       };
       createMechanic(newMechanic);
-      console.log(newMechanic);
+      // console.log(newMechanic);
     } else {
       // editMechanic(mechanic);
       console.log(mechanic);

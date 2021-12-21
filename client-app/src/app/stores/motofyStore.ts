@@ -8,7 +8,7 @@ import { createEmbracer, setMotofyProps } from '../common/util/util';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 // configure({ enforceActions: 'always' });
-const LIMIT = 2;
+const LIMIT = 5;
 
 export default class MotofyStore {
   rootStore: RootStore;
@@ -217,7 +217,6 @@ export default class MotofyStore {
   };
 
   @action createMotofy = async (motofy: IMotofy) => {
-    //deleteit     
     
     this.submitting = true;
     try {
@@ -228,7 +227,6 @@ export default class MotofyStore {
       embracers.push(embracer);
       motofy.embracers = embracers;
       motofy.isOwner = true;
-      console.log('From motofyStory: ', motofy)
       runInAction('create motofy', () => {
         this.motofyRegistry.set(motofy.id, motofy);   // CHECK IF IT IS GOING TO BE NEEDED!! // this.editMode = false;
         this.submitting = false;
@@ -292,24 +290,22 @@ export default class MotofyStore {
     }
   };
 
-  @action deleteMotofy = async (
-    // event: SyntheticEvent<HTMLButtonElement>,
-    id: string
-    ) => {
+  @action deleteMotofy = async (id: string) => {
       this.submitting = true;
-      console.log('deleting??? ');
-    // this.target = event.currentTarget.name;
-    try {
+      console.log('this.motofyRegistry out of try', this.motofyRegistry)
+
+      try {
       await agent.Motofies.delete(id);
       runInAction('deleting Motofy', () => {
         this.motofyRegistry.delete(id);
+        
+        console.log('this.motofyRegistry', this.motofyRegistry)
+
         this.submitting = false;
-        this.target = '';
       });
     } catch (error) {
       runInAction('delete motofy error', () => {
         this.submitting = false;
-        this.target = '';
       });
       console.log(error);
     }

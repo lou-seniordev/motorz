@@ -1,10 +1,12 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Segment, Item, Header, Button, Image } from 'semantic-ui-react';
 import { IActivity } from '../../../app/models/activity';
 import { format } from 'date-fns';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+
+import { useHistory } from "react-router";
 
 const activityImageStyle = {
   filter: 'brightness(30%)',
@@ -24,7 +26,17 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);
-  const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
+  const { attendActivity, cancelAttendance, loading, deleteActivity } = rootStore.activityStore;
+
+  let history = useHistory();
+
+  const handleDeleteActivity = (id: string) => {
+    // openModal(<ConfirmDelete productId={id}/>);
+    // console.log("id", id);
+    deleteActivity(id);
+    history.push('/activities');
+  };
+
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
@@ -56,6 +68,8 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
       </Segment>
       <Segment clearing attached='bottom'>
         {activity.isHost ? (
+          <Fragment>
+
           <Button
             as={Link}
             to={`/manage/${activity.id}`}
@@ -64,6 +78,18 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
           >
             Manage Ridding Route
           </Button>
+          <Button
+              onClick={() => {
+                
+                handleDeleteActivity(activity.id!);
+              }}
+              color='red'
+              floated='left'
+              >
+              Delete
+            </Button>
+          </Fragment>
+          
         ) : activity.isGoing ? (
           <Button loading={loading} onClick={cancelAttendance}>
             Cancel your place

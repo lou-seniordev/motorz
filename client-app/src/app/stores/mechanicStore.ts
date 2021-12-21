@@ -1,5 +1,5 @@
 import { action, observable, computed, runInAction } from 'mobx';
-import { SyntheticEvent } from 'react';
+// import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import agent from '../api/agent';
 import { IMechanic } from '../models/mechanic';
@@ -34,8 +34,8 @@ export default class MechanicStore {
       })
       .configureLogging(LogLevel.Information)
       .build();
-      // console.log('motofy', this.motofy)
-      // console.log('motofy', motofy)
+    // console.log('motofy', this.motofy)
+    // console.log('motofy', motofy)
 
 
     this.hubConnection
@@ -79,11 +79,11 @@ export default class MechanicStore {
       console.log(error);
     }
   };
- 
+
   @computed get mechanicsByDate() {
     return Array.from(this.mechanicRegistry.values()).sort(
       (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-      );
+    );
   }
 
   @action loadMechanics = async () => {
@@ -95,8 +95,7 @@ export default class MechanicStore {
       runInAction('loading mechanics', () => {
         mechanics.forEach((mechanic) => {
           mechanic.datePublished = mechanic.datePublished?.split('T')[0];
-          console.log('mechanic', mechanic ); 
-          // this.mechanics.push(mechanic); // === refactor for map
+
           this.mechanicRegistry.set(mechanic.id, mechanic);
         });
         this.loadingInitial = false;
@@ -120,6 +119,8 @@ export default class MechanicStore {
         mechanic = await agent.Mechanics.details(id);
         runInAction('getting mechanic', () => {
           this.mechanic = mechanic;
+          this.mechanicRegistry.set(mechanic.id, mechanic);
+
           this.loadingInitial = false;
         });
         return mechanic;
@@ -141,7 +142,7 @@ export default class MechanicStore {
   };
 
   @action createMechanic = async (mechanic: IMechanic) => {
-    console.log('From mechanicStory: ', mechanic)
+    // console.log('From mechanicStory: ', mechanic)
 
     this.submitting = true;
     try {
@@ -182,23 +183,28 @@ export default class MechanicStore {
     }
   };
 
-  @action deleteMechanic = async (
-    event: SyntheticEvent<HTMLButtonElement>,
-    id: string
-  ) => {
+  @action deleteMechanic = async (id: string) => {
     this.submitting = true;
-    this.target = event.currentTarget.name;
-    try {
+    console.log('this.mechanicRegistry out of try', this.mechanicRegistry)
+     try {
       await agent.Mechanics.delete(id);
       runInAction('deleting mechanic', () => {
+        // console.log('id before: ', id)
+        // console.log('this.mechanicRegistry before:::', this.mechanicRegistry)
         this.mechanicRegistry.delete(id);
+        console.log('this.mechanicRegistry', this.mechanicRegistry)
+        // console.log('id: ', id)
+        // this.mechanicRegistry.delete(id);
+        // console.log('id after2: ', id)
+        // console.log('this.mechanicRegistry after2', this.mechanicRegistry)
+
         this.submitting = false;
-        this.target = '';
+        // this.target = '';
       });
     } catch (error) {
       runInAction('delete mechanic error', () => {
         this.submitting = false;
-        this.target = '';
+        // this.target = '';
       });
       console.log(error);
     }

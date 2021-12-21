@@ -20,10 +20,10 @@ namespace Application.Products
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IPhotoAccessor photoAccessor)
+            private readonly IEntityPhotoAccessor _entityPhotoAccessor;
+            public Handler(DataContext context, IEntityPhotoAccessor entityPhotoAccessor)
             {
-                _photoAccessor = photoAccessor;
+                _entityPhotoAccessor = entityPhotoAccessor;
                 _context = context;
 
             }
@@ -36,18 +36,18 @@ namespace Application.Products
                 if (product == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Product = "Product NotFound" });
 
-                var productPhoto = await _context.Photos.FindAsync(product.ProductPhoto.Id);
-                var productPhotoId = productPhoto.Id;
-
-                if (productPhotoId == null)
+                var productPhoto = await _context.ProductPhotos.SingleOrDefaultAsync(x => x.ProductForeignKey == product.Id);
+                // var productPhotoId = productPhoto.Id;
+                if (productPhoto == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Photo = "Product Photo NotFound" });
 
-                var deletePhotoResult = _photoAccessor.DeletePhoto(productPhotoId); 
+
+                var deletePhotoResult = _entityPhotoAccessor.DeletePhoto(productPhoto.Id); 
 
                 if (deletePhotoResult == null)
                     throw new Exception("Problem deleting photo");
 
-                _context.Remove(productPhoto);
+                // _context.Remove(productPhoto);
                 _context.Remove(product);
 
                 var success = await _context.SaveChangesAsync() > 0;

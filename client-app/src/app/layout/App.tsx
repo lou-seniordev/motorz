@@ -31,7 +31,7 @@ import MechanicDetails from '../../features/mechanics/details/MechanicDetails';
 import MechanicForm from '../../features/mechanics/form/MechanicForm';
 import GalleryForm from '../../features/gallery/form/GalleryForm';
 import PrivateRoute from './PrivateRoute';
-import ConfirmDelete from '../../features/gallery/modal/ConfirmDelete';
+import ConfirmDelete from '../../features/gallery/modals/ConfirmDelete';
 import ProductDashboard from '../../features/shop/dashboard/ProductDashboard';
 import MessagesDashboard from '../../features/messages/dashboard/MessagesDashboard';
 import ProductForm from '../../features/shop/forms/ProductForm';

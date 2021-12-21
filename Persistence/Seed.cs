@@ -291,7 +291,7 @@ namespace Persistence
                                 Model = "Nolan N86 Louis Special Full-Face Helmet",
                                 Price = "800",
                                 Description = "Yet another hit from Nolan: The N86. A versatile full-face helmet brimming with features. The Clima Comfort fabric is fully removable, and the replaceable cheek pads allow the helmet width to be adjusted to suit your head size.",
-                                PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
+                                //PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
                                 Brand ="Nolan",
                                 Category = "Gear",
                                 City= "Zagreb",

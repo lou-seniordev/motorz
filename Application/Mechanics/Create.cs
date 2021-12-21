@@ -8,6 +8,7 @@ using FluentValidation;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Mechanics
 {
@@ -17,44 +18,47 @@ namespace Application.Mechanics
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
-            public string PhotoUrl { get; set; }
+            // public string PhotoUrl { get; set; }
             public string Description { get; set; }
             public string YearOfStart { get; set; }
-            public DateTime DatePublished { get; set; }
             public string Country { get; set; }
             public string City { get; set; }
             public string Address { get; set; }
             public string Phone { get; set; }
             public string Email { get; set; }
             public string Website { get; set; }
+            public IFormFile File { get; set; }
 
         }
+        #region 
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
                 RuleFor(x => x.Id).NotEmpty();
                 RuleFor(x => x.Name).NotEmpty();
-                RuleFor(x => x.PhotoUrl).NotEmpty();
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.YearOfStart).NotEmpty();
-                RuleFor(x => x.DatePublished).NotEmpty();
-                RuleFor(x => x.City).NotEmpty();
                 RuleFor(x => x.Country).NotEmpty();
+                RuleFor(x => x.City).NotEmpty();
                 RuleFor(x => x.Address).NotEmpty();
                 RuleFor(x => x.Phone).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty();
                 RuleFor(x => x.Website).NotEmpty();
+                RuleFor(x => x.File).NotEmpty();
 
             }
         }
+        #endregion
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
-            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper)
+            private readonly IEntityPhotoAccessor _entityPhotoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper, IEntityPhotoAccessor entityPhotoAccessor)
             {
+                _entityPhotoAccessor = entityPhotoAccessor;
                 _mapper = mapper;
                 _userAccessor = userAccessor;
                 _context = context;
@@ -78,7 +82,7 @@ namespace Application.Mechanics
                     Country = country,
                     City = request.City,
                     Address = request.Address,
-                    PhotoUrl = request.PhotoUrl,
+                    // PhotoUrl = request.PhotoUrl,
                     Phone = request.Phone,
                     Email = request.Email,
                     Website = request.Website
@@ -86,6 +90,20 @@ namespace Application.Mechanics
                 };
 
                 _context.Mechanics.Add(mechanic);
+
+                var mechanicId = request.Id;
+
+                var photoUploadResult = _entityPhotoAccessor.AddPhoto(request.File, 400, 500);
+
+                var photoForMechanic = new MechanicPhoto
+                {
+                    Url = photoUploadResult.Url,
+                    Id = photoUploadResult.PublicId,
+                    // DateUploaded = DateTime.Now,
+                    MechanicForeignKey = mechanicId
+                };
+
+                mechanic.MechanicPhoto = photoForMechanic;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

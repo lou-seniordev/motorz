@@ -32,11 +32,12 @@ namespace Application.Motofies
             {
 
                 var motofy = await _context.Motofies.FindAsync(request.Id);
-                var motofyPhoto = await _context.MotofyPhotos.SingleOrDefaultAsync(m => m.MotofyForeignKey == motofy.Id);
 
                 if (motofy == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { Motofy = "Motofy NotFound" });
+                
+                var motofyPhoto = await _context.MotofyPhotos.SingleOrDefaultAsync(m => m.MotofyForeignKey == motofy.Id);
 
                 if (motofyPhoto == null)
                     throw new RestException(HttpStatusCode.NotFound,
