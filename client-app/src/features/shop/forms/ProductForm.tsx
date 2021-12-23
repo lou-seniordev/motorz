@@ -19,7 +19,7 @@ import TextInput from "../../../app/common/form/TextInput";
 import TextAreaInput from "../../../app/common/form/TextAreaInput";
 
 // import { year } from "../../../app/common/options/yearOptions";
-import { category } from "../../../app/common/options/productOptions";
+import { categories } from "../../../app/common/options/productOptions";
 
 import SelectInput from "../../../app/common/form/SelectInput";
 import {
@@ -34,6 +34,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
+import { toJS } from "mobx";
 
 // const flagRenderer = (item: any) => <Flag name={item.countryCode} />;
 // const isValidEmail = createValidator(
@@ -55,11 +56,11 @@ const validate = combineValidators({
   )(),
   // photoUrl: isRequired("Photo"),
   countryName: isRequired("countryName"),
-  model: isRequired("model"),
-  brand: isRequired("brand"),
+  // model: isRequired("model"),
+  // brand: isRequired("brand"),
   city: isRequired("City"),
   // address: isRequired("address"),
-  phone: composeValidators(
+  phoneNumber: composeValidators(
     isNumeric("Phone"),
     isRequired("Phone"),
     hasLengthGreaterThan(4)({
@@ -92,6 +93,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const [product, setProduct] = useState(new ProductFormValues());
   const [loading, setLoading] = useState(false);
   const [modeForCountry, setModeForCountry] = useState(true);
+  const [modeForCategory, setModeForCategory] = useState(true);
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
 
   const [uploaded, setUploaded] = useState(false);
@@ -105,41 +107,50 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   useEffect(() => {
     loadCountriesToSelect();
-    // console.log("modeForCountry out", modeForCountry)
+    // console.log("modeForCategory out", modeForCategory);
 
     if (match.params.id) {
-      // console.log('match.params.id', match.params.id);
-
+      // console.log("match.params.id", match.params.id);
+      
+      // console.log("modeForCategory in", modeForCategory);
       setModeForCountry(false);
+      setModeForCategory(false);
       setLoading(true);
       setUploaded(true);
       setEdited(true);
-
+      
       // console.log("modeForCountry in", modeForCountry)
       loadProduct(match.params.id)
-        .then((product) => {
-          setProduct(new ProductFormValues(product));
+      .then((product) => {
+        setProduct(new ProductFormValues(product));
+       
         })
         .finally(() => setLoading(false));
+
+        
     }
   }, [loadCountriesToSelect, loadProduct, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
+    // console.log("whatshapnin countries?", toJS(countries));
+    // console.log("whatshapnin categories?", toJS(categories));
     const { ...product } = values;
+    if (product.brand === '') product.brand = 'Brand not asigned';
+    if (product.model === '') product.model = 'Model not asigned';
+
     if (!product.id) {
       let newProduct = {
         ...product,
         id: uuid(),
         datePublished: new Date().toISOString(),
         file: imageToUpload,
-        photoUrl: previewImage
-
+        photoUrl: previewImage,
       };
-      createProduct(newProduct);
-      // console.log(newProduct);
+      // createProduct(newProduct);
+      console.log(newProduct);
     } else {
-      // editProduct(product);
-      console.log(product);
+      editProduct(product);
+      // console.log(product);
     }
   };
 
@@ -157,8 +168,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     setUploaded(true);
     // setUploadingMechanicPhoto(true)
     toast.info("Your image is uploaded, please give us more details");
-    console.log('uploaded, edited', uploaded, edited);
-
+    // console.log('uploaded, edited', uploaded, edited);
   };
   return (
     <Grid>
@@ -178,45 +188,66 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         <Grid.Column width={10}>
           <Segment clearing>
             <FinalForm
-              // validate={validate}
+              validate={validate}
               initialValues={product}
               onSubmit={handleFinalFormSubmit}
               render={({ handleSubmit, invalid, pristine }) => (
                 <Form onSubmit={handleSubmit} loading={loading}>
                   <Field
                     name='title'
-                    placeholder='Title'
+                    placeholder='Title *'
                     value={product.title}
                     component={TextInput}
                   />
                   <Field
                     name='price'
-                    placeholder='Price'
+                    placeholder='Price *'
                     value={product.price}
                     component={TextInput}
                   />
                   <Field
                     name='description'
                     rows={3}
-                    placeholder='Description'
+                    placeholder='Description *'
                     value={product.description}
                     component={TextAreaInput}
                   />
 
                   {!modeForCountry && (
                     <Field
+                      // placeholder={"Country"} // edit form
                       name='countryName'
                       options={countries}
-                      value={product.countryName}
+                      // value={product.countryId}
                       component={SelectInput}
                     />
                   )}
-                  {modeForCountry && (
+                  {modeForCountry && ( //empty form
                     <Field
                       name='countryName'
-                      placeholder={"Country"} //
+                      // name='countryId'
+                      placeholder={"Country *"} //
                       options={countries}
-                      value={product.countryId}
+                      // value={product.countryName}
+                      component={SelectInput}
+                    />
+                  )}
+                  {!modeForCategory && ( //edit form
+                    <Field
+                      name='category'
+                      // name='product.category'
+                      // placeholder='Category'
+                      options={categories}
+                      // value={product.category}
+                      component={SelectInput}
+                    />
+                  )}
+                  {modeForCategory && ( //new form
+                    <Field
+                      name='category'
+                      placeholder='Category *'
+                      options={categories}
+                      value={product.category}
                       component={SelectInput}
                     />
                   )}
@@ -229,10 +260,11 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
                   <Field
                     name='phoneNumber'
-                    placeholder='Phone'
+                    placeholder='Phone *'
                     value={product.phoneNumber}
                     component={TextInput}
                   />
+
                   <Field
                     name='model'
                     placeholder='Model'
@@ -244,13 +276,6 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     placeholder='Brand'
                     value={product.brand}
                     component={TextInput}
-                  />
-                  <Field
-                    name='category'
-                    placeholder='Category'
-                    options={category}
-                    value={product.category}
-                    component={SelectInput}
                   />
 
                   <Button
@@ -265,7 +290,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     onClick={
                       product.id
                         ? () => history.push(`/product/${product.id}`)
-                        : () => history.push('/product')
+                        : () => history.push("/product")
                     }
                     disabled={loading}
                     floated='right'

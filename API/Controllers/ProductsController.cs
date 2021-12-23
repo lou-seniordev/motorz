@@ -40,7 +40,7 @@ namespace API.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<Unit>> Edit(Guid id, [FromForm] Edit.Command command)
+        public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)//[FromForm] 
         {
             command.Id = id;
             return await Mediator.Send(command);

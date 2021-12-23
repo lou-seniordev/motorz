@@ -79,7 +79,7 @@ const NavBar: React.FC = () => {
         </Menu.Item>
         {/* <Menu.Item name='motospots' exact as={NavLink} to='/activities' /> */}
         <Menu.Item name='forum' exact as={NavLink} to='/forum' />
-        <Menu.Item name='find mechanics' exact as={NavLink} to='/mechanics' />
+        <Menu.Item name='mechanics' exact as={NavLink} to='/mechanics' />
         <Menu.Item name='market' exact as={NavLink} to='/shop' />
         {/* exact as={NavLink} to='/shop' */}
         <Menu.Item name='messages' exact as={NavLink} to='/messages' />

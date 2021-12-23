@@ -89,9 +89,10 @@ export default class ProductStore {
           this.loadingInitial = false;
           this.product = product;
           // this.setThreadSellername(product.sellerUsername);
-          // console.log('sellerName in loadproduct', this.threadSellername)
+          console.log('sellerName in loadproduct', product)
 
         });
+        return product;
       } catch (error) {
         runInAction('get product error', () => {
           this.loadingInitial = false;
@@ -137,7 +138,7 @@ export default class ProductStore {
         this.editMode = false;
         this.submitting = false;
       });
-      history.push(`/products/${product.id}`)
+      history.push(`/product/${product.id}`)
     } catch (error) {
       runInAction('create product error', () => {
         this.submitting = false;

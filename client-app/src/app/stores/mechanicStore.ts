@@ -164,8 +164,8 @@ export default class MechanicStore {
 
   @action editMechanic = async (mechanic: IMechanic) => {
     this.submitting = true;
-    if (mechanic.email === null) mechanic.email = 'Not assigned';
-    if (mechanic.website === null) mechanic.website = 'Not assigned';
+    if (mechanic.email === null) mechanic.email = 'Not assigned email';
+    if (mechanic.website === null) mechanic.website = 'Not assigned website';
     mechanic.country = mechanic.countryName;
     console.log(mechanic);
 
