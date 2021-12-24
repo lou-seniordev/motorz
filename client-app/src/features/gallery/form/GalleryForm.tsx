@@ -155,7 +155,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     setPreview(photo);
     setUploaded(true);
     toast.info("Your image is uploaded, please give us more details");
-    console.log('uploaded, edited', uploaded, edited);
+    // console.log('uploaded, edited', uploaded, edited);
 
   };
 

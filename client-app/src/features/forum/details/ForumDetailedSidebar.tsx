@@ -27,10 +27,16 @@ const ForumDetailedSidebar: React.FC<{ forumpost: IForumpost }> = ({
           <Item.Group divided>
             {forumpost.commenters?.map((commenter) => (
               <Segment key={commenter.id}>
-                <Image size='tiny' circular src={commenter.image} />
-                <Item.Header as='h3' >
-                  {commenter.displayName}
-                </Item.Header>
+                <Grid>
+                  <Grid.Column width={6}>
+                    <Image size='tiny' circular src={commenter.image} />
+                  </Grid.Column>
+                  <Grid.Column width={10}>
+                    <Link to={`/profile/${commenter.username}`}>
+                      <Item.Header as='h3'>{commenter.displayName}</Item.Header>
+                    </Link>
+                  </Grid.Column>
+                </Grid>
               </Segment>
             ))}
           </Item.Group>

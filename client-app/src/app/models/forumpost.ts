@@ -1,4 +1,3 @@
-import { IUser } from './user';
 import { IComment } from "./comment";
 
 export interface IForumpost {

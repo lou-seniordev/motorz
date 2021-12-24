@@ -6,7 +6,6 @@ import { IForumpost } from '../models/forumpost';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { id } from 'date-fns/locale';
 import { IComment } from '../models/comment';
 
 // configure({ enforceActions: 'always' });
