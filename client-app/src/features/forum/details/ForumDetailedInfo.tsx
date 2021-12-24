@@ -1,22 +1,38 @@
-import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { Segment, Grid, Icon } from 'semantic-ui-react';
-import { IForumpost } from '../../../app/models/forumpost';
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Segment, Grid, Icon, Divider } from "semantic-ui-react";
+import { IForumpost } from "../../../app/models/forumpost";
 
 const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
   forumpost,
 }) => {
   return (
     <Segment.Group>
-      <Segment attached='top'>
+      <Segment attached='top' textAlign='center'>
         <Grid>
           <Grid.Column width={1}>
             <Icon size='large' color='teal' name='info' />
           </Grid.Column>
-          <Grid.Column width={15}>
-            <p>Title: {forumpost.title}</p>
+          <Grid.Column width={7}>
+            <Grid.Row>
+              <h4>
+                <p>Title</p>
+              </h4>
+            </Grid.Row>
+            <Grid.Row>
+              <h2>{forumpost.title}</h2>
+            </Grid.Row>
+          </Grid.Column>
+          <Grid.Column width={7}>
+            <h2>
+              <Link to={`/profile/${forumpost.userName}`}>
+                <p> {forumpost.displayName}</p>
+              </Link>
+            </h2>
           </Grid.Column>
         </Grid>
+        <Divider vertical>By</Divider>
       </Segment>
       <Segment attached>
         <Grid verticalAlign='middle'>

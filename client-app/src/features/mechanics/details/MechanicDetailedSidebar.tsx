@@ -19,13 +19,7 @@ const MechanicDetailedSidebar = () => {
         <Segment attached>
           <List relaxed divided>
             <Item style={{ position: 'relative' }}>
-              {/* <Label
-                style={{ position: 'absolute' }}
-                color='orange'
-                ribbon='right'
-              >
-                Host
-              </Label> */}
+              
               <Image size='tiny' src={'/assets/user.png'} />
               <Item.Content verticalAlign='middle'>
                 <Item.Header as='h3'>

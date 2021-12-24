@@ -1,8 +1,9 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Segment, Item, Header, Button, Image } from 'semantic-ui-react';
 import { IForumpost } from '../../../app/models/forumpost';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const activityImageStyle = {
   filter: 'brightness(90%)',
@@ -20,6 +21,11 @@ const activityImageTextStyle = {
 const ForumDetailedHeader: React.FC<{ forumpost: IForumpost }> = ({
   forumpost,
 }) => {
+
+  const rootStore = useContext(RootStoreContext);
+  // const {forumpostsByDate } = rootStore.forumPostStore;
+
+  const { user } = rootStore.userStore;
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
@@ -48,11 +54,11 @@ const ForumDetailedHeader: React.FC<{ forumpost: IForumpost }> = ({
         </Segment>
       </Segment>
       <Segment clearing attached='bottom'>
-        {/* <Button color='teal'>Join Activity</Button>
-          <Button>Cancel attendance</Button> */}
+       {forumpost.userName === user?.userName && 
         <Button as={Link} to={`/manageForum/${forumpost.id}`} color='orange' floated='left'>
           Manage Your Post
         </Button>
+       }
       </Segment>
     </Segment.Group>
   );

@@ -71,7 +71,8 @@ namespace Application.Forumposts
                     // Category = "testing, no reall? still api...",
                     Category = request.Category,
                     DateAdded = request.DateAdded,
-                    Body = request.Body
+                    Body = request.Body,
+                    Author = user
                 };
 
                 _context.Forumposts.Add(forumpost);

@@ -6,6 +6,8 @@ import { IForumpost } from '../models/forumpost';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { id } from 'date-fns/locale';
+import { IComment } from '../models/comment';
 
 // configure({ enforceActions: 'always' });
 
@@ -75,7 +77,7 @@ export default class ForumPostStore {
       console.log(error);
     }
   };
-  
+
   @computed get forumpostsByDate() {
     return this.groupForumpostsByDate(
       Array.from(this.forumPostRegistry.values())
@@ -97,13 +99,47 @@ export default class ForumPostStore {
     );
   }
 
+
+  summComments(forumpost: IForumpost) {
+    return forumpost.commentForumPosts.length;
+  }
+
+  reduceCommenters(forumpost: IForumpost) {
+
+    // return [...Array.from(new Set(forumpost.commentForumPosts.map(x => x.username)))] 
+
+    const result: IComment[] = [];
+    const map = new Map();
+    for (const item of forumpost.commentForumPosts) {
+      if (!map.has(item.username)) {
+        map.set(item.username, true)
+        result.push({
+          id: item.id,
+          createdAt: item.createdAt,
+          body: item.body,
+          username: item.username,
+          displayName: item.displayName,
+          image: item.image
+        })
+      }
+    }
+    return result;
+  }
+
   @action loadForumPosts = async () => {
     this.loadingInitial = true;
     try {
       const forumposts = await agent.Forumposts.list();
       runInAction('loading forumposts', () => {
         forumposts.forEach((forumpost) => {
+          forumpost.numberOfComents = this.summComments(forumpost);
+
+          forumpost.commenters = this.reduceCommenters(forumpost);
+
+          console.log('forumpost : ', forumpost)
           this.forumPostRegistry.set(forumpost.id, forumpost);
+          //  console.log('comments nr: ', this.summComments(forumpost))
+          //  console.log('commenters nr: ', this.reduceCommenters(forumpost))
         });
         this.loadingInitial = false;
       });
@@ -125,6 +161,8 @@ export default class ForumPostStore {
       try {
         forumpost = await agent.Forumposts.details(id);
         runInAction('getting forumpost', () => {
+          forumpost.numberOfComents = this.summComments(forumpost);
+          forumpost.commenters = this.reduceCommenters(forumpost);
           this.forumpost = forumpost;
           this.forumPostRegistry.set(forumpost.id, forumpost);
           this.loadingInitial = false;
@@ -133,7 +171,7 @@ export default class ForumPostStore {
       } catch (error) {
         runInAction('get forumpost error', () => {
           this.loadingInitial = false;
-          console.log(error);
+          // console.log(error);
         });
       }
     }

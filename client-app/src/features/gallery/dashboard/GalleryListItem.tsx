@@ -1,19 +1,20 @@
-import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Icon, Item, Label, Segment, Image } from 'semantic-ui-react';
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button, Icon, Item, Label, Segment, Image } from "semantic-ui-react";
 
-import { IMotofy } from '../../../app/models/motofy';
-import GalleryListItemEmbracers from './GalleryListItemEmbracers';
+import { IMotofy } from "../../../app/models/motofy";
+import GalleryListItemEmbracers from "./GalleryListItemEmbracers";
 
 interface IProps {
   motofy: IMotofy;
 }
 
 const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
-  const owner = motofy.embracers.filter(x => x.isOwner)[0] || 'unknown testing';
+  const owner =
+    motofy.embracers.filter((x) => x.isOwner)[0] || "unknown testing";
   //==test!
-  const publisher = motofy.embracers.filter(x => x)[0];
+  const publisher = motofy.embracers.filter((x) => x)[0];
   // console.log(motofy.brand)
 
   return (
@@ -25,20 +26,25 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
             <Item.Image size='big' bordered src={motofy.photoUrl} centered />
           </Item.Group>
           <Item.Content>
-            <Item.Header as={Link} to={`/gallery/${motofy.id}`}>{motofy.name}</Item.Header>
+            <Item.Header as={Link} to={`/gallery/${motofy.id}`}>
+              {motofy.name}
+            </Item.Header>
             <Item.Meta>{motofy.brandName}</Item.Meta>
-            <Image
-              size='mini'
-              src={motofy.brandLogoUrl}
-            />
+            <Image size='mini' src={motofy.brandLogoUrl} />
             <Label basic content={motofy.brandId} />
-
-            <Item.Description>Published by {publisher.displayName! || 'unknown'}</Item.Description>
+            <Item.Description>
+              Published by
+              <Link to={`/profile/${publisher.username}`}>
+                {publisher.displayName! || "unknown"}
+              </Link>
+            </Item.Description>
             {/* <Image
               size='mini'
               src={publisher.image || '/assets/user.png'}
             /> */}
-            <Item.Description>Owned by {owner.displayName || 'unknown'}</Item.Description>
+            <Item.Description>
+              Owned by {owner.displayName || "unknown"}
+            </Item.Description>
             {motofy.isOwner && (
               <Item.Description>
                 <Label
@@ -48,13 +54,9 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
                 />
               </Item.Description>
             )}
-            {motofy.embraced && !motofy.isOwner &&(
+            {motofy.embraced && !motofy.isOwner && (
               <Item.Description>
-                <Label
-                  basic
-                  color='green'
-                  content='You embraced this motofy'
-                />
+                <Label basic color='green' content='You embraced this motofy' />
               </Item.Description>
             )}
             <Item.Extra></Item.Extra>

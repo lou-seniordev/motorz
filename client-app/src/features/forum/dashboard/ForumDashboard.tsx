@@ -26,14 +26,8 @@ const ForumDashboard = () => {
         <Grid.Column width={6}>
           <h2>Trending</h2>
           <h2>Your people are asking</h2>
-          <h2>You might be interested</h2>
-          {/* {forumpost && !editMode && <ForumDetails />}
-          {editMode && (
-            <ForumForm
-              key={(forumpost && forumpost.id) || 0}
-              forumpost={forumpost!}
-            />
-          )} */}
+          {/* <h2>You might be interested</h2> */}
+          <h2>You asked</h2>
         </Grid.Column>
       </Grid>
     </div>

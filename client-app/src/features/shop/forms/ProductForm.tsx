@@ -28,15 +28,14 @@ import {
   hasLengthGreaterThan,
   isRequired,
   isNumeric,
-  createValidator,
+  // createValidator,
 } from "revalidate";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
-import { toJS } from "mobx";
+// import { toJS } from "mobx";
 
-// const flagRenderer = (item: any) => <Flag name={item.countryCode} />;
 // const isValidEmail = createValidator(
 //   (message) => (value) => {
 //     if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
@@ -45,6 +44,7 @@ import { toJS } from "mobx";
 //   },
 //   "Invalid email address"
 // );
+
 const validate = combineValidators({
   title: isRequired({ message: "The title is required" }),
   category: isRequired("Category"),
@@ -87,7 +87,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
 
-  const { createProduct, editProduct, submitting, editMode, loadProduct } =
+  const { createProduct, editProduct, submitting, loadProduct } = //editMode,
     rootStore.productStore;
 
   const [product, setProduct] = useState(new ProductFormValues());
@@ -132,8 +132,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadCountriesToSelect, loadProduct, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
-    // console.log("whatshapnin countries?", toJS(countries));
-    // console.log("whatshapnin categories?", toJS(categories));
+   
     const { ...product } = values;
     if (product.brand === '') product.brand = 'Brand not asigned';
     if (product.model === '') product.model = 'Model not asigned';
@@ -146,8 +145,8 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         file: imageToUpload,
         photoUrl: previewImage,
       };
-      // createProduct(newProduct);
-      console.log(newProduct);
+      createProduct(newProduct);
+      // console.log(newProduct);
     } else {
       editProduct(product);
       // console.log(product);

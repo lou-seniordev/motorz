@@ -11,6 +11,10 @@ namespace Application.Forumposts
 {
     public class List
     {
+        // public class ForumpostEnvelope 
+        // {
+        //     public List<ForumpostDto> Forumposts { get; set; }
+        // }
 
         public class Query : IRequest<List<ForumpostDto>> { }
 

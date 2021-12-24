@@ -22,7 +22,7 @@ export default class ProductStore {
 
 
   //--probably will be--
-  @observable editMode = false;
+  // @observable editMode = false;
   @observable submitting = false;
 
   @observable target = '';
@@ -114,7 +114,7 @@ export default class ProductStore {
       await agent.Products.create(product);
       runInAction('creating products', () => {
         this.productRegistry.set(product.id, product);
-        this.editMode = false;
+        // this.editMode = false;
         this.submitting = false;
       });
       history.push(`/product/${product.id}`)
@@ -135,7 +135,7 @@ export default class ProductStore {
       runInAction('creating product', () => {
         this.productRegistry.set(product.id, product);
         this.product = product;
-        this.editMode = false;
+        // this.editMode = false;
         this.submitting = false;
       });
       history.push(`/product/${product.id}`)

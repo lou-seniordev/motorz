@@ -47,6 +47,9 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
     loadForumPost,
   } = rootStore.forumPostStore;
 
+  const { user } = rootStore.userStore;
+
+
   const [forumpost, setForumpost] = useState(new ForumpostFormValues());
   const [loading, setLoading] = useState(false);
 
@@ -74,6 +77,7 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...forumpost,
         id: uuid(),
         dateAdded: new Date().toISOString(),
+        displayName: user?.displayName
       };
       createForumpost(newForumpost)
     } else {

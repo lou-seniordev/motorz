@@ -1,19 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
-import { IForumpost } from '../../../app/models/forumpost';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
+import { IForumpost } from "../../../app/models/forumpost";
 
 const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
   return (
     <Segment.Group>
       <Segment>
         <Item>
-          <Item.Image size='tiny' src={`/assets/forumCategoryImages/${forumpost.category}.jpg`} />
+          <Item.Image
+            size='tiny'
+            src={`/assets/forumCategoryImages/${forumpost.category}.jpg`}
+          />
           <Item.Content>
             <Item.Header as='a'>{forumpost.title}</Item.Header>
             <Item.Meta>{forumpost.dateAdded}</Item.Meta>
 
-            <Item.Description>Posted by Bob</Item.Description>
+            <Item.Description>
+              Posted by 
+              <Link to={`/profile/${forumpost.userName}`}>
+                {forumpost.displayName}
+              </Link>
+            </Item.Description>
             <Item.Description>
               <div>{forumpost.body}</div>
             </Item.Description>
@@ -30,18 +38,15 @@ const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
                 content='view'
                 color='blue'
               />
-              <Label basic content={forumpost.category} /> 
+              <Label basic content={forumpost.category} />
             </Item.Extra>
           </Item.Content>
         </Item>
       </Segment>
       <Segment>
-          <Icon name='clock' /> {forumpost.dateAdded}
+        <Icon name='clock' /> {forumpost.dateAdded}
       </Segment>
-      <Segment secondary>
-        12 Responses from 3 Members
-      </Segment>
-      
+      <Segment secondary>{forumpost.numberOfComents!} Responses from {forumpost.commenters?.length} Members</Segment>
     </Segment.Group>
   );
 };

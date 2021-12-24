@@ -1,3 +1,4 @@
+import { IUser } from './user';
 import { IComment } from "./comment";
 
 export interface IForumpost {
@@ -6,9 +7,12 @@ export interface IForumpost {
   body: string;
   // dateAdded: Date;
   dateAdded: string;
-  // displayName: string;
+  displayName: string;
+  userName: string;
   category: string;
   commentForumPosts: IComment[];
+  numberOfComents?: number;
+  commenters?: IComment [];
 }
 
 export class ForumpostFormValues {
