@@ -1247,6 +1247,39 @@ namespace Persistence
                                 IsOwner = true,
                                 DateEmbraced = DateTime.Now.AddMonths(-2)
                             }
+                        },
+                        MotofyScores = new List<MotofyScore>
+                        {
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "jane"),
+                                Score = 5,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "tom"),
+                                Score = 5,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "emir"),
+                                Score = 5,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "nina"),
+                                Score = 5,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
+                                Score = 4,
+                            }
                         }
                     },
                     new Motofy
@@ -1290,13 +1323,40 @@ namespace Persistence
                         PricePaid = "4000",
                         EstimatedValue = "4000",
                         NumberOfKilometers = "107100",
-                         UserMotofies = new List<UserMotofy>
+                        UserMotofies = new List<UserMotofy>
                         {
                             new UserMotofy
                             {
                                 AppUserId = "b",
                                 IsOwner = true,
                                 DateEmbraced = DateTime.Now.AddMonths(-1)
+                            }
+                        },
+                        MotofyScores = new List<MotofyScore>
+                        {
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "bob"),
+                                Score = 3,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "tom"),
+                                Score = 3,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "emir"),
+                                Score = 4,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "nina"),
+                                Score = 1,
                             }
                         }
 
@@ -1349,6 +1409,51 @@ namespace Persistence
                                 IsOwner = true,
                                 DateEmbraced = DateTime.Now.AddMonths(-2)
                             }
+                        },
+                        MotofyScores = new List<MotofyScore>
+                        {
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "jane"),
+                                Score = 2,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "bob"),
+                                Score = 3,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "emir"),
+                                Score = 1,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "jerry"),
+                                Score = 5,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
+                                Score = 4,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "joe"),
+                                Score = 2,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "giulietta"),
+                                Score = 4,
+                            }
                         }
 
                     },
@@ -1395,9 +1500,30 @@ namespace Persistence
                         {
                             new UserMotofy
                             {
-                                AppUserId = "a",
+                                AppUserId = "d",
                                 IsOwner = false,
                                 DateEmbraced = DateTime.Now.AddMonths(-2)
+                            }
+                        },
+                        MotofyScores = new List<MotofyScore>
+                        {
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
+                                Score = 4,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "joe"),
+                                Score = 5,
+                            },
+                            new MotofyScore
+                            {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "giulietta"),
+                                Score = 3,
                             }
                         }
 
@@ -1474,7 +1600,34 @@ namespace Persistence
                                 CustomerRecommended = true,
                                 DateBecameCustomer = DateTime.Now.AddMonths(-1)
                             }
-                        }
+                        },
+                       MechanicRatings = new List<MechanicRating>
+                       {
+                           new MechanicRating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "jane"),
+                                Score = 4,
+                           },
+                           new MechanicRating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "bob"),
+                                Score = 5,
+                           },
+                           new MechanicRating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "nina"),
+                                Score = 4,
+                           },
+                           new MechanicRating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
+                                Score = 5,
+                           }
+                       }
                     },
                     new Mechanic
                     {
@@ -1487,11 +1640,11 @@ namespace Persistence
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Rome",
                       Address = "Via Riccardo Riccardi 10",
-                       MechanicPhoto = new MechanicPhoto
+                      MechanicPhoto = new MechanicPhoto
                        {
                           Id = "D07EB32A-19F7-438B-B8A6-2B7A471EC72D",
                           Url="https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
-                      },
+                       },
                        Customers = new List<UserMechanic>
                         {
                             new UserMechanic
@@ -1520,7 +1673,22 @@ namespace Persistence
                                     DateAdded = DateTime.Now.AddDays(-2)
                                 }
                             }
-                        }
+                        },
+                        MechanicRatings = new List<MechanicRating>
+                       {
+                           new MechanicRating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "jane"),
+                                Score = 4,
+                           },
+                           new MechanicRating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "tom"),
+                                Score = 2,
+                           }
+                       }
 
                     },
                     new Mechanic
@@ -1542,18 +1710,35 @@ namespace Persistence
                        Customers = new List<UserMechanic>
                         {
                             new UserMechanic
-                            { AppUserId = "a",
-                            IsOwner = false,
-                            IsCustomer = true,
-                            DateBecameCustomer = DateTime.Now.AddDays(-5)
+                            { 
+                                AppUserId = "a",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddDays(-5)
                             },
                             new UserMechanic
-                            { AppUserId = "f",
-                            IsOwner = false,
-                            IsCustomer = true,
-                            DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                            { 
+                                AppUserId = "f",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1)
                             }
-                        }
+                        },
+                        MechanicRatings = new List<MechanicRating>
+                        {
+                           new MechanicRating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "bob"),
+                                Score = 4,
+                           },
+                           new MechanicRating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "emir"),
+                                Score = 3,
+                           }
+                       }
                     },
                 };
                 context.Mechanics.AddRange(mechanics);

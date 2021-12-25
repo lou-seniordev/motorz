@@ -23,6 +23,10 @@ namespace Application.Motofies
             .ForMember(d => d.CountryName, o => o.MapFrom(s => s.Name))
             .ForMember(d => d.CountryId, o => o.MapFrom(s => s.Id));
 
+             CreateMap<MotofyScore, MotofyScoreDto>()
+            .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName))
+            .ForMember(d => d.DisplayName , o => o.MapFrom(s => s.User.DisplayName));
+
         }
     }
 }

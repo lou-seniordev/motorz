@@ -11,7 +11,7 @@ const GaleryDetailedRating = () => {
     <Segment.Group>
         <Segment>
 
-        <Rating icon='star' defaultRating={1} maxRating={5} />
+        <Rating icon='star' defaultRating={2.47} maxRating={5} />
         </Segment>
     </Segment.Group>
   )

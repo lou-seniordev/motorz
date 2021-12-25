@@ -25,5 +25,6 @@ namespace Domain
         public virtual ICollection<UserMotofy> UserMotofies { get; set; }
         public virtual MotofyPhoto MotofyPhoto { get; set; }
         public virtual ICollection<CommentMotofy> CommentMotofies { get; set; }
+        public virtual ICollection<MotofyScore> MotofyScores { get; set; }
     }
 }

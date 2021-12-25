@@ -46,6 +46,8 @@ namespace Persistence
         //=== Entity Photos ===
         public DbSet<ProductPhoto> ProductPhotos { get; set; }
         public DbSet<MechanicPhoto> MechanicPhotos { get; set; }
+        public DbSet<MotofyScore> MotofyScores { get; set; }
+        public DbSet<MechanicRating> MechanicRatings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
