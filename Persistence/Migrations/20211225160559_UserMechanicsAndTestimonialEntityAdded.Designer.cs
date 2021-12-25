@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211216103316_AllZeroRefactorPhotos")]
-    partial class AllZeroRefactorPhotos
+    [Migration("20211225160559_UserMechanicsAndTestimonialEntityAdded")]
+    partial class UserMechanicsAndTestimonialEntityAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -348,9 +348,6 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Owner")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Phone")
@@ -702,6 +699,38 @@ namespace Persistence.Migrations
                     b.HasIndex("TargetId");
 
                     b.ToTable("Followings");
+                });
+
+            modelBuilder.Entity("Domain.UserMechanic", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("MechanicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("CustomerRecommended")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("DateBecameCustomer")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsCustomer")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("TestimonialId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppUserId", "MechanicId");
+
+                    b.HasIndex("MechanicId");
+
+                    b.HasIndex("TestimonialId");
+
+                    b.ToTable("UserMechanics");
                 });
 
             modelBuilder.Entity("Domain.UserMotofy", b =>
@@ -1063,6 +1092,25 @@ namespace Persistence.Migrations
                         .HasForeignKey("TargetId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.UserMechanic", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("Mechanics")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Mechanic", "Mechanic")
+                        .WithMany("Customers")
+                        .HasForeignKey("MechanicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Testimonial", "Testimonial")
+                        .WithMany()
+                        .HasForeignKey("TestimonialId");
                 });
 
             modelBuilder.Entity("Domain.UserMotofy", b =>

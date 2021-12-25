@@ -653,7 +653,7 @@ namespace Persistence
                         Id = Guid.Parse("D5759CCD-CD56-4F18-890C-8C522C76C4E4"),
                         Messages = messages2,
                         InitUsername= "bob",
-                        ReceiverUsername = "tome"
+                        ReceiverUsername = "tom"
 
                     }
 
@@ -675,7 +675,9 @@ namespace Persistence
                         Title= "Lorem",
                         Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
                         Category = "Offer information",
-                        // Author = context.AppUser.SingleOrDefault(x => x.Name == "bob")
+                        // Author = context.Users.SingleOrDefault(x => x.Name == "bob")
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "bob")
+
 
                     },
                     new Forumpost
@@ -684,7 +686,7 @@ namespace Persistence
                         Title= "Explain",
                         Body = "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. ",
                         Category = "Ask for assistance",
-                        // Author = context.AppUser.SingleOrDefault(x => x.Name == "jane")
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "jane")
                     },
                     new Forumpost
                     {
@@ -692,7 +694,7 @@ namespace Persistence
                         Title= "Again",
                         Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
                         Category = "Ask for advice",
-                        // Author = context.AppUser.SingleOrDefault(x => x.Name == "tome")
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "tom")
                     },
 
                 };
@@ -1421,11 +1423,58 @@ namespace Persistence
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),//"Italy",
                       City = "Rome",
                       Address = "Tor Pignattara 107",
-                      MechanicPhoto = new MechanicPhoto{
+                      MechanicPhoto = new MechanicPhoto
+                      {
                           Id = "B0ABFC9B-77E3-4068-96E0-DF704F156768",
                           Url="https://res.cloudinary.com/motofy/image/upload/v1547320881/prgbklusjdbenfbqtqfy.jpg",
-                      }
-
+                      },
+                      Customers = new List<UserMechanic>
+                        {
+                            new UserMechanic
+                            { 
+                                AppUserId = "a",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                CustomerRecommended = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-2),
+                                Testimonial = new Testimonial
+                                {
+                                    Id = new Guid(),
+                                    Text = "Found this place by chance after purchasing some highway pegs from them. Immediatley after talking with the owner, son and his family, I felt comfortable enough to get a 10,000 mi. major service from them along with a stator replacement, tune up and a few other items needed in preparation for a 1,500 mi. ride to Nor-Cal and through the Sierras.",
+                                    DateAdded = DateTime.Now.AddDays(-2)
+                                }
+                            },
+                            new UserMechanic
+                            { 
+                                AppUserId = "b",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                CustomerRecommended = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1),
+                                Testimonial = new Testimonial
+                                {
+                                    Id = new Guid(),
+                                    Text = "Glad I went with Martin, he went above and beyond in going over everything with a fine toothed comb. Fixed many more problems than I thought I had, and as I was prepping for an upcoming trip, they ran into a snag with my front rim being bent. MARTIN ACTUALLY LET ME BORROW HIS SHOPS RIMS AS A LOANER FOR MY TRIP as to not set me back looking for a replacement in a rush.",
+                                    DateAdded = DateTime.Now.AddDays(-2)
+                                }
+                            },
+                            new UserMechanic
+                            { 
+                                AppUserId = "g",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                CustomerRecommended = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                            },
+                            new UserMechanic
+                            { 
+                                AppUserId = "h",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                CustomerRecommended = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                            }
+                        }
                     },
                     new Mechanic
                     {
@@ -1438,10 +1487,40 @@ namespace Persistence
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Rome",
                       Address = "Via Riccardo Riccardi 10",
-                       MechanicPhoto = new MechanicPhoto{
+                       MechanicPhoto = new MechanicPhoto
+                       {
                           Id = "D07EB32A-19F7-438B-B8A6-2B7A471EC72D",
                           Url="https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
-                      }
+                      },
+                       Customers = new List<UserMechanic>
+                        {
+                            new UserMechanic
+                            { 
+                                AppUserId = "c",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-2),
+                                Testimonial = new Testimonial
+                                {
+                                    Id = new Guid(),
+                                    Text = "As someone who normally does 99% of the repairs and services myself, as their business name states, I have found 'My Mechanic'.",
+                                    DateAdded = DateTime.Now.AddDays(-2)
+                                }
+                            },
+                            new UserMechanic
+                            { 
+                                AppUserId = "b",
+                                IsOwner = true,
+                                IsCustomer = false,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1),
+                                Testimonial = new Testimonial
+                                {
+                                    Id = new Guid(),
+                                    Text = "Many thanks to Martin, Laura and Ricardo for the great customer service, and treating me and my family as a part of theirs.",
+                                    DateAdded = DateTime.Now.AddDays(-2)
+                                }
+                            }
+                        }
 
                     },
                     new Mechanic
@@ -1455,10 +1534,26 @@ namespace Persistence
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Rome",
                       Address = "Via Del Corso 107",
-                         MechanicPhoto = new MechanicPhoto{
+                      MechanicPhoto = new MechanicPhoto
+                      {
                           Id = "E73715A2-C2D0-4A37-A36C-B74BE9D0C697",
                           Url="https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
-                      }
+                      },
+                       Customers = new List<UserMechanic>
+                        {
+                            new UserMechanic
+                            { AppUserId = "a",
+                            IsOwner = false,
+                            IsCustomer = true,
+                            DateBecameCustomer = DateTime.Now.AddDays(-5)
+                            },
+                            new UserMechanic
+                            { AppUserId = "f",
+                            IsOwner = false,
+                            IsCustomer = true,
+                            DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                            }
+                        }
                     },
                 };
                 context.Mechanics.AddRange(mechanics);

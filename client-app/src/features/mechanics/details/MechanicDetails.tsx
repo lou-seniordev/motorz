@@ -29,13 +29,13 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) =
 
   return (
     <Grid>
-      <Grid.Column width={8}>
+      <Grid.Column width={11}>
         <MechanicDetailedHeader mechanic={mechanic}/>
         <MechanicDetailedInfo mechanic={mechanic}/>
         <MechanicDetailedChat />
         {/* mechanic={mechanic} */}
       </Grid.Column>
-      <Grid.Column width={8}>
+      <Grid.Column width={4}>
         <MechanicDetailedSidebar/>
       </Grid.Column>
     </Grid>

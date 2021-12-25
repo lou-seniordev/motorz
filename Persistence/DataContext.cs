@@ -40,6 +40,7 @@ namespace Persistence
         public DbSet<CommentForumPost> CommentForumPosts { get; set; }
 
         //=== Refactor Mechanic ===
+        public DbSet<UserMechanic> UserMechanics { get; set; }
         public DbSet<Country> Countries { get; set; }
 
         //=== Entity Photos ===
@@ -88,6 +89,20 @@ namespace Persistence
 
             // ==== end ====
 
+            // ==== One more many2many for UserMechanic====
+            builder.Entity<UserMechanic>(x => x.HasKey(um =>
+                new { um.AppUserId, um.MechanicId }));
+
+            builder.Entity<UserMechanic>()
+                .HasOne(u => u.AppUser)
+                .WithMany(m => m.Mechanics)
+                .HasForeignKey(u => u.AppUserId);
+
+            builder.Entity<UserMechanic>()
+                .HasOne(m => m.Mechanic)
+                .WithMany(u => u.Customers)
+                .HasForeignKey(m => m.MechanicId);
+
             // === define one2many relationship ===
             // builder.Entity<Motofy>()
             //     .HasOne(m => m.Brand)
@@ -125,6 +140,11 @@ namespace Persistence
             .HasOne(a => a.ProductPhoto)
             .WithOne(m => m.Product)
             .HasForeignKey<ProductPhoto>(m => m.ProductForeignKey);
+
+            // builder.Entity<UserMechanic>()
+            // .HasOne(t => t.Testimonial)
+            // .WithOne(um => um.UserMechanic)
+            
 
             // builder.Entity<AppUser>()
             // .HasOne(a => a.MotofyPhoto)

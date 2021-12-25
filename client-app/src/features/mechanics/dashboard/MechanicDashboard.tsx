@@ -19,10 +19,10 @@ const MechanicDashboard = () => {
 
   return (
     <Grid>
-      <Grid.Column width={10}>
+      <Grid.Column width={12}>
         <MechanicList />
       </Grid.Column>
-      <Grid.Column width={6}>
+      <Grid.Column width={4}>
         <Sticky style={{ marginRight: 30, position: "fixed" }}>
           <h2>Mechanic around you</h2>
           <h2>Mechanic You went to</h2>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.AllComments;
+using Domain;
 
 namespace Application.Mechanics
 {
@@ -10,7 +11,7 @@ namespace Application.Mechanics
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string  Owner {get; set;}
+        public string Owner { get; set; }
         public string PhotoUrl { get; set; }
         public string Description { get; set; }
         public string YearOfStart { get; set; }
@@ -24,5 +25,7 @@ namespace Application.Mechanics
         public string Website { get; set; }
 
         public virtual ICollection<CommentMechanicDto> CommentMechanics { get; set; }
+        public virtual ICollection<CustomerDto> Customers { get; set; }
+
     }
 }

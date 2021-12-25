@@ -8,7 +8,9 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string  Owner {get; set;}
+        // public virtual AppUser Publisher { get; set; }
+        // public bool IsOwner { get; set; }
+        // public string Owner { get; set; }
         public string PhotoUrl { get; set; }
         public string Description { get; set; }
         public string YearOfStart { get; set; }
@@ -20,8 +22,9 @@ namespace Domain
         public string Email { get; set; }
         public string Website { get; set; }
         public virtual ICollection<CommentMechanic> CommentMechanics { get; set; }
+        public virtual ICollection<UserMechanic> Customers { get; set; }
         public virtual MechanicPhoto MechanicPhoto { get; set; }
 
-                // public virtual AverageRating { get; set; } ??
+        // public virtual AverageRating { get; set; } ??
     }
 }

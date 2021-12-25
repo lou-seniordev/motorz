@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AllZeroRefactorPhotos : Migration
+    public partial class UserMechanicsAndTestimonialEntityAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -393,7 +393,6 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Owner = table.Column<string>(nullable: true),
                     PhotoUrl = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     YearOfStart = table.Column<string>(nullable: true),
@@ -565,6 +564,41 @@ namespace Persistence.Migrations
                         principalTable: "Mechanics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserMechanics",
+                columns: table => new
+                {
+                    AppUserId = table.Column<string>(nullable: false),
+                    MechanicId = table.Column<Guid>(nullable: false),
+                    TestimonialId = table.Column<Guid>(nullable: true),
+                    IsOwner = table.Column<bool>(nullable: false),
+                    IsCustomer = table.Column<bool>(nullable: false),
+                    CustomerRecommended = table.Column<bool>(nullable: false),
+                    DateBecameCustomer = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserMechanics", x => new { x.AppUserId, x.MechanicId });
+                    table.ForeignKey(
+                        name: "FK_UserMechanics_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserMechanics_Mechanics_MechanicId",
+                        column: x => x.MechanicId,
+                        principalTable: "Mechanics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserMechanics_Testimonials_TestimonialId",
+                        column: x => x.TestimonialId,
+                        principalTable: "Testimonials",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -895,6 +929,16 @@ namespace Persistence.Migrations
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserMechanics_MechanicId",
+                table: "UserMechanics",
+                column: "MechanicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMechanics_TestimonialId",
+                table: "UserMechanics",
+                column: "TestimonialId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserMotofies_MotofyId",
                 table: "UserMotofies",
                 column: "MotofyId");
@@ -951,10 +995,10 @@ namespace Persistence.Migrations
                 name: "ProductPhotos");
 
             migrationBuilder.DropTable(
-                name: "Testimonials");
+                name: "UserActivities");
 
             migrationBuilder.DropTable(
-                name: "UserActivities");
+                name: "UserMechanics");
 
             migrationBuilder.DropTable(
                 name: "UserMotofies");
@@ -969,9 +1013,6 @@ namespace Persistence.Migrations
                 name: "Forumposts");
 
             migrationBuilder.DropTable(
-                name: "Mechanics");
-
-            migrationBuilder.DropTable(
                 name: "MessageThreads");
 
             migrationBuilder.DropTable(
@@ -979,6 +1020,12 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Activities");
+
+            migrationBuilder.DropTable(
+                name: "Mechanics");
+
+            migrationBuilder.DropTable(
+                name: "Testimonials");
 
             migrationBuilder.DropTable(
                 name: "Motofies");
