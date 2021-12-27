@@ -21,6 +21,7 @@ namespace Domain
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
+        public virtual AverageRating AverageRating { get; set; }
         public virtual ICollection<CommentMechanic> CommentMechanics { get; set; }
         public virtual ICollection<UserMechanic> Customers { get; set; }
         public virtual MechanicPhoto MechanicPhoto { get; set; }

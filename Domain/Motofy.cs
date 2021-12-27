@@ -18,10 +18,10 @@ namespace Domain
         public string City { get; set; }
         // public string Country { get; set; }
         public virtual Country Country { get; set; }
-
         public string PricePaid { get; set; }
         public string EstimatedValue { get; set; }
         public string NumberOfKilometers { get; set; }
+        public virtual AverageRating AverageRating { get; set; }
         public virtual ICollection<UserMotofy> UserMotofies { get; set; }
         public virtual MotofyPhoto MotofyPhoto { get; set; }
         public virtual ICollection<CommentMotofy> CommentMotofies { get; set; }

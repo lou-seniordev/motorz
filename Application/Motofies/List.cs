@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
+
 namespace Application.Motofies
 {
     public class List
@@ -19,6 +20,7 @@ namespace Application.Motofies
             public List<MotofyDto> Motofies { get; set; }
             public int MotofyCount { get; set; }
             public MotofyDto MostEmbraced { get; set; }
+            public MotofyDto HighestRatedMotofy { get; set; }
             //maybe should count embraced???
             // public List<MotofyDto> MostEmbracedList { get; set; }
             // public List<Guid> MostEmbracedList { get; set; }
@@ -27,19 +29,24 @@ namespace Application.Motofies
         {
             public int? Limit { get; set; }
             public int? Offset { get; set; }
-            public bool IEmbraced { get; set; }
-            public bool IOwn { get; set; }
+            // public bool IEmbraced { get; set; }
+            // public bool IOwn { get; set; }
+            // public bool WinningFive { get; set; }
 
-            public bool WinningFive { get; set; }
-
-            public Query(int? limit, int? offset, bool iEmbraced, bool iOwn, bool winningFive)
+            public Query(int? limit, int? offset)
             {
                 Limit = limit;
                 Offset = offset;
-                IEmbraced = iEmbraced;
-                IOwn = iOwn;
-                WinningFive = winningFive;
+
             }
+            // public Query(int? limit, int? offset, bool iEmbraced, bool iOwn, bool winningFive)
+            // {
+            //     Limit = limit;
+            //     Offset = offset;
+            //     IEmbraced = iEmbraced;
+            //     IOwn = iOwn;
+            //     WinningFive = winningFive;
+            // }
 
 
         }
@@ -59,45 +66,85 @@ namespace Application.Motofies
             public async Task<MotofiesEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
                 var motofies = new List<Motofy>();
+                var motofiesToQuery = new List<Motofy>();
+
                 var queryable = _context.Motofies.OrderBy(x => x.DatePublished).AsQueryable();
 
-                if (request.IOwn)
-                {
-                    queryable = queryable
-                    .Where(x => x.UserMotofies
-                    .Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsOwner));
-                }
+                var motos = _context.Motofies.AsQueryable();
 
-                if (request.IEmbraced)
-                {
-                    queryable = queryable
-                    .Where(x => x.UserMotofies
-                    .Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && !a.IsOwner));
-                }
+                motofiesToQuery = await motos.ToListAsync();
 
-                if (request.WinningFive == true)
-                {
-                    var mostEmbracedIds = await _context.UserMotofies
-                    .GroupBy(m => m.MotofyId)
-                    .OrderByDescending(e => e.Count())
-                    .Take(3)
-                    .Select(g => g.Key)
-                    .ToListAsync();
-                    var mostEmbracedMotofies = new List<Motofy>();
+                int count = 0;
+                double sum = 0;
+                double result = 0;
 
-                    foreach (var motofyId in mostEmbracedIds)
+                foreach (var moto in motofiesToQuery)
+                {
+                    foreach (var score in moto.MotofyScores)
                     {
-                        var motofyToAdd = await _context.Motofies.FindAsync(motofyId);
-                        motofies.Add(motofyToAdd);
+                        sum += score.Score;
+                        count++;
                     }
+                    result = sum / count;
+                    var rating = new AverageRating
+                    {
+                        Id = new Guid(),
+                        Count = count,
+                        Average = result
+                    };
+                    moto.AverageRating = rating;
+
+                    count = 0;
+                    sum = 0;
+                    result = 0;
                 }
-                else
-                {
-                    motofies = await queryable
-                    .Skip(request.Offset ?? 0)
-                    .Take(request.Limit ?? 3)
-                    .ToListAsync();
-                }
+                //version 1
+                // var highestRatedMotofy = motofiesToQuery.OrderByDescending(x => x.AverageRating.Average).First();
+                
+                //version 2
+                var maxAverageRating = motofiesToQuery.Max(x => x.AverageRating.Average);
+                var highestRatedMotofy = motofiesToQuery.First(x => x.AverageRating.Average == maxAverageRating);
+                
+                //====What if there are more of the same average Rating???====
+                //====Possible solution -- put in in the list and check on UI whether show list or single====
+
+                // if (request.IOwn)
+                // {
+                //     queryable = queryable
+                //     .Where(x => x.UserMotofies
+                //     .Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsOwner));
+                // }
+
+                // if (request.IEmbraced)
+                // {
+                //     queryable = queryable
+                //     .Where(x => x.UserMotofies
+                //     .Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && !a.IsOwner));
+                // }
+
+                // if (request.WinningFive == true)
+                // {
+                //     var mostEmbracedIds = await _context.UserMotofies
+                //     .GroupBy(m => m.MotofyId)
+                //     .OrderByDescending(e => e.Count())
+                //     .Take(3)
+                //     .Select(g => g.Key)
+                //     .ToListAsync();
+                //     var mostEmbracedMotofies = new List<Motofy>();
+
+                //     foreach (var motofyId in mostEmbracedIds)
+                //     {
+                //         var motofyToAdd = await _context.Motofies.FindAsync(motofyId);
+                //         motofies.Add(motofyToAdd);
+                //     }
+                // }
+                // else
+                // {
+                motofies = await queryable
+                .Skip(request.Offset ?? 0)
+                .Take(request.Limit ?? 3)
+                .ToListAsync();
+                // }
 
                 // // == MostEmbracedOne ==
                 var mostEmbracedId = await _context.UserMotofies
@@ -110,66 +157,20 @@ namespace Application.Motofies
 
                 var motofy = await _context.Motofies.FindAsync(mostEmbracedId);
 
+                // var winnerId = await _context.Motofies
+
+
+
+
                 return new MotofiesEnvelope
                 {
                     Motofies = _mapper.Map<List<Motofy>, List<MotofyDto>>(motofies),
                     MotofyCount = queryable.Count(),
                     MostEmbraced = _mapper.Map<Motofy, MotofyDto>(motofy),
+                    HighestRatedMotofy = _mapper.Map<Motofy, MotofyDto>(highestRatedMotofy),
                 };
             }
         }
     }
 }
 
-
-// .ToListAsync();
-
-// var winnQuery = _context.Motofies.AsQueryable();
-// var mostEmbraced = await winnQuery.SingleOrDefaultAsync(e => e.Id == mostEmbracedId);
-// === or better ===
-
-// MostEmbraced = _mapper.Map<Motofy, MotofyDto>(mostEmbraced)
-// MostEmbraced = _mapper.Map<Motofy, MotofyDto>(motofy),
-// MostEmbracedList = _mapper.Map<List<Motofy>, List<MotofyDto>>(mostEmbracedMotofies)
-
-
-
-// // == MostEmbracedList ==
-// if (request.WinningFive)
-// {
-//     var mostEmbracedIds = await _context.UserMotofies
-//                  .GroupBy(m => m.MotofyId)
-//                  .OrderByDescending(e => e.Count())
-//                  .Take(4)
-//                  .Select(g => g.Key)
-//                  .ToListAsync();
-//     var mostEmbracedMotofies = new List<Motofy>();
-
-//     foreach (var motofyId in mostEmbracedIds)
-//     {
-//         var motofyToAdd = await _context.Motofies.FindAsync(motofyId);
-//         motofies.Add(motofyToAdd);
-//     }
-// }
-
-
-
-// if (request.IOwn)
-// {
-//     queryable = queryable.Where(x => x.UserMotofies.Any
-//         (a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsOwner && !request.IEmbraced));
-// }
-
-
-// var mostEmbraced = await _context.Motofies.AsQueryable()
-// .GroupBy(i => i)
-// .OrderByDescending(g => g.Count())
-// .Take(1)
-// .Select(g => g.Key);
-
-// // var winner = _context.Motofies.AsQueryable();
-// var top = _context.Motofies.
-// .GroupBy(i => i)
-// .OrderByDescending(g => g.Count())
-// .Take(1)
-// .Select(g => g.Key);

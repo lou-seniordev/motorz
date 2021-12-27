@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class UserMechanicsAndTestimonialEntityAdded : Migration
+    public partial class AddAverageMotofyAndMechanicEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,6 +63,19 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AverageRatings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Count = table.Column<int>(nullable: false),
+                    Average = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AverageRatings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -402,11 +415,18 @@ namespace Persistence.Migrations
                     Address = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Website = table.Column<string>(nullable: true)
+                    Website = table.Column<string>(nullable: true),
+                    AverageRatingId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mechanics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Mechanics_AverageRatings_AverageRatingId",
+                        column: x => x.AverageRatingId,
+                        principalTable: "AverageRatings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Mechanics_Countries_CountryId",
                         column: x => x.CountryId,
@@ -432,11 +452,18 @@ namespace Persistence.Migrations
                     CountryId = table.Column<Guid>(nullable: true),
                     PricePaid = table.Column<string>(nullable: true),
                     EstimatedValue = table.Column<string>(nullable: true),
-                    NumberOfKilometers = table.Column<string>(nullable: true)
+                    NumberOfKilometers = table.Column<string>(nullable: true),
+                    AverageRatingId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Motofies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Motofies_AverageRatings_AverageRatingId",
+                        column: x => x.AverageRatingId,
+                        principalTable: "AverageRatings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Motofies_Brands_BrandId",
                         column: x => x.BrandId,
@@ -567,6 +594,32 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MechanicRatings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Score = table.Column<int>(nullable: false),
+                    MechanicId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MechanicRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MechanicRatings_Mechanics_MechanicId",
+                        column: x => x.MechanicId,
+                        principalTable: "Mechanics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MechanicRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserMechanics",
                 columns: table => new
                 {
@@ -645,6 +698,32 @@ namespace Persistence.Migrations
                         principalTable: "Motofies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MotofyScores",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Score = table.Column<int>(nullable: false),
+                    MotofyId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MotofyScores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MotofyScores_Motofies_MotofyId",
+                        column: x => x.MotofyId,
+                        principalTable: "Motofies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MotofyScores_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -862,6 +941,21 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_MechanicRatings_MechanicId",
+                table: "MechanicRatings",
+                column: "MechanicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MechanicRatings_UserId",
+                table: "MechanicRatings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mechanics_AverageRatingId",
+                table: "Mechanics",
+                column: "AverageRatingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Mechanics_CountryId",
                 table: "Mechanics",
                 column: "CountryId");
@@ -887,6 +981,11 @@ namespace Persistence.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Motofies_AverageRatingId",
+                table: "Motofies",
+                column: "AverageRatingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Motofies_BrandId",
                 table: "Motofies",
                 column: "BrandId");
@@ -901,6 +1000,16 @@ namespace Persistence.Migrations
                 table: "MotofyPhotos",
                 column: "MotofyForeignKey",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MotofyScores_MotofyId",
+                table: "MotofyScores",
+                column: "MotofyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MotofyScores_UserId",
+                table: "MotofyScores",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Photos_AppUserId",
@@ -983,10 +1092,16 @@ namespace Persistence.Migrations
                 name: "MechanicPhotos");
 
             migrationBuilder.DropTable(
+                name: "MechanicRatings");
+
+            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "MotofyPhotos");
+
+            migrationBuilder.DropTable(
+                name: "MotofyScores");
 
             migrationBuilder.DropTable(
                 name: "Photos");
@@ -1032,6 +1147,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AverageRatings");
 
             migrationBuilder.DropTable(
                 name: "Brands");

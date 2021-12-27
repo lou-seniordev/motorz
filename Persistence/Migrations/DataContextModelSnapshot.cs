@@ -115,6 +115,23 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Domain.AverageRating", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Average")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AverageRatings");
+                });
+
             modelBuilder.Entity("Domain.Brand", b =>
                 {
                     b.Property<Guid>("Id")
@@ -330,6 +347,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("AverageRatingId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
@@ -361,6 +381,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AverageRatingId");
 
                     b.HasIndex("CountryId");
 
@@ -494,6 +516,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("AverageRatingId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid?>("BrandId")
                         .HasColumnType("TEXT");
 
@@ -534,6 +559,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AverageRatingId");
 
                     b.HasIndex("BrandId");
 
@@ -1028,6 +1055,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Mechanic", b =>
                 {
+                    b.HasOne("Domain.AverageRating", "AverageRating")
+                        .WithMany()
+                        .HasForeignKey("AverageRatingId");
+
                     b.HasOne("Domain.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
@@ -1076,6 +1107,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
+                    b.HasOne("Domain.AverageRating", "AverageRating")
+                        .WithMany()
+                        .HasForeignKey("AverageRatingId");
+
                     b.HasOne("Domain.Brand", "Brand")
                         .WithMany("Motofies")
                         .HasForeignKey("BrandId");

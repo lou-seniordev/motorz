@@ -49,6 +49,9 @@ namespace Persistence
         public DbSet<MotofyScore> MotofyScores { get; set; }
         public DbSet<MechanicRating> MechanicRatings { get; set; }
 
+        //=== Rating ===
+        public DbSet<AverageRating> AverageRatings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

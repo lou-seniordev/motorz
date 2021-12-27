@@ -4,6 +4,7 @@ export interface IMotofyEnvelope {
     motofies: IMotofy[];
     motofyCount: number;
     mostEmbraced: IMotofy;
+    highestRatedMotofy: IMotofy;
 }
 export interface IMotofy {
     id: string;

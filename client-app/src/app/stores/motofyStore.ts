@@ -145,25 +145,16 @@ export default class MotofyStore {
     );
   }
 
-  // @action loadMostEmbraced = () => {
-
-  //   const { motofies, motofyCount, mostEmbraced} = motofiesEnvelope;
-
-  // }
-
   @action loadMotofies = async () => {
     this.loadingInitial = true;
     try {
       
-      // const motofiesEnvelope = await agent.Motofies.list(LIMIT, this.page);
-
       const motofiesEnvelope = await agent.Motofies.list(this.axiosParams);
 
-      const { motofies, motofyCount, mostEmbraced} = motofiesEnvelope;
-     
+      const { motofies, motofyCount, mostEmbraced, highestRatedMotofy} = motofiesEnvelope;
+     console.log('highestRatedMotofy', highestRatedMotofy)
       runInAction('loading motofies', () => {
         this.mostEmbraced = mostEmbraced;
-        // console.log("mostEmbraced: ", mostEmbraced)
 
         motofies.forEach((motofy) => {
           motofy.datePublished = motofy.datePublished?.split('T')[0];
