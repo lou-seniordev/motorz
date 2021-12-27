@@ -1,4 +1,6 @@
-import { observable, action, runInAction, computed, reaction } from 'mobx';
+import { IUser } from './../models/user';
+import { IMotofyScore, IRateMotofy } from './../models/motofy';
+import { observable, action, runInAction, computed, reaction, toJS } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
 import { history } from '../..';
@@ -207,14 +209,60 @@ export default class MotofyStore {
   // @action clearMotofy = () => {
   //   this.motofy = null;
   // };
-  @action rateMotofy = async (rating: string | number | undefined) => {
-    console.log(rating);
+  @action rateMotofy = async (rating: string | number | undefined, motofy: IMotofy, user: IUser | null) => {
+    let newRating: IRateMotofy = {
+      id: motofy.id,
+      score: rating
+    }
+    let newScore: IMotofyScore = {
+      username: user?.userName,
+      displayName: user?.displayName,
+      score: rating,
+    };
+    try {
+      await agent.Motofies.rate(motofy.id, newRating)
+      runInAction('rating motofy', () => {
+        // this.motofy = motofy;
+        motofy.motofyScores.push(newScore);
+        // console.log("WHATSHAPPNIN before???");
+        // // console.log(motofy.motofyScores);
+        // console.log(toJS(motofy));
+        // console.log("WHATSHAPPNIN after???");
+        // // console.log(this.motofyRegistry);
+        this.motofyRegistry.set(motofy.id, motofy);
+        // console.log(toJS(this.motofyRegistry.get(motofy.id)));
+        
+      })
+    } catch (error) {
+      runInAction('rating motofy error', () => {
+        console.log(error);
+      });
+    }
   };
 
   getMotofy = (id: string) => {
     return this.motofyRegistry.get(id);
   };
 
+  @action editMotofy = async (motofy: IMotofy) => {
+    this.submitting = true;
+    // this.editMode = true;
+    try {
+      await agent.Motofies.update(motofy);
+      runInAction('editing motofy', () => {
+        this.motofyRegistry.set(motofy.id, motofy);
+        this.motofy = motofy;
+        // this.editMode = false;
+        this.submitting = false;
+      });
+      history.push(`/gallery/${motofy.id}`);
+    } catch (error) {
+      runInAction('edit motofy error', () => {
+        this.submitting = false;
+      });
+      console.log(error);
+    }
+  };
   @action createMotofy = async (motofy: IMotofy) => {
     
     this.submitting = true;
@@ -269,25 +317,7 @@ export default class MotofyStore {
   // };
 
 
-  @action editMotofy = async (motofy: IMotofy) => {
-    this.submitting = true;
-    // this.editMode = true;
-    try {
-      await agent.Motofies.update(motofy);
-      runInAction('editing motofy', () => {
-        this.motofyRegistry.set(motofy.id, motofy);
-        this.motofy = motofy;
-        // this.editMode = false;
-        this.submitting = false;
-      });
-      history.push(`/gallery/${motofy.id}`);
-    } catch (error) {
-      runInAction('edit motofy error', () => {
-        this.submitting = false;
-      });
-      console.log(error);
-    }
-  };
+
 
   @action deleteMotofy = async (id: string) => {
       this.submitting = true;

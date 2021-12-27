@@ -1,3 +1,4 @@
+import { IRateMotofy } from './../models/motofy';
 // import { MechanicFromValues } from './../models/mechanic';
 import { IMessage, IMessageToSend } from './../models/message';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
@@ -188,7 +189,8 @@ const Motofies = {
     requests.put(`/motofies/${motofy.id}`, motofy),
   delete: (id: string) => requests.delete(`/motofies/${id}`),
   embrace: (id: any) => requests.post(`/motofies/${id}/embrace`, {}),
-  unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`)
+  unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`),
+  rate: (id: string, rating: IRateMotofy) => requests.put(`/motofies/${id}/rate`, rating) 
 };
 
 const Mechanics = {

@@ -40,6 +40,12 @@ namespace API.Controllers
             command.Id = id;
             return await Mediator.Send(command);
         }
+        [HttpPut("{id}/rate")]
+        public async Task<ActionResult<Unit>> Rate(Guid id, Rate.Command command)
+        {
+            command.Id = id;
+            return await Mediator.Send(command);
+        }
 
         [HttpDelete("{id}")]
         [Authorize(Policy = "IsMotofyOwner")]

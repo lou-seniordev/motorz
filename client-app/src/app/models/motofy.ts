@@ -77,3 +77,14 @@ export interface IEmbracer {
     isOwner: boolean;
 }
 
+export interface IRateMotofy {
+    id: string;
+    score: string | number | undefined;
+}
+
+export interface IMotofyScore {
+    username: string | undefined;
+    displayName: string | undefined;
+    score: string | number | undefined;
+}
+
