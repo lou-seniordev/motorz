@@ -12,42 +12,49 @@ const GalleryMostEmbraced: React.FC<{ motofyEmbraced: IMotofy }> = ({
  
   return (
     <Segment.Group>
-      <Segment attached='top'>
-        <Link to={`/gallery/${motofy.id}`}>
-          <Grid>
-            <Grid.Column width={16}>
-              <Header
-                icon={"certificate"}
-                attached
-                color={"teal"}
-                content={"The most embraced Motofy is..."}
-              />
-            </Grid.Column>
-            <Grid.Column width={16}>
+    <Segment attached='top'>
+      <Link to={`/gallery/${motofy.id}`}>
+        <Grid>
+          <Grid.Column width={16}>
+            <Header
+              // icon={"certificate"}
+              attached
+              color={"teal"}
+              content={"The hightest rated"}
+            />
+          </Grid.Column>
+          <Grid.Column width={16}>
+            <Grid.Row>
+              <Item.Image size='small' src={motofy.photoUrl} bordered />
+            </Grid.Row>
+            <Grid.Row>
               <Item.Group>
                 <Item>
-                  <Item.Image size='small' src={motofy.photoUrl} bordered />
                   <Item.Content>
                     <Item.Header>
                       <p>
-                        {motofy.brandName}, {motofy.model}, {motofy.name}
+                        {motofy.name}
                       </p>
                     </Item.Header>
                     <Item.Description>
+                    {/* {motofy.model}, */}
                       <p>
-                        {motofy.city}, {motofy.countryName}, {motofy.yearOfProduction}
+                      {/* {motofy.brandName}, {" "} */}
+                        {motofy.city}, {motofy.countryName},{" "}
                       </p>
+                        {/* {motofy.yearOfProduction} */}
                     </Item.Description>
 
                     {/* <p>{motofy.name}</p> */}
                   </Item.Content>
                 </Item>
               </Item.Group>
-            </Grid.Column>
-          </Grid>
-        </Link>
-      </Segment>
-    </Segment.Group>
+            </Grid.Row>
+          </Grid.Column>
+        </Grid>
+      </Link>
+    </Segment>
+  </Segment.Group>
   );
 };
 

@@ -1422,7 +1422,7 @@ namespace Persistence
                             {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "bob"),
-                                Score = 3,
+                                Score = 1,
                             },
                             new MotofyScore
                             {

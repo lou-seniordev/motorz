@@ -86,25 +86,38 @@ namespace Application.Motofies
                         count++;
                     }
                     result = sum / count;
-                    var rating = new AverageRating
+                    // var rating = new AverageRating
+                    // {
+                    //     Id = new Guid(),
+                    //     Count = count,
+                    //     Average = result
+                    // };
+                    moto.AverageRating = new AverageRating
                     {
                         Id = new Guid(),
                         Count = count,
-                        Average = result
+                        Average = Math.Round(result, 2)
                     };
-                    moto.AverageRating = rating;
-
+                    _context.Motofies.Update(moto);
+                    // if (success)
+                    // {
                     count = 0;
                     sum = 0;
                     result = 0;
+                    // }
                 }
+                // var success = await _context.SaveChangesAsync() > 0;
+                // var success = 
+                // await 
+                
+
                 //version 1
                 // var highestRatedMotofy = motofiesToQuery.OrderByDescending(x => x.AverageRating.Average).First();
-                
+
                 //version 2
                 var maxAverageRating = motofiesToQuery.Max(x => x.AverageRating.Average);
                 var highestRatedMotofy = motofiesToQuery.First(x => x.AverageRating.Average == maxAverageRating);
-                
+
                 //====What if there are more of the same average Rating???====
                 //====Possible solution -- put in in the list and check on UI whether show list or single====
 

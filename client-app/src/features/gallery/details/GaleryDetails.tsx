@@ -30,7 +30,7 @@ const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     <Grid>
       <Grid.Column width={12}>
         <GaleryDetailedHeader motofy={motofy} />
-        <GaleryDetailedRating />
+        <GaleryDetailedRating motofy={motofy}/>
         <GalleryDetailedInfo motofy={motofy} />
 
         <GaleryDetailedChat />

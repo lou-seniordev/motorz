@@ -35,14 +35,36 @@ namespace Application.Motofies
                 // .ThenInclude(x => x.AppUser)
                 // // cannot use FindAsync() here
                 // .SingleOrDefaultAsync(x => x.Id == request.Id);
-               
-            //    === Lazy loading ===
+
+                //    === Lazy loading ===
                 var motofy = await _context.Motofies
                 .FindAsync(request.Id);
 
                 if (motofy == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { motofy = "NotFound" });
+
+
+                //===CRYUTIL
+                #region utilready
+                int count = 0;
+                double sum = 0;
+                double result = 0;
+                foreach (var score in motofy.MotofyScores)
+                {
+                    sum += score.Score;
+                    count++;
+                }
+                result = sum / count;
+
+                motofy.AverageRating = new AverageRating
+                {
+                    Id = new Guid(),
+                    Count = count,
+                    Average = Math.Round(result, 2)
+                };
+                _context.Motofies.Update(motofy);
+                #endregion
 
                 var motofyToReturn = _mapper.Map<Motofy, MotofyDto>(motofy);
 

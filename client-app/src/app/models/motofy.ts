@@ -31,6 +31,9 @@ export interface IMotofy {
     embracers: IEmbracer[];
     commentMotofies: IComment[];
     file: Blob;
+
+    motofyScores: any[];
+    averageRating: string;
 }
 
 export interface IMotofyFormValues extends Partial<IMotofy>{//, Partial<IBrand> 

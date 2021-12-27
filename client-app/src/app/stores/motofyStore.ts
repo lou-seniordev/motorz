@@ -99,6 +99,10 @@ export default class MotofyStore {
   @computed get getMostEmbraced () {
     return this.mostEmbraced;
   }
+  @observable highestRatedMotofy: any;
+  @computed get getHighestRatedMotofy () {
+    return this.highestRatedMotofy;
+  }
 
 
   // === PAGING ===
@@ -152,9 +156,10 @@ export default class MotofyStore {
       const motofiesEnvelope = await agent.Motofies.list(this.axiosParams);
 
       const { motofies, motofyCount, mostEmbraced, highestRatedMotofy} = motofiesEnvelope;
-     console.log('highestRatedMotofy', highestRatedMotofy)
+    //  console.log('highestRatedMotofy', highestRatedMotofy)
       runInAction('loading motofies', () => {
         this.mostEmbraced = mostEmbraced;
+        this.highestRatedMotofy = highestRatedMotofy;
 
         motofies.forEach((motofy) => {
           motofy.datePublished = motofy.datePublished?.split('T')[0];
@@ -199,8 +204,11 @@ export default class MotofyStore {
       }
     }
   };
-  @action clearMotofy = () => {
-    this.motofy = null;
+  // @action clearMotofy = () => {
+  //   this.motofy = null;
+  // };
+  @action rateMotofy = async (rating: string | number | undefined) => {
+    console.log(rating);
   };
 
   getMotofy = (id: string) => {

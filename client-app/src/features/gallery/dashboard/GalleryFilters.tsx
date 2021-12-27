@@ -1,17 +1,19 @@
 import React, { Fragment, useContext } from "react";
-import { Menu, Header } from "semantic-ui-react";
+import { Menu, Header, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
 import GalleryMostEmbraced from "./GalleryMostEmbraced";
+import GalleryHighestRated from "./GalleryHighestRated";
 
 const GalleryFilters = () => {
   const rootStore = useContext(RootStoreContext);
-  const { predicate, setPredicate, mostEmbraced } = rootStore.motofyStore;
+  const { predicate, setPredicate, mostEmbraced, highestRatedMotofy } =
+    rootStore.motofyStore;
   const motofy = toJS(mostEmbraced);
-  // console.log('mostEmbraced here', toJS(mostEmbraced))
-  // console.log('mostEmbraced motofy here', motofy)
-  // console.log('mostEmbraced here', toJS(mostEmbraced))
+  const highestMotofy = toJS(highestRatedMotofy);
+  // console.log('highestMotofy', highestMotofy)
+
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%", marginTop: 50 }}>
@@ -22,21 +24,21 @@ const GalleryFilters = () => {
           color={"blue"}
           name={"all"}
           content={"All motofies"}
-          />
+        />
         <Menu.Item
           active={predicate.has("all")}
           onClick={() => setPredicate("iOwn", "true")}
           color={"blue"}
           name={"owner"}
           content={"My mofofies"}
-          />
+        />
         <Menu.Item
           active={predicate.has("winningFive")}
           onClick={() => setPredicate("winningFive", "true")}
           color={"blue"}
           name={"winningFive"}
           content={"Most embraced 3"}
-          />
+        />
         <Menu.Item
           active={predicate.has("iEmbraced")}
           onClick={() => setPredicate("iEmbraced", "true")}
@@ -63,10 +65,16 @@ const GalleryFilters = () => {
       /> */}
       {/* <Calendar /> */}
       {/* <GalleryListItem motofy={motofy}/> */}
-      <GalleryMostEmbraced motofyEmbraced={motofy}/>
+      <Grid>
+        <Grid.Column width={8}>
+          <GalleryHighestRated highestRatedMotofy={highestMotofy} />
+        </Grid.Column>
+        <Grid.Column width={8}>
+          <GalleryMostEmbraced motofyEmbraced={motofy} />
+        </Grid.Column>
+      </Grid>
     </Fragment>
   );
 };
 
 export default observer(GalleryFilters);
- 

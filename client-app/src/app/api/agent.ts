@@ -257,11 +257,6 @@ const Forumposts = {
 
 
 
-
-
-
-
-
 const Brands = {
   list: (): Promise<IBrand[]> => requests.get('brands'),
   details: (id: string) => requests.get(`/brand/${id}`),
