@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.AllComments;
+using Application.Common;
 using Domain;
 
 namespace Application.Mechanics
@@ -26,7 +27,7 @@ namespace Application.Mechanics
 
         public virtual ICollection<CommentMechanicDto> CommentMechanics { get; set; }
         public virtual ICollection<CustomerDto> Customers { get; set; }
-        public virtual ICollection<MechanicRatingDto> MechanicRatings { get; set; }
+        public virtual ICollection<RatingDto> Ratings { get; set; }
 
 
     }

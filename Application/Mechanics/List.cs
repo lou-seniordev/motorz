@@ -11,6 +11,16 @@ namespace Application.Mechanics
 {
     public class List
     {
+        public class MechanicsEnvelope
+        {
+            public List<MechanicDto> Mechanics { get; set; }
+            public int MechanicCount { get; set; }
+            // public MechanicDto MostEmbraced { get; set; }
+            public MechanicDto HighestRatedMechanic { get; set; }
+            //maybe should count embraced???
+            // public List<MotofyDto> MostEmbracedList { get; set; }
+            // public List<Guid> MostEmbracedList { get; set; }
+        }
         public class Query : IRequest<List<MechanicDto>> { }
 
         public class Handler : IRequestHandler<Query, List<MechanicDto>>

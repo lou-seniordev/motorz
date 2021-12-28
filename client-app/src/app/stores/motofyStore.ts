@@ -1,6 +1,6 @@
 import { IUser } from './../models/user';
 import { IMotofyScore, IRateMotofy } from './../models/motofy';
-import { observable, action, runInAction, computed, reaction, toJS } from 'mobx';
+import { observable, action, runInAction, computed, reaction } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
 import { history } from '../..';
@@ -10,7 +10,7 @@ import { createEmbracer, setMotofyProps } from '../common/util/util';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 // configure({ enforceActions: 'always' });
-const LIMIT = 5;
+const LIMIT = 2;
 
 export default class MotofyStore {
   rootStore: RootStore;

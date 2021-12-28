@@ -86,12 +86,7 @@ namespace Application.Motofies
                         count++;
                     }
                     result = sum / count;
-                    // var rating = new AverageRating
-                    // {
-                    //     Id = new Guid(),
-                    //     Count = count,
-                    //     Average = result
-                    // };
+                  
                     moto.AverageRating = new AverageRating
                     {
                         Id = new Guid(),
@@ -99,17 +94,12 @@ namespace Application.Motofies
                         Average = Math.Round(result, 2)
                     };
                     _context.Motofies.Update(moto);
-                    // if (success)
-                    // {
+                   
                     count = 0;
                     sum = 0;
                     result = 0;
-                    // }
+                    
                 }
-                // var success = await _context.SaveChangesAsync() > 0;
-                // var success = 
-                // await 
-                
 
                 //version 1
                 // var highestRatedMotofy = motofiesToQuery.OrderByDescending(x => x.AverageRating.Average).First();

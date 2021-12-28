@@ -1,8 +1,8 @@
-import { toJS } from "mobx";
+// import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Rating, RatingProps, Segment } from "semantic-ui-react";
-import { IMotofy, IMotofyScore } from "../../../app/models/motofy";
+import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 // const GaleryDetailedRating = () => (

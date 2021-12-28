@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AddAverageMotofyAndMechanicEntity : Migration
+    public partial class AddAverageMotofyAndMechanic_GenericRating_Entity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -594,7 +594,7 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MechanicRatings",
+                name: "Ratings",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -604,15 +604,15 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MechanicRatings", x => x.Id);
+                    table.PrimaryKey("PK_Ratings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MechanicRatings_Mechanics_MechanicId",
+                        name: "FK_Ratings_Mechanics_MechanicId",
                         column: x => x.MechanicId,
                         principalTable: "Mechanics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MechanicRatings_AspNetUsers_UserId",
+                        name: "FK_Ratings_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -941,16 +941,6 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MechanicRatings_MechanicId",
-                table: "MechanicRatings",
-                column: "MechanicId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MechanicRatings_UserId",
-                table: "MechanicRatings",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Mechanics_AverageRatingId",
                 table: "Mechanics",
                 column: "AverageRatingId");
@@ -1033,6 +1023,16 @@ namespace Persistence.Migrations
                 column: "SellerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ratings_MechanicId",
+                table: "Ratings",
+                column: "MechanicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ratings_UserId",
+                table: "Ratings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserActivities_ActivityId",
                 table: "UserActivities",
                 column: "ActivityId");
@@ -1092,9 +1092,6 @@ namespace Persistence.Migrations
                 name: "MechanicPhotos");
 
             migrationBuilder.DropTable(
-                name: "MechanicRatings");
-
-            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
@@ -1108,6 +1105,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductPhotos");
+
+            migrationBuilder.DropTable(
+                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "UserActivities");

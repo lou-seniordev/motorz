@@ -47,7 +47,7 @@ namespace Persistence
         public DbSet<ProductPhoto> ProductPhotos { get; set; }
         public DbSet<MechanicPhoto> MechanicPhotos { get; set; }
         public DbSet<MotofyScore> MotofyScores { get; set; }
-        public DbSet<MechanicRating> MechanicRatings { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         //=== Rating ===
         public DbSet<AverageRating> AverageRatings { get; set; }

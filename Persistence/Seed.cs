@@ -1601,27 +1601,27 @@ namespace Persistence
                                 DateBecameCustomer = DateTime.Now.AddMonths(-1)
                             }
                         },
-                       MechanicRatings = new List<MechanicRating>
+                       Ratings = new List<Rating>
                        {
-                           new MechanicRating
+                           new Rating
                            {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "jane"),
                                 Score = 4,
                            },
-                           new MechanicRating
+                           new Rating
                            {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "bob"),
                                 Score = 5,
                            },
-                           new MechanicRating
+                           new Rating
                            {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "nina"),
                                 Score = 4,
                            },
-                           new MechanicRating
+                           new Rating
                            {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
@@ -1674,15 +1674,15 @@ namespace Persistence
                                 }
                             }
                         },
-                        MechanicRatings = new List<MechanicRating>
+                        Ratings = new List<Rating>
                        {
-                           new MechanicRating
+                           new Rating
                            {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "jane"),
                                 Score = 4,
                            },
-                           new MechanicRating
+                           new Rating
                            {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "tom"),
@@ -1724,15 +1724,15 @@ namespace Persistence
                                 DateBecameCustomer = DateTime.Now.AddMonths(-1)
                             }
                         },
-                        MechanicRatings = new List<MechanicRating>
+                        Ratings = new List<Rating>
                         {
-                           new MechanicRating
+                           new Rating
                            {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "bob"),
                                 Score = 4,
                            },
-                           new MechanicRating
+                           new Rating
                            {
                                 Id = new Guid(),
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "emir"),

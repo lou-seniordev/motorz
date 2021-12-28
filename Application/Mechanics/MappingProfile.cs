@@ -21,14 +21,11 @@ namespace Application.Mechanics
             .ForMember(d => d.Image, o => o.MapFrom(s => s.AppUser.Photos.FirstOrDefault(x => x.IsMain).Url));
             // .ForMember(d => d.Testimonial, o => o.MapFrom(s => s.Testimonial));
 
-            CreateMap<MechanicRating, MechanicRatingDto>()
-            .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName))
-            .ForMember(d => d.DisplayName , o => o.MapFrom(s => s.User.DisplayName));
+            // CreateMap<MechanicRating, MechanicRatingDto>()
+            // .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName))
+            // .ForMember(d => d.DisplayName , o => o.MapFrom(s => s.User.DisplayName));
             
-            // CreateMap<Brand, MotofyDto>()
-            // .ForMember(d => d.BrandName, o => o.MapFrom(s => s.Name))
-            // .ForMember(d => d.BrandId, o => o.MapFrom(s => s.Id))
-            // .ForMember(d => d.BrandLogoUrl, o => o.MapFrom(s => s.LogoUrl));
+          
         }
     }
 }

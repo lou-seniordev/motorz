@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211226231419_AddAverageMotofyAndMechanicEntity")]
-    partial class AddAverageMotofyAndMechanicEntity
+    [Migration("20211228102447_AddAverageMotofyAndMechanic_GenericRating_Entity")]
+    partial class AddAverageMotofyAndMechanic_GenericRating_Entity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -413,30 +413,6 @@ namespace Persistence.Migrations
                     b.ToTable("MechanicPhotos");
                 });
 
-            modelBuilder.Entity("Domain.MechanicRating", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("MechanicId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MechanicId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MechanicRatings");
-                });
-
             modelBuilder.Entity("Domain.Message", b =>
                 {
                     b.Property<Guid>("Id")
@@ -721,6 +697,30 @@ namespace Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductPhotos");
+                });
+
+            modelBuilder.Entity("Domain.Rating", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("MechanicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MechanicId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("Domain.Testimonial", b =>
@@ -1075,17 +1075,6 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.MechanicRating", b =>
-                {
-                    b.HasOne("Domain.Mechanic", null)
-                        .WithMany("MechanicRatings")
-                        .HasForeignKey("MechanicId");
-
-                    b.HasOne("Domain.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("Domain.Message", b =>
                 {
                     b.HasOne("Domain.MessageThread", "MessageThread")
@@ -1167,6 +1156,17 @@ namespace Persistence.Migrations
                         .HasForeignKey("Domain.ProductPhoto", "ProductForeignKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Rating", b =>
+                {
+                    b.HasOne("Domain.Mechanic", null)
+                        .WithMany("Ratings")
+                        .HasForeignKey("MechanicId");
+
+                    b.HasOne("Domain.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>
