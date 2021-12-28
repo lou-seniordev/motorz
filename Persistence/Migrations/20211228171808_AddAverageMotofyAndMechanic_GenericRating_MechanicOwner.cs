@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AddAverageMotofyAndMechanic_GenericRating_Entity : Migration
+    public partial class AddAverageMotofyAndMechanic_GenericRating_MechanicOwner : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -406,6 +406,9 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    PublisherId = table.Column<string>(nullable: true),
+                    IsOwner = table.Column<bool>(nullable: false),
+                    Owner = table.Column<string>(nullable: true),
                     PhotoUrl = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     YearOfStart = table.Column<string>(nullable: true),
@@ -431,6 +434,12 @@ namespace Persistence.Migrations
                         name: "FK_Mechanics_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Mechanics_AspNetUsers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -949,6 +958,11 @@ namespace Persistence.Migrations
                 name: "IX_Mechanics_CountryId",
                 table: "Mechanics",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mechanics_PublisherId",
+                table: "Mechanics",
+                column: "PublisherId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_MessageThreadId",

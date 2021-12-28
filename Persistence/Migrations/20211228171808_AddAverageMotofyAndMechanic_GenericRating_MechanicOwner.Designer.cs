@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211228102447_AddAverageMotofyAndMechanic_GenericRating_Entity")]
-    partial class AddAverageMotofyAndMechanic_GenericRating_Entity
+    [Migration("20211228171808_AddAverageMotofyAndMechanic_GenericRating_MechanicOwner")]
+    partial class AddAverageMotofyAndMechanic_GenericRating_MechanicOwner
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -367,13 +367,22 @@ namespace Persistence.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Owner")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Phone")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhotoUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublisherId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Website")
@@ -387,6 +396,8 @@ namespace Persistence.Migrations
                     b.HasIndex("AverageRatingId");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("PublisherId");
 
                     b.ToTable("Mechanics");
                 });
@@ -1064,6 +1075,10 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
+
+                    b.HasOne("Domain.AppUser", "Publisher")
+                        .WithMany()
+                        .HasForeignKey("PublisherId");
                 });
 
             modelBuilder.Entity("Domain.MechanicPhoto", b =>

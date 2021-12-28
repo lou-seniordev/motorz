@@ -180,8 +180,14 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 <Form onSubmit={handleSubmit} loading={loading}>
                   <Field
                     name='name'
-                    placeholder='Name'
+                    placeholder='Name *'
                     value={mechanic.name}
+                    component={TextInput}
+                  />
+                  <Field
+                    name='owner'
+                    placeholder='Name of the owner (unless you own this facility)'
+                    value={mechanic.owner}
                     component={TextInput}
                   />
                   {!modeForCountry && (
@@ -196,7 +202,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   {modeForCountry && (
                     <Field
                       name='countryName'
-                      placeholder={"Country"} //
+                      placeholder={"Country *"} //
                       options={countries}
                       value={mechanic.countryId}
                       component={SelectInput}
@@ -204,19 +210,19 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   )}
                   <Field
                     name='city'
-                    placeholder='City'
+                    placeholder='City *'
                     value={mechanic.city}
                     component={TextInput}
                   />
                   <Field
                     name='address'
-                    placeholder='Address'
+                    placeholder='Address *'
                     value={mechanic.address}
                     component={TextInput}
                   />
                   <Field
                     name='phone'
-                    placeholder='Phone'
+                    placeholder='Phone *'
                     value={mechanic.phone}
                     component={TextInput}
                   />
@@ -236,7 +242,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     <Field
                       name='yearOfStart'
                       // type='datetime-local'
-                      placeholder='Year of Start'
+                      placeholder='Year of Start *'
                       value={mechanic.yearOfStart}
                       options={year}
                       component={SelectInput}
@@ -245,7 +251,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   <Field
                     name='description'
                     raws={3}
-                    placeholder='Description'
+                    placeholder='Description *'
                     value={mechanic.description}
                     component={TextAreaInput}
                   />

@@ -8,9 +8,9 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        // public virtual AppUser Publisher { get; set; }
-        // public bool IsOwner { get; set; }
-        // public string Owner { get; set; }
+        public virtual AppUser Publisher { get; set; }
+        public bool IsOwner { get; set; }
+        public string Owner { get; set; }
         public string PhotoUrl { get; set; }
         public string Description { get; set; }
         public string YearOfStart { get; set; }

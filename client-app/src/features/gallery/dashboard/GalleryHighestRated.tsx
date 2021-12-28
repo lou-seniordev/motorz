@@ -20,7 +20,7 @@ const GalleryHighestRated: React.FC<{ highestRatedMotofy: IMotofy }> = ({
                 // icon={"certificate"}
                 attached
                 color={"teal"}
-                content={"The hightest rated"}
+                content={"The highest rated"}
               />
             </Grid.Column>
             <Grid.Column width={16}>

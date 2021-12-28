@@ -36,7 +36,7 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) =
         {/* mechanic={mechanic} */}
       </Grid.Column>
       <Grid.Column width={4}>
-        <MechanicDetailedSidebar/>
+        <MechanicDetailedSidebar mechanic={mechanic}/>
       </Grid.Column>
     </Grid>
   );

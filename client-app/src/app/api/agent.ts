@@ -1,5 +1,5 @@
 import { IRateMotofy } from './../models/motofy';
-// import { MechanicFromValues } from './../models/mechanic';
+// import { MechanicValues, IMechanicCustomerToBecome } from './../models/mechanic';
 import { IMessage, IMessageToSend } from './../models/message';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
@@ -10,7 +10,7 @@ import { IUser, IUserFormValues } from '../models/user';
 // import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost } from '../models/forumpost';
-import { IMechanic } from '../models/mechanic';
+import { IMechanic, IMechanicCustomerToBecome } from '../models/mechanic';
 import { IBrand } from '../models/brand';
 import { IProduct } from '../models/product';//, ProductFormValues
 import { ICountry } from '../models/country';
@@ -200,6 +200,7 @@ const Mechanics = {
   // create: (mechanic: IMechanic) => requests.post('/mechanics', mechanic),
   create: (mechanic: IMechanic) => postMechanic.mechanicForm('/mechanics', mechanic),
   update: (mechanic: IMechanic) => requests.put(`/mechanics/${mechanic.id}`, mechanic),
+  becomecustomer: (newCustomer: IMechanicCustomerToBecome) => requests.post('/mechanics/addcustomer', newCustomer),
   delete: (id: string) => requests.delete(`/mechanics/${id}`),
 };
 

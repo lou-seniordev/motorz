@@ -57,6 +57,7 @@ export const specialRequests = {
       let mechanicData = new FormData();
       mechanicData.append('Id', mechanic.id!)
       mechanicData.append('Name', mechanic.name)
+      mechanicData.append('Owner', mechanic.owner)
       mechanicData.append('Description', mechanic.description!)
       mechanicData.append('YearOfStart', mechanic.yearOfStart!)
       mechanicData.append('Country', mechanic.countryName)

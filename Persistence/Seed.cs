@@ -1567,6 +1567,9 @@ namespace Persistence
                     new Mechanic
                     {
                       Name = "Corrado",
+                      Publisher = context.Users.SingleOrDefault(x => x.Id == "g"),
+                      IsOwner = false,
+                      Owner = "Corrado",
                     //   PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1547320881/prgbklusjdbenfbqtqfy.jpg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "2008",//DateTime.Now.AddYears(-10),
@@ -1680,6 +1683,9 @@ namespace Persistence
                     {
                       Name = "Serena",
                     //   PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
+                      Publisher = context.Users.SingleOrDefault(x => x.Id == "b"),
+                      IsOwner = true,
+                      Owner = "Jane",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "1999", //DateTime.Now.AddYears(-8),
                       DatePublished = DateTime.Now.AddDays(-10),
@@ -1746,7 +1752,10 @@ namespace Persistence
                     },
                     new Mechanic
                     {
-                      Name = "Gian Luca",
+                      Name = "Casa di Gian Luca",
+                      Publisher = context.Users.SingleOrDefault(x => x.Id == "h"),
+                      IsOwner = false,
+                      Owner = "Gian Luca",
                       //PhotoUrl = "https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "2017",//DateTime.Now.AddYears(-2),

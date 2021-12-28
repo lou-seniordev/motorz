@@ -15,7 +15,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
               <Item.Image size='tiny' circular src={mechanic.photoUrl} />
               <Item.Content>
                 <Item.Header as='a'>{mechanic.name}</Item.Header>
-                <Item.Description>Posted by Again to define</Item.Description>
+                <Item.Description>Posted by {mechanic.publisher}</Item.Description>
               </Item.Content>
             </Item>
           </Item.Group>
@@ -31,7 +31,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
         </span>
       </Segment>
       <Segment clearing>
-        <Icon name='envelope outline' /> {mechanic.city}, {mechanic.country}, 
+        <Icon name='envelope outline' /> {mechanic.city},{' '} {mechanic.countryName}, {' '}
         {mechanic.address}
         {/* <Item.Extra> */}
           <Button

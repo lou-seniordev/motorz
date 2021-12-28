@@ -1,11 +1,13 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
-import { Segment, Grid, Icon } from 'semantic-ui-react'
-import { IMechanic } from '../../../app/models/mechanic'
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { Segment, Grid, Icon } from "semantic-ui-react";
+import { IMechanic } from "../../../app/models/mechanic";
 
-const MechanicDetailedInfo: React.FC<{mechanic: IMechanic}> = ({mechanic}) => {
-    return (
-        <Segment.Group>
+const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
+  mechanic,
+}) => {
+  return (
+    <Segment.Group>
       <Segment attached='top'>
         <Grid>
           <Grid.Column width={1}>
@@ -22,9 +24,7 @@ const MechanicDetailedInfo: React.FC<{mechanic: IMechanic}> = ({mechanic}) => {
             <Icon name='calendar' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={15}>
-            <span>
-              Since {mechanic.yearOfStart}
-            </span>
+            <span>Since {mechanic.yearOfStart}</span>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -34,40 +34,49 @@ const MechanicDetailedInfo: React.FC<{mechanic: IMechanic}> = ({mechanic}) => {
             <Icon name='address card' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={11}>
-            <span>{mechanic.city}, {mechanic.country}, {mechanic.address}</span>
+            <span>
+              {mechanic.city}, {mechanic.countryName}, {mechanic.address}
+            </span>
           </Grid.Column>
         </Grid>
       </Segment>
-      <Segment attached>
-        <Grid verticalAlign='middle'>
-        <Grid.Column width={1}>
-            <Icon name='tty' size='large' color='teal' />
-          </Grid.Column>
-          <Grid.Column width={11}>
-            <span>Phone number: {mechanic.phone}</span>          
-          </Grid.Column>
-        </Grid>
-      </Segment>
-      <Segment attached>
-        <Grid verticalAlign='middle'>
-        <Grid.Column width={1}>
-            <Icon name='envelope open' size='large' color='teal' />
-          </Grid.Column>
-          <Grid.Column width={11}>
-            <span>Email address: {mechanic.email}</span>
-          </Grid.Column>
-        </Grid>
-      </Segment>
-      <Segment attached>
-        <Grid verticalAlign='middle'>
-        <Grid.Column width={1}>
-            <Icon name='internet explorer' size='large' color='teal' />
-          </Grid.Column>
-          <Grid.Column width={11}>
-            <span>Website: {mechanic.website}</span>
-          </Grid.Column>
-        </Grid>
-      </Segment>
+      {mechanic.phone && (
+        <Segment attached>
+          <Grid verticalAlign='middle'>
+            <Grid.Column width={1}>
+              <Icon name='tty' size='large' color='teal' />
+            </Grid.Column>
+            <Grid.Column width={11}>
+              <span>Phone number: {mechanic.phone}</span>
+            </Grid.Column>
+          </Grid>
+        </Segment>
+      )}
+      {mechanic.email && (
+        <Segment attached>
+          <Grid verticalAlign='middle'>
+            <Grid.Column width={1}>
+              <Icon name='envelope open' size='large' color='teal' />
+            </Grid.Column>
+            <Grid.Column width={11}>
+              <span>Email address: {mechanic.email}</span>
+            </Grid.Column>
+          </Grid>
+        </Segment>
+      )}
+      {mechanic.website && (
+        <Segment attached>
+          <Grid verticalAlign='middle'>
+            <Grid.Column width={1}>
+              <Icon name='internet explorer' size='large' color='teal' />
+            </Grid.Column>
+            <Grid.Column width={11}>
+              <span>Website: {mechanic.website}</span>
+            </Grid.Column>
+          </Grid>
+        </Segment>
+      )}
+
       <Segment attached>
         <Grid verticalAlign='middle'>
           <Grid.Column width={1}>
@@ -79,8 +88,7 @@ const MechanicDetailedInfo: React.FC<{mechanic: IMechanic}> = ({mechanic}) => {
         </Grid>
       </Segment>
     </Segment.Group>
+  );
+};
 
-    )
-}
-
-export default observer(MechanicDetailedInfo)
+export default observer(MechanicDetailedInfo);

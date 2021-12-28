@@ -55,7 +55,7 @@ namespace Application.Mechanics
                     throw new Exception("Mechanic Does Not Exist!");
                 }
 
-                var checkCustomer = _context.UserMechanics.SingleOrDefaultAsync(
+                var checkCustomer = await _context.UserMechanics.SingleOrDefaultAsync(
                     x => x.AppUserId == user.Id && x.MechanicId == request.MechanicId
                 );
 

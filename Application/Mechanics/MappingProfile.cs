@@ -11,7 +11,9 @@ namespace Application.Mechanics
            
             CreateMap<Mechanic, MechanicDto>()
             .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.MechanicPhoto.Url))
-            .ForMember(d => d.AverageRating, o => o.MapFrom(s => s.AverageRating.Average));
+            .ForMember(d => d.AverageRating, o => o.MapFrom(s => s.AverageRating.Average))
+            .ForMember(d => d.Publisher, o => o.MapFrom(s => s.Publisher.DisplayName))
+            .ForMember(d => d.PublisherUsername, o => o.MapFrom(s => s.Publisher.UserName));
 ;
             CreateMap<Country, MechanicDto>()
             .ForMember(d => d.CountryName, o => o.MapFrom(s => s.Name))

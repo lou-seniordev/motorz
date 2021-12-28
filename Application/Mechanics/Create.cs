@@ -18,7 +18,7 @@ namespace Application.Mechanics
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
-            // public string PhotoUrl { get; set; }
+            public string Owner { get; set; }
             public string Description { get; set; }
             public string YearOfStart { get; set; }
             public string Country { get; set; }
@@ -76,17 +76,16 @@ namespace Application.Mechanics
                 {
                     Id = request.Id,
                     Name = request.Name,
+                    Publisher = user,
                     Description = request.Description,
                     YearOfStart = request.YearOfStart,
                     DatePublished = DateTime.Now,
                     Country = country,
                     City = request.City,
                     Address = request.Address,
-                    // PhotoUrl = request.PhotoUrl,
                     Phone = request.Phone,
                     Email = request.Email,
                     Website = request.Website
-
                 };
 
                 _context.Mechanics.Add(mechanic);

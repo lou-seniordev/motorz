@@ -37,7 +37,7 @@ const MechanicDetailedChat= () => {
       color='teal'
       style={{ border: "none" }}
     >
-      <Header>Chat about this motofy</Header>
+      <Header>Chat about this mechanic</Header>
     </Segment>
     <Segment attached>
       <Comment.Group>

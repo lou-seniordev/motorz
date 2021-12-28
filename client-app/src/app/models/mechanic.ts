@@ -5,6 +5,9 @@ export interface IMechanic {
     // author: string | null;
     photoUrl: string | null;
     name: string;
+    publisher: string;
+    publisherUsername: string;
+    owner: string;
     description: string;
     yearOfStart: string;//Date;
     datePublished: string;// Date | undefined;
@@ -18,13 +21,36 @@ export interface IMechanic {
     website: string;
     commentMechanics: IComment[];
     file: Blob;
+    customers: IMechanicCustomer[];
 
 }
+
+export interface IMechanicCustomer {
+    username: string;
+    displayName: string;
+    image: string;
+    isOwner: boolean;
+    isCustomer: boolean;
+    customerRecommended: boolean;
+    testimonial?: IMechanicTestimonial;             
+}
+export interface IMechanicCustomerToBecome {
+    mechanicId: string;
+    isCustomer: boolean;             
+}
+
+export interface IMechanicTestimonial {
+    id: string;
+    text: string;
+    dateAdded: string;
+}
+
 
 export class MechanicFromValues {
     id?: string;
     photoUrl: string = '';
     name: string = '';
+    owner: string = '';
     description: string = '';
     yearOfStart: string = '';
     datePublished: string = '';
