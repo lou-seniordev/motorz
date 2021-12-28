@@ -10,13 +10,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Mechanics
 {
-    public class AddCustomer
+    public class AddTestimonial
     {
         public class Command : IRequest
         {
             
             public Guid MechanicId { get; set; }
-            public bool IsCustomer { get; set; } 
+            public string Text { get; set; } 
 
 
         }
@@ -26,7 +26,7 @@ namespace Application.Mechanics
             public CommandValidator()
             {
                 RuleFor(x => x.MechanicId).NotEmpty();
-                RuleFor(x => x.IsCustomer).NotEmpty();
+                RuleFor(x => x.Text).NotEmpty();
             }
         }
         #endregion
@@ -34,7 +34,7 @@ namespace Application.Mechanics
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            
+           
             public Handler(DataContext context, IUserAccessor userAccessor)
             {
                 _userAccessor = userAccessor;
@@ -55,26 +55,24 @@ namespace Application.Mechanics
                     throw new Exception("Mechanic Does Not Exist!");
                 }
 
-                var checkCustomer = _context.UserMechanics.SingleOrDefaultAsync(
+                var userMechanic = await _context.UserMechanics.SingleOrDefaultAsync(
                     x => x.AppUserId == user.Id && x.MechanicId == request.MechanicId
                 );
 
-                if(checkCustomer is object)
+                if(userMechanic.Testimonial != null)
                 {
-                    throw new Exception("Customer Is Already In The Database");
+                    throw new Exception("Testimonial Already Added");
                 }
 
-                var customer = new UserMechanic
+                var testimonial = new Testimonial
                 {
-                    AppUserId = user.Id,
-                    MechanicId = request.MechanicId,
-                    IsCustomer = request.IsCustomer,
-                    IsOwner = !request.IsCustomer,
-                    DateBecameCustomer = DateTime.Now
+                    // Id = new Guid(),
+                    Text = request.Text,
+                    DateAdded = DateTime.Now
                 };
-                
-                _context.UserMechanics.Add(customer);
 
+                userMechanic.Testimonial = testimonial;
+                
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;
