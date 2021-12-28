@@ -1,52 +1,51 @@
 import React, { Fragment, useContext } from "react";
-// import { useHistory } from "react-router";
+import { useHistory } from "react-router";
 import { Header, Button, Grid } from "semantic-ui-react";
 // import { IUser } from "../../../app/models/user";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface IProps {
     mechanicId: string;
-    // user: IUser;
 }
-const ConfirmBecomeCustomer: React.FC<IProps> = ({ mechanicId}) => {
+const ConfirmRecommend: React.FC<IProps> = ({ mechanicId}) => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
-  const { becomeCustomer } = rootStore.mechanicStore;
+  const { recommend } = rootStore.mechanicStore;
   const { closeModal } = rootStore.modalStore;
 
-  const handleBecomeCustomer = (id: string) => {
+  const handleRecommend = (id: string) => {
 
-    becomeCustomer(id, user);
+    recommend(id);
     closeModal();
     // history.push(`/mechanics`);
   };
 
-  const cancelBecomeCustomer = () => {
+  const cancelRecommend = () => {
     closeModal();
   };
-  // let history = useHistory();
+  let history = useHistory();
 
   return (
     <Grid>
       <Grid.Column width={16}>
         <Header
           as='h2'
-          content='Become a customer of this moto shop?'
+          content='Recommend This Mechanic To Everybody?'
           color='teal'
           textAlign='center'
         />
         <Fragment>
           <Button
             // fluid
-            onClick={() => handleBecomeCustomer(mechanicId)}
+            onClick={() => handleRecommend(mechanicId)}
             color='teal'
             content='Yes, gladly!'
             floated='left'
           />
           <Button
             // fluid
-            onClick={() => cancelBecomeCustomer()}
+            onClick={() => cancelRecommend()}
             content='No, cancel'
             floated='right'
           />
@@ -56,4 +55,4 @@ const ConfirmBecomeCustomer: React.FC<IProps> = ({ mechanicId}) => {
   );
 };
 
-export default ConfirmBecomeCustomer;
+export default ConfirmRecommend;

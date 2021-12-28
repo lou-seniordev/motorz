@@ -1,6 +1,6 @@
-import { Image } from 'semantic-ui-react';
-import { IUser } from './../models/user';
-import { toJS } from 'mobx';
+// import { Image } from 'semantic-ui-react';
+// import { IUser } from './../models/user';
+// import { toJS } from 'mobx';
 import { IMechanicCustomer, IMechanicCustomerToBecome } from './../models/mechanic';
 import { action, observable, computed, runInAction } from 'mobx';
 // import { SyntheticEvent } from 'react';
@@ -19,6 +19,8 @@ export default class MechanicStore {
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
   }
+
+
   @observable mechanicRegistry = new Map();
 
   // @observable mechanics: IMechanic[] = [];
@@ -31,6 +33,7 @@ export default class MechanicStore {
 
   // @observable customers: IMechanicCustomer[] = [];
   @observable isCustomer: boolean = false;
+  @observable hasRecommended: boolean = false;
 
   @observable.ref hubConnection: HubConnection | null = null;
 
@@ -74,6 +77,7 @@ export default class MechanicStore {
         this.hubConnection?.stop();
       })
       .then(() => console.log('Connection stopped!'))
+      .then(() => this.clearMechanic())
       .catch(error => console.log(error));
   };
 
@@ -93,16 +97,35 @@ export default class MechanicStore {
     );
   }
 
+  @action setCustomer = async (status: boolean) => {
+    try {
+      runInAction('seting customer', () => {
+        this.isCustomer = status;
+        console.log('setting this customer status...', this.isCustomer)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  @action clearMechanic = async () => {
+    this.mechanic = null;
+  }
+
+
   @action loadMechanics = async () => {
+
 
     this.loadingInitial = true;
     try {
       const mechanics = await agent.Mechanics.list();
+      console.log("mechanics in ALL loadMechanics", mechanics);
       runInAction('loading mechanics', () => {
         mechanics.forEach((mechanic) => {
           mechanic.datePublished = mechanic.datePublished?.split('T')[0];
           // mechanic.customers.forEach( customer => {
-          //   this.customers.push(customer);
+          //   // this.customers.push(customer);
+          //   // console.log(customer.username)
           // })
           this.mechanicRegistry.set(mechanic.id, mechanic);
         });
@@ -117,7 +140,7 @@ export default class MechanicStore {
     }
   };
 
-  @action loadMechanic = async (id: string) => {
+  @action loadMechanic = async (id: string) => {//, username: string| undefined
     let mechanic = this.getMechanic(id);
     if (mechanic) {
       this.mechanic = mechanic;
@@ -126,7 +149,14 @@ export default class MechanicStore {
       this.loadingInitial = true;
       try {
         mechanic = await agent.Mechanics.details(id);
+        console.log("mechanic in load single Mechanic", mechanic);
         runInAction('getting mechanic', () => {
+          // mechanic.customers.forEach( (customer:IMechanicCustomer) => {
+          //   if(username === customer.username)
+          //   // this.isCustomer = true;
+          //   this.setCustomer(true);
+          //   console.log('i setCustomer to true')
+          // })
           this.mechanic = mechanic;
           this.mechanicRegistry.set(mechanic.id, mechanic);
 
@@ -142,9 +172,7 @@ export default class MechanicStore {
     }
   };
 
-  @action clearMechanic = () => {
-    this.mechanic = null;
-  }
+
 
   getMechanic = (id: string) => {
     return this.mechanicRegistry.get(id);
@@ -203,47 +231,26 @@ export default class MechanicStore {
     try {
       await agent.Mechanics.delete(id);
       runInAction('deleting mechanic', () => {
-        // console.log('id before: ', id)
-        // console.log('this.mechanicRegistry before:::', this.mechanicRegistry)
         this.mechanicRegistry.delete(id);
         console.log('this.mechanicRegistry', this.mechanicRegistry)
-        // console.log('id: ', id)
-        // this.mechanicRegistry.delete(id);
-        // console.log('id after2: ', id)
-        // console.log('this.mechanicRegistry after2', this.mechanicRegistry)
+       
 
         this.submitting = false;
-        // this.target = '';
       });
     } catch (error) {
       runInAction('delete mechanic error', () => {
         this.submitting = false;
-        // this.target = '';
       });
       console.log(error);
     }
-  };
-
-
-  //   customerRecommended: false
-  // displayName: "Jane"
-  // image: "https://res.cloudinary.com/motofy/image/upload/v1633544430/qc4p1rr7qfymo8pap6ig.jpg"
-  // isCustomer: false
-  // isOwner: true
-  // testimonial: {id: '1abc8d40-1b24-49c6-884d-888952a5ce79', text: 'Many thanks to Martin, Laura and Ricardo for the g…nd treating me and my family as a part of theirs.', dateAdded: '2021-12-26T18:24:54.967512'}
-  // username: "jane"
-
-  // isOwner: boolean;
-  //   isCustomer: boolean;
-  //   customerRecommended: true;
-  //   testimonial: IMechanicTestimonial;    
+  };  
 
   @action becomeCustomer = async (id: string, user: any) => {
-    let customerToApi: IMechanicCustomerToBecome = {
+    // let customerToApi: IMechanicCustomerToBecome = {
 
-      mechanicId: id,
-      isCustomer: true
-    }
+    //   mechanicId: id,
+    //   isCustomer: true
+    // }
     let customerForClient: IMechanicCustomer = {
       username: user.userName,
       displayName: user.displayName,
@@ -256,40 +263,20 @@ export default class MechanicStore {
       // await agent.Mechanics.becomecustomer(customerToApi);
       runInAction('become a customer', () => {
         this.isCustomer = true;
-        let mechanic: IMechanic = this.mechanicRegistry.get(id);
-        mechanic.customers.push(customerForClient)
+        // let mechanic: IMechanic = this.mechanicRegistry.get(id);
+        // mechanic.customers.push(customerForClient)
         this.mechanic?.customers.push(customerForClient);
+        //hasRecommended
 
       })
     } catch (error) {
       console.log('error', error);
     }
-    // console.log('id', id)
     toast.info("You became a customer of the shop!");
   };
 
-  // @action openCreateForm = () => {
-  //   this.editMode = true;
-  //   this.mechanic = null;
-  // };
-  // @action openEditForm = (id: string) => {
-  //   this.mechanic = this.mechanicRegistry.get(id);
-  //   // console.log(this.mechanic?.yearOfStart);
-  //   this.editMode = true;
-  // };
-  // @action cancelSelectedMechanic = () => {
-  //   this.mechanic = null;
-  // };
-  // @action cancelFormOpen = () => {
-  //   this.editMode = false;
-  //   // TODO: GO BACK WHEREVER YOU WERE
-  // };
-
-  // @action selectMechanic = (id: string) => {
-  //   // this.selectedMechanic = this.mechanics.find(m => m.id === id); // === refactor for map
-  //   this.mechanic = this.mechanicRegistry.get(id);
-  //   this.editMode = false;
-  // };
+  @action recommend = async (id: string) => {
+    console.log(id);
+  }
 }
 
-// export default createContext(new MechanicStore());

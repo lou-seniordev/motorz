@@ -1,10 +1,11 @@
+import { toJS } from 'mobx';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
 import { IMechanic } from '../../../app/models/mechanic';
 
 const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
-  //   console.log(mechanic);
+    // console.log('mechanic in MechanicListItem', toJS(mechanic));
   return (
     <Segment.Group>
       <Segment>

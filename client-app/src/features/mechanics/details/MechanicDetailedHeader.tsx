@@ -1,8 +1,9 @@
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";//
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
-import { IMechanic } from "../../../app/models/mechanic";
+import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ConfirmBecomeCustomer from "../modals/ConfirmBecomeCustomer";
 import ConfirmDelete from "../modals/ConfirmDelete";
@@ -30,15 +31,32 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
-  const { isCustomer } = rootStore.mechanicStore;
+  const { isCustomer, hasRecommended, setCustomer, clearMechanic } = rootStore.mechanicStore;
+
+
+  useEffect(() => {
+    handleView(toJS(mechanic));
+    return () => {
+      setCustomer(false);
+    };
+  }, [setCustomer]);
+
+  const handleView = (localMechanic: any) => {
+
+    localMechanic.customers.forEach( (customer:IMechanicCustomer) => {
+            if(user!.userName === customer.username)
+            setCustomer(true);
+          })
+  }
 
   const handleDeleteMechanic = (id: string) => {
     openModal(<ConfirmDelete mechanicId={id} />);
-    // console.log('id', id)
   };
   const handleBecomeCustomer = (id: string) => {
     openModal(<ConfirmBecomeCustomer mechanicId={id} />);
-    // console.log('id', id)
+  };
+  const handleRecommend = (id: string) => {
+    openModal(<ConfirmBecomeCustomer mechanicId={id} />);
   };
   return (
     <Segment.Group>
@@ -82,22 +100,28 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
                 Become Customer
               </Button>
             )}
-            <Button
-              as={Link}
-              to={`/manageMechanic/${mechanic.id}`}
-              color='yellow'
-              floated='right'
-            >
-              Recommend
-            </Button>
-            <Button
-              as={Link}
-              to={`/manageMechanic/${mechanic.id}`}
-              color='blue'
-              floated='right'
-            >
-              Write Review
-            </Button>
+            {/* !hasRecommended && */}
+            {isCustomer &&  (
+              <Button
+                onClick={() => {
+                  handleRecommend(mechanic.id);
+                }}
+                color='yellow'
+                floated='right'
+              >
+                Recommend
+              </Button>
+            )}
+            {isCustomer && (
+              <Button
+                as={Link}
+                to={`/manageMechanic/${mechanic.id}`}
+                color='blue'
+                floated='right'
+              >
+                Rate & Write Review
+              </Button>
+            )}
           </Fragment>
         )}
         {mechanic.publisherUsername === user?.userName && (

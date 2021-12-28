@@ -111,7 +111,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
       setEdited(true);
 
       // console.log("modeForCountry in", modeForCountry);
-      loadMechanic(match.params.id)
+      loadMechanic(match.params.id)//, 'PLACEHOLDER!!!'
         .then((mechanic) => {
           setMechanic(new MechanicFromValues(mechanic));
         })
