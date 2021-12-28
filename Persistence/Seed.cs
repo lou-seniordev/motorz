@@ -1280,7 +1280,14 @@ namespace Persistence
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
                                 Score = 4,
                             }
+                        },
+                        AverageRating = new AverageRating
+                        {
+                            Id = new Guid(),
+                            Count = 5,
+                            Average = 4.8
                         }
+
                     },
                     new Motofy
                     {
@@ -1358,6 +1365,12 @@ namespace Persistence
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "nina"),
                                 Score = 1,
                             }
+                        },
+                        AverageRating = new AverageRating
+                        {
+                            Id = new Guid(),
+                            Count = 4,
+                            Average = 2.75
                         }
 
                     },
@@ -1454,6 +1467,12 @@ namespace Persistence
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "giulietta"),
                                 Score = 4,
                             }
+                        },
+                        AverageRating = new AverageRating
+                        {
+                            Id = new Guid(),
+                            Count = 7,
+                            Average = 2.71
                         }
 
                     },
@@ -1525,6 +1544,12 @@ namespace Persistence
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "giulietta"),
                                 Score = 3,
                             }
+                        },
+                        AverageRating = new AverageRating
+                        {
+                            Id = new Guid(),
+                            Count = 3,
+                            Average = 4
                         }
 
                     },
@@ -1557,7 +1582,7 @@ namespace Persistence
                       Customers = new List<UserMechanic>
                         {
                             new UserMechanic
-                            { 
+                            {
                                 AppUserId = "a",
                                 IsOwner = false,
                                 IsCustomer = true,
@@ -1571,7 +1596,7 @@ namespace Persistence
                                 }
                             },
                             new UserMechanic
-                            { 
+                            {
                                 AppUserId = "b",
                                 IsOwner = false,
                                 IsCustomer = true,
@@ -1585,7 +1610,7 @@ namespace Persistence
                                 }
                             },
                             new UserMechanic
-                            { 
+                            {
                                 AppUserId = "g",
                                 IsOwner = false,
                                 IsCustomer = true,
@@ -1593,12 +1618,28 @@ namespace Persistence
                                 DateBecameCustomer = DateTime.Now.AddMonths(-1)
                             },
                             new UserMechanic
-                            { 
+                            {
                                 AppUserId = "h",
                                 IsOwner = false,
                                 IsCustomer = true,
                                 CustomerRecommended = true,
                                 DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                            },
+                            new UserMechanic
+                            {
+                                AppUserId = "d",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                CustomerRecommended = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-2)
+                            },
+                            new UserMechanic
+                            {
+                                AppUserId = "e",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                CustomerRecommended = true,
+                                DateBecameCustomer = DateTime.Now.AddDays(-10)
                             }
                         },
                        Ratings = new List<Rating>
@@ -1627,7 +1668,13 @@ namespace Persistence
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
                                 Score = 5,
                            }
-                       }
+                        },
+                        AverageRating = new AverageRating
+                        {
+                            Id = new Guid(),
+                            Count = 4,
+                            Average = 4.5
+                        }
                     },
                     new Mechanic
                     {
@@ -1648,7 +1695,7 @@ namespace Persistence
                        Customers = new List<UserMechanic>
                         {
                             new UserMechanic
-                            { 
+                            {
                                 AppUserId = "c",
                                 IsOwner = false,
                                 IsCustomer = true,
@@ -1661,7 +1708,7 @@ namespace Persistence
                                 }
                             },
                             new UserMechanic
-                            { 
+                            {
                                 AppUserId = "b",
                                 IsOwner = true,
                                 IsCustomer = false,
@@ -1688,7 +1735,13 @@ namespace Persistence
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "tom"),
                                 Score = 2,
                            }
-                       }
+                       },
+                       AverageRating = new AverageRating
+                        {
+                            Id = new Guid(),
+                            Count = 2,
+                            Average = 3
+                        }
 
                     },
                     new Mechanic
@@ -1710,14 +1763,14 @@ namespace Persistence
                        Customers = new List<UserMechanic>
                         {
                             new UserMechanic
-                            { 
+                            {
                                 AppUserId = "a",
                                 IsOwner = false,
                                 IsCustomer = true,
                                 DateBecameCustomer = DateTime.Now.AddDays(-5)
                             },
                             new UserMechanic
-                            { 
+                            {
                                 AppUserId = "f",
                                 IsOwner = false,
                                 IsCustomer = true,
@@ -1738,7 +1791,13 @@ namespace Persistence
                                 User = userManager.Users.SingleOrDefault(x => x.UserName == "emir"),
                                 Score = 3,
                            }
-                       }
+                       },
+                       AverageRating = new AverageRating
+                        {
+                            Id = new Guid(),
+                            Count = 2,
+                            Average = 3.5
+                        }
                     },
                 };
                 context.Mechanics.AddRange(mechanics);

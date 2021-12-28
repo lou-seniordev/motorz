@@ -6,18 +6,16 @@ using MediatR;
 using Persistence;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 
 namespace Application.Motofies
 {
     public class Rate
     {
-         public class Command : IRequest
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
-            
+
             public int Score { get; set; }
 
         }
@@ -28,7 +26,7 @@ namespace Application.Motofies
             {
                 RuleFor(x => x.Id).NotEmpty();
                 RuleFor(x => x.Score).NotEmpty();
-                
+
             }
         }
         public class Handler : IRequestHandler<Command>
@@ -57,11 +55,35 @@ namespace Application.Motofies
 
                 var motofy = await _context.Motofies.SingleOrDefaultAsync(x => x.Id == request.Id);
 
-                motofy.MotofyScores.Add(new MotofyScore 
+                motofy.MotofyScores.Add(new MotofyScore
                 {
                     User = user,
                     Score = request.Score
                 });
+
+                int count = 0;
+                double sum = 0;
+                double result = 0;
+
+                foreach (var score in motofy.MotofyScores)
+                {
+                    sum += score.Score;
+                    count++;
+                }
+                result = sum / count;
+                motofy.AverageRating.Count = count;
+                motofy.AverageRating.Average = Math.Round(result, 2);
+                
+                // motofy.AverageRating = new AverageRating
+                // {
+                //     Id = new Guid(),
+                //     Count = count,
+                //     Average = Math.Round(result, 2)
+                // };
+
+                // count = 0;
+                // sum = 0;
+                // result = 0;
 
                 _context.Motofies.Update(motofy);
 

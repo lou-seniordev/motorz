@@ -65,6 +65,7 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
   return (
     <Segment.Group>
       <Segment>
+        <p>Average Rating: {motofy.averageRating}</p>
         {!motofy.isOwner ? (
           <Fragment>
             <Rating
@@ -77,15 +78,14 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
               maxRating={5}
               disabled={rated}
             />
-            <p>Average Rating: {motofy.averageRating}</p>
             {userRated ? (
-              <p>You Rated: {userRated}</p>
+              <p>You Rated: {userRated} 'may move, dunno yet...'</p>
             ) : (
               <p>You Have Not Rated Yet</p>
             )}
           </Fragment>
         ) : (
-          <Fragment>You cannot rate your own motofy</Fragment>
+          <Fragment>NB: You cannot rate your own motofy</Fragment>
         )}
       </Segment>
     </Segment.Group>

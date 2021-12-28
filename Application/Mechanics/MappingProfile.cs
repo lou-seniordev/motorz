@@ -10,7 +10,9 @@ namespace Application.Mechanics
         {
            
             CreateMap<Mechanic, MechanicDto>()
-            .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.MechanicPhoto.Url));
+            .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.MechanicPhoto.Url))
+            .ForMember(d => d.AverageRating, o => o.MapFrom(s => s.AverageRating.Average));
+;
             CreateMap<Country, MechanicDto>()
             .ForMember(d => d.CountryName, o => o.MapFrom(s => s.Name))
             .ForMember(d => d.CountryId, o => o.MapFrom(s => s.Id));

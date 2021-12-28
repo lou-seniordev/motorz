@@ -28,11 +28,25 @@ namespace API.Controllers
         {
             return await Mediator.Send(command);
         }
+        [HttpPost("addcustomer")]
+        public async Task<ActionResult<Unit>> AddCustomer(AddCustomer.Command command)
+        {
+            return await Mediator.Send(command);
+        }
         [HttpPut("{id}")]
         // [Authorize(Policy = "IsForumpostOwner")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
             command.Id = id;
+            return await Mediator.Send(command);
+        }
+        // [HttpPut("{id}/rate")]
+        [HttpPut("rate")]
+        public async Task<ActionResult<Unit>> Rate(
+            // Guid id, 
+            Rate.Command command)
+        {
+            // command.Id = id;
             return await Mediator.Send(command);
         }
 

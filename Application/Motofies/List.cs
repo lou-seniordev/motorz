@@ -74,32 +74,6 @@ namespace Application.Motofies
 
                 motofiesToQuery = await motos.ToListAsync();
 
-                int count = 0;
-                double sum = 0;
-                double result = 0;
-
-                foreach (var moto in motofiesToQuery)
-                {
-                    foreach (var score in moto.MotofyScores)
-                    {
-                        sum += score.Score;
-                        count++;
-                    }
-                    result = sum / count;
-                  
-                    moto.AverageRating = new AverageRating
-                    {
-                        Id = new Guid(),
-                        Count = count,
-                        Average = Math.Round(result, 2)
-                    };
-                    _context.Motofies.Update(moto);
-                   
-                    count = 0;
-                    sum = 0;
-                    result = 0;
-                    
-                }
 
                 //version 1
                 // var highestRatedMotofy = motofiesToQuery.OrderByDescending(x => x.AverageRating.Average).First();
