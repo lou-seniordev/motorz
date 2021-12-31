@@ -51,7 +51,7 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("recommend")]
-        public async Task<ActionResult<Unit>> Recommend(Recommend.Command command)
+        public async Task<ActionResult<Unit>> Recommend( Recommend.Command command)
         {
             return await Mediator.Send(command);
         }

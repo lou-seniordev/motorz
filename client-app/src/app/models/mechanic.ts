@@ -22,7 +22,14 @@ export interface IMechanic {
     commentMechanics: IComment[];
     file: Blob;
     customers: IMechanicCustomer[];
+    ratings: IRating[];
 
+}
+
+export interface IRating {
+    username: string;
+    displayName: string;
+    score: string;
 }
 
 export interface IMechanicCustomer {
@@ -44,6 +51,13 @@ export interface IMechanicTestimonial {
     text: string;
     dateAdded: string;
 }
+export interface IMechanicId {
+    mechanicId: string;
+}
+export interface IMechanicRate {
+    id: string;
+    score: string;
+}
 
 
 export class MechanicFromValues {
@@ -62,6 +76,7 @@ export class MechanicFromValues {
     email: string= '';
     phone: string= '';
     website: string= '';
+    customers: IMechanicCustomer[];
     file: Blob;
 
 

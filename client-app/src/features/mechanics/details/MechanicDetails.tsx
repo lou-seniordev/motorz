@@ -1,9 +1,10 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect } from "react";//, useState
+import React, { useContext, useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import CustomerForm from "../form/CustomerForm";
 import MechanicDetailedChat from "./MechanicDetailedChat";
 import MechanicDetailedHeader from "./MechanicDetailedHeader";
 import MechanicDetailedInfo from "./MechanicDetailedInfo";
@@ -16,13 +17,13 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { user } = rootStore.userStore;
-  let username = user?.userName;
+  // const { user } = rootStore.userStore;
+  // let username = user?.userName;
   const {
     mechanic,
     loadMechanic,
     loadingInitial,
-    // setCustomer
+    openCustomerForm
   } = rootStore.mechanicStore;
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     <Grid>
       <Grid.Column width={11}>
         <MechanicDetailedHeader mechanic={mechanic} />
+         { openCustomerForm && <CustomerForm mechanicId={mechanic.id} />}
         <MechanicDetailedInfo mechanic={mechanic} />
         <MechanicDetailedChat />
       </Grid.Column>

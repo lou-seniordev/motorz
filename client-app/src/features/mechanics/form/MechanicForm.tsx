@@ -33,6 +33,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
+import { userInfo } from "os";
 
 const isValidEmail = createValidator(
   (message) => (value) => {
@@ -66,6 +67,10 @@ const validate = combineValidators({
   // website: isRequired("Website"),
   yearOfStart: isRequired("Year Of Start"),
 });
+const ownerOptions = [
+  { key: "Owner", text: "Owner", value: "Owner" },
+  { key: "Customer", text: "Customer", value: "Customer" },
+];
 interface DetailParams {
   id: string;
 }
@@ -83,6 +88,8 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     // mechanic: initalFormState,
     loadMechanic,
   } = rootStore.mechanicStore;
+
+  const {user} = rootStore.userStore;
 
   const [mechanic, setMechanic] = useState(new MechanicFromValues());
   const [loading, setLoading] = useState(false);
@@ -111,7 +118,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
       setEdited(true);
 
       // console.log("modeForCountry in", modeForCountry);
-      loadMechanic(match.params.id)//, 'PLACEHOLDER!!!'
+      loadMechanic(match.params.id) //, 'PLACEHOLDER!!!'
         .then((mechanic) => {
           setMechanic(new MechanicFromValues(mechanic));
         })
@@ -121,14 +128,29 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const handleFinalFormSubmit = (values: any) => {
     const { ...mechanic } = values;
+    // console.log(values)
+    let owner: boolean = values.owner === 'Owner' ? true : false;
+    let customer = {
+      username: user?.userName,
+      displayName: user?.displayName,
+      image: user?.image,
+      isOwner: owner,
+      isCustomer: !owner,
+      customerRecommended: !owner,
+      testimonial: values.description
+    }
+    // console.log(customer)
     if (!mechanic.id) {
       let newMechanic = {
         ...mechanic,
         id: uuid(),
         datePublished: new Date().toISOString(),
         file: imageToUpload,
-        photoUrl: previewImage
-
+        photoUrl: previewImage,
+        customers: [
+          customer
+        ]
+       
       };
       createMechanic(newMechanic);
       // console.log(newMechanic);
@@ -152,7 +174,6 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     setUploaded(true);
     toast.info("Your image is uploaded, please give us more details");
     // console.log('uploaded, edited', uploaded, edited);
-
   };
 
   return (
@@ -184,13 +205,15 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     value={mechanic.name}
                     component={TextInput}
                   />
-                  <Field
+                  {/* ownerOptions */}
+                  {modeForCountry &&<Field
                     name='owner'
-                    placeholder='Name of the owner (unless you own this facility)'
+                    placeholder='Are you owner or customer of this shop?'
+                    options={ownerOptions}
                     value={mechanic.owner}
-                    component={TextInput}
-                  />
-                  {!modeForCountry && (
+                    component={SelectInput}
+                  />}
+                  {/* {!modeForCountry && (
                     <Field
                       name='countryName'
                       // placeholder='Country'
@@ -198,7 +221,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       value={mechanic.countryName}
                       component={SelectInput}
                     />
-                  )}
+                  )} */}
                   {modeForCountry && (
                     <Field
                       name='countryName'

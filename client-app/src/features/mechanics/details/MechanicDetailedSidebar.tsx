@@ -22,12 +22,12 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
           inverted
           color='teal'
         >
-          {mechanicShop.customers.length} People are customers of this shop
+          {mechanicShop.customers && mechanicShop.customers.length} People are customers of this shop
         </Segment>
         <Segment attached>
           <List relaxed divided>
             <Item.Group divided>
-              {mechanicShop.customers.map((customer) => (
+              {mechanicShop.customers && mechanicShop.customers.map((customer) => (
                 <Segment key={customer.username}>
                   <Grid>
                     <Grid.Column width={6}>

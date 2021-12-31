@@ -1,12 +1,13 @@
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useEffect } from "react";//
+import React, { Fragment, useContext, useEffect } from "react"; //
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
 import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import ConfirmBecomeCustomer from "../modals/ConfirmBecomeCustomer";
+// import BecomeCustomer from "../modals/BecomeCustomer";
 import ConfirmDelete from "../modals/ConfirmDelete";
+// import ConfirmRecommend from "../modals/ConfirmRecommend";
 
 // import ConfirmDelete from "../../gallery/modal/ConfirmDelete";
 
@@ -31,33 +32,39 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
-  const { isCustomer, hasRecommended, setCustomer, clearMechanic } = rootStore.mechanicStore;
+  const { isCustomer, hasRecommended, setCustomer, 
+    setRecommend, setOpenCustomerForm, openCustomerForm, hasBecomeCustomer } =
+    rootStore.mechanicStore;
 
-
-  useEffect(() => {
-    handleView(toJS(mechanic));
-    return () => {
-      setCustomer(false);
-    };
-  }, [setCustomer]);
+  
 
   const handleView = (localMechanic: any) => {
+    // let customer = localMechanic.customers.find((x: any) => x.username === user?.userName);
 
-    localMechanic.customers.forEach( (customer:IMechanicCustomer) => {
-            if(user!.userName === customer.username)
-            setCustomer(true);
-          })
-  }
+    // if(localMechanic.customers)
+    // {
+    //   console.log('there are some')
+      localMechanic.customers.forEach((customer: IMechanicCustomer) => {
+        if (user!.userName === customer.username) setCustomer(true);
+      });
+    // }
+  };
+  useEffect(() => {
+    handleView(toJS(mechanic));
+    // return () => {
+    //   setCustomer(false);
+    //   setRecommend(false);
+    // };
+  }, [setCustomer, setRecommend, handleView, mechanic]);
 
   const handleDeleteMechanic = (id: string) => {
     openModal(<ConfirmDelete mechanicId={id} />);
+
   };
   const handleBecomeCustomer = (id: string) => {
-    openModal(<ConfirmBecomeCustomer mechanicId={id} />);
+    setOpenCustomerForm();
   };
-  const handleRecommend = (id: string) => {
-    openModal(<ConfirmBecomeCustomer mechanicId={id} />);
-  };
+  
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: "0" }}>
@@ -87,7 +94,7 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
       <Segment clearing attached='bottom'>
         {mechanic.publisherUsername !== user?.userName && (
           <Fragment>
-            {!isCustomer && (
+            {!isCustomer && !openCustomerForm && !hasBecomeCustomer && (
               <Button
                 // as={Link}
                 // to={`/manageMechanic/${mechanic.id}`}
@@ -97,11 +104,11 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
                 color='green'
                 floated='right'
               >
-                Become Customer
+                Register As Customer
               </Button>
             )}
-            {/* !hasRecommended && */}
-            {isCustomer &&  (
+
+            {/* {isCustomer && !hasRecommended && (
               <Button
                 onClick={() => {
                   handleRecommend(mechanic.id);
@@ -121,7 +128,7 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
               >
                 Rate & Write Review
               </Button>
-            )}
+            )} */}
           </Fragment>
         )}
         {mechanic.publisherUsername === user?.userName && (

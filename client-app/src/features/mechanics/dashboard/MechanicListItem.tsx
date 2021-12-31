@@ -1,4 +1,4 @@
-import { toJS } from 'mobx';
+// import { toJS } from 'mobx';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';

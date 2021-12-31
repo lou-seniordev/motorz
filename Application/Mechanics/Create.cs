@@ -9,6 +9,7 @@ using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace Application.Mechanics
 {
@@ -27,6 +28,15 @@ namespace Application.Mechanics
             public string Phone { get; set; }
             public string Email { get; set; }
             public string Website { get; set; }
+            public string Testimonial { get; set; }
+            public string IsOwner { get; set; }
+            public string IsCustomer { get; set; }
+            public string CustomerRecommended { get; set; }
+            // public List<UserMechanic> Customers { get; set; }
+            // Testimonial = request.Customers[0].Testimonial,
+            //         IsOwner = request.Customers[0].IsOwner,
+            //         IsCustomer = request.Customers[0].IsCustomer,
+            //         CustomerRecommended = request.Customers[0].CustomerRecommended,
             public IFormFile File { get; set; }
 
         }
@@ -72,11 +82,35 @@ namespace Application.Mechanics
                     x => x.UserName == _userAccessor.GetCurrentUsername());
                 var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.Country);
 
+                var owner = request.Owner == "Customer" ? request.Name : user.DisplayName;
+                // var customers = new List<UserMechanic>();
+                var testimonial = new Testimonial
+                {
+                    Id = new Guid(),
+                    Text = request.Testimonial,
+                    DateAdded = DateTime.Now
+                };
+
+                // var customer = new UserMechanic
+                // {
+                //     AppUserId = user.Id,
+                //     MechanicId = request.Id,
+                //     DateBecameCustomer = DateTime.Now,
+                //     Testimonial = testimonial,
+                //     IsOwner = bool.Parse(request.IsOwner),//bool.Parse(sample)
+                //     IsCustomer = bool.Parse(request.IsCustomer),
+                //     CustomerRecommended = bool.Parse(request.CustomerRecommended),
+                // };
+                
+                // customers[0] = customer;
+              
+                
                 var mechanic = new Mechanic
                 {
                     Id = request.Id,
                     Name = request.Name,
                     Publisher = user,
+                    Owner = owner,
                     Description = request.Description,
                     YearOfStart = request.YearOfStart,
                     DatePublished = DateTime.Now,
@@ -85,7 +119,22 @@ namespace Application.Mechanics
                     Address = request.Address,
                     Phone = request.Phone,
                     Email = request.Email,
-                    Website = request.Website
+                    Website = request.Website,
+                    Customers = new List<UserMechanic>
+                    {
+                        new UserMechanic
+                        {
+                            AppUserId = user.Id,
+                            MechanicId = request.Id,
+                            DateBecameCustomer = DateTime.Now,
+                            Testimonial = testimonial,
+                            IsOwner = bool.Parse(request.IsOwner),//bool.Parse(sample)
+                            IsCustomer = bool.Parse(request.IsCustomer),
+                            CustomerRecommended = bool.Parse(request.CustomerRecommended),
+                        }
+                    }
+                    
+                    
                 };
 
                 _context.Mechanics.Add(mechanic);

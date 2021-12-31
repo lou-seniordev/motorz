@@ -1,7 +1,9 @@
+import { toJS } from 'mobx';
+// import { toJS } from 'mobx';
 // import { Image } from 'semantic-ui-react';
 // import { IUser } from './../models/user';
 // import { toJS } from 'mobx';
-import { IMechanicCustomer, IMechanicCustomerToBecome } from './../models/mechanic';
+import { IMechanicCustomer, IMechanicCustomerToBecome, IMechanicId, IMechanicRate, IRating } from './../models/mechanic';
 import { action, observable, computed, runInAction } from 'mobx';
 // import { SyntheticEvent } from 'react';
 import { history } from '../..';
@@ -34,6 +36,45 @@ export default class MechanicStore {
   // @observable customers: IMechanicCustomer[] = [];
   @observable isCustomer: boolean = false;
   @observable hasRecommended: boolean = false;
+  @observable hasRated: boolean = false;
+  @observable hasTestified: boolean = false;
+  
+  @observable openCustomerForm: boolean = false;
+  @observable confirmCustomer: boolean = false;
+  @observable hasBecomeCustomer: boolean = false;
+  // @observable confirmCustomer: boolean = false;
+
+  @action setHasBecomeCustomer = () => {
+    try {
+
+      runInAction('open form', () => {
+        this.hasBecomeCustomer = true;
+      })
+    } catch (error) {
+
+    }
+  }
+
+  @action setOpenCustomerForm = () => {
+    try {
+
+      runInAction('open form', () => {
+        this.openCustomerForm = true;
+      })
+    } catch (error) {
+
+    }
+  }
+  @action setCloseCustomerForm = () => {
+    try {
+
+      runInAction('open form', () => {
+        this.openCustomerForm = false;
+      })
+    } catch (error) {
+
+    }
+  }
 
   @observable.ref hubConnection: HubConnection | null = null;
 
@@ -102,6 +143,16 @@ export default class MechanicStore {
       runInAction('seting customer', () => {
         this.isCustomer = status;
         console.log('setting this customer status...', this.isCustomer)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  @action setRecommend = async (status: boolean) => {
+    try {
+      runInAction('seting customer', () => {
+        this.hasRecommended = status;
+        console.log('setting this recommendation...', this.hasRecommended)
       })
     } catch (error) {
       console.log(error)
@@ -233,7 +284,7 @@ export default class MechanicStore {
       runInAction('deleting mechanic', () => {
         this.mechanicRegistry.delete(id);
         console.log('this.mechanicRegistry', this.mechanicRegistry)
-       
+
 
         this.submitting = false;
       });
@@ -243,14 +294,14 @@ export default class MechanicStore {
       });
       console.log(error);
     }
-  };  
+  };
 
   @action becomeCustomer = async (id: string, user: any) => {
-    // let customerToApi: IMechanicCustomerToBecome = {
+    let customerToApi: IMechanicCustomerToBecome = {
 
-    //   mechanicId: id,
-    //   isCustomer: true
-    // }
+      mechanicId: id,
+      isCustomer: true
+    }
     let customerForClient: IMechanicCustomer = {
       username: user.userName,
       displayName: user.displayName,
@@ -260,13 +311,13 @@ export default class MechanicStore {
       customerRecommended: false,
     }
     try {
-      // await agent.Mechanics.becomecustomer(customerToApi);
+      await agent.Mechanics.becomecustomer(customerToApi);
       runInAction('become a customer', () => {
         this.isCustomer = true;
         // let mechanic: IMechanic = this.mechanicRegistry.get(id);
         // mechanic.customers.push(customerForClient)
         this.mechanic?.customers.push(customerForClient);
-        //hasRecommended
+
 
       })
     } catch (error) {
@@ -275,8 +326,74 @@ export default class MechanicStore {
     toast.info("You became a customer of the shop!");
   };
 
-  @action recommend = async (id: string) => {
-    console.log(id);
+  @action recommend = async (id: string, username: string | undefined) => {
+    let mechanicId: IMechanicId = {
+      mechanicId: id
+    }
+    //hasRecommended
+    try {
+      await agent.Mechanics.recommend(mechanicId);
+      runInAction('recommending a mechanic', () => {
+        this.hasRecommended = true;
+        // let mechanic: IMechanic = this.mechanicRegistry.get(id);
+        // mechanic.customers.push(customerForClient)
+        this.mechanic!.customers.find(x => x.username === username)!.customerRecommended = true;
+        // let customer = this.mechanic?.customers.find(x => x.username === username);
+        // customer!.customerRecommended = true;
+
+      });
+      toast.info("You recommended this shop!");
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+  @action rate = async (id: string, score: string, user: any) => {
+    let rateMechanic: IMechanicRate = {
+      id: id,
+      score: score,
+    }
+    let addRating: IRating = {
+      username: user.userName,
+      displayName: user.displayName,
+      score: score
+    }
+    try {
+      await agent.Mechanics.rate(rateMechanic);
+      runInAction('recommending a mechanic', () => {
+        this.hasRated = true;
+        this.mechanic?.ratings.push(addRating)
+        console.log(this.mechanic!.ratings);
+      });
+      toast.info("You rated this shop!");
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+  @action addTestimonial = async (mechanicId: string, text: string, user: any) => {
+    let testimonial = {
+      mechanicId: mechanicId,
+      text: text,
+    }
+    let testimonialToUI = {
+      id: "80dc3817-5bfd-4dcf-919f-02f76a58f7c3",
+      text: text,
+      dateAdded: new Date().toString()
+    }
+    // let temp:any;
+    try {
+      await agent.Mechanics.addtestimonial(testimonial);
+
+      runInAction('adding a testimonial to a mechanic', () => {
+
+        this.hasTestified = true;
+        this.mechanic!.customers.find(x => x.username == user.userName)!.testimonial = testimonialToUI;
+        // temp = testimonialToUI
+        console.log(toJS(this.mechanic!.customers.find(x => x.username == user.userName)!.testimonial));
+      });
+      toast.info("You added a testimonial this shop!");
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 }
 

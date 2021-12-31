@@ -13,11 +13,8 @@ namespace Application.Mechanics
     public class Recommend
     {
         public class Command : IRequest
-        {
-            
+        {    
             public Guid MechanicId { get; set; }
-
-
         }
         #region 
         public class CommandValidator : AbstractValidator<Command>

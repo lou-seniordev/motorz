@@ -14,9 +14,9 @@ namespace Application.Mechanics
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public string Id { get; set; }
 
-            public int Score { get; set; }
+            public string Score { get; set; }
 
         }
 
@@ -48,7 +48,7 @@ namespace Application.Mechanics
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
-                var mechanic = await _context.Mechanics.SingleOrDefaultAsync(x => x.Id == request.Id);
+                var mechanic = await _context.Mechanics.SingleOrDefaultAsync(x => x.Id == Guid.Parse(request.Id));
 
                 if (mechanic is null)
                 {
@@ -65,7 +65,7 @@ namespace Application.Mechanics
                     mechanic.Ratings.Add(new Rating
                     {
                         User = user,
-                        Score = request.Score
+                        Score = int.Parse(request.Score)
                     });
 
                     int count = 0;

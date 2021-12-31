@@ -53,7 +53,12 @@ export const specialRequests = {
   
   export const postMechanic = {
     mechanicForm: (url: string, mechanic: IMechanic) => {
-      // console.log('mechanic', mechanic) 
+      console.log('mechanic', mechanic) 
+
+// let testimonial = mechanic.customers[0].testimonial?.text;
+let isCustomer = String(mechanic.customers[0].isCustomer);
+let isOwner = String(mechanic.customers[0].isOwner);
+let customerRecommended = String(mechanic.customers[0].customerRecommended);
       let mechanicData = new FormData();
       mechanicData.append('Id', mechanic.id!)
       mechanicData.append('Name', mechanic.name)
@@ -66,7 +71,12 @@ export const specialRequests = {
       mechanicData.append('Email', mechanic.email)
       mechanicData.append('Phone', mechanic.phone)
       mechanicData.append('Website', mechanic.website)
-      mechanicData.append('File', mechanic.file);
+      mechanicData.append('Testimonial', mechanic.description!)  
+      mechanicData.append('IsCustomer', isCustomer!)  
+      mechanicData.append('IsOwner', isOwner!)  
+      mechanicData.append('CustomerRecommended', customerRecommended!)  
+      // mechanicData.append('Customers', mechanic.customers)
+      mechanicData.append('File', mechanic.file)
       return axios.post(url, mechanicData, {
         headers: { 'Content-type': 'multipart/form-data' }
       })

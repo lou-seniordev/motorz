@@ -53,7 +53,7 @@ namespace Application.Mechanics
 
                 if (mechanic == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new { activity = "NotFound" });
+                        new { mechanic = "NotFound" });
 
                 mechanic.Name = request.Name ?? mechanic.Name;
                 mechanic.Description = request.Description ?? mechanic.Description;

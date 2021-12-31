@@ -1,25 +1,43 @@
 import React, { Fragment, useContext } from "react";
 // import { useHistory } from "react-router";
 import { Header, Button, Grid } from "semantic-ui-react";
-// import { IUser } from "../../../app/models/user";
+import { IUser } from "../../../app/models/user";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface IProps {
     mechanicId: string;
-    // user: IUser;
+    username: string | undefined;
+    rating: string;
+    testimonial: string;
+    user: IUser | null;
 }
-const ConfirmBecomeCustomer: React.FC<IProps> = ({ mechanicId}) => {
+const ConfirmBecomeCustomer: React.FC<IProps> = ({ mechanicId, username, rating, testimonial, user}) => {
+// const ConfirmBecomeCustomer = () => {
   const rootStore = useContext(RootStoreContext);
-  const { user } = rootStore.userStore;
+  // const { user } = rootStore.userStore;
 
-  const { becomeCustomer } = rootStore.mechanicStore;
+  const { 
+    // becomeCustomer, 
+    becomeCustomer, recommend, rate, addTestimonial,
+    setCloseCustomerForm, setHasBecomeCustomer } = rootStore.mechanicStore;
   const { closeModal } = rootStore.modalStore;
 
   const handleBecomeCustomer = (id: string) => {
 
-    becomeCustomer(id, user);
+    // setConfirmCustomer();
+
+    // console.log('yes confirmed')
+    setCloseCustomerForm();
+    setHasBecomeCustomer()
+
+    becomeCustomer(mechanicId, user)
+    .then(() => recommend(mechanicId, user?.userName))
+    .then(() => rate(mechanicId, rating, user))
+    .then(() => addTestimonial(mechanicId, testimonial, user) )
+    .catch(error => console.log(error));
+
+    // becomeCustomer(id, user);
     closeModal();
-    // history.push(`/mechanics`);
   };
 
   const cancelBecomeCustomer = () => {
@@ -39,7 +57,7 @@ const ConfirmBecomeCustomer: React.FC<IProps> = ({ mechanicId}) => {
         <Fragment>
           <Button
             // fluid
-            onClick={() => handleBecomeCustomer(mechanicId)}
+            onClick={() => handleBecomeCustomer('id')}
             color='teal'
             content='Yes, gladly!'
             floated='left'
