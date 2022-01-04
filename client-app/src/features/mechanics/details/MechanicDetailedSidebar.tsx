@@ -8,9 +8,7 @@ import { IMechanic } from "../../../app/models/mechanic";
 const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
   mechanic,
 }) => {
-  // console.log(mechanic)
   const mechanicShop = toJS(mechanic);
-
   return (
     <div>
       <Fragment>

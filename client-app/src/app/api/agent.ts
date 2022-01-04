@@ -10,7 +10,7 @@ import { IUser, IUserFormValues } from '../models/user';
 // import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost } from '../models/forumpost';
-import { IMechanic, IMechanicCustomerToBecome, IMechanicId, IMechanicRate } from '../models/mechanic';
+import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend } from '../models/mechanic';
 import { IBrand } from '../models/brand';
 import { IProduct } from '../models/product';//, ProductFormValues
 import { ICountry } from '../models/country';
@@ -201,7 +201,7 @@ const Mechanics = {
   create: (mechanic: IMechanic) => postMechanic.mechanicForm('/mechanics', mechanic),
   update: (mechanic: IMechanic) => requests.put(`/mechanics/${mechanic.id}`, mechanic),
   becomecustomer: (newCustomer: IMechanicCustomerToBecome) => requests.post('/mechanics/addcustomer', newCustomer),
-  recommend: (mechanicId: IMechanicId) => requests.put('/mechanics/recommend', mechanicId),
+  recommend: (mechanicRecomend: IMechanicRecommend) => requests.put('/mechanics/recommend', mechanicRecomend),
   rate: (mechanicRate: IMechanicRate) => requests.put('/mechanics/rate', mechanicRate),
   addtestimonial: (testimonial: any) => requests.put('/mechanics/addtestimonial', testimonial),
   delete: (id: string) => requests.delete(`/mechanics/${id}`),

@@ -17,8 +17,7 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  // const { user } = rootStore.userStore;
-  // let username = user?.userName;
+  
   const {
     mechanic,
     loadMechanic,
@@ -27,8 +26,8 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   } = rootStore.mechanicStore;
 
   useEffect(() => {
-      loadMechanic(match.params.id);//, username      
-  }, [loadMechanic, match.params.id]); //setCustomer,
+      loadMechanic(match.params.id);     
+  }, [loadMechanic, match.params.id]); 
 
   if (loadingInitial || !mechanic)
     return <LoadingComponent content='Loading mechanic shop...' />;

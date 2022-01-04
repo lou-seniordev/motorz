@@ -69,7 +69,6 @@ interface IProps {
   mechanicId: string;
   // user: IUser;
 }
-// const BecomeCustomer: React.FC<IProps> = ({ mechanicId }) => {
 const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
   const rootStore = useContext(RootStoreContext);
     const { user } = rootStore.userStore;
@@ -81,57 +80,36 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
   const { closeModal } = rootStore.modalStore;
   const [registerForUpdates, setRegisterForUpdates] = useState<boolean>(false);
 
-  //   const handleBecomeCustomer = (id: string) => {
-  //     // becomeCustomer(id, user);
-  //     closeModal();
-  //     // history.push(`/mechanics`);
-  //   };
+ 
 
   const cancelBecomeCustomer = () => {
     closeModal();
   };
-  // let history = useHistory();
 
   const handleFinalFormSubmit = (values: any) => {
     
     let username = user?.userName;
     let rating = values.rating;
+    let hasRecommended = values.recommend;
     let testimonial = values.testimonial;
+
     openModal(<ConfirmBecomeCustomer mechanicId={mechanicId} 
         username={username} 
         rating={rating}
+        hasRecommended={hasRecommended}
         testimonial={testimonial}
         user={user}
         />);
-    // if(confirmCustomer){
-    //     console.log('confirmed also here')
-    // }
     
-    // addTestimonial(mechanicId, values.testimonial, user)
 
-    // recommend(mechanicId, user?.userName)
-    //     const {...forumpost} = values;
-    //   if (!forumpost.id) {
-    //       let newForumpost = {
-    //         ...forumpost,
-    //         id: uuid(),
-    //         dateAdded: new Date().toISOString(),
-    //         displayName: user?.displayName
-    //       };
-    //       createForumpost(newForumpost)
-    //     } else {
-    //       editForumpost(forumpost);
-    //     }
   };
 
   const handleChange = (key: any, value: any) => {
     
     if (value.checked === true){
         setRegisterForUpdates(value.checked);
-        // console.log( registerForUpdates);
     } else {
         setRegisterForUpdates(value.checked);
-        // console.log( registerForUpdates);
     }
   };
 
@@ -165,21 +143,19 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
                 <Field
                   name='testimonial'
                   rows={4}
-                  placeholder='Please write a couple of words about your experience with this mechanic shopÎ'
+                  placeholder='Please write a couple of words about your experience with this mechanic shop'
                   component={TextAreaInput}
                 />
                 <Checkbox
                   name='checkForUpdates'
                   onChange={(e, data) => handleChange(e, data)}
                   />
-                  {/* label */}
                 <Label onClick={()=> console.log('open modal')} content='I have read and understood the rules of a portal'/>
 
                 <Button
                   floated='right'
                   type='button'
                   content="No, don't register me"
-                //   onClick={() => cancelBecomeCustomer()}
                   onClick={() => setCloseCustomerForm()}
                 />
                 <Button

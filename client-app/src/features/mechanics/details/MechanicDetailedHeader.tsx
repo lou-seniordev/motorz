@@ -1,15 +1,13 @@
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useEffect } from "react"; //
+import React, { Fragment, useContext, useEffect, useState } from "react"; //
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
 import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-// import BecomeCustomer from "../modals/BecomeCustomer";
 import ConfirmDelete from "../modals/ConfirmDelete";
-// import ConfirmRecommend from "../modals/ConfirmRecommend";
 
-// import ConfirmDelete from "../../gallery/modal/ConfirmDelete";
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 const mechanicImageStyle = {
   filter: "brightness(90%) contrast(50%) drop-shadow(4px 4px 8px teal)",
@@ -32,30 +30,37 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
-  const { isCustomer, hasRecommended, setCustomer, 
-    setRecommend, setOpenCustomerForm, openCustomerForm, hasBecomeCustomer } =
+  const { isCustomer,  setCustomer, 
+     setOpenCustomerForm, openCustomerForm } =
     rootStore.mechanicStore;
 
+    //hasBecomeCustomer
   
+  const [customerChecked, setCustomerChecked] = useState(false);
 
-  const handleView = (localMechanic: any) => {
-    // let customer = localMechanic.customers.find((x: any) => x.username === user?.userName);
-
-    // if(localMechanic.customers)
-    // {
-    //   console.log('there are some')
+  const handleView = (localMechanic: any) => {    
       localMechanic.customers.forEach((customer: IMechanicCustomer) => {
         if (user!.userName === customer.username) setCustomer(true);
       });
-    // }
+      setCustomerChecked(true);
+    
   };
   useEffect(() => {
     handleView(toJS(mechanic));
-    // return () => {
-    //   setCustomer(false);
-    //   setRecommend(false);
-    // };
-  }, [setCustomer, setRecommend, handleView, mechanic]);
+    
+  }, [handleView, mechanic]);//setCustomer, 
+
+
+  useEffect(() => {
+    setCustomer(false);
+    setCustomerChecked(false);
+  }, [setCustomer]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     console.log("cleaned up");
+  //   };
+  // }, []);
 
   const handleDeleteMechanic = (id: string) => {
     openModal(<ConfirmDelete mechanicId={id} />);
@@ -64,6 +69,9 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
   const handleBecomeCustomer = (id: string) => {
     setOpenCustomerForm();
   };
+
+  if (!customerChecked)
+  return <LoadingComponent content='Loading mechanic shop...' />;
   
   return (
     <Segment.Group>
@@ -94,10 +102,8 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
       <Segment clearing attached='bottom'>
         {mechanic.publisherUsername !== user?.userName && (
           <Fragment>
-            {!isCustomer && !openCustomerForm && !hasBecomeCustomer && (
+            {!isCustomer && !openCustomerForm && (
               <Button
-                // as={Link}
-                // to={`/manageMechanic/${mechanic.id}`}
                 onClick={() => {
                   handleBecomeCustomer(mechanic.id);
                 }}
@@ -107,28 +113,6 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
                 Register As Customer
               </Button>
             )}
-
-            {/* {isCustomer && !hasRecommended && (
-              <Button
-                onClick={() => {
-                  handleRecommend(mechanic.id);
-                }}
-                color='yellow'
-                floated='right'
-              >
-                Recommend
-              </Button>
-            )}
-            {isCustomer && (
-              <Button
-                as={Link}
-                to={`/manageMechanic/${mechanic.id}`}
-                color='blue'
-                floated='right'
-              >
-                Rate & Write Review
-              </Button>
-            )} */}
           </Fragment>
         )}
         {mechanic.publisherUsername === user?.userName && (
@@ -143,10 +127,7 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
             </Button>
             <Button
               onClick={() => {
-                // () =>
-
                 handleDeleteMechanic(mechanic.id!);
-                // history.push("/gallery");
               }}
               color='red'
               floated='right'

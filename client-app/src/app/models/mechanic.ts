@@ -51,12 +51,14 @@ export interface IMechanicTestimonial {
     text: string;
     dateAdded: string;
 }
-export interface IMechanicId {
-    mechanicId: string;
-}
+
 export interface IMechanicRate {
     id: string;
     score: string;
+}
+export interface IMechanicRecommend {
+    mechanicId: string;
+    isRecommended: string;
 }
 
 

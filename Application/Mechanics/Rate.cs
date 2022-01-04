@@ -78,8 +78,20 @@ namespace Application.Mechanics
                         count++;
                     }
                     result = sum / count;
-                    mechanic.AverageRating.Count = count;
-                    mechanic.AverageRating.Average = Math.Round(result, 2);
+                    if (mechanic.AverageRating != null)
+                    {
+                        mechanic.AverageRating.Count = count;
+                        mechanic.AverageRating.Average = Math.Round(result, 2);
+                    } 
+                    else
+                    {
+                        var averageRating = new AverageRating{
+                            Id = new Guid(),
+                        };
+                        mechanic.AverageRating = averageRating;
+                        mechanic.AverageRating.Count = count;
+                        mechanic.AverageRating.Average = Math.Round(result, 2);
+                    }
 
 
                     _context.Mechanics.Update(mechanic);

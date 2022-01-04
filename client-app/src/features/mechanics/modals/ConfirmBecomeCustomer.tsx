@@ -10,8 +10,9 @@ interface IProps {
     rating: string;
     testimonial: string;
     user: IUser | null;
+    hasRecommended: string;
 }
-const ConfirmBecomeCustomer: React.FC<IProps> = ({ mechanicId, username, rating, testimonial, user}) => {
+const ConfirmBecomeCustomer: React.FC<IProps> = ({ hasRecommended, mechanicId, username, rating, testimonial, user}) => {
 // const ConfirmBecomeCustomer = () => {
   const rootStore = useContext(RootStoreContext);
   // const { user } = rootStore.userStore;
@@ -19,31 +20,25 @@ const ConfirmBecomeCustomer: React.FC<IProps> = ({ mechanicId, username, rating,
   const { 
     // becomeCustomer, 
     becomeCustomer, recommend, rate, addTestimonial,
-    setCloseCustomerForm, setHasBecomeCustomer } = rootStore.mechanicStore;
+    setCloseCustomerForm } = rootStore.mechanicStore;//, setHasBecomeCustomer
   const { closeModal } = rootStore.modalStore;
 
   const handleBecomeCustomer = (id: string) => {
 
-    // setConfirmCustomer();
-
-    // console.log('yes confirmed')
     setCloseCustomerForm();
-    setHasBecomeCustomer()
 
-    becomeCustomer(mechanicId, user)
-    .then(() => recommend(mechanicId, user?.userName))
+    becomeCustomer(mechanicId, user, hasRecommended)
+    .then(() => recommend(mechanicId, user?.userName, hasRecommended))
     .then(() => rate(mechanicId, rating, user))
-    .then(() => addTestimonial(mechanicId, testimonial, user) )
+    .then(() => addTestimonial(mechanicId, testimonial, user))
     .catch(error => console.log(error));
 
-    // becomeCustomer(id, user);
     closeModal();
   };
 
   const cancelBecomeCustomer = () => {
     closeModal();
   };
-  // let history = useHistory();
 
   return (
     <Grid>

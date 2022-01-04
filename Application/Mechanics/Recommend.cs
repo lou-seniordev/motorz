@@ -13,8 +13,9 @@ namespace Application.Mechanics
     public class Recommend
     {
         public class Command : IRequest
-        {    
+        {
             public Guid MechanicId { get; set; }
+            public string IsRecommended { get; set; }
         }
         #region 
         public class CommandValidator : AbstractValidator<Command>
@@ -29,7 +30,7 @@ namespace Application.Mechanics
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-           
+
             public Handler(DataContext context, IUserAccessor userAccessor)
             {
                 _userAccessor = userAccessor;
@@ -38,6 +39,12 @@ namespace Application.Mechanics
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+
+                if (request.IsRecommended == "0")
+                {
+                    return Unit.Value;
+                    throw new Exception("Did not recommend!");
+                }
 
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
@@ -54,18 +61,18 @@ namespace Application.Mechanics
                     x => x.AppUserId == user.Id && x.MechanicId == request.MechanicId
                 );
 
-                if(userMechanic.CustomerRecommended == true)
+                if (userMechanic.CustomerRecommended == true)
                 {
                     throw new Exception("Already Recommended!");
                 }
-                
-                if(userMechanic.IsOwner == true)
+
+                if (userMechanic.IsOwner == true)
                 {
                     throw new Exception("You Cannot Recommend Your Own Businnes!");
                 }
 
                 userMechanic.CustomerRecommended = true;
-                
+
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;
