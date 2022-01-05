@@ -6,12 +6,13 @@ import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
 import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ConfirmDelete from "../modals/ConfirmDelete";
+import { useCallback } from 'react'
+
 
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 const mechanicImageStyle = {
   filter: "brightness(90%) contrast(50%) drop-shadow(4px 4px 8px teal)",
-  // filter: 'contrast(50%)'
 };
 
 const mechanicImageTextStyle = {
@@ -34,21 +35,22 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
      setOpenCustomerForm, openCustomerForm } =
     rootStore.mechanicStore;
 
-    //hasBecomeCustomer
   
   const [customerChecked, setCustomerChecked] = useState(false);
 
-  const handleView = (localMechanic: any) => {    
+  const handleView = useCallback((localMechanic: any) => {    
       localMechanic.customers.forEach((customer: IMechanicCustomer) => {
         if (user!.userName === customer.username) setCustomer(true);
       });
       setCustomerChecked(true);
-    
-  };
+  }, [setCustomer, user]);
+  
+
+  
   useEffect(() => {
     handleView(toJS(mechanic));
     
-  }, [handleView, mechanic]);//setCustomer, 
+  }, [handleView, mechanic]);
 
 
   useEffect(() => {
@@ -56,17 +58,11 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
     setCustomerChecked(false);
   }, [setCustomer]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     console.log("cleaned up");
-  //   };
-  // }, []);
-
   const handleDeleteMechanic = (id: string) => {
     openModal(<ConfirmDelete mechanicId={id} />);
 
   };
-  const handleBecomeCustomer = (id: string) => {
+  const handleBecomeCustomer = () => {//mechanic.id, id: string
     setOpenCustomerForm();
   };
 
@@ -105,7 +101,7 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
             {!isCustomer && !openCustomerForm && (
               <Button
                 onClick={() => {
-                  handleBecomeCustomer(mechanic.id);
+                  handleBecomeCustomer();
                 }}
                 color='green'
                 floated='right'

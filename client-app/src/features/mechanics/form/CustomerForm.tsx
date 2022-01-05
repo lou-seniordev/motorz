@@ -75,16 +75,18 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
     const { openModal } = rootStore.modalStore;
 
     const { 
-        becomeCustomer, recommend, rate, addTestimonial, setCloseCustomerForm , 
-        confirmCustomer} = rootStore.mechanicStore;
+      setCloseCustomerForm , 
+        // becomeCustomer, recommend, rate, addTestimonial, 
+        // confirmCustomer
+      } = rootStore.mechanicStore;
   const { closeModal } = rootStore.modalStore;
   const [registerForUpdates, setRegisterForUpdates] = useState<boolean>(false);
 
  
 
-  const cancelBecomeCustomer = () => {
-    closeModal();
-  };
+  // const cancelBecomeCustomer = () => {
+  //   closeModal();
+  // };
 
   const handleFinalFormSubmit = (values: any) => {
     
