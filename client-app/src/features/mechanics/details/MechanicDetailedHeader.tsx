@@ -1,15 +1,12 @@
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useEffect, useState } from "react"; //
+import React, { Fragment, useContext, useEffect } from "react"; //useCallback,
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
 import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ConfirmDelete from "../modals/ConfirmDelete";
-import { useCallback } from 'react'
 
-
-import LoadingComponent from '../../../app/layout/LoadingComponent';
+// import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 const mechanicImageStyle = {
   filter: "brightness(90%) contrast(50%) drop-shadow(4px 4px 8px teal)",
@@ -31,44 +28,49 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
-  const { isCustomer,  setCustomer, 
-     setOpenCustomerForm, openCustomerForm } =
+  const { isCustomer, setCustomer, setOpenCustomerForm, openCustomerForm } =
     rootStore.mechanicStore;
 
-  
-  const [customerChecked, setCustomerChecked] = useState(false);
+  // const [customerChecked, setCustomerChecked] = useState(false);
 
-  const handleView = useCallback((localMechanic: any) => {    
-      localMechanic.customers.forEach((customer: IMechanicCustomer) => {
-        if (user!.userName === customer.username) setCustomer(true);
-      });
-      setCustomerChecked(true);
-  }, [setCustomer, user]);
-  
 
-  
+  const handleView = (localMechanic: any) => {
+    localMechanic.customers.some((customer: IMechanicCustomer) => {
+      if (user!.userName === customer.username) {
+        setCustomer(true);
+        return;
+      }
+    });
+  };
+
+//   const handleView = useCallback((localMechanic: any) => {    
+//     localMechanic.customers.forEach((customer: IMechanicCustomer) => {
+//       if (user!.userName === customer.username) setCustomer(true);
+//     });
+//     // setCustomerChecked(true);
+// }, [setCustomer, user]);
+
   useEffect(() => {
-    handleView(toJS(mechanic));
+    
+    handleView(mechanic);
     
   }, [handleView, mechanic]);
 
-
   useEffect(() => {
     setCustomer(false);
-    setCustomerChecked(false);
+    // setCustomerChecked(false);
   }, [setCustomer]);
 
   const handleDeleteMechanic = (id: string) => {
     openModal(<ConfirmDelete mechanicId={id} />);
-
   };
-  const handleBecomeCustomer = () => {//mechanic.id, id: string
+  const handleBecomeCustomer = () => {
     setOpenCustomerForm();
   };
 
-  if (!customerChecked)
-  return <LoadingComponent content='Loading mechanic shop...' />;
-  
+  // if (!customerChecked)
+  // return <LoadingComponent content='Loading mechanic shop...' />;
+
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: "0" }}>

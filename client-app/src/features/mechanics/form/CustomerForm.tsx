@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext} from "react";//, useState 
 // import { Field } from "react-final-form";
 import { Form as FinalForm, Field } from "react-final-form";
 
@@ -79,8 +79,8 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
         // becomeCustomer, recommend, rate, addTestimonial, 
         // confirmCustomer
       } = rootStore.mechanicStore;
-  const { closeModal } = rootStore.modalStore;
-  const [registerForUpdates, setRegisterForUpdates] = useState<boolean>(false);
+  // const { closeModal } = rootStore.modalStore;
+  // const [agreeTermsAndServices, setAgreeTermsAndServices] = useState<boolean>(false);
 
  
 
@@ -109,9 +109,9 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
   const handleChange = (key: any, value: any) => {
     
     if (value.checked === true){
-        setRegisterForUpdates(value.checked);
+        // setAgreeTermsAndServices(value.checked);
     } else {
-        setRegisterForUpdates(value.checked);
+        // setAgreeTermsAndServices(value.checked);
     }
   };
 

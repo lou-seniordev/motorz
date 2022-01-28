@@ -123,6 +123,7 @@ export default class MechanicStore {
 
         console.log('looking at this customer before...', this.isCustomer)
         this.isCustomer = status;
+        console.log('looking at this customer after...', this.isCustomer)
       })
     } catch (error) {
       console.log(error)
@@ -141,7 +142,7 @@ export default class MechanicStore {
     this.loadingInitial = true;
     try {
       const mechanics = await agent.Mechanics.list();
-      console.log("mechanics in ALL loadMechanics", mechanics);
+      // console.log("mechanics in ALL loadMechanics", mechanics);
       runInAction('loading mechanics', () => {
         mechanics.forEach((mechanic) => {
           mechanic.datePublished = mechanic.datePublished?.split('T')[0];
@@ -168,7 +169,7 @@ export default class MechanicStore {
       this.loadingInitial = true;
       try {
         mechanic = await agent.Mechanics.details(id);
-        console.log("mechanic in load single Mechanic", mechanic);
+        // console.log("mechanic in load single Mechanic", mechanic);
         runInAction('getting mechanic', () => {
           
           this.mechanic = mechanic;

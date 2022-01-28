@@ -22,7 +22,8 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     mechanic,
     loadMechanic,
     loadingInitial,
-    openCustomerForm
+    openCustomerForm,
+    isCustomer
   } = rootStore.mechanicStore;
 
   useEffect(() => {
@@ -34,13 +35,15 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
   return (
     <Grid>
-      <Grid.Column width={11}>
+      {/* width={11} */}
+      <Grid.Column computer={11} mobile={16} >
         <MechanicDetailedHeader mechanic={mechanic} />
          { openCustomerForm && <CustomerForm mechanicId={mechanic.id} />}
         <MechanicDetailedInfo mechanic={mechanic} />
-        <MechanicDetailedChat />
+       {isCustomer && <MechanicDetailedChat />}
       </Grid.Column>
-      <Grid.Column width={4}>
+      {/* width={4}  */}
+      <Grid.Column computer={4} mobile={16} >
         <MechanicDetailedSidebar mechanic={mechanic} />
       </Grid.Column>
     </Grid>

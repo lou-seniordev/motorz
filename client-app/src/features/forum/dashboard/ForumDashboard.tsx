@@ -20,10 +20,11 @@ const ForumDashboard = () => {
   return (
     <div>
       <Grid>
-        <Grid.Column width={10}>
+      {/* width={10} */}
+        <Grid.Column computer={10} mobile={16} >
           <ForumList />
         </Grid.Column>
-        <Grid.Column width={6}>
+        <Grid.Column width={6} className="mobile hidden">
           <h2>Trending</h2>
           <h2>Your people are asking</h2>
           {/* <h2>You might be interested</h2> */}

@@ -7,6 +7,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import InfiniteScroll from 'react-infinite-scroller';
 import ActivityFilters from './ActivityFilters';
 import ActivityListItemPlaceholder from './ActivityListItemPlaceholder';
+import ActivityMobileMenu from './ActivityMobileMenu';
 
 const ActivityDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
@@ -35,7 +36,12 @@ const ActivityDashboard: React.FC = () => {
 
   return (
     <Grid>
-      <Grid.Column width={10}>
+       <Grid.Column mobile={16} tablet={16} className="mobile only" >
+      {/* embracers={motofy.embracers} */}
+        <ActivityMobileMenu  />
+      </Grid.Column>
+       {/* width={10} */}
+      <Grid.Column computer={9} mobile={16}>
         {loadingInitial && page === 0 ? <ActivityListItemPlaceholder/> : (
 
         <InfiniteScroll
@@ -48,7 +54,7 @@ const ActivityDashboard: React.FC = () => {
         </InfiniteScroll>
         )}
       </Grid.Column>
-      <Grid.Column width={6}>
+      <Grid.Column width={6} className="mobile hidden">
         <Sticky style={{marginRight: 30, position: 'fixed'}} >
 
           <ActivityFilters />

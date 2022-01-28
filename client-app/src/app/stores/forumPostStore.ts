@@ -135,7 +135,7 @@ export default class ForumPostStore {
 
           forumpost.commenters = this.reduceCommenters(forumpost);
 
-          console.log('forumpost : ', forumpost)
+          // console.log('forumpost : ', forumpost)
           this.forumPostRegistry.set(forumpost.id, forumpost);
           //  console.log('comments nr: ', this.summComments(forumpost))
           //  console.log('commenters nr: ', this.reduceCommenters(forumpost))

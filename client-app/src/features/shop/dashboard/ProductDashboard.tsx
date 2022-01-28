@@ -22,11 +22,12 @@ const ProductDashboard = () => {
   
   return (
     <Grid>
-      <Grid.Column width={9}>
+      {/* width={9} */}
+      <Grid.Column computer={9} mobile={16} >
         <ProductList />
       </Grid.Column>
       <Grid.Column width={7}>
-        <Sticky style={{ marginRight: 30, position: "fixed" }}>
+        <Sticky className="mobile hidden" style={{ marginRight: 30, position: "fixed" }}>
           <ProductSidebar />
         </Sticky>
       </Grid.Column>

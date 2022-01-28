@@ -12,11 +12,11 @@ const GalleryFilters = () => {
     rootStore.motofyStore;
   const motofy = toJS(mostEmbraced);
   const highestMotofy = toJS(highestRatedMotofy);
-  // console.log('highestMotofy', highestMotofy)
 
   return (
     <Fragment>
-      <Menu vertical size={"large"} style={{ width: "100%", marginTop: 50 }}>
+      <Menu vertical size={"large"} style={{ width: "100%" }}>
+      {/* , marginTop: 50 */}
         <Header icon={"filter"} attached color={"teal"} content={"Filters"} />
         <Menu.Item
           active={predicate.size === 0}

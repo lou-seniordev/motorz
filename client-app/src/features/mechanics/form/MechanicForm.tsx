@@ -33,7 +33,6 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
-import { userInfo } from "os";
 
 const isValidEmail = createValidator(
   (message) => (value) => {

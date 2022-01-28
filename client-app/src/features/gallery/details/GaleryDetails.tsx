@@ -27,15 +27,16 @@ const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     return <LoadingComponent content='Loading motofies...' />;
 
   return (
-    <Grid>
-      <Grid.Column width={12}>
+    <Grid>     
+      <Grid.Column computer={12} mobile={16} >
         <GaleryDetailedHeader motofy={motofy} />
         <GaleryDetailedRating motofy={motofy}/>
         <GalleryDetailedInfo motofy={motofy} />
 
         <GaleryDetailedChat />
       </Grid.Column>
-      <Grid.Column width={4}>
+     
+      <Grid.Column computer={4} mobile={16} >
         <GaleryDetailedSidebar embracers={motofy.embracers} />
       </Grid.Column>
     </Grid>
