@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Errors;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Activities
@@ -19,7 +20,10 @@ namespace Application.Activities
             public string Category { get; set; }
             public DateTime? Date { get; set; }
             public string City { get; set; }
+            public string CountryName { get; set; }
             public string Venue { get; set; }
+            public string Destination { get; set; }
+
 
         }
 
@@ -32,7 +36,10 @@ namespace Application.Activities
                 RuleFor(x => x.Category).NotEmpty();
                 RuleFor(x => x.Date).NotEmpty();
                 RuleFor(x => x.City).NotEmpty();
+                RuleFor(x => x.CountryName).NotEmpty();
                 RuleFor(x => x.Venue).NotEmpty();
+                RuleFor(x => x.Destination).NotEmpty();
+
             }
         }
 
@@ -53,13 +60,21 @@ namespace Application.Activities
                 if(activity == null) 
                     throw new RestException(HttpStatusCode.NotFound, 
                         new {activity = "NotFound"});
+                var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.CountryName);
+
+                 if(country == null) 
+                    throw new RestException(HttpStatusCode.NotFound, 
+                        new {country = "Country Not Found"});
+
                 
                 activity.Title = request.Title ?? activity.Title;
                 activity.Description = request.Description ?? activity.Description;
                 activity.Category = request.Category ?? activity.Category;
                 activity.Date = request.Date ?? activity.Date;
                 activity.City = request.City ?? activity.City;
+                activity.Country = country ?? activity.Country;
                 activity.Venue = request.Venue ?? activity.Venue;
+                activity.Destination = request.Destination ?? activity.Destination;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

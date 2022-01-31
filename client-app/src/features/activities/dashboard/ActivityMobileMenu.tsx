@@ -5,6 +5,9 @@ import React, { useContext } from "react"; //, useState
 import { Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const ActivityMobileMenu = () => {
   const rootStore = useContext(RootStoreContext);
   const {
@@ -15,9 +18,9 @@ const ActivityMobileMenu = () => {
   // const motofy = toJS(mostEmbraced);
   // const highestMotofy = toJS(highestRatedMotofy);
 
+  // const [startDate, setStartDate] = useState<Date | null>(new Date());
 
   return (
-      
     <Menu>
       <Menu.Item
         active={predicate.size === 0}
@@ -40,10 +43,19 @@ const ActivityMobileMenu = () => {
         name={"host"}
         content={"I'm organizing"}
       />
-      
+      <Menu.Item>
+        <DatePicker
+          // selected={startDate}
+          placeholderText="After Date"
+          // onChange={(date) => setStartDate(date)}
+          onChange={(date) => setPredicate('startDate', date!)}
+          // wrapperClassName="datePicker prudence"
+          withPortal
+        />
+      </Menu.Item>
       {/* <Menu.Item
         active={predicate.has("calendar")}
-        // onClick={() => setPredicate("isHost", "true")}
+        onClick={() => setPredicate("isHost", "true")}
         color={"blue"}
         name={"calendar"}
         content={"Calendar"}

@@ -158,7 +158,6 @@ export default class ActivityStore {
 
       runInAction('loading activities', () => {
         activities.forEach((activity) => {
-
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
         });

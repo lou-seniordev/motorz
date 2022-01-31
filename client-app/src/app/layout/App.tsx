@@ -70,7 +70,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute path='/activities/:id' component={ActivityDetails} />
                 <PrivateRoute
                   key={location.key}
-                  path={['/createActivity', '/manage/:id']}
+                  path={['/createDiary', '/manage/:id']}
                   component={ActivityForm}
                 />
                 <PrivateRoute exact path='/gallery' component={GalleryDashboard} />

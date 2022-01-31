@@ -53,7 +53,7 @@ export const postProduct = {
 
 export const postMechanic = {
   mechanicForm: (url: string, mechanic: IMechanic) => {
-    console.log('mechanic', mechanic)
+    // console.log('mechanic', mechanic)
 
     // let testimonial = mechanic.customers[0].testimonial?.text;
     let isCustomer = String(mechanic.customers[0].isCustomer);

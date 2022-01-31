@@ -708,12 +708,14 @@ namespace Persistence
                 {
                     new Activity
                     {
-                        Title = "Past Session 1",
+                        Title = "Past Diary 1",
                         Date = DateTime.Now.AddMonths(-2),
-                        Description = "Session 2 months ago",
+                        Description = "Diary 2 months ago",
                         Category = "Drinks",
                         City = "London",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),//"Italy",
                         Venue = "Pub",
+                        Destination = "Soho",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -726,12 +728,15 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Past Session 2",
+                        Title = "Past Diary 2",
                         Date = DateTime.Now.AddMonths(-1),
-                        Description = "Session 1 month ago",
+                        Description = "Diary 1 month ago",
                         Category = "Culture",
                         City = "Paris",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "France"),
                         Venue = "The Louvre",
+                        Destination = "Champs Elysses",
+
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -750,12 +755,15 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 1",
+                        Title = "Future Diary 1",
                         Date = DateTime.Now.AddMonths(1),
-                        Description = "Session 1 month in future",
+                        Description = "Diary 1 month in future",
                         Category = "Music",
                         City = "London",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Wembly Stadium",
+                        Destination = "Outside London",
+
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -774,12 +782,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 2",
+                        Title = "Future Diary 2",
                         Date = DateTime.Now.AddMonths(2),
-                        Description = "Session 2 months in future",
+                        Description = "Diary 2 months in future",
                         Category = "Food",
                         City = "London",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Jamies Italian",
+                        Destination = "Italian Pizzeria",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -798,12 +808,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 3",
+                        Title = "Future Diary 3",
                         Date = DateTime.Now.AddMonths(3),
-                        Description = "Session 3 months in future",
+                        Description = "Diary 3 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Ljubljana",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
+                        Venue = "Tivoli",
+                        Destination = "Triglav",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -822,12 +834,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 4",
+                        Title = "Future Diary 4",
                         Date = DateTime.Now.AddMonths(4),
-                        Description = "Session 4 months in future",
+                        Description = "Diary 4 months in future",
                         Category = "Culture",
                         City = "London",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "British Museum",
+                        Destination = "StoneHenge",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -840,12 +854,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 5",
+                        Title = "Future Diary 5",
                         Date = DateTime.Now.AddMonths(5),
-                        Description = "Session 5 months in future",
+                        Description = "Diary 5 months in future",
                         Category = "Drinks",
                         City = "London",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Punch and Judy",
+                        Destination = "Calais",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -864,12 +880,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 6",
+                        Title = "Future Diary 6",
                         Date = DateTime.Now.AddMonths(6),
-                        Description = "Session 6 months in future",
+                        Description = "Diary 6 months in future",
                         Category = "Music",
                         City = "London",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "O2 Arena",
+                        Destination = "Hide Park",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -888,12 +906,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 7",
+                        Title = "Future Diary 7",
                         Date = DateTime.Now.AddMonths(7),
-                        Description = "Session 7 months in future",
+                        Description = "Diary 7 months in future",
                         Category = "Travel",
                         City = "Berlin",
-                        Venue = "All",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Germany"),
+                        Venue = "Unter der Leyen",
+                        Destination = "Brandburg Gate",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -912,12 +932,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 8",
+                        Title = "Future Diary 8",
                         Date = DateTime.Now.AddMonths(8),
-                        Description = "Session 8 months in future",
+                        Description = "Diary 8 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Pula",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
+                        Venue = "Titov park",
+                        Destination = "Kamenjak",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -936,12 +958,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 9",
+                        Title = "Future Diary 9",
                         Date = DateTime.Now.AddMonths(9),
-                        Description = "Session 9 months in future",
+                        Description = "Diary 9 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Pula",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
+                        Venue = "Varudela",
+                        Destination = "Motovun",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -960,12 +984,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Future Session 10",
+                        Title = "Future Diary 10",
                         Date = DateTime.Now.AddMonths(10),
-                        Description = "Session 10 months in future",
+                        Description = "Diary 10 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Ljubljana",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
+                        Venue = "Kongresni trg",
+                        Destination = "Rakov Skocjan",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -978,12 +1004,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Far future Session 11",
+                        Title = "Far future Diary 11",
                         Date = DateTime.Now.AddMonths(11),
-                        Description = "Session 11 months in future",
+                        Description = "Diary 11 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Maribor",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
+                        Venue = "Veliki Park",
+                        Destination = "Lendava",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1002,12 +1030,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Very far future Session 12",
+                        Title = "Very far future Diary 12",
                         Date = DateTime.Now.AddMonths(12),
-                        Description = "Session 12 months in future",
+                        Description = "Diary 12 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Zagreb",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
+                        Venue = "Jarun",
+                        Destination = "Sava",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1020,12 +1050,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Long far future Session 13",
+                        Title = "Long far future Diary 13",
                         Date = DateTime.Now.AddMonths(13),
-                        Description = "Session 13 months in future",
+                        Description = "Diary 13 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Roma",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
+                        Venue = "Piazza Venezia",
+                        Destination = "San Gandolfo",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1038,12 +1070,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Long far future Session 14",
+                        Title = "Long far future Diary 14",
                         Date = DateTime.Now.AddMonths(14),
-                        Description = "Session 14 months in future",
+                        Description = "Diary 14 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Roma",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
+                        Venue = "Pignetto",
+                        Destination = "L'Aquilla",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1062,12 +1096,14 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "Never to happen future Session 15",
+                        Title = "Never to happen future Diary 15",
                         Date = DateTime.Now.AddMonths(15),
-                        Description = "Session 15 months in future",
+                        Description = "Diary 15 months in future",
                         Category = "Drinks",
-                        City = "London",
-                        Venue = "Pub",
+                        City = "Trieste",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
+                        Venue = "San Marco",
+                        Destination = "Montfalcone",
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity

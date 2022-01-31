@@ -24,6 +24,7 @@
     "mobx-react-lite": "^1.4.1",
     "react": "^16.13.1",
     "react-cropper": "^1.2.0",
+    "react-datepicker": "^4.6.0",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.2.0",
     "react-final-form": "6.3.0",
@@ -59,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-datepicker": "^4.3.4"
   }
 }

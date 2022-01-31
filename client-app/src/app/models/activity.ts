@@ -12,7 +12,10 @@ export interface IActivity {
   category: string;
   date: Date;
   city: string;
+  countryName: string;
+  countryId: string;
   venue: string;
+  destination: string;
   isGoing: boolean;
   isHost: boolean;   
   attendees: IAttendee[];
@@ -41,7 +44,11 @@ export class ActivityFormValues implements IActivityFormValues {
   date?: Date = undefined;
   time?: Date = undefined;
   city: string = '';
+  countryName: string = '';
+  countryId: string = '';
   venue: string = '';
+  destination: string = '';
+
 
   constructor(init?: IActivityFormValues) {
     if (init && init.date) {

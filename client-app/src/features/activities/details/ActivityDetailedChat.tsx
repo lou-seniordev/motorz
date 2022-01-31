@@ -33,7 +33,7 @@ const ActivityDetailedChat = () => {
         color='teal'
         style={{ border: 'none' }}
       >
-        <Header>Chat about this event</Header>
+        <Header>Comment This Diary</Header>
       </Segment>
       <Segment attached>
         <Comment.Group>

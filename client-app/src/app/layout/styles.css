@@ -48,5 +48,22 @@ body {
 
 /*end of basic styles*/
 
-/* subnavbar for mobile view */
+/* datepicker mobile*/
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+    /* display: block; */
+    width: 70px;
+   border: none;
+   
+}
 
+/* .datePicker {
+  display: block;
+  width: 50%;
+  color: red;
+}
+
+.prudence {
+  background-color: red;
+} */

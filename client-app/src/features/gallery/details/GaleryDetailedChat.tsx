@@ -31,7 +31,7 @@ const GaleryDetailedChat = () => {
         color='teal'
         style={{ border: "none" }}
       >
-        <Header>Chat about this motofy</Header>
+        <Header>Comment this motofy</Header>
       </Segment>
       <Segment attached>
         <Comment.Group>

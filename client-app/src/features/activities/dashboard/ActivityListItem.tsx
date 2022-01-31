@@ -1,15 +1,40 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
-import { IActivity } from '../../../app/models/activity';
-import { format } from 'date-fns';
-import ActivityListItemAttendees from './ActivityListItemAttendees';
-
-// No need for an interface just one property restructured...
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Accordion,
+  Button,
+  Icon,
+  Item,
+  Label,
+  Segment,
+} from "semantic-ui-react";
+import { IActivity } from "../../../app/models/activity";
+import { format } from "date-fns";
+import ActivityListItemAttendees from "./ActivityListItemAttendees";
 
 const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
   const host = activity.attendees.filter((h) => h.isHost)[0];
-  // console.log(host);
+
+  const panels = [
+    {
+      key: "when",
+      title: "When?",
+      content: [format(activity.date, "MMMM d yyyy h:mm:a")].join(" "),
+    },
+    {
+      key: "starting_point",
+      title: "Starting Point?",
+      content: [activity.city + ", " + activity.venue].join(" "),
+    },
+    {
+      key: "destination",
+      title: "Destination?",
+      content: [activity.destination],
+    },
+  ];
+
+  const descriptionUiShort = activity.description.substring(0, 60);
+  const seeMore = "...see more";
 
   return (
     <Segment.Group>
@@ -20,28 +45,35 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
             <Item.Image
               size='tiny'
               circular
-              src={host.image || '/assets/user.png'}
+              src={host.image || "/assets/user.png"}
               style={{ marginBottom: 3 }}
             />
             <Item.Content>
-              <Item.Content>
+              <Item.Content verticalAlign='middle'>
                 <Item.Header as={Link} to={`/activities/${activity.id}`}>
                   {activity.title}
                 </Item.Header>
-
-                <Item.Description>
-                  Hosted by{' '}
+                <Item.Meta>
+                  Organised by{" "}
                   <Link to={`/profile/${host.username}`}>
-                    {' '}
+                    {" "}
                     {host.displayName}
                   </Link>
-                </Item.Description>
+                </Item.Meta>
+
+                {/* <Item.Description>
+                  Organised by{" "}
+                  <Link to={`/profile/${host.username}`}>
+                    {" "}
+                    {host.displayName}
+                  </Link>
+                </Item.Description> */}
                 {activity.isHost && (
-                  <Item.Description>  
+                  <Item.Description>
                     <Label
                       basic
                       color='orange'
-                      content='You are hosting this activity'
+                      content='You created this diary'
                     />
                   </Item.Description>
                 )}
@@ -50,7 +82,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
                     <Label
                       basic
                       color='green'
-                      content='You are going to this activity'
+                      content='You are taking part in this diary'
                     />
                   </Item.Description>
                 )}
@@ -60,20 +92,35 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
         </Item.Group>
       </Segment>
       <Segment>
-        <Icon name='clock' /> {format(activity.date, 'h:mm:a')}
-        <Icon name='marker' /> {activity.venue}, {activity.city}
+        {/* <Icon name='clock' /> {format(activity.date, 'h:mm:a')}
+        <Icon name='marker' /> Starting Point: {activity.venue}, {activity.city}
+        <Icon name='marker' /> Destination: {activity.destination}  */}
+
+        <Accordion panels={panels} />
+      </Segment>
+      <Segment clearing >
+        <Item.Group>
+          <Item.Description as={Link} to={`/activities/${activity.id}`}>
+            <span>{descriptionUiShort}</span> <span>{seeMore}</span>
+            {/* <a href={`/activities/${activity.id}`}>{seeMore}</a> */}
+          </Item.Description>
+          {/* <Item.Description >
+            <span as={Link} to={`/activities/${activity.id}`}></span>
+          </Item.Description> */}
+        </Item.Group>
+        {/* <span>{activity.description}</span> */}
       </Segment>
       <Segment secondary>
         <ActivityListItemAttendees attendees={activity.attendees} />
       </Segment>
-      <Segment clearing>
-        <span>{activity.description}</span>
+      <Segment secondary>
         <Button
           as={Link}
           to={`/activities/${activity.id}`}
-          floated='right'
-          content='view'
+          // floated='right'
+          content='View This Diary'
           color='blue'
+          fluid
         />
       </Segment>
     </Segment.Group>

@@ -20,7 +20,7 @@ import {
 } from 'revalidate';
 
 const validate = combineValidators({
-  title: isRequired({ message: 'The event title is required' }),
+  title: isRequired({ message: 'The title is required' }),
   category: isRequired('Category'),
   description: composeValidators(
     isRequired('Description'),
@@ -50,19 +50,26 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     loadActivity,
   } = rootStore.activityStore;
 
+  const { loadCountriesToSelect, countries } = rootStore.countryStore;
+  const [modeForCountry, setModeForCountry] = useState(true);
+
+
   const [activity, setActivity] = useState(new ActivityFormValues());
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // console.log(category)
+    loadCountriesToSelect();
+
     if (match.params.id) {
+      setModeForCountry(false);
       setLoading(true);
       loadActivity(match.params.id)
       .then((activity) => setActivity(new ActivityFormValues(activity)))
       .finally(() => setLoading(false));
       // console.log('activity---',activity.category)
     }
-  }, [loadActivity, match.params.id]);
+  }, [loadActivity, match.params.id, loadCountriesToSelect]);
 
   const handleFinalFormSubmit = (values: any) => {
     const dateAndTime = combineDateAndTime(values.date, values.time);
@@ -74,6 +81,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
         id: uuid(),
       };
       createActivity(newActivity);
+      // console.log('newActivity', newActivity)
     } else {
       editActivity(activity);
     }
@@ -126,7 +134,25 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     value={activity.time}
                   />
                 </Form.Group>
-
+                {!modeForCountry && (
+                    <Field
+                      // placeholder={"Country"} // edit form
+                      name='countryName'
+                      options={countries}
+                      // value={product.countryId}
+                      component={SelectInput}
+                    />
+                  )}
+                  {modeForCountry && ( //empty form
+                    <Field
+                      name='countryName'
+                      // name='countryId'
+                      placeholder={"Country"} //
+                      options={countries}
+                      // value={product.countryName}
+                      component={SelectInput}
+                    />
+                  )}
                 <Field
                   name='city'
                   placeholder='City'
@@ -135,8 +161,14 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 />
                 <Field
                   name='venue'
-                  placeholder='Venue'
+                  placeholder='Venue/Starting Point'
                   value={activity.venue}
+                  component={TextInput}
+                />
+                <Field
+                  name='destination'
+                  placeholder='Destination'
+                  value={activity.destination}
                   component={TextInput}
                 />
                 <Button

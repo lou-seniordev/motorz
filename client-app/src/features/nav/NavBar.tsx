@@ -134,7 +134,7 @@ const NavBar: React.FC = () => {
                           value='MotoDiary'
                           as={Link}
                           onClick={toggleShowMenu}
-                          to='/createActivity'
+                          to='/createDiary'
                         />
                       }
                       content='Show us what you do, where you go? Find brothers and sisters to ride together...'

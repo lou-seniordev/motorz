@@ -14,6 +14,9 @@ namespace Application.Activities
                 .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.AppUser.DisplayName))
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.AppUser.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(d => d.Following, o => o.MapFrom<FollowingResolver>()); 
+            CreateMap<Country, ActivityDto>()
+            .ForMember(d => d.CountryName, o => o.MapFrom(s => s.Name))
+            .ForMember(d => d.CountryId, o => o.MapFrom(s => s.Id));
         }
     }
 }

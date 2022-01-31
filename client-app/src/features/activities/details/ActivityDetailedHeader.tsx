@@ -76,7 +76,7 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
             color='orange'
             floated='right'
           >
-            Manage Ridding Route
+            Manage Your Diary
           </Button>
           <Button
               onClick={() => {

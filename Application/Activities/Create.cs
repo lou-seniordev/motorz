@@ -20,7 +20,10 @@ namespace Application.Activities
             public string Category { get; set; }
             public DateTime Date { get; set; }
             public string City { get; set; }
+            public string CountryName { get; set; }
             public string Venue { get; set; }
+            public string Destination { get; set; }
+
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -32,7 +35,9 @@ namespace Application.Activities
                 RuleFor(x => x.Category).NotEmpty();
                 RuleFor(x => x.Date).NotEmpty();
                 RuleFor(x => x.City).NotEmpty();
+                RuleFor(x => x.CountryName).NotEmpty();
                 RuleFor(x => x.Venue).NotEmpty();
+                RuleFor(x => x.Destination).NotEmpty();
             }
         }
 
@@ -49,6 +54,8 @@ namespace Application.Activities
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.CountryName);
+
                 var activity = new Activity
                 {
                     Id = request.Id,
@@ -57,7 +64,9 @@ namespace Application.Activities
                     Category = request.Category,
                     Date = request.Date,
                     City = request.City,
-                    Venue = request.Venue
+                    Country = country,
+                    Venue = request.Venue,
+                    Destination = request.Destination
                 };
 
                 _context.Activities.Add(activity);
