@@ -2,6 +2,8 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Application.Errors;
 using MediatR;
 using Persistence;
@@ -32,6 +34,12 @@ namespace Application.Activities
                 if(activity == null) 
                     throw new RestException(HttpStatusCode.NotFound, 
                         new {activity = "NotFound"});
+
+                var comments = await _context.Comments
+                .Where(x => x.Activity.Id == activity.Id)
+                .ToListAsync();
+
+                _context.RemoveRange(comments);
 
                 _context.Remove(activity);
                 

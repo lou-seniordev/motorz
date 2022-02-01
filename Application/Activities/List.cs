@@ -56,6 +56,7 @@ namespace Application.Activities
 
                 var queryable = _context.Activities
                 .Where(x => x.Date >= request.StartDate)
+                .Where(x => x.IsActive == true)
                 .OrderBy(x => x.Date)
                 .AsQueryable();
 

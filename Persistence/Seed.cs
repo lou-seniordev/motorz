@@ -716,6 +716,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),//"Italy",
                         Venue = "Pub",
                         Destination = "Soho",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -736,7 +737,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "France"),
                         Venue = "The Louvre",
                         Destination = "Champs Elysses",
-
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -763,7 +764,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Wembly Stadium",
                         Destination = "Outside London",
-
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -790,6 +791,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Jamies Italian",
                         Destination = "Italian Pizzeria",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -816,6 +818,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Venue = "Tivoli",
                         Destination = "Triglav",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -842,6 +845,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "British Museum",
                         Destination = "StoneHenge",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -862,6 +866,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Punch and Judy",
                         Destination = "Calais",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -888,6 +893,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "O2 Arena",
                         Destination = "Hide Park",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -914,6 +920,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Germany"),
                         Venue = "Unter der Leyen",
                         Destination = "Brandburg Gate",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -940,6 +947,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Venue = "Titov park",
                         Destination = "Kamenjak",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -966,6 +974,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Venue = "Varudela",
                         Destination = "Motovun",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -992,6 +1001,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Venue = "Kongresni trg",
                         Destination = "Rakov Skocjan",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1012,6 +1022,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Venue = "Veliki Park",
                         Destination = "Lendava",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1038,6 +1049,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Venue = "Jarun",
                         Destination = "Sava",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1058,6 +1070,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Venue = "Piazza Venezia",
                         Destination = "San Gandolfo",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1078,6 +1091,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Venue = "Pignetto",
                         Destination = "L'Aquilla",
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1104,6 +1118,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Venue = "San Marco",
                         Destination = "Montfalcone",
+                        IsActive = false,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity

@@ -295,6 +295,26 @@ export default class ActivityStore {
       });
     }
   };
+  @action deactivateActivity = async (id: string) => {
+    // this.submitting = true;
+    try {
+      await agent.Activities.deactivate(id);
+      runInAction('deactivating activity', () => {
+        this.activityRegistry.delete(id);
+
+        // console.log('this.activityRegistry', this.activityRegistry)
+
+        // this.submitting = false;
+        // this.target = '';
+      });
+    } catch (error) {
+      runInAction('delete error activity', () => {
+        // this.submitting = false;
+        // this.target = '';
+        console.log(error);
+      });
+    }
+  };
 
   @action attendActivity = async () => {
     const attendee = createAttendee(this.rootStore.userStore.user!);

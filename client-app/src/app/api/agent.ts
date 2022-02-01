@@ -231,6 +231,7 @@ const Activities = {
   update: (activity: IActivity) =>
     requests.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => requests.delete(`/activities/${id}`),
+  deactivate: (id: string) => requests.put(`/activities/${id}/deactivate`, {}),
   attend: (id: string) => requests.post(`/activities/${id}/attend`, {}),
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
 };

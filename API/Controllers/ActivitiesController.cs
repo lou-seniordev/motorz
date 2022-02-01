@@ -46,6 +46,13 @@ namespace API.Controllers
             command.Id = id;
             return await Mediator.Send(command);
         }
+        [HttpPut("{id}/deactivate")]
+        [Authorize(Policy = "IsActivityHost")]
+        public async Task<ActionResult<Unit>> Deactivate(Guid id)
+        {
+           
+            return await Mediator.Send(new Deactivate.Command { Id = id });
+        }
 
         [HttpDelete("{id}")]
         [Authorize(Policy = "IsActivityHost")]

@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 
 import { useHistory } from "react-router";
+import ConfirmDeactivate from '../modals/ConfirmDeactivate';
 
 const activityImageStyle = {
   filter: 'brightness(30%)',
@@ -26,15 +27,18 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);
-  const { attendActivity, cancelAttendance, loading, deleteActivity } = rootStore.activityStore;
+  const { attendActivity, cancelAttendance, loading, deactivateActivity } = rootStore.activityStore;
+
+  const { openModal } = rootStore.modalStore;
 
   let history = useHistory();
 
-  const handleDeleteActivity = (id: string) => {
-    // openModal(<ConfirmDelete productId={id}/>);
+  const handleDeactivateActivity = (id: string) => {
+    //==yes in needs a modal
+    openModal(<ConfirmDeactivate activityId={id}/>);
     // console.log("id", id);
-    deleteActivity(id);
-    history.push('/activities');
+    // deleteActivity(id);
+    // history.push('/activities');
   };
 
   return (
@@ -81,12 +85,12 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
           <Button
               onClick={() => {
                 
-                handleDeleteActivity(activity.id!);
+                handleDeactivateActivity(activity.id!);
               }}
               color='red'
               floated='left'
               >
-              Delete
+              Deactivate
             </Button>
           </Fragment>
           

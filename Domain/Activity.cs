@@ -14,6 +14,7 @@ namespace Domain
         public virtual Country Country { get; set; }
         public string Venue { get; set; }
         public string Destination { get; set; }
+        public bool IsActive { get; set; } = true;
         public virtual ICollection<UserActivity> UserActivities { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<CommentActivity> CommentActivities { get; set; }

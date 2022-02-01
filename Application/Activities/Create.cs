@@ -66,7 +66,8 @@ namespace Application.Activities
                     City = request.City,
                     Country = country,
                     Venue = request.Venue,
-                    Destination = request.Destination
+                    Destination = request.Destination,
+                    IsActive = true
                 };
 
                 _context.Activities.Add(activity);

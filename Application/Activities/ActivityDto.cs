@@ -17,6 +17,7 @@ namespace Application.Activities
         public string CountryId { get; set; }
         public string Venue { get; set; }
         public string Destination { get; set; }
+        public bool IsActive { get; set; }
 
         [JsonPropertyName("attendees")]
         public ICollection<AttendeeDto> UserActivities { get; set; }//UserActivities
