@@ -696,6 +696,86 @@ namespace Persistence
                         Category = "Ask for advice",
                         Author = userManager.Users.SingleOrDefault(x => x.UserName == "tom")
                     },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-4),
+                        Title= "True",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Ask for advice",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "tom")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-13),
+                        Title= "Love??",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Ask for assistance",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "jerry")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-9),
+                        Title= "Where to...",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Offer information",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "cato")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-5),
+                        Title= "Road Limits",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Offer information",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "emir")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-31),
+                        Title= "Ridding South",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Ask for assistance",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "nina")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now,
+                        Title= "Standing Next And That",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Ask for advice",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "bob")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-8),
+                        Title= "Tom's Question",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Ask for assistance",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "tom")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-11),
+                        Title= "Many times this have happened",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Ask for advice",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "jane")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-12),
+                        Title= "So much pleasure, but still dangerous",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Ask for assistance",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "joe")
+                    },
+                    new Forumpost
+                    {
+                        DateAdded = DateTime.Now.AddDays(-14),
+                        Title= "Hit and run",
+                        Body = "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?",
+                        Category = "Ask for assistance",
+                        Author = userManager.Users.SingleOrDefault(x => x.UserName == "emir")
+                    },
 
                 };
                 await context.Forumposts.AddRangeAsync(forumposts);

@@ -1,5 +1,11 @@
 import { IComment } from "./comment";
 
+export interface IForumpostEnvelope {
+  forumposts: IForumpost[];
+  forumpostCount: number
+
+}
+
 export interface IForumpost {
   id: string;
   title: string;

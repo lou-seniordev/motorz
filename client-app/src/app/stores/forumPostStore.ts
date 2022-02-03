@@ -9,6 +9,7 @@ import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signal
 import { IComment } from '../models/comment';
 
 // configure({ enforceActions: 'always' });
+const LIMIT = 4;
 
 export default class ForumPostStore {
   rootStore: RootStore;
@@ -21,10 +22,19 @@ export default class ForumPostStore {
   @observable loadingInitial = false;
   @observable editMode = false;
   @observable submitting = false;
-
+  //delete?
   @observable target = '';
-
   @observable.ref hubConnection: HubConnection | null = null;
+  @observable forumPostCount = 0;
+  @observable page = 0;
+
+  @computed get totalPages() {
+    return Math.ceil(this.forumPostCount / LIMIT);
+  }
+
+  @action setPage = (page: number) => {
+    this.page = page;
+  }
 
   @action createHubConnection = (id: string, connectionArgument: string) => {//, motofy: IMotofy
     this.hubConnection = new HubConnectionBuilder()
@@ -128,18 +138,15 @@ export default class ForumPostStore {
   @action loadForumPosts = async () => {
     this.loadingInitial = true;
     try {
-      const forumposts = await agent.Forumposts.list();
+      const forumpostEnvelope = await agent.Forumposts.list(LIMIT, this.page);
+      const {forumposts, forumpostCount} = forumpostEnvelope;
       runInAction('loading forumposts', () => {
         forumposts.forEach((forumpost) => {
           forumpost.numberOfComents = this.summComments(forumpost);
-
           forumpost.commenters = this.reduceCommenters(forumpost);
-
-          // console.log('forumpost : ', forumpost)
           this.forumPostRegistry.set(forumpost.id, forumpost);
-          //  console.log('comments nr: ', this.summComments(forumpost))
-          //  console.log('commenters nr: ', this.reduceCommenters(forumpost))
         });
+        this.forumPostCount = forumpostCount;
         this.loadingInitial = false;
       });
     } catch (error) {

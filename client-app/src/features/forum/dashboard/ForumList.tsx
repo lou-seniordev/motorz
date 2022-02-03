@@ -12,9 +12,9 @@ const ForumList: React.FC = () => {
     <Fragment>
       {forumpostsByDate.map(([group, forumposts]) => (
         <Fragment key={group}>
-          <Label size='large' color='blue'>
+          {/* <Label size='large' color='blue'>
            Posted on {group}
-          </Label>
+          </Label> */}
           <Segment clearing>
             <Item.Group divided>
               {forumposts.map((forumpost) => (

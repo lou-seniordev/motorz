@@ -13,9 +13,9 @@ namespace API.Controllers
     public class ForumpostsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<ForumpostDto>>> List()
+        public async Task<ActionResult<List.ForumpostEnvelope>> List(int? limit, int? offset)
         {
-            return await Mediator.Send(new List.Query());
+            return await Mediator.Send(new List.Query(limit, offset));
         }
 
         [HttpGet("{id}")]

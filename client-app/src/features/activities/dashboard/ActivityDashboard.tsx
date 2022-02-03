@@ -56,7 +56,6 @@ const ActivityDashboard: React.FC = () => {
       </Grid.Column>
       <Grid.Column width={6} className="mobile hidden">
         <Sticky style={{marginRight: 30, position: 'fixed'}} >
-
           <ActivityFilters />
         </Sticky>
       </Grid.Column>

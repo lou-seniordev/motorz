@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 // import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
-import { IForumpost } from '../models/forumpost';
+import { IForumpost, IForumpostEnvelope } from '../models/forumpost';
 import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend } from '../models/mechanic';
 import { IBrand } from '../models/brand';
 import { IProduct } from '../models/product';//, ProductFormValues
@@ -254,7 +254,8 @@ const Messages = {
 }
 
 const Forumposts = {
-  list: (): Promise<IForumpost[]> => requests.get('/forumposts'),
+  list: (limit?:number, page?:number): Promise<IForumpostEnvelope> => 
+    requests.get(`/forumposts?limit=${limit}&offset=${page ? page * limit! : 0}`),
   details: (id: string) => requests.get(`/forumposts/${id}`),
   create: (forumpost: IForumpost) => requests.post('/forumposts', forumpost),
   update: (forumpost: IForumpost) =>
