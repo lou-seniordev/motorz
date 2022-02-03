@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
+import { Segment, Item, Header, Button, Image, Icon } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 // import { useHistory } from "react-router-dom";
@@ -10,15 +10,29 @@ import ConfirmDelete from "../modals/ConfirmDelete";
 
 const motofyImageStyle = {
   filter: "brightness(90%)",
+  border: 'white solid 1px',
+  borderRadius: "5px",
+};
+const buttonOwnerStyle = {
+  borderRadius: "7px", 
+  // border: "rgb(29, 115, 152) solid 1px",
+  width: "40%"
+};
+const buttonVisitorStyle = {
+  borderRadius: "7px",
+  // border: "teal solid 1px",
+  backgroundColor: "rgb(29, 115, 152)"
 };
 
 const motofyImageTextStyle = {
   position: "absolute",
-  top: "50%",
-  left: "5%",
-  width: "100%",
-  height: "auto",
-  color: "white",
+  top: "10%",
+  left: "10%",
+  // width: "100%",
+  // height: "100px",
+  fontSize: "1rem",
+  color: "#FFD700",
+  // backgroundColor: "black"
 };
 
 interface IProps {
@@ -34,8 +48,10 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
     openModal(<ConfirmDelete motofyId={id}/>);
   };
 
+  // const publisher = motofy.embracers.filter((x) => x)[0];
+
   return (
-    <Segment.Group>
+    <Segment.Group >
       <Segment basic attached='top' style={{ padding: "0" }}>
         <Image
           src={motofy!.photoUrl || `/assets/placeholder.png`}
@@ -51,10 +67,10 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
                   content={motofy.name}
                   style={{ color: "white" }}
                 />
-                <p>Published on {motofy.datePublished}</p>
-                <p>
-                  By <strong>Bob</strong>
-                </p>
+                {/* <p>Published on {motofy.datePublished}</p> */}
+                {/* <p>
+                  By <strong>{publisher || 'unknown'}</strong>
+                </p> */}
               </Item.Content>
             </Item>
           </Item.Group>
@@ -66,9 +82,11 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
             <Button
               as={Link}
               to={`/manageGallery/${motofy.id}`}
-              color='orange'
-              floated='right'
+              color='teal'
+              floated='left'
+              style={buttonOwnerStyle}
             >
+               <Icon name='edit' />
               Manage
             </Button>
             <Button
@@ -80,16 +98,19 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
               }}
               color='red'
               floated='right'
+              style={buttonOwnerStyle}
+
             >
+               <Icon name='stop circle' />
               Delete
             </Button>
           </Segment>
         ) : motofy.embraced ? (
-          <Button loading={loading} onClick={unembraceMotofy}>
+          <Button style={buttonVisitorStyle} Negative loading={loading} fluid onClick={unembraceMotofy}>
             Embraced
           </Button>
         ) : (
-          <Button loading={loading} onClick={embraceMotofy} color='teal'>
+          <Button style={buttonVisitorStyle} loading={loading} fluid onClick={embraceMotofy} color='teal'>
             Embrace
           </Button>
         )}

@@ -37,7 +37,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
   const seeMore = "...see more";
 
   return (
-    <Segment.Group>
+    <Segment.Group raised>
       <Segment>
         <Item.Group>
           <Item>

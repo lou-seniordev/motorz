@@ -1,14 +1,11 @@
 // import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { Rating, RatingProps, Segment } from "semantic-ui-react";
+import { Item, ItemExtra, Rating, RatingProps, Segment } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
-// const GaleryDetailedRating = () => (
-// );
 
-// export default GaleryDetailedRating;
 
 interface IProps {
   motofy: IMotofy;
@@ -64,8 +61,14 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
   };
   return (
     <Segment.Group>
-      <Segment>
-        <p>Average Rating: {motofy.averageRating}</p>
+      <Segment style={{
+          display: 'flex', 
+          flexDirection: 'column', 
+          textAlign: 'center', 
+          justifyContent: 'space-around'}}>
+        <Item.Group>
+
+        <Item.Header>Average Rating: {motofy.averageRating}</Item.Header>
         {!motofy.isOwner ? (
           <Fragment>
             <Rating
@@ -79,14 +82,15 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
               disabled={rated}
             />
             {userRated ? (
-              <p>You Rated: {userRated} 'may move, dunno yet...'</p>
+              <ItemExtra>You Rated This Motofy: {userRated} </ItemExtra>
             ) : (
-              <p>You Have Not Rated Yet</p>
+              <ItemExtra>You Have Not Rated Yet</ItemExtra>
             )}
           </Fragment>
         ) : (
           <Fragment>NB: You cannot rate your own motofy</Fragment>
         )}
+        </Item.Group>
       </Segment>
     </Segment.Group>
   );

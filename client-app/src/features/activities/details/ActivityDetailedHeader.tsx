@@ -10,7 +10,7 @@ import { useHistory } from "react-router";
 import ConfirmDeactivate from '../modals/ConfirmDeactivate';
 
 const activityImageStyle = {
-  filter: 'brightness(30%)',
+  filter: 'brightness(70%)',
 };
 
 const activityImageTextStyle = {
@@ -34,11 +34,7 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   let history = useHistory();
 
   const handleDeactivateActivity = (id: string) => {
-    //==yes in needs a modal
     openModal(<ConfirmDeactivate activityId={id}/>);
-    // console.log("id", id);
-    // deleteActivity(id);
-    // history.push('/activities');
   };
 
   return (

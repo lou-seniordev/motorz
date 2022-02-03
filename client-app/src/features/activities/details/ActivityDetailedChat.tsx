@@ -17,7 +17,7 @@ const ActivityDetailedChat = () => {
   } = rootStore.activityStore;
 
   useEffect(() => {
-    console.log('activity', activity)
+    // console.log('activity', activity)
     createHubConnection(activity!.id);
     return () => {
       stopHubConnection();
@@ -73,7 +73,9 @@ const ActivityDetailedChat = () => {
                   content='Add Reply'
                   labelPosition='left'
                   icon='edit'
-                  primary
+                  // primary
+                  fluid
+                  color='teal'
                   loading={submitting}
                 />
               </Form>

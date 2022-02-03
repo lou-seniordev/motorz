@@ -19,7 +19,7 @@ const ActivityDetailedInfo: React.FC<{activity: IActivity}> = ({activity}) => {
              <Segment attached>
                <Grid verticalAlign='middle'>
                  <Grid.Column width={1}>
-                   <Icon name='calendar' size='large' color='teal' />
+                   <Icon name='calendar alternate outline' size='large' color='teal' />
                  </Grid.Column>
                  <Grid.Column width={15}>
                    <span>
@@ -45,6 +45,26 @@ const ActivityDetailedInfo: React.FC<{activity: IActivity}> = ({activity}) => {
                  </Grid.Column>
                  <Grid.Column width={11}>
                    <span>{activity.destination}</span>
+                 </Grid.Column>
+               </Grid>
+             </Segment>
+             <Segment attached>
+               <Grid verticalAlign='middle'>
+                 <Grid.Column width={1}>
+                   <Icon name='globe' size='large' color='teal' />
+                 </Grid.Column>
+                 <Grid.Column width={11}>
+                   <span>{activity.countryName}</span>
+                 </Grid.Column>
+               </Grid>
+             </Segment>
+             <Segment attached>
+               <Grid verticalAlign='middle'>
+                 <Grid.Column width={1}>
+                   <Icon name='gem outline' size='large' color='teal' />
+                 </Grid.Column>
+                 <Grid.Column width={11}>
+                   <span>{activity.category}</span>
                  </Grid.Column>
                </Grid>
              </Segment>

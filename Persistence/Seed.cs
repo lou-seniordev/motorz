@@ -710,8 +710,8 @@ namespace Persistence
                     {
                         Title = "Past Diary 1",
                         Date = DateTime.Now.AddMonths(-2),
-                        Description = "Diary 2 months ago",
-                        Category = "Drinks",
+                        Description = "Diary 2 months ago. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "City Ridding",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),//"Italy",
                         Venue = "Pub",
@@ -731,8 +731,8 @@ namespace Persistence
                     {
                         Title = "Past Diary 2",
                         Date = DateTime.Now.AddMonths(-1),
-                        Description = "Diary 1 month ago",
-                        Category = "Culture",
+                        Description = "Diary 1 month ago. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Go To Places",
                         City = "Paris",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "France"),
                         Venue = "The Louvre",
@@ -758,8 +758,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 1",
                         Date = DateTime.Now.AddMonths(1),
-                        Description = "Diary 1 month in future",
-                        Category = "Music",
+                        Description = "Diary 1 month in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "City Ridding",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Wembly Stadium",
@@ -785,8 +785,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 2",
                         Date = DateTime.Now.AddMonths(2),
-                        Description = "Diary 2 months in future",
-                        Category = "Food",
+                        Description = "Diary 2 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Out To Lunch",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Jamies Italian",
@@ -812,8 +812,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 3",
                         Date = DateTime.Now.AddMonths(3),
-                        Description = "Diary 3 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 3 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Mountains",
                         City = "Ljubljana",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Venue = "Tivoli",
@@ -839,8 +839,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 4",
                         Date = DateTime.Now.AddMonths(4),
-                        Description = "Diary 4 months in future",
-                        Category = "Culture",
+                        Description = "Diary 4 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Go To Places",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "British Museum",
@@ -860,8 +860,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 5",
                         Date = DateTime.Now.AddMonths(5),
-                        Description = "Diary 5 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 5 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Racing",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "Punch and Judy",
@@ -887,8 +887,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 6",
                         Date = DateTime.Now.AddMonths(6),
-                        Description = "Diary 6 months in future",
-                        Category = "Music",
+                        Description = "Diary 6 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Rock And Roll",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Venue = "O2 Arena",
@@ -914,8 +914,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 7",
                         Date = DateTime.Now.AddMonths(7),
-                        Description = "Diary 7 months in future",
-                        Category = "Travel",
+                        Description = "Diary 7 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "City Ridding",
                         City = "Berlin",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Germany"),
                         Venue = "Unter der Leyen",
@@ -941,8 +941,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 8",
                         Date = DateTime.Now.AddMonths(8),
-                        Description = "Diary 8 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 8 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "By The Sea",
                         City = "Pula",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Venue = "Titov park",
@@ -968,8 +968,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 9",
                         Date = DateTime.Now.AddMonths(9),
-                        Description = "Diary 9 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 9 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "By The Sea",
                         City = "Pula",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Venue = "Varudela",
@@ -995,8 +995,8 @@ namespace Persistence
                     {
                         Title = "Future Diary 10",
                         Date = DateTime.Now.AddMonths(10),
-                        Description = "Diary 10 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 10 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Outdoors",
                         City = "Ljubljana",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Venue = "Kongresni trg",
@@ -1016,8 +1016,8 @@ namespace Persistence
                     {
                         Title = "Far future Diary 11",
                         Date = DateTime.Now.AddMonths(11),
-                        Description = "Diary 11 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 11 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Heavy Metal",
                         City = "Maribor",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Venue = "Veliki Park",
@@ -1043,8 +1043,8 @@ namespace Persistence
                     {
                         Title = "Very far future Diary 12",
                         Date = DateTime.Now.AddMonths(12),
-                        Description = "Diary 12 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 12 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Gang",
                         City = "Zagreb",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Venue = "Jarun",
@@ -1064,8 +1064,8 @@ namespace Persistence
                     {
                         Title = "Long far future Diary 13",
                         Date = DateTime.Now.AddMonths(13),
-                        Description = "Diary 13 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 13 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Cruise",
                         City = "Roma",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Venue = "Piazza Venezia",
@@ -1085,12 +1085,12 @@ namespace Persistence
                     {
                         Title = "Long far future Diary 14",
                         Date = DateTime.Now.AddMonths(14),
-                        Description = "Diary 14 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 14 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "By The Sea",
                         City = "Roma",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Venue = "Pignetto",
-                        Destination = "L'Aquilla",
+                        Destination = "Ostia, Roma",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
@@ -1112,13 +1112,13 @@ namespace Persistence
                     {
                         Title = "Never to happen future Diary 15",
                         Date = DateTime.Now.AddMonths(15),
-                        Description = "Diary 15 months in future",
-                        Category = "Drinks",
+                        Description = "Diary 15 months in future. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
+                        Category = "Cruise",
                         City = "Trieste",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Venue = "San Marco",
                         Destination = "Montfalcone",
-                        IsActive = false,
+                        IsActive = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1252,7 +1252,7 @@ namespace Persistence
                     {
                         Id = Guid.Parse("71d0f37a-4954-425e-9773-300e0669d9bd"),
                         Name = "Lillie",
-                        Model = "620 Dark",
+                        Model = "Multistrada 620 Dark",
                         // BrandId = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
 
                         // Brand = "Ducati",
@@ -1544,7 +1544,7 @@ namespace Persistence
                             CityOfOrigin = "Munchen",
                         },
                         CubicCentimeters = "1200",
-                        PhotoUrl = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
+                        PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1543754892/adieklq5tk9hq04itadr.jpg",
 
                         Description = "The BMW R1200GS is one of the best selling motorcycles of all time. And yet, as I prepared to make a purchase of a 2018 lowered rallye model, I found a surprising dearth of meaningful answers to my questions and concerns.",
                         // YearOfProduction = DateTime.Now.AddYears(-2),
@@ -1552,7 +1552,7 @@ namespace Persistence
                             // Id = context.MotofyPhotos.FirstOrDefault(s => s.Id == Guid.Parse("c525b36c-ab52-4e04-8d87-6facd3d70234")).Id,
                             // Id = Guid.Parse("c525b36c-ab52-4e04-8d87-6facd3d70234"),
                             Id = "c525b36c-ab52-4e04-8d87-6facd3d70234",
-                            Url = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
+                            Url = "https://res.cloudinary.com/motofy/image/upload/v1543754892/adieklq5tk9hq04itadr.jpg",
                             // DateUploaded = DateTime.Now,
                             MotofyForeignKey = Guid.Parse("02d05033-ec4c-4fb5-9477-95ddb8ce5e39")
 

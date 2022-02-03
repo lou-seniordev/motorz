@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect, useRef } from "react"; 
+import React, { useContext, useEffect, useRef } from "react";
 import "./Navbar.css";
 
 import { Link, NavLink } from "react-router-dom";
@@ -12,17 +12,14 @@ const NavBar: React.FC = () => {
   const { user, logout } = rootStore.userStore;
 
   const menuRef: any = useRef();
-  
 
-  const toggleShowMenu = (e: any) => {
-    
+  const closeStackableMenu = (e: any) => {
     var actionMenu = menuRef.current.parentNode;
     var actionIcon = menuRef.current;
-    actionMenu.classList.remove('active')
-    actionMenu.classList.remove('open')
-    actionIcon.classList.remove('active')
-    actionIcon.classList.remove('open')
-
+    actionMenu.classList.remove("active");
+    actionMenu.classList.remove("open");
+    actionIcon.classList.remove("active");
+    actionIcon.classList.remove("open");
   };
 
   useEffect(() => {
@@ -30,23 +27,17 @@ const NavBar: React.FC = () => {
       var menu = menuRef.current.parentNode;
       // console.log("menuRef", menuRef);
 
-     
-
       if (!this.classList.contains("active")) {
         this.classList.add("active");
         menu.classList.add("open");
-       
       } else {
         this.classList.remove("active");
         menu.classList.remove("open");
-       
       }
 
       e.preventDefault();
-      
     };
   }, []);
-
 
   // ui vertical sidebar menu   //inverted  //stackable inverted
   return (
@@ -64,7 +55,7 @@ const NavBar: React.FC = () => {
               src='/assets/logo.png'
               alt='logo'
               style={{ marginRight: "10" }}
-              onClick={toggleShowMenu}
+              onClick={closeStackableMenu}
             />
             Motoranza
           </Menu.Item>
@@ -74,37 +65,39 @@ const NavBar: React.FC = () => {
             exact
             as={NavLink}
             to='/activities'
-            onClick={toggleShowMenu}
+            onClick={closeStackableMenu}
           />
-          <Menu.Item exact as={NavLink} 
-            to='/gallery' 
-            onClick={toggleShowMenu}>
+          <Menu.Item exact as={NavLink} to='/gallery' onClick={closeStackableMenu}>
             Motofy!
           </Menu.Item>
           <Menu.Item
             name='forum'
             exact
             as={NavLink}
-            onClick={toggleShowMenu}
+            onClick={closeStackableMenu}
             to='/forum'
           />
-          <Menu.Item 
-            name='mechanics' 
-            exact as={NavLink} 
+          <Menu.Item
+            name='mechanics'
+            exact
+            as={NavLink}
             to='/mechanics'
-            onClick={toggleShowMenu}
+            onClick={closeStackableMenu}
           />
-          <Menu.Item 
-            name='market' 
-            exact as={NavLink} 
-            onClick={toggleShowMenu}
-            to='/shop' 
+          <Menu.Item
+            name='market'
+            exact
+            as={NavLink}
+            onClick={closeStackableMenu}
+            to='/shop'
           />
-          <Menu.Item 
-            name='messages' 
-            exact as={NavLink} 
-            onClick={toggleShowMenu}
-            to='/messages' />
+          <Menu.Item
+            name='messages'
+            exact
+            as={NavLink}
+            onClick={closeStackableMenu}
+            to='/messages'
+          />
           {/* <Menu.Item name='search motoranza' /> */}
           <div className='right menu'>
             {user && (
@@ -116,24 +109,10 @@ const NavBar: React.FC = () => {
                       position='right center'
                       trigger={
                         <Dropdown.Item
-                          text='Mecanics Shop'
-                          value='Mecanic'
-                          as={Link}
-                          onClick={toggleShowMenu}
-                          to='/mechanicForm'
-                        />
-                      }
-                      content='Let us know about your shop or recommend a mecanic that you know about'
-                    />
-                    <Popup
-                      size='mini'
-                      position='right center'
-                      trigger={
-                        <Dropdown.Item
                           text='Motorcycle Diary'
                           value='MotoDiary'
                           as={Link}
-                          onClick={toggleShowMenu}
+                          onClick={closeStackableMenu}
                           to='/createDiary'
                         />
                       }
@@ -148,11 +127,26 @@ const NavBar: React.FC = () => {
                           text='Motofy!'
                           value='Motofy'
                           as={Link}
-                          onClick={toggleShowMenu}
+                          onClick={closeStackableMenu}
                           to='/galleryForm'
                         />
                       }
                       content='Everybody wants to see a great photo of your bike. Tell us more about it'
+                    />
+
+                    <Popup
+                      size='mini'
+                      position='right center'
+                      trigger={
+                        <Dropdown.Item
+                          text='Mecanics Shop'
+                          value='Mecanic'
+                          as={Link}
+                          onClick={closeStackableMenu}
+                          to='/mechanicForm'
+                        />
+                      }
+                      content='Let us know about your shop or recommend a mecanic that you know about'
                     />
                     <Popup
                       size='mini'
@@ -162,7 +156,7 @@ const NavBar: React.FC = () => {
                           text='Forum post'
                           value='Forum'
                           as={Link}
-                          onClick={toggleShowMenu}
+                          onClick={closeStackableMenu}
                           to='/forumform'
                         />
                       }
@@ -176,7 +170,7 @@ const NavBar: React.FC = () => {
                           text='Product to sell'
                           value='Product'
                           as={Link}
-                          onClick={toggleShowMenu}
+                          onClick={closeStackableMenu}
                           to='/productform'
                         />
                       }
@@ -199,7 +193,7 @@ const NavBar: React.FC = () => {
                       as={Link}
                       to={`/profile/${user.userName}`}
                       text='My profile'
-                      onClick={toggleShowMenu}
+                      onClick={closeStackableMenu}
                       icon='user'
                     />
                     <Dropdown.Item
@@ -223,5 +217,3 @@ const NavBar: React.FC = () => {
   );
 };
 export default observer(NavBar);
-
-

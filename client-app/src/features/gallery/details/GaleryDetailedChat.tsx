@@ -68,7 +68,9 @@ const GaleryDetailedChat = () => {
                   content='Add Reply'
                   labelPosition='left'
                   icon='edit'
-                  primary
+                  // primary
+                  color="teal"
+                  fluid
                   loading={submitting}
                 />
               </Form>

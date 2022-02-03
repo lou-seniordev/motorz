@@ -302,15 +302,12 @@ export default class ActivityStore {
       runInAction('deactivating activity', () => {
         this.activityRegistry.delete(id);
 
-        // console.log('this.activityRegistry', this.activityRegistry)
 
         // this.submitting = false;
-        // this.target = '';
       });
     } catch (error) {
       runInAction('delete error activity', () => {
         // this.submitting = false;
-        // this.target = '';
         console.log(error);
       });
     }
