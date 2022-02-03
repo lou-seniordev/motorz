@@ -11,6 +11,7 @@ import {
   Grid,
   Divider,
   Header,
+  Popup,
 } from "semantic-ui-react";
 
 import { IMotofy } from "../../../app/models/motofy";
@@ -60,7 +61,12 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
           >
             <Grid.Row>
               <Grid.Column computer={4} tablet={8} mobile={8}>
-                <Image size='mini' src={motofy.brandLogoUrl} centered />
+
+              <Popup
+                header={motofy.brandName}
+                trigger={<Image size='mini' src={motofy.brandLogoUrl} centered />}
+            />
+                
               </Grid.Column>
               <Grid.Column computer={4} tablet={8} mobile={8}>
                 <Item.Header as={Link} to={`/gallery/${motofy.id}`}>
