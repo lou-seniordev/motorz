@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class UpgradeActivityEntity : Migration
+    public partial class AddForumpostRatingEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -315,7 +315,8 @@ namespace Persistence.Migrations
                     City = table.Column<string>(nullable: true),
                     CountryId = table.Column<Guid>(nullable: true),
                     Venue = table.Column<string>(nullable: true),
-                    Destination = table.Column<string>(nullable: true)
+                    Destination = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -477,6 +478,35 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CommentForumPosts_Forumposts_ForumpostId",
+                        column: x => x.ForumpostId,
+                        principalTable: "Forumposts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ForumpostRatings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AuthorId = table.Column<string>(nullable: true),
+                    ForumpostId = table.Column<Guid>(nullable: true),
+                    IsInteresting = table.Column<bool>(nullable: true),
+                    IsUsefull = table.Column<bool>(nullable: true),
+                    IsHelping = table.Column<bool>(nullable: true),
+                    Rating = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ForumpostRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ForumpostRatings_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ForumpostRatings_Forumposts_ForumpostId",
                         column: x => x.ForumpostId,
                         principalTable: "Forumposts",
                         principalColumn: "Id",
@@ -952,6 +982,16 @@ namespace Persistence.Migrations
                 column: "TargetId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ForumpostRatings_AuthorId",
+                table: "ForumpostRatings",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ForumpostRatings_ForumpostId",
+                table: "ForumpostRatings",
+                column: "ForumpostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Forumposts_AuthorId",
                 table: "Forumposts",
                 column: "AuthorId");
@@ -1114,6 +1154,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Followings");
+
+            migrationBuilder.DropTable(
+                name: "ForumpostRatings");
 
             migrationBuilder.DropTable(
                 name: "MechanicPhotos");

@@ -39,7 +39,8 @@ namespace Application.Activities
 
         public class Handler : IRequestHandler<Query, ActivitiesEnvelope>
         {
-            private readonly DataContext _context; private readonly IMapper _mapper;
+            private readonly DataContext _context; 
+            private readonly IMapper _mapper;
             private readonly IUserAccessor _userAccessor;
             public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
             {

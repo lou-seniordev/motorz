@@ -118,7 +118,7 @@ export default class MotofyStore {
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
-      console.log(predicate);
+      // console.log(predicate);
     }
   }
 

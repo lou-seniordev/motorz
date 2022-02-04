@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Segment, Grid, Icon, Divider } from "semantic-ui-react";
+import { Segment, Grid, Icon, Divider, Button } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
 
 const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
@@ -58,6 +58,23 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
         <Grid verticalAlign='middle'>
           <Grid.Column width={16}>
             <span>{forumpost.body}</span>
+          </Grid.Column>
+        </Grid>
+      </Segment>
+      <Segment attached>
+        <Grid verticalAlign='middle'>
+        <Grid.Column width={5} style={{width: "100%"}}>
+            <Button content="Interesting"/>
+          </Grid.Column>
+          <Grid.Column width={2} />
+
+          <Grid.Column width={5} style={{width: "100%"}}>
+            <Button content="Helping"/>
+          </Grid.Column>
+          <Grid.Column width={2} />
+
+          <Grid.Column width={5} style={{width: "100%"}}>
+            <Button content="Usefull"/>
           </Grid.Column>
         </Grid>
       </Segment>

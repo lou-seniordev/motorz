@@ -1,61 +1,61 @@
 import React, { Fragment, useContext } from "react";
-import { Menu, Header } from "semantic-ui-react";
-import { Calendar } from "react-widgets";
+import { Menu, Header, Dropdown } from "semantic-ui-react";
+import { category } from "../../../app/common/options/forumCategoryOptions";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 
 const ForumFilters = () => {
   const rootStore = useContext(RootStoreContext);
-  const { predicate, setPredicate } = rootStore.activityStore;
+  const { predicate, setPredicate } = rootStore.forumPostStore;
+
+  const handleOnChange = (e: any, data: any) => {
+    // console.log(data.value);
+    setPredicate( 'category', data.value)
+  };
+
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%" }}>
-      {/* , marginTop: 50 */}
-      {/* <h2>Trending</h2>
-          <h2>Category</h2>
-          <h2>Your people are asking</h2>
-          <h2>You might be interested</h2>
-          <h2>You asked</h2> */}
         <Header icon={"filter"} attached color={"teal"} content={"Filters"} />
         <Menu.Item
           active={predicate.size === 0}
           onClick={() => setPredicate("all", "true")}
           color={"blue"}
           name={"all"}
-          content={"All Activities"}
+          content={"All Posts"}
         />
         <Menu.Item
-          active={predicate.has("isGoing")}
-          onClick={() => setPredicate("isGoing", "true")}
+          active={predicate.has("iAsked")}
+          onClick={() => setPredicate("iAsked", "true")}
           color={"blue"}
           name={"username"}
-          content={"I have joined"}
+          content={"I Asked"}
         />
         <Menu.Item
-          active={predicate.has("isHost")}
-          onClick={() => setPredicate("isHost", "true")}
+          active={predicate.has("iRated")}
+          onClick={() => setPredicate("iRated", "true")}
           color={"blue"}
           name={"host"}
-          content={"I'm organizing"}
+          content={"I rated"}
         />
         <Menu.Item
-          active={predicate.has("isHost")}
-          onClick={() => setPredicate("isHost", "true")}
+          active={predicate.has("trending")}
+          onClick={() => setPredicate("trending", "true")}
           color={"blue"}
           name={"host"}
-          content={"My country"}
+          content={"Trending"}
         />
+        <Menu.Item>
+          <Dropdown
+            placeholder='Choose category'
+            selection
+            floating
+            search
+            options={category}
+            onChange={handleOnChange}
+          />
+        </Menu.Item>
       </Menu>
-      <Header
-        icon={"calendar"}
-        attached
-        color={"teal"}
-        content={"Select Diaries After A Date"}
-      />
-      <Calendar
-        onChange={(date) => setPredicate("startDate", date!)}
-        value={predicate.get("startDate") || new Date()}
-      />
     </Fragment>
   );
 };

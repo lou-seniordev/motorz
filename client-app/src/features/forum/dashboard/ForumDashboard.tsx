@@ -31,7 +31,7 @@ const ForumDashboard = () => {
     <div>
       <Grid>
         {/* width={10} */}
-        <Grid.Column computer={10} mobile={16}>
+        <Grid.Column computer={9} mobile={16}>
           <InfiniteScroll
             pageStart={0}
             loadMore={handleGetNext}

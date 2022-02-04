@@ -13,9 +13,10 @@ namespace API.Controllers
     public class ForumpostsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List.ForumpostEnvelope>> List(int? limit, int? offset)
+        public async Task<ActionResult<List.ForumpostEnvelope>> List(int? limit, int? offset, 
+            bool trending, bool iAsked, bool iRated, string category)// = "Ask for assistance"
         {
-            return await Mediator.Send(new List.Query(limit, offset));
+            return await Mediator.Send(new List.Query(limit, offset, trending, iAsked, iRated, category ));
         }
 
         [HttpGet("{id}")]

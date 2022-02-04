@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220131101744_UpgradeActivityEntity")]
-    partial class UpgradeActivityEntity
+    [Migration("20220203205928_AddForumpostRatingEntity")]
+    partial class AddForumpostRatingEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Destination")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
@@ -346,6 +349,39 @@ namespace Persistence.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Forumposts");
+                });
+
+            modelBuilder.Entity("Domain.ForumpostRating", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ForumpostId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool?>("IsHelping")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("IsInteresting")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("IsUsefull")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ForumpostId");
+
+                    b.ToTable("ForumpostRatings");
                 });
 
             modelBuilder.Entity("Domain.Mechanic", b =>
@@ -1079,6 +1115,17 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("Domain.ForumpostRating", b =>
+                {
+                    b.HasOne("Domain.AppUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("Domain.Forumpost", "Forumpost")
+                        .WithMany("ForumpostRatings")
+                        .HasForeignKey("ForumpostId");
                 });
 
             modelBuilder.Entity("Domain.Mechanic", b =>

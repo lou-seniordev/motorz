@@ -51,6 +51,9 @@ namespace Persistence
 
         //=== Rating ===
         public DbSet<AverageRating> AverageRatings { get; set; }
+        
+        //=== ForumpostRating ===
+        public DbSet<ForumpostRating> ForumpostRatings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -145,6 +148,11 @@ namespace Persistence
             .HasOne(a => a.ProductPhoto)
             .WithOne(m => m.Product)
             .HasForeignKey<ProductPhoto>(m => m.ProductForeignKey);
+
+            // builder.Entity<ForumpostRating>()
+            // .HasOne(a => a.AppUser)
+            // .WithOne(m => m.ForumpostRating)
+            // .HasForeignKey<ProductPhoto>(m => m.ProductForeignKey);
 
             // builder.Entity<UserMechanic>()
             // .HasOne(t => t.Testimonial)

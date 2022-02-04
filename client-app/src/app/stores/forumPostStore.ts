@@ -1,4 +1,4 @@
-import { observable, action, computed, runInAction } from 'mobx';
+import { observable, action, computed, runInAction, reaction } from 'mobx';
 import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import agent from '../api/agent';
@@ -15,6 +15,16 @@ export default class ForumPostStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+
+    //==21.1==
+    reaction(
+      () => this.predicate.keys(),
+      () => {
+        this.page = 0;
+        this.forumPostRegistry.clear();
+        this.loadForumPosts();
+      }
+    )
   }
   @observable forumPostRegistry = new Map();
   // @observable forumposts: IForumpost[] = [];
@@ -27,6 +37,30 @@ export default class ForumPostStore {
   @observable.ref hubConnection: HubConnection | null = null;
   @observable forumPostCount = 0;
   @observable page = 0;
+  @observable predicate = new Map();
+
+  @action setPredicate = (predicate: string, value: string) => {
+    this.predicate.clear();
+    if (predicate !== 'all') {
+      this.predicate.set(predicate, value);
+      console.log('predicate', predicate);
+      console.log('value', value);
+    }
+    // console.log(predicate);
+  }
+
+  @computed get axiosParams() {
+    const params = new URLSearchParams();
+    params.append('limit', String(LIMIT));
+    params.append('offset', `${this.page ? this.page * LIMIT : 0}`)
+    this.predicate.forEach((value, key) => {
+      params.append(key, value)
+      // console.log('key:', key, 'value:', value);
+      // console.log('params', params.keys);
+    })
+    return params;
+  }
+
 
   @computed get totalPages() {
     return Math.ceil(this.forumPostCount / LIMIT);
@@ -138,8 +172,8 @@ export default class ForumPostStore {
   @action loadForumPosts = async () => {
     this.loadingInitial = true;
     try {
-      const forumpostEnvelope = await agent.Forumposts.list(LIMIT, this.page);
-      const {forumposts, forumpostCount} = forumpostEnvelope;
+      const forumpostEnvelope = await agent.Forumposts.list(this.axiosParams);
+      const { forumposts, forumpostCount } = forumpostEnvelope;
       runInAction('loading forumposts', () => {
         forumposts.forEach((forumpost) => {
           forumpost.numberOfComents = this.summComments(forumpost);

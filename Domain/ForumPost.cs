@@ -13,6 +13,7 @@ namespace Domain
         // category will have a set photo in client app
         public string Category { get; set; }
         public virtual ICollection<CommentForumPost> CommentForumPosts { get; set; }
+        public virtual ICollection<ForumpostRating> ForumpostRatings { get; set; }
      
     }
 }

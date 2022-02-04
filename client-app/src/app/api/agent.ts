@@ -254,8 +254,11 @@ const Messages = {
 }
 
 const Forumposts = {
-  list: (limit?:number, page?:number): Promise<IForumpostEnvelope> => 
-    requests.get(`/forumposts?limit=${limit}&offset=${page ? page * limit! : 0}`),
+  // list: (limit?:number, page?:number): Promise<IForumpostEnvelope> => 
+  //   requests.get(`/forumposts?limit=${limit}&offset=${page ? page * limit! : 0}`),
+  
+  list: (params: URLSearchParams): Promise<IForumpostEnvelope> => 
+    axios.get('/forumposts', {params: params}).then(sleep(1000)).then(responseBody),
   details: (id: string) => requests.get(`/forumposts/${id}`),
   create: (forumpost: IForumpost) => requests.post('/forumposts', forumpost),
   update: (forumpost: IForumpost) =>
