@@ -5,6 +5,7 @@ import ProfileDescription from './ProfileDescription';
 import ProfileFollowings from './ProfileFollowings';
 import ProfileActivities from './ProfileActivities';
 import ProfileMotofies from './ProfileMotofies';
+import ProfileForumposts from './ProfileForumposts';
 
 const panes = [
   { menuItem: 'About', render: () => <ProfileDescription /> },
@@ -14,13 +15,13 @@ const panes = [
     render: () => <ProfileMotofies />,
   },
   {
-    menuItem: 'Moto Sessions',
+    menuItem: 'Motorcycle Diaries',
     render: () => <ProfileActivities />,
   },
-  // {
-  //   menuItem: 'Motospots',
-  //   render: () => <ProfileActivities />,
-  // },
+  {
+    menuItem: 'Forumposts',
+    render: () => <ProfileForumposts />,
+  },
   {
     menuItem: 'Motoforum',
     render: () => <ProfileActivities />,

@@ -305,7 +305,9 @@ const Profiles = {
   listActivities: (username: string, predicate: string) =>
     requests.get(`/profiles/${username}/activities?predicate=${predicate}`),
   listMotofies: (username: string, predicate: string) =>
-    requests.get(`/profiles/${username}/motofies?predicate=${predicate}`)
+    requests.get(`/profiles/${username}/motofies?predicate=${predicate}`),
+  listForumposts: (username: string, predicate: string) =>
+    requests.get(`/profiles/${username}/forumposts?predicate=${predicate}`)
 
 };
 

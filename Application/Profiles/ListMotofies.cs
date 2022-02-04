@@ -34,9 +34,28 @@ namespace Application.Profiles
                 if (user == null)
                     throw new RestException(HttpStatusCode.NotFound, new { User = "Not found" });
 
-                var queryable = user.UserMotofies
+                var queryable = _context.UserMotofies
                     .OrderBy(a => a.Motofy.DatePublished)
                     .AsQueryable();
+
+                // var queryable = user.UserMotofies
+                //     .OrderBy(a => a.Motofy.DatePublished)
+                //     .AsQueryable();
+
+               
+               
+                // var queryable2 = user.UserMotofies
+                //     .Where(u => u.Motofy.MotofyScores
+                //     .Any(s => s.User.Id == user.Id))
+                //     .AsQueryable();
+                   
+
+                // var queryable2 = _context.Motofies
+                //     .Where(u => u.MotofyScores
+                //     .Any(s => s.User.Id == user.Id))
+                //     .AsQueryable();
+
+               
 
                 switch (request.Predicate)
                 {
@@ -49,6 +68,10 @@ namespace Application.Profiles
                         // queryable = queryable.Where(a => a.IsHost);
                         queryable = queryable.Where(a => a.AppUser.UserName == user.UserName && !a.IsOwner);  //&& a.DateEmbraced != null
                         //  queryable = queryable.Where(x => x.UserMotofies.Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && !a.IsOwner));
+                        break;
+                    case "iRated":
+                        // queryable = queryable2;
+                        queryable = queryable.Where(u => u.Motofy.MotofyScores.Any(s => s.User.Id == user.Id));
 
                         break;
                     default:

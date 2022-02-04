@@ -28,5 +28,11 @@ export interface IUserMotofy {
     datePublished: Date;
     photoUrl: string;
 }
+export interface IUserForumpost {
+    id: string;
+    title: string;
+    category: string;
+    dateAdded: Date;
+}
 
 
