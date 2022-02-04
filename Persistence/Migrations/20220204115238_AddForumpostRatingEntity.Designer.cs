@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220203205928_AddForumpostRatingEntity")]
+    [Migration("20220204115238_AddForumpostRatingEntity")]
     partial class AddForumpostRatingEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

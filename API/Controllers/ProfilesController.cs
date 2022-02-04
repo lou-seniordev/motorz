@@ -32,5 +32,11 @@ namespace API.Controllers
             return await Mediator.Send(new ListMotofies.Query{Username = username, Predicate = predicate});
         }
         
+        [HttpGet("{username}/forumposts")]
+        public async Task<ActionResult<List<UserForumpostDto>>> GetUserForumposts (string username, string predicate)
+        {
+            return await Mediator.Send(new ListForumposts.Query{Username = username, Predicate = predicate});
+        }
+        
     }
 }

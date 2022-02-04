@@ -27,6 +27,9 @@ namespace Persistence
         public DbSet<Mechanic> Mechanics { get; set; }
 
         public DbSet<UserMotofy> UserMotofies { get; set; }
+
+        //==Redundant but kept for future options== (code:finduser)
+
         // coming soon...
         public DbSet<Testimonial> Testimonials { get; set; }
 
@@ -51,7 +54,7 @@ namespace Persistence
 
         //=== Rating ===
         public DbSet<AverageRating> AverageRatings { get; set; }
-        
+
         //=== ForumpostRating ===
         public DbSet<ForumpostRating> ForumpostRatings { get; set; }
 
@@ -94,6 +97,8 @@ namespace Persistence
                 .HasOne(m => m.Motofy)
                 .WithMany(u => u.UserMotofies)
                 .HasForeignKey(m => m.MotofyId);
+
+           
 
             // ==== end ====
 
@@ -138,12 +143,12 @@ namespace Persistence
             .HasOne(a => a.MotofyPhoto)
             .WithOne(m => m.Motofy)
             .HasForeignKey<MotofyPhoto>(m => m.MotofyForeignKey);
-            
+
             builder.Entity<Mechanic>()
             .HasOne(a => a.MechanicPhoto)
             .WithOne(m => m.Mechanic)
             .HasForeignKey<MechanicPhoto>(m => m.MechanicForeignKey);
-           
+
             builder.Entity<Product>()
             .HasOne(a => a.ProductPhoto)
             .WithOne(m => m.Product)
@@ -157,7 +162,7 @@ namespace Persistence
             // builder.Entity<UserMechanic>()
             // .HasOne(t => t.Testimonial)
             // .WithOne(um => um.UserMechanic)
-            
+
 
             // builder.Entity<AppUser>()
             // .HasOne(a => a.MotofyPhoto)

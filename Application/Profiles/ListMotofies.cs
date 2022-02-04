@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,7 +12,7 @@ namespace Application.Profiles
 {
     public class ListMotofies
     {
-         public class Query : IRequest<List<UserMotofyDto>>
+        public class Query : IRequest<List<UserMotofyDto>>
         {
             public string Username { get; set; }
             public string Predicate { get; set; }
