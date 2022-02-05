@@ -1,5 +1,9 @@
 import { IComment } from "./comment";
 
+export interface IMechanicsEnvelope {
+    mechanics: IMechanic[];
+    mechanicCount: number;
+}
 export interface IMechanic {
     id: string;
     // author: string | null;

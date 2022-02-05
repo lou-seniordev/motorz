@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Sticky } from "semantic-ui-react"; //Loader,
+import { Grid, Loader, Sticky } from "semantic-ui-react"; //Loader,
 import GalleryList from "./GalleryList";
 import { observer } from "mobx-react-lite";
 // import LoadingComponent from "../../../app/layout/LoadingComponent";
@@ -66,9 +66,9 @@ const GalleryDashboard: React.FC = () => {
       </Grid.Column>
 
       {/* Find what is it!!! */}
-      {/* <Loader active={loadingNext}/> */}
-      {/* <Grid.Column width={5}>
-      </Grid.Column> */}
+      <Grid.Column computer={9} mobile={16}>
+      <Loader active={loadingNext}/>
+      </Grid.Column>
     </Grid>
   );
 };

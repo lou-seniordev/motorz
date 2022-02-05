@@ -7,7 +7,8 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import InfiniteScroll from "react-infinite-scroller";
-import ForumFilters from "../details/ForumFilters";
+import ForumFilters from "./ForumFilters";
+import ForumListItemPlaceholder from "./ForumListItemPlaceholder";
 
 const ForumDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -24,22 +25,26 @@ const ForumDashboard = () => {
     loadForumPosts();
   }, [loadForumPosts]);
 
-  if (loadingInitial && page === 0)
-    return <LoadingComponent content='Loading forum posts...' />;
+  // if (loadingInitial && page === 0)
+  //   return <LoadingComponent content='Loading forum posts...' />;
 
   return (
     <div>
       <Grid>
         {/* width={10} */}
         <Grid.Column computer={9} mobile={16}>
-          <InfiniteScroll
-            pageStart={0}
-            loadMore={handleGetNext}
-            hasMore={!loadingNext && page + 1 < totalPages}
-            initialLoad={false}
-          >
-            <ForumList />
-          </InfiniteScroll>
+          {loadingInitial && page === 0 ? (
+            <ForumListItemPlaceholder />
+          ) : (
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={handleGetNext}
+              hasMore={!loadingNext && page + 1 < totalPages}
+              initialLoad={false}
+            >
+              <ForumList />
+            </InfiniteScroll>
+          )}
         </Grid.Column>
         <Grid.Column width={6} className='mobile hidden'>
           <Sticky style={{ marginRight: 30, position: "fixed" }}>

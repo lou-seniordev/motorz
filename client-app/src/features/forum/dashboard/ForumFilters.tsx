@@ -29,7 +29,7 @@ const ForumFilters = () => {
           active={predicate.has("iAsked")}
           onClick={() => setPredicate("iAsked", "true")}
           color={"blue"}
-          name={"username"}
+          name={"iAsked"}
           icon={'question circle outline'}
           content={"I Asked"}
           />
@@ -39,7 +39,7 @@ const ForumFilters = () => {
           active={predicate.has("iRated")}
           onClick={() => setPredicate("iRated", "true")}
           color={"blue"}
-          name={"host"}
+          name={"iRated"}
           icon={'heart outline'}
           content={"I rated"}
           />
@@ -47,7 +47,7 @@ const ForumFilters = () => {
           active={predicate.has("trending")}
           onClick={() => setPredicate("trending", "true")}
           color={"blue"}
-          name={"host"}
+          name={"trending"}
           icon={'globe'}
           content={"Trending"}
         />

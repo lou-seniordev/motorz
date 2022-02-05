@@ -2008,9 +2008,218 @@ namespace Persistence
                             Average = 3.5
                         }
                     },
-                };
-                context.Mechanics.AddRange(mechanics);
-                context.SaveChanges();
+                    new Mechanic
+                    {
+                      Name = "Casa Motoa",
+                      Publisher = context.Users.SingleOrDefault(x => x.Id == "h"),
+                      IsOwner = false,
+                      Owner = "Zenit",
+                      //PhotoUrl = "https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
+                      Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
+                      YearOfStart = "2017",//DateTime.Now.AddYears(-2),
+                      DatePublished = DateTime.Now.AddDays(-35),
+                    //   Country = "Italy",
+                      Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
+                      City = "Milan",
+                      Address = "Via Del Liberta 10",
+                      MechanicPhoto = new MechanicPhoto
+                      {
+                          Id = "zvqhhc6cvr4zecbkhwhb.jpg",
+                          Url="https://res.cloudinary.com/motofy/image/upload/v1547294033/zvqhhc6cvr4zecbkhwhb.jpg",
+                      },
+                       Customers = new List<UserMechanic>
+                        {
+                            new UserMechanic
+                            {
+                                AppUserId = "c",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                            },
+                            new UserMechanic
+                            {
+                                AppUserId = "i",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                            }
+                        },
+                        Ratings = new List<Rating>
+                        {
+                           new Rating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "joe"),
+                                Score = 3,
+                           },
+                           new Rating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "jerry"),
+                                Score = 3,
+                           }
+                       },
+                       AverageRating = new AverageRating
+                        {
+                            Id = new Guid(),
+                            Count = 2,
+                            Average = 3
+                        }
+                    },
+                    new Mechanic
+                    {
+                      Name = "Dule Radule",
+                      Publisher = context.Users.SingleOrDefault(x => x.Id == "h"),
+                      IsOwner = false,
+                      Owner = "Dule Pavlovic",
+                      Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
+                      YearOfStart = "2017",//DateTime.Now.AddYears(-2),
+                      DatePublished = DateTime.Now.AddDays(-3),
+                      Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
+                      City = "Ljubljana",
+                      Address = "Detroit BB",
+                      MechanicPhoto = new MechanicPhoto
+                      {
+                          Id = "b5ls74ojlv8va3ew7vvz",
+                          Url="https://res.cloudinary.com/motofy/image/upload/v1546709652/b5ls74ojlv8va3ew7vvz.jpg",
+                      },
+                       Customers = new List<UserMechanic>
+                        {
+                            new UserMechanic
+                            {
+                                AppUserId = "c",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                            },
+                            new UserMechanic
+                            {
+                                AppUserId = "g",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                            },
+                            new UserMechanic
+                            {
+                                AppUserId = "e",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                            },
+                            new UserMechanic
+                            {
+                                AppUserId = "d",
+                                IsOwner = false,
+                                IsCustomer = true,
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                            }
+                        },
+                        Ratings = new List<Rating>
+                        {
+                           new Rating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "tom"),
+                                Score = 5,
+                           },
+                           new Rating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "nina"),
+                                Score = 5,
+                           },
+                           new Rating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "joe"),
+                                Score = 5,
+                           },
+                           new Rating
+                           {
+                                Id = new Guid(),
+                                User = userManager.Users.SingleOrDefault(x => x.UserName == "jerry"),
+                                Score = 5,
+                           }
+                        },
+                        AverageRating = new AverageRating
+                            {
+                                Id = new Guid(),
+                                Count = 4,
+                                Average = 5
+                            }
+                            },
+                            new Mechanic
+                            {
+                            Name = "Noe Duca",
+                            Publisher = context.Users.SingleOrDefault(x => x.Id == "h"),
+                            IsOwner = false,
+                            Owner = "Vlatko Serafciger",
+                            Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
+                            YearOfStart = "2017",
+                            DatePublished = DateTime.Now.AddDays(-3),
+                            Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
+                            City = "Pula",
+                            Address = "Kolodvorska 7",
+                            MechanicPhoto = new MechanicPhoto
+                            {
+                                Id = "djq0puodrzfqvkur2fjo",
+                                Url="https://res.cloudinary.com/motofy/image/upload/v1547297184/djq0puodrzfqvkur2fjo.png",
+                            },
+                            Customers = new List<UserMechanic>
+                                {
+                                    new UserMechanic
+                                    {
+                                        AppUserId = "i",
+                                        IsOwner = false,
+                                        IsCustomer = true,
+                                        DateBecameCustomer = DateTime.Now.AddDays(-5)
+                                    },
+                                    new UserMechanic
+                                    {
+                                        AppUserId = "h",
+                                        IsOwner = false,
+                                        IsCustomer = true,
+                                        DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                                    },
+                                    new UserMechanic
+                                    {
+                                        AppUserId = "f",
+                                        IsOwner = false,
+                                        IsCustomer = true,
+                                        DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                                    }
+                                },
+                                Ratings = new List<Rating>
+                                {
+                                new Rating
+                                {
+                                        Id = new Guid(),
+                                        User = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
+                                        Score = 4,
+                                },
+                                new Rating
+                                {
+                                        Id = new Guid(),
+                                        User = userManager.Users.SingleOrDefault(x => x.UserName == "giulietta"),
+                                        Score = 2,
+                                },
+                                new Rating
+                                {
+                                        Id = new Guid(),
+                                        User = userManager.Users.SingleOrDefault(x => x.UserName == "emir"),
+                                        Score = 3,
+                                }
+                            },
+                            AverageRating = new AverageRating
+                                {
+                                    Id = new Guid(),
+                                    Count = 3,
+                                    Average = 3
+                                }
+                            },
+                        };
+                        context.Mechanics.AddRange(mechanics);
+                        context.SaveChanges();
             }
 
 

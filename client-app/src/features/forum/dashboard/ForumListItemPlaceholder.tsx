@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { Segment, Button, Placeholder } from 'semantic-ui-react';
-const ActivityListItemPlaceholder = () => {
+const ForumListItemPlaceholder = () => {
   return (
     <Fragment>
-      <Placeholder fluid style={{ marginTop: 50 }}>
+      <Placeholder fluid >
+      {/* style={{ marginTop: 50 }} */}
         <Segment.Group>
           <Segment style={{ minHeight: 110 }}>
             <Placeholder>
@@ -31,5 +32,5 @@ const ActivityListItemPlaceholder = () => {
     </Fragment>
   );
 };
-export default ActivityListItemPlaceholder;
+export default ForumListItemPlaceholder;
 

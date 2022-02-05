@@ -1,33 +1,50 @@
-import React, { useContext, useEffect } from "react"; 
-import { Grid, Sticky } from "semantic-ui-react"; //Rail,
+import React, { useContext, useEffect, useState } from "react";
+import { Grid, Loader, Sticky } from "semantic-ui-react"; //Rail,
+import InfiniteScroll from "react-infinite-scroller";
 
 import MechanicList from "./MechanicList";
 import { observer } from "mobx-react-lite";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import MechanicFilters from "./MechanicFilters";
 
 const MechanicDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadMechanics, loadingInitial } = rootStore.mechanicStore;
+  const { loadMechanics, loadingInitial, setPage, page, totalPages } =
+    rootStore.mechanicStore;
+  const [loadingNext, setLoadingNext] = useState(false);
+
+  const handleGetNext = () => {
+    setLoadingNext(true);
+    setPage(page + 1);
+    loadMechanics().then(() => setLoadingNext(false));
+  };
 
   useEffect(() => {
     loadMechanics();
   }, [loadMechanics]);
 
-  if (loadingInitial)
-    return <LoadingComponent content='Loading mechanics...' />;
+  
 
   return (
     <Grid>
-      <Grid.Column computer={12} mobile={16} >
-        <MechanicList />
+      <Grid.Column computer={9} mobile={16}>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={handleGetNext}
+          hasMore={!loadingNext && page + 1 < totalPages}
+          initialLoad={false}
+        >
+          <MechanicList />
+        </InfiniteScroll>
       </Grid.Column>
-      <Grid.Column width={4} className="mobile hidden">
+      <Grid.Column width={7} className='mobile hidden'>
         <Sticky style={{ marginRight: 30, position: "fixed" }}>
-          <h2>Mechanic around you</h2>
-          <h2>Mechanic You went to</h2>
-          <h2>Mechanics everbody recommends</h2>
+         
+          <MechanicFilters/>
         </Sticky>
+      </Grid.Column>
+      <Grid.Column computer={9} mobile={16}>
+        <Loader active={loadingNext} />
       </Grid.Column>
     </Grid>
   );

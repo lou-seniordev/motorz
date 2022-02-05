@@ -5,11 +5,12 @@ import { IForumpost } from "../../../app/models/forumpost";
 
 const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
   return (
-    <Segment.Group>
-      <Segment>
+    <Segment.Group raised>
+      <Segment >
         <Item>
           <Item.Image
             size='tiny'
+            // circular
             src={`/assets/forumCategoryImages/${forumpost.category}.jpg`}
           />
           <Item.Content>

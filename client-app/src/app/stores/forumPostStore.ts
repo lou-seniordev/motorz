@@ -43,10 +43,7 @@ export default class ForumPostStore {
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
-      console.log('predicate', predicate);
-      console.log('value', value);
     }
-    // console.log(predicate);
   }
 
   @computed get axiosParams() {
@@ -55,8 +52,6 @@ export default class ForumPostStore {
     params.append('offset', `${this.page ? this.page * LIMIT : 0}`)
     this.predicate.forEach((value, key) => {
       params.append(key, value)
-      // console.log('key:', key, 'value:', value);
-      // console.log('params', params.keys);
     })
     return params;
   }

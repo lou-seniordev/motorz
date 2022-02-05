@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -21,9 +22,20 @@ namespace Application.Mechanics
             // public List<MotofyDto> MostEmbracedList { get; set; }
             // public List<Guid> MostEmbracedList { get; set; }
         }
-        public class Query : IRequest<List<MechanicDto>> { }
+        public class Query : IRequest<MechanicsEnvelope> { 
 
-        public class Handler : IRequestHandler<Query, List<MechanicDto>>
+        public Query(int? limit, int? offset) 
+        {
+            Limit = limit;
+            Offset = offset;
+   
+        }
+            public int? Limit { get; set; }
+            public int? Offset { get; set; }
+
+        }
+
+        public class Handler : IRequestHandler<Query, MechanicsEnvelope>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -33,14 +45,25 @@ namespace Application.Mechanics
                 _context = context;
             }
 
-            public async Task<List<MechanicDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<MechanicsEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                // === Lazy loading ===
-                var mechanics = await _context.Mechanics.ToListAsync();
+                var queryable = _context.Mechanics.AsQueryable();
+               
+                var mechanics = await queryable
+                    .Skip(request.Offset ?? 0)
+                    .Take(request.Limit ?? 3)
+                    .ToListAsync();
 
-                    // Motofies = _mapper.Map<List<Motofy>, List<MotofyDto>>(motofies),
+                return new MechanicsEnvelope 
+                {
+                    Mechanics = _mapper.Map<List<Mechanic>, List<MechanicDto>>(mechanics),
+                    MechanicCount = queryable.Count()
+                };
+                //_context.Mechanics.ToListAsync();
 
-                return _mapper.Map<List<Mechanic>, List<MechanicDto>>(mechanics);//.ToListAsync();
+                
+
+                // return //.ToListAsync();
             }
 
 

@@ -10,13 +10,13 @@ import { IUser, IUserFormValues } from '../models/user';
 // import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost, IForumpostEnvelope } from '../models/forumpost';
-import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend } from '../models/mechanic';
+import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend, IMechanicsEnvelope } from '../models/mechanic';
 import { IBrand } from '../models/brand';
 import { IProduct } from '../models/product';//, ProductFormValues
 import { ICountry } from '../models/country';
-import  {specialRequests}  from './agentUtil';
-import   {postProduct}  from './agentUtil';
-import   {postMechanic}  from './agentUtil';
+import { specialRequests } from './agentUtil';
+import { postProduct } from './agentUtil';
+import { postMechanic } from './agentUtil';
 // import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -88,7 +88,7 @@ const requests = {
     axios.delete(url)
       // .then(sleep(1000))
       .then(responseBody),
-  
+
   postForm: (url: string, file: Blob) => {
     let formData = new FormData();
     formData.append('File', file);
@@ -190,11 +190,13 @@ const Motofies = {
   delete: (id: string) => requests.delete(`/motofies/${id}`),
   embrace: (id: any) => requests.post(`/motofies/${id}/embrace`, {}),
   unembrace: (id: any) => requests.delete(`/motofies/${id}/embrace`),
-  rate: (id: string, rating: IRateMotofy) => requests.put(`/motofies/${id}/rate`, rating) 
+  rate: (id: string, rating: IRateMotofy) => requests.put(`/motofies/${id}/rate`, rating)
 };
 
 const Mechanics = {
-  list: (): Promise<IMechanic[]> => requests.get('mechanics'),
+  list: (limit?: number, page?: number): Promise<IMechanicsEnvelope> => 
+    requests.get(`/mechanics?limit=${limit}&offset=${page ? page * limit! : 0}`),
+
   details: (id: string) => requests.get(`/mechanics/${id}`),
   // // TODO: 
   // create: (mechanic: IMechanic) => requests.post('/mechanics', mechanic),
@@ -249,16 +251,16 @@ const Messages = {
   // create: (message: IMessage) => requests.post('/messages', message),
   // update: (message: IMessage) =>
   //   requests.put(`/messages/${message.id}`, message),
- 
+
   delete: (id: string) => requests.delete(`/messages/${id}`)
 }
 
 const Forumposts = {
   // list: (limit?:number, page?:number): Promise<IForumpostEnvelope> => 
   //   requests.get(`/forumposts?limit=${limit}&offset=${page ? page * limit! : 0}`),
-  
-  list: (params: URLSearchParams): Promise<IForumpostEnvelope> => 
-    axios.get('/forumposts', {params: params}).then(sleep(1000)).then(responseBody),
+
+  list: (params: URLSearchParams): Promise<IForumpostEnvelope> =>
+    axios.get('/forumposts', { params: params }).then(sleep(1000)).then(responseBody),
   details: (id: string) => requests.get(`/forumposts/${id}`),
   create: (forumpost: IForumpost) => requests.post('/forumposts', forumpost),
   update: (forumpost: IForumpost) =>

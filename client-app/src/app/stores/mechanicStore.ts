@@ -9,6 +9,7 @@ import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signal
 import { v4 as uuid } from "uuid";
 
 
+const LIMIT = 3;
 
 // configure({ enforceActions: 'always' });
 
@@ -26,14 +27,26 @@ export default class MechanicStore {
   @observable loadingInitial = false;
   @observable editMode = false;
   @observable submitting = false;
+  @observable.ref hubConnection: HubConnection | null = null;
 
- 
+
+  @observable mechanicCount = 0;
+  @observable page = 0;
+
+
+
   @observable isCustomer: boolean;
-  
-
   @observable openCustomerForm: boolean = false;
   @observable confirmCustomer: boolean = false;
 
+
+  @computed get totalPages() {
+    return Math.ceil(this.mechanicCount / LIMIT);
+  }
+
+  @action setPage = (page: number) => {
+    this.page = page;
+  }
 
   @action setOpenCustomerForm = () => {
     try {
@@ -56,7 +69,6 @@ export default class MechanicStore {
     }
   }
 
-  @observable.ref hubConnection: HubConnection | null = null;
 
   @action createHubConnection = (id: string, connectionArgument: string) => {//, motofy: IMotofy
     this.hubConnection = new HubConnectionBuilder()
@@ -65,7 +77,7 @@ export default class MechanicStore {
       })
       .configureLogging(LogLevel.Information)
       .build();
-   
+
 
 
     this.hubConnection
@@ -117,7 +129,7 @@ export default class MechanicStore {
     );
   }
 
-  @action setCustomer = async (status: boolean ) => {
+  @action setCustomer = async (status: boolean) => {
     try {
       runInAction('seting customer', () => {
 
@@ -138,17 +150,18 @@ export default class MechanicStore {
 
   @action loadMechanics = async () => {
 
-
     this.loadingInitial = true;
     try {
-      const mechanics = await agent.Mechanics.list();
-      // console.log("mechanics in ALL loadMechanics", mechanics);
+      const mechanicsEnvelope = await agent.Mechanics.list(LIMIT, this.page);
+
+      const { mechanics, mechanicCount } = mechanicsEnvelope;
+
       runInAction('loading mechanics', () => {
         mechanics.forEach((mechanic) => {
           mechanic.datePublished = mechanic.datePublished?.split('T')[0];
-
           this.mechanicRegistry.set(mechanic.id, mechanic);
         });
+        this.mechanicCount = mechanicCount;
 
         this.loadingInitial = false;
       });
@@ -171,7 +184,7 @@ export default class MechanicStore {
         mechanic = await agent.Mechanics.details(id);
         // console.log("mechanic in load single Mechanic", mechanic);
         runInAction('getting mechanic', () => {
-          
+
           this.mechanic = mechanic;
           this.mechanicRegistry.set(mechanic.id, mechanic);
 
@@ -300,14 +313,14 @@ export default class MechanicStore {
     try {
       await agent.Mechanics.recommend(mechanicRecomend);
       runInAction('recommending a mechanic', () => {
-       
+
         if (isRecommended === '1') {
           this.mechanic!.customers.find(x => x.username === username)!.customerRecommended = true;
         }
         else {
           this.mechanic!.customers.find(x => x.username === username)!.customerRecommended = false;
         }
-       
+
 
       });
       toast.info("You recommended this shop!");
