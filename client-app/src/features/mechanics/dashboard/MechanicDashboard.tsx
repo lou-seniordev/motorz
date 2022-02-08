@@ -6,6 +6,7 @@ import MechanicList from "./MechanicList";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import MechanicFilters from "./MechanicFilters";
+import MechanicListItemPlaceholder from "./MechanicListItemPlaceholder";
 
 const MechanicDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -23,24 +24,25 @@ const MechanicDashboard = () => {
     loadMechanics();
   }, [loadMechanics]);
 
-  
-
   return (
     <Grid>
       <Grid.Column computer={9} mobile={16}>
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={handleGetNext}
-          hasMore={!loadingNext && page + 1 < totalPages}
-          initialLoad={false}
-        >
-          <MechanicList />
-        </InfiniteScroll>
+        {loadingInitial && page === 0 ? (
+          <MechanicListItemPlaceholder />
+        ) : (
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={handleGetNext}
+            hasMore={!loadingNext && page + 1 < totalPages}
+            initialLoad={false}
+          >
+            <MechanicList />
+          </InfiniteScroll>
+        )}
       </Grid.Column>
       <Grid.Column width={7} className='mobile hidden'>
         <Sticky style={{ marginRight: 30, position: "fixed" }}>
-         
-          <MechanicFilters/>
+          <MechanicFilters />
         </Sticky>
       </Grid.Column>
       <Grid.Column computer={9} mobile={16}>
