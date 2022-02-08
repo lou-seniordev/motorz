@@ -2,7 +2,7 @@ import { action, computed, observable, reaction, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 
 import agent from '../api/agent';
-import { IPhoto, IProfile, IUserActivity, IUserForumpost, IUserMotofy } from '../models/profile';
+import { IPhoto, IProfile, IUserActivity, IUserForumpost, IUserMechanic, IUserMotofy } from '../models/profile';
 import { RootStore } from './rootStore';
 
 export default class ProfileStore {
@@ -38,6 +38,9 @@ export default class ProfileStore {
 
   @observable userForumposts: IUserForumpost[] = [];
   @observable loadingForumposts = false;
+
+  @observable userMechanics: IUserMechanic[] = [];
+  @observable loadingMechanics = false;
 
   
   @computed get isCurrentUser() {
@@ -99,6 +102,26 @@ export default class ProfileStore {
       toast.error('Problem loading user forumposts');
       runInAction(() => {
         this.loadingForumposts = false;
+      })
+    }
+  }
+
+  @action loadUserMechanics = async (username: string, predicate?: string ) => {
+    this.loadingMechanics = true;
+
+    if(predicate === undefined) {
+      predicate='iPublished'
+    }
+    try {
+      const mechanics = await agent.Profiles.listMechanics(username, predicate!);
+      runInAction(() => {
+        this.userMechanics = mechanics;
+        this.loadingMechanics = false;
+      })
+    } catch (error) {
+      toast.error('Problem loading user mechanics');
+      runInAction(() => {
+        this.loadingMechanics = false;
       })
     }
   }

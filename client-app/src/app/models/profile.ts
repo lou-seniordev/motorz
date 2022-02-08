@@ -34,5 +34,11 @@ export interface IUserForumpost {
     category: string;
     dateAdded: Date;
 }
+export interface IUserMechanic {
+    id: string;
+    name: string;
+    photoUrl: string;
+    datePublished: Date;
+}
 
 

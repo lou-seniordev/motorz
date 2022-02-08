@@ -2,24 +2,24 @@ import React, { useEffect, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { Tab, Grid, Header, Card, Image, TabProps } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { IUserMotofy } from "../../app/models/profile";
+import { IUserMechanic } from "../../app/models/profile";
 import { format } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 const panes = [
-  { menuItem: "Motofies I Embraced", pane: { key: "iEmbraced" } },
-  { menuItem: "Motofies I Published", pane: { key: "iPublished" } },
-  { menuItem: "Motofies I Rated", pane: { key: "iRated" } },
+  { menuItem: "Mechanics I Published", pane: { key: "iPublished" } },
+  { menuItem: "Mechanics I Rated", pane: { key: "iRated" } },
+  { menuItem: "Mechanics I Recommend", pane: { key: "iRecommend" } },
 ];
 
-const ProfileMotofies = () => {
+const ProfileMechanics = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadUserMotofies, profile, loadingMotofies, userMotofies } =
+  const { loadUserMechanics, profile, loadingMechanics, userMechanics } =
     rootStore.profileStore!;
 
   useEffect(() => {
-    loadUserMotofies(profile!.username);
-  }, [loadUserMotofies, profile]);
+    loadUserMechanics(profile!.username);
+  }, [loadUserMechanics, profile]);
 
   const handleTabChange = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -30,23 +30,23 @@ const ProfileMotofies = () => {
 
     switch (data.activeIndex) {
       case 1:
-        predicate = "iPublished";
-        break;
-      case 2:
         predicate = "iRated";
         break;
+      case 2:
+        predicate = "iRecommend";
+        break;
       default:
-        predicate = "iEmbraced";
+        predicate = "iPublished";
         break;
     }
-    loadUserMotofies(profile!.username, predicate);
+    loadUserMechanics(profile!.username, predicate);
   };
 
   return (
-    <Tab.Pane loading={loadingMotofies}>
+    <Tab.Pane loading={loadingMechanics}>
       <Grid>
         <Grid.Column width={16}>
-          <Header floated='left' icon='calendar' content={"Motofies"} />
+          <Header floated='left' icon='calendar' content={"Mechanics"} />
         </Grid.Column>
         <Grid.Column width={16}>
           <Tab
@@ -56,20 +56,24 @@ const ProfileMotofies = () => {
           />
           <br />
           <Card.Group itemsPerRow={6}>
-            {userMotofies.map((motofy: IUserMotofy) => (
-              <Card as={Link} to={`/gallery/${motofy.id}`} key={motofy.id}>
+            {userMechanics.map((mechanic: IUserMechanic) => (
+              <Card
+                as={Link}
+                to={`/mechanics/${mechanic.id}`}
+                key={mechanic.id}
+              >
                 <Image
-                  src={motofy.photoUrl}
+                  src={mechanic.photoUrl}
                   style={{ minHeight: 100, objectFit: "cover" }}
                 />
                 <Card.Content>
-                  <Card.Header textAlign='center'>{motofy.name}</Card.Header>
+                  <Card.Header textAlign='center'>{mechanic.name}</Card.Header>
                   <Card.Meta textAlign='center'>
                     <div>
-                      {format(new Date(motofy.datePublished), "do LLL")}
+                      {format(new Date(mechanic.datePublished), "do LLL")}
                     </div>
                     <div>
-                      {format(new Date(motofy.yearOfProduction), "h:mm a")}
+                      {format(new Date(mechanic.datePublished), "h:mm a")}
                     </div>
                   </Card.Meta>
                 </Card.Content>
@@ -82,4 +86,4 @@ const ProfileMotofies = () => {
   );
 };
 
-export default observer(ProfileMotofies);
+export default observer(ProfileMechanics);

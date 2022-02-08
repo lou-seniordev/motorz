@@ -17,9 +17,6 @@ namespace Application.Mechanics
         {
             public List<MechanicDto> Mechanics { get; set; }
             public int MechanicCount { get; set; }
-            // public MechanicDto MostEmbraced { get; set; }
-            // public MechanicDto HighestRatedMechanic { get; set; }
-
         }
         public class Query : IRequest<MechanicsEnvelope>
         {
@@ -30,6 +27,7 @@ namespace Application.Mechanics
                 Limit = limit;
                 Offset = offset;
                 IsCustomer = isCustomer;
+                //==TODO:::ONCE POSSIBLE==
                 IsClose = isClose;
                 MostRecommended = mostRecommended;
                 BestRated = bestRated;

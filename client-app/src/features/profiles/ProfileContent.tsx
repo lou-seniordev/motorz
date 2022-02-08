@@ -6,6 +6,7 @@ import ProfileFollowings from './ProfileFollowings';
 import ProfileActivities from './ProfileActivities';
 import ProfileMotofies from './ProfileMotofies';
 import ProfileForumposts from './ProfileForumposts';
+import ProfileMechanics from './ProfileMechanics';
 
 const panes = [
   { menuItem: 'About', render: () => <ProfileDescription /> },
@@ -27,8 +28,8 @@ const panes = [
   //   render: () => <ProfileActivities />,
   // },
   {
-    menuItem: 'Moto Mechanics',
-    render: () => <ProfileActivities />,
+    menuItem: 'Mechanics',
+    render: () => <ProfileMechanics />,
   },
   { menuItem: 'Followers', render: () => <ProfileFollowings /> },
   { menuItem: 'Followings', render: () => <ProfileFollowings /> },

@@ -300,6 +300,7 @@ const Profiles = {
   updateProfile: (profile: Partial<IProfile>) => requests.put(`/profiles`, profile),
   follow: (username: string) => requests.post(`/profiles/${username}/follow`, {}),
   unfollow: (username: string) => requests.delete(`/profiles/${username}/follow`),
+  //==TODO--Refactor
   listFollowings: (username: string, predicate: string) =>
     requests.get(`/profiles/${username}/follow?predicate=${predicate}`),
   listActivities: (username: string, predicate: string) =>
@@ -307,7 +308,9 @@ const Profiles = {
   listMotofies: (username: string, predicate: string) =>
     requests.get(`/profiles/${username}/motofies?predicate=${predicate}`),
   listForumposts: (username: string, predicate: string) =>
-    requests.get(`/profiles/${username}/forumposts?predicate=${predicate}`)
+    requests.get(`/profiles/${username}/forumposts?predicate=${predicate}`),
+  listMechanics: (username: string, predicate: string) =>
+    requests.get(`/profiles/${username}/mechanics?predicate=${predicate}`)
 
 };
 

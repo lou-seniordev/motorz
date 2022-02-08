@@ -58,7 +58,7 @@ const ProfileForumposts = () => {
             {userForumposts.map((forumpost: IUserForumpost) => (
               <Card
                 as={Link}
-                to={`/forumposts/${forumpost.id}`}
+                to={`/forum/${forumpost.id}`}
                 key={forumpost.id}
               >
                 <Image

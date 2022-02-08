@@ -52,7 +52,7 @@ const MechanicFilters = () => {
           onClick={() => setPredicate("mostRecommended", "true")}
           color={"blue"}
           name={"mostRecommended"}
-          icon={'heart'}
+          icon={'heart outline'}
           content={"Most Recommended"}
         />
         <Menu.Item
