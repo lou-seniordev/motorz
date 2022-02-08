@@ -26,6 +26,7 @@ namespace Application.Mechanics
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
+        public int TotalRecommended { get; set; }
         public double AverageRating { get; set; }
         public virtual ICollection<CommentMechanicDto> CommentMechanics { get; set; }
         public virtual ICollection<CustomerDto> Customers { get; set; }

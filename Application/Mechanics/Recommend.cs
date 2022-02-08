@@ -70,7 +70,7 @@ namespace Application.Mechanics
                 {
                     throw new Exception("You Cannot Recommend Your Own Businnes!");
                 }
-
+                mechanic.TotalRecommended ++;
                 userMechanic.CustomerRecommended = true;
 
                 var success = await _context.SaveChangesAsync() > 0;

@@ -1,5 +1,5 @@
 import { IMechanicCustomer, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend, IRating } from './../models/mechanic';//IMechanicId, 
-import { action, observable, computed, runInAction } from 'mobx';
+import { action, observable, computed, runInAction, reaction } from 'mobx';
 import { history } from '../..';
 import agent from '../api/agent';
 import { IMechanic } from '../models/mechanic';//, IMechanicCustomer
@@ -17,7 +17,18 @@ export default class MechanicStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+
+    reaction(
+      () => this.predicate.keys(),
+      () => {
+        this.page = 0;
+        this.mechanicRegistry.clear();
+        this.loadMechanics();
+      }
+    )
   }
+
+  
 
 
   @observable mechanicRegistry = new Map();
@@ -32,6 +43,25 @@ export default class MechanicStore {
 
   @observable mechanicCount = 0;
   @observable page = 0;
+  @observable predicate = new Map();
+
+  @action setPredicate = (predicate: string, value: string  ) => { //| Date
+    this.predicate.clear();
+    if (predicate !== 'all') {
+      this.predicate.set(predicate, value);
+      console.log(predicate);
+    }
+  }
+
+  @computed get axiosParams () {
+    const params = new URLSearchParams();
+    params.append('limit', String(LIMIT));
+    params.append('offset', `${this.page ? this.page * LIMIT : 0}`);
+    this.predicate.forEach((value, key) => {
+        params.append(key, value )
+    })
+    return params;
+  }  
 
 
 
@@ -152,7 +182,7 @@ export default class MechanicStore {
 
     this.loadingInitial = true;
     try {
-      const mechanicsEnvelope = await agent.Mechanics.list(LIMIT, this.page);
+      const mechanicsEnvelope = await agent.Mechanics.list(this.axiosParams);
 
       const { mechanics, mechanicCount } = mechanicsEnvelope;
 

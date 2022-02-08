@@ -1770,13 +1770,13 @@ namespace Persistence
                       Publisher = context.Users.SingleOrDefault(x => x.Id == "g"),
                       IsOwner = false,
                       Owner = "Corrado",
-                    //   PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1547320881/prgbklusjdbenfbqtqfy.jpg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
-                      YearOfStart = "2008",//DateTime.Now.AddYears(-10),
+                      YearOfStart = "2008",
                       DatePublished = DateTime.Now.AddDays(-40),
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),//"Italy",
                       City = "Rome",
                       Address = "Tor Pignattara 107",
+                      TotalRecommended = 6,
                       MechanicPhoto = new MechanicPhoto
                       {
                           Id = "B0ABFC9B-77E3-4068-96E0-DF704F156768",
@@ -1808,7 +1808,7 @@ namespace Persistence
                                 Testimonial = new Testimonial
                                 {
                                     Id = new Guid(),
-                                    Text = "Glad I went with Martin, he went above and beyond in going over everything with a fine toothed comb. Fixed many more problems than I thought I had, and as I was prepping for an upcoming trip, they ran into a snag with my front rim being bent. MARTIN ACTUALLY LET ME BORROW HIS SHOPS RIMS AS A LOANER FOR MY TRIP as to not set me back looking for a replacement in a rush.",
+                                    Text = "Glad I went with Corrado, he went above and beyond in going over everything with a fine toothed comb. Fixed many more problems than I thought I had, and as I was prepping for an upcoming trip, they ran into a snag with my front rim being bent. MARTIN ACTUALLY LET ME BORROW HIS SHOPS RIMS AS A LOANER FOR MY TRIP as to not set me back looking for a replacement in a rush.",
                                     DateAdded = DateTime.Now.AddDays(-2)
                                 }
                             },
@@ -1882,17 +1882,16 @@ namespace Persistence
                     new Mechanic
                     {
                       Name = "Serena",
-                    //   PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
                       Publisher = context.Users.SingleOrDefault(x => x.Id == "b"),
                       IsOwner = true,
                       Owner = "Jane",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "1999", //DateTime.Now.AddYears(-8),
                       DatePublished = DateTime.Now.AddDays(-10),
-                    //   Country = "Italy",
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Rome",
                       Address = "Via Riccardo Riccardi 10",
+                      TotalRecommended = 2,
                       MechanicPhoto = new MechanicPhoto
                        {
                           Id = "D07EB32A-19F7-438B-B8A6-2B7A471EC72D",
@@ -1906,6 +1905,7 @@ namespace Persistence
                                 IsOwner = false,
                                 IsCustomer = true,
                                 DateBecameCustomer = DateTime.Now.AddMonths(-2),
+                                CustomerRecommended = true,
                                 Testimonial = new Testimonial
                                 {
                                     Id = new Guid(),
@@ -1919,6 +1919,7 @@ namespace Persistence
                                 IsOwner = true,
                                 IsCustomer = false,
                                 DateBecameCustomer = DateTime.Now.AddMonths(-1),
+                                CustomerRecommended = true,
                                 Testimonial = new Testimonial
                                 {
                                     Id = new Guid(),
@@ -1956,14 +1957,13 @@ namespace Persistence
                       Publisher = context.Users.SingleOrDefault(x => x.Id == "h"),
                       IsOwner = false,
                       Owner = "Gian Luca",
-                      //PhotoUrl = "https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "2017",//DateTime.Now.AddYears(-2),
                       DatePublished = DateTime.Now.AddDays(-3),
-                    //   Country = "Italy",
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Rome",
                       Address = "Via Del Corso 107",
+                      TotalRecommended = 2,
                       MechanicPhoto = new MechanicPhoto
                       {
                           Id = "E73715A2-C2D0-4A37-A36C-B74BE9D0C697",
@@ -1976,14 +1976,16 @@ namespace Persistence
                                 AppUserId = "a",
                                 IsOwner = false,
                                 IsCustomer = true,
-                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                                DateBecameCustomer = DateTime.Now.AddDays(-5),
+                                CustomerRecommended = true
                             },
                             new UserMechanic
                             {
                                 AppUserId = "f",
                                 IsOwner = false,
                                 IsCustomer = true,
-                                DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1),
+                                CustomerRecommended = true,
                             }
                         },
                         Ratings = new List<Rating>
@@ -2022,6 +2024,7 @@ namespace Persistence
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Milan",
                       Address = "Via Del Liberta 10",
+                      TotalRecommended = 2,
                       MechanicPhoto = new MechanicPhoto
                       {
                           Id = "zvqhhc6cvr4zecbkhwhb.jpg",
@@ -2034,14 +2037,16 @@ namespace Persistence
                                 AppUserId = "c",
                                 IsOwner = false,
                                 IsCustomer = true,
-                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                                DateBecameCustomer = DateTime.Now.AddDays(-5),
+                                CustomerRecommended = false
                             },
                             new UserMechanic
                             {
                                 AppUserId = "i",
                                 IsOwner = false,
                                 IsCustomer = true,
-                                DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1),
+                                CustomerRecommended = false,
                             }
                         },
                         Ratings = new List<Rating>
@@ -2078,6 +2083,7 @@ namespace Persistence
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                       City = "Ljubljana",
                       Address = "Detroit BB",
+                      TotalRecommended = 4,
                       MechanicPhoto = new MechanicPhoto
                       {
                           Id = "b5ls74ojlv8va3ew7vvz",
@@ -2090,28 +2096,32 @@ namespace Persistence
                                 AppUserId = "c",
                                 IsOwner = false,
                                 IsCustomer = true,
-                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                                DateBecameCustomer = DateTime.Now.AddDays(-5),
+                                CustomerRecommended = true,
                             },
                             new UserMechanic
                             {
                                 AppUserId = "g",
                                 IsOwner = false,
                                 IsCustomer = true,
-                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                                DateBecameCustomer = DateTime.Now.AddDays(-5),
+                                CustomerRecommended = true,
                             },
                             new UserMechanic
                             {
                                 AppUserId = "e",
                                 IsOwner = false,
                                 IsCustomer = true,
-                                DateBecameCustomer = DateTime.Now.AddDays(-5)
+                                DateBecameCustomer = DateTime.Now.AddDays(-5),
+                                CustomerRecommended = true,
                             },
                             new UserMechanic
                             {
                                 AppUserId = "d",
                                 IsOwner = false,
                                 IsCustomer = true,
-                                DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                                DateBecameCustomer = DateTime.Now.AddMonths(-1),
+                                CustomerRecommended = true,
                             }
                         },
                         Ratings = new List<Rating>
@@ -2160,6 +2170,7 @@ namespace Persistence
                             Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                             City = "Pula",
                             Address = "Kolodvorska 7",
+                            TotalRecommended = 3,
                             MechanicPhoto = new MechanicPhoto
                             {
                                 Id = "djq0puodrzfqvkur2fjo",
@@ -2172,14 +2183,16 @@ namespace Persistence
                                         AppUserId = "i",
                                         IsOwner = false,
                                         IsCustomer = true,
-                                        DateBecameCustomer = DateTime.Now.AddDays(-5)
+                                        DateBecameCustomer = DateTime.Now.AddDays(-5),
+                                        CustomerRecommended = true,
                                     },
                                     new UserMechanic
                                     {
                                         AppUserId = "h",
                                         IsOwner = false,
                                         IsCustomer = true,
-                                        DateBecameCustomer = DateTime.Now.AddMonths(-1)
+                                        DateBecameCustomer = DateTime.Now.AddMonths(-1),
+                                        CustomerRecommended = false,
                                     },
                                     new UserMechanic
                                     {

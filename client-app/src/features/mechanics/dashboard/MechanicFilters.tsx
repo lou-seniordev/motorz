@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { Menu, Header, Dropdown, Icon } from "semantic-ui-react";
 import { category } from "../../../app/common/options/forumCategoryOptions";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -6,16 +6,17 @@ import { observer } from "mobx-react-lite";
 
 const MechanicFilters = () => {
   const rootStore = useContext(RootStoreContext);
-  const { predicate, setPredicate } = rootStore.forumPostStore;
+  const { predicate, setPredicate } = rootStore.mechanicStore;
+  const { countries, loadCountriesToSelect } = rootStore.countryStore;
 
   const handleOnChange = (e: any, data: any) => {
-    // console.log(data.value);
-    setPredicate( 'category', data.value)
+    // console.log( 'eki', data);
+    setPredicate( 'country', data.value)
   };
 
-   {/* <h2>Mechanic around you</h2>
-          <h2>Mechanic You went to</h2>
-          <h2>Mechanics everbody recommends</h2> */}
+  useEffect(() => {
+    loadCountriesToSelect();
+  }, [loadCountriesToSelect])
 
   return (
     <Fragment>
@@ -30,39 +31,45 @@ const MechanicFilters = () => {
           content={"All"}
           />  
         <Menu.Item
-          active={predicate.has("iAsked")}
-          onClick={() => setPredicate("iAsked", "true")}
+          active={predicate.has("isCustomer")}
+          onClick={() => setPredicate("isCustomer", "true")}
           color={"blue"}
-          name={"iAsked"}
+          name={"isCustomer"}
           icon={'info'}
-          content={"You visited"}
+          content={"I am a customer"}
           />
-        {/* <Icon name='question circle outline' /> */}
-        {/* </Menu.Item> */}
-        <Menu.Item
+   
+        {/* <Menu.Item
           active={predicate.has("iRated")}
           onClick={() => setPredicate("iRated", "true")}
           color={"blue"}
           name={"iRated"}
           icon={'home'}
           content={"Close to you"}
-          />
+          /> */}
         <Menu.Item
-          active={predicate.has("trending")}
-          onClick={() => setPredicate("trending", "true")}
+          active={predicate.has("mostRecommended")}
+          onClick={() => setPredicate("mostRecommended", "true")}
           color={"blue"}
-          name={"trending"}
+          name={"mostRecommended"}
           icon={'heart'}
-          content={"Highest Recommended"}
+          content={"Most Recommended"}
+        />
+        <Menu.Item
+          active={predicate.has("bestRated")}
+          onClick={() => setPredicate("bestRated", "true")}
+          color={"blue"}
+          name={"bestRated"}
+          icon={'heart'}
+          content={"Best Rated"}
         />
         <Menu.Item>
           <Dropdown
             placeholder='Choose country'
-            // icon={'angle double right'}
             selection
             floating
             search
-            options={category}
+            options={countries}
             onChange={handleOnChange}
           />
         </Menu.Item>

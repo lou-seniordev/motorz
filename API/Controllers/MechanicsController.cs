@@ -12,9 +12,11 @@ namespace API.Controllers
     public class MechanicsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List.MechanicsEnvelope>> List(int?  limit, int? offset)
+        public async Task<ActionResult<List.MechanicsEnvelope>> List(int?  limit, int? offset,
+            bool isCustomer, bool isClose, bool mostRecommended, bool bestRated, string country)
         {
-            return await Mediator.Send(new List.Query(limit, offset));
+            return await Mediator.Send(new List.Query(limit, offset, isCustomer, isClose, mostRecommended, 
+            bestRated, country));
         }
 
         [HttpGet("{id}")]

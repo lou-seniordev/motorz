@@ -194,8 +194,8 @@ const Motofies = {
 };
 
 const Mechanics = {
-  list: (limit?: number, page?: number): Promise<IMechanicsEnvelope> => 
-    requests.get(`/mechanics?limit=${limit}&offset=${page ? page * limit! : 0}`),
+  list: (params: URLSearchParams): Promise<IMechanicsEnvelope> => 
+    axios.get('/mechanics', { params: params }).then(sleep(1000)).then(responseBody),
 
   details: (id: string) => requests.get(`/mechanics/${id}`),
   // // TODO: 
@@ -220,8 +220,6 @@ const Products = {
 }
 
 const Activities = {
-  // list: (limit?: number, page?: number): Promise<IActivitiesEnvelope> => 
-  // requests.get(`/activities?limit=${limit}&offset=${page ? page * limit! : 0}`),
 
   list: (params: URLSearchParams): Promise<IActivitiesEnvelope> =>
     axios.get('/activities', { params: params })

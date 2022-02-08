@@ -84,9 +84,7 @@ namespace Application.Activities
                     ActivityCount = queryable.Count()
                 };
 
-                // var activityToReturn = _mapper.Map<Activity, ActivityDto>(activities);
-                // return activities;
-                // return _mapper.Map<List<Activity>, List<ActivityDto>>(activities);
+
             }
 
         }

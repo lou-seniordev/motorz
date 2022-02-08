@@ -226,7 +226,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       name='countryName'
                       placeholder={"Country *"} //
                       options={countries}
-                      value={mechanic.countryId}
+                      
                       component={SelectInput}
                     />
                   )}

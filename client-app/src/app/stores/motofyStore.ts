@@ -126,9 +126,6 @@ export default class MotofyStore {
     const params = new URLSearchParams();
     params.append('limit', String(LIMIT));
     params.append('offset', `${this.page ? this.page * LIMIT : 0}`);
-    // params.append('iEmbraced', 'false');
-    // params.append('iOwn', 'false');
-    // params.append('winningFive', 'false');
     this.predicate.forEach((value, key) => {
         params.append(key, value )
     })

@@ -22,10 +22,10 @@ const panes = [
     menuItem: 'Forumposts',
     render: () => <ProfileForumposts />,
   },
-  {
-    menuItem: 'Motoforum',
-    render: () => <ProfileActivities />,
-  },
+  // {
+  //   menuItem: 'Motoforum',
+  //   render: () => <ProfileActivities />,
+  // },
   {
     menuItem: 'Moto Mechanics',
     render: () => <ProfileActivities />,
