@@ -25,7 +25,6 @@ const ProfileProducts = () => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     data: TabProps
   ) => {
-    // let predicate = undefined ?? 'iEmbraced';
     let predicate;
 
     switch (data.activeIndex) {

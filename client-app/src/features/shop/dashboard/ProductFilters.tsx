@@ -7,24 +7,23 @@ import { categories } from '../../../app/common/options/productOptions';
 
 const ProductFilters = () => {
   const rootStore = useContext(RootStoreContext);
-  const { predicate, setPredicate, trueView,  setTrueView } = rootStore.productStore;
+  const { predicate, setPredicate
+    //==TODO--Revisit
+    // , trueView,  setTrueView 
+  } = rootStore.productStore;
   const { countries, loadCountriesToSelect } = rootStore.countryStore;
 
   const handleOnChangeCountry = (e: any, data: any) => {
-    console.log( 'eki', data.value);
-    // console.log( 'eki', e);
+   
     setPredicate( 'country', data.value)
   };
   const handleOnChangeCategory = (e: any, data: any) => {
-    console.log( 'eki', data.value);
-    // console.log( 'eki', e);
+   
     setPredicate( 'category', data.value)
-    // if()
+   
   };
 
-  // const toogleView = () => {
-  //   trueView = !trueView;
-  // }
+
 
   useEffect(() => {
     loadCountriesToSelect();

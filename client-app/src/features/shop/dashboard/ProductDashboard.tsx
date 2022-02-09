@@ -9,6 +9,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductFilters from "./ProductFilters";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import InfiniteScroll from "react-infinite-scroller";
+import ProductListItemPlaceholder from "./ProductListItemPlaceholder";
 
 const ProductDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -26,22 +27,20 @@ const ProductDashboard = () => {
   useEffect(() => {
     loadProducts();
   }, [loadProducts]);
-
-  if (loadingInitial && page === 0)
-  return <LoadingComponent content='Loading products...' />;
   
   return (
     <Grid>
       {/* width={9} */}
       <Grid.Column computer={9} mobile={16} >
-      <InfiniteScroll
+     { loadingInitial && page === 0 ? <ProductListItemPlaceholder/> :
+     <InfiniteScroll
             pageStart={0}
             loadMore={handleGetNext}
             hasMore={!loadingNext && page + 1 < totalPages}
             initialLoad={false}
           >
         <ProductList />
-        </InfiniteScroll>
+        </InfiniteScroll>}
       </Grid.Column>
       <Grid.Column width={7}>
         <Sticky className="mobile hidden" style={{ marginRight: 30, position: "fixed" }}>

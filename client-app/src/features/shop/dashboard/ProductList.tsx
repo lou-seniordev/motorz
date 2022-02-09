@@ -6,13 +6,16 @@ import ProductListItem from "./ProductListItem";
 
 const ProductList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { productsByDate, moreProductsByDate, trueView } =
+  const { 
+    // productsByDate, 
+    moreProductsByDate, 
+    // trueView
+   } =
     rootStore.productStore;
-  //const [myWay, setMyWay] = useState(true);
 
   return (
+    //==TODO--Revisit
     // <Fragment>
-
     //   {productsByDate.map(([group, products]) => (
     //     <Fragment key={group}>
 

@@ -24,10 +24,6 @@ const panes = [
     menuItem: 'Forumposts',
     render: () => <ProfileForumposts />,
   },
-  // {
-  //   menuItem: 'Motoforum',
-  //   render: () => <ProfileActivities />,
-  // },
   {
     menuItem: 'Mechanics',
     render: () => <ProfileMechanics />,

@@ -31,13 +31,14 @@ export default class ProductStore {
   @observable page = 0;
   @observable predicate = new Map();
 
-  @observable trueView = true;
+  //==TODO--Revisit
+  // @observable trueView = true;
 
-  @action setTrueView = () => {
-    console.log(this.trueView)
-    this.predicate.clear();
-    this.trueView = !this.trueView;
-  }
+  // @action setTrueView = () => {
+  //   console.log(this.trueView)
+  //   this.predicate.clear();
+  //   this.trueView = !this.trueView;
+  // }
   @action setPredicate = (predicate: string, value: string  ) => { 
     this.predicate.clear();
     if (predicate !== 'all') {
