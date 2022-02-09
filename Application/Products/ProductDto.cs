@@ -23,11 +23,11 @@ namespace Application.Products
         public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
         public bool IsAdvertised { get; set; }
+        public int NumberSeen { get; set; }
         public DateTime DatePublished { get; set; }
         public DateTime DateActivated { get; set; }
         public DateTime DateAdvertised { get; set; }
         public int ActivationCounter { get; set; }
         public string PhotoUrl { get; set; }
-        // public virtual Photo ProductPhoto { get; set; }
     }
 }

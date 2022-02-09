@@ -19,6 +19,7 @@ export interface IProduct {
   phoneNumber: string;
   isActive: boolean;
   isAdvertised: boolean;
+  numberSeen: number;
   datePublished: string;
   dateActivated: Date;
   dateAdvertised: Date;

@@ -219,7 +219,8 @@ const Products = {
   update: (product: IProduct) => requests.put(`/products/${product.id}`, product),
   delete: (id: string) => requests.delete(`/products/${id}`),
   // updatephoto: (photo: Blob, id: string): Promise<IPhoto> => requests.postForm(`/photos/${id}/updatePhoto`, photo),
-  toogleActivate: (id: string) => requests.post(`/products/${id}/toogleActivate`, {})
+  toogleActivate: (id: string) => requests.post(`/products/${id}/toogleActivate`, {}),
+  visitCounter: (id: string) => requests.put(`/products/${id}/visitCounter`, {})
 }
 
 const Activities = {

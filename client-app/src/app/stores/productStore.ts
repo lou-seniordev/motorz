@@ -1,3 +1,4 @@
+import { toJS } from 'mobx';
 import { IProduct } from '../models/product';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
 // import { SyntheticEvent } from 'react';
@@ -163,7 +164,7 @@ export default class ProductStore {
     this.submitting = true;
     try {
       await agent.Products.create(product);
-      runInAction('creating products', () => {
+      runInAction('creating product', () => {
         this.productRegistry.set(product.id, product);
         // this.editMode = false;
         this.submitting = false;
@@ -183,7 +184,7 @@ export default class ProductStore {
     try {
       // console.log('product', product);
       await agent.Products.update(product);
-      runInAction('creating product', () => {
+      runInAction('editing product', () => {
         this.productRegistry.set(product.id, product);
         this.product = product;
         // this.editMode = false;
@@ -217,6 +218,19 @@ export default class ProductStore {
       console.log(error);
     }
   };
+
+  @action visitCounter = async (id: string) => {
+    try {
+
+      await agent.Products.visitCounter(id);
+      runInAction('increasing the number seen counter', () => {
+        // this.productRegistry.set(id, this.product!.numberSeen++);
+        // console.log(toJS(this.productRegistry.get(id)))
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 }
 

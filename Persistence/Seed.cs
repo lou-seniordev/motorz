@@ -291,12 +291,11 @@ namespace Persistence
                                 Model = "Nolan N86 Louis Special Full-Face Helmet",
                                 Price = "800",
                                 Description = "Yet another hit from Nolan: The N86. A versatile full-face helmet brimming with features. The Clima Comfort fabric is fully removable, and the replaceable cheek pads allow the helmet width to be adjusted to suit your head size.",
-                                //PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
                                 Brand ="Nolan",
                                 Category = "Gear",
                                 City= "Zagreb",
-                                // Country= "Croatia",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),//"Italy",
+                                NumberSeen = 10,
                                 ActivationCounter = 0,
                                 PhoneNumber= "+38533890279",
                                 ProductPhoto = new ProductPhoto {
@@ -310,17 +309,16 @@ namespace Persistence
                                 Title = "Gloves",
                                 Category = "Equipment",
                                 City= "Rome",
-                                // Country= "Italy",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),//"Italy",
                                 PhoneNumber= "+3933890279",
                                 Brand = "Dream Time",
                                 Model = "De luxe",
                                 Price = "100",
-                                //PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
                                 DatePublished = DateTime.Now,
                                 DateActivated = DateTime.Now,
                                 IsActive = true,
                                 IsAdvertised = false,
+                                NumberSeen = 20,
                                 ActivationCounter = 1,
                                 ProductPhoto = new ProductPhoto {
                                             Id = "gloves",
@@ -334,18 +332,16 @@ namespace Persistence
                                 Title = "Jacket",
                                 Category = "Clothing",
                                 City= "Berlin",
-                                // Country= "Germany",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Germany"),//"Italy",
-
                                 PhoneNumber= "+4933890279",
                                 Brand = "Dainese",
                                 Model = "Rain master lady d",
                                 Price = "200",
-                                //PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
                                 DatePublished = DateTime.Now,
                                 DateActivated = DateTime.Now,
                                 IsActive = true,
                                 IsAdvertised = false,
+                                NumberSeen = 0,
                                 ActivationCounter = 0,
                                 ProductPhoto = new ProductPhoto {
                                             Id = "rain-master-lady-d",
@@ -377,13 +373,15 @@ namespace Persistence
                                 Model = "Jack & Jones Nolan Biker Jacket",
                                 Price = "35",
                                 Description = "Jack & jones Nolan Biker Jacket in the Men´s clothing category from your online fashion store, you can find other products related with Jackets.",
-                                // PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
                                 Brand ="Nolan",
                                 Category = "Gear",
                                 City= "Ljubljana",
-                                // Country= "Slovenia",
-                                Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),//"Italy",
+                                Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                                 PhoneNumber= "+38633890279",
+                                NumberSeen = 1,
+                                IsActive = true,
+                                IsAdvertised = false,
+                                ActivationCounter = 0,
                                 ProductPhoto = new ProductPhoto {
                                     Id = "FBC92591-FD02-4494-9129-C3459DC84D1C",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
@@ -401,7 +399,7 @@ namespace Persistence
                                 Brand = "Riding Tribe",
                                 Model = "Speed X",
                                 Price = "75",
-                                // PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227585/boots.jpg",
+                                NumberSeen = 4  ,
                                 DatePublished = DateTime.Now,
                                 DateActivated = DateTime.Now,
                                 IsActive = true,
@@ -419,23 +417,21 @@ namespace Persistence
                                 Title = "Front bag",
                                 Category = "Equipment",
                                 City= "Zurich",
-                                // Country= "Switzerland",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Switzerland"),
                                 PhoneNumber= "+4133890279",
                                 Brand = "Ghost racing",
                                 Model = "Speed X",
                                 Price = "10",
-                                //PictureUrl = "https://res.cloudinary.com/motofy/image/upload/v1637227717/front_bag.jpg",
                                 DatePublished = DateTime.Now,
                                 DateActivated = DateTime.Now,
                                 IsActive = true,
                                 IsAdvertised = false,
+                                NumberSeen = 4,
                                 ActivationCounter = 1,
                                 ProductPhoto = new ProductPhoto {
                                     Id = "3AEE7FCA-C73E-4BF6-8799-B938E260A0D8",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1637227717/front_bag.jpg",
                                 }
-
                             },
 
                         }
@@ -453,6 +449,71 @@ namespace Persistence
                                 IsMain = true,
                             }
                         },
+                         Products = new List<Product> {
+                            new Product {
+                                Id = new Guid(), 
+                                Title = "Kawasaki",
+                                Model = "Ninja",
+                                Price = "3500",
+                                Description = "Motorcycle & Engine Company is the sole division of Kawasaki Heavy Industries, Ltd. that provides products directly to general consumers.",
+                                Brand ="Kawasaki",
+                                Category = "Vehicle",
+                                City= "Pula",
+                                Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
+                                NumberSeen = 4,
+                                PhoneNumber= "+38633890279",
+                                ProductPhoto = new ProductPhoto {
+                                    Id = "gnhxynb60e0kivgydstb",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1543786552/gnhxynb60e0kivgydstb.jpg",
+                                }
+                            },
+                              new Product
+                            {
+                                Id = new Guid(),
+                                Title = "Sticker Hells Angels",
+                                Category = "Equipment",
+                                City= "Zagreb",
+                                Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
+                                PhoneNumber= "+38633890279",
+                                Brand = "X Tribe",
+                                Model = "Large",
+                                Price = "3",
+                                DatePublished = DateTime.Now,
+                                DateActivated = DateTime.Now,
+                                IsActive = true,
+                                IsAdvertised = false,
+                                NumberSeen = 4,
+                                ActivationCounter = 0,
+                                 ProductPhoto = new ProductPhoto {
+                                    Id = "vrvqrnc8ek12tlpix7fu",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1562097989/vrvqrnc8ek12tlpix7fu.jpg",
+                                }
+
+                            },
+                            new Product
+                            {
+                                Id = new Guid(),
+                                Title = "Sticker Born For Speed",
+                                Category = "Equipment",
+                                City= "Zagreb",
+                                Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
+                                PhoneNumber= "+4133890279",
+                                Brand = "X sticker",
+                                Model = "Small",
+                                Price = "1",
+                                DatePublished = DateTime.Now,
+                                DateActivated = DateTime.Now,
+                                IsActive = true,
+                                IsAdvertised = false,
+                                ActivationCounter = 1,
+                                ProductPhoto = new ProductPhoto {
+                                    Id = "nz6xfbrz5zrsdhvqwevw",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
+                                }
+
+                            },
+
+                        }
                     },
                     new AppUser
                     {
@@ -467,6 +528,31 @@ namespace Persistence
                                 IsMain = true,
                             }
                         },
+                        Products = new List<Product> {
+                             new Product
+                            {
+                                Id = new Guid(),
+                                Title = "Toy",
+                                Category = "Other",
+                                City= "Zurich",
+                                Country = context.Countries.SingleOrDefault(x => x.Name == "Switzerland"),
+                                PhoneNumber= "+4138686858",
+                                Brand = "Speed toys",
+                                Model = "Little suzuki",
+                                Price = "55",
+                                DatePublished = DateTime.Now,
+                                DateActivated = DateTime.Now,
+                                IsActive = true,
+                                IsAdvertised = false,
+                                NumberSeen = 44,
+                                ActivationCounter = 1,
+                                ProductPhoto = new ProductPhoto {
+                                    Id = "djq0puodrzfqvkur2fjo",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1547297184/djq0puodrzfqvkur2fjo.png",
+                                }
+
+                            },
+                        }
                     },
                     new AppUser
                     {

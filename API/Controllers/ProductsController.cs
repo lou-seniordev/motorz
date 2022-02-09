@@ -39,6 +39,12 @@ namespace API.Controllers
         {
             return await Mediator.Send(new ToogleActivate.Command {Id = id});
         }
+        [HttpPut("{id}/visitCounter")]
+        [Authorize]
+        public async Task<ActionResult<Unit>> IncreaseNumberSeen(Guid id)
+        {
+            return await Mediator.Send(new IncreaseNumberSeen.Command {Id = id});
+        }
 
         [HttpPut("{id}")]
         [Authorize]

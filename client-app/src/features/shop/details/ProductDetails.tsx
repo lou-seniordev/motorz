@@ -17,16 +17,15 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     product,
     loadProduct,
     loadingInitial,
-
+    visitCounter
   } = rootStore.productStore;
 
 
-  // const { user } = rootStore.userStore;
 
   useEffect(() => {
     loadProduct(match.params.id); 
-
-  }, [loadProduct, match.params.id]); 
+    visitCounter(match.params.id);
+  }, [loadProduct, match.params.id, visitCounter]); 
 
   if (loadingInitial || !product )
     return <LoadingComponent content='Loading product details...' />;
@@ -38,8 +37,8 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
       </Grid.Column>
       
         <Grid.Column width={7}>
-          <h1>This is your product</h1>
-          <h2>Some statistics?</h2>
+          <h1>The {product.title} is already seen {product.numberSeen} times</h1>
+          
         </Grid.Column>
       {/* )} */}
     </Grid>

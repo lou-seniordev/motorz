@@ -9,9 +9,9 @@ using Persistence;
 
 namespace Application.Products
 {
-    public class ToogleActivate
+    public class IncreaseNumberSeen
     {
-        public class Command : IRequest
+          public class Command : IRequest
         {
             public Guid Id { get; set; }
 
@@ -44,9 +44,7 @@ namespace Application.Products
                     throw new RestException(HttpStatusCode.NotFound,
                         new { activity = "NotFound" });
 
-                product.IsActive = !product.IsActive;
-                if(product.IsActive)
-                    product.ActivationCounter ++;
+                product.NumberSeen ++;
 
                 var success = await _context.SaveChangesAsync() > 0;
 
