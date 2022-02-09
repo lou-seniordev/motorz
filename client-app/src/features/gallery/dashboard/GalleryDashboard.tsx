@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import InfiniteScroll from "react-infinite-scroller";
 import GalleryFilters from "./GalleryFilters";
-import GalleryMobileMenu from "./GalleryMobileMenu";
+import GalleryMobileFilters from "./GalleryMobileFilters";
 import GalleryListItemPlaceholder from "./GalleryListItemPlaceholder";
 
 const GalleryDashboard: React.FC = () => {
@@ -40,7 +40,7 @@ const GalleryDashboard: React.FC = () => {
       {/* // mobile={16} tablet={8} computer={4} */}
       <Grid.Column mobile={16} tablet={16} className='mobile only'>
         {/* embracers={motofy.embracers} */}
-        <GalleryMobileMenu />
+        <GalleryMobileFilters />
       </Grid.Column>
       <Grid.Column computer={9} mobile={16}>
         {loadingInitial && page === 0 ? (

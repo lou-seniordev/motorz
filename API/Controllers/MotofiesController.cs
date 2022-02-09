@@ -14,11 +14,10 @@ namespace API.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-         public async Task<ActionResult<List.MotofiesEnvelope>> List(int? limit, int? offset//, 
-            // bool iEmbraced, bool iOwn, bool winningFive
-            )
-        {//, iEmbraced, iOwn, winningFive
-            return await Mediator.Send(new List.Query(limit, offset));
+         public async Task<ActionResult<List.MotofiesEnvelope>> List(int? limit, int? offset,
+            bool bestRated, bool mostEmbraced, bool iEmbraced)
+        {
+            return await Mediator.Send(new List.Query(limit, offset, bestRated, mostEmbraced, iEmbraced));
         }
 
         [HttpGet("{id}")]

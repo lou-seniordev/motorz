@@ -82,7 +82,7 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
               disabled={rated}
             />
             {userRated ? (
-              <ItemExtra>You Rated This Motofy: {userRated} </ItemExtra>
+              <ItemExtra>You Gave This Motofy {userRated} Stars</ItemExtra>
             ) : (
               <ItemExtra>You Have Not Rated Yet</ItemExtra>
             )}

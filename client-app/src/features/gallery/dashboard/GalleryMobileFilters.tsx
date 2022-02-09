@@ -5,7 +5,7 @@ import React, { useContext} from "react"; //, useState
 import { Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
-const GalleryMobileMenu = () => {
+const GalleryMobileFilters = () => {
   const rootStore = useContext(RootStoreContext);
   const { predicate, setPredicate, 
     // mostEmbraced, highestRatedMotofy 
@@ -22,39 +22,31 @@ const GalleryMobileMenu = () => {
     //  setState( name )
   };
 
-  //  const { activeItem } = state
   return (
     <Menu>
       <Menu.Item
         active={predicate.size === 0}
         onClick={() => setPredicate("all", "true")}
         color={"blue"}
-        name={"all"}
-        content={"All "}
+        icon={'globe'}
       />
-
       <Menu.Item
-        active={predicate.has("all")}
-        onClick={() => setPredicate("iOwn", "true")}
+        active={predicate.has("bestRated")}
+        onClick={() => setPredicate("bestRated", "true")}
         color={"blue"}
-        name={"owner"}
-        content={"My"}
+        icon={'hand spock'}
       />
-
       <Menu.Item
-        active={predicate.has("winningFive")}
-        onClick={() => setPredicate("winningFive", "true")}
+        active={predicate.has("mostEmbraced")}
+        onClick={() => setPredicate("mostEmbraced", "true")}
         color={"blue"}
-        name={"winningFive"}
-        content={"Most"}
+        icon={'winner'}
       />
-
       <Menu.Item
         active={predicate.has("iEmbraced")}
         onClick={() => setPredicate("iEmbraced", "true")}
         color={"blue"}
-        name={"username"}
-        content={"I "}
+        icon={'heart'}
       />
       <Menu.Item
         name='champions'
@@ -70,4 +62,4 @@ const GalleryMobileMenu = () => {
   );
 };
 
-export default observer(GalleryMobileMenu);
+export default observer(GalleryMobileFilters);

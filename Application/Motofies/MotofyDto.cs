@@ -27,6 +27,7 @@ namespace Application.Motofies
         public string PricePaid { get; set; }
         public string EstimatedValue { get; set; }
         public string NumberOfKilometers { get; set; }
+        public int TotalEmbraced { get; set; }
         public double AverageRating { get; set; }
         [JsonPropertyName("embracers")]
         public ICollection<EmbracerDto> UserMotofies { get; set; }

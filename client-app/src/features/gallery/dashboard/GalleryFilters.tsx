@@ -23,48 +23,39 @@ const GalleryFilters = () => {
           onClick={() => setPredicate("all", "true")}
           color={"blue"}
           name={"all"}
+          icon={'globe'}
           content={"All motofies"}
         />
         <Menu.Item
-          active={predicate.has("all")}
-          onClick={() => setPredicate("iOwn", "true")}
+          active={predicate.has("bestRated")}
+          onClick={() => setPredicate("bestRated", "true")}
           color={"blue"}
-          name={"owner"}
-          content={"My mofofies"}
+          name={"bestRated"}
+          icon={'hand spock'}
+          content={"Highest Rated"}
         />
         <Menu.Item
-          active={predicate.has("winningFive")}
-          onClick={() => setPredicate("winningFive", "true")}
+          active={predicate.has("mostEmbraced")}
+          onClick={() => setPredicate("mostEmbraced", "true")}
           color={"blue"}
-          name={"winningFive"}
-          content={"Most embraced 3"}
-        />
+          name={"mostEmbraced"}
+          icon={'winner'}
+          content={"Most Embraced"}
+          />
         <Menu.Item
           active={predicate.has("iEmbraced")}
           onClick={() => setPredicate("iEmbraced", "true")}
           color={"blue"}
           name={"username"}
-          content={"I embraced"}
+          icon={'heart'}
+          content={"I Embraced"}
         />
         {/* <Menu.Item
           color={"blue"}
           name={"host"}
           content={"My people motofies"}
-        />
-        <Menu.Item
-          color={"blue"}
-          name={"host"}
-          content={"Oldest to newest viceversa..."}
-        /> */}
+        />*/}
       </Menu>
-      {/* <Header
-        icon={"calendar"}
-        attached
-        color={"teal"}
-        content={"Placeholder calendar for champion!!!"}
-      /> */}
-      {/* <Calendar /> */}
-      {/* <GalleryListItem motofy={motofy}/> */}
       <Grid>
         <Grid.Column width={8}>
           <GalleryHighestRated highestRatedMotofy={highestMotofy} />

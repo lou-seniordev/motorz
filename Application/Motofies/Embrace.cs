@@ -59,6 +59,7 @@ namespace Application.Motofies
                     IsOwner = false,
                     DateEmbraced = DateTime.Now
                 };
+                motofy.TotalEmbraced++;
 
                 _context.UserMotofies.Add(embrace);
 
