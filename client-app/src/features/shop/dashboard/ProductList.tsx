@@ -1,29 +1,38 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
-import { Item,  Segment } from "semantic-ui-react";
+import { Item, Segment } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductListItem from "./ProductListItem";
 
 const ProductList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { productsByDate } = rootStore.productStore;
+  const { productsByDate, moreProductsByDate, trueView } =
+    rootStore.productStore;
+  //const [myWay, setMyWay] = useState(true);
 
   return (
+    // <Fragment>
+
+    //   {productsByDate.map(([group, products]) => (
+    //     <Fragment key={group}>
+
+    //        <Segment clearing>
+    //           <Item.Group divided>
+    //             {products.map((product) => (
+    //               <ProductListItem product={product} key={product.id}/>
+    //             ))}
+    //           </Item.Group>
+    //        </Segment>
+    //     </Fragment>
+    //   ))}
+    // </Fragment>
+
     <Fragment>
-      {productsByDate.map(([group, products]) => (
-        <Fragment key={group}>
-          {/* <Label size='large' color='blue'>
-            Posted on {group}
-          </Label> */}
-           <Segment clearing>
-              <Item.Group divided>
-                {products.map((product) => (
-                  <ProductListItem product={product} key={product.id}/>
-                ))}
-              </Item.Group>
-           </Segment>
-        </Fragment>
-      ))}
+      <Item.Group divided>
+        {moreProductsByDate.map((product) => (
+          <ProductListItem product={product} key={product.id} />
+        ))}
+      </Item.Group>
     </Fragment>
   );
 };

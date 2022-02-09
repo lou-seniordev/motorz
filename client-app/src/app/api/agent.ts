@@ -12,7 +12,7 @@ import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost, IForumpostEnvelope } from '../models/forumpost';
 import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend, IMechanicsEnvelope } from '../models/mechanic';
 import { IBrand } from '../models/brand';
-import { IProduct } from '../models/product';//, ProductFormValues
+import { IProduct, IProductsEnvelope } from '../models/product';//, ProductFormValues
 import { ICountry } from '../models/country';
 import { specialRequests } from './agentUtil';
 import { postProduct } from './agentUtil';
@@ -210,7 +210,10 @@ const Mechanics = {
 };
 
 const Products = {
-  list: (): Promise<IProduct[]> => requests.get('/products'),
+  list: (params: URLSearchParams): Promise<IProductsEnvelope> => 
+    // requests.get(`/products?limit=${limit}&offset=${page ? limit * page : 0}`),
+    axios.get('/products', {params: params}).then(sleep(1000)).then(responseBody),
+
   details: (id: string) => requests.get(`/products/${id}`),
   create: (product: IProduct) => postProduct.productForm('/products', product),
   update: (product: IProduct) => requests.put(`/products/${product.id}`, product),

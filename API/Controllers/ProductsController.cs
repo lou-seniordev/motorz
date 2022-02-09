@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Application.Products;
 using System;
+using static Application.Products.List;
 
 namespace API.Controllers
 {
@@ -13,9 +14,10 @@ namespace API.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<List<ProductDto>>> List()
+        public async Task<ActionResult<List.ProductsEnvelope>> List(int? limit, int? offset, 
+            string country, string brand, string category)
         {
-            return await Mediator.Send(new List.Query());
+            return await Mediator.Send(new List.Query(limit, offset, country, brand, category));
         }
 
         [HttpGet("{id}")]

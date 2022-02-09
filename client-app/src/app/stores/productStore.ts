@@ -1,17 +1,25 @@
 import { IProduct } from '../models/product';
-import { observable, action, computed, runInAction } from 'mobx';
+import { observable, action, computed, runInAction, reaction } from 'mobx';
 // import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import agent from '../api/agent';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 
-// configure({ enforceActions: 'always' });
+const LIMIT = 3;
 
 export default class ProductStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+    reaction(
+      () => this.predicate.keys(),
+      () => {
+        this.page = 0;
+        this.productRegistry.clear();
+        this.loadProducts();
+      }
+    )
   }
   //--in use--
   @observable loadingInitial = false;
@@ -19,8 +27,42 @@ export default class ProductStore {
   @observable products: IProduct[] = [];
   @observable product: IProduct | null = null;
 
+  @observable productCount = 0;
+  @observable page = 0;
+  @observable predicate = new Map();
 
+  @observable trueView = true;
 
+  @action setTrueView = () => {
+    console.log(this.trueView)
+    this.predicate.clear();
+    this.trueView = !this.trueView;
+  }
+  @action setPredicate = (predicate: string, value: string  ) => { 
+    this.predicate.clear();
+    if (predicate !== 'all') {
+      this.predicate.set(predicate, value);
+      // console.log(predicate);
+    }
+  }
+
+  @computed get axiosParams () {
+    const params = new URLSearchParams();
+    params.append('limit', String(LIMIT));
+    params.append('offset', `${this.page ? this.page * LIMIT : 0}`);
+    this.predicate.forEach((value, key) => {
+        params.append(key, value )
+    })
+    return params;
+  }  
+
+  @computed get totalPages() {
+    return Math.ceil(this.productCount / LIMIT);
+  }
+
+  @action setPage = (page: number) => {
+    this.page = page;
+  }
   //--probably will be--
   // @observable editMode = false;
   @observable submitting = false;
@@ -31,6 +73,12 @@ export default class ProductStore {
   @computed get productsByDate() {
     return this.groupProductsByDate(
       Array.from(this.productRegistry.values())
+    );
+  }
+  @computed get moreProductsByDate() {
+    // return 
+    return Array.from(this.productRegistry.values()).sort(
+      (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
     );
   }
 
@@ -56,11 +104,13 @@ export default class ProductStore {
   @action loadProducts = async () => {
     this.loadingInitial = true;
     try {
-      const products = await agent.Products.list();
+      const productEnvelope = await agent.Products.list(this.axiosParams);
+      const {products, productCount} = productEnvelope
       runInAction('loading products', () => {
         products.forEach((product) => {
           this.productRegistry.set(product.id, product);
         });
+        this.productCount = productCount; 
         this.loadingInitial = false;
       });
     } catch (error) {

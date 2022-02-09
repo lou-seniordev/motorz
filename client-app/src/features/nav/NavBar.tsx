@@ -103,7 +103,7 @@ const NavBar: React.FC = () => {
             exact
             as={NavLink}
             onClick={closeStackableMenu}
-            to='/messages'
+            to='/feed'
           />
           {/* <Menu.Item name='search motoranza' /> */}
           <div className='right menu'>

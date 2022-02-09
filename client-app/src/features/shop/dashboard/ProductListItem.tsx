@@ -1,11 +1,13 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Item } from "semantic-ui-react";
+import { Button, Item, Segment } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
 
 const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
   return (
+    <Segment clearing>
+
     <Item.Group divided>
       <Item>
         <Item.Image size='tiny' src={product.photoUrl} />
@@ -27,6 +29,7 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
         </Item.Content>
       </Item>
     </Item.Group>
+    </Segment>
   );
 };
 
