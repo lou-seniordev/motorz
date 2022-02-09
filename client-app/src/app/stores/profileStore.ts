@@ -2,7 +2,7 @@ import { action, computed, observable, reaction, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 
 import agent from '../api/agent';
-import { IPhoto, IProfile, IUserActivity, IUserForumpost, IUserMechanic, IUserMotofy } from '../models/profile';
+import { IPhoto, IProfile, IUserActivity, IUserForumpost, IUserMechanic, IUserMotofy, IUserProduct } from '../models/profile';
 import { RootStore } from './rootStore';
 
 export default class ProfileStore {
@@ -41,6 +41,9 @@ export default class ProfileStore {
 
   @observable userMechanics: IUserMechanic[] = [];
   @observable loadingMechanics = false;
+
+  @observable userProducts: IUserProduct[] = [];
+  @observable loadingProducts = false;
 
   
   @computed get isCurrentUser() {
@@ -122,6 +125,26 @@ export default class ProfileStore {
       toast.error('Problem loading user mechanics');
       runInAction(() => {
         this.loadingMechanics = false;
+      })
+    }
+  }
+  @action loadUserProducts = async (username: string, predicate?: string ) => {
+    this.loadingProducts = true;
+    
+    if(predicate === undefined) {
+      predicate='iAmSelling'
+    }
+    console.log('predicate', predicate)
+    try {
+      const products = await agent.Profiles.listProducts(username, predicate);
+      runInAction(() => {
+        this.userProducts = products;
+        this.loadingProducts = false;
+      })
+    } catch (error) {
+      toast.error('Problem loading user products');
+      runInAction(() => {
+        this.loadingProducts = false;
       })
     }
   }

@@ -40,5 +40,12 @@ export interface IUserMechanic {
     photoUrl: string;
     datePublished: Date;
 }
+export interface IUserProduct {
+    id: string;
+    title: string;
+    price: string;  
+    pictureUrl: string;
+    datePublished: Date;
+}
 
 

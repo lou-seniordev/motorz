@@ -313,7 +313,9 @@ const Profiles = {
   listForumposts: (username: string, predicate: string) =>
     requests.get(`/profiles/${username}/forumposts?predicate=${predicate}`),
   listMechanics: (username: string, predicate: string) =>
-    requests.get(`/profiles/${username}/mechanics?predicate=${predicate}`)
+    requests.get(`/profiles/${username}/mechanics?predicate=${predicate}`),
+  listProducts: (username: string, predicate: string) =>
+    requests.get(`/profiles/${username}/products?predicate=${predicate}`)
 
 };
 
