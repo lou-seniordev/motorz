@@ -18,12 +18,12 @@ namespace Application.Messages
 
         public class Query : IRequest<List<MessageDto>>
         {
-            public Query(MessageParams messageParams)
-            {
-                this.messageParams = messageParams;
-            }
+            // public Query(MessageParams messageParams)
+            // {
+            //     this.messageParams = messageParams;
+            // }
 
-            public MessageParams messageParams { get; set; }
+            // public MessageParams messageParams { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<MessageDto>>
@@ -41,7 +41,7 @@ namespace Application.Messages
             public async Task<List<MessageDto>> Handle(Query request, CancellationToken cancellationToken)
             {
 
-                request.messageParams.Username = _userAccessor.GetCurrentUsername();
+                // request.messageParams.Username = _userAccessor.GetCurrentUsername();
                 var username = _userAccessor.GetCurrentUsername();
 
 
@@ -52,16 +52,6 @@ namespace Application.Messages
                          u.SenderUsername == username)
                      .OrderByDescending(m => m.DateSent)
                      .AsQueryable();
-
-                //==new_switch==
-                // query = request.messageParams.Container switch
-                // {
-                //     "Inbox" => query.Where(u => u.Recipient.UserName == request.messageParams.Username),
-                //     "Outbox" => query.Where(u => u.Sender.UserName == request.messageParams.Username),
-                //     _ => query.Where(u => u.Recipient.UserName
-                //         == request.messageParams.Username && u.DateRead == null)
-                // };
-
 
                 var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 

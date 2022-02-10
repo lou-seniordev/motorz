@@ -14,39 +14,33 @@ namespace API.Controllers
     public class MessagesController : BaseController
     {
 
-        // [HttpPost]
-        // public async Task<ActionResult<Unit>> Create(Create.Command command)//
-        // // public async Task<ActionResult<MessageDto>> Create([FromQuery] string recipientUsername, string productId, string content)//
-        // {
-        //     return await Mediator.Send(command);
-
-        //     // return await Mediator.Send(new Create.Command{ recipientUsername, productId, content});
-        // }
-
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
             return await Mediator.Send(command);
         }
 
-        [HttpGet]// FromBody
-        public async Task<ActionResult<List<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
+        [HttpGet]
+        public async Task<ActionResult<List<MessageDto>>> GetMessagesForUser()
         {
-            return await Mediator.Send(new GetMessagesForUser.Query(messageParams));
+            return await Mediator.Send(new GetMessagesForUser.Query());
         }
+        // [HttpGet]
+        // public async Task<ActionResult<List<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
+        // {
+        //     return await Mediator.Send(new GetMessagesForUser.Query(messageParams));
+        // }
 
-        [HttpGet("thread/{messageThread}")]// FromBody [FromQuery]
+        [HttpGet("thread/{messageThread}")]
         public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string messageThread)
         {
             return await Mediator.Send(new GetMessageThread.Query(messageThread));
         }
        
-        [HttpDelete("{id}")]// FromBody [FromQuery][FromBody] 
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
             return await Mediator.Send(new Delete.Command { Id = id });
-                        
-
         }
 
     }

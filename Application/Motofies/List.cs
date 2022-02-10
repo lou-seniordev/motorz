@@ -27,9 +27,6 @@ namespace Application.Motofies
         {
             public int? Limit { get; set; }
             public int? Offset { get; set; }
-            // public bool IEmbraced { get; set; }
-            // public bool IOwn { get; set; }
-            // public bool WinningFive { get; set; }
             public bool BestRated { get; set; }
             public bool MostEmbraced { get; set; }
             public bool IEmbraced { get; set; }
@@ -68,16 +65,12 @@ namespace Application.Motofies
 
                 motofiesToQuery = await motos.ToListAsync();
 
-
                 //version 1
-                // var highestRatedMotofy = motofiesToQuery.OrderByDescending(x => x.AverageRating.Average).First();
+                var highestRatedMotofy = motofiesToQuery.OrderByDescending(x => x.AverageRating.Average).First();
 
                 //version 2
-                var maxAverageRating = motofiesToQuery.Max(x => x.AverageRating.Average);
-                var highestRatedMotofy = motofiesToQuery.First(x => x.AverageRating.Average == maxAverageRating);
-
-                //====What if there are more of the same average Rating???====
-                //====Possible solution -- put in in the list and check on UI whether show list or single====
+                // var maxAverageRating = motofiesToQuery.Max(x => x.AverageRating.Average);
+                // var highestRatedMotofy = motofiesToQuery.First(x => x.AverageRating.Average == maxAverageRating);
 
                 if (request.BestRated)
                 {
@@ -92,7 +85,7 @@ namespace Application.Motofies
                     .OrderByDescending(x => x.TotalEmbraced)
                     .Take(2);
                 }
-                
+
                 if (request.IEmbraced)
                 {
                     queryable = queryable
@@ -105,7 +98,6 @@ namespace Application.Motofies
                     .Take(request.Limit ?? 4)
                     .ToListAsync();
                
-                // // == MostEmbracedOne ==
                 var mostEmbracedId = await _context.UserMotofies
                     .GroupBy(m => m.MotofyId)
                     .OrderByDescending(e => e.Count())

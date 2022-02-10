@@ -179,7 +179,7 @@ const Motofies = {
       // .then(sleep(1000))
       .then(responseBody),
 
-  // .then(show('new string'))
+ 
   details: (id: string) => requests.get(`/motofies/${id}`),
   // TODO: 
   // create: (motofy: IMotofy) => requests.post('/motofies', motofy),
@@ -241,18 +241,14 @@ const Activities = {
 };
 
 const Messages = {
-  list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}`),
-  // thread: (username: string, productId: string): Promise<IMessage[]> => requests.get(`/messages/thread/${username}/${productId}`),
+  list: (): Promise<IMessage[]> => requests.get('/messages'),
+  // list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}`),
+
   thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
-  details: (id: string) => requests.get(`/messages/${id}`),
-  // create: (username: string, productId: string, content: string) => 
-  //   requests.post(`/messages/${username}/${productId}/${content}`, {}),
+  // details: (id: string) => requests.get(`/messages/${id}`),
+ 
   create: (message: IMessageToSend) => requests.post('/messages/', message),
 
-
-  // create: (message: IMessage) => requests.post('/messages', message),
-  // update: (message: IMessage) =>
-  //   requests.put(`/messages/${message.id}`, message),
 
   delete: (id: string) => requests.delete(`/messages/${id}`)
 }

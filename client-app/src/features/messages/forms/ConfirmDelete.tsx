@@ -28,7 +28,6 @@ const ConfirmDelete: React.FC<IProps> = ({ ids }) => {
           color='teal'
           textAlign='center'
         />
-
         <Button
           fluid
           floated='right'
@@ -40,14 +39,10 @@ const ConfirmDelete: React.FC<IProps> = ({ ids }) => {
         <Button
           fluid
           floated='left'
-          // disabled={loading}
           type='button'
           content='cancel'
           onClick={() => closeModal()}
         />
-        {/* </Form>
-              )}
-            /> */}
       </Grid.Column>
     </Grid>
   );

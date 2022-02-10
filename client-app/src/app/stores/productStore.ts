@@ -7,7 +7,7 @@ import agent from '../api/agent';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 
-const LIMIT = 3;
+const LIMIT = 5;
 
 export default class ProductStore {
   rootStore: RootStore;

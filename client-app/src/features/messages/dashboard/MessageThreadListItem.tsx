@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useEffect } from "react";
-// import { NavLink } from "react-router-dom";
-import { Button, Divider, Grid, Item, Segment } from "semantic-ui-react"; //Grid, Item,
+import { Button, Divider, Grid, Item, Segment } from "semantic-ui-react"; 
 // import { IMessage } from "../../../app/models/message";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 // import { useLocation, useParams } from "react-router-dom";

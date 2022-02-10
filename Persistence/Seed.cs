@@ -664,8 +664,6 @@ namespace Persistence
                 };
                 var messages2 = new List<Message>
                 {
-
-
                     new Message
                     {
                     Id= Guid.Parse("C0571EC4-EC3C-4377-9836-ECD3E1AACED1"),
@@ -697,10 +695,145 @@ namespace Persistence
                     DateSent = DateTime.Now.AddMinutes(3)
                     },
                 };
+                var messages3 = new List<Message>
+                {
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "f",
+                    RecipientUsername= "emir",
+                    Content= "First Message from Bob to Emir 1",
+                    DateSent = DateTime.Now.AddMinutes(1)
+                    },
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "f",
+                    SenderUsername= "emir",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "First Message from Emir to Bob 1",
+                    DateSent = DateTime.Now.AddMinutes(2)
+                    },
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "f",
+                    SenderUsername= "emir",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "Second Message from Emir to Bob 2",
+                    DateSent = DateTime.Now.AddMinutes(3)
+                    },
+                };
+                var messages4 = new List<Message>
+                {
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "g",
+                    RecipientUsername= "nina",
+                    Content= "First Message from Bob to Nina 1",
+                    DateSent = DateTime.Now.AddMinutes(1)
+                    },
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "g",
+                    SenderUsername= "nina",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "First Message from Nina to Bob 1",
+                    DateSent = DateTime.Now.AddMinutes(2)
+                    }
+                };
+                var messages5 = new List<Message>
+                {
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "h",
+                    SenderUsername= "cato",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "First Message from Cato to Bob 1",
+                    DateSent = DateTime.Now.AddMinutes(1)
+                    },
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "h",
+                    RecipientUsername= "cato",
+                    Content= "First Message from Bob to Cato 1",
+                    DateSent = DateTime.Now.AddMinutes(2)
+                    }
+                };
+                var messages6 = new List<Message>
+                {
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "i",
+                    SenderUsername= "giulietta",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "First Message from Giulietta to Bob 1",
+                    DateSent = DateTime.Now.AddMinutes(1)
+                    },
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "i",
+                    RecipientUsername= "giulietta",
+                    Content= "First Message from Bob to Giulietta 1",
+                    DateSent = DateTime.Now.AddMinutes(2)
+                    }
+                };
+                var messages7 = new List<Message>
+                {
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "d",
+                    SenderUsername= "jerry",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "First Message from Jerry to Bob 1",
+                    DateSent = DateTime.Now.AddMinutes(1)
+                    },
+                    new Message
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "d",
+                    RecipientUsername= "jerry",
+                    Content= "First Message from Bob to Jerry 1",
+                    DateSent = DateTime.Now.AddMinutes(2)
+                    }
+                };
 
                 await context.Messages.AddRangeAsync(messages1);
-                await context.SaveChangesAsync();
+                // await context.SaveChangesAsync();
                 await context.Messages.AddRangeAsync(messages2);
+                // await context.SaveChangesAsync();
+                await context.Messages.AddRangeAsync(messages3);
+                // await context.SaveChangesAsync();
+                await context.Messages.AddRangeAsync(messages4);
+                // await context.SaveChangesAsync();
+                await context.Messages.AddRangeAsync(messages5);
+                // await context.SaveChangesAsync();
+                await context.Messages.AddRangeAsync(messages6);
+                // await context.SaveChangesAsync();
+                await context.Messages.AddRangeAsync(messages7);
                 await context.SaveChangesAsync();
 
                 Product product1 = context.Products.Find(Guid.Parse("AEE0C4FD-C8C8-4184-B91C-7BAC64213821"));
@@ -723,9 +856,39 @@ namespace Persistence
                 {
                     throw new Exception();
                 }
+                Product product3 = context.Products.Find(Guid.Parse("F84B3E8E-1F1D-45A6-8ED2-7BED090E0D3F"));
+                if (product3 != null)
+                {
+                    product3.Messages = messages3;
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+                Product product4 = context.Products.Find(Guid.Parse("0C75E9A7-B737-4838-8D59-04F2B07509C2"));
+                if (product4 != null)
+                {
+                    product4.Messages = messages4;
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+                Product product5 = context.Products.Find(Guid.Parse("811F1598-0D5A-4CF3-91BF-2EC44CCBB7B0"));
+                if (product5 != null)
+                {
+                    product5.Messages = messages5;
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception();
+                }
                 if (!context.MessageThreads.Any())
                 {
-                    var messageThreads = new List<MessageThread>
+                var messageThreads = new List<MessageThread>
                 {
                     new MessageThread
                     {
@@ -740,9 +903,42 @@ namespace Persistence
                         Messages = messages2,
                         InitUsername= "bob",
                         ReceiverUsername = "tom"
-
+                    },
+                    new MessageThread
+                    {
+                        Id = Guid.Parse("57def104-1c95-40b9-a615-1b6950dd8937"),
+                        Messages = messages3,
+                        InitUsername= "bob",
+                        ReceiverUsername = "emir"
+                    },
+                    new MessageThread
+                    {
+                        Id = Guid.Parse("ab770c79-96de-40b5-b456-fd7485eb0518"),
+                        Messages = messages4,
+                        InitUsername= "bob",
+                        ReceiverUsername = "nina"
+                    },
+                    new MessageThread
+                    {
+                        Id = Guid.Parse("21cd5373-d899-48f3-90f3-5e57cbaf0d64"),
+                        Messages = messages5,
+                        InitUsername= "cato",
+                        ReceiverUsername = "bob"
+                    },
+                    new MessageThread
+                    {
+                        Id = Guid.Parse("c7392c80-a1cb-4661-b9b0-e4062c4d635e"),
+                        Messages = messages6,
+                        InitUsername= "giulietta",
+                        ReceiverUsername = "bob"
+                    },
+                    new MessageThread
+                    {
+                        Id = Guid.Parse("4f381b17-b16c-49c0-a83b-e67df409e2b9"),
+                        Messages = messages7,
+                        InitUsername= "jerry",
+                        ReceiverUsername = "bob"
                     }
-
 
                 };
                     await context.MessageThreads.AddRangeAsync(messageThreads);

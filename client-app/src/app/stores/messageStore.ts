@@ -49,12 +49,15 @@ export default class MessageStore {
     message.dateSent = message.dateSent?.split(delimiter)[0];
     message.dateSent = message.dateSent.replace('T', ' ');
   }
-  @action loadMessages = async () => {
-    const container = 'Inbox';
 
+
+
+  @action loadMessages = async () => {
+    const container = '';
+    // const container = 'Inbox';
     this.loadingInitial = true;
     try {
-      const messages = await agent.Messages.list(container);
+      const messages = await agent.Messages.list();//container
       runInAction('loading messages', () => {
         messages.forEach((message) => {
           this.formatDate(message);
