@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import {
   Checkbox,
   Header,
@@ -14,12 +14,31 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import { useHistory } from "react-router";
 import ConfirmDelete from "../forms/ConfirmDelete";
 import { IMessage } from "../../../app/models/message";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+
+
 
 const MessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
-  const { messagesByDate, markReadInDB } = rootStore.messageStore; //, setThread
+  const {
+    messagesByDate,
+    markReadInDB,
+    setPage,
+    page,
+    totalPages,
+    loadMessages,
+    loadingInitial,
+  } = rootStore.messageStore;
+
+  const [ loadingNext, setLoadingNext] = useState(false);
+
+  const handleGetNext = () => {
+    setLoadingNext(true);
+    setPage(page + 1);
+    loadMessages().then(() => setLoadingNext(false));
+  };
 
   const { openModal } = rootStore.modalStore;
 
@@ -38,11 +57,14 @@ const MessageThreadList = () => {
   };
 
   const markRead = (message: IMessage) => {
-    
-    if(message.senderUsername !== user?.userName) {
+    if (message.senderUsername !== user?.userName) {
       markReadInDB(message.id);
     }
   };
+
+
+  if ( loadingInitial && page === 0)
+    return <LoadingComponent content={"Loading messages..."} />;
 
   return (
     <Segment>
@@ -95,7 +117,11 @@ const MessageThreadList = () => {
                 >
                   <Table.Cell
                     onClick={(e: any) => e.stopPropagation()}
-                    style={{ verticalAlign: "middle", textAlign: "center" }}
+                    style={{
+                      verticalAlign: "middle",
+                      textAlign: "center",
+                      // height: "200px",
+                    }}
                   >
                     <Checkbox
                       // name='myCheckBox1'
@@ -129,6 +155,14 @@ const MessageThreadList = () => {
           ))}
         </Fragment>
       </Table>
+      {/* { <Button
+        fluid
+        content='more...'
+        positive
+        onClick={handleGetNext}
+        loading={loadingNext}
+        disabled={totalPages === page + 1}
+      />} */}
     </Segment>
   );
 };

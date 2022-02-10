@@ -49,23 +49,31 @@ namespace Application.Messages
 
                 var username = _userAccessor.GetCurrentUsername();
 
-                var querable = _context.Messages
-                     .Where(
-                         u => u.RecipientUsername == username
-                         ||
-                         u.SenderUsername == username)
-                     .OrderByDescending(m => m.DateSent)
-                     .AsQueryable();
+                var threadQuery = _context.MessageThreads.AsQueryable();
 
-                 var messages = await querable
-                    // .Skip(request.Offset ?? 0)
-                    // .Take(request.Limit ?? 4)
-                    .ToListAsync();
+                var threads = await threadQuery
+                     .Where(x => x.Messages
+                     .Any(u => u.RecipientUsername == username || u.SenderUsername == username))
+                    //  .OrderByDescending(o => o.Messages.Last(x => x.))
+                     .Skip(request.Offset ?? 0)
+                     .Take(request.Limit ?? 10)
+                     .ToListAsync();
+
+                var messages = new List<Message>();
+
+                for (int i = 0; i < threads.Count; i++)
+                {
+                    foreach(var message in threads[i].Messages)
+                    {
+                        messages.Add(message);
+                    }
+                }
+
 
                 return new MessagesEnvelope
                 {
                     Messages = _mapper.Map<List<Message>, List<MessageDto>>(messages),
-                    MessagesCount = querable.Count()
+                    MessagesCount = threads.Count()
                 };
 
             }

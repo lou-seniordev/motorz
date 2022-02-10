@@ -7,7 +7,7 @@ import { RootStore } from './rootStore';
 import { v4 as uuid } from 'uuid';
 
 
-const LIMIT = 4;
+const LIMIT = 10;
 
 export default class MessageStore {
   rootStore: RootStore;

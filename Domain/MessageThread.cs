@@ -13,5 +13,6 @@ namespace Domain
         public string ReceiverUsername { get; set; }
         public bool InitDeleted { get; set; }
         public bool ReceiverDeleted { get; set; }
+        // public DateTime DateCreated { get; set; }
     }
 }
