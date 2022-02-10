@@ -13,12 +13,13 @@ import {
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { useHistory } from "react-router";
 import ConfirmDelete from "../forms/ConfirmDelete";
+import { IMessage } from "../../../app/models/message";
 
 const MessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
-  const { messagesByDate } = rootStore.messageStore; //, setThread
+  const { messagesByDate, markReadInDB } = rootStore.messageStore; //, setThread
 
   const { openModal } = rootStore.modalStore;
 
@@ -34,6 +35,13 @@ const MessageThreadList = () => {
 
   const removeThread = () => {
     openModal(<ConfirmDelete ids={deletionList} />);
+  };
+
+  const markRead = (message: IMessage) => {
+    
+    if(message.senderUsername !== user?.userName) {
+      markReadInDB(message.id);
+    }
   };
 
   return (
@@ -70,10 +78,19 @@ const MessageThreadList = () => {
             <Fragment key={id}>
               <Table.Body>
                 <Table.Row
+                  //
+                  style={
+                    messages[0].dateRead === null &&
+                    messages[0].senderUsername !== user?.userName
+                      ? { fontWeight: "bold" }
+                      : { fontWeight: "normal" }
+                  }
+                  // {messages[0].dateRead}
                   onClick={() => {
                     history.push(
                       `/messageThread/${messages[0].messageThreadId}`
                     );
+                    markRead(messages[0]);
                   }}
                 >
                   <Table.Cell
@@ -81,30 +98,30 @@ const MessageThreadList = () => {
                     style={{ verticalAlign: "middle", textAlign: "center" }}
                   >
                     <Checkbox
-                      name='myCheckBox1'
+                      // name='myCheckBox1'
                       onChange={(e, data) =>
                         handleChange(messages[0].messageThreadId, data)
                       }
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <Header as='h4' image>
-                      <Image
+                    {/* <Header as='h4' image> */}
+                    {/* <Image
                         src={messages[0].productPhotoUrl}
                         rounded
                         size='mini'
-                      />
-                      <Header.Content>
-                        {messages[0].productTitle}
-                      </Header.Content>
-                    </Header>
+                      /> */}
+                    {/* <Header.Content> */}
+                    {messages[0].productTitle}
+                    {/* </Header.Content> */}
+                    {/* </Header> */}
                   </Table.Cell>
                   <Table.Cell>
                     {messages[0].senderUsername === user?.userName
                       ? "me"
                       : messages[0].senderUsername}
                   </Table.Cell>
-                  <Table.Cell>{messages[0].content}</Table.Cell>
+                  <Table.Cell>{messages[0].content} </Table.Cell>
                   <Table.Cell>{messages[0].dateSent}</Table.Cell>
                 </Table.Row>
               </Table.Body>

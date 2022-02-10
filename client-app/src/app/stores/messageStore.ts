@@ -7,7 +7,7 @@ import { RootStore } from './rootStore';
 import { v4 as uuid } from 'uuid';
 
 
-// configure({ enforceActions: 'always' });
+const LIMIT = 4;
 
 export default class MessageStore {
   rootStore: RootStore;
@@ -27,6 +27,18 @@ export default class MessageStore {
   @observable messageThreadId: string;
   @observable loadingMessageThread = false;
   @observable messagesFromThread: any = [];
+
+  @observable messageCount = 0;
+  @observable page = 0;
+
+
+  @computed get totalPages() {
+    return Math.ceil(this.messageCount / LIMIT);
+  }
+
+  @action setPage = (page: number) => {
+    this.page = page;
+  }
 
   @computed get messagesByDate() {
 
@@ -57,12 +69,16 @@ export default class MessageStore {
     // const container = 'Inbox';
     this.loadingInitial = true;
     try {
-      const messages = await agent.Messages.list();//container
+      // const messages = await agent.Messages.list();
+      const messagesEnvelope = await agent.Messages.list(LIMIT, this.page);
+      const {messages, messageCount} = messagesEnvelope;
+      console.log(messages)
       runInAction('loading messages', () => {
         messages.forEach((message) => {
           this.formatDate(message);
           this.messageRegistry.set(message.id, message);
         });
+        this.messageCount = messageCount;
         this.loadingInitial = false;
       });
     } catch (error) {
@@ -223,6 +239,14 @@ export default class MessageStore {
       console.log(error);
     }
   };
+
+  @action markReadInDB = async (id: string) => {
+    try {
+      await agent.Messages.markRead(id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 

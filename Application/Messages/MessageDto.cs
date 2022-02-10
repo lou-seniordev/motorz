@@ -19,7 +19,7 @@ namespace Application.Messages
         public string ProductTitle { get; set; }
         public string MessageThreadId { get; set; }
         public string Content { get; set; }
-        public DateTime DateRead { get; set; }
+        public DateTime? DateRead { get; set; }
         public DateTime DateSent { get; set; }
     }
 }

@@ -1,3 +1,9 @@
+export interface IMessageEnvelope {
+
+    messages: IMessage[];
+    messageCount: number;
+}
+
 export interface IMessage {
     id: string;
     senderId?: string;

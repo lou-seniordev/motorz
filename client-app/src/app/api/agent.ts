@@ -1,6 +1,6 @@
 import { IRateMotofy } from './../models/motofy';
 // import { MechanicValues, IMechanicCustomerToBecome } from './../models/mechanic';
-import { IMessage, IMessageToSend } from './../models/message';
+import { IMessage, IMessageEnvelope, IMessageToSend } from './../models/message';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
@@ -241,7 +241,8 @@ const Activities = {
 };
 
 const Messages = {
-  list: (): Promise<IMessage[]> => requests.get('/messages'),
+  list: (limit: number, page: number): Promise<IMessageEnvelope> => 
+      requests.get(`/messages?limit=${limit}&offset=${page ? page * limit! : 0}`),
   // list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}`),
 
   thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
@@ -250,7 +251,8 @@ const Messages = {
   create: (message: IMessageToSend) => requests.post('/messages/', message),
 
 
-  delete: (id: string) => requests.delete(`/messages/${id}`)
+  delete: (id: string) => requests.delete(`/messages/${id}`),
+  markRead: (id: string) => requests.put(`/messages/${id}/markRead`, {})
 }
 
 const Forumposts = {

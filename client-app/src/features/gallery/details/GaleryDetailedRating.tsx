@@ -35,9 +35,7 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
       // console.log('rating!!!! ', rating);
     }
 
-    // motofy.motofyScores
-    // loadMessageThread(match.params.id);
-  }, [motofy.motofyScores, username]); //[loadMessageThread, match.params.id, setUser, user]//rating,
+  }, [motofy.motofyScores, username]); 
 
   // const handleRateMotofy = (rating: any) => {
   //   let newScore: IMotofyScore = {

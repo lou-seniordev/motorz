@@ -19,16 +19,21 @@ namespace API.Controllers
         {
             return await Mediator.Send(command);
         }
+        [HttpPut("{id}/markRead")]
+        public async Task<ActionResult<Unit>> MarkRead(Guid id)
+        {
+            return await Mediator.Send(new MarkRead.Command { Id = id });
+        }
 
         [HttpGet]
-        public async Task<ActionResult<List<MessageDto>>> GetMessagesForUser()
+        public async Task<ActionResult<List.MessagesEnvelope>> List(int? limit, int? offset)
         {
-            return await Mediator.Send(new GetMessagesForUser.Query());
+            return await Mediator.Send(new List.Query(limit, offset));
         }
         // [HttpGet]
-        // public async Task<ActionResult<List<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
+        // public async Task<ActionResult<List<MessageDto>>> GetMessagesForUser()//[FromQuery] MessageParams messageParams
         // {
-        //     return await Mediator.Send(new GetMessagesForUser.Query(messageParams));
+        //     return await Mediator.Send(new GetMessagesForUser.Query());//messageParams
         // }
 
         [HttpGet("thread/{messageThread}")]
