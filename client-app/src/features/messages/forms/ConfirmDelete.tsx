@@ -5,17 +5,17 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface IProps {
-  ids: string[];
+  id: string;
 }
 
-const ConfirmDelete: React.FC<IProps> = ({ ids }) => {
+const ConfirmDelete: React.FC<IProps> = ({ id }) => {
   const rootStore = useContext(RootStoreContext);
 
-  const { deleteThread } = rootStore.messageStore; //, setThread
+  const { deleteThread } = rootStore.messageStore; 
   const { closeModal } = rootStore.modalStore;
 
   const handleDeleteMessageThread = () => {
-    deleteThread(ids);
+    deleteThread(id);
     closeModal();
   };
 

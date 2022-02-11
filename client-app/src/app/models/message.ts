@@ -1,7 +1,8 @@
 export interface IMessageEnvelope {
 
     messages: IMessage[];
-    messageCount: number;
+    messageThreadsCount: number; 
+    totalPages: number;
 }
 
 export interface IMessage {

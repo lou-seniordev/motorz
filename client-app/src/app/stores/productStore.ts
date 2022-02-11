@@ -1,4 +1,3 @@
-import { toJS } from 'mobx';
 import { IProduct } from '../models/product';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
 // import { SyntheticEvent } from 'react';

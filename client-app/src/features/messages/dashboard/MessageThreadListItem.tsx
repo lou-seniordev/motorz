@@ -1,14 +1,11 @@
 import React, { Fragment, useContext, useEffect } from "react";
 import { Button, Divider, Grid, Item, Segment } from "semantic-ui-react"; 
-// import { IMessage } from "../../../app/models/message";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-// import { useLocation, useParams } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import ReplyForm from "../forms/ReplyForm";
 
-//loadMessageThread
 interface DetailParams {
   id: string;
 }

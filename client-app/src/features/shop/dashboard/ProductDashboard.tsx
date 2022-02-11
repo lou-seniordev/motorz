@@ -7,7 +7,6 @@ import ProductList from "./ProductList";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductFilters from "./ProductFilters";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
 import InfiniteScroll from "react-infinite-scroller";
 import ProductListItemPlaceholder from "./ProductListItemPlaceholder";
 

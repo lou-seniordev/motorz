@@ -7,7 +7,7 @@ import { RootStore } from './rootStore';
 import { v4 as uuid } from 'uuid';
 
 
-const LIMIT = 10;
+const LIMIT = 4;
 
 export default class MessageStore {
   rootStore: RootStore;
@@ -28,20 +28,17 @@ export default class MessageStore {
   @observable loadingMessageThread = false;
   @observable messagesFromThread: any = [];
 
-  @observable messageCount = 0;
+  @observable messageThreadsCount = 0;
   @observable page = 0;
+  @observable totalPages = 0;
 
-
-  @computed get totalPages() {
-    return Math.ceil(this.messageCount / LIMIT);
-  }
 
   @action setPage = (page: number) => {
     this.page = page;
   }
 
   @computed get messagesByDate() {
-
+    // console.log(this.groupMessagesByThreadId(Array.from(this.messageRegistry.values())));
     return this.groupMessagesByThreadId(Array.from(this.messageRegistry.values()));
   }
 
@@ -65,20 +62,20 @@ export default class MessageStore {
 
 
   @action loadMessages = async () => {
-    const container = '';
-    // const container = 'Inbox';
+
     this.loadingInitial = true;
     try {
-      // const messages = await agent.Messages.list();
+
       const messagesEnvelope = await agent.Messages.list(LIMIT, this.page);
-      const {messages, messageCount} = messagesEnvelope;
-      console.log(messages)
+      const { messages, messageThreadsCount, totalPages } = messagesEnvelope;
       runInAction('loading messages', () => {
         messages.forEach((message) => {
           this.formatDate(message);
           this.messageRegistry.set(message.id, message);
         });
-        this.messageCount = messageCount;
+        // console.log(messages)
+        this.messageThreadsCount = messageThreadsCount;
+        this.totalPages = totalPages;
         this.loadingInitial = false;
       });
     } catch (error) {
@@ -108,29 +105,24 @@ export default class MessageStore {
   };
 
 
-  @action deleteThread = async (ids: string[]) => {
+
+  @action deleteThread = async (id: string) => {
 
     try {
-      for (let i = 0; i< ids.length; i++){
-        let id = ids[i]
-        await agent.Messages.delete(id);
-      }
-
+      await agent.Messages.delete(id);
       runInAction('deleting thread', () => {
-        ids.forEach((id: string) => {
-          this.messageRegistry.forEach(m => {
-            if (m.messageThreadId === id)
-              this.messageRegistry.delete(m.id);
-          })
-        });
 
-      });
+        this.messageRegistry.forEach(m => {
+          if (m.messageThreadId === id)
+            this.messageRegistry.delete(m.id);
+        })
+      })
     } catch (error) {
       runInAction('delete error thread', () => {
         console.log(error);
       });
     }
-  };
+  }
 
 
   @action setUser = (username: string, userPhotoUrl: any) => {

@@ -22,8 +22,8 @@ interface IProps {
 }
 
 const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
-  const owner =
-    motofy.embracers.filter((x) => x.isOwner)[0] || "unknown testing";
+  // const owner =
+  //   motofy.embracers.filter((x) => x.isOwner)[0] || "unknown testing";
   //==test!
   const publisher = motofy.embracers.filter((x) => x)[0];
   const descriptionUiShort = motofy.description!.substring(0, 60);
@@ -167,51 +167,3 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
 };
 
 export default observer(GalleryListItem);
-
-
-
-{/* <Item.Content>
-            <Item.Header as={Link} to={`/gallery/${motofy.id}`}>
-              {motofy.name}
-            </Item.Header>
-            <Item.Meta>{motofy.brandName}</Item.Meta>
-            <Label basic content={motofy.brandId} />
-            <Item.Description>
-              Published by
-              <Link to={`/profile/${publisher.username}`}>
-                {publisher.displayName! || "unknown"}
-              </Link>
-            </Item.Description>
-            <Image
-              size='mini'
-              src={publisher.image || '/assets/user.png'}
-            />
-            <Item.Description>
-              Owned by {owner.displayName || "unknown"}
-            </Item.Description>
-            {motofy.isOwner && (
-              <Item.Description>
-                <Label
-                  basic
-                  color='orange'
-                  content='You are owner of this motofy'
-                />
-              </Item.Description>
-            )}
-            {motofy.embraced && !motofy.isOwner && (
-              <Item.Description>
-                <Label basic color='green' content='You embraced this motofy' />
-              </Item.Description>
-            )}
-            <Item.Extra></Item.Extra>
-          </Item.Content> */}
-
-            {/* <span>{descriptionUiShort}</span>
-        </Item.Meta> */}
-        {/* <Icon name='clock' /> {motofy.datePublished}
-        <Icon name='marker' /> {motofy.city}, {motofy.countryName}
-      </Segment>
-      <Segment>
-        <Icon name='motorcycle' /> {motofy.model} 
-        <Icon name='flag checkered' /> {motofy.cubicCentimeters} cc */}
-        {/* </Segment> */}

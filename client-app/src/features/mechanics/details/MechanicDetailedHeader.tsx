@@ -1,5 +1,10 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useEffect } from "react"; //useCallback,
+import React, { 
+  Fragment, 
+  useCallback, 
+  useContext, 
+  useEffect 
+} from "react"; //useCallback,
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
 import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
@@ -34,21 +39,21 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
   // const [customerChecked, setCustomerChecked] = useState(false);
 
 
-  const handleView = (localMechanic: any) => {
-    localMechanic.customers.some((customer: IMechanicCustomer) => {
-      if (user!.userName === customer.username) {
-        setCustomer(true);
-        return;
-      }
-    });
-  };
+  // const handleView = (localMechanic: any) => {
+  //   localMechanic.customers.some((customer: IMechanicCustomer) => {
+  //     if (user!.userName === customer.username) {
+  //       setCustomer(true);
+  //       return;
+  //     }
+  //   });
+  // };
 
-//   const handleView = useCallback((localMechanic: any) => {    
-//     localMechanic.customers.forEach((customer: IMechanicCustomer) => {
-//       if (user!.userName === customer.username) setCustomer(true);
-//     });
-//     // setCustomerChecked(true);
-// }, [setCustomer, user]);
+  const handleView = useCallback((localMechanic: any) => {    
+    localMechanic.customers.forEach((customer: IMechanicCustomer) => {
+      if (user!.userName === customer.username) setCustomer(true);
+    });
+    // setCustomerChecked(true);
+}, [setCustomer, user]);
 
   useEffect(() => {
     

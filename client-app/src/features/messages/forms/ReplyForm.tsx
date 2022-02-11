@@ -19,11 +19,11 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 const validate = combineValidators({
   content: composeValidators(
     isRequired("Body"),
-    hasLengthGreaterThan(4)({
-      message: "Body needs to be at least 5 characters",
+    hasLengthGreaterThan(1)({
+      message: "Body needs to be at least 2 characters",
     }),
     hasLengthLessThan(255)({
-      message: "Maximum number of characters is 500"
+      message: "Maximum number of characters is 255"
     })
   )(),
 });

@@ -1,5 +1,8 @@
 import React from "react";//, { useContext, useEffect, useState }
-import {  Feed,  Icon } from "semantic-ui-react";//Button,Grid, , Loader, Sticky
+import {  
+  Feed
+  // ,Icon 
+} from "semantic-ui-react";//Button,Grid, , Loader, Sticky
 // import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 import { observer } from "mobx-react-lite";
@@ -16,7 +19,7 @@ const FeedDashboard = () => {
 
   return (
     <Feed>
-    <Feed.Event>
+    {/* <Feed.Event>
       <Feed.Label>
         <img src='https://react.semantic-ui.com/images/avatar/small/elliot.jpg' />
       </Feed.Label>
@@ -115,7 +118,7 @@ const FeedDashboard = () => {
           </Feed.Like>
         </Feed.Meta>
       </Feed.Content>
-    </Feed.Event>
+    </Feed.Event> */}
   </Feed>
   );
 };

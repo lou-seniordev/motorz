@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
-import { Item, Segment } from "semantic-ui-react";
+import { Item } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductListItem from "./ProductListItem";
 

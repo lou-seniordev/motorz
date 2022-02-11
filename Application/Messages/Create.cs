@@ -97,7 +97,8 @@ namespace Application.Messages
                         Id = messageThreadId,
                         Messages = new List<Message>(),
                         InitUsername = user.UserName,
-                        ReceiverUsername = request.RecipientUsername
+                        ReceiverUsername = request.RecipientUsername,
+                        DateUpdated = DateTime.Now
                     };
                     newMessageThread.Messages.Add(message);
                     _context.MessageThreads.Add(newMessageThread);
@@ -108,6 +109,7 @@ namespace Application.Messages
                     var messageThread = await _context.MessageThreads.SingleOrDefaultAsync(
                         x => x.Id == Guid.Parse(request.MessageThreadId));
                     messageThread.Messages.Add(message);
+                    messageThread.DateUpdated = DateTime.Now;
                     _context.MessageThreads.Update(messageThread);
                 }
 

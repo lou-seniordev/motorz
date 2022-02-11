@@ -934,49 +934,56 @@ namespace Persistence
                         Id = Guid.Parse("603FDB55-2DE3-4624-AA9F-2F98D336875A"),
                         Messages = messages1,
                         InitUsername= "bob",
-                        ReceiverUsername = "jane"
+                        ReceiverUsername = "jane",
+                        DateUpdated = DateTime.Now
                     },
                     new MessageThread
                     {
                         Id = Guid.Parse("D5759CCD-CD56-4F18-890C-8C522C76C4E4"),
                         Messages = messages2,
                         InitUsername= "bob",
-                        ReceiverUsername = "tom"
+                        ReceiverUsername = "tom",
+                        DateUpdated = DateTime.Now.AddMinutes(-6)
                     },
                     new MessageThread
                     {
                         Id = Guid.Parse("57def104-1c95-40b9-a615-1b6950dd8937"),
                         Messages = messages3,
                         InitUsername= "bob",
-                        ReceiverUsername = "emir"
+                        ReceiverUsername = "emir",
+                        DateUpdated = DateTime.Now.AddMinutes(-5)
                     },
                     new MessageThread
                     {
                         Id = Guid.Parse("ab770c79-96de-40b5-b456-fd7485eb0518"),
                         Messages = messages4,
                         InitUsername= "bob",
-                        ReceiverUsername = "nina"
+                        ReceiverUsername = "nina",
+                        DateUpdated = DateTime.Now.AddMinutes(-4)
                     },
                     new MessageThread
                     {
                         Id = Guid.Parse("21cd5373-d899-48f3-90f3-5e57cbaf0d64"),
                         Messages = messages5,
                         InitUsername= "cato",
-                        ReceiverUsername = "bob"
+                        ReceiverUsername = "bob",
+                        DateUpdated = DateTime.Now.AddMinutes(-3)
                     },
                     new MessageThread
                     {
                         Id = Guid.Parse("c7392c80-a1cb-4661-b9b0-e4062c4d635e"),
                         Messages = messages6,
                         InitUsername= "giulietta",
-                        ReceiverUsername = "bob"
+                        ReceiverUsername = "bob",
+                        DateUpdated = DateTime.Now.AddMinutes(-2)
                     },
                     new MessageThread
                     {
                         Id = Guid.Parse("4f381b17-b16c-49c0-a83b-e67df409e2b9"),
                         Messages = messages7,
                         InitUsername= "jerry",
-                        ReceiverUsername = "bob"
+                        ReceiverUsername = "bob",
+                        DateUpdated = DateTime.Now.AddMinutes(-1)
                     }
 
                 };

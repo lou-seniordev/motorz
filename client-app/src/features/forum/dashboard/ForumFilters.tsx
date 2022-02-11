@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from "react";
-import { Menu, Header, Dropdown, Icon } from "semantic-ui-react";
+import { Menu, Header, Dropdown } from "semantic-ui-react";
 import { category } from "../../../app/common/options/forumCategoryOptions";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";

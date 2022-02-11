@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Domain
 {
@@ -13,6 +11,6 @@ namespace Domain
         public string ReceiverUsername { get; set; }
         public bool InitDeleted { get; set; }
         public bool ReceiverDeleted { get; set; }
-        // public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
     }
 }

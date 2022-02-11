@@ -48,6 +48,7 @@ namespace Application.Messages
                         ||
                         m.Sender.UserName == currentUsername
                     )
+                    //==check if someone has deleted -iKnow it is impossible but just in case
                     .Where(
                         m => m.MessageThread.Id == Guid.Parse(request._messageThreadId)//Product.Id == Guid.Parse(request._productId)
                     )

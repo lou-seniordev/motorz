@@ -6,7 +6,6 @@ import { IActivity } from '../../../app/models/activity';
 import { format } from 'date-fns';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 
-import { useHistory } from "react-router";
 import ConfirmDeactivate from '../modals/ConfirmDeactivate';
 
 const activityImageStyle = {
@@ -27,11 +26,11 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);
-  const { attendActivity, cancelAttendance, loading, deactivateActivity } = rootStore.activityStore;
+  const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;//, deactivateActivity
 
   const { openModal } = rootStore.modalStore;
 
-  let history = useHistory();
+  // let history = useHistory();
 
   const handleDeactivateActivity = (id: string) => {
     openModal(<ConfirmDeactivate activityId={id}/>);
