@@ -67,3 +67,40 @@ body {
 .prudence {
   background-color: red;
 } */
+
+
+/* Classes for mobile messages */
+
+@media only screen and (max-width: 767px) {
+  .mobview {
+    /* color: red;
+    background-color: blue; */
+    display: flex;
+    justify-content: center;
+    /* text-align:justify; */
+  }
+  .btnview {
+    width: fit-content;
+    /* background-color: blue; */
+  }
+  .btnview_show {
+    width: fit-content;
+    /* background-color: blue; */
+  }
+  .btnview_hide {
+   display: none;
+  }
+   .btnview_show {
+    /* width: fit-content; */
+    display: none;
+  }
+}
+@media only screen and (min-width:767px) {
+
+  .btnview_show {
+   
+    display: none;
+    /* background-color: blue; */
+  }
+ 
+}

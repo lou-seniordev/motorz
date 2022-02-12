@@ -52,7 +52,7 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
                       <Item.Image
                         size='tiny'
                         circular
-                        src={message.senderPhotoUrl}
+                        src={message.senderPhotoUrl || "/assets/user.png"}
                       />
                     </Grid.Column>
                     <Grid.Column width={14}>

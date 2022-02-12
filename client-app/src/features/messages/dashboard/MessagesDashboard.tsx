@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid } from "semantic-ui-react";
+import { Grid, Loader } from "semantic-ui-react";
 
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -39,6 +39,9 @@ const MessageDashboard = () => {
             <MessageThreadList />
           </InfiniteScroll>
         )}
+      </Grid.Column>
+      <Grid.Column computer={16} mobile={16}>
+        <Loader active={loadingNext} />
       </Grid.Column>
     </Grid>
   );

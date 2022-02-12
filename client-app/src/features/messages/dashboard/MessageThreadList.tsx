@@ -10,7 +10,8 @@ const MessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
-  const { messagesByDate, markReadInDB } = rootStore.messageStore;
+  const { messagesByDate, markReadInDB, messageThreadsCount } =
+    rootStore.messageStore;
 
   const { openModal } = rootStore.modalStore;
 
@@ -27,41 +28,42 @@ const MessageThreadList = () => {
   };
 
   return (
-    <Segment>
-      <Segment>
+    <Segment style={{ textAlign: "center" }}>
+      <Segment raised>
         <Fragment>
           <Grid>
             <Grid.Column width={16}>
-              <h5>
-                {user?.displayName}'s shopping mailbox, contains 12
-                conversations
-              </h5>
+              <h2>
+                {user?.displayName}'s shopping mailbox, contains{" "}
+                {messageThreadsCount} conversations
+              </h2>
             </Grid.Column>
           </Grid>
         </Fragment>
       </Segment>
-      <Segment>
+      <Segment raised>
         <Fragment>
-          <Grid columns={4} divided>
+          <Grid className="mobview" columns={4} divided>
             <Grid.Column width={4}>
-              <h4>Product</h4>
+              <p>PRODUCT</p>
             </Grid.Column>
             <Grid.Column width={4}>
-              <h4>Sender</h4>
+              <p>SENDER</p>
             </Grid.Column>
             <Grid.Column width={4}>
-              <h4>Sent</h4>
+              <p>SENT</p>
             </Grid.Column>
             <Grid.Column width={4}>
-              <h4>Remove</h4>
+              <p>ACTION</p>
             </Grid.Column>
           </Grid>
         </Fragment>
       </Segment>
-      <Segment>
-        {messagesByDate.map(([id, messages]) => (
-          <Fragment key={id}>
-            <Grid columns={4} divided>
+      {/* <Segment> */}
+      {messagesByDate.map(([id, messages]) => (
+        <Fragment key={id}>
+          <Segment raised>
+            <Grid columns={4} divided style={{ cursor: "pointer" }}>
               <Grid.Row
                 style={
                   messages[0].dateRead === null &&
@@ -91,25 +93,27 @@ const MessageThreadList = () => {
                 <Grid.Column
                   width={4}
                   onClick={(e: any) => e.stopPropagation()}
+                  style={{ cursor: "auto" }}
                 >
                   <Button
                     style={{ textAlign: "center" }}
                     animated
                     onClick={() => removeThread(messages[0].messageThreadId)}
-                  >
-                    <Button.Content visible>Delete</Button.Content>
-                    <Button.Content hidden>
-                      <Icon
-                        name='delete'
-                      />
+                    
+                  > 
+                  {/* <Icon className="btnview_show" name='delete' /> */}
+                    <Button.Content className="btnview_hide" visible>Delete</Button.Content>
+                    <Button.Content className="btnview_hide" hidden>
+                      <Icon name='delete' />
                     </Button.Content>
                   </Button>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-          </Fragment>
-        ))}
-      </Segment>
+          </Segment>
+        </Fragment>
+      ))}
+      {/* </Segment> */}
     </Segment>
   );
 };
