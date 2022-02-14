@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AddForumpostRatingEntity : Migration
+    public partial class FromFeedEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -98,7 +98,8 @@ namespace Persistence.Migrations
                     InitUsername = table.Column<string>(nullable: true),
                     ReceiverUsername = table.Column<string>(nullable: true),
                     InitDeleted = table.Column<bool>(nullable: false),
-                    ReceiverDeleted = table.Column<bool>(nullable: false)
+                    ReceiverDeleted = table.Column<bool>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -238,6 +239,28 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Feeds",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Info = table.Column<string>(nullable: true),
+                    NotifierId = table.Column<string>(nullable: true),
+                    ObjectId = table.Column<Guid>(nullable: false),
+                    DateTriggered = table.Column<DateTime>(nullable: false),
+                    FeedType = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feeds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Feeds_AspNetUsers_NotifierId",
+                        column: x => x.NotifierId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Followings",
                 columns: table => new
                 {
@@ -348,6 +371,7 @@ namespace Persistence.Migrations
                     Phone = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Website = table.Column<string>(nullable: true),
+                    TotalRecommended = table.Column<int>(nullable: false),
                     AverageRatingId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -391,6 +415,7 @@ namespace Persistence.Migrations
                     PricePaid = table.Column<string>(nullable: true),
                     EstimatedValue = table.Column<string>(nullable: true),
                     NumberOfKilometers = table.Column<string>(nullable: true),
+                    TotalEmbraced = table.Column<int>(nullable: false),
                     AverageRatingId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -435,6 +460,7 @@ namespace Persistence.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     IsAdvertised = table.Column<bool>(nullable: false),
                     IsSold = table.Column<bool>(nullable: false),
+                    NumberSeen = table.Column<int>(nullable: false),
                     DatePublished = table.Column<DateTime>(nullable: false),
                     DateActivated = table.Column<DateTime>(nullable: false),
                     DateAdvertised = table.Column<DateTime>(nullable: false),
@@ -455,6 +481,25 @@ namespace Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FeedNotifyees",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AppUserId = table.Column<string>(nullable: true),
+                    FeedId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FeedNotifyees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FeedNotifyees_Feeds_FeedId",
+                        column: x => x.FeedId,
+                        principalTable: "Feeds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -977,6 +1022,16 @@ namespace Persistence.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FeedNotifyees_FeedId",
+                table: "FeedNotifyees",
+                column: "FeedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Feeds_NotifierId",
+                table: "Feeds",
+                column: "NotifierId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Followings_TargetId",
                 table: "Followings",
                 column: "TargetId");
@@ -1153,6 +1208,9 @@ namespace Persistence.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "FeedNotifyees");
+
+            migrationBuilder.DropTable(
                 name: "Followings");
 
             migrationBuilder.DropTable(
@@ -1193,6 +1251,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Feeds");
 
             migrationBuilder.DropTable(
                 name: "Forumposts");

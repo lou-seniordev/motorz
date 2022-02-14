@@ -240,6 +240,10 @@ const Activities = {
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
 };
 
+const Feed = {
+  addFeedItem: (id: string) => requests.post(`/feeds/${id}/addFeedItem`, {})
+};
+
 const Messages = {
   list: (limit: number, page: number): Promise<IMessageEnvelope> => 
       requests.get(`/messages?limit=${limit}&offset=${page ? page * limit! : 0}`),
@@ -293,6 +297,7 @@ const User = {
     requests.post(`user/register`, user),
 };
 
+
 const Profiles = {
   get: (username: string): Promise<IProfile> =>
     requests.get(`/profiles/${username}`),
@@ -328,5 +333,6 @@ export default {
   Brands,
   Products,
   Messages,
-  Countries
+  Countries,
+  Feed
 };

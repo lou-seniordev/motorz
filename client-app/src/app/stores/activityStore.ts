@@ -318,6 +318,9 @@ export default class ActivityStore {
     this.loading = true;
     try {
       await agent.Activities.attend(this.activity!.id);
+      await agent.Feed.addFeedItem(this.activity!.id);
+      // console.log('this.activity!.id', this.activity!.id)
+      
       runInAction(() => {
         if (this.activity) {
           this.activity.attendees.push(attendee);
@@ -333,6 +336,30 @@ export default class ActivityStore {
       toast.error('Problem joining the group at this time');
     }
   };
+
+  // @action addFeedAttendDiary = async () => {
+  //   // const attendee = createAttendee(this.rootStore.userStore.user!);
+  //   this.loading = true;
+  //   try {
+  //     // await agent.Activities.attend(this.activity!.id);
+  //     // console.log('this.activity!.id', this.activity!.id)
+  //     await agent.Feed.addFeedItem(this.activity!.id);
+      
+  //     runInAction(() => {
+  //       // if (this.activity) {
+  //       //   this.activity.attendees.push(attendee);
+  //       //   this.activity.isGoing = true;
+  //       //   this.activityRegistry.set(this.activity.id, this.activity);
+  //         this.loading = false;
+  //       // }
+  //     });
+  //   } catch (error) {
+  //     runInAction(() => {
+  //       this.loading = false;
+  //     });
+  //     toast.error('Problem adding the feed at this time');
+  //   }
+  // };
 
   @action cancelAttendance = async () => {
     this.loading = true;

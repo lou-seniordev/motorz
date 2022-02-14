@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+// using Application.Feeds;
 using Application.Interfaces;
 using Domain;
 using MediatR;
@@ -22,7 +23,8 @@ namespace Application.Activities
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            public Handler(DataContext context, IUserAccessor userAccessor
+            )
             {
                 _userAccessor = userAccessor;
                 _context = context;

@@ -2560,9 +2560,7 @@ namespace Persistence
                         context.Mechanics.AddRange(mechanics);
                         context.SaveChanges();
             }
-
-
-
+           
         }
     }
 }

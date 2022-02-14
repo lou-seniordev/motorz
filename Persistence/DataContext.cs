@@ -58,6 +58,12 @@ namespace Persistence
         //=== ForumpostRating ===
         public DbSet<ForumpostRating> ForumpostRatings { get; set; }
 
+        // === Feed ===
+        public DbSet<Feed> Feeds { get; set; }
+        // public DbSet<FeedType> FeedTypes { get; set; }
+        public DbSet<FeedNotifyee> FeedNotifyees { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

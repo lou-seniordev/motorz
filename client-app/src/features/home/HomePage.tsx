@@ -37,7 +37,7 @@ const HomePage = () => {
             />
             <Button
               as={Link}
-              to='/gallery'
+              to='/activities'
               size='huge'
               inverted
               className='btn'

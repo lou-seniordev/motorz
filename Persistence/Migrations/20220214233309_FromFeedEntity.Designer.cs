@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220209163309_AddNumberSeen")]
-    partial class AddNumberSeen
+    [Migration("20220214233309_FromFeedEntity")]
+    partial class FromFeedEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -323,6 +323,53 @@ namespace Persistence.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("Domain.Feed", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateTriggered")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FeedType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Info")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotifierId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ObjectId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotifierId");
+
+                    b.ToTable("Feeds");
+                });
+
+            modelBuilder.Entity("Domain.FeedNotifyee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FeedId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FeedId");
+
+                    b.ToTable("FeedNotifyees");
+                });
+
             modelBuilder.Entity("Domain.Forumpost", b =>
                 {
                     b.Property<Guid>("Id")
@@ -529,6 +576,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("InitDeleted")
                         .HasColumnType("INTEGER");
 
@@ -590,6 +640,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("PricePaid")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("TotalEmbraced")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("YearOfProduction")
                         .HasColumnType("TEXT");
@@ -1114,6 +1167,22 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Motofy", "Motofy")
                         .WithMany("CommentMotofies")
                         .HasForeignKey("MotofyId");
+                });
+
+            modelBuilder.Entity("Domain.Feed", b =>
+                {
+                    b.HasOne("Domain.AppUser", "Notifier")
+                        .WithMany()
+                        .HasForeignKey("NotifierId");
+                });
+
+            modelBuilder.Entity("Domain.FeedNotifyee", b =>
+                {
+                    b.HasOne("Domain.Feed", null)
+                        .WithMany("Notifyees")
+                        .HasForeignKey("FeedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Forumpost", b =>

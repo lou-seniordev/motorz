@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import { Dropdown, Header, Menu } from "semantic-ui-react";
+import { Divider, Dropdown, Header, Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { categories } from '../../../app/common/options/productOptions';
@@ -40,6 +40,7 @@ const ProductFilters = () => {
           name={"all"}
           content={"All Products"}
         />
+         <Divider horizontal content='or'/>
         <Menu.Item>
           <Dropdown
             placeholder='Products By Country'
@@ -51,6 +52,7 @@ const ProductFilters = () => {
             onChange={handleOnChangeCountry}
           />
         </Menu.Item>
+        <Divider horizontal content='or'/>
         <Menu.Item>
           <Dropdown
             placeholder='Products By Category'

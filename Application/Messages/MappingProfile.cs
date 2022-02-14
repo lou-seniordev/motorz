@@ -14,7 +14,7 @@ namespace Application.Messages
                 .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(
                     src => src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(dest => dest.ProductPhotoUrl, opt => opt.MapFrom(
-                    src => src.Product.PictureUrl))
+                    src => src.Product.ProductPhoto.Url))
                 .ForMember(dest => dest.ProductTitle, opt => opt.MapFrom(
                     src => src.Product.Title))
                 .ForMember(dest => dest.MessageThreadId, opt => opt.MapFrom(
