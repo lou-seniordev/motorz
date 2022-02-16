@@ -9,7 +9,8 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 const panes = [
   { menuItem: 'Future Events', pane: { key: 'futureEvents' } },
   { menuItem: 'Past Events', pane: { key: 'pastEvents' } },
-  { menuItem: 'Hosting', pane: { key: 'hosted' } }
+  { menuItem: 'Hosting', pane: { key: 'hosted' } },
+  { menuItem: 'Not active [TODO]', pane: { key: 'hosted' } },
 ];
 
 const ProfileEvents = () => {

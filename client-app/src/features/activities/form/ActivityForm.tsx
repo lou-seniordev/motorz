@@ -48,6 +48,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     editActivity,
     submitting,
     loadActivity,
+    addFeedItem,
   } = rootStore.activityStore;
 
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
@@ -72,15 +73,17 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadActivity, match.params.id, loadCountriesToSelect]);
 
   const handleFinalFormSubmit = (values: any) => {
+    let newId = uuid();
     const dateAndTime = combineDateAndTime(values.date, values.time);
     const { date, time, ...activity } = values;
     activity.date = dateAndTime;
     if (!activity.id) {
       let newActivity = {
         ...activity,
-        id: uuid(),
+        id: newId//uuid(),
       };
       createActivity(newActivity);
+      addFeedItem(newId, 'Added Motocycle Diary')
       // console.log('newActivity', newActivity)
     } else {
       editActivity(activity);

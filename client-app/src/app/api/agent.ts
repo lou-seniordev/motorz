@@ -17,6 +17,7 @@ import { ICountry } from '../models/country';
 import { specialRequests } from './agentUtil';
 import { postProduct } from './agentUtil';
 import { postMechanic } from './agentUtil';
+import { IFeedEnvelope } from '../models/feed';
 // import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -241,7 +242,10 @@ const Activities = {
 };
 
 const Feed = {
-  addFeedItem: (id: string) => requests.post(`/feeds/${id}/addFeedItem`, {})
+  list: (limit: number, page: number): Promise<IFeedEnvelope> => 
+    requests.get(`/feeds?limit=${limit}&offset=${page ? page * limit! : 0}`),
+  addFeedItem: (id: string, info: string) => requests.post(`/feeds/${id}/${info}/addFeedItem`, {}),
+  removeFeedItem: (id: string) => requests.delete(`/feeds/${id}/removeFeedItem`)
 };
 
 const Messages = {

@@ -60,7 +60,6 @@ namespace Persistence
 
         // === Feed ===
         public DbSet<Feed> Feeds { get; set; }
-        // public DbSet<FeedType> FeedTypes { get; set; }
         public DbSet<FeedNotifyee> FeedNotifyees { get; set; }
 
 

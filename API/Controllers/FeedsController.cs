@@ -8,24 +8,29 @@ namespace API.Controllers
 {
     public class FeedsController: BaseController
     {
-        [HttpPost("{id}/addFeedItem")]
-        public async Task<ActionResult<Unit>> AddFeedItem__JoiningDiary(Guid id)
+        [HttpPost("{id}/{info}/addFeedItem")]
+        public async Task<ActionResult<Unit>> AddFeedItem(Guid id, string info)
         {
-            return await Mediator.Send(new AddFeedItemJoiningDiary.Command{DiaryId = id});
+            return await Mediator.Send(new AddFeedItem.Command{ObjectId = id, Info = info});
+
+        }
+        [HttpDelete("{id}/removeFeedItem")]
+        public async Task<ActionResult<Unit>> RemoveFeedItem(Guid id)
+        {
+            return await Mediator.Send(new RemoveFeedItem.Command{Id = id});
 
         }
 
-        //  [HttpPost("{id}/attend")]
-        // public async Task<ActionResult<Unit>> Attend(Guid id)
-        // {
-        //     return await Mediator.Send(new Attend.Command { Id = id });
-        // }
-        // [HttpPost("{id}/addFeedItem__AddingDiary")]
-        // public async Task<ActionResult<Unit>> AddFeedItem__AddingDiary(Guid diaryId)
-        // {
-        //     return await Mediator.Send(new AddFeedItemAddingDiary.Command{DiaryId = diaryId});
+        [HttpGet]
+         public async Task<ActionResult<List.FeedEnvelope>> List(int? limit, int? offset
+        //  ,   bool bestRated, bool mostEmbraced, bool iEmbraced
+        )
+        {
+            return await Mediator.Send(new List.Query(limit, offset
+            // , bestRated, mostEmbraced, iEmbraced
+            ));
+        }
 
-        // }
        
     }
 }

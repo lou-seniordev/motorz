@@ -222,13 +222,32 @@ export default class ActivityStore {
     this.activity = null;
   };
 
+  @action addFeedItem = async (id: string, info: string) => {
+    // console.log('In feed item in store!')
+    console.log('From addFeedItem, id is: ', id)
+
+    try {
+      await agent.Feed.addFeedItem(id, info);
+      // await agent.Feed.addFeedItem(this.activity!.id, 'Added Motocycle Diary');
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
   @action createActivity = async (activity: IActivity) => {
 
-    console.log('From activityStore: ', activity)
-
+    // console.log('From activityStore: ', activity)
+    console.log('From createActivity, id is: ', activity.id)
     this.submitting = true;
     try {
-      await agent.Activities.create(activity);
+      await agent.Activities.create(activity)
+      // .then(() => (
+
+      //    agent.Feed.addFeedItem(this.activity!.id, 'Added Motocycle Diary')
+      // ))
+// 
+      // .then(()=> {
+      // });
       const attendee = createAttendee(this.rootStore.userStore.user!);
       attendee.isHost = true;
       let attendees = [];
@@ -278,7 +297,9 @@ export default class ActivityStore {
     this.submitting = true;
     // this.target = event.currentTarget.name;
     try {
-      await agent.Activities.delete(id);
+      await agent.Activities.delete(id).then(() => {
+        agent.Feed.removeFeedItem(id);
+      });
       runInAction('deleting activity', () => {
         this.activityRegistry.delete(id);
 
@@ -318,14 +339,15 @@ export default class ActivityStore {
     this.loading = true;
     try {
       await agent.Activities.attend(this.activity!.id);
-      await agent.Feed.addFeedItem(this.activity!.id);
-      // console.log('this.activity!.id', this.activity!.id)
+      await agent.Feed.addFeedItem(this.activity!.id, 'Joined Motocycle Diary');
       
       runInAction(() => {
         if (this.activity) {
           this.activity.attendees.push(attendee);
           this.activity.isGoing = true;
           this.activityRegistry.set(this.activity.id, this.activity);
+          toast.info('You are now part of this diary');
+
           this.loading = false;
         }
       });
@@ -337,34 +359,11 @@ export default class ActivityStore {
     }
   };
 
-  // @action addFeedAttendDiary = async () => {
-  //   // const attendee = createAttendee(this.rootStore.userStore.user!);
-  //   this.loading = true;
-  //   try {
-  //     // await agent.Activities.attend(this.activity!.id);
-  //     // console.log('this.activity!.id', this.activity!.id)
-  //     await agent.Feed.addFeedItem(this.activity!.id);
-      
-  //     runInAction(() => {
-  //       // if (this.activity) {
-  //       //   this.activity.attendees.push(attendee);
-  //       //   this.activity.isGoing = true;
-  //       //   this.activityRegistry.set(this.activity.id, this.activity);
-  //         this.loading = false;
-  //       // }
-  //     });
-  //   } catch (error) {
-  //     runInAction(() => {
-  //       this.loading = false;
-  //     });
-  //     toast.error('Problem adding the feed at this time');
-  //   }
-  // };
-
   @action cancelAttendance = async () => {
     this.loading = true;
     try {
       await agent.Activities.unattend(this.activity!.id);
+      await agent.Feed.removeFeedItem(this.activity!.id);
       runInAction(() => {
         if (this.activity) {
           this.activity.attendees = this.activity.attendees.filter(
@@ -372,6 +371,7 @@ export default class ActivityStore {
           );
           this.activity.isGoing = false;
           this.activityRegistry.set(this.activity.id, this.activity);
+          toast.dark('You are not part of this diary anymore');
           this.loading = false;
         }
       });
