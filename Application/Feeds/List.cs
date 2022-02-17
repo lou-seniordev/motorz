@@ -20,22 +20,14 @@ namespace Application.Feeds
         }
         public class Query : IRequest<FeedEnvelope>
         {
-            public Query(int? limit, int? offset
-            // , bool isGoing, bool isHost, DateTime? startDate
-            )
+            public Query(int? limit, int? offset)
             {
                 Limit = limit;
                 Offset = offset;
-                // IsGoing = isGoing;
-                // IsHost = isHost;
-                // StartDate = startDate ?? DateTime.Now;
-
             }
             public int? Limit { get; set; }
             public int? Offset { get; set; }
-            // public bool IsGoing { get; set; }
-            // public bool IsHost { get; set; }
-            // public DateTime? StartDate { get; set; }
+         
         }
 
         public class Handler : IRequestHandler<Query, FeedEnvelope>
@@ -61,18 +53,6 @@ namespace Application.Feeds
                 .OrderByDescending(x => x.DateTriggered)
                 .AsQueryable();
 
-                // if (request.IsGoing && !request.IsHost)
-                // {
-                //     queryable = queryable
-                //     .Where(x => x.UserActivities.Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername()));
-                // }
-
-                // if (request.IsHost && !request.IsGoing)
-                // {
-                //     queryable = queryable.Where(x => x.UserActivities.Any(
-                //         a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
-                // }
-
                 var feeds = await queryable
                 .Skip(request.Offset ?? 0)
                 .Take(request.Limit ?? 3)
@@ -81,13 +61,9 @@ namespace Application.Feeds
                 return new FeedEnvelope
                 {
                     Feeds = _mapper.Map<List<Feed>, List<FeedDto>>(feeds),
-                    FeedCount = queryable.Count()
-                    
+                    FeedCount = queryable.Count()   
                 };
-
-
             }
-
         }
     }
 }

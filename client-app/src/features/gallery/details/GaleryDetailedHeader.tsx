@@ -111,6 +111,7 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
           </Button>
         ) : (
           <Button style={buttonVisitorStyle} loading={loading} fluid onClick={embraceMotofy} color='teal'>
+            <Icon name='heart' />
             Embrace
           </Button>
         )}

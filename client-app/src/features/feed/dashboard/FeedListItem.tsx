@@ -16,7 +16,7 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
           </Feed.Label>
           <Feed.Content>
             <Feed.Summary>
-              <Feed.User>{feed.info}</Feed.User> 
+              <Feed.User>{feed.notifierDisplayname} {feed.info}</Feed.User> 
               <Feed.Date>{feed.dateTriggered} Hour Ago</Feed.Date>
             </Feed.Summary>
             <Feed.Extra images>

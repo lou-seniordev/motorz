@@ -13,7 +13,7 @@ namespace Application.Feeds
         public string NotifierId { get; set; }
         public string NotifierDisplayname { get; set; }
         public string NotifierPhotoUrl { get; set; }
-        // public string Title { get; set; }
+        public string Title { get; set; }
         // public virtual ICollection<FeedNotifyee> Notifyees { get; set; }
         public Guid ObjectId { get; set; }
         public DateTime DateTriggered { get; set; }

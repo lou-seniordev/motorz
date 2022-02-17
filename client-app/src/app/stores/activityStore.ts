@@ -320,9 +320,10 @@ export default class ActivityStore {
     // this.submitting = true;
     try {
       await agent.Activities.deactivate(id);
+      // await agent.Feed.addFeedItem(this.activity!.id, 'Deactivated Motocycle Diary');
+
       runInAction('deactivating activity', () => {
         this.activityRegistry.delete(id);
-
 
         // this.submitting = false;
       });

@@ -53,7 +53,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
                   {activity.title}
                 </Item.Header>
                 <Item.Meta>
-                  Organised by{" "}
+                  Run by{" "}
                   <Link to={`/profile/${host.username}`}>
                     {" "}
                     {host.displayName}

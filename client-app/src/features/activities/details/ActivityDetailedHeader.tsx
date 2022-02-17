@@ -91,11 +91,11 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
           
         ) : activity.isGoing ? (
           <Button loading={loading} onClick={cancelAttendance}>
-            Cancel your place
+            Cancel being part of it
           </Button>
         ) : (
           <Button loading={loading} onClick={attendActivity} color='teal'>
-            Join Us
+            Become a part of it
           </Button>
         )}
       </Segment>

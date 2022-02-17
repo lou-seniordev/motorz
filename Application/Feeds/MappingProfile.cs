@@ -12,8 +12,9 @@ namespace Application.Feeds
                 // .ForMember(d => d.NotifierPhotoUrl, o => o.MapFrom(s => s.ObjectId.));
             CreateMap<Feed, FeedDto>()
                 .ForMember(d => d.NotifierPhotoUrl, o => o.MapFrom(s => s.Notifier.Photos.FirstOrDefault(x => x.IsMain).Url));
-               
-                // .ForMember(d => d.Title, o => o.MapFrom(s => s.))
+            // CreateMap<Activity, FeedDto>()
+            //     .ForMember(d => d.Title, o => o.MapFrom(s => s.Title.Where(d => d.)))
+            
             // CreateMap<Activity, FeedDto>()
             //     .ForMember(d => d.Title, o => o.MapFrom(s => s.Title.FirstOrDefault(x => decimal.o)));    
 

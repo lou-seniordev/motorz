@@ -84,7 +84,6 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
       };
       createActivity(newActivity);
       addFeedItem(newId, 'Added Motocycle Diary')
-      // console.log('newActivity', newActivity)
     } else {
       editActivity(activity);
     }

@@ -9,10 +9,10 @@ const ActivityDetailedInfo: React.FC<{activity: IActivity}> = ({activity}) => {
              <Segment attached='top'>
                <Grid>
                  <Grid.Column width={1}>
-                   <Icon size='large' color='teal' name='info' />
+                   <Icon size='large' color='teal' name='pencil alternate' />
                  </Grid.Column>
                  <Grid.Column width={15}>
-                   <p>{activity.description}</p>
+                   <p style={{ whiteSpace: 'pre-wrap' }}>{activity.description}</p>
                  </Grid.Column>
                </Grid>
              </Segment>

@@ -59,6 +59,7 @@ namespace Application.Feeds
                 var feedId = Guid.NewGuid();
                 string feedType = request.Info;
 
+                #region Added Motocycle Diary
                 if (request.Info == "Added Motocycle Diary")
                 {
                     var notifyeeIds = await _context.Followings
@@ -71,13 +72,10 @@ namespace Application.Feeds
 
                         FillNotifyeeList(notifees, feedId, notifyeeIds);
 
-                        // var diary = await _context.Activities
-                        //                     .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
-
                         var feed = new Feed
                         {
                             Id = feedId,
-                            Info = "User " + notifier.DisplayName + " has created a new motorcycle diary on " + DateTime.Now
+                            Info = " has created a new motorcycle diary on " + DateTime.Now
                            + ". You are welcome to join it.",
                             Notifier = notifier,
                             ObjectId = request.ObjectId,
@@ -94,6 +92,7 @@ namespace Application.Feeds
                     }
 
                 }
+                #endregion
                 else if (request.Info == "Joined Motocycle Diary")
                 #region Joined Motocycle Diary
                 {
@@ -110,10 +109,10 @@ namespace Application.Feeds
 
                         FillNotifyeeList(notifees, feedId, notifyeeIds);
 
-                        var feed = new Feed
+                        var feed = new Feed//"User " + notifier.DisplayName + 
                         {
                             Id = feedId,
-                            Info = "User " + notifier.DisplayName + " has joined the " + diary.Title + " on " + DateTime.Now
+                            Info = " has joined the " + diary.Title + " on " + DateTime.Now
                             + " alongside with " + notifyeeIds.Count() + " people ",
                             Notifier = notifier,
                             ObjectId = request.ObjectId,
@@ -128,8 +127,43 @@ namespace Application.Feeds
                     {
                         return Unit.Value;
                     }
+                    #endregion
                 }
+                else if (request.Info == "Deactivated Motocycle Diary")
+                #region Deactivated Motocycle Diary
+                {
+                    var notifyeeIds = await _context.UserActivities
+                                        .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
+                                        .Select(x => x.AppUserId)
+                                        .ToListAsync();
+
+                    var diary = await _context.Activities
+                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);//;
+
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed//"User " + notifier.DisplayName + 
+                        {
+                            Id = feedId,
+                            Info = " has deactivated the " + diary.Title + " on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
                 #endregion
+                }
 
                 var success = await _context.SaveChangesAsync() > 0;
 
