@@ -1,4 +1,5 @@
 // import { toJS } from "mobx";
+// import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Item, ItemExtra, Rating, RatingProps, Segment } from "semantic-ui-react";
@@ -16,45 +17,32 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
   const { user } = rootStore.userStore;
 
   let username = user?.userName;
-  // const [rating, setRating] = useState<string | number | undefined>();
   const [rated, setRated] = useState(false);
   const [userRated, setUserRated] = useState<string | number | undefined>();
 
-  // console.log("motofy:", toJS(motofy));
 
   useEffect(() => {
-    // console.log('motofy!!!! ', motofy);
 
-    if (motofy.motofyScores.some((x) => x.username === username)) {
-      setUserRated(
-        motofy.motofyScores.find((x) => x.username === username).score
-      );
+    if(motofy.motofyScores.length > 0) {
 
-      setRated(true);
-    } else {
-      // console.log('rating!!!! ', rating);
+      if (motofy.motofyScores.some((x) => x.username === username)) {
+        setUserRated(
+          motofy.motofyScores.find((x) => x.username === username).score
+        );
+        setRated(true);
+      } 
+     
     }
+
 
   }, [motofy.motofyScores, username]); 
 
-  // const handleRateMotofy = (rating: any) => {
-  //   let newScore: IMotofyScore = {
-  //     username: user?.userName,
-  //     displayName: user?.displayName,
-  //     score: rating,
-  //   };
-  //   // motofy.motofyScores.push(newScore);
-  //   // console.log("WHATSHAPPNIN???");
-  //   // console.log(motofy.motofyScores);
 
-  // };
   const handleRate = (e: any, rating: RatingProps) => {
-    // handleRateMotofy(rating.rating);
 
     rateMotofy(rating.rating, motofy, user);
     setUserRated(rating.rating);
     e.preventDefault();
-    // setRating(rating.rating);
     setRated(true);
   };
   return (

@@ -221,11 +221,6 @@ export default class MotofyStore {
       runInAction('rating motofy', () => {
         // this.motofy = motofy;
         motofy.motofyScores.push(newScore);
-        // console.log("WHATSHAPPNIN before???");
-        // // console.log(motofy.motofyScores);
-        // console.log(toJS(motofy));
-        // console.log("WHATSHAPPNIN after???");
-        // // console.log(this.motofyRegistry);
         this.motofyRegistry.set(motofy.id, motofy);
         // console.log(toJS(this.motofyRegistry.get(motofy.id)));
         
@@ -285,36 +280,6 @@ export default class MotofyStore {
     }
   };
 
-  // @action createMotofy2 = async (motofy: IMotofy) => {
-  //   //deleteit     console.log('motofy.file: ', motofy)
-  //   this.submitting = true;
-  //   try {
-  //     await agent.Motofies.create(motofy);
-  //     const embracer = createEmbracer(this.rootStore.userStore.user!);
-  //     embracer.isOwner = true;
-  //     let embracers = [];
-  //     embracers.push(embracer);
-  //     motofy.embracers = embracers;
-  //     motofy.isOwner = true;
-  //     // motofy.file = motofy.file
-  //     runInAction('create motofy', () => {
-  //       this.motofyRegistry.set(motofy.id, motofy);
-  //       // CHECK IF IT IS GOING TO BE NEEDED!!
-  //       // this.editMode = false;
-  //       this.submitting = false;
-  //     });
-  //     history.push(`/gallery/${motofy.id}`);
-  //   } catch (error) {
-  //     runInAction(() => {
-  //       this.submitting = false;
-  //     });
-  //     toast.error('Problem submitting data');
-  //     console.log(error);
-  //   }
-  // };
-
-
-
 
   @action deleteMotofy = async (id: string) => {
       this.submitting = true;
@@ -337,11 +302,13 @@ export default class MotofyStore {
     }
   };
 
-  @action embraceMotofy = async () => {
+  // @action embraceMotofy = async () => {
+  @action embraceMotofy = async (id: string) => {
     const embracer = createEmbracer(this.rootStore.userStore.user!);
     this.loading = true;
     try {
-      await agent.Motofies.embrace(this.motofy!.id);
+
+      await agent.Motofies.embrace(id);
       runInAction(() => {
         if (this.motofy) {
           this.motofy.embracers.push(embracer);

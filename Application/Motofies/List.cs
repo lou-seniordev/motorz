@@ -66,7 +66,10 @@ namespace Application.Motofies
                 motofiesToQuery = await motos.ToListAsync();
 
                 //version 1
-                var highestRatedMotofy = motofiesToQuery.OrderByDescending(x => x.AverageRating.Average).First();
+                var highestRatedMotofy = motofiesToQuery
+                .Where(x => x.AverageRating != null)
+                .OrderByDescending(x => x.AverageRating.Average)
+                .First();
 
                 //version 2
                 // var maxAverageRating = motofiesToQuery.Max(x => x.AverageRating.Average);

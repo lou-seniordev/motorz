@@ -48,9 +48,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     editActivity,
     submitting,
     loadActivity,
-    addFeedItem,
+    // ,
   } = rootStore.activityStore;
 
+  const { addFeedItem } = rootStore.feedStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
   const [modeForCountry, setModeForCountry] = useState(true);
 
@@ -59,7 +60,6 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // console.log(category)
     loadCountriesToSelect();
 
     if (match.params.id) {
@@ -68,7 +68,6 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
       loadActivity(match.params.id)
       .then((activity) => setActivity(new ActivityFormValues(activity)))
       .finally(() => setLoading(false));
-      // console.log('activity---',activity.category)
     }
   }, [loadActivity, match.params.id, loadCountriesToSelect]);
 
@@ -80,7 +79,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     if (!activity.id) {
       let newActivity = {
         ...activity,
-        id: newId//uuid(),
+        id: newId
       };
       createActivity(newActivity);
       addFeedItem(newId, 'Added Motocycle Diary')

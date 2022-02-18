@@ -83,6 +83,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const { loadBrandsToSelect, brands } = rootStore.brandStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
+  const {addFeedItem} = rootStore.feedStore;
 
   const [motofy, setMotofy] = useState(new MotofyFormValues());
   const [loading, setLoading] = useState(false);
@@ -125,17 +126,20 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const handleFinalFormSubmit = (values: any) => {
     const { ...motofy } = values;
-
+    let newId = uuid();
     if (!motofy.id) {
       let newMotofy = {
         ...motofy,
-        id: uuid(),
+        id: newId,
         datePublished: new Date().toISOString(),
         file: imageToUpload,
-        photoUrl: previewImage
+        photoUrl: previewImage,
+        motofyScores: []
       };
 
-      createMotofy(newMotofy);
+      createMotofy(newMotofy);//
+      addFeedItem(newId, 'Added Motofy');
+      
 
     } else {
       editMotofy(motofy);

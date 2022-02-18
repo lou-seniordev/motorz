@@ -26,14 +26,22 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);
-  const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;//, deactivateActivity
+  const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
+  const { removeFeedItem, addFeedItem } = rootStore.feedStore;
 
   const { openModal } = rootStore.modalStore;
 
-  // let history = useHistory();
 
   const handleDeactivateActivity = (id: string) => {
     openModal(<ConfirmDeactivate activityId={id}/>);
+  };
+  const handleCancelAttendance = (id: string) => {
+    cancelAttendance();
+    removeFeedItem(id);
+  };
+  const handleAttendActivity = (id: string) => {
+    attendActivity();
+    addFeedItem(id, 'Joined Motocycle Diary');
   };
 
   return (
@@ -90,11 +98,16 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
           </Fragment>
           
         ) : activity.isGoing ? (
-          <Button loading={loading} onClick={cancelAttendance}>
+          <Button loading={loading} 
+          // onClick={cancelAttendance}>
+          onClick={()=> handleCancelAttendance(activity.id)}>
             Cancel being part of it
           </Button>
         ) : (
-          <Button loading={loading} onClick={attendActivity} color='teal'>
+          // onClick={attendActivity}
+          <Button loading={loading} 
+          onClick={() => handleAttendActivity(activity.id)}
+          color='teal'>
             Become a part of it
           </Button>
         )}

@@ -222,18 +222,17 @@ export default class ActivityStore {
     this.activity = null;
   };
 
-  @action addFeedItem = async (id: string, info: string) => {
-    // console.log('In feed item in store!')
-    console.log('From addFeedItem, id is: ', id)
+  // @action addFeedItem = async (id: string, info: string) => {
+  //   console.log('From addFeedItem, id is: ', id)
 
-    try {
-      await agent.Feed.addFeedItem(id, info);
-      // await agent.Feed.addFeedItem(this.activity!.id, 'Added Motocycle Diary');
+  //   try {
+  //     await agent.Feed.addFeedItem(id, info);
       
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
   @action createActivity = async (activity: IActivity) => {
 
     // console.log('From activityStore: ', activity)
@@ -241,13 +240,7 @@ export default class ActivityStore {
     this.submitting = true;
     try {
       await agent.Activities.create(activity)
-      // .then(() => (
 
-      //    agent.Feed.addFeedItem(this.activity!.id, 'Added Motocycle Diary')
-      // ))
-// 
-      // .then(()=> {
-      // });
       const attendee = createAttendee(this.rootStore.userStore.user!);
       attendee.isHost = true;
       let attendees = [];
@@ -285,51 +278,20 @@ export default class ActivityStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data!');
-      //error2check
-      // console.log(error.response);
+      console.log(error);
     }
   };
 
-  @action deleteActivity = async (
-    // event: SyntheticEvent<HTMLButtonElement>,
-    id: string
-  ) => {
-    this.submitting = true;
-    // this.target = event.currentTarget.name;
-    try {
-      await agent.Activities.delete(id).then(() => {
-        agent.Feed.removeFeedItem(id);
-      });
-      runInAction('deleting activity', () => {
-        this.activityRegistry.delete(id);
 
-        // console.log('this.activityRegistry', this.activityRegistry)
-
-        this.submitting = false;
-        // this.target = '';
-      });
-    } catch (error) {
-      runInAction('delete error activity', () => {
-        this.submitting = false;
-        // this.target = '';
-        console.log(error);
-      });
-    }
-  };
   @action deactivateActivity = async (id: string) => {
-    // this.submitting = true;
     try {
       await agent.Activities.deactivate(id);
       // await agent.Feed.addFeedItem(this.activity!.id, 'Deactivated Motocycle Diary');
-
       runInAction('deactivating activity', () => {
         this.activityRegistry.delete(id);
-
-        // this.submitting = false;
       });
     } catch (error) {
       runInAction('delete error activity', () => {
-        // this.submitting = false;
         console.log(error);
       });
     }
@@ -340,7 +302,6 @@ export default class ActivityStore {
     this.loading = true;
     try {
       await agent.Activities.attend(this.activity!.id);
-      await agent.Feed.addFeedItem(this.activity!.id, 'Joined Motocycle Diary');
       
       runInAction(() => {
         if (this.activity) {
@@ -364,7 +325,6 @@ export default class ActivityStore {
     this.loading = true;
     try {
       await agent.Activities.unattend(this.activity!.id);
-      await agent.Feed.removeFeedItem(this.activity!.id);
       runInAction(() => {
         if (this.activity) {
           this.activity.attendees = this.activity.attendees.filter(

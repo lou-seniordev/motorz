@@ -1,3 +1,4 @@
+import { formatDistance } from "date-fns";
 import React from "react";
 // import { Link } from "react-router-dom";
 import {  Feed, Icon,  Segment } from "semantic-ui-react";
@@ -17,7 +18,16 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
           <Feed.Content>
             <Feed.Summary>
               <Feed.User>{feed.notifierDisplayname} {feed.info}</Feed.User> 
-              <Feed.Date>{feed.dateTriggered} Hour Ago</Feed.Date>
+              <Feed.Date>
+              {feed.dateTriggered} 
+              
+            
+              {/* {formatDistance(
+                        new Date(feed.dateTriggered),
+                        new Date()
+                      )} */}
+              
+              </Feed.Date>
             </Feed.Summary>
             <Feed.Extra images>
               <a>

@@ -7,46 +7,44 @@ import { RootStore } from './rootStore';
 const LIMIT = 3;
 
 export default class FeedStore {
-    rootStore: RootStore;
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
-    }
-    @observable feedRegistry = new Map();
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
+  @observable feedRegistry = new Map();
 
-    @observable feeds: IFeed[] = [];
-    @observable feedCount: number = 0;
-    @observable page: number = 0;
+  @observable feeds: IFeed[] = [];
+  @observable feedCount: number = 0;
+  @observable page: number = 0;
 
-    @observable loadingInitial = false;
+  @observable loadingInitial = false;
 
-    @computed get totalPages() {
-        return Math.ceil(this.feedCount / LIMIT);
-    }
+  @computed get totalPages() {
+    return Math.ceil(this.feedCount / LIMIT);
+  }
 
-    @action setPage = (page: number) => {
-        this.page = page;
-    }
+  @action setPage = (page: number) => {
+    this.page = page;
+  }
 
-    @computed get feedByDate() {
-        return this.groupFeedItemsByDate(Array.from(this.feedRegistry.values()));
-      }
-    
-      groupFeedItemsByDate(feeds: IFeed[]) {
-        const sortedFeeds = feeds.sort(
-          (a, b) => Date.parse(b.dateTriggered!) - Date.parse(a.dateTriggered!)
-        )
-        return Object.entries(
-            sortedFeeds.reduce((feeds, feed) => {
-          const date = feed.dateTriggered?.split('T')[0];
-          feeds[date!] = feeds[date!]
+  @computed get feedByDate() {
+    return this.groupFeedItemsByDate(Array.from(this.feedRegistry.values()));
+  }
+
+  groupFeedItemsByDate(feeds: IFeed[]) {
+    const sortedFeeds = feeds.sort(
+      (a, b) => Date.parse(b.dateTriggered!) - Date.parse(a.dateTriggered!)
+    )
+    return Object.entries(
+      sortedFeeds.reduce((feeds, feed) => {
+        const date = feed.dateTriggered?.split('T')[0];
+        feeds[date!] = feeds[date!]
           ? [...feeds[date!], feed]
-          :[feed];
-          return feeds;
-      
-        }, {} as { [key: string]: IFeed[] }));
-      }
+          : [feed];
+        return feeds;
 
-
+      }, {} as { [key: string]: IFeed[] }));
+  }
 
   formatDate(feed: IFeed) {
     const delimiter = '.';
@@ -54,30 +52,45 @@ export default class FeedStore {
     feed.dateTriggered = feed.dateTriggered?.replace('T', ' ');
   }
 
-
-    @action loadFeed = async () => {
-        this.loadingInitial = true;
-        try {
-            const feedEnvelope = await agent.Feed.list(LIMIT, this.page);
-            const { feeds, feedCount } = feedEnvelope;
-            console.log(feeds);
-            runInAction('loading feed', () => {
-                feeds.forEach((feed) => {
-                    this.formatDate(feed);
-                    this.feedRegistry.set(feed.id, feed);
-                  });
-                // this.feeds = feeds;
-                this.feedCount = feedCount;
-                this.loadingInitial = false;
-               
-            })
-        } catch (error) {
-            runInAction('load countries error', () => {
-                this.loadingInitial = false;
-
-            });
-            console.log(error);
-        }
+  @action addFeedItem = async (id: string, info: string) => {
+    try {
+      await agent.Feed.addFeedItem(id, info);
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  @action removeFeedItem = async (id: string) => {
+    try {
+      await agent.Feed.removeFeedItem(id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  @action loadFeed = async () => {
+    this.loadingInitial = true;
+    try {
+      const feedEnvelope = await agent.Feed.list(LIMIT, this.page);
+      const { feeds, feedCount } = feedEnvelope;
+      console.log(feeds);
+      runInAction('loading feed', () => {
+        feeds.forEach((feed) => {
+          this.formatDate(feed);
+          this.feedRegistry.set(feed.id, feed);
+        });
+        // this.feeds = feeds;
+        this.feedCount = feedCount;
+        this.loadingInitial = false;
+
+      })
+    } catch (error) {
+      runInAction('load countries error', () => {
+        this.loadingInitial = false;
+
+      });
+      console.log(error);
+    }
+  }
 
 }

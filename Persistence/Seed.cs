@@ -563,7 +563,7 @@ namespace Persistence
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "Joe",
-                                Url = "https://res.cloudinary.com/motofy/image/upload/v1636485225/Joe.png",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1645198489/amqdrvytyqc1yttxbasa.jpg",
                                 IsMain = true,
                             }
                         },

@@ -60,13 +60,6 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
                   </Link>
                 </Item.Meta>
 
-                {/* <Item.Description>
-                  Organised by{" "}
-                  <Link to={`/profile/${host.username}`}>
-                    {" "}
-                    {host.displayName}
-                  </Link>
-                </Item.Description> */}
                 {activity.isHost && (
                   <Item.Description>
                     <Label

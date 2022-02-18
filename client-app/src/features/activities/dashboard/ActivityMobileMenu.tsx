@@ -13,13 +13,8 @@ const ActivityMobileMenu = () => {
   const {
     predicate,
     setPredicate,
-    // mostEmbraced, highestRatedMotofy
   } = rootStore.activityStore;
-  // const motofy = toJS(mostEmbraced);
-  // const highestMotofy = toJS(highestRatedMotofy);
-
-  // const [startDate, setStartDate] = useState<Date | null>(new Date());
-
+  
   return (
     <Menu>
       <Menu.Item

@@ -8,13 +8,15 @@ interface IProps {
 }
 const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
   const rootStore = useContext(RootStoreContext);
-const {  deactivateActivity, addFeedItem } = rootStore.activityStore;
+const {  deactivateActivity} = rootStore.activityStore;
+const {  addFeedItem, removeFeedItem } = rootStore.feedStore;
 
   const { closeModal } = rootStore.modalStore;
 
   const handleDeactivateActivity = (id: string) => {
     deactivateActivity(id);
     addFeedItem(id, 'Deactivated Motocycle Diary');
+    // removeFeedItem(id);
     closeModal();
     history.push(`/activities`);
   };

@@ -43,7 +43,7 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
               />
             </Grid.Column>
             <Grid.Column width={14}>
-              <p>{motofy.description}</p>
+              <p style={{ whiteSpace: 'pre-wrap' }}>{motofy.description}</p>
             </Grid.Column>
           </GridRow>
           {/* </Grid>

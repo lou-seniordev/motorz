@@ -10,8 +10,10 @@ const ConfirmDelete: React.FC<IProps> = ({ motofyId }) => {
   const rootStore = useContext(RootStoreContext);
   const { deleteMotofy } = rootStore.motofyStore;
   const { closeModal } = rootStore.modalStore;
+  const {addFeedItem} = rootStore.feedStore;
 
   const handleDeleteMotofy = (id: string) => {
+    addFeedItem(id, 'Deleted Motofy');
     deleteMotofy(id);
     closeModal();
     history.push(`/gallery`);
