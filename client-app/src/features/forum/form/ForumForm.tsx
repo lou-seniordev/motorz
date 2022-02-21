@@ -49,6 +49,8 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const { user } = rootStore.userStore;
 
+  const { addFeedItem } = rootStore.feedStore;
+
 
   const [forumpost, setForumpost] = useState(new ForumpostFormValues());
   const [loading, setLoading] = useState(false);
@@ -63,23 +65,18 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadForumPost, match.params.id]);
 
 
-  // const handleInputChange = (
-  //   event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { name, value } = event.currentTarget;
-  //   setForumpost({ ...forumpost, [name]: value });
-  // };
-
   const handleFinalFormSubmit = (values: any) => {
+    let newId = uuid();
     const {...forumpost} = values;
   if (!forumpost.id) {
       let newForumpost = {
         ...forumpost,
-        id: uuid(),
+        id: newId,
         dateAdded: new Date().toISOString(),
         displayName: user?.displayName
       };
-      createForumpost(newForumpost)
+      createForumpost(newForumpost);
+      addFeedItem(newId, 'Added Forumpost');
     } else {
       editForumpost(forumpost);
     }

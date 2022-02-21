@@ -245,7 +245,7 @@ const Feed = {
   list: (limit: number, page: number): Promise<IFeedEnvelope> => 
     requests.get(`/feeds?limit=${limit}&offset=${page ? page * limit! : 0}`),
   addFeedItem: (id: string, info: string) => requests.post(`/feeds/${id}/${info}/addFeedItem`, {}),
-  removeFeedItem: (id: string) => requests.delete(`/feeds/${id}/removeFeedItem`)
+  removeFeedItem: (id: string, info: string) => requests.delete(`/feeds/${id}/${info}/removeFeedItem`)
 };
 
 const Messages = {

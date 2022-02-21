@@ -28,6 +28,7 @@ export default class FeedStore {
   }
 
   @computed get feedByDate() {
+    // return Array.from(this.feedRegistry.values());
     return this.groupFeedItemsByDate(Array.from(this.feedRegistry.values()));
   }
 
@@ -60,9 +61,9 @@ export default class FeedStore {
     }
   }
 
-  @action removeFeedItem = async (id: string) => {
+  @action removeFeedItem = async (id: string, info: string) => {
     try {
-      await agent.Feed.removeFeedItem(id);
+      await agent.Feed.removeFeedItem(id, info);
     } catch (error) {
       console.log(error);
     }

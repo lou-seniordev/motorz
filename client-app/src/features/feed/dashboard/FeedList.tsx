@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
-import { Item, Segment } from "semantic-ui-react";
+import { Item } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import FeedListItem from "./FeedListItem";
 
@@ -13,7 +13,7 @@ const FeedList: React.FC = () => {
       {feedByDate.map(([gr, feeds]) => (
         <Fragment key={gr}>
             <Item.Group divided>
-              {feeds.map((feed) => (
+              {feeds.map((feed:any) => (
                 <FeedListItem feed={feed} key={feed.id} />
               ))}
             </Item.Group>

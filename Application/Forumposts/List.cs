@@ -58,7 +58,7 @@ namespace Application.Forumposts
             {
 
                 var queryable = _context.Forumposts
-                .OrderBy(x => x.DateAdded)
+                .OrderByDescending(x => x.DateAdded)
                 .AsQueryable();
 
                 var user = await _context.Users.SingleOrDefaultAsync(

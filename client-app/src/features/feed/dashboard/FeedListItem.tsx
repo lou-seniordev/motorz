@@ -1,4 +1,4 @@
-import { formatDistance } from "date-fns";
+// import { formatDistance } from "date-fns";
 import React from "react";
 // import { Link } from "react-router-dom";
 import {  Feed, Icon,  Segment } from "semantic-ui-react";
@@ -13,7 +13,7 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
          <Feed>
         <Feed.Event>
           <Feed.Label>
-            <img src={feed.notifierPhotoUrl || "/assets/user.png"} />
+            <img src={feed.notifierPhotoUrl || "/assets/user.png"} alt='userPoto'/>
           </Feed.Label>
           <Feed.Content>
             <Feed.Summary>
@@ -22,21 +22,18 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
               {feed.dateTriggered} 
               
             
-              {/* {formatDistance(
-                        new Date(feed.dateTriggered),
-                        new Date()
-                      )} */}
+              {/* {formatDistance(feed.dateTriggered, new Date())} */}
               
               </Feed.Date>
             </Feed.Summary>
-            <Feed.Extra images>
+            {/* <Feed.Extra images>
               <a>
                 <img src='https://react.semantic-ui.com/images/wireframe/image.png' />
               </a>
               <a>
                 <img src='https://react.semantic-ui.com/images/wireframe/image.png' />
               </a>
-            </Feed.Extra>
+            </Feed.Extra> */}
             <Feed.Meta>
               <Feed.Like>
                 <Icon name='like' />4 Likes

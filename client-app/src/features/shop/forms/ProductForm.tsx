@@ -87,8 +87,8 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
 
-  const { createProduct, editProduct, submitting, loadProduct } = //editMode,
-    rootStore.productStore;
+  const { createProduct, editProduct, submitting, loadProduct } = rootStore.productStore;
+  const { addFeedItem } = rootStore.feedStore;
 
   const [product, setProduct] = useState(new ProductFormValues());
   const [loading, setLoading] = useState(false);
@@ -132,7 +132,8 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadCountriesToSelect, loadProduct, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
-   
+    let newId = uuid();
+
     const { ...product } = values;
     if (product.brand === '') product.brand = 'Brand not asigned';
     if (product.model === '') product.model = 'Model not asigned';
@@ -140,13 +141,14 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     if (!product.id) {
       let newProduct = {
         ...product,
-        id: uuid(),
+        id: newId,
         datePublished: new Date().toISOString(),
         file: imageToUpload,
         photoUrl: previewImage,
       };
       createProduct(newProduct);
-      // console.log(newProduct);
+      addFeedItem(newId, 'Added Product');
+
     } else {
       editProduct(product);
       // console.log(product);

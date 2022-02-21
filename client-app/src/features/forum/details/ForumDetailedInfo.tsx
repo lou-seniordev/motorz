@@ -57,24 +57,22 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
       <Segment attached>
         <Grid verticalAlign='middle'>
           <Grid.Column width={16}>
-            <span style={{ whiteSpace: 'pre-wrap' }}>{forumpost.body}</span>
+            <span style={{ whiteSpace: "pre-wrap" }}>{forumpost.body}</span>
           </Grid.Column>
         </Grid>
       </Segment>
       <Segment attached>
         <Grid verticalAlign='middle'>
-        <Grid.Column width={4} style={{width: "100%"}}>
-            <Button content="Interesting"/>
+          <Grid.Column width={5} style={{ width: "100%" }}>
+            <Button fluid content='Interesting' />
           </Grid.Column>
-          <Grid.Column width={2} />
 
-          <Grid.Column width={4} style={{width: "100%"}}>
-            <Button content="Helping"/>
+          <Grid.Column width={5} style={{ width: "100%" }}>
+            <Button fluid content='Helping' />
           </Grid.Column>
-          <Grid.Column width={2} />
 
-          <Grid.Column width={4} style={{width: "100%"}}>
-            <Button content="Usefull"/>
+          <Grid.Column width={5} style={{ width: "100%" }}>
+            <Button fluid content='Usefull' />
           </Grid.Column>
         </Grid>
       </Segment>

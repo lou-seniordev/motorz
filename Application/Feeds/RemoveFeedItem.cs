@@ -7,6 +7,8 @@ using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using FluentValidation;
+
 
 namespace Application.Feeds
 {
@@ -15,6 +17,18 @@ namespace Application.Feeds
         public class Command : IRequest
         {
             public Guid Id { get; set; }
+            public string Info { get; set; }
+
+        }
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Id).NotEmpty();
+
+                // RuleFor(x => x.Info).NotEmpty();
+
+            }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -37,7 +51,9 @@ namespace Application.Feeds
 
 
                 var feed = await _context.Feeds
-                .SingleOrDefaultAsync(x => x.ObjectId == request.Id && x.Notifier.Id == notifier.Id);
+                .SingleOrDefaultAsync(x => x.ObjectId == request.Id 
+                                && x.Notifier.Id == notifier.Id 
+                                && x.FeedType == request.Info);
 
                 if (feed == null)
                     throw new RestException(HttpStatusCode.NotFound,

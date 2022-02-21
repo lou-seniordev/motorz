@@ -14,10 +14,10 @@ namespace API.Controllers
             return await Mediator.Send(new AddFeedItem.Command{ObjectId = id, Info = info});
 
         }
-        [HttpDelete("{id}/removeFeedItem")]
-        public async Task<ActionResult<Unit>> RemoveFeedItem(Guid id)
+        [HttpDelete("{id}/{info}/removeFeedItem")]
+        public async Task<ActionResult<Unit>> RemoveFeedItem(Guid id, string info)
         {
-            return await Mediator.Send(new RemoveFeedItem.Command{Id = id});
+            return await Mediator.Send(new RemoveFeedItem.Command{Id = id,  Info = info});
         }
 
         [HttpGet]

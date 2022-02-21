@@ -89,6 +89,8 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
   } = rootStore.mechanicStore;
 
   const {user} = rootStore.userStore;
+  const { addFeedItem } = rootStore.feedStore;
+
 
   const [mechanic, setMechanic] = useState(new MechanicFromValues());
   const [loading, setLoading] = useState(false);
@@ -126,6 +128,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadCountriesToSelect, loadMechanic, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
+    let newId = uuid();
     const { ...mechanic } = values;
     // console.log(values)
     let owner: boolean = values.owner === 'Owner' ? true : false;
@@ -142,7 +145,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     if (!mechanic.id) {
       let newMechanic = {
         ...mechanic,
-        id: uuid(),
+        id: newId,
         datePublished: new Date().toISOString(),
         file: imageToUpload,
         photoUrl: previewImage,
@@ -152,7 +155,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
        
       };
       createMechanic(newMechanic);
-      // console.log(newMechanic);
+      addFeedItem(newId, 'Added Mechanic');
     } else {
       editMechanic(mechanic);
       // console.log(mechanic);

@@ -93,8 +93,132 @@ namespace Application.Feeds
 
                 }
                 #endregion
-                else if (request.Info == "Joined Motocycle Diary")
+                #region Added Motofy
+                else if (request.Info == "Added Motofy")
+                {
+                   
+                    notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
+                   
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = " has created a new Motofy! on " + DateTime.Now, 
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Added Forumpost
+               
+                else if (request.Info == "Added Forumpost")
+                {
+                   
+                    notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
+                   
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = " has added a new forum post on " + DateTime.Now, 
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Added Mechanic
+               
+                else if (request.Info == "Added Mechanic")
+                {
+                   
+                    notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
+                   
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = " has added a new mechanic on " + DateTime.Now, 
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Added Product
+               
+                else if (request.Info == "Added Product")
+                {
+                   
+                    notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
+                   
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = " has added a new product on " + DateTime.Now, 
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                
                 #region Joined Motocycle Diary
+                else if (request.Info == "Joined Motocycle Diary")
                 {
                     // var 
                     notifyeeIds = await _context.UserActivities
@@ -128,13 +252,47 @@ namespace Application.Feeds
                     {
                         return Unit.Value;
                     }
-                    #endregion
                 }
-                #region Left Motorcycle Diary
-                //todo: Left Motorcycle Diary on Cancell Attendande
                 #endregion
-                else if (request.Info == "Deactivated Motocycle Diary")
+                #region Left Motorcycle Diary
+                else if (request.Info == "Left Motorcycle Diary")
+                 {
+                   
+                   
+                    notifyeeIds = await _context.UserActivities
+                                    .Where(x => x.IsHost == true)
+                                    .Select(x => x.AppUserId)
+                                    .ToListAsync();
+                    
+                     if (notifyeeIds.Count() > 0)
+                    {
+                       
+                        var activity = await _context.Activities
+                                            .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = " has left the " + activity.Title + ", diary on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                 }
+                #endregion
                 #region Deactivated Motocycle Diary
+                else if (request.Info == "Deactivated Motocycle Diary")
                 {
                     // var 
                     notifyeeIds = await _context.UserActivities
@@ -167,38 +325,9 @@ namespace Application.Feeds
                     {
                         return Unit.Value;
                     }
-                #endregion
-                }else if (request.Info == "Added Motofy")
-                #region Added Motofy
-                {
-                   
-                    notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
-                   
-                    if (notifyeeIds.Count() > 0)
-                    {
-
-                        FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                        var feed = new Feed
-                        {
-                            Id = feedId,
-                            Info = " has created a new Motofy! on " + DateTime.Now, 
-                            Notifier = notifier,
-                            ObjectId = request.ObjectId,
-                            DateTriggered = DateTime.Now,
-                            FeedType = feedType,
-                            Notifyees = notifees
-                        };
-
-                        _context.Feeds.Add(feed);
-                    }
-                    else
-                    {
-                        return Unit.Value;
-                    }
-                #endregion
                 }
-                 #region Embraced Motofy
+                #endregion               
+                #region Embraced Motofy
                  else if (request.Info == "Embraced Motofy")
                  {
                    
@@ -233,7 +362,7 @@ namespace Application.Feeds
                     }
                  }
                  #endregion
-                 #region Deleted Motofy
+                #region Deleted Motofy
                  else if (request.Info == "Deleted Motofy")
                  {
                    
@@ -272,7 +401,8 @@ namespace Application.Feeds
                     }
                  }
                  #endregion
-
+               
+                
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;

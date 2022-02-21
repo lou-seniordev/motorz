@@ -37,7 +37,8 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   };
   const handleCancelAttendance = (id: string) => {
     cancelAttendance();
-    removeFeedItem(id);
+    removeFeedItem(id, 'Joined Motocycle Diary');
+    addFeedItem(id, 'Left Motorcycle Diary');
   };
   const handleAttendActivity = (id: string) => {
     attendActivity();

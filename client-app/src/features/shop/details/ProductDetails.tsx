@@ -37,7 +37,7 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
       </Grid.Column>
       
         <Grid.Column width={7}>
-          <h1>The {product.title} is already seen {product.numberSeen} times</h1>
+          <h1>The {product.title} is seen {product.numberSeen} times</h1>
           
         </Grid.Column>
       {/* )} */}
