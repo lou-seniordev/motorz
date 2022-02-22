@@ -8,6 +8,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import ForumDetailedChat from './ForumDetailedChat';
 import ForumDetailedHeader from './ForumDetailedHeader';
 import ForumDetailedInfo from './ForumDetailedInfo';
+import ForumDetailedRating from './ForumDetailedRating';
 import ForumDetailedSidebar from './ForumDetailedSidebar';
 
 interface DetailParams {
@@ -24,7 +25,7 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) => {
 
   useEffect(()=> {
     loadForumPost(match.params.id)
-  }, [loadForumPost, match.params.id])
+  }, [loadForumPost, match.params.id,])
   
   if (loadingInitial || !forumpost) return <LoadingComponent content="Loading forum post details..."/> 
 
@@ -33,8 +34,8 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match}) => {
     <Grid>
       <Grid.Column width={12}>
         <ForumDetailedInfo forumpost={forumpost}/>
+        <ForumDetailedRating forumpost={forumpost}/>
         <ForumDetailedChat />
-        {/* forumpost={forumpost} */}
       </Grid.Column>
       <Grid.Column width={4}>
         <ForumDetailedHeader forumpost={forumpost}/>

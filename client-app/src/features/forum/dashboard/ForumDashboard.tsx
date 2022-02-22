@@ -25,17 +25,12 @@ const ForumDashboard = () => {
     loadForumPosts();
   }, [loadForumPosts]);
 
-  // if (loadingInitial && page === 0)
-  //   return <LoadingComponent content='Loading forum posts...' />;
-
   return (
     <div>
       <Grid>
-        {/* width={10} */}
         <Grid.Column computer={9} mobile={16}>
-          {loadingInitial && page === 0 ? (
-            <ForumListItemPlaceholder />
-          ) : (
+          {loadingInitial && page === 0 ? 
+            <ForumListItemPlaceholder /> : (
             <InfiniteScroll
               pageStart={0}
               loadMore={handleGetNext}

@@ -16,15 +16,13 @@ namespace Application.Forumposts
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            // public virtual AppUser Author { get; set; }
             public DateTime DateAdded { get; set; }
             public string Title { get; set; }
             public string Body { get; set; }
-            // public string Username { get; set; }
             public string Category { get; set; }
         }
 
-          public class CommandValidator : AbstractValidator<Command>
+        public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
@@ -33,7 +31,6 @@ namespace Application.Forumposts
                 RuleFor(x => x.Title).NotEmpty();
                 RuleFor(x => x.Body).NotEmpty();
                 RuleFor(x => x.Category).NotEmpty();
-              
             }
         }
 
@@ -53,25 +50,18 @@ namespace Application.Forumposts
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-                // var forumpostToSave = _mapper.Map<ForumpostDto, Forumpost>(forumpost);
-                // var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == 
-                //     request.Username);
 
-                // ako ne bude radilo gornje, a nesto kontam da nece...
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 var forumpost = new Forumpost
                 {
-                    // Author = user,
+                    Author = user,
                     Id = request.Id,
                     Title = request.Title,
-                    // DateAdded = request.
-                    // Category = "testing, no reall? still api...",
                     Category = request.Category,
                     DateAdded = request.DateAdded,
                     Body = request.Body,
-                    Author = user
                 };
 
                 _context.Forumposts.Add(forumpost);

@@ -161,192 +161,217 @@ namespace Application.Feeds
                     }
                     #endregion
                 }
-                    #region Joined Motocycle Diary
-                    if (request.Info == "Joined Motocycle Diary")
-                    {
-                        // var 
-                        notifyeeIds = await _context.UserActivities
-                                            .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
-                                            .Select(x => x.AppUserId)
-                                            .ToListAsync();
-
-                        var diary = await _context.Activities
-                                            .SingleOrDefaultAsync(x => x.Id == request.ObjectId);//;
-
-                        if (notifyeeIds.Count() > 0)
-                        {
-
-                            FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                            var feed = new Feed//"User " + notifier.DisplayName + 
-                            {
-                                Id = feedId,
-                                Info = " has joined the " + diary.Title + " on " + DateTime.Now
-                                + " alongside with " + notifyeeIds.Count() + " people ",
-                                Notifier = notifier,
-                                ObjectId = request.ObjectId,
-                                DateTriggered = DateTime.Now,
-                                FeedType = feedType,
-                                Notifyees = notifees
-                            };
-
-                            _context.Feeds.Add(feed);
-                        }
-                        else
-                        {
-                            return Unit.Value;
-                        }
-                    }
-                    #endregion
-                    #region Left Motorcycle Diary
-                    else if (request.Info == "Left Motorcycle Diary")
-                    {
-
-
-                        notifyeeIds = await _context.UserActivities
-                                        .Where(x => x.IsHost == true)
+                #region Joined Motocycle Diary
+                if (request.Info == "Joined Motocycle Diary")
+                {
+                    // var 
+                    notifyeeIds = await _context.UserActivities
+                                        .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
                                         .Select(x => x.AppUserId)
                                         .ToListAsync();
 
-                        if (notifyeeIds.Count() > 0)
-                        {
+                    var diary = await _context.Activities
+                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);//;
 
-                            var activity = await _context.Activities
-                                                .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
-
-                            FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                            var feed = new Feed
-                            {
-                                Id = feedId,
-                                Info = " has left the " + activity.Title + ", diary on " + DateTime.Now,
-                                Notifier = notifier,
-                                ObjectId = request.ObjectId,
-                                DateTriggered = DateTime.Now,
-                                FeedType = feedType,
-                                Notifyees = notifees
-                            };
-
-                            _context.Feeds.Add(feed);
-                        }
-                        else
-                        {
-                            return Unit.Value;
-                        }
-                    }
-                    #endregion
-                    #region Deactivated Motocycle Diary
-                    else if (request.Info == "Deactivated Motocycle Diary")
-                    {
-                        // var 
-                        notifyeeIds = await _context.UserActivities
-                                            .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
-                                            .Select(x => x.AppUserId)
-                                            .ToListAsync();
-
-                        var diary = await _context.Activities
-                                            .SingleOrDefaultAsync(x => x.Id == request.ObjectId);//;
-
-                        if (notifyeeIds.Count() > 0)
-                        {
-
-                            FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                            var feed = new Feed
-                            {
-                                Id = feedId,
-                                Info = " has deactivated the " + diary.Title + " on " + DateTime.Now,
-                                Notifier = notifier,
-                                ObjectId = request.ObjectId,
-                                DateTriggered = DateTime.Now,
-                                FeedType = feedType,
-                                Notifyees = notifees
-                            };
-
-                            _context.Feeds.Add(feed);
-                        }
-                        else
-                        {
-                            return Unit.Value;
-                        }
-                    }
-                    #endregion
-                    #region Embraced Motofy
-                    else if (request.Info == "Embraced Motofy")
+                    if (notifyeeIds.Count() > 0)
                     {
 
-                        notifyeeIds = await _context.UserMotofies
-                                            .Where(x => x.IsOwner == true)
-                                            .Select(x => x.AppUserId)
-                                            .ToListAsync();
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
 
-                        if (notifyeeIds.Count() > 0)
+                        var feed = new Feed//"User " + notifier.DisplayName + 
                         {
-                            var motofy = await _context.Motofies
-                                          .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+                            Id = feedId,
+                            Info = " has joined the " + diary.Title + " on " + DateTime.Now
+                            + " alongside with " + notifyeeIds.Count() + " people ",
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
 
-                            FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                            var feed = new Feed
-                            {
-                                Id = feedId,
-                                Info = " has embraced the " + motofy.Name + ", Motofy! on " + DateTime.Now,
-                                Notifier = notifier,
-                                ObjectId = request.ObjectId,
-                                DateTriggered = DateTime.Now,
-                                FeedType = feedType,
-                                Notifyees = notifees
-                            };
-
-                            _context.Feeds.Add(feed);
-                        }
-                        else
-                        {
-                            return Unit.Value;
-                        }
+                        _context.Feeds.Add(feed);
                     }
-                    #endregion
-                    #region Deleted Motofy
-                    else if (request.Info == "Deleted Motofy")
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Left Motorcycle Diary
+                else if (request.Info == "Left Motorcycle Diary")
+                {
+
+                    notifyeeIds = await _context.UserActivities
+                                    .Where(x => x.IsHost == true)
+                                    .Select(x => x.AppUserId)
+                                    .ToListAsync();
+
+                    if (notifyeeIds.Count() > 0)
                     {
 
-                        var embracersIds = await _context.UserMotofies
-                                            .Where(x => x.MotofyId == request.ObjectId && x.AppUserId != notifier.Id)
-                                            .Select(x => x.AppUserId)
-                                            .ToListAsync();
+                        var activity = await _context.Activities
+                                            .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
 
-                        notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
 
-                        notifyeeIds.AddRange(embracersIds);
-
-                        if (notifyeeIds.Count() > 0)
+                        var feed = new Feed
                         {
-                            var motofy = await _context.Motofies
-                                          .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+                            Id = feedId,
+                            Info = " has left the " + activity.Title + ", diary on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
 
-                            FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                            var feed = new Feed//"User " + notifier.DisplayName + 
-                            {
-                                Id = feedId,
-                                Info = " has deleted the " + motofy.Name + ", Motofy! on " + DateTime.Now,
-                                Notifier = notifier,
-                                ObjectId = request.ObjectId,
-                                DateTriggered = DateTime.Now,
-                                FeedType = feedType,
-                                Notifyees = notifees
-                            };
-
-                            _context.Feeds.Add(feed);
-                        }
-                        else
-                        {
-                            return Unit.Value;
-                        }
+                        _context.Feeds.Add(feed);
                     }
-                    #endregion
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Deactivated Motocycle Diary
+                else if (request.Info == "Deactivated Motocycle Diary")
+                {
+                    // var 
+                    notifyeeIds = await _context.UserActivities
+                                        .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
+                                        .Select(x => x.AppUserId)
+                                        .ToListAsync();
 
-                
+                    var diary = await _context.Activities
+                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);//;
+
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = " has deactivated the " + diary.Title + " on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Embraced Motofy
+                else if (request.Info == "Embraced Motofy")
+                {
+                    notifyeeIds = await _context.UserMotofies
+                                        .Where(x => x.IsOwner == true)
+                                        .Select(x => x.AppUserId)
+                                        .ToListAsync();
+
+                    if (notifyeeIds.Count() > 0)
+                    {
+                        var motofy = await _context.Motofies
+                                      .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = " has embraced the " + motofy.Name + ", Motofy! on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Deleted Motofy
+                else if (request.Info == "Deleted Motofy")
+                {
+
+                    var embracersIds = await _context.UserMotofies
+                                        .Where(x => x.MotofyId == request.ObjectId && x.AppUserId != notifier.Id)
+                                        .Select(x => x.AppUserId)
+                                        .ToListAsync();
+
+                    notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
+
+                    notifyeeIds.AddRange(embracersIds);
+
+                    if (notifyeeIds.Count() > 0)
+                    {
+                        var motofy = await _context.Motofies
+                                      .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed//"User " + notifier.DisplayName + 
+                        {
+                            Id = feedId,
+                            Info = " has deleted the " + motofy.Name + ", Motofy! on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Rated Forumpost
+                else if (request.Info == "Rated Forumpost")
+                {
+                    notifyeeIds = await _context.Forumposts
+                                        .Select(x => x.Author.Id)
+                                        .ToListAsync();
+
+                    var forumpost = await _context.Forumposts
+                                  .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                    FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                    var feed = new Feed
+                    {
+                        Id = feedId,
+                        Info = " has rated the " + forumpost.Title + " forumpost on " + DateTime.Now,
+                        Notifier = notifier,
+                        ObjectId = request.ObjectId,
+                        DateTriggered = DateTime.Now,
+                        FeedType = feedType,
+                        Notifyees = notifees
+                    };
+
+                    _context.Feeds.Add(feed);
+                   
+                }
+                #endregion
+
+
 
                 var success = await _context.SaveChangesAsync() > 0;
 

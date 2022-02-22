@@ -13,6 +13,8 @@ namespace Domain
         public string Category { get; set; }
         public virtual ICollection<CommentForumPost> CommentForumPosts { get; set; }
         public virtual ICollection<ForumpostRating> ForumpostRatings { get; set; }
+        public double ForumpostRating { get; set; }
+
        
 
     }

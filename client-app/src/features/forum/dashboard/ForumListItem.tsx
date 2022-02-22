@@ -1,3 +1,4 @@
+import { formatDistance } from "date-fns";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
@@ -15,7 +16,14 @@ const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
           />
           <Item.Content>
             <Item.Header as='a'>{forumpost.title}</Item.Header>
-            <Item.Meta>{forumpost.dateAdded}</Item.Meta>
+            {/* <Item.Meta>{forumpost.dateAdded}</Item.Meta> */}
+            <Item.Meta>
+            Posted {' '}
+            {formatDistance(
+                        new Date(forumpost.dateAdded),
+                        new Date()
+                      )} {' '} ago
+            </Item.Meta> 
 
             <Item.Description>
               Posted by 

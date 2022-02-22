@@ -10,7 +10,6 @@ export interface IForumpost {
   id: string;
   title: string;
   body: string;
-  // dateAdded: Date;
   dateAdded: string;
   displayName: string;
   userName: string;
@@ -18,6 +17,8 @@ export interface IForumpost {
   commentForumPosts: IComment[];
   numberOfComents?: number;
   commenters?: IComment [];
+  forumpostRatings?: any [];
+  forumpostRating: number;
 }
 
 export class ForumpostFormValues {
@@ -33,4 +34,9 @@ export class ForumpostFormValues {
     if (init)
       Object.assign(this, init);
   }
+}
+
+export interface IRateForumpost {
+  id: string;
+  rating: string;
 }

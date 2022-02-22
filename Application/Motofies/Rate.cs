@@ -33,14 +33,9 @@ namespace Application.Motofies
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            // private readonly IMapper _mapper;
-            // private readonly IEntityPhotoAccessor __entityPhotoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor//, 
-            // IMapper mapper, IEntityPhotoAccessor _entityPhotoAccessor
-            )
+
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
-                // __entityPhotoAccessor = _entityPhotoAccessor;
-                // _mapper = mapper;
                 _userAccessor = userAccessor;
                 _context = context;
 

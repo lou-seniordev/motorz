@@ -11,12 +11,10 @@ namespace Application.Forumposts
             CreateMap<Forumpost, ForumpostDto>()
             .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Author.DisplayName))
             .ForMember(d => d.UserName, o => o.MapFrom(s => s.Author.UserName));
-            // .ForMember(d => d.AuthorId, o => o.MapFrom(s => s.Author.Id));
-            // .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.Photos.FirstOrDefault(x 
-            // => x.IsMain).Url));
 
-            // CreateMap<ForumpostDto, Forumpost>()
-            // .ForMember(d => d.Author.UserName, o => o.MapFrom(s => s.DisplayName));
+            CreateMap<ForumpostRating, ForumpostRatingDto>()
+            .ForMember(d => d.AuthorUsername, o => o.MapFrom(s => s.Author.UserName))
+            .ForMember(d => d.ForumpostId, o => o.MapFrom(s => s.Forumpost.Id));
         }
     }
 }

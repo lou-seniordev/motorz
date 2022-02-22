@@ -1,3 +1,4 @@
+import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -40,7 +41,14 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
             <Icon name='calendar' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={15}>
-            <span>Posted on: {forumpost.dateAdded}</span>
+            {/* <span>Posted on: {forumpost.dateAdded}</span> */}
+            <span>
+            Posted {' '}
+            {formatDistance(
+                        new Date(forumpost.dateAdded),
+                        new Date()
+                      )}
+            </span> ago
           </Grid.Column>
         </Grid>
       </Segment>
@@ -58,21 +66,6 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
         <Grid verticalAlign='middle'>
           <Grid.Column width={16}>
             <span style={{ whiteSpace: "pre-wrap" }}>{forumpost.body}</span>
-          </Grid.Column>
-        </Grid>
-      </Segment>
-      <Segment attached>
-        <Grid verticalAlign='middle'>
-          <Grid.Column width={5} style={{ width: "100%" }}>
-            <Button fluid content='Interesting' />
-          </Grid.Column>
-
-          <Grid.Column width={5} style={{ width: "100%" }}>
-            <Button fluid content='Helping' />
-          </Grid.Column>
-
-          <Grid.Column width={5} style={{ width: "100%" }}>
-            <Button fluid content='Usefull' />
           </Grid.Column>
         </Grid>
       </Segment>

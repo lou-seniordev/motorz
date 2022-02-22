@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 // import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
-import { IForumpost, IForumpostEnvelope } from '../models/forumpost';
+import { IForumpost, IForumpostEnvelope, IRateForumpost } from '../models/forumpost';
 import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend, IMechanicsEnvelope } from '../models/mechanic';
 import { IBrand } from '../models/brand';
 import { IProduct, IProductsEnvelope } from '../models/product';//, ProductFormValues
@@ -180,7 +180,7 @@ const Motofies = {
       // .then(sleep(1000))
       .then(responseBody),
 
- 
+
   details: (id: string) => requests.get(`/motofies/${id}`),
   // TODO: 
   // create: (motofy: IMotofy) => requests.post('/motofies', motofy),
@@ -195,7 +195,7 @@ const Motofies = {
 };
 
 const Mechanics = {
-  list: (params: URLSearchParams): Promise<IMechanicsEnvelope> => 
+  list: (params: URLSearchParams): Promise<IMechanicsEnvelope> =>
     axios.get('/mechanics', { params: params }).then(sleep(1000)).then(responseBody),
 
   details: (id: string) => requests.get(`/mechanics/${id}`),
@@ -211,9 +211,9 @@ const Mechanics = {
 };
 
 const Products = {
-  list: (params: URLSearchParams): Promise<IProductsEnvelope> => 
+  list: (params: URLSearchParams): Promise<IProductsEnvelope> =>
     // requests.get(`/products?limit=${limit}&offset=${page ? limit * page : 0}`),
-    axios.get('/products', {params: params}).then(sleep(1000)).then(responseBody),
+    axios.get('/products', { params: params }).then(sleep(1000)).then(responseBody),
 
   details: (id: string) => requests.get(`/products/${id}`),
   create: (product: IProduct) => postProduct.productForm('/products', product),
@@ -242,20 +242,20 @@ const Activities = {
 };
 
 const Feed = {
-  list: (limit: number, page: number): Promise<IFeedEnvelope> => 
+  list: (limit: number, page: number): Promise<IFeedEnvelope> =>
     requests.get(`/feeds?limit=${limit}&offset=${page ? page * limit! : 0}`),
   addFeedItem: (id: string, info: string) => requests.post(`/feeds/${id}/${info}/addFeedItem`, {}),
   removeFeedItem: (id: string, info: string) => requests.delete(`/feeds/${id}/${info}/removeFeedItem`)
 };
 
 const Messages = {
-  list: (limit: number, page: number): Promise<IMessageEnvelope> => 
-      requests.get(`/messages?limit=${limit}&offset=${page ? page * limit! : 0}`),
+  list: (limit: number, page: number): Promise<IMessageEnvelope> =>
+    requests.get(`/messages?limit=${limit}&offset=${page ? page * limit! : 0}`),
   // list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}`),
 
   thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
   // details: (id: string) => requests.get(`/messages/${id}`),
- 
+
   create: (message: IMessageToSend) => requests.post('/messages/', message),
 
 
@@ -274,6 +274,7 @@ const Forumposts = {
   update: (forumpost: IForumpost) =>
     requests.put(`/forumposts/${forumpost.id}`, forumpost),
   delete: (id: string) => requests.delete(`/forumposts/${id}`),
+  rate: (rate: IRateForumpost) => requests.put(`/forumposts/rate`, rate)
 }
 
 

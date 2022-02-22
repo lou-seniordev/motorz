@@ -89,7 +89,7 @@ namespace Application.Forumposts
 
                 var forumposts = await queryable
                 .Skip(request.Offset ?? 0)
-                .Take(request.Limit ?? 3)
+                .Take(request.Limit ?? 5)
                 .ToListAsync();
 
 

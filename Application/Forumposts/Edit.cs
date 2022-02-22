@@ -37,7 +37,7 @@ namespace Application.Forumposts
 
                 if(forumpost == null)
                     throw new RestException(HttpStatusCode.NotFound, 
-                        new {activity = "NotFound"});
+                        new {forumpost = "NotFound"});
 
                 forumpost.Title = request.Title ?? forumpost.Title;
                 forumpost.Body = request.Body ?? forumpost.Body;

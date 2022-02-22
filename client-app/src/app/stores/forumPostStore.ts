@@ -1,3 +1,4 @@
+import { IRateForumpost } from './../models/forumpost';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
 import { SyntheticEvent } from 'react';
 import { history } from '../..';
@@ -7,9 +8,10 @@ import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { IComment } from '../models/comment';
+import { id } from 'date-fns/locale';
 
 // configure({ enforceActions: 'always' });
-const LIMIT = 4;
+const LIMIT = 2;
 
 export default class ForumPostStore {
   rootStore: RootStore;
@@ -107,7 +109,7 @@ export default class ForumPostStore {
   };
 
   @action addComment = async (values: any) => {
-    console.log(values);
+    // console.log(values);
     values.id = this.forumpost!.id;
     try {
       await this.hubConnection!.invoke('SendCommentForumPost', values);
@@ -115,6 +117,20 @@ export default class ForumPostStore {
       console.log(error);
     }
   };
+
+  @action setRating = async (forumpostId: string, rating: string) => {
+   
+    const rate :IRateForumpost = {
+      id: forumpostId,
+      rating: rating,
+    }
+    try {
+      await agent.Forumposts.rate(rate);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   @computed get forumpostsByDate() {
     return this.groupForumpostsByDate(
@@ -199,6 +215,7 @@ export default class ForumPostStore {
           forumpost.numberOfComents = this.summComments(forumpost);
           forumpost.commenters = this.reduceCommenters(forumpost);
           this.forumpost = forumpost;
+           console.log('forumpost in rating', forumpost);
           this.forumPostRegistry.set(forumpost.id, forumpost);
           this.loadingInitial = false;
         });
