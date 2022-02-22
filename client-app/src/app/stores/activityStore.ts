@@ -222,21 +222,11 @@ export default class ActivityStore {
     this.activity = null;
   };
 
-  // @action addFeedItem = async (id: string, info: string) => {
-  //   console.log('From addFeedItem, id is: ', id)
-
-  //   try {
-  //     await agent.Feed.addFeedItem(id, info);
-      
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   @action createActivity = async (activity: IActivity) => {
 
     // console.log('From activityStore: ', activity)
-    console.log('From createActivity, id is: ', activity.id)
+    // console.log('From createActivity, id is: ', activity.id)
     this.submitting = true;
     try {
       await agent.Activities.create(activity)

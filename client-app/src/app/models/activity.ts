@@ -18,6 +18,7 @@ export interface IActivity {
   destination: string;
   isGoing: boolean;
   isHost: boolean;   
+  isActive: boolean;
   attendees: IAttendee[];
   comments: IComment[];
 }
