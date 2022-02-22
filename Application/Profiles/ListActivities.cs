@@ -48,6 +48,9 @@ namespace Application.Profiles
                     case "hosting":
                         queryable = queryable.Where(a => a.IsHost);
                         break;
+                    case "deactivated":
+                        queryable = queryable.Where(a => a.Activity.IsActive == false);
+                        break;
                     default:
                         queryable = queryable.Where(a => a.Activity.Date >= DateTime.Now);
                         break;

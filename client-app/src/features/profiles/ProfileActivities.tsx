@@ -7,10 +7,10 @@ import { format } from 'date-fns';
 import { RootStoreContext } from '../../app/stores/rootStore';
 
 const panes = [
-  { menuItem: 'Future Events', pane: { key: 'futureEvents' } },
-  { menuItem: 'Past Events', pane: { key: 'pastEvents' } },
+  { menuItem: 'Future Diaries', pane: { key: 'futureEvents' } },
+  { menuItem: 'Past Diaries', pane: { key: 'pastEvents' } },
   { menuItem: 'Hosting', pane: { key: 'hosted' } },
-  { menuItem: 'Not active [TODO]', pane: { key: 'hosted' } },
+  { menuItem: 'Not active', pane: { key: 'deactivated' } },
 ];
 
 const ProfileEvents = () => {
@@ -37,6 +37,9 @@ const ProfileEvents = () => {
         break;
       case 2:
         predicate = 'hosting';
+        break;
+      case 3:
+        predicate = 'deactivated';
         break;
       default:
         predicate = 'future';

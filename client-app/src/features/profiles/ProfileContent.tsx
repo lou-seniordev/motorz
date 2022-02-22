@@ -1,39 +1,45 @@
-import React from 'react';
-import { Tab } from 'semantic-ui-react';
-import ProfilePhotos from './ProfilePhotos';
-import ProfileDescription from './ProfileDescription';
-import ProfileFollowings from './ProfileFollowings';
-import ProfileActivities from './ProfileActivities';
-import ProfileMotofies from './ProfileMotofies';
-import ProfileForumposts from './ProfileForumposts';
-import ProfileMechanics from './ProfileMechanics';
-import ProfileProducts from './ProfileProducts';
+import React from "react";
+import { Tab } from "semantic-ui-react";
+import ProfilePhotos from "./ProfilePhotos";
+import ProfileDescription from "./ProfileDescription";
+import ProfileFollowings from "./ProfileFollowings";
+import ProfileActivities from "./ProfileActivities";
+import ProfileMotofies from "./ProfileMotofies";
+import ProfileForumposts from "./ProfileForumposts";
+import ProfileMechanics from "./ProfileMechanics";
+import ProfileProducts from "./ProfileProducts";
 
 const panes = [
-  { menuItem: 'About', render: () => <ProfileDescription /> },
-  { menuItem: 'Photos', render: () => <ProfilePhotos /> },
+  { menuItem: "About", render: () => <ProfileDescription /> },
+  { menuItem: "Photos", render: () => <ProfilePhotos /> },
   {
-    menuItem: 'Motofies!',
+    menuItem: "Motofies!",
     render: () => <ProfileMotofies />,
   },
   {
-    menuItem: 'Motorcycle Diaries',
+    menuItem: "Motorcycle Diaries",
     render: () => <ProfileActivities />,
   },
   {
-    menuItem: 'Forumposts',
+    menuItem: "Forumposts",
     render: () => <ProfileForumposts />,
   },
   {
-    menuItem: 'Mechanics',
+    menuItem: "Mechanics",
     render: () => <ProfileMechanics />,
   },
   {
-    menuItem: 'Products',
+    menuItem: "Products",
     render: () => <ProfileProducts />,
   },
-  { menuItem: 'Followers', render: () => <ProfileFollowings /> },
-  { menuItem: 'Followings', render: () => <ProfileFollowings /> },
+  { 
+    menuItem: "Followers", 
+    render: () => <ProfileFollowings /> 
+  },
+  { 
+    menuItem: "Followings", 
+    render: () => <ProfileFollowings /> 
+  },
 ];
 
 interface IProps {

@@ -25,8 +25,7 @@ const ProfileMotofies = () => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     data: TabProps
   ) => {
-    // let predicate = undefined ?? 'iEmbraced';
-    let predicate;
+     let predicate;
 
     switch (data.activeIndex) {
       case 1:

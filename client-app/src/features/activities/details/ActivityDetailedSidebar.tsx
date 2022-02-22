@@ -27,7 +27,7 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
               {attendee.isHost && (
                 <Label
                   style={{ position: "absolute" }}
-                  color='orange'
+                  color='teal'
                   ribbon='right'
                 >
                   Host
@@ -41,7 +41,7 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
                   </Link>
                 </Item.Header>
                 {attendee.following && (
-                  <Item.Extra style={{ color: "orange" }}>Following</Item.Extra>
+                  <Item.Extra style={{ color: "green" }}>Following</Item.Extra>
                 )}
               </Item.Content>
             </Item>

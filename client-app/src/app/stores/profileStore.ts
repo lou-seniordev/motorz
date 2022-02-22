@@ -13,8 +13,8 @@ export default class ProfileStore {
     reaction (
       () => this.activeTab,
       activeTab => {
-        if(activeTab === 3 || activeTab === 4){
-          const predicate = activeTab === 3 ? 'followers' : 'following'
+        if(activeTab === 7 || activeTab === 8){
+          const predicate = activeTab === 7 ? 'followers' : 'following'
           this.loadFollowings(predicate);
         } else {
           this.followings = [];
