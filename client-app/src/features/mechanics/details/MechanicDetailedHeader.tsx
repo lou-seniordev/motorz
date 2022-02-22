@@ -123,7 +123,7 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
             <Button
               as={Link}
               to={`/manageMechanic/${mechanic.id}`}
-              color='orange'
+              color='teal'
               floated='right'
             >
               Manage Post

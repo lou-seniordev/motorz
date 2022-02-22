@@ -80,8 +80,9 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
               <Button
                 as={Link}
                 to={`/manage/${activity.id}`}
-                color='orange'
+                color='teal'
                 floated='right'
+                // fluid
               >
                 Manage Your Diary
               </Button>
@@ -91,6 +92,7 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
                 }}
                 color='red'
                 floated='left'
+                // fluid
               >
                 Deactivate
               </Button>

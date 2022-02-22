@@ -75,6 +75,7 @@ export interface IEmbracer {
     displayName: string;
     image: string;
     isOwner: boolean;
+    following?: boolean;
 }
 
 export interface IRateMotofy {

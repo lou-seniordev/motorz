@@ -5,6 +5,10 @@ import { IEmbracer } from '../../../app/models/motofy';
 interface IProps {
   embracers: IEmbracer[];
 }
+const styles = {
+  borderColor: 'green',
+  borderWidth: 2
+}
 const GalleryListItemEmbracers: React.FC<IProps> = ({ embracers }) => {
   // console.log(embracers);
   return (
@@ -14,7 +18,14 @@ const GalleryListItemEmbracers: React.FC<IProps> = ({ embracers }) => {
           
             <Popup
                 header={embracer.displayName}
-                trigger={<Image size='mini' circular src={embracer.image || '/assets/user.png'} />}
+                trigger={
+                <Image size='mini' 
+                circular 
+                src={embracer.image || '/assets/user.png'} 
+                bordered
+                style={embracer.following ? styles : null}
+                />
+              }
             />
         </List.Item>
       ))}

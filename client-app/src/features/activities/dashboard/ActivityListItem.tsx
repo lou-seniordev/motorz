@@ -64,7 +64,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
                   <Item.Description>
                     <Label
                       basic
-                      color='orange'
+                      color='teal'
                       content='You created this diary'
                     />
                   </Item.Description>

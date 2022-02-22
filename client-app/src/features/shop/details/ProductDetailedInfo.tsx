@@ -127,7 +127,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 <Button
                   as={Link}
                   to={`/manageProduct/${product.id}`}
-                  color='orange'
+                  color='teal'
                   floated='right'
                 >
                   Manage Post

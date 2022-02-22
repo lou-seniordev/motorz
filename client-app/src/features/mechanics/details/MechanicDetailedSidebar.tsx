@@ -2,7 +2,7 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Segment, List, Item, Image, Grid } from "semantic-ui-react";
+import { Segment, List, Item, Image, Grid, Label } from "semantic-ui-react";
 import { IMechanic } from "../../../app/models/mechanic";
 
 const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
@@ -41,9 +41,16 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
                           {customer.displayName}
                         </Item.Header>
                         {customer.isOwner && (
-                          <Item.Extra style={{ color: "orange" }}>
-                            Owner
-                          </Item.Extra>
+                          // <Item.Extra style={{ color: "teal" }}>
+                          //   Owner
+                          // </Item.Extra>
+                          <Label
+                          style={{ position: 'top' }}
+                          color='teal'
+                          ribbon='right'
+                        >
+                          Owner
+                        </Label>
                         )}
                         {customer.customerRecommended && (
                           <Item.Extra style={{ color: "green" }}>

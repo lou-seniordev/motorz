@@ -15,7 +15,9 @@ namespace Application.Motofies
             CreateMap<UserMotofy, EmbracerDto>()
             .ForMember(d => d.Username , o => o.MapFrom(s => s.AppUser.UserName))
             .ForMember(d => d.DisplayName , o => o.MapFrom(s => s.AppUser.DisplayName))
-            .ForMember(d => d.Image, o => o.MapFrom(s => s.AppUser.Photos.FirstOrDefault(x => x.IsMain).Url));
+            .ForMember(d => d.Image, o => o.MapFrom(s => s.AppUser.Photos.FirstOrDefault(x => x.IsMain).Url))
+            .ForMember(d => d.Following, o => o.MapFrom<EmbracingResolver>());
+            
             CreateMap<Brand, MotofyDto>()
             .ForMember(d => d.BrandName, o => o.MapFrom(s => s.Name))
             .ForMember(d => d.BrandId, o => o.MapFrom(s => s.Id))

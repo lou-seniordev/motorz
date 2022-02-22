@@ -60,7 +60,7 @@ const ForumDetailedHeader: React.FC<{ forumpost: IForumpost }> = ({
           <Button
             as={Link}
             to={`/manageForum/${forumpost.id}`}
-            color='orange'
+            color='teal'
             floated='left'
           >
             Manage Your Post
