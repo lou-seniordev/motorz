@@ -347,6 +347,7 @@ namespace Application.Feeds
                 else if (request.Info == "Rated Forumpost")
                 {
                     notifyeeIds = await _context.Forumposts
+                                        .Where(x => x.Id == request.ObjectId)
                                         .Select(x => x.Author.Id)
                                         .ToListAsync();
 

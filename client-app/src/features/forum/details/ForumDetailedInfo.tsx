@@ -2,7 +2,7 @@ import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Segment, Grid, Icon, Divider, Button } from "semantic-ui-react";
+import { Segment, Grid, Icon, Divider } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
 
 const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
@@ -43,12 +43,9 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
           <Grid.Column width={15}>
             {/* <span>Posted on: {forumpost.dateAdded}</span> */}
             <span>
-            Posted {' '}
-            {formatDistance(
-                        new Date(forumpost.dateAdded),
-                        new Date()
-                      )}
-            </span> ago
+              Posted {formatDistance(new Date(forumpost.dateAdded), new Date())}
+            </span>{" "}
+            ago
           </Grid.Column>
         </Grid>
       </Segment>

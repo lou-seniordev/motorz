@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { IComment } from '../models/comment';
-import { id } from 'date-fns/locale';
 
 // configure({ enforceActions: 'always' });
 const LIMIT = 2;
@@ -24,12 +23,13 @@ export default class ForumPostStore {
       () => {
         this.page = 0;
         this.forumPostRegistry.clear();
+        this.forumposts = [];
         this.loadForumPosts();
       }
     )
   }
   @observable forumPostRegistry = new Map();
-  // @observable forumposts: IForumpost[] = [];
+  @observable forumposts: IForumpost[] = [];
   @observable forumpost: IForumpost | null = null;
   @observable loadingInitial = false;
   @observable editMode = false;
@@ -109,7 +109,6 @@ export default class ForumPostStore {
   };
 
   @action addComment = async (values: any) => {
-    // console.log(values);
     values.id = this.forumpost!.id;
     try {
       await this.hubConnection!.invoke('SendCommentForumPost', values);
@@ -133,18 +132,25 @@ export default class ForumPostStore {
   }
 
   @computed get forumpostsByDate() {
-    return this.groupForumpostsByDate(
+    return this.formatForumpostsDate(
       Array.from(this.forumPostRegistry.values())
     );
+    // return this.forumPostRegistry;
   }
 
-  groupForumpostsByDate(forumposts: IForumpost[]) {
-    const sortedForumposts = forumposts.sort(
-      (a, b) => Date.parse(a.dateAdded) - Date.parse(b.dateAdded)
-    );
+  formatForumpostsDate(forumposts: IForumpost[]) {
+    // const sortedForumposts = forumposts.sort(
+    //   (a, b) => Date.parse(a.dateAdded) - Date.parse(b.dateAdded)
+    //   // (a, b) => a.dateAdded.getTime() - b.dateAdded.getTime()
+    // );
     return Object.entries(
-      sortedForumposts.reduce((forumposts, forumpost) => {
+      // sortedForumposts.reduce((forumposts, forumpost) => {
+        forumposts.reduce((forumposts, forumpost) => {
+          console.log('forumpost.dateAdded: ', forumpost.dateAdded);
         const date = forumpost.dateAdded.split('T')[0];
+        // const date = forumpost.dateAdded.toISOString().split('T')[0];
+        console.log('date: ', date);
+
         forumposts[date] = forumposts[date]
           ? [...forumposts[date], forumpost]
           : [forumpost];
@@ -160,7 +166,6 @@ export default class ForumPostStore {
 
   reduceCommenters(forumpost: IForumpost) {
 
-    // return [...Array.from(new Set(forumpost.commentForumPosts.map(x => x.username)))] 
 
     const result: IComment[] = [];
     const map = new Map();
@@ -184,12 +189,14 @@ export default class ForumPostStore {
     this.loadingInitial = true;
     try {
       const forumpostEnvelope = await agent.Forumposts.list(this.axiosParams);
+      // const forumpostEnvelope = await agent.Forumposts.list(LIMIT, this.page);
       const { forumposts, forumpostCount } = forumpostEnvelope;
       runInAction('loading forumposts', () => {
         forumposts.forEach((forumpost) => {
           forumpost.numberOfComents = this.summComments(forumpost);
           forumpost.commenters = this.reduceCommenters(forumpost);
           this.forumPostRegistry.set(forumpost.id, forumpost);
+          this.forumposts.push(forumpost)// = forumposts
         });
         this.forumPostCount = forumpostCount;
         this.loadingInitial = false;
@@ -217,6 +224,7 @@ export default class ForumPostStore {
           this.forumpost = forumpost;
            console.log('forumpost in rating', forumpost);
           this.forumPostRegistry.set(forumpost.id, forumpost);
+          this.forumposts.push(forumpost);
           this.loadingInitial = false;
         });
         this.forumpost = forumpost;
@@ -239,10 +247,12 @@ export default class ForumPostStore {
 
   @action createForumpost = async (forumpost: IForumpost) => {
     this.submitting = true;
+    forumpost.forumpostRatings = [];
     try {
       await agent.Forumposts.create(forumpost);
       runInAction('creating forumposts', () => {
         this.forumPostRegistry.set(forumpost.id, forumpost);
+        this.forumposts.push(forumpost);
         // this.editMode = false;
         this.submitting = false;
       });

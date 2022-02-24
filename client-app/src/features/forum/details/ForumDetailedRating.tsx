@@ -1,8 +1,6 @@
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Segment, Grid, Icon, Divider, Button } from "semantic-ui-react";
+import { Segment, Grid, Button } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
@@ -26,7 +24,7 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
         }
       });
     }
-  }, [forumpost]);
+  }, [forumpost, user]);
 
   const handleRating = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,

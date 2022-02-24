@@ -6,15 +6,13 @@ import ForumListItem from './ForumListItem';
 
 const ForumList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const {forumpostsByDate } = rootStore.forumPostStore;
+  const { forumposts, forumpostsByDate} = rootStore.forumPostStore;//forumpostsByDate ,
 
   return (
     <Fragment>
       {forumpostsByDate.map(([group, forumposts]) => (
         <Fragment key={group}>
-          {/* <Label size='large' color='blue'>
-           Posted on {group}
-          </Label> */}
+         
           <Segment clearing>
             <Item.Group divided>
               {forumposts.map((forumpost) => (
@@ -24,6 +22,13 @@ const ForumList: React.FC = () => {
           </Segment>
         </Fragment>
       ))}
+       {/* <Segment clearing>
+            <Item.Group divided>
+              {forumposts.map((forumpost) => (
+                <ForumListItem forumpost={forumpost} key={forumpost.id} />
+              ))}
+            </Item.Group>
+          </Segment> */}
     </Fragment>
   );
 };

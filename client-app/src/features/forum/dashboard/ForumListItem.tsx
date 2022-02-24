@@ -7,7 +7,7 @@ import { IForumpost } from "../../../app/models/forumpost";
 const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
   return (
     <Segment.Group raised>
-      <Segment >
+      <Segment>
         <Item>
           <Item.Image
             size='tiny'
@@ -18,15 +18,12 @@ const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
             <Item.Header as='a'>{forumpost.title}</Item.Header>
             {/* <Item.Meta>{forumpost.dateAdded}</Item.Meta> */}
             <Item.Meta>
-            Posted {' '}
-            {formatDistance(
-                        new Date(forumpost.dateAdded),
-                        new Date()
-                      )} {' '} ago
-            </Item.Meta> 
+              Posted {formatDistance(new Date(forumpost.dateAdded), new Date())}{" "}
+              ago
+            </Item.Meta>
 
             <Item.Description>
-              Posted by 
+              Posted by
               <Link to={`/profile/${forumpost.userName}`}>
                 {forumpost.displayName}
               </Link>
@@ -55,7 +52,10 @@ const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
       <Segment>
         <Icon name='clock' /> {forumpost.dateAdded}
       </Segment>
-      <Segment secondary>{forumpost.numberOfComents!} Responses from {forumpost.commenters?.length} Members</Segment>
+      <Segment secondary>
+        {forumpost.numberOfComents!} Responses from{" "}
+        {forumpost.commenters?.length} Members
+      </Segment>
     </Segment.Group>
   );
 };

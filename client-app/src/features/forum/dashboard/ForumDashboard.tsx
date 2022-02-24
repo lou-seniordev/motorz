@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import {  Grid, Loader, Sticky } from "semantic-ui-react";//Button,
 import ForumList from "./ForumList";
-// import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -39,6 +38,7 @@ const ForumDashboard = () => {
             >
               <ForumList />
             </InfiniteScroll>
+          
           )}
         </Grid.Column>
         <Grid.Column width={6} className='mobile hidden'>
