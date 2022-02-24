@@ -90,12 +90,13 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const {user} = rootStore.userStore;
   const { addFeedItem } = rootStore.feedStore;
+  const { loadCountriesToSelect, countries } = rootStore.countryStore;
 
 
   const [mechanic, setMechanic] = useState(new MechanicFromValues());
   const [loading, setLoading] = useState(false);
   const [modeForCountry, setModeForCountry] = useState(true);
-  const { loadCountriesToSelect, countries } = rootStore.countryStore;
+  
 
   const [uploaded, setUploaded] = useState(false);
 
@@ -139,7 +140,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
       isOwner: owner,
       isCustomer: !owner,
       customerRecommended: !owner,
-      testimonial: values.description
+      testimonial: values.description,
     }
     // console.log(customer)
     if (!mechanic.id) {
@@ -149,6 +150,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
         datePublished: new Date().toISOString(),
         file: imageToUpload,
         photoUrl: previewImage,
+        publisherUsername: user?.userName,
         customers: [
           customer
         ]

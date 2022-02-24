@@ -89,15 +89,15 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const { createProduct, editProduct, submitting, loadProduct } = rootStore.productStore;
   const { addFeedItem } = rootStore.feedStore;
+  const { loadCountriesToSelect, countries } = rootStore.countryStore;
+  const { user } = rootStore.userStore;
+
 
   const [product, setProduct] = useState(new ProductFormValues());
   const [loading, setLoading] = useState(false);
   const [modeForCountry, setModeForCountry] = useState(true);
   const [modeForCategory, setModeForCategory] = useState(true);
-  const { loadCountriesToSelect, countries } = rootStore.countryStore;
-
   const [uploaded, setUploaded] = useState(false);
-
   const [edited, setEdited] = useState(false);
 
   const [imageToUpload, setImageToUpload] = useState(null);
@@ -145,6 +145,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         datePublished: new Date().toISOString(),
         file: imageToUpload,
         photoUrl: previewImage,
+        sellerUsername: user?.userName
       };
       createProduct(newProduct);
       addFeedItem(newId, 'Added Product');

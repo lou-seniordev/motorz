@@ -1,4 +1,5 @@
 import { action, computed, observable, runInAction } from 'mobx';//computed,
+import { toast } from 'react-toastify';
 
 import agent from '../api/agent';
 import { IFeed } from '../models/feed';
@@ -56,8 +57,11 @@ export default class FeedStore {
   @action addFeedItem = async (id: string, info: string) => {
     try {
       await agent.Feed.addFeedItem(id, info);
+      toast.info('Successfully ' + info);
     } catch (error) {
       console.log(error);
+      toast.error('Problem ' + info);
+
     }
   }
 

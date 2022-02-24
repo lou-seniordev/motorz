@@ -84,6 +84,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const { loadBrandsToSelect, brands } = rootStore.brandStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
   const {addFeedItem} = rootStore.feedStore;
+  
 
   const [motofy, setMotofy] = useState(new MotofyFormValues());
   const [loading, setLoading] = useState(false);
@@ -134,6 +135,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         datePublished: new Date().toISOString(),
         file: imageToUpload,
         photoUrl: previewImage,
+        isOwner: true,
         motofyScores: []
       };
 

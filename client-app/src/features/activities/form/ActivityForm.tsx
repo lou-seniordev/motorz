@@ -79,7 +79,9 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     if (!activity.id) {
       let newActivity = {
         ...activity,
-        id: newId
+        id: newId,
+        isHost: true,
+        isActive: true
       };
       createActivity(newActivity);
       addFeedItem(newId, 'Added Motocycle Diary')

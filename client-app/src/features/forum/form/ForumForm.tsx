@@ -48,7 +48,6 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
   } = rootStore.forumPostStore;
 
   const { user } = rootStore.userStore;
-
   const { addFeedItem } = rootStore.feedStore;
 
 
@@ -73,7 +72,8 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...forumpost,
         id: newId,
         dateAdded: new Date().toISOString(),
-        displayName: user?.displayName
+        displayName: user?.displayName,
+        userName: user?.userName
       };
       createForumpost(newForumpost);
       addFeedItem(newId, 'Added Forumpost');

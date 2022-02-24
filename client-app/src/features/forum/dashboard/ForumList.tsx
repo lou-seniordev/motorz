@@ -6,7 +6,7 @@ import ForumListItem from './ForumListItem';
 
 const ForumList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { forumposts, forumpostsByDate} = rootStore.forumPostStore;//forumpostsByDate ,
+  const {  forumpostsByDate} = rootStore.forumPostStore;//forumposts,
 
   return (
     <Fragment>

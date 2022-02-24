@@ -63,7 +63,6 @@ namespace Application.Feeds
 
                 if (request.Info.Contains("Added"))
                 {
-
                     #region Added Motocycle Diary
                     if (request.Info == "Added Motocycle Diary")
                     {
