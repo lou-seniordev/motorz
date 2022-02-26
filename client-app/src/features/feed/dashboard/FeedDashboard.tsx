@@ -7,6 +7,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import FeedList from "./FeedList";
 import GalleryListItemPlaceholder from "../../gallery/dashboard/GalleryListItemPlaceholder";
+import FeedListItemPlaceholder from "./FeedListItemPlaceholder";
 
 const FeedDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -25,16 +26,12 @@ const FeedDashboard = () => {
     loadFeed();
   }, [loadFeed]);
 
-  // if (loadingInitial && page === 0)
-  //   //
-  //   return <LoadingComponent content='Loading feed...' />;
-
   return (
     <Fragment>
       <Grid>
         <Grid.Column mobile={16} computer={15}>
         {loadingInitial && page === 0 ? (
-          <GalleryListItemPlaceholder />
+          <FeedListItemPlaceholder />
         ) : (
           <InfiniteScroll
             pageStart={0}

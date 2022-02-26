@@ -1,31 +1,37 @@
 // import { formatDistance } from "date-fns";
 import React from "react";
+import { Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
-import {  Feed, Icon,  Segment } from "semantic-ui-react";
+import { Feed, Icon, Segment } from "semantic-ui-react";
 import { IFeed } from "../../../app/models/feed";
 // import { IForumpost } from "../../../app/models/forumpost";
 
 const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
   return (
     <Segment.Group raised>
-        {/* <h1>{feed.notifierDisplayname}</h1> */}
+      {/* <h1>{feed.notifierDisplayname}</h1> */}
 
-         <Feed>
+      <Feed>
         <Feed.Event>
-          <Feed.Label 
+          <Feed.Label
           // image={feed.notifierPhotoUrl || "/assets/user.png"}
           >
-            <img src={feed.notifierPhotoUrl || "/assets/user.png"} alt='userPoto'/>
+            <img
+              src={feed.notifierPhotoUrl || "/assets/user.png"}
+              alt='userPoto'
+            />
           </Feed.Label>
           <Feed.Content>
             <Feed.Summary>
-              <Feed.User>{feed.notifierDisplayname} {feed.info}</Feed.User> 
+              <Feed.User as={Link} to={`/profile/${feed.notifierUsername}`}>
+                {feed.notifierDisplayname} 
+              </Feed.User>
+              {" "} 
+              <Feed.Meta>{feed.info}</Feed.Meta>
               <Feed.Date>
-              {feed.dateTriggered} 
-              
-            
-              {/* {formatDistance(feed.dateTriggered, new Date())} */}
-              
+                {feed.dateTriggered}
+
+                {/* {formatDistance(feed.dateTriggered, new Date())} */}
               </Feed.Date>
             </Feed.Summary>
             {/* <Feed.Extra images>
@@ -36,25 +42,19 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
                 <img src='https://react.semantic-ui.com/images/wireframe/image.png' />
               </a>
             </Feed.Extra> */}
-            <Feed.Meta>
+            {/* <Feed.Meta>
               <Feed.Like>
                 <Icon name='like' />4 Likes
               </Feed.Like>
-            </Feed.Meta>
+            </Feed.Meta> */}
           </Feed.Content>
         </Feed.Event>
-
       </Feed>
-
-     
     </Segment.Group>
   );
 };
 
 export default FeedListItem;
-
-
-
 
 // <Feed.Event>
 // <Feed.Label image='/images/avatar/small/helen.jpg' />
@@ -140,7 +140,6 @@ export default FeedListItem;
 // </Feed.Content>
 // </Feed.Event>
 
-
 //   <Segment >
 //         <Item>
 //           <Item.Image
@@ -153,7 +152,7 @@ export default FeedListItem;
 //             <Item.Meta>{forumpost.dateAdded}</Item.Meta>
 
 //             <Item.Description>
-//               Posted by 
+//               Posted by
 //               <Link to={`/profile/${forumpost.userName}`}>
 //                 {forumpost.displayName}
 //               </Link>
@@ -182,4 +181,4 @@ export default FeedListItem;
 //       <Segment>
 //         <Icon name='clock' /> {forumpost.dateAdded}
 //       </Segment>
-//       <Segment secondary>{forumpost.numberOfComents!} Responses from {forumpost.commenters?.length} Members</Segment> 
+//       <Segment secondary>{forumpost.numberOfComents!} Responses from {forumpost.commenters?.length} Members</Segment>

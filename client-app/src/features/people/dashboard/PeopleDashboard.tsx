@@ -5,7 +5,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import PeopleList from "./PeopleList";
-import GalleryListItemPlaceholder from "../../gallery/dashboard/GalleryListItemPlaceholder";
+import PeopleListItemPlaceholder from "./PeopleListItemPlaceholder";
 
 const PeopleDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -36,7 +36,7 @@ const PeopleDashboard = () => {
       <Grid>
         <Grid.Column mobile={16} computer={15}>
         {loadingPeople && page === 0 ? (
-          <GalleryListItemPlaceholder />
+          <PeopleListItemPlaceholder />
         ) : (
           <InfiniteScroll
             pageStart={0}

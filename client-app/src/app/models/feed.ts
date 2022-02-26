@@ -9,7 +9,8 @@ export interface IFeedEnvelope {
 export interface IFeed {
     id: string;
     info?: string;
-    notifierId?: string;
+    notifierUsername?: string;
+    // notifierId?: string;
     notifierDisplayname?: string;
     notifierPhotoUrl: string;
     ojectId: string;

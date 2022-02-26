@@ -98,7 +98,7 @@ export default class ProfileStore {
         people.forEach(person => {
           person.id = uuid()
           this.peopleRegistry.set(person.id, person);
-          console.log('person', person)
+          // console.log('person', person)
         })
         this.peopleCount = peopleCount;
       });
