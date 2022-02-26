@@ -4,16 +4,20 @@ import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { IPhoto, IProfile, IUserActivity, IUserForumpost, IUserMechanic, IUserMotofy, IUserProduct } from '../models/profile';
 import { RootStore } from './rootStore';
+import { v4 as uuid } from "uuid";
+
+const LIMIT = 4;
+
 
 export default class ProfileStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
 
-    reaction (
+    reaction(
       () => this.activeTab,
       activeTab => {
-        if(activeTab === 7 || activeTab === 8){
+        if (activeTab === 7 || activeTab === 8) {
           const predicate = activeTab === 7 ? 'followers' : 'following'
           this.loadFollowings(predicate);
         } else {
@@ -32,7 +36,7 @@ export default class ProfileStore {
 
   @observable userActivities: IUserActivity[] = [];
   @observable loadingActivities = false;
-  
+
   @observable userMotofies: IUserMotofy[] = [];
   @observable loadingMotofies = false;
 
@@ -45,7 +49,22 @@ export default class ProfileStore {
   @observable userProducts: IUserProduct[] = [];
   @observable loadingProducts = false;
 
-  
+  @observable loadingPeople = false;
+  @observable people: IProfile[] = [];
+  @observable peopleCount: number;
+  @observable peopleRegistry = new Map();
+
+
+  @observable page: number = 0;
+
+  @computed get totalPages() {
+    return Math.ceil(this.peopleCount / LIMIT);
+  }
+
+  @action setPage = (page: number) => {
+    this.page = page;
+  }
+
   @computed get isCurrentUser() {
     if (this.rootStore.userStore.user && this.profile) {
       return this.rootStore.userStore.user.userName === this.profile.username;
@@ -53,10 +72,46 @@ export default class ProfileStore {
       return false;
     }
   }
-  
+  @computed get displayPeople () {
+    return Array.from(this.peopleRegistry.values());
+    // return this.groupPeople(Array.from(this.peopleRegistry.values()));
+
+  } 
+
+  @action cleanPeople = async () => {
+    runInAction(() => {
+      this.peopleRegistry.clear();
+      this.page = 0;
+    })
+  }
+  @action loadPeople = async () => {
+
+    this.loadingPeople = true;
+    try {
+      const peopleEnvelope = await agent.Profiles.listPeople(LIMIT, this.page);
+      const { people, peopleCount } = peopleEnvelope;
+      runInAction(() => {
+        this.loadingPeople = false;
+        // this.people = people;
+        // this.people = [...this.people, ...people];
+        // 
+        people.forEach(person => {
+          person.id = uuid()
+          this.peopleRegistry.set(person.id, person);
+          console.log('person', person)
+        })
+        this.peopleCount = peopleCount;
+      });
+      // console.log(people)
+    } catch (error) {
+      runInAction(() => {
+        this.loadingPeople = false;
+      })
+      // toast.error('Problem loading members');
+    }
+  }
   @action loadUserActivities = async (username: string, predicate?: string) => {
     this.loadingActivities = true;
-    // console.log('predicate', predicate);
 
     try {
       const activities = await agent.Profiles.listActivities(username, predicate!);
@@ -71,10 +126,10 @@ export default class ProfileStore {
       })
     }
   }
-  @action loadUserMotofies = async (username: string, predicate?: string ) => {
+  @action loadUserMotofies = async (username: string, predicate?: string) => {
     this.loadingMotofies = true;
-    if(predicate === undefined) {
-      predicate='iEmbraced'
+    if (predicate === undefined) {
+      predicate = 'iEmbraced'
     }
     try {
       const motofies = await agent.Profiles.listMotofies(username, predicate!);
@@ -90,10 +145,10 @@ export default class ProfileStore {
     }
   }
 
-  @action loadUserForumposts = async (username: string, predicate?: string ) => {
+  @action loadUserForumposts = async (username: string, predicate?: string) => {
     this.loadingForumposts = true;
-    if(predicate === undefined) {
-      predicate='iAsked'
+    if (predicate === undefined) {
+      predicate = 'iAsked'
     }
     try {
       const forumposts = await agent.Profiles.listForumposts(username, predicate!);
@@ -109,11 +164,11 @@ export default class ProfileStore {
     }
   }
 
-  @action loadUserMechanics = async (username: string, predicate?: string ) => {
+  @action loadUserMechanics = async (username: string, predicate?: string) => {
     this.loadingMechanics = true;
 
-    if(predicate === undefined) {
-      predicate='iPublished'
+    if (predicate === undefined) {
+      predicate = 'iPublished'
     }
     try {
       const mechanics = await agent.Profiles.listMechanics(username, predicate!);
@@ -128,13 +183,13 @@ export default class ProfileStore {
       })
     }
   }
-  @action loadUserProducts = async (username: string, predicate?: string ) => {
+  @action loadUserProducts = async (username: string, predicate?: string) => {
     this.loadingProducts = true;
-    
-    if(predicate === undefined) {
-      predicate='iAmSelling'
+
+    if (predicate === undefined) {
+      predicate = 'iAmSelling'
     }
-    console.log('predicate', predicate)
+    // console.log('predicate', predicate)
     try {
       const products = await agent.Profiles.listProducts(username, predicate);
       runInAction(() => {
@@ -148,11 +203,13 @@ export default class ProfileStore {
       })
     }
   }
-  
-  @action setActiveTab = (activeIndex: number) =>{
+
+
+
+  @action setActiveTab = (activeIndex: number) => {
     this.activeTab = activeIndex;
   }
-  
+
   @action loadProfile = async (username: string) => {
     this.loadingProfile = true;
     try {

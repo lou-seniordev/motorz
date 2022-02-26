@@ -14,6 +14,6 @@ export interface IFeed {
     notifierPhotoUrl: string;
     ojectId: string;
     dateTriggered?: string;
-    // dateTriggered: Date | string;
+    // dateTriggered: Date;// | string;
     
 }

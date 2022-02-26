@@ -105,7 +105,13 @@ const NavBar: React.FC = () => {
             onClick={closeStackableMenu}
             to='/feed'
           />
-          {/* <Menu.Item name='search motoranza' /> */}
+          <Menu.Item 
+          name='people' 
+           exact
+           as={NavLink}
+           onClick={closeStackableMenu}
+           to='/people'
+           />
           <div className='right menu'>
             {user && (
               <Menu.Item>

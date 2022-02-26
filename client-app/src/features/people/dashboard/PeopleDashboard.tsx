@@ -4,36 +4,38 @@ import InfiniteScroll from "react-infinite-scroller";
 
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
-import FeedList from "./FeedList";
+import PeopleList from "./PeopleList";
 import GalleryListItemPlaceholder from "../../gallery/dashboard/GalleryListItemPlaceholder";
 
-const FeedDashboard = () => {
+const PeopleDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadFeed, loadingInitial, setPage, page, totalPages } =
-    rootStore.feedStore;
+  const { loadPeople, loadingPeople, setPage, page, totalPages, cleanPeople } =//, cleanPeople
+    rootStore.profileStore;
 
   const [loadingNext, setLoadingNext] = useState(false);
 
   const handleGetNext = () => {
     setLoadingNext(true);
     setPage(page + 1);
-    loadFeed().then(() => setLoadingNext(false));
+    loadPeople().then(() => setLoadingNext(false));
   };
 
   useEffect(() => {
-    loadFeed();
-  }, [loadFeed]);
+    loadPeople();
+  }, [loadPeople]);
 
-  // if (loadingInitial && page === 0)
-  //   //
-  //   return <LoadingComponent content='Loading feed...' />;
+  useEffect(() => {
+    return () => {
+      cleanPeople()
+    };
+  }, [cleanPeople]);
+
 
   return (
     <Fragment>
       <Grid>
         <Grid.Column mobile={16} computer={15}>
-        {loadingInitial && page === 0 ? (
+        {loadingPeople && page === 0 ? (
           <GalleryListItemPlaceholder />
         ) : (
           <InfiniteScroll
@@ -42,9 +44,9 @@ const FeedDashboard = () => {
             hasMore={!loadingNext && page + 1 < totalPages}
             initialLoad={false}
           >
-            <FeedList />
+            <PeopleList />
           </InfiniteScroll>
-            )}
+          )}
         </Grid.Column>
         <Grid.Column mobile={16} computer={15}>
           <Loader active={loadingNext} />
@@ -54,4 +56,4 @@ const FeedDashboard = () => {
   );
 };
 
-export default observer(FeedDashboard);
+export default observer(PeopleDashboard);

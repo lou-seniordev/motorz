@@ -37,6 +37,7 @@ import MessagesDashboard from '../../features/messages/dashboard/MessagesDashboa
 import ProductForm from '../../features/shop/forms/ProductForm';
 import MessageThreadListItem from '../../features/messages/dashboard/MessageThreadListItem';
 import FeedDashboard from '../../features/feed/dashboard/FeedDashboard';
+import PeopleDashboard from '../../features/people/dashboard/PeopleDashboard';
 
 //t
 
@@ -107,6 +108,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute exact path='/messageThread/:id' component={MessageThreadListItem} />
                 
                 <PrivateRoute exact path='/feed' component={FeedDashboard} />
+                <PrivateRoute exact path='/people' component={PeopleDashboard} />
 
                 <PrivateRoute path='/profile/:username' component={ProfilePage} />
                 <Route path='/login' component={LoginForm} />

@@ -1,3 +1,4 @@
+import { IProfileEnvelope } from './../models/profile';
 import { IRateMotofy } from './../models/motofy';
 // import { MechanicValues, IMechanicCustomerToBecome } from './../models/mechanic';
 import { IMessage, IMessageEnvelope, IMessageToSend } from './../models/message';
@@ -306,6 +307,9 @@ const User = {
 const Profiles = {
   get: (username: string): Promise<IProfile> =>
     requests.get(`/profiles/${username}`),
+  listPeople: (limit: number, page: number): 
+    Promise<IProfileEnvelope> => requests.get(`profiles/people?limit=${limit}&offset=${page ? page * limit! : 0}`),
+
   uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm(`/photos/`, photo),
   setMain: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
   deletePhoto: (id: string) => requests.delete(`/photos/${id}`),

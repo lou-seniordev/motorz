@@ -78,11 +78,13 @@ export default class FeedStore {
     try {
       const feedEnvelope = await agent.Feed.list(LIMIT, this.page);
       const { feeds, feedCount } = feedEnvelope;
-      console.log(feeds);
+      // console.log(feeds);
       runInAction('loading feed', () => {
         feeds.forEach((feed) => {
           this.formatDate(feed);
           this.feedRegistry.set(feed.id, feed);
+          // console.log('feed', feed)
+
         });
         // this.feeds = feeds;
         this.feedCount = feedCount;

@@ -12,7 +12,9 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
 
          <Feed>
         <Feed.Event>
-          <Feed.Label>
+          <Feed.Label 
+          // image={feed.notifierPhotoUrl || "/assets/user.png"}
+          >
             <img src={feed.notifierPhotoUrl || "/assets/user.png"} alt='userPoto'/>
           </Feed.Label>
           <Feed.Content>

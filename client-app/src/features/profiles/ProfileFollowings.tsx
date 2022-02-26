@@ -20,7 +20,7 @@ const ProfileFollowings = () => {
             floated='left'
             icon='user'
             content={
-              activeTab === 3
+              activeTab === 7
                 ? `People following ${profile!.displayName}`
                 : `People ${profile!.displayName} is following`
             }

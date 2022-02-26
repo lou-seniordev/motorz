@@ -146,10 +146,10 @@ export default class ForumPostStore {
     return Object.entries(
       // sortedForumposts.reduce((forumposts, forumpost) => {
         forumposts.reduce((forumposts, forumpost) => {
-          console.log('forumpost.dateAdded: ', forumpost.dateAdded);
+          // console.log('forumpost.dateAdded: ', forumpost.dateAdded);
         const date = forumpost.dateAdded.split('T')[0];
         // const date = forumpost.dateAdded.toISOString().split('T')[0];
-        console.log('date: ', date);
+        // console.log('date: ', date);
 
         forumposts[date] = forumposts[date]
           ? [...forumposts[date], forumpost]

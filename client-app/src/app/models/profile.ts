@@ -1,4 +1,9 @@
+export interface IProfileEnvelope {
+    people: IProfile [],
+    peopleCount: number
+}
 export interface IProfile {
+    id?: string,
     displayName: string,
     username: string,
     bio: string,

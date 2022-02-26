@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using AutoMapper;
 using System.Linq;
-using System;
 using Application.Interfaces;
+
 namespace Application.Feeds
 {
     public class List

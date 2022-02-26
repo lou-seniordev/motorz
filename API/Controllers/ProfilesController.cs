@@ -14,6 +14,13 @@ namespace API.Controllers
             return await Mediator.Send(new Details.Query{Username = username});
         }
 
+        [HttpGet("people")]
+        // [AllowAnonymous]
+        public async Task<ActionResult<ListPeople.PeopleEnvelope>> ListPeople(int? limit, int? offset)
+        {
+            return await Mediator.Send(new ListPeople.Query(limit, offset));
+        }
+
         [HttpPut]
         public async Task<ActionResult<Unit>> Edit(Edit.Command command)
         {
