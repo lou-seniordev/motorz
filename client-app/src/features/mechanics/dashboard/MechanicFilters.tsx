@@ -70,6 +70,7 @@ const MechanicFilters = () => {
             search
             options={countries}
             onChange={handleOnChange}
+            clearable
           />
         </Menu.Item>
       </Menu>

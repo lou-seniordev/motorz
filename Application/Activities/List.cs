@@ -21,13 +21,15 @@ namespace Application.Activities
         }
         public class Query : IRequest<ActivitiesEnvelope>
         {
-            public Query(int? limit, int? offset, bool isGoing, bool isHost, DateTime? startDate)
+            public Query(int? limit, int? offset, bool isGoing, bool isHost, DateTime? startDate, string search)
             {
                 Limit = limit;
                 Offset = offset;
                 IsGoing = isGoing;
                 IsHost = isHost;
                 StartDate = startDate ?? DateTime.Now;
+                Search = search;
+
 
             }
             public int? Limit { get; set; }
@@ -35,11 +37,13 @@ namespace Application.Activities
             public bool IsGoing { get; set; }
             public bool IsHost { get; set; }
             public DateTime? StartDate { get; set; }
+            public string Search { get; set; }
+
         }
 
         public class Handler : IRequestHandler<Query, ActivitiesEnvelope>
         {
-            private readonly DataContext _context; 
+            private readonly DataContext _context;
             private readonly IMapper _mapper;
             private readonly IUserAccessor _userAccessor;
             public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
@@ -71,6 +75,17 @@ namespace Application.Activities
                 {
                     queryable = queryable.Where(x => x.UserActivities.Any(
                         a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
+                }
+                if (!string.IsNullOrEmpty(request.Search))
+                {
+                    queryable = queryable
+                    .Where(x => 
+                        x.Title.Contains(request.Search) ||     
+                        x.Description.Contains(request.Search) || 
+                        x.City.Equals(request.Search) ||
+                        x.Venue.Equals(request.Search) ||
+                        x.Destination.Equals(request.Search)
+                    );
                 }
 
                 var activities = await queryable

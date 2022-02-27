@@ -50,6 +50,7 @@ const ProductFilters = () => {
             search
             options={countries}
             onChange={handleOnChangeCountry}
+            clearable
           />
         </Menu.Item>
         <Divider horizontal content='or'/>
@@ -62,6 +63,7 @@ const ProductFilters = () => {
             search
             options={categories}
             onChange={handleOnChangeCategory}
+            clearable
           />
 
         </Menu.Item>

@@ -1,25 +1,22 @@
-import { observer } from 'mobx-react-lite';
-import React, { Fragment, useContext } from 'react';
-import { Item, Label } from 'semantic-ui-react';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import ActivityListItem from './ActivityListItem';
-import { format } from 'date-fns';
+import { observer } from "mobx-react-lite";
+import React, { Fragment, useContext } from "react";
+import { Item } from "semantic-ui-react";
+import { RootStoreContext } from "../../../app/stores/rootStore";
+import ActivityListItem from "./ActivityListItem";
+// import ActivityListItemMissedSearch from './ActivityListItemMissedSearch';
 
-const ActivityList = () => { //: React.FC -> jer mislim ne treba..?
+const ActivityList = () => {
   const rootStore = useContext(RootStoreContext);
-  const {activitiesByDate} = rootStore.activityStore;
+  const { activitiesByDate } = rootStore.activityStore;
   return (
     <Fragment>
       {activitiesByDate.map(([group, activities]) => (
         <Fragment key={group}>
-          <Label size='large' color='blue'>
-            This is what's going on {format(Date.parse(group), 'eeee do MMMM')}
-          </Label>
-            <Item.Group divided>
-              {activities.map((activity) => (
-                <ActivityListItem key={activity.id} activity={activity} />
-              ))}
-            </Item.Group>
+          <Item.Group divided>
+            {activities.map((activity) => (
+              <ActivityListItem key={activity.id} activity={activity} />
+            ))}
+          </Item.Group>
         </Fragment>
       ))}
     </Fragment>

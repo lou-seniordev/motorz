@@ -60,6 +60,7 @@ const ForumFilters = () => {
             search
             options={category}
             onChange={handleOnChange}
+            clearable
           />
         </Menu.Item>
       </Menu>

@@ -18,10 +18,10 @@ namespace API.Controllers
         // }
 
         [HttpGet]
-        public async Task<ActionResult<List.ActivitiesEnvelope>> List(int ? limit, int? offset, 
-            bool isGoing, bool isHost, DateTime? startDate)
+        public async Task<ActionResult<List.ActivitiesEnvelope>> List(int? limit, int? offset, 
+            bool isGoing, bool isHost, DateTime? startDate, string search)
         {
-            return await Mediator.Send(new List.Query(limit, offset, isGoing, isHost, startDate));
+            return await Mediator.Send(new List.Query(limit, offset, isGoing, isHost, startDate, search));
         }
 
         [HttpGet("{id}")]

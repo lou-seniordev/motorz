@@ -37,11 +37,14 @@ export default class ActivityStore {
   @observable loading = false;
 
   @observable activityCount = 0;
+  @observable activityHit: boolean = true;
   @observable page = 0;
 
   @observable predicate = new Map();
 
   @action setPredicate = (predicate: string, value: string | Date) => {
+    // console.log(predicate)
+    // console.log(value)
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
@@ -80,7 +83,7 @@ export default class ActivityStore {
       })
       .configureLogging(LogLevel.Information)
       .build();
-      console.log('activity', this.activity!.comments)
+    console.log('activity', this.activity!.comments)
 
     this.hubConnection
       .start()
@@ -94,7 +97,7 @@ export default class ActivityStore {
       .catch((error) => console.log('Error establishing connection'));
 
     this.hubConnection.on('RecieveComment', (comment) => {
-      runInAction(() => { 
+      runInAction(() => {
         this.activity!.comments.push(comment);
       });
     });
@@ -155,11 +158,20 @@ export default class ActivityStore {
 
       const { activities, activityCount } = activitiesEnvelope;
 
-
+      console.log('activities', activities)
       runInAction('loading activities', () => {
+        if(activities.length > 0) {
+          this.activityHit = true;
+          console.log('activities ')
+        } else {
+          this.activityHit = false;
+          console.log('no activities')
+        }
+        console.log('this.activityHit', this.activityHit)
         activities.forEach((activity) => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
+         
         });
         this.activityCount = activityCount;
         this.loadingInitial = false;
@@ -292,7 +304,7 @@ export default class ActivityStore {
     this.loading = true;
     try {
       await agent.Activities.attend(this.activity!.id);
-      
+
       runInAction(() => {
         if (this.activity) {
           this.activity.attendees.push(attendee);
@@ -335,4 +347,3 @@ export default class ActivityStore {
   };
 }
 
-// export default createContext(new ActivityStore());
