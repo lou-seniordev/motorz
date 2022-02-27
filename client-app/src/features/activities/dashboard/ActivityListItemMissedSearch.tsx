@@ -3,7 +3,6 @@ import { Placeholder, Segment } from "semantic-ui-react";
 const ActivityListItemMissedSearch = () => {
   return (
     <Fragment>
-      {/* <h1>NONONONONONONO</h1> */}
       <Segment raised>
         <Placeholder>
           <Placeholder.Header >

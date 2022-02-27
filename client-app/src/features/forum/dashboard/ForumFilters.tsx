@@ -9,7 +9,6 @@ const ForumFilters = () => {
   const { predicate, setPredicate } = rootStore.forumPostStore;
 
   const handleOnChange = (e: any, data: any) => {
-    // console.log(data.value);
     setPredicate( 'category', data.value)
   };
 
@@ -54,7 +53,6 @@ const ForumFilters = () => {
         <Menu.Item>
           <Dropdown
             placeholder='Choose category'
-            // icon={'angle double right'}
             selection
             floating
             search

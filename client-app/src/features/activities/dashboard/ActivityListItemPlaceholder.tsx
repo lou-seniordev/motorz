@@ -3,7 +3,6 @@ import { Segment, Button, Placeholder } from 'semantic-ui-react';
 const ActivityListItemPlaceholder = () => {
   return (
     <Fragment>
-      {/* style={{ marginTop: 50 }} */}
       <Placeholder fluid >
         <Segment.Group>
           <Segment style={{ minHeight: 110 }}>

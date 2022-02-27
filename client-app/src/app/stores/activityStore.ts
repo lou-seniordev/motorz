@@ -136,8 +136,6 @@ export default class ActivityStore {
     const sortedActivities = activites.sort(
       (a, b) => a.date.getTime() - b.date.getTime()
     );
-
-    // return sortedActivities;
     return Object.entries(
       sortedActivities.reduce((activities, activity) => {
         const date = activity.date.toISOString().split('T')[0];
@@ -154,20 +152,15 @@ export default class ActivityStore {
     this.loadingInitial = true;
     try {
       const activitiesEnvelope = await agent.Activities.list(this.axiosParams);
-      // const activitiesEnvelope = await agent.Activities.list(LIMIT, this.page);
 
       const { activities, activityCount } = activitiesEnvelope;
 
-      console.log('activities', activities)
       runInAction('loading activities', () => {
         if(activities.length > 0) {
           this.activityHit = true;
-          console.log('activities ')
         } else {
           this.activityHit = false;
-          console.log('no activities')
         }
-        console.log('this.activityHit', this.activityHit)
         activities.forEach((activity) => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);

@@ -14,16 +14,12 @@ const ProductFilters = () => {
   const { countries, loadCountriesToSelect } = rootStore.countryStore;
 
   const handleOnChangeCountry = (e: any, data: any) => {
-   
     setPredicate( 'country', data.value)
   };
+
   const handleOnChangeCategory = (e: any, data: any) => {
-   
     setPredicate( 'category', data.value)
-   
   };
-
-
 
   useEffect(() => {
     loadCountriesToSelect();
@@ -50,14 +46,13 @@ const ProductFilters = () => {
             search
             options={countries}
             onChange={handleOnChangeCountry}
-            clearable
+            clearable 
           />
         </Menu.Item>
         <Divider horizontal content='or'/>
         <Menu.Item>
           <Dropdown
             placeholder='Products By Category'
-            
             selection
             floating
             search
@@ -65,16 +60,7 @@ const ProductFilters = () => {
             onChange={handleOnChangeCategory}
             clearable
           />
-
         </Menu.Item>
-       
-        {/* <Menu.Item
-          // active={predicate.has('dateView')}
-          onClick={() => setTrueView()}
-          color={"blue"}
-          // name={"dateView"}
-          content={trueView ? 'View by date' :' View by product' }
-        />*/}
       </Menu> 
     </Fragment>
   );

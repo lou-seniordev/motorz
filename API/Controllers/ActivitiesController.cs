@@ -11,17 +11,12 @@ namespace API.Controllers
     // [ApiController]
     public class ActivitiesController : BaseController
     {
-        // private readonly IMediator _mediator;
-        // public ActivitiesController(IMediator mediator)
-        // {
-        //     _mediator = mediator;
-        // }
 
         [HttpGet]
         public async Task<ActionResult<List.ActivitiesEnvelope>> List(int? limit, int? offset, 
-            bool isGoing, bool isHost, DateTime? startDate, string search)
+            bool isGoing, bool isHost, bool isCountry, DateTime? startDate, string search)
         {
-            return await Mediator.Send(new List.Query(limit, offset, isGoing, isHost, startDate, search));
+            return await Mediator.Send(new List.Query(limit, offset, isGoing, isHost, isCountry, startDate, search));
         }
 
         [HttpGet("{id}")]

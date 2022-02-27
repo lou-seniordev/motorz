@@ -17,14 +17,12 @@ const ActivityFilters = () => {
   };
   return (
     <Fragment>
-      {/* , marginTop: 50 */}
       <Menu vertical size={"large"} style={{ width: "100%" }}>
         {/* <Header icon={"filter"} attached color={"teal"} content={"Filters"} /> */}
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
             placeholder='Search...'
-            // onChange={(e, data) => handleResultSelect(e, data)}
             onKeyDown={(e: any) => handleResultSelect(e)}
           />
         </Menu.Item>

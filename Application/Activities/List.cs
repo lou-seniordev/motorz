@@ -21,21 +21,22 @@ namespace Application.Activities
         }
         public class Query : IRequest<ActivitiesEnvelope>
         {
-            public Query(int? limit, int? offset, bool isGoing, bool isHost, DateTime? startDate, string search)
+            public Query(int? limit, int? offset, bool isGoing, bool isHost, bool isCountry,
+                DateTime? startDate, string search)
             {
                 Limit = limit;
                 Offset = offset;
                 IsGoing = isGoing;
                 IsHost = isHost;
+                IsCountry = isCountry;
                 StartDate = startDate ?? DateTime.Now;
                 Search = search;
-
-
             }
             public int? Limit { get; set; }
             public int? Offset { get; set; }
             public bool IsGoing { get; set; }
             public bool IsHost { get; set; }
+            public bool IsCountry { get; set; }
             public DateTime? StartDate { get; set; }
             public string Search { get; set; }
 
@@ -76,12 +77,19 @@ namespace Application.Activities
                     queryable = queryable.Where(x => x.UserActivities.Any(
                         a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
                 }
+                if (request.IsCountry)
+                {
+                    //see how to solve the country with model or api??
+                    queryable = queryable
+                         .Where(x => x.UserActivities
+                         .Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
+                }
                 if (!string.IsNullOrEmpty(request.Search))
                 {
                     queryable = queryable
-                    .Where(x => 
-                        x.Title.Contains(request.Search) ||     
-                        x.Description.Contains(request.Search) || 
+                    .Where(x =>
+                        x.Title.Contains(request.Search) ||
+                        x.Description.Contains(request.Search) ||
                         x.City.Equals(request.Search) ||
                         x.Venue.Equals(request.Search) ||
                         x.Destination.Equals(request.Search)
@@ -98,8 +106,6 @@ namespace Application.Activities
                     Activities = _mapper.Map<List<Activity>, List<ActivityDto>>(activities),
                     ActivityCount = queryable.Count()
                 };
-
-
             }
 
         }

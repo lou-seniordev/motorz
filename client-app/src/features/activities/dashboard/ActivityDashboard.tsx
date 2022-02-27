@@ -35,7 +35,6 @@ const ActivityDashboard: React.FC = () => {
   return (
     <Grid>
       <Grid.Column mobile={16} tablet={16} className='mobile only'>
-        {/* embracers={motofy.embracers} */}
         <ActivityMobileMenu />
       </Grid.Column>
       <Grid.Column computer={9} mobile={16}>

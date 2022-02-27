@@ -3,7 +3,6 @@ import React, { Fragment, useContext } from "react";
 import { Item } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ActivityListItem from "./ActivityListItem";
-// import ActivityListItemMissedSearch from './ActivityListItemMissedSearch';
 
 const ActivityList = () => {
   const rootStore = useContext(RootStoreContext);
