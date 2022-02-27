@@ -13,10 +13,10 @@ namespace API.Controllers
     {
         [HttpGet]
         public async Task<ActionResult<List.MechanicsEnvelope>> List(int?  limit, int? offset,
-            bool isCustomer, bool isClose, bool mostRecommended, bool bestRated, string country)
+            bool isCustomer, bool isClose, bool mostRecommended, bool bestRated, string country, string search)
         {
             return await Mediator.Send(new List.Query(limit, offset, isCustomer, isClose, mostRecommended, 
-            bestRated, country));
+            bestRated, country, search));
         }
 
         [HttpGet("{id}")]

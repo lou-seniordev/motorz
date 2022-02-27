@@ -21,8 +21,8 @@ namespace Application.Mechanics
         public class Query : IRequest<MechanicsEnvelope>
         {
 
-            public Query(int? limit, int? offset, bool isCustomer, bool isClose,
-                bool mostRecommended, bool bestRated, string country)
+            public Query(int? limit, int? offset, bool isCustomer, bool isClose,bool mostRecommended, 
+                bool bestRated, string country, string search)
             {
                 Limit = limit;
                 Offset = offset;
@@ -32,6 +32,7 @@ namespace Application.Mechanics
                 MostRecommended = mostRecommended;
                 BestRated = bestRated;
                 Country = country;
+                Search = search;
 
             }
             public int? Limit { get; set; }
@@ -41,6 +42,7 @@ namespace Application.Mechanics
             public bool MostRecommended { get; set; }
             public bool BestRated { get; set; }
             public string Country { get; set; }
+            public string Search { get; set; }
 
         }
 
@@ -93,6 +95,18 @@ namespace Application.Mechanics
                     queryable = queryable
                     .OrderByDescending(r => r.AverageRating.Average)
                     .Take(2);
+                }
+
+                 if (!string.IsNullOrEmpty(request.Search))
+                {
+                    queryable = queryable
+                    .Where(x =>
+                        x.Name.Contains(request.Search) ||
+                        x.Description.Contains(request.Search) ||
+                        x.City.Equals(request.Search) ||
+                        x.Address.Equals(request.Search) ||
+                        x.Owner.Equals(request.Search) 
+                    );
                 }
 
                 var mechanics = await queryable

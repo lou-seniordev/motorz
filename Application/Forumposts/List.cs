@@ -22,8 +22,10 @@ namespace Application.Forumposts
         public class Query : IRequest<ForumpostEnvelope>
         {
 
-            public Query(int? limit, int? offset, bool trending, bool iAsked, bool iRated, string category)
+            public Query(int? limit, int? offset, bool trending, bool iAsked, bool iRated, 
+                string category, string search)
             {
+                Search = search;
                 Limit = limit;
                 Offset = offset;
                 Trending = trending;
@@ -32,6 +34,7 @@ namespace Application.Forumposts
                 IRated = iRated;
 
             }
+            public string Search { get; set; }
             public int? Limit { get; set; }
             public int? Offset { get; set; }
             public bool Trending { get; set; } = true;
@@ -85,6 +88,16 @@ namespace Application.Forumposts
                 if (!string.IsNullOrEmpty(request.Category))
                 {
                     queryable = queryable.Where(x => x.Category == request.Category);
+                }
+
+                 if (!string.IsNullOrEmpty(request.Search))
+                {
+                    queryable = queryable
+                    .Where(x =>
+                        x.Title.Contains(request.Search) ||
+                        x.Body.Contains(request.Search) ||
+                        x.Category.Equals(request.Search) 
+                    );
                 }
 
                 var forumposts = await queryable

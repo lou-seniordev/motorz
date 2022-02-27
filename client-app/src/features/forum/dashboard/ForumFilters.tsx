@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from "react";
-import { Menu, Header, Dropdown } from "semantic-ui-react";
+import { Menu, Dropdown, Input } from "semantic-ui-react";
 import { category } from "../../../app/common/options/forumCategoryOptions";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
@@ -12,10 +12,24 @@ const ForumFilters = () => {
     setPredicate( 'category', data.value)
   };
 
+  const handleResultSelect = (e: any) => {
+    if(e.key === 'Enter') {
+      setPredicate( 'search', e.target.value)   
+      e.target.value = '';
+  }
+}
+
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%" }}>
-        <Header icon={"filter"} attached color={"teal"} content={"Filters"} />
+        {/* <Header icon={"filter"} attached color={"teal"} content={"Filters"} /> */}
+        <Menu.Item active={predicate.has("search")}>
+          <Input
+            icon='search'
+            placeholder='Search...'
+            onKeyDown={(e: any) => handleResultSelect(e)}
+          />
+        </Menu.Item>
         <Menu.Item
           active={predicate.size === 0}
           onClick={() => setPredicate("all", "true")}

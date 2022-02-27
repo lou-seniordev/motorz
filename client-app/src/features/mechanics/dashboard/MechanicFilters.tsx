@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import { Menu, Header, Dropdown } from "semantic-ui-react";
+import { Menu, Header, Dropdown, Input } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 
@@ -9,9 +9,15 @@ const MechanicFilters = () => {
   const { countries, loadCountriesToSelect } = rootStore.countryStore;
 
   const handleOnChange = (e: any, data: any) => {
-    // console.log( 'eki', data);
     setPredicate( 'country', data.value)
   };
+
+  const handleResultSelect = (e: any) => {
+    if(e.key === 'Enter') {
+      setPredicate( 'search', e.target.value)   
+      e.target.value = '';
+  }
+}
 
   useEffect(() => {
     loadCountriesToSelect();
@@ -20,7 +26,14 @@ const MechanicFilters = () => {
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%" }}>
-        <Header icon={"filter"} attached color={"teal"} content={"Filters"} />
+        {/* <Header icon={"filter"} attached color={"teal"} content={"Filters"} /> */}
+        <Menu.Item active={predicate.has("search")}>
+          <Input
+            icon='search'
+            placeholder='Search...'
+            onKeyDown={(e: any) => handleResultSelect(e)}
+          />
+        </Menu.Item>
         <Menu.Item
           active={predicate.size === 0}
           onClick={() => setPredicate("all", "true")}
