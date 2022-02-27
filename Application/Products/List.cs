@@ -19,13 +19,14 @@ namespace Application.Products
         }
         public class Query : IRequest<ProductsEnvelope>
         {
-            public Query(int? limit, int? offset, string country, string brand, string category)
+            public Query(int? limit, int? offset, string country, string brand, string category, string search)
             {
                 Limit = limit;
                 Offset = offset;
                 Country = country;
                 Brand = brand;
                 Category = category;
+                Search = search;
 
             }
             public int? Limit { get; set; }
@@ -33,6 +34,7 @@ namespace Application.Products
             public string Brand { get; set; }
             public string Category { get; set; }
             public string Country { get; set; }
+            public string Search { get; set; }
             //==TODO--
             public string PriceRange { get; set; }
 
@@ -52,33 +54,45 @@ namespace Application.Products
             {
                 var queryable = _context.Products.AsQueryable();
 
-                if(!string.IsNullOrEmpty(request.Category))
+                if (!string.IsNullOrEmpty(request.Category))
                 {
                     queryable = queryable.Where(x => x.Category == request.Category);
                 }
-                
-                if(!string.IsNullOrEmpty(request.Brand))
+
+                if (!string.IsNullOrEmpty(request.Brand))
                 {
                     queryable = queryable.Where(x => x.Brand == request.Brand);
                 }
-                
+
                 if (!string.IsNullOrEmpty(request.Country))
                 {
                     queryable = queryable.Where(x => x.Country.Name == request.Country);
                 }
 
-                var products = await queryable  
+                 if (!string.IsNullOrEmpty(request.Search))
+                {
+                    queryable = queryable
+                    .Where(x =>
+                        x.Title.Contains(request.Search) ||
+                        x.Description.Contains(request.Search) ||
+                        x.City.Equals(request.Search) ||
+                        x.Brand.Equals(request.Search) ||
+                        x.Model.Contains(request.Search) 
+                    );
+                }
+
+                var products = await queryable
                     .Skip(request.Offset ?? 0)
                     .Take(request.Limit ?? 3)
                     .ToListAsync();
-                
+
 
                 return new ProductsEnvelope
                 {
                     Products = _mapper.Map<List<Product>, List<ProductDto>>(products),
                     ProductCount = queryable.Count()
                 };
-                
+
             }
         }
     }

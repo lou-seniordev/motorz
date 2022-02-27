@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import { Menu, Header, Dropdown, Input } from "semantic-ui-react";
+import { Menu,  Dropdown, Input } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 
@@ -26,7 +26,6 @@ const MechanicFilters = () => {
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%" }}>
-        {/* <Header icon={"filter"} attached color={"teal"} content={"Filters"} /> */}
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
@@ -50,15 +49,6 @@ const MechanicFilters = () => {
           icon={'info'}
           content={"I am a customer"}
           />
-   
-        {/* <Menu.Item
-          active={predicate.has("iRated")}
-          onClick={() => setPredicate("iRated", "true")}
-          color={"blue"}
-          name={"iRated"}
-          icon={'home'}
-          content={"Close to you"}
-          /> */}
         <Menu.Item
           active={predicate.has("mostRecommended")}
           onClick={() => setPredicate("mostRecommended", "true")}

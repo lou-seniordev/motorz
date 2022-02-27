@@ -23,8 +23,6 @@ const GalleryFilters = () => {
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%" }}>
-      {/* , marginTop: 50 */}
-        {/* <Header icon={"filter"} attached color={"teal"} content={"Filters"} /> */}
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
@@ -64,11 +62,6 @@ const GalleryFilters = () => {
           icon={'heart'}
           content={"I Embraced"}
         />
-        {/* <Menu.Item
-          color={"blue"}
-          name={"host"}
-          content={"My people motofies"}
-        />*/}
       </Menu>
       <Grid>
         <Grid.Column width={8}>

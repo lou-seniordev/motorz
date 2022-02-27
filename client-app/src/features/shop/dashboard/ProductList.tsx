@@ -7,9 +7,8 @@ import ProductListItem from "./ProductListItem";
 const ProductList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { 
-    // productsByDate, 
-    moreProductsByDate, 
-    // trueView
+    productsByDate, 
+    // moreProductsByDate, 
    } =
     rootStore.productStore;
 
@@ -32,7 +31,7 @@ const ProductList: React.FC = () => {
 
     <Fragment>
       <Item.Group divided>
-        {moreProductsByDate.map((product) => (
+        {productsByDate.map((product) => (
           <ProductListItem product={product} key={product.id} />
         ))}
       </Item.Group>

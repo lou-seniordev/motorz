@@ -31,19 +31,11 @@ export default class ProductStore {
   @observable page = 0;
   @observable predicate = new Map();
 
-  //==TODO--Revisit
-  // @observable trueView = true;
 
-  // @action setTrueView = () => {
-  //   console.log(this.trueView)
-  //   this.predicate.clear();
-  //   this.trueView = !this.trueView;
-  // }
   @action setPredicate = (predicate: string, value: string  ) => { 
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
-      // console.log(predicate);
     }
   }
 
@@ -65,19 +57,17 @@ export default class ProductStore {
     this.page = page;
   }
   //--probably will be--
-  // @observable editMode = false;
   @observable submitting = false;
 
   @observable target = '';
 
-  //--in use--
+  // //--in use--
+  // @computed get productsByDate() {
+  //   return this.groupProductsByDate(
+  //     Array.from(this.productRegistry.values())
+  //   );
+  // }
   @computed get productsByDate() {
-    return this.groupProductsByDate(
-      Array.from(this.productRegistry.values())
-    );
-  }
-  @computed get moreProductsByDate() {
-    // return 
     return Array.from(this.productRegistry.values()).sort(
       (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
     );
@@ -139,8 +129,6 @@ export default class ProductStore {
           this.productRegistry.set(product.id, product);
           this.loadingInitial = false;
           this.product = product;
-          // this.setThreadSellername(product.sellerUsername);
-          console.log('sellerName in loadproduct', product)
 
         });
         return product;
@@ -165,7 +153,6 @@ export default class ProductStore {
       await agent.Products.create(product);
       runInAction('creating product', () => {
         this.productRegistry.set(product.id, product);
-        // this.editMode = false;
         this.submitting = false;
       });
       history.push(`/product/${product.id}`)
@@ -174,19 +161,16 @@ export default class ProductStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data');
-      // console.log(error.response);
     }
   };
 
   @action editProduct = async (product: IProduct) => {
     this.submitting = true;
     try {
-      // console.log('product', product);
       await agent.Products.update(product);
       runInAction('editing product', () => {
         this.productRegistry.set(product.id, product);
         this.product = product;
-        // this.editMode = false;
         this.submitting = false;
       });
       history.push(`/product/${product.id}`)
@@ -195,7 +179,7 @@ export default class ProductStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data');
-      // console.log(error.response);
+      console.log(error);
     }
   };
 
@@ -220,11 +204,8 @@ export default class ProductStore {
 
   @action visitCounter = async (id: string) => {
     try {
-
       await agent.Products.visitCounter(id);
       runInAction('increasing the number seen counter', () => {
-        // this.productRegistry.set(id, this.product!.numberSeen++);
-        // console.log(toJS(this.productRegistry.get(id)))
       })
     } catch (error) {
       console.log(error)

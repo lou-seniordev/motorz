@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Application.Forumposts;
 using System;
@@ -8,7 +6,7 @@ using MediatR;
 
 namespace API.Controllers
 {
-     // [Route("api/[controller]")]
+    // [Route("api/[controller]")]
     // [ApiController]
     public class ForumpostsController : BaseController
     {

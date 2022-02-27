@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import { Divider, Dropdown, Header, Menu } from "semantic-ui-react";
+import { Divider, Dropdown, Input, Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { categories } from '../../../app/common/options/productOptions';
@@ -8,8 +8,6 @@ import { categories } from '../../../app/common/options/productOptions';
 const ProductFilters = () => {
   const rootStore = useContext(RootStoreContext);
   const { predicate, setPredicate
-    //==TODO--Revisit
-    // , trueView,  setTrueView 
   } = rootStore.productStore;
   const { countries, loadCountriesToSelect } = rootStore.countryStore;
 
@@ -21,6 +19,13 @@ const ProductFilters = () => {
     setPredicate( 'category', data.value)
   };
 
+  const handleResultSelect = (e: any) => {
+    if(e.key === 'Enter') {
+      setPredicate( 'search', e.target.value)   
+      e.target.value = '';
+  }
+}
+
   useEffect(() => {
     loadCountriesToSelect();
   }, [loadCountriesToSelect])
@@ -28,8 +33,14 @@ const ProductFilters = () => {
   return (
     <Fragment>
       <Menu vertical size='large' style={{ width: "100%" }}>
-        <Header icon={"filter"} attached color='teal' content={"Filters"} />
-        <Menu.Item
+      <Menu.Item active={predicate.has("search")}>
+          <Input
+            icon='search'
+            placeholder='Search...'
+            onKeyDown={(e: any) => handleResultSelect(e)}
+          />
+        </Menu.Item>
+         <Menu.Item
           active={predicate.size === 0}
           onClick={() => setPredicate("all", "true")}
           color={"blue"}

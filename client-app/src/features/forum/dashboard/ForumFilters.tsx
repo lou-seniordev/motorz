@@ -22,7 +22,6 @@ const ForumFilters = () => {
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%" }}>
-        {/* <Header icon={"filter"} attached color={"teal"} content={"Filters"} /> */}
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
@@ -46,8 +45,6 @@ const ForumFilters = () => {
           icon={'question circle outline'}
           content={"I Asked"}
           />
-        {/* <Icon name='question circle outline' /> */}
-        {/* </Menu.Item> */}
         <Menu.Item
           active={predicate.has("iRated")}
           onClick={() => setPredicate("iRated", "true")}

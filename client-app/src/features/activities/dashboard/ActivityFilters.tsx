@@ -18,7 +18,6 @@ const ActivityFilters = () => {
   return (
     <Fragment>
       <Menu vertical size={"large"} style={{ width: "100%" }}>
-        {/* <Header icon={"filter"} attached color={"teal"} content={"Filters"} /> */}
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
