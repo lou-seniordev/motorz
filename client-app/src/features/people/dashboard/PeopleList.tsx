@@ -3,27 +3,11 @@ import React, {  useContext } from "react";
 import { Card, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import PeopleListItem from "./PeopleListItem";
-// import FeedListItem from "./FeedListItem";
 
 const PeopleList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { 
-    //   people, 
-    displayPeople } = rootStore.profileStore;
+  const { displayPeople } = rootStore.profileStore;
 
-  {
-    /* <Fragment>
-{feedByDate.map(([gr, feeds]) => (
-  <Fragment key={gr}>
-      <Item.Group divided>
-        {feeds.map((feed:any) => (
-          <FeedListItem feed={feed} key={feed.id} />
-        ))}
-      </Item.Group>
-  </Fragment>
-))}
-</Fragment> */
-  }
   return (
     <Grid>
       <Grid.Column width={16}>

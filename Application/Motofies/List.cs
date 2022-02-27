@@ -21,7 +21,7 @@ namespace Application.Motofies
             public int MotofyCount { get; set; }
             public MotofyDto MostEmbraced { get; set; }
             public MotofyDto HighestRatedMotofy { get; set; }
-           
+
         }
         public class Query : IRequest<MotofiesEnvelope>
         {
@@ -30,16 +30,18 @@ namespace Application.Motofies
             public bool BestRated { get; set; }
             public bool MostEmbraced { get; set; }
             public bool IEmbraced { get; set; }
+            public string Search { get; set; }
 
-            public Query(int? limit, int? offset, bool bestRated, bool mostEmbraced, bool iEmbraced)
+            public Query(int? limit, int? offset, bool bestRated, bool mostEmbraced, bool iEmbraced, string search)
             {
+                Search = search;
                 Limit = limit;
                 Offset = offset;
                 BestRated = bestRated;
                 MostEmbraced = mostEmbraced;
                 IEmbraced = iEmbraced;
             }
-        
+
         }
 
         public class Handler : IRequestHandler<Query, MotofiesEnvelope>
@@ -84,9 +86,9 @@ namespace Application.Motofies
 
                 if (request.MostEmbraced)
                 {
-                     queryable = queryable
-                    .OrderByDescending(x => x.TotalEmbraced)
-                    .Take(2);
+                    queryable = queryable
+                   .OrderByDescending(x => x.TotalEmbraced)
+                   .Take(2);
                 }
 
                 if (request.IEmbraced)
@@ -95,12 +97,23 @@ namespace Application.Motofies
                     .Where(x => x.UserMotofies
                     .Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && !a.IsOwner));
                 }
-             
+
+                if (!string.IsNullOrEmpty(request.Search))
+                {
+                    queryable = queryable
+                    .Where(x =>
+                        x.Name.Contains(request.Search) ||
+                        x.Description.Contains(request.Search) ||
+                        x.City.Equals(request.Search) ||
+                        x.Model.Equals(request.Search) 
+                    );
+                }
+
                 motofies = await queryable
                     .Skip(request.Offset ?? 0)
                     .Take(request.Limit ?? 4)
                     .ToListAsync();
-               
+
                 var mostEmbracedId = await _context.UserMotofies
                     .GroupBy(m => m.MotofyId)
                     .OrderByDescending(e => e.Count())

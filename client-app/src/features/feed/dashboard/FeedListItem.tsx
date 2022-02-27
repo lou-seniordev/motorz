@@ -1,10 +1,8 @@
 // import { formatDistance } from "date-fns";
 import React from "react";
 import { Link } from "react-router-dom";
-// import { Link } from "react-router-dom";
-import { Feed, Icon, Segment } from "semantic-ui-react";
+import { Feed, Segment } from "semantic-ui-react";
 import { IFeed } from "../../../app/models/feed";
-// import { IForumpost } from "../../../app/models/forumpost";
 
 const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
   return (

@@ -4,9 +4,7 @@ import InfiniteScroll from "react-infinite-scroller";
 
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
 import FeedList from "./FeedList";
-import GalleryListItemPlaceholder from "../../gallery/dashboard/GalleryListItemPlaceholder";
 import FeedListItemPlaceholder from "./FeedListItemPlaceholder";
 
 const FeedDashboard = () => {

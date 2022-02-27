@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from "react";
-import { Menu, Header, Search, Input } from "semantic-ui-react";
+import { Menu, Header, Input } from "semantic-ui-react";
 import { Calendar } from "react-widgets";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
