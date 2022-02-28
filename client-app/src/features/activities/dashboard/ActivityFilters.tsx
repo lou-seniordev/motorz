@@ -47,11 +47,11 @@ const ActivityFilters = () => {
           content={"I'm organizing"}
         />
         <Menu.Item
-          active={predicate.has("inMyCountry")}
-          onClick={() => setPredicate("inMyCountry", "true")}
+          active={predicate.has("iFollow")}
+          onClick={() => setPredicate("iFollow", "true")}
           color={"blue"}
           name={"country"}
-          content={"In my country"}
+          content={"People I Follow"}
         />
       </Menu>
       <Header

@@ -37,8 +37,9 @@ export default class ActivityStore {
   @observable loading = false;
 
   @observable activityCount = 0;
-  @observable activityHit: boolean = true;
   @observable page = 0;
+  // @observable activityHit: boolean = true;
+  // @observable activityMax: boolean = true;
 
   @observable predicate = new Map();
 
@@ -49,6 +50,9 @@ export default class ActivityStore {
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
     }
+    // if (predicate !== 'iFollow') {
+    //   this.activityMax = false;
+    // }
   }
 
   @computed get axiosParams() {
@@ -156,11 +160,11 @@ export default class ActivityStore {
       const { activities, activityCount } = activitiesEnvelope;
 
       runInAction('loading activities', () => {
-        if(activities.length > 0) {
-          this.activityHit = true;
-        } else {
-          this.activityHit = false;
-        }
+        // if(activities.length > 0) {
+        //   this.activityHit = true;
+        // } else {
+        //   this.activityHit = false;
+        // }
         activities.forEach((activity) => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);

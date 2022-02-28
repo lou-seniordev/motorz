@@ -17,7 +17,8 @@ const ActivityDashboard: React.FC = () => {
     setPage,
     page,
     totalPages,
-    activityHit,
+    // activityHit,
+    // activityMax
   } = rootStore.activityStore;
 
   const [loadingNext, setLoadingNext] = useState(false);
@@ -40,11 +41,13 @@ const ActivityDashboard: React.FC = () => {
       <Grid.Column computer={9} mobile={16}>
         {loadingInitial && page === 0 ? (
           <ActivityListItemPlaceholder />
-        ) : (
-          <>
-            {activityHit === false ? (
-              <ActivityListItemMissedSearch />
-            ) : (
+        ) : 
+        // (
+        //   <>
+        //     {(activityHit === false && activityMax === false) ? (
+        //       <ActivityListItemMissedSearch />
+        //     ) : 
+            (
               <InfiniteScroll
                 pageStart={0}
                 loadMore={handleGetNext}
@@ -53,9 +56,10 @@ const ActivityDashboard: React.FC = () => {
               >
                 <ActivityList />
               </InfiniteScroll>
-            )}
-          </>
-        )}
+            )
+          }
+          {/* </>
+        )} */}
       </Grid.Column>
       <Grid.Column width={6} className='mobile hidden'>
         <Sticky style={{ marginRight: 30, position: "fixed" }}>

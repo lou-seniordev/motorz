@@ -71,13 +71,14 @@ namespace Application.Products
 
                  if (!string.IsNullOrEmpty(request.Search))
                 {
+                    var search = char.ToUpper(request.Search[0]) + request.Search.Substring(1);
                     queryable = queryable
                     .Where(x =>
-                        x.Title.Contains(request.Search) ||
+                        x.Title.Contains(request.Search) || x.Title.Contains(search) ||
                         x.Description.Contains(request.Search) ||
-                        x.City.Equals(request.Search) ||
+                        x.City.Equals(request.Search) || x.City.Contains(search) ||
                         x.Brand.Equals(request.Search) ||
-                        x.Model.Contains(request.Search) 
+                        x.Model.Contains(request.Search) || x.Model.Contains(search) 
                     );
                 }
 
