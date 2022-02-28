@@ -21,8 +21,8 @@ namespace Application.Mechanics
         public class Query : IRequest<MechanicsEnvelope>
         {
 
-            public Query(int? limit, int? offset, bool isCustomer, bool isClose,bool mostRecommended, 
-                bool bestRated, string country, string search)
+            public Query(int? limit, int? offset, bool isCustomer, bool isClose, bool mostRecommended,
+                bool bestRated, string country, bool iFollow, string search)
             {
                 Limit = limit;
                 Offset = offset;
@@ -33,6 +33,8 @@ namespace Application.Mechanics
                 BestRated = bestRated;
                 Country = country;
                 Search = search;
+                IFollow = iFollow;
+
 
             }
             public int? Limit { get; set; }
@@ -42,6 +44,8 @@ namespace Application.Mechanics
             public bool MostRecommended { get; set; }
             public bool BestRated { get; set; }
             public string Country { get; set; }
+            public bool IFollow { get; set; }
+
             public string Search { get; set; }
 
         }
@@ -69,11 +73,23 @@ namespace Application.Mechanics
                 // .OrderByDescending(x => x.DatePublished)
                 .AsQueryable();
 
+                var mechanics = new List<Mechanic>();
+
+
+                if (!request.IsCustomer && !request.MostRecommended && !request.BestRated 
+                    && !request.IFollow && string.IsNullOrEmpty(request.Country) 
+                    && string.IsNullOrEmpty(request.Search))
+                {
+                    mechanics = await GetAllMechanics(request, queryable, mechanics);
+
+                }
 
                 if (!string.IsNullOrEmpty(request.Country))
                 {
                     queryable = queryable.Where(x => x.Country.Name == request.Country);
+                    mechanics = await GetAllMechanics(request, queryable, mechanics);
                 }
+
 
                 if (request.IsCustomer)
                 {
@@ -81,6 +97,8 @@ namespace Application.Mechanics
                     .Where(x => x.Customers
                     .Any(a => a.AppUser.UserName == user.UserName))
                     .Take(2);
+                    mechanics = await GetAllMechanics(request, queryable, mechanics);
+
                 }
                 if (request.MostRecommended)
                 {
@@ -88,6 +106,8 @@ namespace Application.Mechanics
                     queryable = queryable
                     .OrderByDescending(x => x.TotalRecommended)
                     .Take(2);
+                    mechanics = await GetAllMechanics(request, queryable, mechanics);
+
 
                 }
                 if (request.BestRated)
@@ -95,9 +115,34 @@ namespace Application.Mechanics
                     queryable = queryable
                     .OrderByDescending(r => r.AverageRating.Average)
                     .Take(2);
+                    mechanics = await GetAllMechanics(request, queryable, mechanics);
+
                 }
 
-                 if (!string.IsNullOrEmpty(request.Search))
+                if (request.IFollow)
+                {
+                    var followings = await _context.Followings
+                                   .Where(x => x.ObserverId == user.Id)
+                                   .Select(x => x.TargetId)
+                                   .ToListAsync();
+
+                    var query = new List<Mechanic>();
+
+                    foreach (var id in followings)
+                    {
+                        var tempQuery = queryable
+                            .Where(x => x.Publisher.Id == id);
+
+                        query.AddRange(tempQuery);
+                    }
+                    mechanics = query
+                                .Skip(request.Offset ?? 0)
+                                .Take(request.Limit ?? 3).ToList();
+                    queryable = queryable.Where(x => x.Publisher.Id == user.Id);
+
+                }
+
+                if (!string.IsNullOrEmpty(request.Search))
                 {
                     queryable = queryable
                     .Where(x =>
@@ -105,28 +150,29 @@ namespace Application.Mechanics
                         x.Description.Contains(request.Search) ||
                         x.City.Equals(request.Search) ||
                         x.Address.Equals(request.Search) ||
-                        x.Owner.Equals(request.Search) 
+                        x.Owner.Equals(request.Search)
                     );
+                    mechanics = await GetAllMechanics(request, queryable, mechanics);
                 }
 
-                var mechanics = await queryable
-                    .Skip(request.Offset ?? 0)
-                    .Take(request.Limit ?? 3)
-                    .ToListAsync();
+                // mechanics = await GetAllMechanics(request, queryable, mechanics);
 
                 return new MechanicsEnvelope
                 {
                     Mechanics = _mapper.Map<List<Mechanic>, List<MechanicDto>>(mechanics),
                     MechanicCount = queryable.Count()
                 };
-                //_context.Mechanics.ToListAsync();
 
-
-
-                // return //.ToListAsync();
             }
 
-
+            private static async Task<List<Mechanic>> GetAllMechanics(Query request, IQueryable<Mechanic> queryable, List<Mechanic> mechanics)
+            {
+                mechanics = await queryable
+                                    .Skip(request.Offset ?? 0)
+                                    .Take(request.Limit ?? 3)
+                                    .ToListAsync();
+                return mechanics;
+            }
         }
     }
 }

@@ -10,10 +10,10 @@ namespace API.Controllers
     {
         [HttpGet]
         public async Task<ActionResult<List.MechanicsEnvelope>> List(int?  limit, int? offset,
-            bool isCustomer, bool isClose, bool mostRecommended, bool bestRated, string country, string search)
+            bool isCustomer, bool isClose, bool mostRecommended, bool bestRated, string country, bool iFollow, string search)
         {
             return await Mediator.Send(new List.Query(limit, offset, isCustomer, isClose, mostRecommended, 
-            bestRated, country, search));
+            bestRated, country, iFollow, search));
         }
 
         [HttpGet("{id}")]
