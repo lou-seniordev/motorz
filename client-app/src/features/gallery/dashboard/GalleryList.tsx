@@ -16,8 +16,6 @@ const GalleryList: React.FC = () => {
         {motofiesByDate.map((motofy:IMotofy) => (
 
           <Fragment key={motofy.id}>
-
-            {/* <Label size='large' color='blue'><span>Name:</span> {motofy.name}</Label> */}
             <GalleryListItem motofy={motofy} />
           </Fragment>
           

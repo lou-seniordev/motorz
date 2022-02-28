@@ -44,14 +44,14 @@ const ActivityFilters = () => {
           onClick={() => setPredicate("isHost", "true")}
           color={"blue"}
           name={"host"}
-          content={"I'm organizing"}
+          content={"I own"}
         />
         <Menu.Item
           active={predicate.has("iFollow")}
           onClick={() => setPredicate("iFollow", "true")}
           color={"blue"}
           name={"country"}
-          content={"People I Follow"}
+          content={"From people I follow"}
         />
       </Menu>
       <Header

@@ -62,6 +62,13 @@ const GalleryFilters = () => {
           icon={'heart'}
           content={"I Embraced"}
         />
+         <Menu.Item
+          active={predicate.has("iFollow")}
+          onClick={() => setPredicate("iFollow", "true")}
+          color={"blue"}
+          name={"country"}
+          content={"From people I follow"}
+        />
       </Menu>
       <Grid>
         <Grid.Column width={8}>

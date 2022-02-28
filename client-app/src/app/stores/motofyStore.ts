@@ -1,3 +1,4 @@
+import { toJS } from 'mobx';
 import { IUser } from './../models/user';
 import { IMotofyScore, IRateMotofy } from './../models/motofy';
 import { observable, action, runInAction, computed, reaction } from 'mobx';
@@ -165,6 +166,7 @@ export default class MotofyStore {
           // === Util Class ===
           setMotofyProps(motofy, this.rootStore.userStore.user!);
           this.motofyRegistry.set(motofy.id, motofy);
+          // console.log('motfy', toJS(motofy))
         });
         this.motofyCount = motofyCount;
         this.loadingInitial = false;

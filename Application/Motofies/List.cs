@@ -31,9 +31,11 @@ namespace Application.Motofies
             public bool MostEmbraced { get; set; }
             public bool IEmbraced { get; set; }
             public string Search { get; set; }
+            public bool IFollow { get; set; }
 
-            public Query(int? limit, int? offset, bool bestRated, bool mostEmbraced, bool iEmbraced, string search)
+            public Query(int? limit, int? offset, bool bestRated, bool mostEmbraced, bool iEmbraced, bool iFollow, string search)
             {
+                IFollow = iFollow;
                 Search = search;
                 Limit = limit;
                 Offset = offset;
@@ -67,6 +69,15 @@ namespace Application.Motofies
 
                 motofiesToQuery = await motos.ToListAsync();
 
+                var user = await _context.Users.SingleOrDefaultAsync(
+                  x => x.UserName == _userAccessor.GetCurrentUsername());
+                if (!request.BestRated && !request.MostEmbraced
+                    && !request.IEmbraced && string.IsNullOrEmpty(request.Search) && !request.IFollow)
+                {
+                    motofies = await GetListMotofies(request, motofies, queryable);
+
+                }
+
                 //version 1
                 var highestRatedMotofy = motofiesToQuery
                 .Where(x => x.AverageRating != null)
@@ -82,6 +93,8 @@ namespace Application.Motofies
                     queryable = queryable
                     .OrderByDescending(x => x.AverageRating.Average)
                     .Take(3);
+                    motofies = await GetListMotofies(request, motofies, queryable);
+
                 }
 
                 if (request.MostEmbraced)
@@ -89,6 +102,8 @@ namespace Application.Motofies
                     queryable = queryable
                    .OrderByDescending(x => x.TotalEmbraced)
                    .Take(2);
+                    motofies = await GetListMotofies(request, motofies, queryable);
+
                 }
 
                 if (request.IEmbraced)
@@ -96,6 +111,8 @@ namespace Application.Motofies
                     queryable = queryable
                     .Where(x => x.UserMotofies
                     .Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && !a.IsOwner));
+                    motofies = await GetListMotofies(request, motofies, queryable);
+
                 }
 
                 if (!string.IsNullOrEmpty(request.Search))
@@ -105,14 +122,35 @@ namespace Application.Motofies
                         x.Name.Contains(request.Search) ||
                         x.Description.Contains(request.Search) ||
                         x.City.Equals(request.Search) ||
-                        x.Model.Equals(request.Search) 
+                        x.Model.Equals(request.Search)
                     );
+                    motofies = await GetListMotofies(request, motofies, queryable);
+
                 }
 
-                motofies = await queryable
-                    .Skip(request.Offset ?? 0)
-                    .Take(request.Limit ?? 4)
-                    .ToListAsync();
+                if (request.IFollow)
+                {
+                    var followings = await _context.Followings
+                                    .Where(x => x.ObserverId == user.Id)
+                                    .Select(x => x.TargetId)
+                                    .ToListAsync();
+
+                    var query = new List<Motofy>();
+
+                    foreach (var id in followings)
+                    {
+                        var tempQuery = queryable
+                            .Where(x => x.Publisher.Id == id);
+
+                        query.AddRange(tempQuery);
+                    }
+                    motofies = query
+                                .Skip(request.Offset ?? 0)
+                                .Take(request.Limit ?? 3).ToList();
+
+                }
+
+                // motofies = await GetListMotofies(request, motofies, queryable);
 
                 var mostEmbracedId = await _context.UserMotofies
                     .GroupBy(m => m.MotofyId)
@@ -130,6 +168,15 @@ namespace Application.Motofies
                     MostEmbraced = _mapper.Map<Motofy, MotofyDto>(motofy),
                     HighestRatedMotofy = _mapper.Map<Motofy, MotofyDto>(highestRatedMotofy),
                 };
+            }
+
+            private static async Task<List<Motofy>> GetListMotofies(Query request, List<Motofy> motofies, IQueryable<Motofy> queryable)
+            {
+                motofies = await queryable
+                    .Skip(request.Offset ?? 0)
+                    .Take(request.Limit ?? 4)
+                    .ToListAsync();
+                return motofies;
             }
         }
     }

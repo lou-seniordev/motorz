@@ -451,7 +451,7 @@ namespace Persistence
                         },
                          Products = new List<Product> {
                             new Product {
-                                Id =  Guid.Parse("484920EB-71BA-4D83-834B-0CA4A8F85A68"), 
+                                Id =  Guid.Parse("484920EB-71BA-4D83-834B-0CA4A8F85A68"),
                                 Title = "Kawasaki",
                                 Model = "Ninja",
                                 Price = "3500",
@@ -927,7 +927,7 @@ namespace Persistence
                 }
                 if (!context.MessageThreads.Any())
                 {
-                var messageThreads = new List<MessageThread>
+                    var messageThreads = new List<MessageThread>
                 {
                     new MessageThread
                     {
@@ -1007,25 +1007,25 @@ namespace Persistence
                         ForumpostRating = 4,
                         ForumpostRatings = new List<ForumpostRating>
                         {
-                            new ForumpostRating 
+                            new ForumpostRating
                             {
                                 Id = new Guid(),
                                 Author = userManager.Users.SingleOrDefault(x => x.UserName == "tom"),
                                 IsInteresting = true,
                                 Rating = 1
                             },
-                            new ForumpostRating 
+                            new ForumpostRating
                             {
                                 Id = new Guid(),
                                 Author = userManager.Users.SingleOrDefault(x => x.UserName == "jane"),
                                 IsHelping = true,
                                 Rating = 5
                             },
-                            new ForumpostRating 
+                            new ForumpostRating
                             {
                                 Id = new Guid(),
                                 Author = userManager.Users.SingleOrDefault(x => x.UserName == "joe"),
-                                IsUsefull = true, 
+                                IsUsefull = true,
                                 Rating = 3
                             },
 
@@ -1043,21 +1043,21 @@ namespace Persistence
                         ForumpostRating = 3.6666666667,
                         ForumpostRatings = new List<ForumpostRating>
                         {
-                             new ForumpostRating 
+                             new ForumpostRating
                             {
                                 Id = new Guid(),
                                 Author = userManager.Users.SingleOrDefault(x => x.UserName == "bob"),
-                                IsUsefull = true, 
+                                IsUsefull = true,
                                 Rating = 3
                             },
-                            new ForumpostRating 
+                            new ForumpostRating
                             {
                                 Id = new Guid(),
                                 Author = userManager.Users.SingleOrDefault(x => x.UserName == "joe"),
-                                IsUsefull = true, 
+                                IsUsefull = true,
                                 Rating = 3
                             },
-                            new ForumpostRating 
+                            new ForumpostRating
                             {
                                 Id = new Guid(),
                                 Author = userManager.Users.SingleOrDefault(x => x.UserName == "nina"),
@@ -1076,14 +1076,14 @@ namespace Persistence
                         ForumpostRating = 4,
                         ForumpostRatings = new List<ForumpostRating>
                         {
-                             new ForumpostRating 
+                             new ForumpostRating
                             {
                                 Id = new Guid(),
                                 Author = userManager.Users.SingleOrDefault(x => x.UserName == "cato"),
-                                IsUsefull = true, 
+                                IsUsefull = true,
                                 Rating = 3
                             },
-                            new ForumpostRating 
+                            new ForumpostRating
                             {
                                 Id = new Guid(),
                                 Author = userManager.Users.SingleOrDefault(x => x.UserName == "nina"),
@@ -1728,6 +1728,7 @@ namespace Persistence
                     {
                         Id = Guid.Parse("71d0f37a-4954-425e-9773-300e0669d9bd"),
                         Name = "Lillie",
+                        Publisher = userManager.Users.SingleOrDefault(x => x.Id == "f"),
                         Model = "Multistrada 620 Dark",
                         Brand = new Brand
                         {
@@ -1739,7 +1740,7 @@ namespace Persistence
                             CityOfOrigin = "Bologna",
                         },
                         CubicCentimeters = "620",
-                        PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",                        
+                        PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
                         Description = "The often forgotten about Multistrada 620 is an absolutely brilliant bike for those looking for a practical do-it-all that has a bit of Italian charm without too many of the associated hassles.",
                         MotofyPhoto = new MotofyPhoto {
                             Id = "084c3b38-6ded-4d5f-ad49-63dd9dca46ae",
@@ -1826,6 +1827,7 @@ namespace Persistence
                     {
                         Id = Guid.Parse("7c54ae0d-f927-4fc0-bde5-7c18a6514928"),
                         Name = "King",
+                        Publisher = userManager.Users.SingleOrDefault(x => x.Id == "b"),
                         Model = "Sportster",
                         Brand = new Brand
                         {
@@ -1912,6 +1914,7 @@ namespace Persistence
                     {
                         Id = Guid.Parse("b2613251-e8aa-4d30-b9ab-4f243b64075d"),
                         Name = "Fly",
+                        Publisher = userManager.Users.SingleOrDefault(x => x.Id == "c"),
                         Model = "Hornet",
                         Brand = new Brand
                         {
@@ -2012,6 +2015,7 @@ namespace Persistence
                     {
                         Id = Guid.Parse("02d05033-ec4c-4fb5-9477-95ddb8ce5e39"),
                         Name = "Tripp",
+                        Publisher = userManager.Users.SingleOrDefault(x => x.Id == "d"),
                         Model = "R 1200GS LC Adventure",
                         Brand = new Brand
                         {
@@ -2023,12 +2027,12 @@ namespace Persistence
                             CityOfOrigin = "Munchen",
                         },
                         CubicCentimeters = "1200",
-                        PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1543754892/adieklq5tk9hq04itadr.jpg",
+                        PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1646081991/njvz5rgogdsttchsjneb.jpg",
 
                         Description = "The BMW R1200GS is one of the best selling motorcycles of all time. And yet, as I prepared to make a purchase of a 2018 lowered rallye model, I found a surprising dearth of meaningful answers to my questions and concerns.",
                         MotofyPhoto = new MotofyPhoto {
                             Id = "c525b36c-ab52-4e04-8d87-6facd3d70234",
-                            Url = "https://res.cloudinary.com/motofy/image/upload/v1543754892/adieklq5tk9hq04itadr.jpg",
+                            Url = "https://res.cloudinary.com/motofy/image/upload/v1646081991/njvz5rgogdsttchsjneb.jpg",
                             MotofyForeignKey = Guid.Parse("02d05033-ec4c-4fb5-9477-95ddb8ce5e39")
 
                         },
@@ -2556,10 +2560,10 @@ namespace Persistence
                                 }
                             },
                         };
-                        context.Mechanics.AddRange(mechanics);
-                        context.SaveChanges();
+                context.Mechanics.AddRange(mechanics);
+                context.SaveChanges();
             }
-           
+
         }
     }
 }

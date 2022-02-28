@@ -642,6 +642,9 @@ namespace Persistence.Migrations
                     b.Property<string>("PricePaid")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PublisherId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("TotalEmbraced")
                         .HasColumnType("INTEGER");
 
@@ -655,6 +658,8 @@ namespace Persistence.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("PublisherId");
 
                     b.ToTable("Motofies");
                 });
@@ -1262,6 +1267,10 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
+
+                    b.HasOne("Domain.AppUser", "Publisher")
+                        .WithMany()
+                        .HasForeignKey("PublisherId");
                 });
 
             modelBuilder.Entity("Domain.MotofyPhoto", b =>

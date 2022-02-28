@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220214233309_FromFeedEntity")]
-    partial class FromFeedEntity
+    [Migration("20220228211936_AddMotoPublisher")]
+    partial class AddMotoPublisher
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -388,6 +388,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("ForumpostRating")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
@@ -641,6 +644,9 @@ namespace Persistence.Migrations
                     b.Property<string>("PricePaid")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PublisherId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("TotalEmbraced")
                         .HasColumnType("INTEGER");
 
@@ -654,6 +660,8 @@ namespace Persistence.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("PublisherId");
 
                     b.ToTable("Motofies");
                 });
@@ -1261,6 +1269,10 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
+
+                    b.HasOne("Domain.AppUser", "Publisher")
+                        .WithMany()
+                        .HasForeignKey("PublisherId");
                 });
 
             modelBuilder.Entity("Domain.MotofyPhoto", b =>

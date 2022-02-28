@@ -15,9 +15,9 @@ namespace API.Controllers
         [HttpGet]
         [AllowAnonymous]
          public async Task<ActionResult<List.MotofiesEnvelope>> List(int? limit, int? offset,
-            bool bestRated, bool mostEmbraced, bool iEmbraced, string search)
+            bool bestRated, bool mostEmbraced, bool iEmbraced, bool iFollow, string search)
         {
-            return await Mediator.Send(new List.Query(limit, offset, bestRated, mostEmbraced, iEmbraced, search));
+            return await Mediator.Send(new List.Query(limit, offset, bestRated, mostEmbraced, iEmbraced, iFollow, search));
         }
 
         [HttpGet("{id}")]

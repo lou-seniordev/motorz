@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-    public class Motofy 
+    public class Motofy
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public virtual AppUser Publisher { get; set; }
         public virtual Brand Brand { get; set; }
         public string Model { get; set; }
         public string CubicCentimeters { get; set; }

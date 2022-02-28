@@ -61,9 +61,16 @@ const ForumFilters = () => {
           icon={'globe'}
           content={"Trending"}
         />
+         <Menu.Item
+          active={predicate.has("iFollow")}
+          onClick={() => setPredicate("iFollow", "true")}
+          color={"blue"}
+          name={"country"}
+          content={"From people I follow"}
+        />
         <Menu.Item>
           <Dropdown
-            placeholder='Choose category'
+            placeholder='By category'
             selection
             floating
             search

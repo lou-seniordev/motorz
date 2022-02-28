@@ -65,9 +65,16 @@ const MechanicFilters = () => {
           icon={'heart'}
           content={"Best Rated"}
         />
+         <Menu.Item
+          active={predicate.has("iFollow")}
+          onClick={() => setPredicate("iFollow", "true")}
+          color={"blue"}
+          name={"country"}
+          content={"From people I follow"}
+        />
         <Menu.Item>
           <Dropdown
-            placeholder='Choose country'
+            placeholder='By country'
             selection
             floating
             search

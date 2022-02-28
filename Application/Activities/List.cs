@@ -73,7 +73,7 @@ namespace Application.Activities
                 if (!request.IsGoing && !request.IsHost && !request.IFollow
                 && string.IsNullOrEmpty(request.Search))
                 {
-                    activities = await NewMethod(request, queryable, activities);
+                    activities = await GetActivityList(request, queryable, activities);
 
                 }
 
@@ -81,7 +81,7 @@ namespace Application.Activities
                 {
                     queryable = queryable
                     .Where(x => x.UserActivities.Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername()));
-                    activities = await NewMethod(request, queryable, activities);
+                    activities = await GetActivityList(request, queryable, activities);
 
                 }
 
@@ -89,7 +89,7 @@ namespace Application.Activities
                 {
                     queryable = queryable.Where(x => x.UserActivities.Any(
                         a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
-                    activities = await NewMethod(request, queryable, activities);
+                    activities = await GetActivityList(request, queryable, activities);
 
                 }
                 if (request.IFollow)
@@ -107,16 +107,11 @@ namespace Application.Activities
                             .Where(x => x.UserActivities
                             .Any(a => a.AppUser.Id == id && a.IsHost));
 
-                        // tempQuery.Add(queryable);
-                        //var tempQuery //= await queryable.ToListAsync();
                         query.AddRange(tempQuery);
                     }
-
-                    // queryable = query;
                     activities = query
                                 .Skip(request.Offset ?? 0)
                                 .Take(request.Limit ?? 3).ToList();
-
 
                 }
                 if (!string.IsNullOrEmpty(request.Search))
@@ -129,11 +124,11 @@ namespace Application.Activities
                         x.Venue.Equals(request.Search) ||
                         x.Destination.Equals(request.Search)
                     );
-                    activities = await NewMethod(request, queryable, activities);
+                    activities = await GetActivityList(request, queryable, activities);
 
                 }
 
-                // activities = await NewMethod(request, queryable, activities);
+                // activities = await GetActivityList(request, queryable, activities);
 
                 return new ActivitiesEnvelope
                 {
@@ -142,7 +137,7 @@ namespace Application.Activities
                 };
             }
 
-            private static async Task<List<Activity>> NewMethod(Query request, IQueryable<Activity> queryable, List<Activity> activities)
+            private static async Task<List<Activity>> GetActivityList(Query request, IQueryable<Activity> queryable, List<Activity> activities)
             {
                 activities = await queryable
                                 .Skip(request.Offset ?? 0)

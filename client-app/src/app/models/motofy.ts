@@ -9,6 +9,8 @@ export interface IMotofyEnvelope {
 export interface IMotofy {
     id: string;
     name: string;
+    publisherUsername: string;
+    publisherDisplayName: string;
     brandId: string;
     brandName: string;
     brandLogoUrl: string;

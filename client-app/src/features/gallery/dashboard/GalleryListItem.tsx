@@ -25,7 +25,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
   // const owner =
   //   motofy.embracers.filter((x) => x.isOwner)[0] || "unknown testing";
   //==test!
-  const publisher = motofy.embracers.filter((x) => x)[0];
+  // const publisher = motofy.embracers.filter((x) => x)[0];
   const descriptionUiShort = motofy.description!.substring(0, 60);
   const seeMore = "see more";
   return (
@@ -80,8 +80,8 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
               <Grid.Column computer={4} tablet={8} mobile={8}>
                 <Item.Meta>Published by</Item.Meta>
                 <Item.Description>
-                  <Link to={`/profile/${publisher.username}`}>
-                    {publisher.displayName! || "unknown"}
+                  <Link to={`/profile/${motofy.publisherUsername}`}>
+                    {motofy.publisherDisplayName }
                   </Link>
                 </Item.Description>
 

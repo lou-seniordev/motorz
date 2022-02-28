@@ -10,7 +10,9 @@ namespace Application.Motofies
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        //brand
+        // public string PublisherId { get; set; }
+        public string PublisherUsername { get; set; }
+        public string PublisherDisplayName { get; set; }
         public string BrandName { get; set; }
         public string BrandId { get; set; }
         public string BrandLogoUrl { get; set; }

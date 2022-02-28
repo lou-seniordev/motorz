@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class FromFeedEntity : Migration
+    public partial class AddMotoPublisher : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -293,7 +293,8 @@ namespace Persistence.Migrations
                     DateAdded = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Body = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true)
+                    Category = table.Column<string>(nullable: true),
+                    ForumpostRating = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -403,6 +404,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    PublisherId = table.Column<string>(nullable: true),
                     BrandId = table.Column<Guid>(nullable: true),
                     Model = table.Column<string>(nullable: true),
                     CubicCentimeters = table.Column<string>(nullable: true),
@@ -437,6 +439,12 @@ namespace Persistence.Migrations
                         name: "FK_Motofies_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Motofies_AspNetUsers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1108,6 +1116,11 @@ namespace Persistence.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Motofies_PublisherId",
+                table: "Motofies",
+                column: "PublisherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MotofyPhotos_MotofyForeignKey",
                 table: "MotofyPhotos",
                 column: "MotofyForeignKey",
@@ -1277,9 +1290,6 @@ namespace Persistence.Migrations
                 name: "Motofies");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "AverageRatings");
 
             migrationBuilder.DropTable(
@@ -1287,6 +1297,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }
