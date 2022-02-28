@@ -1,12 +1,9 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Application.Products;
 using System;
-using static Application.Products.List;
 
 namespace API.Controllers
 {
@@ -15,9 +12,9 @@ namespace API.Controllers
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<List.ProductsEnvelope>> List(int? limit, int? offset, 
-            string country, string brand, string category, string search)
+            string country, string brand, string category, bool iFollow, string search)
         {
-            return await Mediator.Send(new List.Query(limit, offset, country, brand, category, search));
+            return await Mediator.Send(new List.Query(limit, offset, country, brand, category, iFollow, search));
         }
 
         [HttpGet("{id}")]

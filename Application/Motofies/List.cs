@@ -150,8 +150,6 @@ namespace Application.Motofies
 
                 }
 
-                // motofies = await GetListMotofies(request, motofies, queryable);
-
                 var mostEmbracedId = await _context.UserMotofies
                     .GroupBy(m => m.MotofyId)
                     .OrderByDescending(e => e.Count())

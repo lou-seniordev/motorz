@@ -117,7 +117,6 @@ namespace Application.Forumposts
                     forumposts = query
                                 .Skip(request.Offset ?? 0)
                                 .Take(request.Limit ?? 3).ToList();
-                    // queryable = queryable.Where(x => x.Author.Id == user.Id);
                 }
 
                 if (!string.IsNullOrEmpty(request.Category))
@@ -138,8 +137,6 @@ namespace Application.Forumposts
                     forumposts = await GetAllForumposts(request, queryable);
 
                 }
-
-                // forumposts = await GetAllForumposts(request, queryable);
 
                 return new ForumpostEnvelope
                 {

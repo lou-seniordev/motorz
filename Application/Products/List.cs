@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Interfaces;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -19,8 +20,10 @@ namespace Application.Products
         }
         public class Query : IRequest<ProductsEnvelope>
         {
-            public Query(int? limit, int? offset, string country, string brand, string category, string search)
+            public Query(int? limit, int? offset, string country, string brand,
+                string category, bool iFollow, string search)
             {
+                IFollow = iFollow;
                 Limit = limit;
                 Offset = offset;
                 Country = country;
@@ -34,6 +37,7 @@ namespace Application.Products
             public string Brand { get; set; }
             public string Category { get; set; }
             public string Country { get; set; }
+            public bool IFollow { get; set; }
             public string Search { get; set; }
             //==TODO--
             public string PriceRange { get; set; }
@@ -44,32 +48,55 @@ namespace Application.Products
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+            private readonly IUserAccessor _userAccessor;
+
+            public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
             {
                 _mapper = mapper;
                 _context = context;
+                _userAccessor = userAccessor;
+
             }
 
             public async Task<ProductsEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
+                var user = await _context.Users.SingleOrDefaultAsync(
+                  x => x.UserName == _userAccessor.GetCurrentUsername());
+
                 var queryable = _context.Products.AsQueryable();
+
+                var products = new List<Product>();
+
+                if (string.IsNullOrEmpty(request.Country) && string.IsNullOrEmpty(request.Category)
+                    && string.IsNullOrEmpty(request.Brand) && string.IsNullOrEmpty(request.Search)
+                    && !request.IFollow)
+                {
+                    products = await GetAllProducts(request, queryable, products);
+
+                }
 
                 if (!string.IsNullOrEmpty(request.Category))
                 {
                     queryable = queryable.Where(x => x.Category == request.Category);
+                    products = await GetAllProducts(request, queryable, products);
+
                 }
 
                 if (!string.IsNullOrEmpty(request.Brand))
                 {
                     queryable = queryable.Where(x => x.Brand == request.Brand);
+                    products = await GetAllProducts(request, queryable, products);
+
                 }
 
                 if (!string.IsNullOrEmpty(request.Country))
                 {
                     queryable = queryable.Where(x => x.Country.Name == request.Country);
+                    products = await GetAllProducts(request, queryable, products);
+
                 }
 
-                 if (!string.IsNullOrEmpty(request.Search))
+                if (!string.IsNullOrEmpty(request.Search))
                 {
                     var search = char.ToUpper(request.Search[0]) + request.Search.Substring(1);
                     queryable = queryable
@@ -78,14 +105,33 @@ namespace Application.Products
                         x.Description.Contains(request.Search) ||
                         x.City.Equals(request.Search) || x.City.Contains(search) ||
                         x.Brand.Equals(request.Search) ||
-                        x.Model.Contains(request.Search) || x.Model.Contains(search) 
+                        x.Model.Contains(request.Search) || x.Model.Contains(search)
                     );
-                }
+                    products = await GetAllProducts(request, queryable, products);
 
-                var products = await queryable
-                    .Skip(request.Offset ?? 0)
-                    .Take(request.Limit ?? 3)
-                    .ToListAsync();
+                }
+                if (request.IFollow)
+                {
+                    var followings = await _context.Followings
+                                   .Where(x => x.ObserverId == user.Id)
+                                   .Select(x => x.TargetId)
+                                   .ToListAsync();
+
+                    var query = new List<Product>();
+
+                    foreach (var id in followings)
+                    {
+                        var tempQuery = queryable
+                            .Where(x => x.Seller.Id == id);
+
+                        query.AddRange(tempQuery);
+                    }
+                    products = query
+                                .Skip(request.Offset ?? 0)
+                                .Take(request.Limit ?? 3).ToList();
+                    queryable = queryable.Where(x => x.Seller.Id == user.Id);
+
+                }
 
 
                 return new ProductsEnvelope
@@ -94,6 +140,15 @@ namespace Application.Products
                     ProductCount = queryable.Count()
                 };
 
+            }
+
+            private static async Task<List<Product>> GetAllProducts(Query request, IQueryable<Product> queryable, List<Product> products)
+            {
+                products = await queryable
+                    .Skip(request.Offset ?? 0)
+                    .Take(request.Limit ?? 3)
+                    .ToListAsync();
+                return products;
             }
         }
     }

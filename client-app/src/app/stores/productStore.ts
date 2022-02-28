@@ -61,12 +61,6 @@ export default class ProductStore {
 
   @observable target = '';
 
-  // //--in use--
-  // @computed get productsByDate() {
-  //   return this.groupProductsByDate(
-  //     Array.from(this.productRegistry.values())
-  //   );
-  // }
   @computed get productsByDate() {
     return Array.from(this.productRegistry.values()).sort(
       (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)

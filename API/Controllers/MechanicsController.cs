@@ -17,7 +17,6 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        // [Authorize]
         public async Task<ActionResult<MechanicDto>> Details(Guid id)
         {
             return await Mediator.Send(new Details.Query { Id = id });
@@ -33,7 +32,6 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("{id}")]
-        // [Authorize(Policy = "IsForumpostOwner")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
             command.Id = id;
@@ -56,7 +54,6 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        // [Authorize(Policy = "IsActivityHost")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
             return await Mediator.Send(new Delete.Command { Id = id });

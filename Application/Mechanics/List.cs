@@ -70,7 +70,7 @@ namespace Application.Mechanics
                    x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 var queryable = _context.Mechanics
-                // .OrderByDescending(x => x.DatePublished)
+                .OrderByDescending(x => x.TotalRecommended)
                 .AsQueryable();
 
                 var mechanics = new List<Mechanic>();
@@ -138,8 +138,6 @@ namespace Application.Mechanics
                     mechanics = query
                                 .Skip(request.Offset ?? 0)
                                 .Take(request.Limit ?? 3).ToList();
-                    queryable = queryable.Where(x => x.Publisher.Id == user.Id);
-
                 }
 
                 if (!string.IsNullOrEmpty(request.Search))
@@ -154,8 +152,6 @@ namespace Application.Mechanics
                     );
                     mechanics = await GetAllMechanics(request, queryable, mechanics);
                 }
-
-                // mechanics = await GetAllMechanics(request, queryable, mechanics);
 
                 return new MechanicsEnvelope
                 {

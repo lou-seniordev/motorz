@@ -41,6 +41,15 @@ const ProductFilters = () => {
           content={"All Products"}
         />
         <Divider horizontal content='or' />
+        <Menu.Item
+          active={predicate.has("iFollow")}
+          onClick={() => setPredicate("iFollow", "true")}
+          color={"blue"}
+          name={"country"}
+          style={{ textAlign: "center" }}
+          content={"From people I follow"}
+        />
+        <Divider horizontal content='or' />
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
