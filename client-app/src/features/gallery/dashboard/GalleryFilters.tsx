@@ -29,7 +29,7 @@ const styles = {
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
-            placeholder='Search...'
+            placeholder='Search all...'
             onKeyDown={(e: any) => handleResultSelect(e)}
           />
         </Menu.Item>
@@ -50,7 +50,7 @@ const styles = {
           color={"blue"}
           name={"bestRated"}
           icon={'hand spock'}
-          content={"Highest Rated"}
+          content={"Best Rated"}
           style={ styles }
         />
         <Menu.Item

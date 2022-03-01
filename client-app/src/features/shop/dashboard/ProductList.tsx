@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
-import { Item } from "semantic-ui-react";
+import { Card, Grid, Item } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductListItem from "./ProductListItem";
 
@@ -12,13 +12,25 @@ const ProductList: React.FC = () => {
     rootStore.productStore;
 
   return (
-    <Fragment>
-      <Item.Group divided>
+    // <Fragment>
+    //   <Item.Group divided>
+        // {productsByDate.map((product) => (
+        //   <ProductListItem product={product} key={product.id} />
+        // ))}
+    //   </Item.Group>
+    // </Fragment>
+    <Grid>
+    <Grid.Column width={16}>
+      <Card.Group itemsPerRow={4}>
+        {/* {displayPeople.map((member) => (
+          <PeopleListItem member={member} key={member.id} />
+        ))} */}
         {productsByDate.map((product) => (
           <ProductListItem product={product} key={product.id} />
         ))}
-      </Item.Group>
-    </Fragment>
+      </Card.Group>
+    </Grid.Column>
+  </Grid>
   );
 };
 
