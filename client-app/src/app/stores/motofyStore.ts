@@ -1,4 +1,3 @@
-import { toJS } from 'mobx';
 import { IUser } from './../models/user';
 import { IMotofyScore, IRateMotofy } from './../models/motofy';
 import { observable, action, runInAction, computed, reaction } from 'mobx';

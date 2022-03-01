@@ -60,8 +60,8 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
                         <Item.Description>
                           From{" "}
                           {message.senderUsername === user?.userName
-                            ? "me"
-                            : message.senderUsername}{" "} -  
+                            ? "Me"
+                            : message.senderDisplayName}{" "} -  
                           Sent on: {message.dateSent}
                         </Item.Description>
                         <Divider />

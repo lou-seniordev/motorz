@@ -32,28 +32,11 @@ const ProductFilters = () => {
   return (
     <Fragment>
       <Menu vertical size='large' style={{ width: "100%" }}>
-        <Menu.Item
-          active={predicate.size === 0}
-          onClick={() => setPredicate("all", "true")}
-          color={"blue"}
-          name={"all"}
-          style={{ textAlign: "center" }}
-          content={"All Products"}
-        />
-        <Divider horizontal content='or' />
-        <Menu.Item
-          active={predicate.has("iFollow")}
-          onClick={() => setPredicate("iFollow", "true")}
-          color={"blue"}
-          name={"country"}
-          style={{ textAlign: "center" }}
-          content={"From people I follow"}
-        />
-        <Divider horizontal content='or' />
+       
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
-            placeholder='Search...'
+            placeholder='Search all...'
             onKeyDown={(e: any) => handleResultSelect(e)}
           />
         </Menu.Item>
@@ -61,7 +44,7 @@ const ProductFilters = () => {
         <Menu.Item active={predicate.has("country")}>
           <Dropdown
             fluid
-            placeholder='Products By Country'
+            placeholder='Search products by country'
             selection
             floating
             search
@@ -74,7 +57,7 @@ const ProductFilters = () => {
         <Menu.Item>
           <Dropdown
             fluid
-            placeholder='Products By Category'
+            placeholder='Search products by category'
             selection
             floating
             search
@@ -83,6 +66,26 @@ const ProductFilters = () => {
             clearable
           />
         </Menu.Item>
+        <Divider horizontal content='or chose built in filters' />
+
+        <Menu.Item
+          active={predicate.size === 0}
+          onClick={() => setPredicate("all", "true")}
+          color={"blue"}
+          name={"all"}
+          style={{ textAlign: "center" }}
+          content={"All Products"}
+        />
+        {/* <Divider horizontal content='or' /> */}
+        <Menu.Item
+          active={predicate.has("iFollow")}
+          onClick={() => setPredicate("iFollow", "true")}
+          color={"blue"}
+          name={"country"}
+          style={{ textAlign: "center" }}
+          content={"From people I follow"}
+        />
+        {/* <Divider horizontal content='or' /> */}
       </Menu>
     </Fragment>
   );

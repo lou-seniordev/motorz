@@ -30,7 +30,7 @@ const ProductDashboard = () => {
   return (
     <Grid>
       {/* width={9} */}
-      <Grid.Column computer={9} mobile={16} >
+      <Grid.Column computer={11} mobile={16} >
      { loadingInitial && page === 0 ? <ProductListItemPlaceholder/> :
      <InfiniteScroll
             pageStart={0}
@@ -41,7 +41,7 @@ const ProductDashboard = () => {
         <ProductList />
         </InfiniteScroll>}
       </Grid.Column>
-      <Grid.Column width={7}>
+      <Grid.Column width={5}>
         <Sticky className="mobile hidden" style={{ marginRight: 30, position: "fixed" }}>
           <ProductFilters />
         </Sticky>

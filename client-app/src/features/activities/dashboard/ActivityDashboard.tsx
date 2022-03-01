@@ -7,7 +7,9 @@ import ActivityFilters from "./ActivityFilters";
 import ActivityListItemPlaceholder from "./ActivityListItemPlaceholder";
 import ActivityMobileMenu from "./ActivityMobileMenu";
 import ActivityList from "./ActivityList";
-import ActivityListItemMissedSearch from "./ActivityListItemMissedSearch";
+
+//REFACTOR or delete!!!
+// import ActivityListItemMissedSearch from "./ActivityListItemMissedSearch";
 
 const ActivityDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);

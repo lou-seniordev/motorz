@@ -83,8 +83,8 @@ const MessageThreadList = () => {
                   <h4>
                     {" "}
                     {messages[0].senderUsername === user?.userName
-                      ? "me"
-                      : messages[0].senderUsername}
+                      ? "Me"
+                      : messages[0].senderDisplayName}
                   </h4>
                 </Grid.Column>
                 <Grid.Column width={4}>

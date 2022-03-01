@@ -27,7 +27,7 @@ const ForumDashboard = () => {
   return (
     <div>
       <Grid>
-        <Grid.Column computer={9} mobile={16}>
+        <Grid.Column computer={11} mobile={16}>
           {loadingInitial && page === 0 ? 
             <ForumListItemPlaceholder /> : (
             <InfiniteScroll
@@ -41,7 +41,7 @@ const ForumDashboard = () => {
           
           )}
         </Grid.Column>
-        <Grid.Column width={6} className='mobile hidden'>
+        <Grid.Column width={5} className='mobile hidden'>
           <Sticky style={{ marginRight: 30, position: "fixed" }}>
             <ForumFilters />
           </Sticky>

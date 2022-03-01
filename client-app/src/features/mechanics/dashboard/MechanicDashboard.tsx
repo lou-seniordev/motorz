@@ -26,7 +26,7 @@ const MechanicDashboard = () => {
 
   return (
     <Grid>
-      <Grid.Column computer={9} mobile={16}>
+      <Grid.Column computer={11} mobile={16}>
         {loadingInitial && page === 0 ? (
           <MechanicListItemPlaceholder />
         ) : (
@@ -40,12 +40,12 @@ const MechanicDashboard = () => {
           </InfiniteScroll>
         )}
       </Grid.Column>
-      <Grid.Column width={7} className='mobile hidden'>
+      <Grid.Column width={5} className='mobile hidden'>
         <Sticky style={{ marginRight: 30, position: "fixed" }}>
           <MechanicFilters />
         </Sticky>
       </Grid.Column>
-      <Grid.Column computer={9} mobile={16}>
+      <Grid.Column computer={11} mobile={16}>
         <Loader active={loadingNext} />
       </Grid.Column>
     </Grid>

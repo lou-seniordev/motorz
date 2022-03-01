@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from "react";
-import { Menu,  Grid, Input } from "semantic-ui-react";
+import { Menu,  Grid, Input, Divider } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
@@ -19,6 +19,9 @@ const GalleryFilters = () => {
       e.target.value = '';
   }
 }
+const styles = {
+  textAlign: "center"
+};
   
   return (
     <Fragment>
@@ -30,6 +33,8 @@ const GalleryFilters = () => {
             onKeyDown={(e: any) => handleResultSelect(e)}
           />
         </Menu.Item>
+        <Divider horizontal content='or chose built in filters' />
+
         <Menu.Item
           active={predicate.size === 0}
           onClick={() => setPredicate("all", "true")}
@@ -37,6 +42,7 @@ const GalleryFilters = () => {
           name={"all"}
           icon={'globe'}
           content={"All motofies"}
+          style={ styles }
         />
         <Menu.Item
           active={predicate.has("bestRated")}
@@ -45,6 +51,7 @@ const GalleryFilters = () => {
           name={"bestRated"}
           icon={'hand spock'}
           content={"Highest Rated"}
+          style={ styles }
         />
         <Menu.Item
           active={predicate.has("mostEmbraced")}
@@ -53,6 +60,7 @@ const GalleryFilters = () => {
           name={"mostEmbraced"}
           icon={'winner'}
           content={"Most Embraced"}
+          style={ styles }
           />
         <Menu.Item
           active={predicate.has("iEmbraced")}
@@ -61,6 +69,7 @@ const GalleryFilters = () => {
           name={"username"}
           icon={'heart'}
           content={"I Embraced"}
+          style={ styles }
         />
          <Menu.Item
           active={predicate.has("iFollow")}
@@ -68,6 +77,8 @@ const GalleryFilters = () => {
           color={"blue"}
           name={"country"}
           content={"From people I follow"}
+          icon={"users"}
+          style={ styles }
         />
       </Menu>
       <Grid>

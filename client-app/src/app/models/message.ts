@@ -9,6 +9,7 @@ export interface IMessage {
     id: string;
     senderId?: string;
     senderUsername?: string;
+    senderDisplayName?: string;
     senderPhotoUrl: string;
     recipientId?: string;
     recipientUsername?: string;

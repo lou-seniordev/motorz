@@ -110,7 +110,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
           as={Link}
           to={`/activities/${activity.id}`}
           // floated='right'
-          content='View This Diary'
+          content='Check This Diary'
           color='blue'
           fluid
         />
