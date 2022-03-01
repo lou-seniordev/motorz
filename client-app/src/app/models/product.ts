@@ -1,5 +1,5 @@
 export interface IProductsEnvelope {
-  products: IProduct [];
+  products: IProduct[];
   productCount: number;
 }
 
@@ -7,6 +7,7 @@ export interface IProduct {
   id: string;
   sellerId: string;
   sellerUsername: string;
+  sellerDisplayName: string;
   title: string;
   model: string;
   description: string;
@@ -20,12 +21,21 @@ export interface IProduct {
   isActive: boolean;
   isAdvertised: boolean;
   numberSeen: number;
+  viewers: IProductViewer [];
   datePublished: string;
   dateActivated: Date;
   dateAdvertised: Date;
   photoUrl: string;
   file: Blob;
+  // flagged: boolean;
 
+}
+
+export interface IProductViewer {
+  dateStarted?: Date;
+  displayName: string;
+  image?: string;
+  username: string;
 }
 
 export class ProductFormValues {

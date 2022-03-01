@@ -13,6 +13,8 @@ import ProductListItemPlaceholder from "./ProductListItemPlaceholder";
 const ProductDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const { loadProducts, loadingInitial, setPage, page, totalPages } = rootStore.productStore;
+
+
   const [loadingNext, setLoadingNext] = useState(false);
 
   const handleGetNext = () => {

@@ -36,8 +36,9 @@ namespace Application.Products
                 if (product == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Product = "Product NotFound" });
 
-                var productPhoto = await _context.ProductPhotos.SingleOrDefaultAsync(x => x.ProductForeignKey == product.Id);
-                // var productPhotoId = productPhoto.Id;
+                var productPhoto = await _context.ProductPhotos
+                    .SingleOrDefaultAsync(x => x.ProductForeignKey == product.Id);
+
                 if (productPhoto == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Photo = "Product Photo NotFound" });
 

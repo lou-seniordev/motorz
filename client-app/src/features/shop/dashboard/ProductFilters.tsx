@@ -29,6 +29,9 @@ const ProductFilters = () => {
     loadCountriesToSelect();
   }, [loadCountriesToSelect]);
 
+  const styles = {
+    textAlign: "center"
+  };
   return (
     <Fragment>
       <Menu vertical size='large' style={{ width: "100%" }}>
@@ -73,19 +76,25 @@ const ProductFilters = () => {
           onClick={() => setPredicate("all", "true")}
           color={"blue"}
           name={"all"}
-          style={{ textAlign: "center" }}
+          style={ styles }
           content={"All Products"}
         />
-        {/* <Divider horizontal content='or' /> */}
         <Menu.Item
           active={predicate.has("iFollow")}
           onClick={() => setPredicate("iFollow", "true")}
           color={"blue"}
-          name={"country"}
-          style={{ textAlign: "center" }}
+          name={"iFollow"}
+          style={ styles }
           content={"From people I follow"}
         />
-        {/* <Divider horizontal content='or' /> */}
+        <Menu.Item
+          active={predicate.has("iView")}
+          onClick={() => setPredicate("iView", "true")}
+          color={"blue"}
+          name={"iView"}
+          style={{ textAlign: "center" }}
+          content={"I am following"}
+        />
       </Menu>
     </Fragment>
   );

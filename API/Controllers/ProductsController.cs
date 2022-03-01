@@ -12,9 +12,9 @@ namespace API.Controllers
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<List.ProductsEnvelope>> List(int? limit, int? offset, 
-            string country, string brand, string category, bool iFollow, string search)
+            string country, string brand, string category, bool iFollow, bool iView, string search)
         {
-            return await Mediator.Send(new List.Query(limit, offset, country, brand, category, iFollow, search));
+            return await Mediator.Send(new List.Query(limit, offset, country, brand, category, iFollow, iView, search));
         }
 
         [HttpGet("{id}")]
@@ -49,6 +49,20 @@ namespace API.Controllers
         {
             command.Id = id;
             return await Mediator.Send(command);
+        }
+
+        [HttpPut("{id}/follow")]
+        [Authorize]
+        public async Task<ActionResult<Unit>> Follow(Guid id)
+        {
+            return await Mediator.Send(new Follow.Command {Id = id});
+        }
+
+        [HttpDelete("{id}/unfollow")]
+        [Authorize]
+        public async Task<ActionResult<Unit>> Unfollow(Guid id)
+        {
+            return await Mediator.Send(new Unfollow.Command {Id = id});
         }
 
         [HttpPut("{id}/updatePhoto")]

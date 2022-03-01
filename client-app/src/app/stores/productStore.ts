@@ -1,3 +1,4 @@
+import { IProductViewer } from './../models/product';
 import { IProduct } from '../models/product';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
 // import { SyntheticEvent } from 'react';
@@ -6,7 +7,7 @@ import agent from '../api/agent';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 
-const LIMIT = 5;
+const LIMIT = 4;
 
 export default class ProductStore {
   rootStore: RootStore;
@@ -30,6 +31,8 @@ export default class ProductStore {
   @observable productCount = 0;
   @observable page = 0;
   @observable predicate = new Map();
+
+  @observable productFollowed = false;
 
 
   @action setPredicate = (predicate: string, value: string  ) => { 
@@ -62,27 +65,28 @@ export default class ProductStore {
   @observable target = '';
 
   @computed get productsByDate() {
-    return Array.from(this.productRegistry.values()).sort(
-      (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-    );
+    return Array.from(this.productRegistry.values())
+    // .sort(
+    //   (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
+    // );
   }
 
 
-  //--in use--
-  groupProductsByDate(products: IProduct[]) {
-    const sortedProducts = products.sort(
-      (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-    );
-    return Object.entries(
-      sortedProducts.reduce((products, product) => {
-        const date = product.datePublished.split('T')[0];
-        products[date] = products[date]
-          ? [...products[date], product]
-          : [product];
-        return products;
-      }, {} as { [key: string]: IProduct[] })
-    );
-  }
+  // //--in use--
+  // groupProductsByDate(products: IProduct[]) {
+  //   const sortedProducts = products.sort(
+  //     (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
+  //   );
+  //   return Object.entries(
+  //     sortedProducts.reduce((products, product) => {
+  //       const date = product.datePublished.split('T')[0];
+  //       products[date] = products[date]
+  //         ? [...products[date], product]
+  //         : [product];
+  //       return products;
+  //     }, {} as { [key: string]: IProduct[] })
+  //   );
+  // }
 
 
 
@@ -124,7 +128,7 @@ export default class ProductStore {
           this.productRegistry.set(product.id, product);
           this.loadingInitial = false;
           this.product = product;
-
+          // console.log('product:::', product);
         });
         return product;
       } catch (error) {
@@ -136,7 +140,7 @@ export default class ProductStore {
     }
   };
 
-  //--in use---???check
+  //--in use--
   getProduct = (id: string) => {
     return this.productRegistry.get(id);
   };
@@ -206,6 +210,48 @@ export default class ProductStore {
       console.log(error)
     }
   }
+
+  @action setProductFollowed = async () => {
+    runInAction(() => {
+      this.productFollowed = !this.productFollowed;
+    })
+  }
+  @action followProduct = async (id: string, userName: string, displayName: string) => {
+    // console.log("id i", id);
+
+    let product: IProduct = this.getProduct(id);
+    let productViewer: IProductViewer = {
+      username: userName, 
+      displayName: displayName, 
+    }
+    product.viewers.push(productViewer)
+    try {
+      await agent.Products.follow(id);
+      runInAction('following product', () => {
+        this.productRegistry.set(product.id, product );
+        this.productFollowed = true;
+      });
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
+  @action unfollowProduct = async (id: string) => {
+    // console.log("id unfollow", id);
+
+    let product: IProduct = this.getProduct(id);
+   
+    try {
+      await agent.Products.unfollow(id);
+      runInAction('following product', () => {
+        this.productRegistry.set(product.id, product );
+        this.productFollowed = false;
+      });
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
 
 }
 

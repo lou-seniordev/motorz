@@ -1,36 +1,41 @@
-import React, { Fragment } from 'react';
-import { Segment, Button, Placeholder } from 'semantic-ui-react';
+import React from "react";
+import { Segment, Placeholder, Grid } from "semantic-ui-react";
 const ProductListItemPlaceholder = () => {
   return (
-    <Fragment>
-      <Placeholder fluid >
-      {/* style={{ marginTop: 50 }} */}
-        <Segment.Group>
-          <Segment style={{ minHeight: 110 }}>
-            <Placeholder>
-              <Placeholder.Header image>
-                <Placeholder.Line />
-                <Placeholder.Line />
-              </Placeholder.Header>
-              <Placeholder.Paragraph>
-                <Placeholder.Line />
-              </Placeholder.Paragraph>
-            </Placeholder>
-          </Segment>
-          <Segment>
-            <Placeholder>
-              <Placeholder.Line />
-              <Placeholder.Line />
-            </Placeholder>
-          </Segment>
-          <Segment secondary style={{ minHeight: 70 }} />
-          <Segment clearing>
-            <Button disabled color='blue' fluid content='View' />
-          </Segment>
-        </Segment.Group>
-      </Placeholder>
-    </Fragment>
+    <Grid columns={4} stackable>
+      <Grid.Column>
+        <Segment raised>
+          <Placeholder style={{ height: 100, width: 100 }}>
+            <Placeholder.Line />
+            <Placeholder.Image />
+          </Placeholder>
+        </Segment>
+      </Grid.Column>
+      <Grid.Column>
+        <Segment raised>
+          <Placeholder style={{ height: 100, width: 100 }}>
+            <Placeholder.Line />
+            <Placeholder.Image />
+          </Placeholder>
+        </Segment>
+      </Grid.Column>
+      <Grid.Column>
+        <Segment raised>
+          <Placeholder style={{ height: 100, width: 100 }}>
+            <Placeholder.Line />
+            <Placeholder.Image />
+          </Placeholder>
+        </Segment>
+      </Grid.Column>
+      <Grid.Column>
+        <Segment raised>
+          <Placeholder style={{ height: 100, width: 100 }}>
+            <Placeholder.Line />
+            <Placeholder.Image />
+          </Placeholder>
+        </Segment>
+      </Grid.Column>
+    </Grid>
   );
 };
 export default ProductListItemPlaceholder;
-

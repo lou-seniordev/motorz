@@ -21,9 +21,10 @@ namespace Application.Products
         public class Query : IRequest<ProductsEnvelope>
         {
             public Query(int? limit, int? offset, string country, string brand,
-                string category, bool iFollow, string search)
+                string category, bool iFollow, bool iView, string search)
             {
                 IFollow = iFollow;
+                IView = iView;
                 Limit = limit;
                 Offset = offset;
                 Country = country;
@@ -38,6 +39,7 @@ namespace Application.Products
             public string Category { get; set; }
             public string Country { get; set; }
             public bool IFollow { get; set; }
+            public bool IView { get; set; }
             public string Search { get; set; }
             //==TODO--
             public string PriceRange { get; set; }
@@ -63,13 +65,16 @@ namespace Application.Products
                 var user = await _context.Users.SingleOrDefaultAsync(
                   x => x.UserName == _userAccessor.GetCurrentUsername());
 
-                var queryable = _context.Products.AsQueryable();
+                var queryable = _context.Products
+                .Where(x => !x.IsSold)
+                .OrderByDescending(x => x.DatePublished)
+                .AsQueryable();
 
                 var products = new List<Product>();
 
                 if (string.IsNullOrEmpty(request.Country) && string.IsNullOrEmpty(request.Category)
                     && string.IsNullOrEmpty(request.Brand) && string.IsNullOrEmpty(request.Search)
-                    && !request.IFollow)
+                    && !request.IFollow && !request.IView)
                 {
                     products = await GetAllProducts(request, queryable, products);
 
@@ -130,6 +135,12 @@ namespace Application.Products
                                 .Skip(request.Offset ?? 0)
                                 .Take(request.Limit ?? 3).ToList();
                     queryable = queryable.Where(x => x.Seller.Id == user.Id);
+
+                }
+                if (request.IView)
+                {
+                    queryable = queryable.Where(x => x.Viewers.Any(x => x.AppUserId == user.Id));
+                    products = await GetAllProducts(request, queryable, products);
 
                 }
 

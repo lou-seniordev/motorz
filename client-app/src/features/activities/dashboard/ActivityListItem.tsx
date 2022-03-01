@@ -1,33 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import {
-  Accordion,
-  Button,
-  Item,
-  Label,
-  Segment,
-} from "semantic-ui-react";
+import { Accordion, Button, Item, Label, Segment } from "semantic-ui-react";
 import { IActivity } from "../../../app/models/activity";
 import { format } from "date-fns";
 import ActivityListItemAttendees from "./ActivityListItemAttendees";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 
 const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
+  const rootStore = useContext(RootStoreContext);
+  const { user } = rootStore.userStore;
+
+  const namedMessage =
+    user?.displayName + ", you are taking part in this diary";
+  const userMessage = user?.displayName + ", you created this diary";
+
   const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const panels = [
     {
       key: "when",
-      title: "When?",
+      title: "When does it start?",
       content: [format(activity.date, "MMMM d yyyy h:mm:a")].join(" "),
     },
     {
       key: "starting_point",
-      title: "Starting Point?",
-      content: [activity.city + ", " + activity.venue].join(" "),
+      title: "Where is a starting Point?",
+      content: ["On " + activity.city + ", " + activity.venue].join(" "),
     },
     {
       key: "destination",
-      title: "Destination?",
+      title: "What is the destination?",
       content: [activity.destination],
     },
   ];
@@ -53,7 +55,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
                   {activity.title}
                 </Item.Header>
                 <Item.Meta>
-                  Run by{" "}
+                  It is held by{" "}
                   <Link to={`/profile/${host.username}`}>
                     {" "}
                     {host.displayName}
@@ -62,11 +64,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
 
                 {activity.isHost && (
                   <Item.Description>
-                    <Label
-                      basic
-                      color='teal'
-                      content='You created this diary'
-                    />
+                    <Label basic color='teal' content={userMessage} />
                   </Item.Description>
                 )}
                 {activity.isGoing && !activity.isHost && (
@@ -74,7 +72,8 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
                     <Label
                       basic
                       color='green'
-                      content='You are taking part in this diary'
+                      content={namedMessage}
+                      //
                     />
                   </Item.Description>
                 )}
@@ -88,9 +87,9 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
         <Icon name='marker' /> Starting Point: {activity.venue}, {activity.city}
         <Icon name='marker' /> Destination: {activity.destination}  */}
 
-        <Accordion panels={panels} />
+        <Accordion panels={panels} styled exclusive={false}/>
       </Segment>
-      <Segment clearing >
+      <Segment clearing>
         <Item.Group>
           <Item.Description as={Link} to={`/activities/${activity.id}`}>
             <span>{descriptionUiShort}</span> <span>{seeMore}</span>

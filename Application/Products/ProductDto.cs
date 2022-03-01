@@ -15,6 +15,7 @@ namespace Application.Products
         public string Price { get; set; }
         public string SellerId { get; set; }
         public string SellerUsername { get; set; }
+        public string SellerDisplayName { get; set; }
         public string Brand { get; set; }
         public string Category { get; set; }
         public string City { get; set; }

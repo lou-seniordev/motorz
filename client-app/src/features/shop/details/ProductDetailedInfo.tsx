@@ -13,25 +13,49 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   const { setMessage, cleanMessage } = rootStore.messageStore; //
 
   const { openModal } = rootStore.modalStore;
+  const {
+    followProduct,
+    productFollowed,
+    unfollowProduct,
+    setProductFollowed,
+  } = rootStore.productStore;
 
   const { user } = rootStore.userStore;
 
   // if (loadingThread)
-  // return <LoadingComponent content='Loading products...' />;
+  // return <LoadingComponent content='Loading product...' />;
 
   useEffect(() => {
+    product.viewers.forEach((viewer) => {
+      if (viewer.username === user?.userName) {
+        setProductFollowed();
+      }
+    });
     setMessage(product.sellerUsername, product.id);
 
     return () => {
       cleanMessage();
     };
-  }, [setMessage, cleanMessage, product.sellerUsername, product.id]);
+  }, [
+    setMessage,
+    cleanMessage,
+    product.sellerUsername,
+    product.id,
+    setProductFollowed,
+    product.viewers,
+    user,
+  ]);
 
   // const { openModal } = rootStore.modalStore;
 
   const handleDeleteProduct = (id: string) => {
     openModal(<ConfirmDelete productId={id} />);
-    // console.log("id", id);
+  };
+  const handleFollowProduct = (id: string) => {
+    followProduct(id, user!.userName, user!.displayName);
+  };
+  const handleUnfollowProduct = (id: string) => {
+    unfollowProduct(id);
   };
 
   return (
@@ -62,7 +86,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             <Icon name='user' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={11}>
-            <span>Seller: {product.sellerUsername}</span>
+            <span>Seller: {product.sellerDisplayName}</span>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -102,14 +126,29 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
           </Grid.Column>
 
           <Grid.Column width={11}>
-            {product.sellerUsername !== user?.userName ? ( // threadNotEmpty &&
-              <Button
-                // disabled={product.sellerUsername === user?.userName}
-                content='contact the seller'
-                onClick={() => {
-                  openModal(<ContactForm />);
-                }}
-              />
+            {product.sellerUsername !== user?.userName ? (
+              <>
+                <Button
+                  content='Contact the seller'
+                  onClick={() => {
+                    openModal(<ContactForm />);
+                  }}
+                />
+                <Button
+                  content={
+                    productFollowed === true
+                      ? "Unfollow this product"
+                      : "Follow this product"
+                  }
+                  onClick={() => {
+                    if (!productFollowed) {
+                      handleFollowProduct(product.id);
+                    } else {
+                      handleUnfollowProduct(product.id);
+                    }
+                  }}
+                />
+              </>
             ) : (
               <Fragment>
                 <Button
