@@ -10,10 +10,12 @@ namespace Persistence
         {
         }
 
-        public DbSet<Value> Values { get; set; }
+        // public DbSet<Value> Values { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Product> Products { get; set; }
+        
+        public DbSet<ProductViewer> ProductViewers { get; set; }
 
         public DbSet<UserActivity> UserActivities { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -67,13 +69,13 @@ namespace Persistence
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Value>()
-                .HasData(
-                    new Value { Id = 1, Name = "Value 101 First" },
-                    new Value { Id = 2, Name = "Value 102 Second" },
-                    new Value { Id = 3, Name = "Value 103 Third" },
-                    new Value { Id = 4, Name = "Value 104 Fourth" }
-                );
+            // builder.Entity<Value>()
+            //     .HasData(
+            //         new Value { Id = 1, Name = "Value 101 First" },
+            //         new Value { Id = 2, Name = "Value 102 Second" },
+            //         new Value { Id = 3, Name = "Value 103 Third" },
+            //         new Value { Id = 4, Name = "Value 104 Fourth" }
+            //     );
 
             // === define many2many relationship ===
             builder.Entity<UserActivity>(x => x.HasKey(ua => new { ua.AppUserId, ua.ActivityId }));
@@ -120,6 +122,23 @@ namespace Persistence
                 .HasOne(m => m.Mechanic)
                 .WithMany(u => u.Customers)
                 .HasForeignKey(m => m.MechanicId);
+
+
+
+            builder.Entity<ProductViewer>(x => x.HasKey(pm => 
+                new { pm.AppUserId, pm.ProductId}));
+
+            builder.Entity<ProductViewer>()
+                .HasOne(u => u.AppUser)
+                .WithMany(p => p.ViewingProducts)
+                .HasForeignKey(u => u.AppUserId);
+
+            builder.Entity<ProductViewer>()
+                .HasOne(p => p.Product)
+                .WithMany(v => v.Viewers)
+                .HasForeignKey(m => m.ProductId);
+
+
 
             // === define one2many relationship ===
             // builder.Entity<Motofy>()

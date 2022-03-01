@@ -34,7 +34,7 @@ namespace Application.Motofies
         [JsonPropertyName("embracers")]
         public ICollection<EmbracerDto> UserMotofies { get; set; }
         public ICollection<CommentMotofyDto> CommentMotofies { get; set; }
-        public virtual ICollection<MotofyScoreDto> MotofyScores { get; set; }
+        public ICollection<MotofyScoreDto> MotofyScores { get; set; }//virtual
 
     }
 }

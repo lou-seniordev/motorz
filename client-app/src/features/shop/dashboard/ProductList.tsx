@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext } from "react";
-import { Card, Grid, Item } from "semantic-ui-react";
+import React, { useContext } from "react";
+import { Card, Grid} from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductListItem from "./ProductListItem";
 

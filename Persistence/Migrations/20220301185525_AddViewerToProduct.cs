@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AddMotoPublisher : Migration
+    public partial class AddViewerToProduct : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -117,19 +117,6 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Testimonials", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Values",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Values", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -917,25 +904,30 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Values",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Value 101 First" });
-
-            migrationBuilder.InsertData(
-                table: "Values",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Value 102 Second" });
-
-            migrationBuilder.InsertData(
-                table: "Values",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 3, "Value 103 Third" });
-
-            migrationBuilder.InsertData(
-                table: "Values",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 4, "Value 104 Fourth" });
+            migrationBuilder.CreateTable(
+                name: "ProductViewers",
+                columns: table => new
+                {
+                    AppUserId = table.Column<string>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    DateStarted = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductViewers", x => new { x.AppUserId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_ProductViewers_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductViewers_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activities_CountryId",
@@ -1158,6 +1150,11 @@ namespace Persistence.Migrations
                 column: "SellerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductViewers_ProductId",
+                table: "ProductViewers",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ratings_MechanicId",
                 table: "Ratings",
                 column: "MechanicId");
@@ -1248,6 +1245,9 @@ namespace Persistence.Migrations
                 name: "ProductPhotos");
 
             migrationBuilder.DropTable(
+                name: "ProductViewers");
+
+            migrationBuilder.DropTable(
                 name: "Ratings");
 
             migrationBuilder.DropTable(
@@ -1258,9 +1258,6 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserMotofies");
-
-            migrationBuilder.DropTable(
-                name: "Values");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

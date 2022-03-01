@@ -819,6 +819,24 @@ namespace Persistence.Migrations
                     b.ToTable("ProductPhotos");
                 });
 
+            modelBuilder.Entity("Domain.ProductViewer", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateStarted")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppUserId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductViewers");
+                });
+
             modelBuilder.Entity("Domain.Rating", b =>
                 {
                     b.Property<Guid>("Id")
@@ -947,42 +965,6 @@ namespace Persistence.Migrations
                     b.HasIndex("MotofyId");
 
                     b.ToTable("UserMotofies");
-                });
-
-            modelBuilder.Entity("Domain.Value", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Values");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Value 101 First"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Value 102 Second"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Value 103 Third"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Value 104 Fourth"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1316,6 +1298,21 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Product", "Product")
                         .WithOne("ProductPhoto")
                         .HasForeignKey("Domain.ProductPhoto", "ProductForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.ProductViewer", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("ViewingProducts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany("Viewers")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

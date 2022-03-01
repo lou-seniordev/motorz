@@ -29,5 +29,7 @@ namespace Application.Products
         public DateTime DateAdvertised { get; set; }
         public int ActivationCounter { get; set; }
         public string PhotoUrl { get; set; }
+        public ICollection<ProductViewerDto> Viewers { get; set; }
+
     }
 }

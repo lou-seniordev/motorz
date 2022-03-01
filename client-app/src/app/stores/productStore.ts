@@ -95,6 +95,7 @@ export default class ProductStore {
         products.forEach((product) => {
           this.productRegistry.set(product.id, product);
         });
+        console.log('products', products);
         this.productCount = productCount; 
         this.loadingInitial = false;
       });

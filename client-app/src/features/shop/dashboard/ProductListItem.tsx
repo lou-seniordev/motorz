@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Card, Image, Item, Segment } from "semantic-ui-react";
+import { Button, Card, Image } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
 
 const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {

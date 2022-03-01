@@ -27,6 +27,7 @@ namespace Domain
         public int ActivationCounter { get; set; }                
         public virtual ProductPhoto ProductPhoto { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<ProductViewer> Viewers { get; set; }
 
     }
 }

@@ -298,7 +298,8 @@ namespace Persistence
                                 NumberSeen = 10,
                                 ActivationCounter = 0,
                                 PhoneNumber= "+38533890279",
-                                ProductPhoto = new ProductPhoto {
+                                ProductPhoto = new ProductPhoto 
+                                {
                                     Id = "709F91A5-C37B-47F9-A210-BEF3979981D6",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
                                 }
@@ -320,10 +321,15 @@ namespace Persistence
                                 IsAdvertised = false,
                                 NumberSeen = 20,
                                 ActivationCounter = 1,
-                                ProductPhoto = new ProductPhoto {
-                                            Id = "gloves",
-                                            Url = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
-                                        }
+                                ProductPhoto = new ProductPhoto 
+                                {
+                                    Id = "gloves",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
+                                }
+                              
+                                
+
+                                
 
                             },
                             new Product
@@ -343,11 +349,11 @@ namespace Persistence
                                 IsAdvertised = false,
                                 NumberSeen = 0,
                                 ActivationCounter = 0,
-                                ProductPhoto = new ProductPhoto {
-                                            Id = "rain-master-lady-d",
-                                            Url = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
-                                        }
-
+                                ProductPhoto = new ProductPhoto 
+                                {
+                                    Id = "rain-master-lady-d",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
+                                }
                             },
 
                         }
@@ -382,7 +388,8 @@ namespace Persistence
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 0,
-                                ProductPhoto = new ProductPhoto {
+                                ProductPhoto = new ProductPhoto 
+                                {
                                     Id = "FBC92591-FD02-4494-9129-C3459DC84D1C",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
                                 }
@@ -405,7 +412,8 @@ namespace Persistence
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 0,
-                                 ProductPhoto = new ProductPhoto {
+                                 ProductPhoto = new ProductPhoto 
+                                {
                                     Id = "42EDB659-CB21-43EF-9726-43648A254144",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1637227585/boots.jpg",
                                 }
@@ -602,6 +610,55 @@ namespace Persistence
                     await userManager.CreateAsync(user, "Pa$$w0rd");
                 }
             }
+            //==PRODUCT VIEWERS
+            if (!context.ProductViewers.Any())
+            {
+                var productViewers = new List<ProductViewer> 
+                {
+
+                    new ProductViewer  
+                    {
+                        AppUserId = "b",
+                        DateStarted = DateTime.Now.AddDays(-1),
+                        ProductId = Guid.Parse("FDC7BB35-4A57-4491-AD47-9B0AD9B18637")
+                    },
+                    new ProductViewer  
+                    {
+                        AppUserId = "d",
+                        DateStarted = DateTime.Now.AddDays(-1),
+                        ProductId = Guid.Parse("FDC7BB35-4A57-4491-AD47-9B0AD9B18637")
+                    },
+                    new ProductViewer  
+                    {
+                        AppUserId = "b",
+                        DateStarted = DateTime.Now.AddDays(-1),
+                        ProductId = Guid.Parse("AEE0C4FD-C8C8-4184-B91C-7BAC64213821")
+                    },
+                    new ProductViewer  
+                    {
+                        AppUserId = "g",
+                        DateStarted = DateTime.Now.AddDays(-1),
+                        ProductId = Guid.Parse("AEE0C4FD-C8C8-4184-B91C-7BAC64213821")
+                    },
+                    new ProductViewer  
+                    {
+                        AppUserId = "a",
+                        DateStarted = DateTime.Now.AddDays(-1),
+                        ProductId = Guid.Parse("D938C1D0-3321-4357-B7C3-D5144C4EEB68")
+                        
+                    },
+                    new ProductViewer  
+                    {
+                        AppUserId = "d",
+                        DateStarted = DateTime.Now.AddDays(-1),
+                        ProductId = Guid.Parse("D938C1D0-3321-4357-B7C3-D5144C4EEB68")
+                    }
+                };
+              
+            await context.ProductViewers.AddRangeAsync(productViewers);
+            await context.SaveChangesAsync();
+            }
+
             //==PRODUCT MESSAGES===
             if (!context.Messages.Any())
             {
