@@ -12,7 +12,8 @@ namespace Domain
         public DateTime Date { get; set; }
         public string City { get; set; }
         public virtual Country Country { get; set; }
-        public string Venue { get; set; }
+        // public string Venue { get; set; }
+        public string Departure { get; set; }
         public string Destination { get; set; }
         public bool IsActive { get; set; } = true;
         public virtual ICollection<UserActivity> UserActivities { get; set; }

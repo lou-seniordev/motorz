@@ -121,7 +121,7 @@ namespace Application.Activities
                         x.Title.Contains(request.Search) ||
                         x.Description.Contains(request.Search) ||
                         x.City.Equals(request.Search) ||
-                        x.Venue.Equals(request.Search) ||
+                        x.Departure.Equals(request.Search) ||
                         x.Destination.Equals(request.Search)
                     );
                     activities = await GetActivityList(request, queryable, activities);

@@ -25,7 +25,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
     {
       key: "starting_point",
       title: "Where is a starting Point?",
-      content: ["In " + activity.city + ", " + activity.venue].join(" "),
+      content: ["In " + activity.city + ", " + activity.departure].join(" "),
     },
     {
       key: "destination",

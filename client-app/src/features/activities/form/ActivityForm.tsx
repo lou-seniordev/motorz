@@ -29,7 +29,7 @@ const validate = combineValidators({
     })
   )(),
   city: isRequired('City'),
-  venue: isRequired('Venue'),
+  departure: isRequired('Departure'),
   date: isRequired('Date'),
   time: isRequired('Time'),
 });
@@ -163,9 +163,9 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   component={TextInput}
                 />
                 <Field
-                  name='venue'
-                  placeholder='Venue/Starting Point'
-                  value={activity.venue}
+                  name='departure'
+                  placeholder='Departure/Starting Point'
+                  value={activity.departure}
                   component={TextInput}
                 />
                 <Field

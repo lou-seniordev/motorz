@@ -1454,7 +1454,7 @@ namespace Persistence
                         Category = "City Ridding",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),//"Italy",
-                        Venue = "Pub",
+                        Departure = "Pub",
                         Destination = "Soho",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1475,7 +1475,7 @@ namespace Persistence
                         Category = "Go To Places",
                         City = "Paris",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "France"),
-                        Venue = "The Louvre",
+                        Departure = "The Louvre",
                         Destination = "Champs Elysses",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1502,7 +1502,7 @@ namespace Persistence
                         Category = "City Ridding",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
-                        Venue = "Wembly Stadium",
+                        Departure = "Wembly Stadium",
                         Destination = "Outside London",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1595,7 +1595,7 @@ namespace Persistence
                         Category = "Out To Lunch",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
-                        Venue = "Jamies Italian",
+                        Departure = "Jamies Italian",
                         Destination = "Italian Pizzeria",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1622,7 +1622,7 @@ namespace Persistence
                         Category = "Mountains",
                         City = "Ljubljana",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
-                        Venue = "Tivoli",
+                        Departure = "Tivoli",
                         Destination = "Triglav",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1649,7 +1649,7 @@ namespace Persistence
                         Category = "Go To Places",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
-                        Venue = "British Museum",
+                        Departure = "British Museum",
                         Destination = "StoneHenge",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1670,7 +1670,7 @@ namespace Persistence
                         Category = "Racing",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
-                        Venue = "Punch and Judy",
+                        Departure = "Punch and Judy",
                         Destination = "Calais",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1697,7 +1697,7 @@ namespace Persistence
                         Category = "Rock And Roll",
                         City = "London",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
-                        Venue = "O2 Arena",
+                        Departure = "O2 Arena",
                         Destination = "Hide Park",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1724,7 +1724,7 @@ namespace Persistence
                         Category = "City Ridding",
                         City = "Berlin",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Germany"),
-                        Venue = "Unter der Leyen",
+                        Departure = "Unter der Leyen",
                         Destination = "Brandburg Gate",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1751,7 +1751,7 @@ namespace Persistence
                         Category = "By The Sea",
                         City = "Pula",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
-                        Venue = "Titov park",
+                        Departure = "Titov park",
                         Destination = "Kamenjak",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1778,7 +1778,7 @@ namespace Persistence
                         Category = "By The Sea",
                         City = "Pula",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
-                        Venue = "Varudela",
+                        Departure = "Varudela",
                         Destination = "Motovun",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1805,7 +1805,7 @@ namespace Persistence
                         Category = "Outdoors",
                         City = "Ljubljana",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
-                        Venue = "Kongresni trg",
+                        Departure = "Kongresni trg",
                         Destination = "Rakov Skocjan",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1826,7 +1826,7 @@ namespace Persistence
                         Category = "Heavy Metal",
                         City = "Maribor",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
-                        Venue = "Veliki Park",
+                        Departure = "Veliki Park",
                         Destination = "Lendava",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1853,7 +1853,7 @@ namespace Persistence
                         Category = "Gang",
                         City = "Zagreb",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
-                        Venue = "Jarun",
+                        Departure = "Jarun",
                         Destination = "Sava",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1874,7 +1874,7 @@ namespace Persistence
                         Category = "Cruise",
                         City = "Roma",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
-                        Venue = "Piazza Venezia",
+                        Departure = "Piazza Venezia",
                         Destination = "San Gandolfo",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1895,7 +1895,7 @@ namespace Persistence
                         Category = "By The Sea",
                         City = "Roma",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
-                        Venue = "Pignetto",
+                        Departure = "Pignetto",
                         Destination = "Ostia, Roma",
                         IsActive = true,
                         UserActivities = new List<UserActivity>
@@ -1922,7 +1922,7 @@ namespace Persistence
                         Category = "Cruise",
                         City = "Trieste",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
-                        Venue = "San Marco",
+                        Departure = "San Marco",
                         Destination = "Montfalcone",
                         IsActive = true,
                         UserActivities = new List<UserActivity>

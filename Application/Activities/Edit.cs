@@ -21,7 +21,7 @@ namespace Application.Activities
             public DateTime? Date { get; set; }
             public string City { get; set; }
             public string CountryName { get; set; }
-            public string Venue { get; set; }
+            public string Departure { get; set; }
             public string Destination { get; set; }
 
 
@@ -37,7 +37,7 @@ namespace Application.Activities
                 RuleFor(x => x.Date).NotEmpty();
                 RuleFor(x => x.City).NotEmpty();
                 RuleFor(x => x.CountryName).NotEmpty();
-                RuleFor(x => x.Venue).NotEmpty();
+                RuleFor(x => x.Departure).NotEmpty();
                 RuleFor(x => x.Destination).NotEmpty();
 
             }
@@ -73,7 +73,7 @@ namespace Application.Activities
                 activity.Date = request.Date ?? activity.Date;
                 activity.City = request.City ?? activity.City;
                 activity.Country = country ?? activity.Country;
-                activity.Venue = request.Venue ?? activity.Venue;
+                activity.Departure = request.Departure ?? activity.Departure;
                 activity.Destination = request.Destination ?? activity.Destination;
 
                 var success = await _context.SaveChangesAsync() > 0;

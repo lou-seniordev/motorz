@@ -14,7 +14,7 @@ export interface IActivity {
   city: string;
   countryName: string;
   countryId: string;
-  venue: string;
+  departure: string;
   destination: string;
   isGoing: boolean;
   isHost: boolean;   
@@ -47,7 +47,7 @@ export class ActivityFormValues implements IActivityFormValues {
   city: string = '';
   countryName: string = '';
   countryId: string = '';
-  venue: string = '';
+  departure: string = '';
   destination: string = '';
 
 

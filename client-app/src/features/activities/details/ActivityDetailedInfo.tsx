@@ -34,7 +34,7 @@ const ActivityDetailedInfo: React.FC<{activity: IActivity}> = ({activity}) => {
                    <Icon name='marker' size='large' color='teal' />
                  </Grid.Column>
                  <Grid.Column width={11}>
-                   <span>{activity.city}, {activity.venue}</span>
+                   <span>{activity.city}, {activity.departure}</span>
                  </Grid.Column>
                </Grid>
              </Segment>
