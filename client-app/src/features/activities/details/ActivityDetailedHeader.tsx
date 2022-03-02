@@ -1,16 +1,16 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
+import { Segment, Item, Header, Button } from "semantic-ui-react";//, Image
 import { IActivity } from "../../../app/models/activity";
 import { format } from "date-fns";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import ConfirmDeactivate from "../modals/ConfirmDeactivate";
 
-const activityImageStyle = {
-  filter: "brightness(70%)",
-};
+// const activityImageStyle = {
+//   filter: "brightness(70%)",
+// };
 
 const activityImageTextStyle = {
   position: "absolute",
@@ -47,11 +47,11 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: "0" }}>
-        <Image
+        {/* <Image
           src={`/assets/categoryImages/${activity.category}.jpg`}
           fluid
           style={activityImageStyle}
-        />
+        /> */}
         <Segment basic style={activityImageTextStyle}>
           <Item.Group>
             <Item>

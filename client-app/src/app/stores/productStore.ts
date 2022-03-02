@@ -7,7 +7,7 @@ import agent from '../api/agent';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 
-const LIMIT = 4;
+const LIMIT = 12;
 
 export default class ProductStore {
   rootStore: RootStore;
@@ -72,7 +72,7 @@ export default class ProductStore {
   }
 
 
-  // //--in use--
+  // //--not in use anymore--
   // groupProductsByDate(products: IProduct[]) {
   //   const sortedProducts = products.sort(
   //     (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
@@ -151,6 +151,7 @@ export default class ProductStore {
     try {
       await agent.Products.create(product);
       runInAction('creating product', () => {
+        product.viewers = [];
         this.productRegistry.set(product.id, product);
         this.submitting = false;
       });
@@ -190,7 +191,7 @@ export default class ProductStore {
       await agent.Products.delete(id);
       runInAction('deleting product', () => {
         this.productRegistry.delete(id);
-        console.log('this.productRegistry', this.productRegistry)
+        // console.log('this.productRegistry', this.productRegistry)
         this.submitting = false;
       });
     } catch (error) {

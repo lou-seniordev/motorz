@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Segment, List, Item, Label, Image } from "semantic-ui-react";
+import { Segment, List, Item, Label, Image, Sidebar, Menu, Header } from "semantic-ui-react";
 import { IAttendee } from "../../../app/models/activity";
 
 interface IProps {
@@ -10,6 +10,18 @@ interface IProps {
 const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
   return (
     <Fragment>
+    {/* // <Sidebar.Pushable as={Segment}>
+    //   <Sidebar
+    //   // as={Menu}
+    //   // animation='overlay'
+    //   // icon='labeled'
+    //   // inverted
+    //   // vertical
+    //   visible
+    //   horizontal
+    //   // width='thin'
+    // > */}
+
       <Segment
         textAlign='center'
         style={{ border: "none" }}
@@ -28,14 +40,16 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
                 <Label
                   style={{ position: "absolute" }}
                   color='teal'
-                  ribbon='right'
+                  icon='ioxhost'
+                  // ribbon='right'
+                  corner='right'
                 >
                   Host
                 </Label>
               )}
-              <Image size='tiny' src={attendee.image || "/assets/user.png"} />
+              <Image size='mini' src={attendee.image || "/assets/user.png"} />
               <Item.Content verticalAlign='middle'>
-                <Item.Header as='h3'>
+                <Item.Header as='h4'>
                   <Link to={`/profile/${attendee.username}`}>
                     {attendee.displayName}
                   </Link>
@@ -48,7 +62,15 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
           ))}
         </List>
       </Segment>
-    </Fragment>
+    {/* </Sidebar>
+    <Sidebar.Pusher>
+      <Segment basic>
+        <Header as='h3'>Application Content</Header>
+        <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+      </Segment>
+    </Sidebar.Pusher>
+    </Sidebar.Pushable> */}
+     </Fragment>
   );
 };
 

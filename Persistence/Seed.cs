@@ -267,6 +267,7 @@ namespace Persistence
                 context.SaveChanges();
             }
 
+           
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -296,6 +297,8 @@ namespace Persistence
                                 City= "Zagreb",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),//"Italy",
                                 NumberSeen = 10,
+                                DatePublished = DateTime.Now.AddDays(-2),
+                                DateActivated = DateTime.Now.AddDays(-2),
                                 ActivationCounter = 0,
                                 PhoneNumber= "+38533890279",
                                 ProductPhoto = new ProductPhoto 
@@ -315,8 +318,8 @@ namespace Persistence
                                 Brand = "Dream Time",
                                 Model = "De luxe",
                                 Price = "100",
-                                DatePublished = DateTime.Now,
-                                DateActivated = DateTime.Now,
+                                DatePublished = DateTime.Now.AddDays(-1),
+                                DateActivated = DateTime.Now.AddDays(-1),
                                 IsActive = true,
                                 IsAdvertised = false,
                                 NumberSeen = 20,
@@ -326,11 +329,6 @@ namespace Persistence
                                     Id = "gloves",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
                                 }
-                              
-                                
-
-                                
-
                             },
                             new Product
                             {
@@ -343,8 +341,8 @@ namespace Persistence
                                 Brand = "Dainese",
                                 Model = "Rain master lady d",
                                 Price = "200",
-                                DatePublished = DateTime.Now,
-                                DateActivated = DateTime.Now,
+                                DatePublished = DateTime.Now.AddDays(-1),
+                                DateActivated = DateTime.Now.AddDays(-1),
                                 IsActive = true,
                                 IsAdvertised = false,
                                 NumberSeen = 0,
@@ -385,6 +383,8 @@ namespace Persistence
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                                 PhoneNumber= "+38633890279",
                                 NumberSeen = 1,
+                                DatePublished = DateTime.Now.AddDays(-1),
+                                DateActivated = DateTime.Now.AddDays(-1),
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 0,
@@ -407,8 +407,8 @@ namespace Persistence
                                 Model = "Speed X",
                                 Price = "75",
                                 NumberSeen = 4  ,
-                                DatePublished = DateTime.Now,
-                                DateActivated = DateTime.Now,
+                                DatePublished = DateTime.Now.AddDays(-1),
+                                DateActivated = DateTime.Now.AddDays(-1),
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 0,
@@ -430,8 +430,8 @@ namespace Persistence
                                 Brand = "Ghost racing",
                                 Model = "Speed X",
                                 Price = "10",
-                                DatePublished = DateTime.Now,
-                                DateActivated = DateTime.Now,
+                                DatePublished = DateTime.Now.AddDays(-1),
+                                DateActivated = DateTime.Now.AddDays(-1),
                                 IsActive = true,
                                 IsAdvertised = false,
                                 NumberSeen = 4,
@@ -469,6 +469,8 @@ namespace Persistence
                                 City= "Pula",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                                 NumberSeen = 4,
+                                DatePublished = DateTime.Now.AddDays(-1),
+                                DateActivated = DateTime.Now.AddDays(-1),
                                 PhoneNumber= "+38633890279",
                                 ProductPhoto = new ProductPhoto {
                                     Id = "gnhxynb60e0kivgydstb",
@@ -486,8 +488,8 @@ namespace Persistence
                                 Brand = "X Tribe",
                                 Model = "Large",
                                 Price = "3",
-                                DatePublished = DateTime.Now,
-                                DateActivated = DateTime.Now,
+                                DatePublished = DateTime.Now.AddDays(-1),
+                                DateActivated = DateTime.Now.AddDays(-1),
                                 IsActive = true,
                                 IsAdvertised = false,
                                 NumberSeen = 4,
@@ -509,8 +511,8 @@ namespace Persistence
                                 Brand = "X sticker",
                                 Model = "Small",
                                 Price = "1",
-                                DatePublished = DateTime.Now,
-                                DateActivated = DateTime.Now,
+                                DatePublished = DateTime.Now.AddDays(-1),
+                                DateActivated = DateTime.Now.AddDays(-1),
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 1,
@@ -518,7 +520,6 @@ namespace Persistence
                                     Id = "nz6xfbrz5zrsdhvqwevw",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1562103618/nz6xfbrz5zrsdhvqwevw.jpg",
                                 }
-
                             },
 
                         }
@@ -536,8 +537,9 @@ namespace Persistence
                                 IsMain = true,
                             }
                         },
-                        Products = new List<Product> {
-                             new Product
+                        Products = new List<Product> 
+                        {
+                            new Product
                             {
                                 Id = new Guid(),
                                 Title = "Toy",
@@ -604,12 +606,217 @@ namespace Persistence
                         UserName = "giulietta",
                         Email = "giulietta@test.com"
                     },
+                    new AppUser
+                    {
+                        Id = "ia",
+                        DisplayName = "test_user_1",
+                        UserName = "test_user_1",
+                        Email = "test_user_1@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "ia",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "ib",
+                        DisplayName = "test_user_2",
+                        UserName = "test_user_2",
+                        Email = "test_user_2@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "ib",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "ic",
+                        DisplayName = "test_user_3",
+                        UserName = "test_user_3",
+                        Email = "test_user_3@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "ic",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "id",
+                        DisplayName = "test_user_4",
+                        UserName = "test_user_4",
+                        Email = "test_user_4@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "id",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "ie",
+                        DisplayName = "test_user_5",
+                        UserName = "test_user_5",
+                        Email = "test_user_5@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "ie",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "if",
+                        DisplayName = "test_user_6",
+                        UserName = "test_user_6",
+                        Email = "test_user_6@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "if",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "ig",
+                        DisplayName = "test_user_7",
+                        UserName = "test_user_7",
+                        Email = "test_user_7@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "ig",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "ih",
+                        DisplayName = "test_user_8",
+                        UserName = "test_user_8",
+                        Email = "test_user_8@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "ih",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "ii",
+                        DisplayName = "test_user_9",
+                        UserName = "test_user_9",
+                        Email = "test_user_9@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "ii",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
+                    new AppUser
+                    {
+                        Id = "ij",
+                        DisplayName = "test_user_10",
+                        UserName = "test_user_10",
+                        Email = "test_user_10@test.com",
+                        Photos = new List<Photo> {
+                            new Photo {
+                                Id = "ij",
+                                Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                IsMain = true,
+                            }
+                        },
+                    },
                 };
                 foreach (var user in users)
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
                 }
             }
+            //==TEST PRODUCT 
+            bool shouldAddTestingData = true;
+            if(shouldAddTestingData) 
+            {
+
+             var products = new List<Product>();
+            
+                for(int i=1; i<35; i++)
+                {
+                    var temp = new Product      
+                    {
+                        Id = new Guid(),
+                        Seller = userManager.Users.SingleOrDefault(x => x.UserName == "joe"),
+                        Title = "Test" + i,
+                        Category = "Other",
+                        City= "Ljubljana " + i + ". krat",
+                        Country = context.Countries.SingleOrDefault(x => x.Name == "Switzerland"),
+                        PhoneNumber= "+413868685" + i,
+                        Brand = "Test Products",
+                        Model = "Test Products",
+                        Price = "100" + i*20,
+                        DatePublished = DateTime.Now.AddMonths(-i),
+                        DateActivated = DateTime.Now.AddMonths(-i),
+                        IsActive = true,
+                        IsAdvertised = false,
+                        NumberSeen = 20,
+                        ActivationCounter = 1,
+                        ProductPhoto = new ProductPhoto 
+                        {
+                            Id = "djq0puodrzfqvkur2f" + i,
+                            Url = "https://res.cloudinary.com/motofy/image/upload/v1646220808/sm2am3kwmdyvq6hhmc6t.jpg",
+                        }
+                    };
+                    products.Add(temp);
+                }
+            await context.Products.AddRangeAsync(products);
+            await context.SaveChangesAsync();
+
+            // var moreUsers = new List<AppUser>();
+            // for(int i=1; i<35; i++)
+            //     {
+            //         var tempUsr = new AppUser
+            //         {
+            //             Id = "user_" + i,
+            //             DisplayName = "test_user " + i,
+            //             UserName = "test_user " + i,
+            //             Email = "test_user."+ i +"@test.com",
+            //             Photos = new List<Photo> {
+            //                 new Photo {
+            //                     Id = "test_user" + i,
+            //                     Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+            //                     IsMain = true,
+            //                 }
+            //             },
+            //         };
+            //         // moreUsers.Add(tempUsr);
+            //     }
+            //     // foreach (var user in users)
+            //     // {
+            //     //     await userManager.CreateAsync(user, "Pa$$w0rd");
+            //     // }
+
+            }                            
+
+
             //==PRODUCT VIEWERS
             if (!context.ProductViewers.Any())
             {
@@ -1304,13 +1511,79 @@ namespace Persistence
                             {
                                 AppUserId = "b",
                                 IsHost = true,
-                                DateJoined = DateTime.Now.AddMonths(1)
+                                DateJoined = DateTime.Now.AddDays(-1)
                             },
                             new UserActivity
                             {
                                 AppUserId = "a",
                                 IsHost = false,
-                                DateJoined = DateTime.Now.AddMonths(1)
+                                DateJoined = DateTime.Now.AddDays(-2)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "i",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-3)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "ia",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-4)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "ib",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-5)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "ic",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-6)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "id",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-7)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "ie",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-8)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "if",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-9)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "ig",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-10)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "ih",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-11)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "ii",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-12)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "ij",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddDays(-13)
                             },
                         }
                     },

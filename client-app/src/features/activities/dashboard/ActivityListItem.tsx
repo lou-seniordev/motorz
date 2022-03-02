@@ -20,12 +20,12 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
     {
       key: "when",
       title: "When does it start?",
-      content: [format(activity.date, "MMMM d yyyy h:mm:a")].join(" "),
+      content: ["On " + format(activity.date, "MMMM d yyyy h:mm:a")].join(" "),
     },
     {
       key: "starting_point",
       title: "Where is a starting Point?",
-      content: ["On " + activity.city + ", " + activity.venue].join(" "),
+      content: ["In " + activity.city + ", " + activity.venue].join(" "),
     },
     {
       key: "destination",
