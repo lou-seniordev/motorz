@@ -1,27 +1,22 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Segment, List, Item, Label, Image, Sidebar, Menu, Header } from "semantic-ui-react";
+import {
+  Segment,
+  List,
+  Item,
+  Label,
+  Image,
+  // , Sidebar, Menu, Header
+} from "semantic-ui-react";
 import { IAttendee } from "../../../app/models/activity";
 
 interface IProps {
   attendees: IAttendee[];
 }
-const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
+const ActivityDetailedSidebarRight: React.FC<IProps> = ({ attendees }) => {
   return (
     <Fragment>
-    {/* // <Sidebar.Pushable as={Segment}>
-    //   <Sidebar
-    //   // as={Menu}
-    //   // animation='overlay'
-    //   // icon='labeled'
-    //   // inverted
-    //   // vertical
-    //   visible
-    //   horizontal
-    //   // width='thin'
-    // > */}
-
       <Segment
         textAlign='center'
         style={{ border: "none" }}
@@ -30,7 +25,8 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
         inverted
         color='teal'
       >
-        {attendees.length} {attendees.length === 1 ? "Person" : "People "} in it
+        {attendees.length} {attendees.length === 1 ? "Person" : "People "}{" "}
+        following
       </Segment>
       <Segment attached>
         <List relaxed divided>
@@ -40,8 +36,6 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
                 <Label
                   style={{ position: "absolute" }}
                   color='teal'
-                  icon='ioxhost'
-                  // ribbon='right'
                   corner='right'
                 >
                   Host
@@ -62,16 +56,8 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
           ))}
         </List>
       </Segment>
-    {/* </Sidebar>
-    <Sidebar.Pusher>
-      <Segment basic>
-        <Header as='h3'>Application Content</Header>
-        <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
-      </Segment>
-    </Sidebar.Pusher>
-    </Sidebar.Pushable> */}
-     </Fragment>
+    </Fragment>
   );
 };
 
-export default observer(ActivityDetailedSidebar);
+export default observer(ActivityDetailedSidebarRight);

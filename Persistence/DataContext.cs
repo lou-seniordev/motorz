@@ -12,12 +12,15 @@ namespace Persistence
 
         // public DbSet<Value> Values { get; set; }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<UserActivity> UserActivities { get; set; }
+        public DbSet<DiaryEntry> DiaryEntries { get; set; }
+        public DbSet<DiaryPhoto> DiaryPhotos { get; set; }
+
         public DbSet<Photo> Photos { get; set; }
+
         public DbSet<Product> Products { get; set; }
-        
         public DbSet<ProductViewer> ProductViewers { get; set; }
 
-        public DbSet<UserActivity> UserActivities { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<UserFollowing> Followings { get; set; }
 
@@ -27,7 +30,6 @@ namespace Persistence
         public DbSet<MotofyPhoto> MotofyPhotos { get; set; }
         public DbSet<Forumpost> Forumposts { get; set; }
         public DbSet<Mechanic> Mechanics { get; set; }
-
         public DbSet<UserMotofy> UserMotofies { get; set; }
 
         //==Redundant but kept for future options== (code:finduser)
@@ -177,6 +179,11 @@ namespace Persistence
             .HasOne(a => a.ProductPhoto)
             .WithOne(m => m.Product)
             .HasForeignKey<ProductPhoto>(m => m.ProductForeignKey);
+           
+            builder.Entity<DiaryEntry>()
+            .HasOne(a => a.DiaryPhoto)
+            .WithOne(m => m.DiaryEntry)
+            .HasForeignKey<DiaryPhoto>(m => m.DiaryEntryForeignKey);
 
             // builder.Entity<ForumpostRating>()
             // .HasOne(a => a.AppUser)

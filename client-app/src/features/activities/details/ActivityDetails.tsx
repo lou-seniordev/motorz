@@ -9,9 +9,11 @@ import { Grid
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ActivityDetailedChat from "./ActivityDetailedChat";
-import ActivityDetailedHeader from "./ActivityDetailedHeader";
+import ActivityDetailedManager from "./ActivityDetailedManager";
 import ActivityDetailedInfo from "./ActivityDetailedInfo";
-import ActivityDetailedSidebar from "./ActivityDetailedSidebar";
+import ActivityDetailedSidebarRight from "./ActivityDetailedSidebarRight";
+import ActivityDetailedHeader from "./ActivityDetailedHeader";
+import ActivityDetailedSidebarLeft from "./ActivityDetailedSidebarLeft";
 
 interface DetailParams {
   id: string;
@@ -36,19 +38,25 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   // console.log(attendees);
   return (
     <Grid>
-      <Grid.Column computer={12} mobile={16}>
+      <Grid.Column computer={3} mobile={16}>
+      
+          <ActivityDetailedSidebarLeft diaryEntries={activity.diaryEntries} activity={activity} />
+      
+      </Grid.Column>
+      <Grid.Column computer={10} mobile={16}>
         {/* <Ref innerRef={contextRef}>
           <> */}
           <ActivityDetailedHeader activity={activity} />
           <ActivityDetailedInfo activity={activity} />
+          <ActivityDetailedManager activity={activity} />
           <ActivityDetailedChat />
           {/* </>
         </Ref> */}
       </Grid.Column>
-      <Grid.Column computer={4} mobile={16}>
+      <Grid.Column computer={3} mobile={16}>
         {/* style={{ marginRight: 30, position: "fixed" }} */}
         {/* <Sticky context={contextRef} pushing style={{ overflow:"auto"  }}> */}
-          <ActivityDetailedSidebar attendees={activity.attendees} />
+          <ActivityDetailedSidebarRight attendees={activity.attendees} />
         {/* </Sticky> */}
       </Grid.Column>
     </Grid>
@@ -57,7 +65,3 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
 export default observer(ActivityDetails);
 
-{
-  /* <Sticky style={{ marginRight: 30, position: "fixed" }}>
-</Sticky> */
-}

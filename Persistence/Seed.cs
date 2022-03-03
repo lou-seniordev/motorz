@@ -11,6 +11,8 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
+            bool initialRun = false;
+
             if (!context.Countries.Any())
             {
                 var countries = new List<Country>
@@ -753,8 +755,8 @@ namespace Persistence
                 }
             }
             //==TEST PRODUCT 
-            bool shouldAddTestingData = true;
-            if(shouldAddTestingData) 
+            // bool shouldAddTestingData = false;
+            if(initialRun) 
             {
 
              var products = new List<Product>();
@@ -781,7 +783,7 @@ namespace Persistence
                         ActivationCounter = 1,
                         ProductPhoto = new ProductPhoto 
                         {
-                            Id = "djq0puodrzfqvkur2f" + i,
+                            Id = "djq0pu"+ (i-1) +"rzfqvkur2f" + i,
                             Url = "https://res.cloudinary.com/motofy/image/upload/v1646220808/sm2am3kwmdyvq6hhmc6t.jpg",
                         }
                     };
@@ -1505,6 +1507,71 @@ namespace Persistence
                         Departure = "Wembly Stadium",
                         Destination = "Outside London",
                         IsActive = true,
+                        // TotalDiaries = 3,
+                        MotorcycleBrand = new Brand
+                        {
+                            Id = Guid.Parse("75A7C213-06D2-4EC3-87AD-FFF9F14F83B0"),
+                            Name = "Yamaha",
+                            DateOfEstablishment = DateTime.Now.AddYears(-76),
+                            LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636477685/yamaha.png",
+                            LandOfOrigin = "Japan",
+                            CityOfOrigin = "Iwata",
+                        },
+                        //context.Brands.SingleOrDefault(x => x.Id == Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31")),
+                        DiaryEntries = new List<DiaryEntry>
+                        {
+                            new DiaryEntry
+                            {
+                                Id = Guid.Parse("30f9f621-9f63-4f49-8b64-ecf83196a224"),
+                                EntryDate = DateTime.Now.AddDays(-2),
+                                DayNumber = 1,
+                                Body = "One of those days, I am feeling fantastic",
+                                LocationCity = "Pula",
+                                LocationCountry = "Croatia",
+                                Mood = "Enthusiastic",
+                                DiaryPhoto = new DiaryPhoto
+                                {
+                                    Id = "dayoneid",
+                                    Url = "https://upload.wikimedia.org/wikipedia/commons/1/13/Pula-avion.JPG",
+                                    DateUploaded = DateTime.Now.AddHours(-30),
+                                    DiaryEntryForeignKey = Guid.Parse("30f9f621-9f63-4f49-8b64-ecf83196a224")
+                                }
+                            },
+                            new DiaryEntry
+                            {
+                                Id = Guid.Parse("fa512f59-4b3e-4710-b7bd-84b5a838043a"),
+                                EntryDate = DateTime.Now.AddDays(-1),
+                                DayNumber = 2,
+                                Body = "Today was little colder, but road is nevertheless fantastic!",
+                                LocationCity = "Labin",
+                                LocationCountry = "Croatia",
+                                Mood = "Happy",
+                                DiaryPhoto = new DiaryPhoto
+                                {
+                                    Id = "daytwoid",
+                                    Url = "https://thumbs.dreamstime.com/b/photo-attractive-woman-has-real-adventure-outdoor-stands-near-motorbike-dressed-bikers-outfit-enjoys-sunny-day-calm-128779332.jpg",
+                                    DateUploaded = DateTime.Now.AddHours(-20),
+                                    DiaryEntryForeignKey = Guid.Parse("fa512f59-4b3e-4710-b7bd-84b5a838043a")
+                                }
+                            },
+                            new DiaryEntry
+                            {
+                                Id = Guid.Parse("1c5bfedd-1af1-4246-a265-05a14ace55fa"),
+                                EntryDate = DateTime.Now,
+                                DayNumber = 3,
+                                Body = "Some time to rest from the road",
+                                LocationCity = "Pazin",
+                                LocationCountry = "Croatia",
+                                Mood = "Relaxed",
+                                DiaryPhoto = new DiaryPhoto
+                                {
+                                    Id = "daythreeid",
+                                    Url = "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FtcGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+                                    DateUploaded = DateTime.Now,
+                                    DiaryEntryForeignKey = Guid.Parse("1c5bfedd-1af1-4246-a265-05a14ace55fa")
+                                }
+                            }
+                        },
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1947,8 +2014,12 @@ namespace Persistence
                 await context.SaveChangesAsync();
             }
 
-            if (!context.Brands.Any())
+            // bool shouldAddBrands = false;
+            if (initialRun) 
             {
+
+            // if (!context.Brands.Any())
+            // {
                 var brands = new List<Brand>
                 {
                     new Brand
@@ -1996,21 +2067,12 @@ namespace Persistence
                         LandOfOrigin = "Japan",
                         CityOfOrigin = "Tokyo",
                     },
-                    new Brand
-                    {
-                        Id = Guid.Parse("75A7C213-06D2-4EC3-87AD-FFF9F14F83B0"),
-                        Name = "Yamaha",
-                        DateOfEstablishment = DateTime.Now.AddYears(-76),
-                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636477685/yamaha.png",
-                        LandOfOrigin = "Japan",
-                        CityOfOrigin = "Iwata",
-                    },
-
                 };
-
                 context.Brands.AddRange(brands);
                 context.SaveChanges();
+            // }
             }
+
 
             // if (!context.MotofyPhotos.Any())
             // {

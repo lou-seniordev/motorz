@@ -34,15 +34,7 @@ const ActivityFilters = () => {
           onClick={() => setPredicate("all", "true")}
           color={"blue"}
           name={"all"}
-          content={"All Activities"}
-          style={styles}
-        />
-        <Menu.Item
-          active={predicate.has("isGoing")}
-          onClick={() => setPredicate("isGoing", "true")}
-          color={"blue"}
-          name={"username"}
-          content={"I have joined"}
+          content={"All Diaries"}
           style={styles}
         />
         <Menu.Item
@@ -50,7 +42,15 @@ const ActivityFilters = () => {
           onClick={() => setPredicate("isHost", "true")}
           color={"blue"}
           name={"host"}
-          content={"I own"}
+          content={"My own"}
+          style={styles}
+        />
+        <Menu.Item
+          active={predicate.has("isGoing")}
+          onClick={() => setPredicate("isGoing", "true")}
+          color={"blue"}
+          name={"username"}
+          content={"Diaries I follow"}
           style={styles}
         />
         <Menu.Item

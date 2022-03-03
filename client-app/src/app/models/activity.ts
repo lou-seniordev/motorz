@@ -21,17 +21,11 @@ export interface IActivity {
   isActive: boolean;
   attendees: IAttendee[];
   comments: IComment[];
+  diaryEntries: IDiaryEntry[];
+  motorcycleBrandName:string;
+  motorcycleBrandLogoUrl:string;
 }
 
-// export interface IComment {
-//   id: string;
-//   createdAt: Date;
-//   body: string;
-//   username: string;
-//   displayName: string;
-//   image: string;
-
-// }
 
 export interface IActivityFormValues extends Partial<IActivity> {
   time?: Date;
@@ -49,6 +43,7 @@ export class ActivityFormValues implements IActivityFormValues {
   countryId: string = '';
   departure: string = '';
   destination: string = '';
+  //TODO:motorcycleBrandId, name etc...
 
 
   constructor(init?: IActivityFormValues) {
@@ -65,4 +60,14 @@ export interface IAttendee {
   image: string;
   isHost: boolean;
   following?: boolean;
+}
+export interface IDiaryEntry {
+  id:string;
+  body: string;
+  dayNumber:string;
+  entryDate:Date;
+  locationCity:string;
+  locationCountry:string;
+  photoUrl:string;
+  mood:string;
 }

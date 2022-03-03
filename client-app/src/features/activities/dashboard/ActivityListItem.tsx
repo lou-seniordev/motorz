@@ -87,7 +87,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
         <Icon name='marker' /> Starting Point: {activity.venue}, {activity.city}
         <Icon name='marker' /> Destination: {activity.destination}  */}
 
-        <Accordion panels={panels} styled exclusive={false}/>
+        <Accordion fluid panels={panels} styled exclusive={false}/>
       </Segment>
       <Segment clearing>
         <Item.Group>

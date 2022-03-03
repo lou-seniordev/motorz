@@ -87,7 +87,7 @@ export default class ActivityStore {
       })
       .configureLogging(LogLevel.Information)
       .build();
-    console.log('activity', this.activity!.comments)
+    // console.log('activity', this.activity!.comments) 
 
     this.hubConnection
       .start()
@@ -205,6 +205,7 @@ export default class ActivityStore {
       this.loadingInitial = true;
       try {
         activity = await agent.Activities.details(id);
+        // console.log(toJS(activity));
         runInAction('getting activity', () => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activity = activity;
