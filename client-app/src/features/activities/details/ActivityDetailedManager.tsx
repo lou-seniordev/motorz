@@ -1,9 +1,11 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Segment,
-  // Item, Header, 
-  Button } from "semantic-ui-react";//, Image
+import {
+  Segment,
+  // Item, Header,
+  Button,
+} from "semantic-ui-react"; //, Image
 import { IActivity } from "../../../app/models/activity";
 // import { format } from "date-fns";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -31,19 +33,28 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
   const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
   const { removeFeedItem, addFeedItem } = rootStore.feedStore;
 
+  const [managing, setManaging] = useState(false);
+
   const { openModal } = rootStore.modalStore;
 
   const handleDeactivateActivity = (id: string) => {
-    openModal(<ConfirmDeactivate activityId={id} />);
+    // openModal(<ConfirmDeactivate activityId={id} />);
+    setManaging(false);
   };
   const handleCancelAttendance = (id: string) => {
-    cancelAttendance();
-    removeFeedItem(id, "Joined Motocycle Diary");
-    addFeedItem(id, "Left Motorcycle Diary");
+    // cancelAttendance();
+    // removeFeedItem(id, "Joined Motocycle Diary");
+    // addFeedItem(id, "Left Motorcycle Diary");
+    setManaging(false);
   };
   const handleAttendActivity = (id: string) => {
-    attendActivity();
-    addFeedItem(id, "Joined Motocycle Diary");
+    // attendActivity();
+    // addFeedItem(id, "Joined Motocycle Diary");
+    setManaging(false);
+  };
+
+  const toggleManaging = () => {
+    setManaging(true);
   };
   return (
     <Segment.Group>
@@ -51,25 +62,58 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
         <Segment clearing attached='bottom'>
           {activity.isHost ? (
             <Fragment>
-              <Button
-                as={Link}
-                to={`/manage/${activity.id}`}
-                color='teal'
-                floated='right'
-                // fluid
-              >
-                Manage Your Diary
-              </Button>
-              <Button
-                onClick={() => {
-                  handleDeactivateActivity(activity.id!);
-                }}
-                color='red'
-                floated='left'
-                // fluid
-              >
-                Deactivate
-              </Button>
+              {!managing ? (
+                <Button
+                  // loading={loading}
+                  onClick={toggleManaging}
+                  color='twitter'
+                  fluid
+                >
+                  Manage your activities
+                </Button>
+              ) : (
+                <Fragment>
+                  <Button
+                    as={Link}
+                    to={`/manage/${activity.id}`}
+                    color='teal'
+                    floated='right'
+                    // fluid
+                  >
+                    Manage Your Diary
+                  </Button>
+                  <Button
+                    as={Link}
+                    to={`/createDiaryEntry/${activity.id}`}
+                    color='teal'
+                    floated='right'
+                    // fluid
+                  >
+                    Add New Day 
+                  </Button>
+
+                  <Button
+                    onClick={() => {
+                      handleDeactivateActivity(activity.id!);
+                    }}
+                    color='google plus'
+                    floated='left'
+                    // fluid
+                  >
+                    Deactivate
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setManaging(false)
+                    }}
+                    color='grey'
+                    floated='right'
+                    // fluid
+                  >
+                    Cancel
+                  </Button>
+                </Fragment>
+              )}
             </Fragment>
           ) : activity.isGoing ? (
             <Button

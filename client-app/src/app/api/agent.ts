@@ -5,7 +5,7 @@ import { IMessage, IMessageEnvelope, IMessageToSend } from './../models/message'
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
-import { IActivity, IActivitiesEnvelope } from '../models/activity';
+import { IActivity, IActivitiesEnvelope, IDiaryEntry } from '../models/activity';
 import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 // import { IMotofy } from '../models/motofy';
@@ -15,7 +15,7 @@ import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend
 import { IBrand } from '../models/brand';
 import { IProduct, IProductsEnvelope } from '../models/product';//, ProductFormValues
 import { ICountry } from '../models/country';
-import { specialRequests } from './agentUtil';
+import { postDiaryEntry, postMotofy } from './agentUtil';
 import { postProduct } from './agentUtil';
 import { postMechanic } from './agentUtil';
 import { IFeedEnvelope } from '../models/feed';
@@ -185,7 +185,7 @@ const Motofies = {
   details: (id: string) => requests.get(`/motofies/${id}`),
   // TODO: 
   // create: (motofy: IMotofy) => requests.post('/motofies', motofy),
-  create: (motofy: IMotofy) => specialRequests.motofyForm('/motofies', motofy),//: Promise<IMotofy>
+  create: (motofy: IMotofy) => postMotofy.motofyForm('/motofies', motofy),//: Promise<IMotofy>
 
   update: (motofy: IMotofy) =>
     requests.put(`/motofies/${motofy.id}`, motofy),
@@ -236,6 +236,7 @@ const Activities = {
 
   details: (id: string) => requests.get(`/activities/${id}`),
   create: (activity: IActivity) => requests.post('/activities', activity),
+  createDiaryEntry: (diaryEntry: IDiaryEntry) => postDiaryEntry.diaryEntryForm('/diaryentries', diaryEntry),
   update: (activity: IActivity) =>
     requests.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => requests.delete(`/activities/${id}`),

@@ -70,4 +70,16 @@ export interface IDiaryEntry {
   locationCountry:string;
   photoUrl:string;
   mood:string;
+  file:any;
+  activityId: string;
+}
+
+export class DiaryEntryFormValues {
+  id?: string = undefined;
+  mood: string = '';
+  body: string = '';
+  locationCity: string = '';
+  locationCountry: string = '';
+  photoUrl: string  = '';
+
 }

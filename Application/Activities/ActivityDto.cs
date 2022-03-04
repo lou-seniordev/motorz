@@ -25,8 +25,6 @@ namespace Application.Activities
         public ICollection<AttendeeDto> UserActivities { get; set; }//UserActivities
         public ICollection<CommentDto> Comments { get; set; }
         public virtual ICollection<DiaryEntryDto> DiaryEntries { get; set; }
-        // public int TotalDiaries { get; set; }
-
         public string MotorcycleBrandName { get; set; }
         public string MotorcycleBrandLogoUrl { get; set; }
 

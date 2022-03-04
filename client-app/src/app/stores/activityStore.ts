@@ -1,3 +1,4 @@
+import { IDiaryEntry } from './../models/activity';
 import { observable, action, computed, runInAction, reaction, toJS } from 'mobx';
 import { history } from '../..';
 import agent from '../api/agent';
@@ -235,8 +236,6 @@ export default class ActivityStore {
 
   @action createActivity = async (activity: IActivity) => {
 
-    // console.log('From activityStore: ', activity)
-    // console.log('From createActivity, id is: ', activity.id)
     this.submitting = true;
     try {
       await agent.Activities.create(activity)
@@ -341,6 +340,34 @@ export default class ActivityStore {
         this.loading = false;
       });
       toast.error('Problem cancelling attendance at this time');
+    }
+  };
+
+  @action createDiaryEntry = async (diaryEntry: IDiaryEntry, activity: IActivity) => {
+
+ 
+    diaryEntry.dayNumber = String(activity.diaryEntries.length + 1);
+    diaryEntry.activityId = activity.id;
+    activity.diaryEntries.push(diaryEntry);
+    
+
+    
+    this.submitting = true;
+    try {
+      await agent.Activities.createDiaryEntry(diaryEntry);
+
+    
+      runInAction('creating diary entry', () => {
+        this.activityRegistry.set(activity.id, activity);
+        this.submitting = false;
+      });
+      history.push(`/activities/${activity.id}`);
+    } catch (error) {
+      runInAction('create activity error', () => {
+        this.submitting = false;
+      });
+      toast.error('Problem submitting data!');
+      console.log(error);
     }
   };
 }

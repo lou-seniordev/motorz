@@ -44,8 +44,8 @@ namespace Application.Motofies
                 RuleFor(x => x.BrandName).NotEmpty();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.Model).NotEmpty();
+                RuleFor(x => x.File).NotEmpty();
                 // RuleFor(x => x.CubicCentimeters).NotEmpty();
-                // RuleFor(x => x.File).NotEmpty();
                 // RuleFor(x => x.Description).NotEmpty();
                 // RuleFor(x => x.YearOfProduction).NotEmpty();
                 // // RuleFor(x => x.BrandId).NotEmpty();
@@ -62,11 +62,11 @@ namespace Application.Motofies
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
-            private readonly IEntityPhotoAccessor __entityPhotoAccessor;
+            private readonly IEntityPhotoAccessor _entityPhotoAccessor;
             public Handler(DataContext context, IUserAccessor userAccessor, 
-            IMapper mapper, IEntityPhotoAccessor _entityPhotoAccessor)
+            IMapper mapper, IEntityPhotoAccessor entityPhotoAccessor)
             {
-                __entityPhotoAccessor = _entityPhotoAccessor;
+                _entityPhotoAccessor = entityPhotoAccessor;
                 _mapper = mapper;
                 _userAccessor = userAccessor;
                 _context = context;
@@ -118,7 +118,7 @@ namespace Application.Motofies
                 _context.Motofies.Add(motofy);
 
                 var motofyId = motofy.Id;
-                var photoUploadResult = __entityPhotoAccessor.AddPhoto(request.File, 400, 500);
+                var photoUploadResult = _entityPhotoAccessor.AddPhoto(request.File, 400, 500);
                 // var motofyForPhoto = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == MotorfyId);
                 var photoForMotofy = new MotofyPhoto
                 {

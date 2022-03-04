@@ -1517,7 +1517,6 @@ namespace Persistence
                             LandOfOrigin = "Japan",
                             CityOfOrigin = "Iwata",
                         },
-                        //context.Brands.SingleOrDefault(x => x.Id == Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31")),
                         DiaryEntries = new List<DiaryEntry>
                         {
                             new DiaryEntry
@@ -1719,6 +1718,103 @@ namespace Persistence
                         Departure = "British Museum",
                         Destination = "StoneHenge",
                         IsActive = true,
+                        MotorcycleBrand =  new Brand
+                        {
+                            Id = Guid.Parse("C3E2AE61-BE37-4E22-B3B3-C4C124CCCE8D"),
+                            Name = "Moto Guzzi",
+                            DateOfEstablishment = DateTime.Now.AddYears(-100),//AddMonths(-200),
+                            LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1635195423/Moto_Guzzi.png",
+                            LandOfOrigin = "Italy",
+                            CityOfOrigin = "Mandello del Lario",
+                        },
+                         DiaryEntries = new List<DiaryEntry>
+                        {
+                            new DiaryEntry
+                            {
+                                Id = Guid.Parse("16CDCB83-9B8E-4832-BE6D-5118158053EB"),
+                                EntryDate = DateTime.Now.AddDays(-5),
+                                DayNumber = 1,
+                                Body = "Fantastic roads, we are making much more kilometers than what we expected. All in all it is great",
+                                LocationCity = "Nova Gorica",
+                                LocationCountry = "Slovenia",
+                                Mood = "Enthusiastic",
+                                DiaryPhoto = new DiaryPhoto
+                                {
+                                    Id = "day1id",
+                                    Url = "https://upload.wikimedia.org/wikipedia/commons/1/13/Pula-avion.JPG",
+                                    DateUploaded = DateTime.Now.AddDays(-5),
+                                    DiaryEntryForeignKey = Guid.Parse("16CDCB83-9B8E-4832-BE6D-5118158053EB")
+                                }
+                            },
+                            new DiaryEntry
+                            {
+                                Id = Guid.Parse("8CF0F358-E3CF-4954-B035-EB4CB5B9F78A"),
+                                EntryDate = DateTime.Now.AddDays(-4),
+                                DayNumber = 2,
+                                Body = "Little rain on the road, but road is very good. We hope the weather is not going to get worse. Tomorrow we will be in Venice.",
+                                LocationCity = "Trieste",
+                                LocationCountry = "Italy",
+                                Mood = "Concerned",
+                                DiaryPhoto = new DiaryPhoto
+                                {
+                                    Id = "day2id",
+                                    Url = "https://thumbs.dreamstime.com/b/photo-attractive-woman-has-real-adventure-outdoor-stands-near-motorbike-dressed-bikers-outfit-enjoys-sunny-day-calm-128779332.jpg",
+                                    DateUploaded = DateTime.Now.AddDays(-4),
+                                    DiaryEntryForeignKey = Guid.Parse("8CF0F358-E3CF-4954-B035-EB4CB5B9F78A")
+                                }
+                            },
+                            new DiaryEntry
+                            {
+                                Id = Guid.Parse("31237CDC-FE3F-4045-848A-39E5B0379839"),
+                                EntryDate = DateTime.Now.AddDays(-3),
+                                DayNumber = 3,
+                                Body = "It is actually even better than yesterday. We are thinking about staying in region.",
+                                LocationCity = "Venice",
+                                LocationCountry = "Italy",
+                                Mood = "Relaxed",
+                                DiaryPhoto = new DiaryPhoto
+                                {
+                                    Id = "day3id",
+                                    Url = "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FtcGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+                                    DateUploaded = DateTime.Now.AddDays(-3),
+                                    DiaryEntryForeignKey = Guid.Parse("31237CDC-FE3F-4045-848A-39E5B0379839")
+                                }
+                            },
+                            new DiaryEntry
+                            {
+                                Id = Guid.Parse("4993614E-BBCB-4FD7-910E-936C8184B9D3"),
+                                EntryDate = DateTime.Now.AddDays(-2),
+                                DayNumber = 4,
+                                Body = "Long journey over the Dolomites.., some great scenery though. Italy is beautiful!",
+                                LocationCity = "Bologna",
+                                LocationCountry = "Italy",
+                                Mood = "Tired",
+                                DiaryPhoto = new DiaryPhoto
+                                {
+                                    Id = "day4id",
+                                    Url = "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FtcGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+                                    DateUploaded = DateTime.Now.AddDays(-2),
+                                    DiaryEntryForeignKey = Guid.Parse("4993614E-BBCB-4FD7-910E-936C8184B9D3")
+                                }
+                            },
+                            new DiaryEntry
+                            {
+                                Id = Guid.Parse("948A87C6-4392-435B-9BA8-D15A34D8BD1D"),
+                                EntryDate = DateTime.Now.AddDays(-1),
+                                DayNumber = 5,
+                                Body = "Some time to rest from the road. The end of our journey is in sight. We are going to spend some time in Rome. There were some technical difficulties, but it is probably going to be ok. We will check it all before setting off tomorrow.",
+                                LocationCity = "Florence",
+                                LocationCountry = "Italy",
+                                Mood = "Happy",
+                                DiaryPhoto = new DiaryPhoto
+                                {
+                                    Id = "day5id",
+                                    Url = "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FtcGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+                                    DateUploaded = DateTime.Now.AddDays(-1),
+                                    DiaryEntryForeignKey = Guid.Parse("948A87C6-4392-435B-9BA8-D15A34D8BD1D")
+                                }
+                            }
+                        },
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2022,15 +2118,7 @@ namespace Persistence
             // {
                 var brands = new List<Brand>
                 {
-                    new Brand
-                    {
-                        Id = Guid.Parse("C3E2AE61-BE37-4E22-B3B3-C4C124CCCE8D"),
-                        Name = "Moto Guzzi",
-                        DateOfEstablishment = DateTime.Now.AddYears(-100),//AddMonths(-200),
-                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1635195423/Moto_Guzzi.png",
-                        LandOfOrigin = "Italy",
-                        CityOfOrigin = "Mandello del Lario",
-                    },
+                   
                     new Brand
                     {
                         Id = Guid.Parse("7ACE392B-F077-4E4B-8679-2A5D1D8B77A9"),

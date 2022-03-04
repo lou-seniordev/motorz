@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220303183527_ChangeToDepartureAndAddEntriesUpdateActBrand")]
-    partial class ChangeToDepartureAndAddEntriesUpdateActBrand
+    [Migration("20220303202752_AddIsCompletedActivity")]
+    partial class AddIsCompletedActivity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,14 +48,14 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<Guid?>("MotorcycleBrandId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("TotalDiaries")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

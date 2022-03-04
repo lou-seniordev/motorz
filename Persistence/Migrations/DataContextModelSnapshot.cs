@@ -46,14 +46,14 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<Guid?>("MotorcycleBrandId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("TotalDiaries")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

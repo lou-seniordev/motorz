@@ -33,7 +33,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   if (loadingInitial) return <LoadingComponent content='Loading activity...' />;
 
   // const contextRef = createRef();
-  //!!! what to do with this? //
+  //TODO!!! what to do with this? //
   if (!activity) return <h2>Not found</h2>;
   // console.log(attendees);
   return (

@@ -21,25 +21,20 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
 
   const { closeModal } = rootStore.modalStore;
   const host = activity.attendees.filter((h) => h.isHost)[0];
-  
+
   const { diaryEntries } = activity;
 
   const [actualDiary, setActualDiary] = useState(diary);
 
-
   const counter = parseInt(actualDiary.dayNumber);
   const numberDiaries = activity.diaryEntries.length;
 
-
   const handleChange = async (diaryDay: number) => {
-   
     var diary: IDiaryEntry = diaryEntries.find(
       (diary) => parseInt(diary.dayNumber) === diaryDay
     )!;
     setActualDiary(diary);
-
   };
-
 
   return (
     <Fragment>
@@ -54,11 +49,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
         >
           <Grid>
             <Grid.Column width={3}>
-              <Image
-                src={host.image}
-                size='tiny'
-                circular
-              />
+              <Image src={host.image} size='tiny' circular />
               <p>Driving {activity.motorcycleBrandName}</p>
             </Grid.Column>
             <Grid.Column width={10}>
@@ -88,12 +79,25 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                 </p>
               </Header.Subheader>
             </Grid.Column>
-            <Grid.Column width={3}>
-              <Image
-                src={activity.motorcycleBrandLogoUrl}
-                size='tiny'
-                circular
-              />
+            <Grid.Column width={3} style={{color: 'red'}}>
+              <Grid.Row>
+                <Image
+                  src={activity.motorcycleBrandLogoUrl}
+                  size='tiny'
+                  circular
+                />
+              </Grid.Row>
+              {activity.isHost && (
+                <Grid.Row>
+                  <Button
+                    circular
+                    icon='edit outline'
+                    as={Link}
+                    to={`/manageDiaryEntry/${actualDiary.id}`}
+                    onClick={() => closeModal()}
+                  />
+                </Grid.Row>
+              )}
             </Grid.Column>
           </Grid>
         </Segment>
@@ -130,7 +134,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                 }
                 content='Next day'
                 icon='angle right'
-                disabled={counter ===numberDiaries}
+                disabled={counter === numberDiaries}
               />
             </Grid.Column>
           </Grid>

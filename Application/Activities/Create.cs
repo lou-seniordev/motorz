@@ -56,6 +56,9 @@ namespace Application.Activities
             {
                 var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.CountryName);
 
+                if(country == null) 
+                    throw new Exception("Country Not Found");
+
                 var activity = new Activity
                 {
                     Id = request.Id,

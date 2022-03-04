@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class ChangeToDepartureAndAddEntriesUpdateActBrand : Migration
+    public partial class AddIsCompletedActivity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -328,7 +328,7 @@ namespace Persistence.Migrations
                     Departure = table.Column<string>(nullable: true),
                     Destination = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    TotalDiaries = table.Column<int>(nullable: true),
+                    IsCompleted = table.Column<bool>(nullable: false),
                     MotorcycleBrandId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>

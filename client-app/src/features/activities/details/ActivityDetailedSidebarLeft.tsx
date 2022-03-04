@@ -1,3 +1,4 @@
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
 import {
@@ -24,6 +25,13 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ diaryEntries, activity 
   const handleOpenDiaryModal = (diary: IDiaryEntry) => {
     openModal(<SeeDiaryEntry diary={diary} activity={activity}/>);
   };
+//mobx] `observableArray.sort()` will not update the array in place. Use `observableArray.slice().sort()`
+// to suppress this warning and perform the operation on a copy, or `observableArray.replace(observableArray.slice().sort())` 
+//to sort & update in place 
+  const diariesByDate = diaryEntries.slice().sort(
+    (a, b) => parseInt(b.dayNumber) - parseInt(a.dayNumber)
+  );
+  // console.table(toJS(diariesByDate));
 
   return (
     <Fragment>
@@ -40,7 +48,7 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ diaryEntries, activity 
       </Segment>
       <Segment attached textAlign='center'>
         <List relaxed divided>
-          {diaryEntries.map((entry) => (
+          {diariesByDate.map((entry) => (
             <div key={entry.id} >
               <Item as='h4' onClick={() => handleOpenDiaryModal(entry)} style={{cursor: 'pointer'}}>
                 {"Day number "}

@@ -1,3 +1,4 @@
+import { IDiaryEntry } from './../models/activity';
 import axios, { AxiosResponse } from "axios";
 import { IMechanic } from "../models/mechanic";
 import { IMotofy } from "../models/motofy";
@@ -5,7 +6,7 @@ import { IProduct } from "../models/product";
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-export const specialRequests = {
+export const postMotofy = {
   motofyForm: (url: string, motofy: IMotofy) => {
     let motofyData = new FormData();
     motofyData.append('Id', motofy.id!)
@@ -44,6 +45,23 @@ export const postProduct = {
     productData.append('Price', product.price)
     productData.append('PhoneNumber', product.phoneNumber)
     return axios.post(url, productData, {
+      headers: { 'Content-type': 'multipart/form-data' }
+    })
+      .then(responseBody);
+  }
+};
+export const postDiaryEntry = {
+  diaryEntryForm: (url: string, diaryEntry: IDiaryEntry) => {
+    let diaryEntryData = new FormData();
+    diaryEntryData.append('Id', diaryEntry.id!)
+    diaryEntryData.append('ActivityId', diaryEntry.activityId)
+    diaryEntryData.append('Body', diaryEntry.body)
+    diaryEntryData.append('Mood', diaryEntry.mood!)
+    diaryEntryData.append('File', diaryEntry.file) 
+    diaryEntryData.append('LocationCountry', diaryEntry.locationCountry)
+    diaryEntryData.append('LocationCity', diaryEntry.locationCity)
+
+    return axios.post(url, diaryEntryData, {
       headers: { 'Content-type': 'multipart/form-data' }
     })
       .then(responseBody);

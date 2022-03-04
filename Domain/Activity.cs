@@ -15,6 +15,7 @@ namespace Domain
         public string Departure { get; set; }
         public string Destination { get; set; }
         public bool IsActive { get; set; } = true;
+        public bool IsCompleted { get; set; } = false;
         public virtual ICollection<UserActivity> UserActivities { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<CommentActivity> CommentActivities { get; set; }
