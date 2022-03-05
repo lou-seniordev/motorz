@@ -30,7 +30,9 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
   // const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);
-  const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
+  const { 
+    attendActivity, cancelAttendance, 
+    loading } = rootStore.activityStore;
   const { removeFeedItem, addFeedItem } = rootStore.feedStore;
 
   const [managing, setManaging] = useState(false);
@@ -38,18 +40,18 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
   const { openModal } = rootStore.modalStore;
 
   const handleDeactivateActivity = (id: string) => {
-    // openModal(<ConfirmDeactivate activityId={id} />);
+    openModal(<ConfirmDeactivate activityId={id} />);
     setManaging(false);
   };
   const handleCancelAttendance = (id: string) => {
-    // cancelAttendance();
-    // removeFeedItem(id, "Joined Motocycle Diary");
-    // addFeedItem(id, "Left Motorcycle Diary");
+    cancelAttendance();
+    removeFeedItem(id, "Joined Motocycle Diary");
+    addFeedItem(id, "Left Motorcycle Diary");
     setManaging(false);
   };
   const handleAttendActivity = (id: string) => {
-    // attendActivity();
-    // addFeedItem(id, "Joined Motocycle Diary");
+    attendActivity();
+    addFeedItem(id, "Joined Motocycle Diary");
     setManaging(false);
   };
 
@@ -64,12 +66,11 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
             <Fragment>
               {!managing ? (
                 <Button
-                  // loading={loading}
                   onClick={toggleManaging}
                   color='twitter'
                   fluid
                 >
-                  Manage your activities
+                  Manage your diary
                 </Button>
               ) : (
                 <Fragment>
@@ -80,7 +81,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
                     floated='right'
                     // fluid
                   >
-                    Manage Your Diary
+                    Edit Diary
                   </Button>
                   <Button
                     as={Link}
@@ -106,7 +107,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
                     onClick={() => {
                       setManaging(false)
                     }}
-                    color='grey'
+                    color='teal'
                     floated='right'
                     // fluid
                   >

@@ -55,7 +55,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
                   {activity.title}
                 </Item.Header>
                 <Item.Meta>
-                  It is held by{" "}
+                  by{" "}
                   <Link to={`/profile/${host.username}`}>
                     {" "}
                     {host.displayName}
@@ -93,13 +93,8 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
         <Item.Group>
           <Item.Description as={Link} to={`/activities/${activity.id}`}>
             <span>{descriptionUiShort}</span> <span>{seeMore}</span>
-            {/* <a href={`/activities/${activity.id}`}>{seeMore}</a> */}
-          </Item.Description>
-          {/* <Item.Description >
-            <span as={Link} to={`/activities/${activity.id}`}></span>
-          </Item.Description> */}
+          </Item.Description> 
         </Item.Group>
-        {/* <span>{activity.description}</span> */}
       </Segment>
       <Segment secondary>
         <ActivityListItemAttendees attendees={activity.attendees} />

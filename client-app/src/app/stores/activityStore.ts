@@ -39,8 +39,8 @@ export default class ActivityStore {
 
   @observable activityCount = 0;
   @observable page = 0;
-  // @observable activityHit: boolean = true;
-  // @observable activityMax: boolean = true;
+
+  @observable diaryEntry: IDiaryEntry | null = null;
 
   @observable predicate = new Map();
 
@@ -88,7 +88,6 @@ export default class ActivityStore {
       })
       .configureLogging(LogLevel.Information)
       .build();
-    // console.log('activity', this.activity!.comments) 
 
     this.hubConnection
       .start()
@@ -107,9 +106,9 @@ export default class ActivityStore {
       });
     });
 
-    // this.hubConnection.on('Send', (message) => {
-    //   toast.info(message);
-    // });
+    this.hubConnection.on('Send', (message) => {
+      toast.info(message);
+    });
   };
 
   @action stopHubConnection = () => {
@@ -223,6 +222,7 @@ export default class ActivityStore {
       }
     }
   };
+  
 
   // === helper method to loadActivity ===
   getActivity = (id: string) => {
@@ -257,8 +257,7 @@ export default class ActivityStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data!');
-      //error2check
-      // console.log(error.response);
+      console.log(error);
     }
   };
 
@@ -345,17 +344,83 @@ export default class ActivityStore {
 
   @action createDiaryEntry = async (diaryEntry: IDiaryEntry, activity: IActivity) => {
 
- 
     diaryEntry.dayNumber = String(activity.diaryEntries.length + 1);
     diaryEntry.activityId = activity.id;
     activity.diaryEntries.push(diaryEntry);
-    
+    console.log('diaryEntry', diaryEntry);
+    this.submitting = true;
 
+    try {
+
+      await agent.DiaryEntries.createDiaryEntry(diaryEntry);
+
+      runInAction('creating diary entry', () => {
+        this.activityRegistry.set(activity.id, activity);
+        this.submitting = false;
+      });
+      history.push(`/activities/${activity.id}`);
+    } catch (error) {
+      runInAction('create activity error', () => {
+        this.submitting = false;
+      });
+      toast.error('Problem submitting data!');
+      console.log(error);
+    }
+  };
+  @action editDiaryEntry = async (diaryEntry: IDiaryEntry, activity: IActivity) => {
+
+    let index = activity.diaryEntries.findIndex(x => x.id === diaryEntry.id);
+    activity.diaryEntries[index] = diaryEntry;
+    this.submitting = true;
+
+    try {
+      
+      await agent.DiaryEntries.updateDiaryEntry(diaryEntry);
+
+      runInAction('updating diary entry', () => {
+        this.activityRegistry.set(activity.id, activity);
+        this.submitting = false;
+      });
+      history.push(`/activities/${activity.id}`);
+
+    } catch (error) {
+      runInAction('create activity error', () => {
+        this.submitting = false;
+      });
+      toast.error('Problem updating data!');
+      console.log(error);
+    }
+  };
+
+  @action loadDiaryEntry = async (id: string) => {
+
+      this.loadingInitial = true;
+      try {
+        let diaryEntry:IDiaryEntry = await agent.DiaryEntries.detailsDiaryEntry(id);
+       
+        runInAction('getting activity', () => {
+        
+          this.diaryEntry = diaryEntry;
+          this.loadingInitial = false;
+
+        });
+        return this.diaryEntry;
+      } catch (error) {
+        runInAction('error get diary entry', () => {
+          this.loadingInitial = false;
+        });
+        console.log(error);
+      }
+  };
+
+
+  @action deleteDiaryEntry = async (diaryEntry: IDiaryEntry, activity: IActivity): Promise<void> => {
+
+    activity.diaryEntries.splice(activity.diaryEntries.indexOf(diaryEntry));
     
     this.submitting = true;
     try {
-      await agent.Activities.createDiaryEntry(diaryEntry);
-
+      await agent.DiaryEntries.deleteDiaryEntry(diaryEntry.id);
     
       runInAction('creating diary entry', () => {
         this.activityRegistry.set(activity.id, activity);

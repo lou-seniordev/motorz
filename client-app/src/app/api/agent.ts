@@ -236,14 +236,23 @@ const Activities = {
 
   details: (id: string) => requests.get(`/activities/${id}`),
   create: (activity: IActivity) => requests.post('/activities', activity),
-  createDiaryEntry: (diaryEntry: IDiaryEntry) => postDiaryEntry.diaryEntryForm('/diaryentries', diaryEntry),
   update: (activity: IActivity) =>
-    requests.put(`/activities/${activity.id}`, activity),
+  requests.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => requests.delete(`/activities/${id}`),
   deactivate: (id: string) => requests.put(`/activities/${id}/deactivate`, {}),
   attend: (id: string) => requests.post(`/activities/${id}/attend`, {}),
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
+  
+  
 };
+
+const DiaryEntries = {
+  createDiaryEntry: (diaryEntry: IDiaryEntry) => postDiaryEntry.diaryEntryForm('/diaryentries', diaryEntry),
+  deleteDiaryEntry: (id: string) => requests.delete(`/diaryentries/${id}`),
+  detailsDiaryEntry: (id: string) => requests.get(`/diaryentries/${id}`),
+  updateDiaryEntry: (diaryEntry: IDiaryEntry) => requests.put(`/diaryentries/${diaryEntry.id}`, diaryEntry),
+
+}
 
 const Feed = {
   list: (limit: number, page: number): Promise<IFeedEnvelope> =>
@@ -346,5 +355,6 @@ export default {
   Products,
   Messages,
   Countries,
-  Feed
+  Feed,
+  DiaryEntries
 };

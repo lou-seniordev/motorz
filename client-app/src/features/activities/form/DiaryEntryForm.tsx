@@ -1,9 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Form, Grid, Header, Segment, Sticky, Image } from "semantic-ui-react";
 import {
-  ActivityFormValues,
-  DiaryEntryFormValues,
-} from "../../../app/models/activity";
+  Button,
+  Form,
+  Grid,
+  Header,
+  Segment,
+  Sticky,
+  Image,
+} from "semantic-ui-react";
+import { DiaryEntryFormValues } from "../../../app/models/activity";
 import { v4 as uuid } from "uuid";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
@@ -13,8 +18,6 @@ import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import SelectInput from "../../../app/common/form/SelectInput";
 import { mood } from "../../../app/common/options/moodOptions";
 import { motoOptions } from "../../../app/common/options/motoOptions";
-import DateInput from "../../../app/common/form/DateInput";
-import { combineDateAndTime } from "../../../app/common/util/util";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import {
   combineValidators,
@@ -24,25 +27,23 @@ import {
 } from "revalidate";
 import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
+// import { formatDistance } from "date-fns";
 
-// const validate = combineValidators({
-//   title: isRequired({ message: "The title is required" }),
-//   category: isRequired("Category"),
-//   description: composeValidators(
-//     isRequired("Description"),
-//     hasLengthGreaterThan(4)({
-//       message: "Description needs to be at least 5 characters",
-//     })
-//   )(),
-//   city: isRequired("City"),
-//   departure: isRequired("Departure"),
-//   date: isRequired("Date"),
-//   time: isRequired("Time"),
-// });
+const validate = combineValidators({
+  locationCity: isRequired({ message: "The location city is required" }),
+  locationCountry: isRequired({ message: "The location country is required" }),
+  body: composeValidators(
+    isRequired("Body"),
+    hasLengthGreaterThan(4)({
+      message: "Body needs to be at least 5 characters",
+    })
+  )(),
+  mood: isRequired({ message: "The mood is required" }),
+});
 
 interface DetailParams {
   id: string;
-  // activityId: string;
+  activityId: string;
 }
 
 const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
@@ -51,20 +52,19 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
   const {
-    createActivity,
-    editActivity,
     submitting,
     loadActivity,
-    createDiaryEntry
+    createDiaryEntry,
+    loadDiaryEntry,
+    editDiaryEntry,
     // ,
   } = rootStore.activityStore;
 
-  const { addFeedItem } = rootStore.feedStore;
+  // const { addFeedItem } = rootStore.feedStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
-  const [modeForCountry, setModeForCountry] = useState(true);
 
   const random = Math.floor(Math.random() * motoOptions.length);
-  // console.log(random, motoOptions[random]);
+
   const motomoto = motoOptions[random];
 
   const [diaryEntry, setdiaryEntry] = useState(new DiaryEntryFormValues());
@@ -89,84 +89,61 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     setPreview(photo);
     setUploaded(true);
     toast.info("Your image is uploaded, please give us more details");
-    // console.log('uploaded, edited', uploaded, edited);
   };
+
+  const [edited, setEdited] = useState(false);
 
   const [activity, setActivity] = useState();
 
-
   useEffect(() => {
-    // if (match.path === "/createDiaryEntry/:id") {
-    //   console.log("create");
-    // } else if (match.path === "/manageDiaryEntry/:id") {
-    //   console.log("manage");
-    // }
-
     loadCountriesToSelect();
 
-    loadActivity(match.params.id)
-      .then((activity) => setActivity((activity)))
+    loadActivity(match.params.activityId)
+      .then((activity) => setActivity(activity))
       .finally(() => setLoading(false));
 
-    // if (match.path === "/manageDiaryEntry/:id") {
-    //   setModeForCountry(false);
-    //   setLoading(true);
-    //   loadActivity(match.params.id)
-    //   .then((activity) => setActivity(new ActivityFormValues(activity)))
-    //   .finally(() => setLoading(false));
-    // }
+    if (match.path === "/manageDiaryEntry/:id/:activityId") {
+      console.log("match", match);
+      loadDiaryEntry(match.params.id)
+        .then((diaryEntry) => setdiaryEntry(diaryEntry!))
+        .finally(() => setLoading(false));
+      setEdited(true);
+      setUploaded(true);
+
+    }
   }, [
-    //   loadActivity,
+    loadActivity,
+    match,
     match.path,
     match.params.id,
     loadCountriesToSelect,
+    loadDiaryEntry,
   ]);
 
-  // if (match.path === "/createDiaryEntry/:id") {
-  //   console.log("create");
-  // } else if (match.path === "/manageDiaryEntry/:id") {
-  //   console.log("manage");
-  // }
+
   const handleFinalFormSubmit = (values: any) => {
     let uiId = uuid();
-    if (match.path === "/createDiaryEntry/:id") {
-      // let activity = loadActivity(match.params.id);
+    if (match.path === "/createDiaryEntry/:activityId") {
       let newDiaryEntry = {
         ...values,
         id: uiId,
-        // activityId;
-        // id: match.params.id,
         entryDate: new Date(),
         file: imageToUpload,
-        photoUrl: previewImage
+        photoUrl: previewImage,
       };
       createDiaryEntry(newDiaryEntry, activity!);
-      // // .then(() => {
-      // //   history.push(`/activities/${match.params.id}`)
-      // });
+ 
+    } else {
+      let newDiaryEntry = {
+        ...values,
+        activityId: match.params.activityId,
+      };
+
+      editDiaryEntry(newDiaryEntry, activity!);
     }
 
-    // let newId = uuid();
-    // const dateAndTime = combineDateAndTime(values.date, values.time);
-    // const { date, time, ...activity } = values;
-    // activity.date = dateAndTime;
-    // if (!activity.id) {
-    //   let newActivity = {
-    //     ...activity,
-    //     id: newId,
-    //     isHost: true,
-    //     isActive: true,
-    //   };
-    //   createActivity(newActivity);
-    //   addFeedItem(newId, "Added Motocycle Diary");
-    // } else {
-    //   editActivity(activity);
-    // }
   };
 
-
-//   locationCity: "Rome"
-// locationCountry: "Italy"
   return (
     <Grid>
       {!uploaded && (
@@ -179,26 +156,18 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
           </Segment>
         </Grid.Column>
       )}
-      {/* <Grid.Column width={3} /> */}
       {uploaded && (
         <Grid.Column width={10}>
           <Segment clearing>
             <FinalForm
-              // validate={validate}
+              validate={validate}
               initialValues={diaryEntry}
               onSubmit={handleFinalFormSubmit}
               render={({ handleSubmit, invalid, pristine }) => (
                 <Form onSubmit={handleSubmit} loading={loading}>
-                  {/* <Field
-                  name='title'
-                  placeholder='Title'
-                  value={activity.title}
-                  component={TextInput}
-                /> */}
                   <Field
                     name='body'
                     placeholder='What happened today?'
-                    // value={activity.body}
                     rows={5}
                     component={TextAreaInput}
                   />
@@ -206,33 +175,17 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     name='mood'
                     placeholder='What is your mood today?'
                     options={mood}
-                    // value={activity.category}
                     component={SelectInput}
                   />
-
-                  {!modeForCountry && (
-                    <Field
-                      // placeholder={"Country"} // edit form
-                      name='locationCountry'
-                      options={countries}
-                      // value={product.countryId}
-                      component={SelectInput}
-                    />
-                  )}
-                  {modeForCountry && ( //empty form
-                    <Field
-                      name='locationCountry'
-                      // name='countryId'
-                      placeholder={"Country you are in"} //
-                      options={countries}
-                      // value={product.countryName}
-                      component={SelectInput}
-                    />
-                  )}
+                  <Field
+                    name='locationCountry'
+                    placeholder={"Country you are in"} //
+                    options={countries}
+                    component={SelectInput}
+                  />
                   <Field
                     name='locationCity'
                     placeholder='City you are in'
-                    // value={activity.city}
                     component={TextInput}
                   />
                   <Button
@@ -243,25 +196,22 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     type='submit'
                     content='Submit'
                   ></Button>
-                  {/* <Button
-                  onClick={
-                    activity.id
-                      ? () => history.push(`/activities/${activity.id}`)
-                      : () => history.push('/activities')
-                  }
-                  disabled={loading}
-                  floated='right'
-                  type='button'
-                  content='Cancel'
-                ></Button> */}
+                  <Button
+                    onClick={() =>
+                      history.push(`/activities/${match.params.activityId}`)
+                    }
+                    disabled={loading}
+                    floated='right'
+                    type='button'
+                    content='Cancel'
+                  ></Button>
                 </Form>
               )}
             />
           </Segment>
         </Grid.Column>
       )}
-      {/* !edited && */}
-      {uploaded &&  (
+      {uploaded && !edited && (
         <Grid.Column width={6}>
           <Sticky style={{ marginRight: 30, position: "fixed" }}>
             <Segment>
@@ -271,7 +221,24 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
           </Sticky>
         </Grid.Column>
       )}
-      <Grid.Column width={3} />
+      {uploaded && edited && (
+        <Grid.Column width={6}>
+          <Sticky style={{ marginRight: 30, position: "fixed" }}>
+            <Segment>
+              <Header as='h2'>
+                {diaryEntry.locationCity}
+                {/* {formatDistance(
+                  new Date(diaryEntry.entryDate)
+                  ,
+                  new Date()
+                )}{" "}
+                ago{" "} */}
+              </Header>
+              <Image size='large' bordered src={diaryEntry.photoUrl} />
+            </Segment>
+          </Sticky>
+        </Grid.Column>
+      )}
     </Grid>
   );
 };

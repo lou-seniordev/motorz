@@ -109,7 +109,6 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [history]);
 
   useEffect(() => {
-    // console.log("modeForCountry out", modeForCountry)
     loadBrandsToSelect();
     loadCountriesToSelect();
     if (match.params.id) {
@@ -118,7 +117,6 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
       setUploaded(true);
       setLoading(true);
       setEdited(true);
-      // console.log("modeForCountry in", modeForCountry)
       loadMotofy(match.params.id)
         .then((motofy) => setMotofy(new MotofyFormValues(motofy)))
         .finally(() => setLoading(false));

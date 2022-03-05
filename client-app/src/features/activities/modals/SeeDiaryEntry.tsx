@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   Grid,
+  GridColumn,
   Header,
   Image,
   Segment,
@@ -20,6 +21,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
   const rootStore = useContext(RootStoreContext);
 
   const { closeModal } = rootStore.modalStore;
+  const { deleteDiaryEntry } = rootStore.activityStore;
   const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const { diaryEntries } = activity;
@@ -34,6 +36,11 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
       (diary) => parseInt(diary.dayNumber) === diaryDay
     )!;
     setActualDiary(diary);
+  };
+
+  const handleDeleteEntry = async (id: string) => {
+    // console.log(id)
+    deleteDiaryEntry(diary, activity);
   };
 
   return (
@@ -58,7 +65,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
               </Header>
               <p>
                 {" "}
-                published
+                Published
                 {formatDistance(
                   new Date(actualDiary.entryDate),
                   new Date()
@@ -74,12 +81,12 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                 </Link>
                 <p>
                   {" "}
-                  At the moment in {actualDiary.locationCity},{" "}
+                  At the moment: in {actualDiary.locationCity},{" "}
                   {actualDiary.locationCountry}
                 </p>
               </Header.Subheader>
             </Grid.Column>
-            <Grid.Column width={3} style={{color: 'red'}}>
+            <Grid.Column width={3} style={{ color: "red" }}>
               <Grid.Row>
                 <Image
                   src={activity.motorcycleBrandLogoUrl}
@@ -89,13 +96,28 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
               </Grid.Row>
               {activity.isHost && (
                 <Grid.Row>
-                  <Button
-                    circular
-                    icon='edit outline'
-                    as={Link}
-                    to={`/manageDiaryEntry/${actualDiary.id}`}
-                    onClick={() => closeModal()}
-                  />
+                  <GridColumn width={8}>
+                    <Button
+                      circular
+                      icon='edit outline'
+                      as={Link}
+                      to={`/manageDiaryEntry/${actualDiary.id}/${activity.id}`}
+                      onClick={() => closeModal()}
+                    />
+                  </GridColumn>
+                  <GridColumn width={8}>
+                    { Number(actualDiary.dayNumber) === (numberDiaries) && 
+                    (
+                      <Button
+                        circular
+                        icon='delete'
+                        onClick={() => {
+                          handleDeleteEntry(actualDiary.id);
+                          closeModal();
+                        }}
+                      />
+                    )}
+                  </GridColumn>
                 </Grid.Row>
               )}
             </Grid.Column>

@@ -84,7 +84,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 />
                 <PrivateRoute
                   key={location.key}
-                  path={["/createDiaryEntry/:id", "/manageDiaryEntry/:id"]}
+                  path={["/createDiaryEntry/:activityId", "/manageDiaryEntry/:id/:activityId"]}
                   component={DiaryEntryForm}
                 />
 

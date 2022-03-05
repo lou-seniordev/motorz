@@ -32,12 +32,6 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult<Unit>> CreateDiaryEntry([FromForm]Create.Command command)
-        // {
-        //     return await Mediator.Send(command);
-        // }
-
         [HttpPut("{id}")]
         [Authorize(Policy = "IsActivityHost")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)

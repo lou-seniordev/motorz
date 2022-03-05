@@ -78,6 +78,7 @@ export class DiaryEntryFormValues {
   id?: string = undefined;
   mood: string = '';
   body: string = '';
+  entryDate:Date;
   locationCity: string = '';
   locationCountry: string = '';
   photoUrl: string  = '';
