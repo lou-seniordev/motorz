@@ -112,8 +112,8 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     loadBrandsToSelect();
     loadCountriesToSelect();
     if (match.params.id) {
-      setModeForBrand(false);
-      setModeForCountry(false);
+      // setModeForBrand(false);
+      // setModeForCountry(false);
       setUploaded(true);
       setLoading(true);
       setEdited(true);
@@ -211,7 +211,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     value={motofy.country}
                     component={TextInput}
                   /> */}
-                  {!modeForCountry && (
+                  {/* {!modeForCountry && (
                     <Field
                       name='countryName'
                       placeholder='Country' //==neednot
@@ -219,17 +219,17 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       value={motofy.countryName}
                       component={SelectInput}
                     />
-                  )}
-                  {modeForCountry && (
+                  )} */}
+                  {/* {modeForCountry && ( */}
                     <Field
                       name='countryName'
                       placeholder={"Country"} //
                       options={countries}
-                      value={motofy.countryId}
+                      // value={motofy.countryId}
                       component={SelectInput}
                     />
-                  )}
-                  {!modeForBrand && (
+                  {/* )} */}
+                  {/* {!modeForBrand && (
                     <Field
                       name='brandName'
                       placeholder='Brand' //==neednot
@@ -237,17 +237,17 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       value={motofy.brandName}
                       component={SelectInput}
                     />
-                  )}
-                  {modeForBrand && (
+                  )} */}
+                  {/* {modeForBrand && ( */}
                     <Field
                       // name is naming the value
                       name='brandName'
                       placeholder={"Brand"} //
                       options={brands}
-                      value={motofy.brandId}
+                      // value={motofy.brandId}
                       component={SelectInput}
                     />
-                  )}
+                  {/* )} */}
 
                   <Field
                     name='model'
