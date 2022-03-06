@@ -26,6 +26,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
 
   const { diaryEntries } = activity;
 
+  // const [actualDiary, setActualDiary] = useState(diaryEntries[0]);
   const [actualDiary, setActualDiary] = useState(diary);
 
   const counter = parseInt(actualDiary.dayNumber);

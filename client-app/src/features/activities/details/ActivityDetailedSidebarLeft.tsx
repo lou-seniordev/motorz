@@ -1,3 +1,4 @@
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
 import {
@@ -8,6 +9,7 @@ import {
   Divider,
   // , Sidebar, Menu, Header
 } from "semantic-ui-react";
+// import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IActivity, IDiaryEntry } from "../../../app/models/activity";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import SeeDiaryEntry from "../modals/SeeDiaryEntry";
@@ -21,9 +23,12 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {//diary
 
   const { openModal } = rootStore.modalStore;
 
+  // const {submitting} = rootStore.activityStore;
+
   const {diaryEntries} = activity;
 
   const handleOpenDiaryModal = (diary: IDiaryEntry) => {
+    console.log('activity', toJS(activity) )
     openModal(<SeeDiaryEntry diary={diary} activity={activity}/>);
   };
 //mobx] `observableArray.sort()` will not update the array in place. Use `observableArray.slice().sort()`
@@ -33,6 +38,8 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {//diary
     (a, b) => parseInt(b.dayNumber) - parseInt(a.dayNumber)
   );
   // console.table(toJS(diariesByDate));
+  // if (submitting) return <LoadingComponent content='Loading activity...' />;
+
 
   return (
     <Fragment>

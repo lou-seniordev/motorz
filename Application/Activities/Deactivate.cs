@@ -34,6 +34,7 @@ namespace Application.Activities
                         new {activity = "NotFound"});
 
                 activity.IsActive = false;
+                activity.IsCompleted = true;
                 
                 var success = await _context.SaveChangesAsync() > 0;
 

@@ -5,12 +5,15 @@ import {
   Segment,
   // Item, Header,
   Button,
+  Grid,
+  GridColumn,
 } from "semantic-ui-react"; //, Image
 import { IActivity } from "../../../app/models/activity";
 // import { format } from "date-fns";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import ConfirmDeactivate from "../modals/ConfirmDeactivate";
+import ConfirmDelete from "../modals/ConfirmDelete";
 
 // const activityImageStyle = {
 //   filter: "brightness(70%)",
@@ -30,17 +33,19 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
   // const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);
-  const { 
-    attendActivity, cancelAttendance, 
-    loading } = rootStore.activityStore;
+  const { attendActivity, cancelAttendance, loading, deleteActivity } = rootStore.activityStore;
   const { removeFeedItem, addFeedItem } = rootStore.feedStore;
 
   const [managing, setManaging] = useState(false);
 
   const { openModal } = rootStore.modalStore;
 
-  const handleDeactivateActivity = (id: string) => {
+  const handleCompleteActivity = (id: string) => {
     openModal(<ConfirmDeactivate activityId={id} />);
+    setManaging(false);
+  };
+  const handleDeleteActivity = (id: string) => {
+    openModal(<ConfirmDelete activityId={id} />);
     setManaging(false);
   };
   const handleCancelAttendance = (id: string) => {
@@ -65,54 +70,79 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
           {activity.isHost ? (
             <Fragment>
               {!managing ? (
-                <Button
-                  onClick={toggleManaging}
-                  color='twitter'
-                  fluid
-                >
+                <Button onClick={toggleManaging} color='twitter' fluid>
                   Manage your diary
                 </Button>
               ) : (
                 <Fragment>
-                  <Button
-                    as={Link}
-                    to={`/manage/${activity.id}`}
-                    color='teal'
-                    floated='right'
-                    // fluid
-                  >
-                    Edit Diary
-                  </Button>
-                  <Button
-                    as={Link}
-                    to={`/createDiaryEntry/${activity.id}`}
-                    color='teal'
-                    floated='right'
-                    // fluid
-                  >
-                    Add New Day 
-                  </Button>
-
-                  <Button
-                    onClick={() => {
-                      handleDeactivateActivity(activity.id!);
-                    }}
-                    color='google plus'
-                    floated='left'
-                    // fluid
-                  >
-                    Deactivate
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setManaging(false)
-                    }}
-                    color='teal'
-                    floated='right'
-                    // fluid
-                  >
-                    Cancel
-                  </Button>
+                  <Grid>
+                    <GridColumn width={3}>
+                      <Button
+                        as={Link}
+                        to={`/createDiaryEntry/${activity.id}`}
+                        color='teal'
+                        // floated='right'
+                        fluid
+                      >
+                        New Day
+                      </Button>
+                    </GridColumn>
+                    {/* </Grid>
+                  <Grid> */}
+                    <GridColumn width={3}>
+                      <Button
+                        as={Link}
+                        to={`/manage/${activity.id}`}
+                        color='teal'
+                        fluid
+                        // fluid
+                      >
+                        Edit
+                      </Button>
+                    </GridColumn>
+                    {/* </Grid>
+                  <Grid> */}
+                    <GridColumn width={3}>
+                      <Button
+                        onClick={() => {
+                          handleCompleteActivity(activity.id!);
+                        }}
+                        color='vk'
+                        // floated='left'
+                        fluid
+                      >
+                        Complete
+                      </Button>
+                    </GridColumn>
+                    {/* </Grid>
+                  <Grid> */}
+                    <GridColumn width={3}>
+                      <Button
+                        onClick={() => {
+                          handleDeleteActivity(activity.id!);
+                        }}
+                        color='google plus'
+                        // floated='left'
+                        fluid
+                      >
+                        Delete
+                      </Button>
+                    </GridColumn>
+                    {/* </Grid>
+                  <Grid> */}
+                    <GridColumn width={3}>
+                      <Button
+                        onClick={() => {
+                          setManaging(false);
+                        }}
+                        color='grey'
+                        // floated='right'
+                        fluid
+                      >
+                        Cancel
+                      </Button>
+                    </GridColumn>
+                  </Grid>
                 </Fragment>
               )}
             </Fragment>

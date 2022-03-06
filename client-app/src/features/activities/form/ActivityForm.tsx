@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form, Grid, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Label, Segment } from 'semantic-ui-react';
 import { ActivityFormValues } from '../../../app/models/activity';
 import { v4 as uuid } from 'uuid';
 import { observer } from 'mobx-react-lite';
@@ -18,6 +18,7 @@ import {
   hasLengthGreaterThan,
   isRequired,
 } from 'revalidate';
+import { toJS } from 'mobx';
 
 const validate = combineValidators({
   title: isRequired({ message: 'The title is required' }),
@@ -56,7 +57,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   // const [modeForCountry, setModeForCountry] = useState(true);
 
   const {loadBrandsToSelect, brands } = rootStore.brandStore;
-  // const [modeForBrand, setModeForBrand] = useState(true);
+  const [editMode, setEditMode] = useState(false);
 
 
   const [activity, setActivity] = useState(new ActivityFormValues());
@@ -68,7 +69,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     loadCountriesToSelect();
 
     if (match.params.id) {
-      // setModeForCountry(false);
+      setEditMode(true);
       // setModeForCountry(true);
       setLoading(true);
       loadActivity(match.params.id)
@@ -82,6 +83,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     const dateAndTime = combineDateAndTime(values.date, values.time);
     const { date, time, ...activity } = values;
     activity.date = dateAndTime;
+    console.log('brands in edit',toJS(brands));
     if (!activity.id) {
       let newActivity = {
         ...activity,
@@ -109,6 +111,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
             onSubmit={handleFinalFormSubmit}
             render={({ handleSubmit, invalid, pristine }) => (
               <Form onSubmit={handleSubmit} loading={loading}>
+                {editMode && <Label content='Title'/>}
                 <Field
                   name='title'
                   placeholder='Title'
@@ -124,16 +127,17 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       component={SelectInput}
                     />
                   )} */}
-                  {/* {modeForBrand && ( */}
+                  {!editMode && (
                     <Field
                       // name is naming the value
                       name='motorcycleBrandName'
                       placeholder={"Your motorcycyle brand"} //
                       options={brands}
-                      value={activity.motorcycleBrandId}
+                      // value={activity.motorcycleBrandId}
                       component={SelectInput}
                     />
-                  {/* // )} */}
+                  )} 
+                  {editMode && <Label content='Description'/>}
                 <Field
                   name='description'
                   placeholder='Description'
@@ -141,13 +145,14 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   rows={3}
                   component={TextAreaInput}
                 />
+                {editMode && <Label content='Category'/>}
                 <Field
                   name='category'
                   placeholder='Category'
                   options={category}
                   value={activity.category}
                   component={SelectInput}
-                />
+                />{editMode && <Label content='Date and time'/>}
                 <Form.Group widths='equal'>
                   <Field
                     component={DateInput}
@@ -173,7 +178,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       component={SelectInput}
                     />
                   )} */}
-                  {/* {modeForCountry && ( //empty form */}
+                  {editMode && <Label content='Country'/>}
                     <Field
                       name='countryName'
                       // name='countryId'
@@ -182,19 +187,21 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       // value={product.countryName}
                       component={SelectInput}
                     />
-                  {/* // )} */}
+                {editMode && <Label content='City'/>}
                 <Field
                   name='city'
                   placeholder='City'
                   value={activity.city}
                   component={TextInput}
                 />
+                {editMode && <Label content='Country'/>}
                 <Field
                   name='departure'
                   placeholder='Departure/Starting Point'
                   value={activity.departure}
                   component={TextInput}
                 />
+                {editMode && <Label content='Destination'/>}
                 <Field
                   name='destination'
                   placeholder='Destination'

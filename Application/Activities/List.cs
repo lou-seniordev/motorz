@@ -21,7 +21,7 @@ namespace Application.Activities
         }
         public class Query : IRequest<ActivitiesEnvelope>
         {
-            public Query(int? limit, int? offset, bool isGoing, bool isHost, bool iFollow,
+            public Query(int? limit, int? offset, bool isGoing, bool isHost, bool iFollow, bool isCompleted,
                 DateTime? startDate, string search)
             {
                 Limit = limit;
@@ -29,9 +29,11 @@ namespace Application.Activities
                 IsGoing = isGoing;
                 IsHost = isHost;
                 IFollow = iFollow;
+                IsCompleted = isCompleted;
                 StartDate = startDate ?? DateTime.Now;
                 Search = search;
             }
+            public bool IsCompleted { get; set; }
             public int? Limit { get; set; }
             public int? Offset { get; set; }
             public bool IsGoing { get; set; }
@@ -64,13 +66,13 @@ namespace Application.Activities
 
                 var queryable = _context.Activities
                 .Where(x => x.Date >= request.StartDate)
-                .Where(x => x.IsActive == true)
+                // .Where(x => x.IsActive == true)
                 .OrderBy(x => x.Date)
                 .AsQueryable();
 
                 var activities = new List<Activity>();
 
-                if (!request.IsGoing && !request.IsHost && !request.IFollow
+                if (!request.IsGoing && !request.IsHost && !request.IFollow && !request.IsCompleted
                 && string.IsNullOrEmpty(request.Search))
                 {
                     activities = await GetActivityList(request, queryable, activities);
@@ -89,6 +91,18 @@ namespace Application.Activities
                 {
                     queryable = queryable.Where(x => x.UserActivities.Any(
                         a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
+                    activities = await GetActivityList(request, queryable, activities);
+
+                }
+                if (request.IsCompleted)
+                {
+                    // queryable = queryable.Where(x => x.UserActivities.Any(
+                    //     a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
+                    queryable = _context.Activities
+                        .Where(x => x.Date >= request.StartDate)
+                        .Where(x => x.IsActive == false)
+                        .OrderBy(x => x.Date)
+                        .AsQueryable();
                     activities = await GetActivityList(request, queryable, activities);
 
                 }

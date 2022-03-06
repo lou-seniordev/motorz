@@ -24,23 +24,28 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { activity, loadActivity, loadingInitial } = rootStore.activityStore;
+  const { loadActivity, activity, loadingInitial
+    // , activityLeftSidebar 
+  } = rootStore.activityStore;
 
   useEffect(() => {
     loadActivity(match.params.id);
   }, [loadActivity, match.params.id, history]);
 
-  if (loadingInitial || !activity) return <LoadingComponent content='Loading activity...' />;
+  if (loadingInitial || !activity ) return <LoadingComponent content='Loading activity...' />;
 
   // const contextRef = createRef();
   //TODO!!! what to do with this? //
   // if (!activity) return <h2>Not found</h2>;
   // console.log(attendees);
+
   return (
     <Grid>
       <Grid.Column computer={3} mobile={16}>
       {/* diaryEntries={activity!.diaryEntries}  */}
           <ActivityDetailedSidebarLeft activity={activity!} />
+          {/* <ActivityDetailedSidebarLeft activity={activityLeftSidebar!} /> */}
+
       
       </Grid.Column>
       <Grid.Column computer={10} mobile={16}>

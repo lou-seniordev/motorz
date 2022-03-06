@@ -6,9 +6,9 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 interface IProps {
   activityId: string;
 }
-const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
+const ConfirmDelete: React.FC<IProps> = ({ activityId }) => {
   const rootStore = useContext(RootStoreContext);
-  const { deactivateActivity } = rootStore.activityStore;
+  const { deleteActivity } = rootStore.activityStore;
   const {
     addFeedItem,
     // removeFeedItem
@@ -17,11 +17,12 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
   const { closeModal } = rootStore.modalStore;
 
   const handleDeactivateActivity = (id: string) => {
-    deactivateActivity(id)
-      .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
-      // .then(() => removeFeedItem(id))
-      .then(() => closeModal())
-      .finally(() => history.push(`/activities`));
+    // deactivateActivity(id)
+    deleteActivity(id)
+    //   .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
+    //   // .then(() => removeFeedItem(id))
+      .then(() => closeModal());
+    //   .finally(() => history.push(`/activities`));
   };
 
   const cancelDeactivateActivity = () => {
@@ -35,7 +36,7 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
       <Grid.Column width={16}>
         <Header
           as='h2'
-          content='Sure you want to do this?'
+          content='Sure you want to do this? You cannot go back...'
           color='teal'
           textAlign='center'
         />
@@ -45,13 +46,13 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
             fluid
             onClick={() => handleDeactivateActivity(activityId)}
             color='teal'
-            content='Yes, I finished my trip!'
+            content='Yes, delete it'
             floated='left'
           />
           <Button
             fluid
             onClick={() => cancelDeactivateActivity()}
-            content='No, keep it active'
+            content="No, don't delete"
             floated='right'
           />
         </Fragment>
@@ -60,4 +61,4 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
   );
 };
 
-export default ConfirmDeactivate;
+export default ConfirmDelete;

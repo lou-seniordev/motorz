@@ -1,9 +1,7 @@
 import { action, observable,  runInAction } from 'mobx';//computed,
-// import { SyntheticEvent } from 'react';
-// import { history } from '../..';
+
 import agent from '../api/agent';
 import {  IBrand } from '../models/brand'; //BrandFormValues,
-// import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 
 //==non of which is actually in use before the admin panel!!!!!!!!!==
@@ -30,18 +28,17 @@ export default class BrandStore {
       const brands = await agent.Brands.list();
       runInAction('loading brands', () => {
         this.brands = brands;
-        // console.log('brands', brands);
-
+        console.log('brands', brands);
       })
     } catch (error) {
       runInAction('load brands error', () => {
         this.loadingInitial = false;
-
       });
       console.log(error);
     }
   }
 
+  //==FOLLOWING IS ONLY GOING TO BE NEEDED FOR THE ADMIN PANEL===
   // @action loadBrands = async () => {
   //   this.loadingInitial = true;
   //   try {
@@ -73,7 +70,7 @@ export default class BrandStore {
   //   }
   // };
 
-  //??--isreally needed
+  //??--is really needed
   // @action loadBrand = async (id: string) => {
   //   let brand = this.getBrand(id);
   //   if (brand) {

@@ -35,6 +35,12 @@ namespace Application.Activities
                     throw new RestException(HttpStatusCode.NotFound, 
                         new {activity = "NotFound"});
 
+                var diaryEntries = await _context.DiaryEntries
+                .Where(x => x.Activity.Id == activity.Id).
+                ToListAsync();
+
+                _context.RemoveRange(diaryEntries);
+
                 var comments = await _context.Comments
                 .Where(x => x.Activity.Id == activity.Id)
                 .ToListAsync();

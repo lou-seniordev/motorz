@@ -7,6 +7,7 @@ import {
   Image,
   Sticky,
   Header,
+  Label,
 } from "semantic-ui-react";
 import { MotofyFormValues } from "../../../app/models/motofy";
 import { v4 as uuid } from "uuid";
@@ -31,6 +32,7 @@ import {
 } from "revalidate";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 // import { toJS } from "mobx";
 
 //NOTSHIT
@@ -83,18 +85,20 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const { loadBrandsToSelect, brands } = rootStore.brandStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
-  const {addFeedItem} = rootStore.feedStore;
-  
+  const { addFeedItem } = rootStore.feedStore;
 
   const [motofy, setMotofy] = useState(new MotofyFormValues());
   const [loading, setLoading] = useState(false);
 
-  const [modeForBrand, setModeForBrand] = useState(true);
-  const [modeForCountry, setModeForCountry] = useState(true);
+  const [editMode, setEditMode] = useState(false);
+
+  // const [modeForBrand, setModeForBrand] = useState(true);
+  // const [modeForCountry, setModeForCountry] = useState(true);
 
   const [uploaded, setUploaded] = useState(false);
 
   const [edited, setEdited] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const [imageToUpload, setImageToUpload] = useState(null);
 
@@ -112,7 +116,8 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     loadBrandsToSelect();
     loadCountriesToSelect();
     if (match.params.id) {
-      // setModeForBrand(false);
+      setEditMode(true);
+
       // setModeForCountry(false);
       setUploaded(true);
       setLoading(true);
@@ -121,6 +126,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         .then((motofy) => setMotofy(new MotofyFormValues(motofy)))
         .finally(() => setLoading(false));
     }
+    setReady(true);
   }, [loadBrandsToSelect, loadCountriesToSelect, loadMotofy, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
@@ -134,15 +140,12 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         file: imageToUpload,
         photoUrl: previewImage,
         isOwner: true,
-        motofyScores: []
+        motofyScores: [],
       };
 
-      createMotofy(newMotofy);//
-      addFeedItem(newId, 'Added Motofy');
+      createMotofy(newMotofy); //
+      addFeedItem(newId, "Added Motofy");
       // console.log(values)
-
-      
-
     } else {
       editMotofy(motofy);
     }
@@ -162,12 +165,13 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     setUploaded(true);
     toast.info("Your image is uploaded, please give us more details");
     // console.log('uploaded, edited', uploaded, edited);
-
   };
+  
+  if (!ready) return <LoadingComponent content='Loading values...' />;
 
   return (
     <Grid>
-      {!uploaded && (
+      {!uploaded && !editMode && (
         <Grid.Column width={16}>
           <Segment>
             <PhotoUploadWidget
@@ -177,7 +181,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
           </Segment>
         </Grid.Column>
       )}
-      {uploaded && (
+      {uploaded &&  (
         <Grid.Column width={10}>
           <Segment clearing>
             <FinalForm
@@ -186,12 +190,14 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
               onSubmit={handleFinalFormSubmit}
               render={({ handleSubmit, invalid, pristine }) => (
                 <Form onSubmit={handleSubmit} loading={loading}>
+                 {editMode && <Label content='Motorcycle name'/>}
                   <Field
                     name='name'
                     placeholder='Name'
                     value={motofy.name}
                     component={TextInput}
                   />
+                    {editMode && <Label content='Description'/>}
                   <Field
                     name='description'
                     rows={3}
@@ -199,6 +205,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     value={motofy.description}
                     component={TextAreaInput}
                   />
+                    {editMode && <Label content='City'/>}
                   <Field
                     name='city'
                     placeholder='City'
@@ -221,13 +228,14 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     />
                   )} */}
                   {/* {modeForCountry && ( */}
-                    <Field
-                      name='countryName'
-                      placeholder={"Country"} //
-                      options={countries}
-                      // value={motofy.countryId}
-                      component={SelectInput}
-                    />
+                  {editMode && <Label content='Country'/>}
+                  <Field
+                    name='countryName'
+                    placeholder={"Country"} //
+                    options={countries}
+                    // value={motofy.countryId}
+                    component={SelectInput}
+                  />
                   {/* )} */}
                   {/* {!modeForBrand && (
                     <Field
@@ -238,48 +246,53 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       component={SelectInput}
                     />
                   )} */}
-                  {/* {modeForBrand && ( */}
-                    <Field
-                      // name is naming the value
-                      name='brandName'
-                      placeholder={"Brand"} //
-                      options={brands}
-                      // value={motofy.brandId}
-                      component={SelectInput}
-                    />
-                  {/* )} */}
+                  {!editMode && (
+                    <>
+                      <Field
+                        // name is naming the value
+                        name='brandName'
+                        placeholder={"Brand"} //
+                        options={brands}
+                        // value={motofy.brandId}
+                        component={SelectInput}
+                      />
 
-                  <Field
-                    name='model'
-                    placeholder='Model'
-                    value={motofy.model}
-                    component={TextInput}
-                  />
-                  <Field
-                    name='cubicCentimeters'
-                    placeholder='Cubics'
-                    value={motofy.cubicCentimeters}
-                    component={TextInput}
-                  />
-                  <Field
-                    name='yearOfProduction'
-                    placeholder='Year of production'
-                    options={year}
-                    value={motofy.yearOfProduction}
-                    component={SelectInput}
-                  />
+                      <Field
+                        name='model'
+                        placeholder='Model'
+                        value={motofy.model}
+                        component={TextInput}
+                      />
+                      <Field
+                        name='cubicCentimeters'
+                        placeholder='Cubics'
+                        value={motofy.cubicCentimeters}
+                        component={TextInput}
+                      />
+                      <Field
+                        name='yearOfProduction'
+                        placeholder='Year of production'
+                        options={year}
+                        value={motofy.yearOfProduction}
+                        component={SelectInput}
+                      />
+                    </>
+                  )}
+                    {editMode && <Label content='Number of kilometers'/>}
                   <Field
                     name='numberOfKilometers'
                     placeholder='Number of kilometers'
                     value={motofy.numberOfKilometers}
                     component={TextInput}
                   />
+                    {editMode && <Label content='Price paid'/>}
                   <Field
                     name='pricePaid'
                     placeholder='Price paid'
                     value={motofy.pricePaid}
                     component={TextInput}
                   />
+                    {editMode && <Label content='Estimated value'/>}
                   <Field
                     name='estimatedValue'
                     placeholder='Estimated value'

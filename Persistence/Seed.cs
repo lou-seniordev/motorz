@@ -2087,7 +2087,8 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Departure = "San Marco",
                         Destination = "Montfalcone",
-                        IsActive = true,
+                        IsActive = false,
+                        IsCompleted = true,
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity

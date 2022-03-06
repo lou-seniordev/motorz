@@ -263,8 +263,6 @@ export default class ActivityStore {
 
   @action editActivity = async (activity: IActivity) => {
     this.submitting = true;
-    // console.log('new moto:::',activity.motorcycleBrandName);
-
     try {
       await agent.Activities.update(activity);
       runInAction('editing activity', () => {
@@ -278,6 +276,23 @@ export default class ActivityStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data!');
+      console.log(error);
+    }
+  };
+  @action deleteActivity = async (id: string) => {
+    this.submitting = true;
+    try {
+      await agent.Activities.delete(id);
+      runInAction('editing activity', () => {
+        this.activityRegistry.delete(id);
+        this.submitting = false;
+      });
+      history.push('/activities');
+    } catch (error) {
+      runInAction('delete activity error', () => {
+        this.submitting = false;
+      });
+      toast.error('Problem deleting data!');
       console.log(error);
     }
   };
