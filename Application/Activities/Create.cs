@@ -16,6 +16,7 @@ namespace Application.Activities
         {
             public Guid Id { get; set; }
             public string Title { get; set; }
+            public string MotorcycleBrandName { get; set; }
             public string Description { get; set; }
             public string Category { get; set; }
             public DateTime Date { get; set; }
@@ -56,13 +57,18 @@ namespace Application.Activities
             {
                 var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.CountryName);
 
-                if(country == null) 
+                if (country == null)
                     throw new Exception("Country Not Found");
+                var brand = await _context.Brands.SingleOrDefaultAsync(x => x.Name == request.MotorcycleBrandName);
+
+                if (brand == null)
+                    throw new Exception("MotorcycleBrandName Not Found");
 
                 var activity = new Activity
                 {
                     Id = request.Id,
                     Title = request.Title,
+                    MotorcycleBrand = brand,
                     Description = request.Description,
                     Category = request.Category,
                     Date = request.Date,

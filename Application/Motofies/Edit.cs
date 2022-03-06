@@ -20,7 +20,7 @@ namespace Application.Motofies
 
             public string Description { get; set; }
             public string City { get; set; }
-            public string Country { get; set; }
+            public string CountryName { get; set; }
             public string NumberOfKilometers { get; set; }
         }
 
@@ -30,8 +30,9 @@ namespace Application.Motofies
             {
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.Description).NotEmpty();
+                RuleFor(x => x.BrandName).NotEmpty();
                 RuleFor(x => x.City).NotEmpty();
-                RuleFor(x => x.Country).NotEmpty();
+                RuleFor(x => x.CountryName).NotEmpty();
                 RuleFor(x => x.NumberOfKilometers).NotEmpty();
             }
         }
@@ -50,14 +51,21 @@ namespace Application.Motofies
 
                 var motofy = await _context.Motofies.FindAsync(request.Id);
 
-                var brand = await _context.Brands.SingleOrDefaultAsync(x => x.Name == request.BrandName);
-                
-                var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.Country);
-
-
                 if (motofy == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { activity = "NotFound" });
+                        
+                var brand = await _context.Brands.SingleOrDefaultAsync(x => x.Name == request.BrandName);
+
+                if (brand == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new { brand = "Brand Not Found" });
+
+                var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.CountryName);
+
+                if (country == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new { country = "Country Not Found" });
 
                 motofy.Name = request.Name ?? motofy.Name;
                 motofy.Brand = brand;

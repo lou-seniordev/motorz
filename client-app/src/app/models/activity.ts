@@ -17,13 +17,14 @@ export interface IActivity {
   departure: string;
   destination: string;
   isGoing: boolean;
-  isHost: boolean;   
+  isHost: boolean;
   isActive: boolean;
   attendees: IAttendee[];
   comments: IComment[];
   diaryEntries: IDiaryEntry[];
-  motorcycleBrandName:string;
-  motorcycleBrandLogoUrl:string;
+  motorcycleBrandId: string;
+  motorcycleBrandName: string;
+  motorcycleBrandLogoUrl: string;
 }
 
 
@@ -34,6 +35,9 @@ export interface IActivityFormValues extends Partial<IActivity> {
 export class ActivityFormValues implements IActivityFormValues {
   id?: string = undefined;
   title: string = '';
+  motorcycleBrandId: string = '';
+  motorcycleBrandName: string = '';
+  motorcycleBrandLogoUrl: string = '';
   category: string = '';
   description: string = '';
   date?: Date = undefined;
@@ -62,15 +66,15 @@ export interface IAttendee {
   following?: boolean;
 }
 export interface IDiaryEntry {
-  id:string;
+  id: string;
   body: string;
-  dayNumber:string;
-  entryDate:Date;
-  locationCity:string;
-  locationCountry:string;
-  photoUrl:string;
-  mood:string;
-  file:any;
+  dayNumber: string;
+  entryDate: Date;
+  locationCity: string;
+  locationCountry: string;
+  photoUrl: string;
+  mood: string;
+  file: any;
   activityId: string;
 }
 
@@ -78,9 +82,9 @@ export class DiaryEntryFormValues {
   id?: string = undefined;
   mood: string = '';
   body: string = '';
-  entryDate:Date;
+  entryDate: Date;
   locationCity: string = '';
   locationCountry: string = '';
-  photoUrl: string  = '';
+  photoUrl: string = '';
 
 }

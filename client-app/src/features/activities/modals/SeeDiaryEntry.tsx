@@ -130,7 +130,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
             </Grid.Column>
             <Grid.Column width={3}></Grid.Column>
             <Grid.Column width={6}>
-              <p>{actualDiary.body}</p>
+              <p style={{ whiteSpace: 'pre-wrap' }}>{actualDiary.body}</p>
               <p>{actualDiary.locationCity}</p>
             </Grid.Column>
 

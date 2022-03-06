@@ -30,7 +30,7 @@ export default class BrandStore {
       const brands = await agent.Brands.list();
       runInAction('loading brands', () => {
         this.brands = brands;
-        // console.log('brands', brands);
+        console.log('brands', brands);
 
       })
     } catch (error) {

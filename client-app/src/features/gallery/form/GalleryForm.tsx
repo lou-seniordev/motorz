@@ -139,6 +139,8 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
       createMotofy(newMotofy);//
       addFeedItem(newId, 'Added Motofy');
+      // console.log(values)
+
       
 
     } else {

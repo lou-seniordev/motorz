@@ -16,6 +16,7 @@ namespace Application.Activities
         {
             public Guid Id { get; set; }
             public string Title { get; set; }
+            public string MotorcycleBrandName { get; set; }
             public string Description { get; set; }
             public string Category { get; set; }
             public DateTime? Date { get; set; }
@@ -27,7 +28,7 @@ namespace Application.Activities
 
         }
 
-         public class CommandValidator : AbstractValidator<Command>
+        public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
@@ -57,17 +58,23 @@ namespace Application.Activities
 
                 var activity = await _context.Activities.FindAsync(request.Id);
 
-                if(activity == null) 
-                    throw new RestException(HttpStatusCode.NotFound, 
-                        new {activity = "NotFound"});
+                if (activity == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new { activity = "NotFound" });
                 var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.CountryName);
 
-                 if(country == null) 
-                    throw new RestException(HttpStatusCode.NotFound, 
-                        new {country = "Country Not Found"});
+                if (country == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new { country = "Country Not Found" });
 
-                
+                var motorcycleBrandName = await _context.Brands.SingleOrDefaultAsync(x => x.Name == request.MotorcycleBrandName);
+
+                if (motorcycleBrandName == null)
+                    throw new Exception("MotorcycleBrandName Not Found");
+
+
                 activity.Title = request.Title ?? activity.Title;
+                activity.MotorcycleBrand = motorcycleBrandName ?? activity.MotorcycleBrand;
                 activity.Description = request.Description ?? activity.Description;
                 activity.Category = request.Category ?? activity.Category;
                 activity.Date = request.Date ?? activity.Date;

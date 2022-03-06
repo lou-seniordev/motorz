@@ -55,11 +55,16 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
   const [modeForCountry, setModeForCountry] = useState(true);
 
+  const { loadBrandsToSelect, brands } = rootStore.brandStore;
+  const [modeForBrand, setModeForBrand] = useState(true);
+
 
   const [activity, setActivity] = useState(new ActivityFormValues());
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    loadBrandsToSelect();
+
     loadCountriesToSelect();
 
     if (match.params.id) {
@@ -69,7 +74,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
       .then((activity) => setActivity(new ActivityFormValues(activity)))
       .finally(() => setLoading(false));
     }
-  }, [loadActivity, match.params.id, loadCountriesToSelect]);
+  }, [loadBrandsToSelect, loadActivity, match.params.id, loadCountriesToSelect]);
 
   const handleFinalFormSubmit = (values: any) => {
     let newId = uuid();
@@ -86,6 +91,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
       };
       createActivity(newActivity);
       addFeedItem(newId, 'Added Motocycle Diary')
+      // console.log(values)
     } else {
       editActivity(activity);
     }
@@ -108,6 +114,25 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   value={activity.title}
                   component={TextInput}
                 />
+                 {!modeForBrand && (
+                    <Field
+                      name='motorcycleBrandName'
+                      // placeholder='Brand' //==neednot
+                      options={brands}
+                      value={activity.motorcycleBrandName}
+                      component={SelectInput}
+                    />
+                  )}
+                  {modeForBrand && (
+                    <Field
+                      // name is naming the value
+                      name='motorcycleBrandName'
+                      placeholder={"Your motorcycyle brand"} //
+                      options={brands}
+                      value={activity.motorcycleBrandId}
+                      component={SelectInput}
+                    />
+                  )}
                 <Field
                   name='description'
                   placeholder='Description'
