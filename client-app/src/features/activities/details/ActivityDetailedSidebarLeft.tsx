@@ -13,13 +13,15 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import SeeDiaryEntry from "../modals/SeeDiaryEntry";
 
 interface IProps {
-  diaryEntries: IDiaryEntry[];
+  // diaryEntries: IDiaryEntry[];
   activity: IActivity
 }
-const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ diaryEntries, activity }) => {
+const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {//diaryEntries, 
   const rootStore = useContext(RootStoreContext);
 
   const { openModal } = rootStore.modalStore;
+
+  const {diaryEntries} = activity;
 
   const handleOpenDiaryModal = (diary: IDiaryEntry) => {
     openModal(<SeeDiaryEntry diary={diary} activity={activity}/>);

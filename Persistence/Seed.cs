@@ -2124,7 +2124,7 @@ namespace Persistence
                         Id = Guid.Parse("7ACE392B-F077-4E4B-8679-2A5D1D8B77A9"),
                         Name = "MV Agusta",
                         DateOfEstablishment = DateTime.Now.AddYears(-76),
-                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636476893/mv_augsta.png8",
+                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636476893/mv_augsta.png",
                         LandOfOrigin = "Italy",
                         CityOfOrigin = "Varese",
                     },

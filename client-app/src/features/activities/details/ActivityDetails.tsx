@@ -30,25 +30,25 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     loadActivity(match.params.id);
   }, [loadActivity, match.params.id, history]);
 
-  if (loadingInitial) return <LoadingComponent content='Loading activity...' />;
+  if (loadingInitial || !activity) return <LoadingComponent content='Loading activity...' />;
 
   // const contextRef = createRef();
   //TODO!!! what to do with this? //
-  if (!activity) return <h2>Not found</h2>;
+  // if (!activity) return <h2>Not found</h2>;
   // console.log(attendees);
   return (
     <Grid>
       <Grid.Column computer={3} mobile={16}>
-      
-          <ActivityDetailedSidebarLeft diaryEntries={activity.diaryEntries} activity={activity} />
+      {/* diaryEntries={activity!.diaryEntries}  */}
+          <ActivityDetailedSidebarLeft activity={activity!} />
       
       </Grid.Column>
       <Grid.Column computer={10} mobile={16}>
         {/* <Ref innerRef={contextRef}>
           <> */}
-          <ActivityDetailedHeader activity={activity} />
-          <ActivityDetailedInfo activity={activity} />
-          <ActivityDetailedManager activity={activity} />
+          <ActivityDetailedHeader activity={activity!} />
+          <ActivityDetailedInfo activity={activity!} />
+          <ActivityDetailedManager activity={activity!} />
           <ActivityDetailedChat />
           {/* </>
         </Ref> */}
@@ -56,7 +56,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
       <Grid.Column computer={3} mobile={16}>
         {/* style={{ marginRight: 30, position: "fixed" }} */}
         {/* <Sticky context={contextRef} pushing style={{ overflow:"auto"  }}> */}
-          <ActivityDetailedSidebarRight attendees={activity.attendees} />
+          <ActivityDetailedSidebarRight attendees={activity!.attendees} />
         {/* </Sticky> */}
       </Grid.Column>
     </Grid>

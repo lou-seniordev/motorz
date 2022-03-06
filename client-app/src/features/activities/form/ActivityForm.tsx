@@ -53,10 +53,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const { addFeedItem } = rootStore.feedStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
-  const [modeForCountry, setModeForCountry] = useState(true);
+  // const [modeForCountry, setModeForCountry] = useState(true);
 
-  const { loadBrandsToSelect, brands } = rootStore.brandStore;
-  const [modeForBrand, setModeForBrand] = useState(true);
+  const {loadBrandsToSelect, brands } = rootStore.brandStore;
+  // const [modeForBrand, setModeForBrand] = useState(true);
 
 
   const [activity, setActivity] = useState(new ActivityFormValues());
@@ -68,7 +68,8 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     loadCountriesToSelect();
 
     if (match.params.id) {
-      setModeForCountry(false);
+      // setModeForCountry(false);
+      // setModeForCountry(true);
       setLoading(true);
       loadActivity(match.params.id)
       .then((activity) => setActivity(new ActivityFormValues(activity)))
@@ -114,7 +115,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   value={activity.title}
                   component={TextInput}
                 />
-                 {!modeForBrand && (
+                 {/* {!modeForBrand && (
                     <Field
                       name='motorcycleBrandName'
                       // placeholder='Brand' //==neednot
@@ -122,8 +123,8 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       value={activity.motorcycleBrandName}
                       component={SelectInput}
                     />
-                  )}
-                  {modeForBrand && (
+                  )} */}
+                  {/* {modeForBrand && ( */}
                     <Field
                       // name is naming the value
                       name='motorcycleBrandName'
@@ -132,7 +133,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       value={activity.motorcycleBrandId}
                       component={SelectInput}
                     />
-                  )}
+                  {/* // )} */}
                 <Field
                   name='description'
                   placeholder='Description'
@@ -163,16 +164,16 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     value={activity.time}
                   />
                 </Form.Group>
-                {!modeForCountry && (
+                {/* {!modeForCountry && (
                     <Field
                       // placeholder={"Country"} // edit form
                       name='countryName'
                       options={countries}
-                      // value={product.countryId}
+                      value={activity.countryId}
                       component={SelectInput}
                     />
-                  )}
-                  {modeForCountry && ( //empty form
+                  )} */}
+                  {/* {modeForCountry && ( //empty form */}
                     <Field
                       name='countryName'
                       // name='countryId'
@@ -181,7 +182,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       // value={product.countryName}
                       component={SelectInput}
                     />
-                  )}
+                  {/* // )} */}
                 <Field
                   name='city'
                   placeholder='City'

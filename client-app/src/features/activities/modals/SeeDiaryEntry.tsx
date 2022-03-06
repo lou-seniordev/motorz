@@ -81,6 +81,11 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                 </Link>
                 <p>
                   {" "}
+                  Started in {activity.city},{" "}
+                  {activity.countryName}
+                </p>
+                <p>
+                  {" "}
                   At the moment: in {actualDiary.locationCity},{" "}
                   {actualDiary.locationCountry}
                 </p>
@@ -132,6 +137,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
             <Grid.Column width={6}>
               <p style={{ whiteSpace: 'pre-wrap' }}>{actualDiary.body}</p>
               <p>{actualDiary.locationCity}</p>
+              <p>{actualDiary.mood}</p>
             </Grid.Column>
 
             <Grid.Column width={5}>

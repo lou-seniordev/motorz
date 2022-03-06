@@ -263,6 +263,8 @@ export default class ActivityStore {
 
   @action editActivity = async (activity: IActivity) => {
     this.submitting = true;
+    // console.log('new moto:::',activity.motorcycleBrandName);
+
     try {
       await agent.Activities.update(activity);
       runInAction('editing activity', () => {
