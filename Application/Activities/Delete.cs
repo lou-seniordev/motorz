@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Errors;
 using MediatR;
 using Persistence;
+using Application.Interfaces;
 
 namespace Application.Activities
 {
@@ -20,9 +21,13 @@ namespace Application.Activities
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IEntityPhotoAccessor _entityPhotoAccessor;
+
+            public Handler(DataContext context, IEntityPhotoAccessor entityPhotoAccessor)
             {
                 _context = context;
+                _entityPhotoAccessor = entityPhotoAccessor;
+
 
             }
 
@@ -31,13 +36,26 @@ namespace Application.Activities
 
                 var activity = await _context.Activities.FindAsync(request.Id);
 
-                if(activity == null) 
-                    throw new RestException(HttpStatusCode.NotFound, 
-                        new {activity = "NotFound"});
+                if (activity == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new { activity = "NotFound" });
 
                 var diaryEntries = await _context.DiaryEntries
-                .Where(x => x.Activity.Id == activity.Id).
-                ToListAsync();
+                .Where(x => x.Activity.Id == activity.Id)
+                .ToListAsync();
+
+                foreach (var entry in diaryEntries)
+                {
+                    var diaryPhoto = await _context.DiaryPhotos
+                    .SingleOrDefaultAsync(x => x.DiaryEntryForeignKey == entry.Id);
+
+                    var deletePhotoResult = _entityPhotoAccessor.DeletePhoto(diaryPhoto.Id);
+
+                    if (deletePhotoResult == null)
+                         throw new Exception("Problem deleting photo");
+
+                }
+
 
                 _context.RemoveRange(diaryEntries);
 
@@ -48,7 +66,7 @@ namespace Application.Activities
                 _context.RemoveRange(comments);
 
                 _context.Remove(activity);
-                
+
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;
