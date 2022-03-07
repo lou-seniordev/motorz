@@ -28,9 +28,10 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
   if (loadingInitial || !activity ) return <LoadingComponent content='Loading activity...' />;
 
+
   return (
     <Grid>
-      <Grid.Column computer={3} mobile={16}>
+      <Grid.Column computer={3} mobile={16} className={'sideScroll'}>
           <ActivityDetailedSidebarLeft activity={activity!} />
       </Grid.Column>
       <Grid.Column computer={10} mobile={16}>
@@ -41,7 +42,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
           <ActivityDetailedChat />
 
       </Grid.Column>
-      <Grid.Column computer={3} mobile={16}>
+      <Grid.Column computer={3} mobile={16} className={'sideScroll'}>
           <ActivityDetailedSidebarRight attendees={activity!.attendees} />
       </Grid.Column>
     </Grid>

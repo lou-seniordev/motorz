@@ -1,30 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Segment, Grid, Header, Item } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import { IMotofy } from "../../../app/models/motofy";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 
-const GalleryMostEmbraced: React.FC<{ motofyEmbraced: IMotofy }> = ({
-  motofyEmbraced,
+const GalleryChamps: React.FC<{ champ: IMotofy, info:string }> = ({
+  champ,
+  info
 }) => {
-  const motofy = { ...motofyEmbraced };
+  const motofy = { ...champ };
+  const rootStore = useContext(RootStoreContext);
+  // const content = info;
+
+  const { closeModal } = rootStore.modalStore;
 
   return (
     <Segment.Group>
       <Segment attached='top'>
-        <Link to={`/gallery/${motofy.id}`}>
+        <Link to={`/gallery/${motofy.id}`} onClick={() => closeModal()}>
           <Grid>
             <Grid.Column width={16}>
               <Header
                 // icon={"certificate"}
                 attached
                 color={"teal"}
-                content={"The most embraced"}
+                content={info}
               />
             </Grid.Column>
             <Grid.Column width={16}>
               <Grid.Row>
-                <Item.Image size='small' src={motofy.photoUrl} bordered />
+              <Item.Image size='huge' src={motofy.photoUrl} bordered fluid/>
               </Grid.Row>
               <Grid.Row>
                 <Item.Group>
@@ -55,4 +61,4 @@ const GalleryMostEmbraced: React.FC<{ motofyEmbraced: IMotofy }> = ({
   );
 };
 
-export default GalleryMostEmbraced;
+export default GalleryChamps;

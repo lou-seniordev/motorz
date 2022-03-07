@@ -24,7 +24,7 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {
   const {diaryEntries} = activity;
 
   const handleOpenDiaryModal = (diary: IDiaryEntry) => {
-    console.log('activity', toJS(activity) )
+
     openModal(<SeeDiaryEntry diary={diary} activity={activity}/>);
   };
 //mobx] `observableArray.sort()` will not update the array in place. Use `observableArray.slice().sort()`

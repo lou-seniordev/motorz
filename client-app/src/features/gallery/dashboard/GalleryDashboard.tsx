@@ -37,12 +37,12 @@ const GalleryDashboard: React.FC = () => {
 
   return (
     <Grid>
-      {/* // mobile={16} tablet={8} computer={4} */}
+
       <Grid.Column mobile={16} tablet={16} className='mobile only'>
-        {/* embracers={motofy.embracers} */}
+
         <GalleryMobileFilters />
       </Grid.Column>
-      <Grid.Column computer={9} mobile={16}>
+      <Grid.Column computer={11} mobile={16}>
         {loadingInitial && page === 0 ? (
           <GalleryListItemPlaceholder />
         ) : (
@@ -56,17 +56,15 @@ const GalleryDashboard: React.FC = () => {
           </InfiniteScroll>
         )}
       </Grid.Column>
-      {/* className="mobile hidden" */}
-      {/*  width={2} only='computer' computer={2}*/}
-      <Grid.Column className='mobile hidden'>
+    
+      
+      <Grid.Column width={5} className='mobile hidden'>
         <Sticky style={{ marginRight: 30, position: "fixed" }}>
-          {/* handleGetMostEmbraced={handleGetMostEmbraced} */}
-          <GalleryFilters />
+           <GalleryFilters />
         </Sticky>
       </Grid.Column>
 
-      {/* Find what is it!!! */}
-      <Grid.Column computer={9} mobile={16}>
+      <Grid.Column computer={11} mobile={16}>
       <Loader active={loadingNext}/>
       </Grid.Column>
     </Grid>
