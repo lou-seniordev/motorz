@@ -348,58 +348,5 @@ export default class MotofyStore {
     }
   };
 
- 
-
-  // @action loadMotofy = async (id: string) => {
-  //   let motofy = this.getMotofy(id);
-  //   // console.log(motofy);
-  //   if (motofy) {
-  //     this.motofy = motofy;
-  //   } else {
-  //     this.loadingInitial = true;
-  //     try {
-  //       motofy = await agent.Motofies.details(id);
-  //       runInAction('getting motofy', () => {
-  //         this.motofy = motofy;
-  //         this.loadingInitial = false;
-  //       });
-  //     } catch (error) {
-  //       runInAction('Getting activity error', () => {
-  //         this.loadingInitial = false;
-  //       });
-  //       console.log(error);
-  //     }
-  //   }
-  // };
-
-
-  //==trash candidates, because not in use anymore!!!
-  // @action openEditForm = (id: string) => {
-  //   this.editMode = true;
-  //   this.motofy = this.motofyRegistry.get(id);
-  // };
-  // @action cancelSelectedMotofy = () => {
-  //   this.motofy = null;
-  // };
-  // @action cancelFormOpen = () => {
-  //   this.editMode = false;
-  // };
-  // @action selectMotofy = (id: string) => {
-  //   this.motofy = this.motofyRegistry.get(id);
-  //   this.editMode = false;
-  // };
-  // @action openCreateForm = () => {
-  //   this.editMode = true;
-  //   this.motofy = null;
-  // };
 }
 
-// export default createContext(new MotofyStore());
-
-
-//totaltrash
-  //shit
-  // @observable motofyPreview: any;
-  // @action setPreview = (values: any) => {
-  //   this.motofyPreview = values;
-  // };

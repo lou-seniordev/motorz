@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   Segment,
@@ -7,7 +7,7 @@ import {
   Item,
   Label,
   Image,
-  // , Sidebar, Menu, Header
+  SegmentGroup,
 } from "semantic-ui-react";
 import { IAttendee } from "../../../app/models/activity";
 
@@ -16,7 +16,7 @@ interface IProps {
 }
 const ActivityDetailedSidebarRight: React.FC<IProps> = ({ attendees }) => {
   return (
-    <Fragment>
+    <SegmentGroup raised>
       <Segment
         textAlign='center'
         style={{ border: "none" }}
@@ -56,7 +56,7 @@ const ActivityDetailedSidebarRight: React.FC<IProps> = ({ attendees }) => {
           ))}
         </List>
       </Segment>
-    </Fragment>
+    </SegmentGroup>
   );
 };
 

@@ -1,5 +1,5 @@
-import React, { Fragment, useContext, useState } from "react";
-import { Menu, Header, Input, Divider, Icon } from "semantic-ui-react";
+import React, { useContext, useState } from "react";
+import { Menu, Input, Divider, Icon, SegmentGroup } from "semantic-ui-react";
 import { Calendar } from "react-widgets";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
@@ -24,7 +24,7 @@ const ActivityFilters = () => {
     textAlign: "center",
   };
   return (
-    <Fragment>
+    <SegmentGroup raised>
       <Menu vertical size={"large"} style={{ width: "100%" }}>
         {!calendarFilter && (
           <>
@@ -88,7 +88,6 @@ const ActivityFilters = () => {
             style={styles}
           />
         )}
-
         <Menu.Item
           active={calendarFilter}
           color={"blue"}
@@ -104,7 +103,7 @@ const ActivityFilters = () => {
             value={predicate.get("startDate") || new Date()}
           />
       )}
-    </Fragment>
+    </SegmentGroup>
   );
 };
 

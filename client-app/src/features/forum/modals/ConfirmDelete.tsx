@@ -1,29 +1,33 @@
 import React, { Fragment, useContext } from "react";
+import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router";
 import { Header, Button, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface IProps {
-  activityId: string;
+  forumpostId: string;
 }
-const ConfirmDelete: React.FC<IProps> = ({ activityId }) => {
+const ConfirmDelete: React.FC<IProps> = ({ forumpostId }) => {
   const rootStore = useContext(RootStoreContext);
-  const { deleteActivity } = rootStore.activityStore;
+  const {deleteForumpost } = rootStore.forumPostStore;
   // const {
   //   // addFeedItem,
   //   // removeFeedItem
   // } = rootStore.feedStore;
 
   const { closeModal } = rootStore.modalStore;
+    let history = useHistory();
 
-  const handleDeleteActivity = (id: string) => {
-    deleteActivity(id)
+
+  const handleDeleteForumpost = (id: string) => {
+    deleteForumpost(id)
     //   .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
     //   // .then(() => removeFeedItem(id))
-      .then(() => closeModal());
-    //   .finally(() => history.push(`/activities`));
+      .then(() => closeModal())
+      .finally(() => history.push(`/forum`));
   };
 
-  const cancelDeleteActivity = () => {
+  const cancelDeleteForumpost = () => {
     closeModal();
   };
 
@@ -34,7 +38,7 @@ const ConfirmDelete: React.FC<IProps> = ({ activityId }) => {
       <Grid.Column width={16}>
         <Header
           as='h2'
-          content='Sure you want to do this? You cannot go back...'
+          content='Irreversible action! Are you sure you want to do this? '
           color='teal'
           textAlign='center'
         />
@@ -42,14 +46,14 @@ const ConfirmDelete: React.FC<IProps> = ({ activityId }) => {
         <Fragment>
           <Button
             fluid
-            onClick={() => handleDeleteActivity(activityId)}
+            onClick={() => handleDeleteForumpost(forumpostId)}
             color='teal'
             content='Yes, delete it'
             floated='left'
           />
           <Button
             fluid
-            onClick={() => cancelDeleteActivity()}
+            onClick={() => cancelDeleteForumpost()}
             content="No, don't delete"
             floated='right'
           />

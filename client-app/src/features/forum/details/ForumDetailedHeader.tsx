@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import ConfirmDelete from "../modals/ConfirmDelete";
 
 const activityImageStyle = {
   filter: "brightness(90%)",
@@ -22,9 +23,14 @@ const ForumDetailedHeader: React.FC<{ forumpost: IForumpost }> = ({
   forumpost,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  // const {forumpostsByDate } = rootStore.forumPostStore;
 
   const { user } = rootStore.userStore;
+  const { openModal } = rootStore.modalStore;
+
+  const handleDeleteForumpost = () => {
+    openModal(<ConfirmDelete forumpostId={forumpost.id} />);
+
+  }
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: "0" }}>
@@ -64,6 +70,17 @@ const ForumDetailedHeader: React.FC<{ forumpost: IForumpost }> = ({
             floated='left'
           >
             Manage Your Post
+          </Button>
+        )}
+      </Segment>
+      <Segment clearing attached='bottom'>
+        {forumpost.userName === user?.userName && (
+          <Button
+           onClick={handleDeleteForumpost}
+            color='google plus'
+            floated='right'
+          >
+            Delete Post
           </Button>
         )}
       </Segment>

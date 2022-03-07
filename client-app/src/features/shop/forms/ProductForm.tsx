@@ -9,6 +9,7 @@ import {
   Segment,
   Sticky,
   Image,
+  Label,
 } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 
@@ -18,7 +19,6 @@ import { Form as FinalForm, Field } from "react-final-form";
 import TextInput from "../../../app/common/form/TextInput";
 import TextAreaInput from "../../../app/common/form/TextAreaInput";
 
-// import { year } from "../../../app/common/options/yearOptions";
 import { categories } from "../../../app/common/options/productOptions";
 
 import SelectInput from "../../../app/common/form/SelectInput";
@@ -28,22 +28,14 @@ import {
   hasLengthGreaterThan,
   isRequired,
   isNumeric,
-  // createValidator,
 } from "revalidate";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
-// import { toJS } from "mobx";
+import { motoOptions } from "../../../app/common/options/motoOptions";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
-// const isValidEmail = createValidator(
-//   (message) => (value) => {
-//     if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-//       return message;
-//     }
-//   },
-//   "Invalid email address"
-// );
 
 const validate = combineValidators({
   title: isRequired({ message: "The title is required" }),
@@ -54,12 +46,8 @@ const validate = combineValidators({
       message: "Description needs to be at least 5 characters",
     })
   )(),
-  // photoUrl: isRequired("Photo"),
   countryName: isRequired("countryName"),
-  // model: isRequired("model"),
-  // brand: isRequired("brand"),
   city: isRequired("City"),
-  // address: isRequired("address"),
   phoneNumber: composeValidators(
     isNumeric("Phone"),
     isRequired("Phone"),
@@ -70,13 +58,9 @@ const validate = combineValidators({
   price: composeValidators(
     isNumeric("Price"),
     isRequired("Price")
-    // hasLengthGreaterThan(4)({
-    //   message: "Description needs to be at least 5 characters",
-    // })
+
   )(),
-  // email: composeValidators(isRequired("Email"), isValidEmail)(),
-  // website: isRequired("Website"),
-  // yearOfStart: isRequired("Year Of Start"),
+ 
 });
 interface DetailParams {
   id: string;
@@ -87,18 +71,24 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
 
-  const { createProduct, editProduct, submitting, loadProduct } = rootStore.productStore;
+  const { createProduct, editProduct, submitting, loadProduct } =
+    rootStore.productStore;
   const { addFeedItem } = rootStore.feedStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
   const { user } = rootStore.userStore;
 
+  const random = Math.floor(Math.random() * motoOptions.length);
+  const motomoto = motoOptions[random];
 
   const [product, setProduct] = useState(new ProductFormValues());
   const [loading, setLoading] = useState(false);
-  const [modeForCountry, setModeForCountry] = useState(true);
-  const [modeForCategory, setModeForCategory] = useState(true);
+
   const [uploaded, setUploaded] = useState(false);
   const [edited, setEdited] = useState(false);
+
+  const [editMode, setEditMode] = useState(false);
+  const [ready, setReady] = useState(false);
+
 
   const [imageToUpload, setImageToUpload] = useState(null);
 
@@ -107,36 +97,29 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   useEffect(() => {
     loadCountriesToSelect();
-    // console.log("modeForCategory out", modeForCategory);
 
     if (match.params.id) {
-      // console.log("match.params.id", match.params.id);
-      
-      // console.log("modeForCategory in", modeForCategory);
-      setModeForCountry(false);
-      setModeForCategory(false);
+      setEditMode(true);
       setLoading(true);
       setUploaded(true);
       setEdited(true);
-      
-      // console.log("modeForCountry in", modeForCountry)
+
       loadProduct(match.params.id)
-      .then((product) => {
-        setProduct(new ProductFormValues(product));
-       
+        .then((product) => {
+          setProduct(new ProductFormValues(product));
         })
         .finally(() => setLoading(false));
-
-        
     }
+    setReady(true);
+
   }, [loadCountriesToSelect, loadProduct, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
     let newId = uuid();
 
     const { ...product } = values;
-    if (product.brand === '') product.brand = 'Brand not asigned';
-    if (product.model === '') product.model = 'Model not asigned';
+    if (product.brand === "") product.brand = "Brand not asigned";
+    if (product.model === "") product.model = "Model not asigned";
 
     if (!product.id) {
       let newProduct = {
@@ -145,14 +128,12 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         datePublished: new Date().toISOString(),
         file: imageToUpload,
         photoUrl: previewImage,
-        sellerUsername: user?.userName
+        sellerUsername: user?.userName,
       };
       createProduct(newProduct);
-      addFeedItem(newId, 'Added Product');
-
+      addFeedItem(newId, "Added Product");
     } else {
       editProduct(product);
-      // console.log(product);
     }
   };
 
@@ -168,24 +149,22 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     image = photo;
     setPreview(photo);
     setUploaded(true);
-    // setUploadingMechanicPhoto(true)
     toast.info("Your image is uploaded, please give us more details");
-    // console.log('uploaded, edited', uploaded, edited);
   };
+  if (!ready) return <LoadingComponent content='Loading values...' />;
+
   return (
     <Grid>
-      {!uploaded && (
+      {!uploaded && !editMode && (
         <Grid.Column width={16}>
           <Segment>
             <PhotoUploadWidget
               uploadPhoto={handleUploadImage}
               loading={uploaded}
-              // loading={false}
             />
           </Segment>
         </Grid.Column>
       )}
-      {/* <Grid.Column width={3} /> */}
       {uploaded && (
         <Grid.Column width={10}>
           <Segment clearing>
@@ -195,18 +174,22 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
               onSubmit={handleFinalFormSubmit}
               render={({ handleSubmit, invalid, pristine }) => (
                 <Form onSubmit={handleSubmit} loading={loading}>
+                  {editMode && <Label content='Title' />}
+
                   <Field
                     name='title'
                     placeholder='Title *'
                     value={product.title}
                     component={TextInput}
                   />
+                  {editMode && <Label content='Price' />}
                   <Field
                     name='price'
                     placeholder='Price *'
                     value={product.price}
                     component={TextInput}
                   />
+                  {editMode && <Label content='Description' />}
                   <Field
                     name='description'
                     rows={3}
@@ -215,64 +198,44 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     component={TextAreaInput}
                   />
 
-                  {!modeForCountry && (
-                    <Field
-                      // placeholder={"Country"} // edit form
-                      name='countryName'
-                      options={countries}
-                      // value={product.countryId}
-                      component={SelectInput}
-                    />
-                  )}
-                  {modeForCountry && ( //empty form
-                    <Field
-                      name='countryName'
-                      // name='countryId'
-                      placeholder={"Country *"} //
-                      options={countries}
-                      // value={product.countryName}
-                      component={SelectInput}
-                    />
-                  )}
-                  {!modeForCategory && ( //edit form
-                    <Field
-                      name='category'
-                      // name='product.category'
-                      // placeholder='Category'
-                      options={categories}
-                      // value={product.category}
-                      component={SelectInput}
-                    />
-                  )}
-                  {modeForCategory && ( //new form
-                    <Field
-                      name='category'
-                      placeholder='Category *'
-                      options={categories}
-                      value={product.category}
-                      component={SelectInput}
-                    />
-                  )}
+                  {editMode && <Label content='Category' />}
+                  <Field
+                    name='category'
+                    placeholder='Category *'
+                    options={categories}
+                    value={product.category}
+                    component={SelectInput}
+                  />
+
+                  {editMode && <Label content='Country' />}
+                  <Field
+                    name='countryName'
+                    placeholder={"Country *"} //
+                    options={countries}
+                    component={SelectInput}
+                  />
+                  {editMode && <Label content='City' />}
                   <Field
                     name='city'
                     placeholder='City'
                     value={product.city}
                     component={TextInput}
                   />
-
+                  {editMode && <Label content='Phone' />}
                   <Field
                     name='phoneNumber'
                     placeholder='Phone *'
                     value={product.phoneNumber}
                     component={TextInput}
                   />
-
+                  {editMode && <Label content='Model' />}
                   <Field
                     name='model'
                     placeholder='Model'
                     value={product.model}
                     component={TextInput}
                   />
+                  {editMode && <Label content='Brand' />}
                   <Field
                     name='brand'
                     placeholder='Brand'
@@ -309,7 +272,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         <Grid.Column width={6}>
           <Sticky style={{ marginRight: 30, position: "fixed" }}>
             <Segment>
-              <Header as='h2'>Love & peace and safe riding</Header>
+              <Header as='h2'>{motomoto}</Header>
               <Image size='large' bordered src={previewImage} />
             </Segment>
           </Sticky>

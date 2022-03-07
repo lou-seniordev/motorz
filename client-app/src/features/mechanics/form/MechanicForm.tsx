@@ -9,6 +9,7 @@ import {
   Segment,
   Sticky,
   Image,
+  Label,
 } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 
@@ -33,6 +34,10 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+
+import { motoOptions } from "../../../app/common/options/motoOptions";
+
 
 const isValidEmail = createValidator(
   (message) => (value) => {
@@ -61,9 +66,7 @@ const validate = combineValidators({
       message: "Description needs to be at least 5 characters",
     })
   )(),
-  // email: composeValidators(isRequired("Email"), isValidEmail)(),
   email: isValidEmail(),
-  // website: isRequired("Website"),
   yearOfStart: isRequired("Year Of Start"),
 });
 const ownerOptions = [
@@ -83,24 +86,28 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     createMechanic,
     editMechanic,
     submitting,
-    editMode,
+    // editMode,
     // mechanic: initalFormState,
     loadMechanic,
   } = rootStore.mechanicStore;
 
-  const {user} = rootStore.userStore;
+   const random = Math.floor(Math.random() * motoOptions.length);
+
+  const motomoto = motoOptions[random];
+
+  const { user } = rootStore.userStore;
   const { addFeedItem } = rootStore.feedStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
 
-
   const [mechanic, setMechanic] = useState(new MechanicFromValues());
   const [loading, setLoading] = useState(false);
-  const [modeForCountry, setModeForCountry] = useState(true);
-  
 
   const [uploaded, setUploaded] = useState(false);
 
   const [edited, setEdited] = useState(false);
+
+  const [editMode, setEditMode] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const [imageToUpload, setImageToUpload] = useState(null);
 
@@ -109,30 +116,27 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   useEffect(() => {
     loadCountriesToSelect();
-    // console.log("modeForCountry out", modeForCountry);
 
     if (match.params.id) {
-      // console.log('match.params.id', match.params.id);
+      setEditMode(true);
 
-      setModeForCountry(false);
       setLoading(true);
       setUploaded(true);
       setEdited(true);
 
-      // console.log("modeForCountry in", modeForCountry);
       loadMechanic(match.params.id) //, 'PLACEHOLDER!!!'
         .then((mechanic) => {
           setMechanic(new MechanicFromValues(mechanic));
         })
         .finally(() => setLoading(false));
     }
+    setReady(true);
   }, [loadCountriesToSelect, loadMechanic, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
     let newId = uuid();
     const { ...mechanic } = values;
-    // console.log(values)
-    let owner: boolean = values.owner === 'Owner' ? true : false;
+    let owner: boolean = values.owner === "Owner" ? true : false;
     let customer = {
       username: user?.userName,
       displayName: user?.displayName,
@@ -141,8 +145,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
       isCustomer: !owner,
       customerRecommended: !owner,
       testimonial: values.description,
-    }
-    // console.log(customer)
+    };
     if (!mechanic.id) {
       let newMechanic = {
         ...mechanic,
@@ -151,16 +154,12 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
         file: imageToUpload,
         photoUrl: previewImage,
         publisherUsername: user?.userName,
-        customers: [
-          customer
-        ]
-       
+        customers: [customer],
       };
       createMechanic(newMechanic);
-      addFeedItem(newId, 'Added Mechanic');
+      addFeedItem(newId, "Added Mechanic");
     } else {
       editMechanic(mechanic);
-      // console.log(mechanic);
     }
   };
 
@@ -177,23 +176,22 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     setPreview(photo);
     setUploaded(true);
     toast.info("Your image is uploaded, please give us more details");
-    // console.log('uploaded, edited', uploaded, edited);
   };
+
+  if (!ready) return <LoadingComponent content='Loading values...' />;
 
   return (
     <Grid>
-      {!uploaded && (
+      {!uploaded && !editMode && (
         <Grid.Column width={16}>
           <Segment>
             <PhotoUploadWidget
               uploadPhoto={handleUploadImage}
               loading={uploaded}
-              // loading={false}
             />
           </Segment>
         </Grid.Column>
       )}
-      {/* <Grid.Column width={3} /> */}
       {uploaded && (
         <Grid.Column width={10}>
           <Segment clearing>
@@ -203,62 +201,67 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
               onSubmit={handleFinalFormSubmit}
               render={({ handleSubmit, invalid, pristine }) => (
                 <Form onSubmit={handleSubmit} loading={loading}>
+                  {editMode && <Label content='Name' />}
+
                   <Field
                     name='name'
                     placeholder='Name *'
                     value={mechanic.name}
                     component={TextInput}
                   />
-                  {/* ownerOptions */}
-                  {modeForCountry &&<Field
-                    name='owner'
-                    placeholder='Are you owner or customer of this shop?'
-                    options={ownerOptions}
-                    value={mechanic.owner}
-                    component={SelectInput}
-                  />}
-                  {/* {!modeForCountry && (
+
+                  {!editMode && (
                     <Field
-                      name='countryName'
-                      // placeholder='Country'
-                      options={countries}
-                      value={mechanic.countryName}
+                      name='owner'
+                      placeholder='Are you owner or customer of this shop?'
+                      options={ownerOptions}
+                      value={mechanic.owner}
                       component={SelectInput}
                     />
-                  )} */}
-                  {modeForCountry && (
+                  )}
+
+                  {!editMode && (
                     <Field
                       name='countryName'
                       placeholder={"Country *"} //
                       options={countries}
-                      
                       component={SelectInput}
                     />
                   )}
+                  {editMode && <Label content='Description' />}
+
                   <Field
                     name='city'
                     placeholder='City *'
                     value={mechanic.city}
                     component={TextInput}
                   />
+                  {editMode && <Label content='Address' />}
+
                   <Field
                     name='address'
                     placeholder='Address *'
                     value={mechanic.address}
                     component={TextInput}
                   />
+                  {editMode && <Label content='Phone' />}
+
                   <Field
                     name='phone'
                     placeholder='Phone *'
                     value={mechanic.phone}
                     component={TextInput}
                   />
+                  {editMode && <Label content='Email' />}
+
                   <Field
                     name='email'
                     placeholder='Email'
                     value={mechanic.email}
                     component={TextInput}
                   />
+                  {editMode && <Label content='Website' />}
+
                   <Field
                     name='website'
                     placeholder='Website'
@@ -268,13 +271,14 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   {!editMode && (
                     <Field
                       name='yearOfStart'
-                      // type='datetime-local'
                       placeholder='Year of Start *'
                       value={mechanic.yearOfStart}
                       options={year}
                       component={SelectInput}
                     />
                   )}
+                  {editMode && <Label content='Description' />}
+
                   <Field
                     name='description'
                     raws={3}
@@ -312,7 +316,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
         <Grid.Column width={6}>
           <Sticky style={{ marginRight: 30, position: "fixed" }}>
             <Segment>
-              <Header as='h2'>Love & peace and safe riding</Header>
+              <Header as='h2'>{motomoto}</Header>
               <Image size='large' bordered src={previewImage} />
             </Segment>
           </Sticky>

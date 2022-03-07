@@ -33,7 +33,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
   // const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);
-  const { attendActivity, cancelAttendance, loading, deleteActivity } = rootStore.activityStore;
+  const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
   const { removeFeedItem, addFeedItem } = rootStore.feedStore;
 
   const [managing, setManaging] = useState(false);
@@ -64,7 +64,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
     setManaging(true);
   };
   return (
-    <Segment.Group>
+    <Segment.Group raised>
       {activity.isActive && (
         <Segment clearing attached='bottom'>
           {activity.isHost ? (

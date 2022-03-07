@@ -6,15 +6,6 @@ export interface IBrand {
     landOfOrigin : string,
     cityOfOrigin : string,
 }
-// export interface IBrandToSelect {
-//     id: string,
-//     name : string,
-//     dateOfEstablishment : string,
-//     logourl : string,
-//     landOfOrigin : string,
-//     cityOfOrigin : string,
-// }
-
 
 // export interface IBrandFormValues extends Partial<IBrand>{
 

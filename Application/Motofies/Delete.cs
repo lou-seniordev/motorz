@@ -49,10 +49,6 @@ namespace Application.Motofies
                 if (deletePhotoResult == null)
                     throw new Exception("Problem deleting photo");
 
-
-                // var photo = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == motofy.Id);
-                // var photoId = await _context.MotofyPhotos.SingleOrDefaultAsync(m => m.Id == mo);
-
                 _context.Remove(motofy);
 
                 var success = await _context.SaveChangesAsync() > 0;

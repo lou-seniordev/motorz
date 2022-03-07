@@ -1,6 +1,6 @@
 import { IRateForumpost } from './../models/forumpost';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
-import { SyntheticEvent } from 'react';
+// import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import agent from '../api/agent';
 import { IForumpost } from '../models/forumpost';
@@ -189,14 +189,13 @@ export default class ForumPostStore {
     this.loadingInitial = true;
     try {
       const forumpostEnvelope = await agent.Forumposts.list(this.axiosParams);
-      // const forumpostEnvelope = await agent.Forumposts.list(LIMIT, this.page);
       const { forumposts, forumpostCount } = forumpostEnvelope;
       runInAction('loading forumposts', () => {
         forumposts.forEach((forumpost) => {
           forumpost.numberOfComents = this.summComments(forumpost);
           forumpost.commenters = this.reduceCommenters(forumpost);
           this.forumPostRegistry.set(forumpost.id, forumpost);
-          this.forumposts.push(forumpost)// = forumposts
+          this.forumposts.push(forumpost)
         });
         this.forumPostCount = forumpostCount;
         this.loadingInitial = false;
@@ -231,7 +230,7 @@ export default class ForumPostStore {
       } catch (error) {
         runInAction('get forumpost error', () => {
           this.loadingInitial = false;
-          // console.log(error);
+          console.log(error);
         });
       }
     }
@@ -285,11 +284,11 @@ export default class ForumPostStore {
   };
 
   @action deleteForumpost = async (
-    event: SyntheticEvent<HTMLButtonElement>,
+    // event: SyntheticEvent<HTMLButtonElement>,
     id: string
   ) => {
     this.submitting = true;
-    this.target = event.currentTarget.name;
+    // this.target = event.currentTarget.name;
     try {
       await agent.Forumposts.delete(id);
       runInAction('deleting forumpost', () => {
@@ -305,30 +304,4 @@ export default class ForumPostStore {
       console.log(error);
     }
   };
-
-  @action openCreateForm = () => {
-    this.editMode = true;
-    this.forumpost = null;
-  };
-
-  @action openEditForm = (id: string) => {
-    this.forumpost = this.forumPostRegistry.get(id);
-    this.editMode = true;
-  };
-
-  @action cancelSelectedForumpost = () => {
-    this.forumpost = null;
-  };
-
-  @action cancelFormOpen = () => {
-    this.editMode = false;
-    // TODO: GO BACK WHEREVER YOU WERE
-  };
-
-  @action selectForum = (id: string) => {
-    this.forumpost = this.forumPostRegistry.get(id);
-    this.editMode = false;
-  };
 }
-
-// export default createContext(new ForumPostStore());

@@ -1,29 +1,25 @@
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext } from "react";
+import React, { useContext } from "react";
 import {
   Segment,
   List,
   Item,
   Image,
   Divider,
-  // , Sidebar, Menu, Header
+  SegmentGroup,
 } from "semantic-ui-react";
-// import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IActivity, IDiaryEntry } from "../../../app/models/activity";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import SeeDiaryEntry from "../modals/SeeDiaryEntry";
 
 interface IProps {
-  // diaryEntries: IDiaryEntry[];
   activity: IActivity
 }
-const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {//diaryEntries, 
+const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {
   const rootStore = useContext(RootStoreContext);
 
   const { openModal } = rootStore.modalStore;
-
-  // const {submitting} = rootStore.activityStore;
 
   const {diaryEntries} = activity;
 
@@ -37,12 +33,9 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {//diary
   const diariesByDate = diaryEntries.slice().sort(
     (a, b) => parseInt(b.dayNumber) - parseInt(a.dayNumber)
   );
-  // console.table(toJS(diariesByDate));
-  // if (submitting) return <LoadingComponent content='Loading activity...' />;
-
-
+  
   return (
-    <Fragment>
+    <SegmentGroup raised>
       <Segment
         textAlign='center'
         style={{ border: "none" }}
@@ -71,7 +64,7 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {//diary
           ))}
         </List>
       </Segment>
-    </Fragment>
+    </SegmentGroup>
   );
 };
 

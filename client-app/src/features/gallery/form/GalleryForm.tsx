@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"; //InputHTMLAttributes, useCallback
+import React, { useContext, useEffect, useState } from "react"; 
 import {
   Button,
   Form,
@@ -19,10 +19,11 @@ import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import SelectInput from "../../../app/common/form/SelectInput";
 
 import { year } from "../../../app/common/options/yearOptions";
+import { motoOptions } from "../../../app/common/options/motoOptions";
+
 
 import { toast } from "react-toastify";
 
-//NOTSHIT
 import {
   combineValidators,
   composeValidators,
@@ -33,9 +34,7 @@ import {
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-// import { toJS } from "mobx";
 
-//NOTSHIT
 const validate = combineValidators({
   name: isRequired({ message: "The event name is required" }),
   description: composeValidators(
@@ -78,10 +77,12 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const {
     createMotofy,
     editMotofy,
-    // uploadingMotofyPhoto,
     submitting,
     loadMotofy,
   } = rootStore.motofyStore;
+
+  const random = Math.floor(Math.random() * motoOptions.length);
+  const motomoto = motoOptions[random];
 
   const { loadBrandsToSelect, brands } = rootStore.brandStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
@@ -92,8 +93,6 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const [editMode, setEditMode] = useState(false);
 
-  // const [modeForBrand, setModeForBrand] = useState(true);
-  // const [modeForCountry, setModeForCountry] = useState(true);
 
   const [uploaded, setUploaded] = useState(false);
 
@@ -118,7 +117,6 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     if (match.params.id) {
       setEditMode(true);
 
-      // setModeForCountry(false);
       setUploaded(true);
       setLoading(true);
       setEdited(true);
@@ -145,7 +143,6 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
       createMotofy(newMotofy); //
       addFeedItem(newId, "Added Motofy");
-      // console.log(values)
     } else {
       editMotofy(motofy);
     }
@@ -164,7 +161,6 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     setPreview(photo);
     setUploaded(true);
     toast.info("Your image is uploaded, please give us more details");
-    // console.log('uploaded, edited', uploaded, edited);
   };
   
   if (!ready) return <LoadingComponent content='Loading values...' />;
@@ -212,48 +208,19 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     value={motofy.city}
                     component={TextInput}
                   />
-                  {/* <Field
-                    name='country'
-                    placeholder='Country'
-                    value={motofy.country}
-                    component={TextInput}
-                  /> */}
-                  {/* {!modeForCountry && (
-                    <Field
-                      name='countryName'
-                      placeholder='Country' //==neednot
-                      options={countries}
-                      value={motofy.countryName}
-                      component={SelectInput}
-                    />
-                  )} */}
-                  {/* {modeForCountry && ( */}
                   {editMode && <Label content='Country'/>}
                   <Field
                     name='countryName'
                     placeholder={"Country"} //
                     options={countries}
-                    // value={motofy.countryId}
                     component={SelectInput}
                   />
-                  {/* )} */}
-                  {/* {!modeForBrand && (
-                    <Field
-                      name='brandName'
-                      placeholder='Brand' //==neednot
-                      options={brands}
-                      value={motofy.brandName}
-                      component={SelectInput}
-                    />
-                  )} */}
                   {!editMode && (
                     <>
                       <Field
-                        // name is naming the value
                         name='brandName'
                         placeholder={"Brand"} //
                         options={brands}
-                        // value={motofy.brandId}
                         component={SelectInput}
                       />
 
@@ -340,7 +307,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         <Grid.Column width={6}>
           <Sticky style={{ marginRight: 30, position: "fixed" }}>
             <Segment>
-              <Header as='h2'>Love & peace and safe riding</Header>
+              <Header as='h2'>{motomoto}</Header>
               <Image size='large' bordered src={previewImage} />
             </Segment>
           </Sticky>

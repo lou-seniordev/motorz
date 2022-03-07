@@ -27,6 +27,7 @@ namespace Application.Products
             public string Category { get; set; }
             public string City { get; set; }
             public string Country { get; set; }
+            public string PhoneNumber { get; set; }
             public IFormFile File { get; set; }
             public bool IsActive { get; set; }
             public bool IsAdvertised { get; set; }
@@ -94,6 +95,7 @@ namespace Application.Products
                     PictureUrl = request.PictureUrl,
                     Brand = request.Brand,
                     Category = request.Category,
+                    PhoneNumber = request.PhoneNumber,
                     Country = country,
                     City = request.City,
                     IsActive = true,

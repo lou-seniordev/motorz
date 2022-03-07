@@ -13,7 +13,7 @@ namespace API.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<List.ActivitiesEnvelope>> List(int? limit, int? offset, 
+        public async Task<ActionResult<List.ActivitiesEnvelope>> List(int? limit, int? offset,
             bool isGoing, bool isHost, bool iFollow, bool isCompleted, DateTime? startDate, string search)
         {
             return await Mediator.Send(new List.Query(limit, offset, isGoing, isHost, iFollow, isCompleted, startDate, search));
@@ -43,7 +43,7 @@ namespace API.Controllers
         [Authorize(Policy = "IsActivityHost")]
         public async Task<ActionResult<Unit>> Deactivate(Guid id)
         {
-           
+
             return await Mediator.Send(new Deactivate.Command { Id = id });
         }
 

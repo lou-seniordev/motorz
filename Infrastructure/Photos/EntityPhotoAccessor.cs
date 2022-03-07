@@ -37,7 +37,7 @@ namespace Infrastructure.Photos
                         Transformation = new Transformation()
                             .Height(height)
                             .Width(width)
-                            .Crop("fill")  //   fill
+                            .Crop("fill") 
                             .Gravity("center")
                     };
 
@@ -62,8 +62,6 @@ namespace Infrastructure.Photos
             var result = _cloudinary.Destroy(deleteParamas);
             return result.Result == "ok" ? result.Result : null;
 
-
-            // return publicId;
         }
     }
 }

@@ -28,15 +28,9 @@ export default class MechanicStore {
     )
   }
 
-  
-
-
   @observable mechanicRegistry = new Map();
-
-  // @observable mechanics: IMechanic[] = [];
   @observable mechanic: IMechanic | null = null;
   @observable loadingInitial = false;
-  @observable editMode = false;
   @observable submitting = false;
   @observable.ref hubConnection: HubConnection | null = null;
 
@@ -62,8 +56,6 @@ export default class MechanicStore {
     })
     return params;
   }  
-
-
 
   @observable isCustomer: boolean;
   @observable openCustomerForm: boolean = false;
@@ -99,16 +91,13 @@ export default class MechanicStore {
     }
   }
 
-
-  @action createHubConnection = (id: string, connectionArgument: string) => {//, motofy: IMotofy
+  @action createHubConnection = (id: string, connectionArgument: string) => {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
         accessTokenFactory: () => this.rootStore.commonStore.token!,
       })
       .configureLogging(LogLevel.Information)
       .build();
-
-
 
     this.hubConnection
       .start()
@@ -154,9 +143,10 @@ export default class MechanicStore {
   };
 
   @computed get mechanicsByDate() {
-    return Array.from(this.mechanicRegistry.values()).sort(
-      (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-    );
+    return Array.from(this.mechanicRegistry.values())
+    // .sort(
+    //   (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
+    // );
   }
 
   @action setCustomer = async (status: boolean) => {
@@ -203,7 +193,7 @@ export default class MechanicStore {
     }
   };
 
-  @action loadMechanic = async (id: string) => {//, username: string| undefined
+  @action loadMechanic = async (id: string) => {
     let mechanic = this.getMechanic(id);
     if (mechanic) {
       this.mechanic = mechanic;
@@ -212,7 +202,6 @@ export default class MechanicStore {
       this.loadingInitial = true;
       try {
         mechanic = await agent.Mechanics.details(id);
-        // console.log("mechanic in load single Mechanic", mechanic);
         runInAction('getting mechanic', () => {
 
           this.mechanic = mechanic;
@@ -243,7 +232,6 @@ export default class MechanicStore {
       await agent.Mechanics.create(mechanic);
       runInAction('creating mechanics', () => {
         this.mechanicRegistry.set(mechanic.id, mechanic);
-        this.editMode = false;
         this.submitting = false;
       });
       history.push(`/mechanics/${mechanic.id}`)
@@ -264,12 +252,10 @@ export default class MechanicStore {
     console.log(mechanic);
 
     try {
-      // console.log('mechanic', mechanic);
       await agent.Mechanics.update(mechanic);
       runInAction('creating mechanic', () => {
         this.mechanicRegistry.set(mechanic.id, mechanic);
         this.mechanic = mechanic;
-        this.editMode = false;
         this.submitting = false;
       });
       history.push(`/mechanics/${mechanic.id}`)
@@ -278,19 +264,16 @@ export default class MechanicStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data');
-      // console.log(error.response);
+      console.log(error);
     }
   };
 
   @action deleteMechanic = async (id: string) => {
     this.submitting = true;
-    console.log('this.mechanicRegistry out of try', this.mechanicRegistry)
     try {
       await agent.Mechanics.delete(id);
       runInAction('deleting mechanic', () => {
         this.mechanicRegistry.delete(id);
-        console.log('this.mechanicRegistry', this.mechanicRegistry)
-
 
         this.submitting = false;
       });
@@ -339,7 +322,6 @@ export default class MechanicStore {
       mechanicId: mechanicId,
       isRecommended: isRecommended
     }
-    // console.log('recommended: ', recommended);
     try {
       await agent.Mechanics.recommend(mechanicRecomend);
       runInAction('recommending a mechanic', () => {

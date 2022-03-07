@@ -66,29 +66,8 @@ export default class ProductStore {
 
   @computed get productsByDate() {
     return Array.from(this.productRegistry.values())
-    // .sort(
-    //   (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-    // );
+  
   }
-
-
-  // //--not in use anymore--
-  // groupProductsByDate(products: IProduct[]) {
-  //   const sortedProducts = products.sort(
-  //     (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-  //   );
-  //   return Object.entries(
-  //     sortedProducts.reduce((products, product) => {
-  //       const date = product.datePublished.split('T')[0];
-  //       products[date] = products[date]
-  //         ? [...products[date], product]
-  //         : [product];
-  //       return products;
-  //     }, {} as { [key: string]: IProduct[] })
-  //   );
-  // }
-
-
 
   @action loadProducts = async () => {
     this.loadingInitial = true;
