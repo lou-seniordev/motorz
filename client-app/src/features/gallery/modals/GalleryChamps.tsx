@@ -5,13 +5,12 @@ import { Link } from "react-router-dom";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
-const GalleryChamps: React.FC<{ champ: IMotofy, info:string }> = ({
-  champ,
+const GalleryChamps: React.FC<{ motofy: IMotofy, info:string }> = ({
+  motofy,
   info
 }) => {
-  const motofy = { ...champ };
+  // const motofy = { ...champ };
   const rootStore = useContext(RootStoreContext);
-  // const content = info;
 
   const { closeModal } = rootStore.modalStore;
 

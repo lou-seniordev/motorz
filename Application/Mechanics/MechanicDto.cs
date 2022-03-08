@@ -31,6 +31,7 @@ namespace Application.Mechanics
         public virtual ICollection<CommentMechanicDto> CommentMechanics { get; set; }
         public virtual ICollection<CustomerDto> Customers { get; set; }
         public virtual ICollection<RatingDto> Ratings { get; set; }
+        public virtual ICollection<MechanicBrandDto> Brands { get; set; }
 
 
     }

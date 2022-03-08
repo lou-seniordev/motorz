@@ -30,6 +30,7 @@ namespace Persistence
         public DbSet<MotofyPhoto> MotofyPhotos { get; set; }
         public DbSet<Forumpost> Forumposts { get; set; }
         public DbSet<Mechanic> Mechanics { get; set; }
+        public DbSet<MechanicBrand> MechanicBrands { get; set; }
         public DbSet<UserMotofy> UserMotofies { get; set; }
 
         //==Redundant but kept for future options== (code:finduser)
@@ -126,6 +127,19 @@ namespace Persistence
                 .HasForeignKey(m => m.MechanicId);
 
 
+            builder.Entity<MechanicBrand>(x => x.HasKey(mb => 
+                new { mb.MechanicId, mb.BrandId}));
+
+            builder.Entity<MechanicBrand>()
+                .HasOne(b => b.Brand)
+                .WithMany(m => m.Mechanics)
+                .HasForeignKey(b => b.BrandId);
+
+            builder.Entity<MechanicBrand>()
+                .HasOne(m => m.Mechanic)
+                .WithMany(b => b.Brands)
+                .HasForeignKey(m => m.MechanicId);
+
 
             builder.Entity<ProductViewer>(x => x.HasKey(pm => 
                 new { pm.AppUserId, pm.ProductId}));
@@ -139,6 +153,8 @@ namespace Persistence
                 .HasOne(p => p.Product)
                 .WithMany(v => v.Viewers)
                 .HasForeignKey(m => m.ProductId);
+
+           
 
 
 

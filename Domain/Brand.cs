@@ -11,6 +11,7 @@ namespace Domain
         public string LandOfOrigin { get; set; }
         public string CityOfOrigin { get; set; }
         public virtual ICollection<Motofy> Motofies { get; set; }
+        public virtual ICollection<MechanicBrand> Mechanics { get; set; }
         
     }
 }

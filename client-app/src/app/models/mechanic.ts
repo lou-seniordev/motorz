@@ -27,6 +27,7 @@ export interface IMechanic {
     file: Blob;
     customers: IMechanicCustomer[];
     ratings: IRating[];
+    brands: any;
 
 }
 
@@ -84,6 +85,7 @@ export class MechanicFromValues {
     website: string= '';
     customers: IMechanicCustomer[];
     file: Blob;
+    brands = [] ;
 
 
 

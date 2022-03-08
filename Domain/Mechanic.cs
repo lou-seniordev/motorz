@@ -27,6 +27,8 @@ namespace Domain
         public virtual ICollection<UserMechanic> Customers { get; set; }
         public virtual MechanicPhoto MechanicPhoto { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<MechanicBrand> Brands { get; set; }
+
 
     }
 }

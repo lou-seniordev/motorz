@@ -2576,6 +2576,7 @@ namespace Persistence
                 {
                     new Mechanic
                     {
+                      Id = Guid.Parse("03CF160B-D5BD-44E9-ADE3-0BB4EAA694B7"),
                       Name = "Corrado",
                       Publisher = context.Users.SingleOrDefault(x => x.Id == "g"),
                       IsOwner = false,
@@ -2691,6 +2692,7 @@ namespace Persistence
                     },
                     new Mechanic
                     {
+                      Id = Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"),
                       Name = "Serena",
                       Publisher = context.Users.SingleOrDefault(x => x.Id == "b"),
                       IsOwner = true,
@@ -3044,6 +3046,60 @@ namespace Persistence
                 context.Mechanics.AddRange(mechanics);
                 context.SaveChanges();
             }
+             if (!context.MechanicBrands.Any())
+             {
+                 var mechanicBrands = new List<MechanicBrand> 
+                 {
+                     new MechanicBrand
+                     {
+                        BrandId=Guid.Parse("C3E2AE61-BE37-4E22-B3B3-C4C124CCCE8D"),//motoguzzi
+                        MechanicId=Guid.Parse("03CF160B-D5BD-44E9-ADE3-0BB4EAA694B7"), //corrado
+                        DateAdded= DateTime.Now
+                     },
+                     new MechanicBrand
+                     {
+                        BrandId=Guid.Parse("1C8326C8-5843-48E9-AA3B-16496E1CA897"),//ducati
+                        MechanicId=Guid.Parse("03CF160B-D5BD-44E9-ADE3-0BB4EAA694B7"), //corrado
+                        DateAdded= DateTime.Now
+
+                     },
+                     new MechanicBrand
+                     {
+                        BrandId=Guid.Parse("7ACE392B-F077-4E4B-8679-2A5D1D8B77A9"),//mv avgusta
+                        MechanicId=Guid.Parse("03CF160B-D5BD-44E9-ADE3-0BB4EAA694B7"), //corrado
+                        DateAdded= DateTime.Now
+
+                     },
+                     new MechanicBrand
+                     {
+                        BrandId=Guid.Parse("A585178F-1252-413A-939F-B8640E93A940"),//honda
+                        MechanicId=Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"), //serena
+                        DateAdded= DateTime.Now 
+
+                     },
+                     new MechanicBrand
+                     {
+                        BrandId=Guid.Parse("1C8326C8-5843-48E9-AA3B-16496E1CA897"),//ducati
+                        MechanicId=Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"), //serena
+                        DateAdded= DateTime.Now 
+
+                     },
+                     new MechanicBrand
+                     {
+                        BrandId=Guid.Parse("43D5A027-67E2-42AC-B210-6C7B8D1FC591"),//harley davidson
+                        MechanicId=Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"), //serena
+                        DateAdded= DateTime.Now 
+                     },
+                     new MechanicBrand
+                     {
+                        BrandId=Guid.Parse("CFBCB816-86D2-4F51-B60D-DCA907BC474D"),//kawasaki
+                        MechanicId=Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"), //corrado
+                        DateAdded= DateTime.Now 
+                     },
+                 };
+                    context.MechanicBrands.AddRange(mechanicBrands);
+                    context.SaveChanges();
+             }
 
         }
     }

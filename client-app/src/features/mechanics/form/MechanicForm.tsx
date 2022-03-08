@@ -37,7 +37,7 @@ import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 import { motoOptions } from "../../../app/common/options/motoOptions";
-
+import SelectMultiple from "../../../app/common/form/SelectMultiple";
 
 const isValidEmail = createValidator(
   (message) => (value) => {
@@ -68,6 +68,7 @@ const validate = combineValidators({
   )(),
   email: isValidEmail(),
   yearOfStart: isRequired("Year Of Start"),
+  brands: isRequired("Year Of Start"),
 });
 const ownerOptions = [
   { key: "Owner", text: "Owner", value: "Owner" },
@@ -86,18 +87,18 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     createMechanic,
     editMechanic,
     submitting,
-    // editMode,
-    // mechanic: initalFormState,
     loadMechanic,
   } = rootStore.mechanicStore;
 
-   const random = Math.floor(Math.random() * motoOptions.length);
+  const random = Math.floor(Math.random() * motoOptions.length);
 
   const motomoto = motoOptions[random];
 
   const { user } = rootStore.userStore;
   const { addFeedItem } = rootStore.feedStore;
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
+
+  const { loadBrandsToSelect, brands } = rootStore.brandStore;
 
   const [mechanic, setMechanic] = useState(new MechanicFromValues());
   const [loading, setLoading] = useState(false);
@@ -116,6 +117,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   useEffect(() => {
     loadCountriesToSelect();
+    loadBrandsToSelect();
 
     if (match.params.id) {
       setEditMode(true);
@@ -124,14 +126,19 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
       setUploaded(true);
       setEdited(true);
 
-      loadMechanic(match.params.id) //, 'PLACEHOLDER!!!'
+      loadMechanic(match.params.id) 
         .then((mechanic) => {
           setMechanic(new MechanicFromValues(mechanic));
         })
         .finally(() => setLoading(false));
     }
     setReady(true);
-  }, [loadCountriesToSelect, loadMechanic, match.params.id]);
+  }, [
+    loadCountriesToSelect,
+    loadMechanic,
+    match.params.id,
+    loadBrandsToSelect,
+  ]);
 
   const handleFinalFormSubmit = (values: any) => {
     let newId = uuid();
@@ -219,6 +226,15 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       component={SelectInput}
                     />
                   )}
+                  {!editMode && (
+                    <Field
+                      name='brands'
+                      placeholder={"What brands are you specialized in *"}
+                      options={brands}
+                      multiple
+                      component={SelectMultiple}
+                    />
+                  )}
 
                   {!editMode && (
                     <Field
@@ -228,14 +244,15 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                       component={SelectInput}
                     />
                   )}
-                  {editMode && <Label content='Description' />}
 
-                  <Field
-                    name='city'
-                    placeholder='City *'
-                    value={mechanic.city}
-                    component={TextInput}
-                  />
+                  {!editMode && (
+                    <Field
+                      name='city'
+                      placeholder='City *'
+                      value={mechanic.city}
+                      component={TextInput}
+                    />
+                  )}
                   {editMode && <Label content='Address' />}
 
                   <Field

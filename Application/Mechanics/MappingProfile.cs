@@ -25,9 +25,10 @@ namespace Application.Mechanics
             .ForMember(d => d.Image, o => o.MapFrom(s => s.AppUser.Photos.FirstOrDefault(x => x.IsMain).Url));
             // .ForMember(d => d.Testimonial, o => o.MapFrom(s => s.Testimonial));
 
-            // CreateMap<MechanicRating, MechanicRatingDto>()
-            // .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName))
-            // .ForMember(d => d.DisplayName , o => o.MapFrom(s => s.User.DisplayName));
+            CreateMap<MechanicBrand, MechanicBrandDto>()
+            .ForMember(d => d.Name, o => o.MapFrom(s => s.Brand.Name))
+            .ForMember(d => d.LogoUrl, o => o.MapFrom( s=> s.Brand.LogoUrl))
+            .ForMember(d => d.DateOfEstablishment, o => o.MapFrom(s => s.Brand.DateOfEstablishment));
             
           
         }

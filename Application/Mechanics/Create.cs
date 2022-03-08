@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Linq;
 
 namespace Application.Mechanics
 {
@@ -32,11 +34,7 @@ namespace Application.Mechanics
             public string IsOwner { get; set; }
             public string IsCustomer { get; set; }
             public string CustomerRecommended { get; set; }
-            // public List<UserMechanic> Customers { get; set; }
-            // Testimonial = request.Customers[0].Testimonial,
-            //         IsOwner = request.Customers[0].IsOwner,
-            //         IsCustomer = request.Customers[0].IsCustomer,
-            //         CustomerRecommended = request.Customers[0].CustomerRecommended,
+            public string MechanicBrands { get; set; }
             public IFormFile File { get; set; }
 
         }
@@ -53,10 +51,7 @@ namespace Application.Mechanics
                 RuleFor(x => x.City).NotEmpty();
                 RuleFor(x => x.Address).NotEmpty();
                 RuleFor(x => x.Phone).NotEmpty();
-                RuleFor(x => x.Email).NotEmpty();
-                RuleFor(x => x.Website).NotEmpty();
                 RuleFor(x => x.File).NotEmpty();
-
             }
         }
         #endregion
@@ -83,7 +78,7 @@ namespace Application.Mechanics
                 var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.Country);
 
                 var owner = request.Owner == "Customer" ? request.Name : user.DisplayName;
-                // var customers = new List<UserMechanic>();
+                
                 var testimonial = new Testimonial
                 {
                     Id = new Guid(),
@@ -91,20 +86,22 @@ namespace Application.Mechanics
                     DateAdded = DateTime.Now
                 };
 
-                // var customer = new UserMechanic
-                // {
-                //     AppUserId = user.Id,
-                //     MechanicId = request.Id,
-                //     DateBecameCustomer = DateTime.Now,
-                //     Testimonial = testimonial,
-                //     IsOwner = bool.Parse(request.IsOwner),//bool.Parse(sample)
-                //     IsCustomer = bool.Parse(request.IsCustomer),
-                //     CustomerRecommended = bool.Parse(request.CustomerRecommended),
-                // };
-                
-                // customers[0] = customer;
-              
-                
+
+                var brandQuery = request.MechanicBrands.Split(',').ToList();
+
+                var mechanicBrands = new List<MechanicBrand>();
+                foreach(var brand in brandQuery)
+                {
+                    var newBrand = await _context.Brands.SingleOrDefaultAsync(b => b.Name == brand);
+                    var mechanicBrand = new MechanicBrand
+                    {
+                        BrandId = newBrand.Id,
+                        MechanicId = request.Id,
+                        DateAdded = DateTime.Now
+                    };
+                    mechanicBrands.Add(mechanicBrand);
+                }
+
                 var mechanic = new Mechanic
                 {
                     Id = request.Id,
@@ -128,13 +125,13 @@ namespace Application.Mechanics
                             MechanicId = request.Id,
                             DateBecameCustomer = DateTime.Now,
                             Testimonial = testimonial,
-                            IsOwner = bool.Parse(request.IsOwner),//bool.Parse(sample)
+                            IsOwner = bool.Parse(request.IsOwner),
                             IsCustomer = bool.Parse(request.IsCustomer),
                             CustomerRecommended = bool.Parse(request.CustomerRecommended),
                         }
-                    }
-                    
-                    
+                    },
+                    Brands = mechanicBrands
+
                 };
 
                 _context.Mechanics.Add(mechanic);
@@ -147,7 +144,6 @@ namespace Application.Mechanics
                 {
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId,
-                    // DateUploaded = DateTime.Now,
                     MechanicForeignKey = mechanicId
                 };
 

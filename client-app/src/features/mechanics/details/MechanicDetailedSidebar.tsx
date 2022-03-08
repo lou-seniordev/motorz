@@ -22,41 +22,50 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
         >
           {mechanicShop.customers && mechanicShop.customers.length} People are customers of this shop
         </Segment>
-        <Segment attached>
-          <List relaxed divided>
+        <>
+          <List divided>
             <Item.Group divided>
               {mechanicShop.customers && mechanicShop.customers.map((customer) => (
                 <Segment key={customer.username}>
+                  
                   <Grid>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={4}>
                       <Image
-                        size='tiny'
+                        size='mini'
                         circular
                         src={customer.image || "/assets/user.png"}
                       />
                     </Grid.Column>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={12}>
                       <Link to={`/profile/${customer.username}`}>
-                        <Item.Header as='h3'>
-                          {customer.displayName}
-                        </Item.Header>
+                        <Item.Extra as='h5'>
+                          {customer.displayName} 
+                          {customer.customerRecommended && (
+                          <p style={{ color: "green" }}>
+                          {/* // <Item.Meta style={{ color: "green" }}> */}
+                            Recommends it!
+                          {/* // </Item.Meta> */}
+                          </p>
+                        )}
+                        </Item.Extra>
+                       
                         {customer.isOwner && (
-                          // <Item.Extra style={{ color: "teal" }}>
-                          //   Owner
-                          // </Item.Extra>
                           <Label
                           style={{ position: 'top' }}
                           color='teal'
-                          ribbon='right'
+                          corner='right'
                         >
                           Owner
                         </Label>
                         )}
-                        {customer.customerRecommended && (
-                          <Item.Extra style={{ color: "green" }}>
-                            Recommends it!
-                          </Item.Extra>
-                        )}
+                        
+                        {/* {customer.testimonial && (
+                          <p>
+                            
+                          {customer.testimonial.text}
+                          </p>
+                        )} */}
+                        
                       </Link>
                     </Grid.Column>
                   </Grid>
@@ -64,7 +73,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
               ))}
             </Item.Group>
           </List>
-        </Segment>
+        </>
       </Fragment>
 
       <h1>Testimonials</h1>

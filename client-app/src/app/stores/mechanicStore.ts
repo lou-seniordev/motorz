@@ -2,16 +2,16 @@ import { IMechanicCustomer, IMechanicCustomerToBecome, IMechanicRate, IMechanicR
 import { action, observable, computed, runInAction, reaction } from 'mobx';
 import { history } from '../..';
 import agent from '../api/agent';
-import { IMechanic } from '../models/mechanic';//, IMechanicCustomer
+import { IMechanic } from '../models/mechanic';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { v4 as uuid } from "uuid";
 
 
+
 const LIMIT = 3;
 
-// configure({ enforceActions: 'always' });
 
 export default class MechanicStore {
   rootStore: RootStore;
@@ -144,18 +144,12 @@ export default class MechanicStore {
 
   @computed get mechanicsByDate() {
     return Array.from(this.mechanicRegistry.values())
-    // .sort(
-    //   (a, b) => Date.parse(a.datePublished) - Date.parse(b.datePublished)
-    // );
   }
 
   @action setCustomer = async (status: boolean) => {
     try {
       runInAction('seting customer', () => {
-
-        console.log('looking at this customer before...', this.isCustomer)
         this.isCustomer = status;
-        console.log('looking at this customer after...', this.isCustomer)
       })
     } catch (error) {
       console.log(error)
@@ -167,14 +161,17 @@ export default class MechanicStore {
     this.mechanic = null;
   }
 
+  
 
   @action loadMechanics = async () => {
 
+  
     this.loadingInitial = true;
     try {
       const mechanicsEnvelope = await agent.Mechanics.list(this.axiosParams);
 
       const { mechanics, mechanicCount } = mechanicsEnvelope;
+      
 
       runInAction('loading mechanics', () => {
         mechanics.forEach((mechanic) => {
@@ -203,7 +200,6 @@ export default class MechanicStore {
       try {
         mechanic = await agent.Mechanics.details(id);
         runInAction('getting mechanic', () => {
-
           this.mechanic = mechanic;
           this.mechanicRegistry.set(mechanic.id, mechanic);
 
@@ -218,8 +214,6 @@ export default class MechanicStore {
       }
     }
   };
-
-
 
   getMechanic = (id: string) => {
     return this.mechanicRegistry.get(id);

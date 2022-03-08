@@ -1,10 +1,8 @@
 import React, { Fragment, useContext } from "react";
-import { Menu, Grid, Input, Divider } from "semantic-ui-react";
+import { Menu, Input, Divider } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
 import GalleryChamps from "../modals/GalleryChamps";
-// import GalleryHighestRated from "../modals/GalleryHighestRated";
 
 const GalleryFilters = () => {
   const rootStore = useContext(RootStoreContext);
@@ -12,9 +10,6 @@ const GalleryFilters = () => {
     rootStore.motofyStore;
 
   const { openModal } = rootStore.modalStore;
-
-  // const motofy = toJS(mostEmbraced);
-  // const highestMotofy = toJS(highestRatedMotofy);
 
   const handleResultSelect = (e: any) => {
     if (e.key === "Enter") {
@@ -25,10 +20,10 @@ const GalleryFilters = () => {
   const handleOpenChamps = (info: string) => {
     switch (info) {
       case 'Most Embraced':
-        openModal(<GalleryChamps champ={mostEmbraced} info={info}/>);
+        openModal(<GalleryChamps motofy={mostEmbraced} info={info}/>);
         break;
       default:
-        openModal(<GalleryChamps champ={highestRatedMotofy} info={info}/>);
+        openModal(<GalleryChamps motofy={highestRatedMotofy} info={info}/>);
         break;
     }
   };
@@ -95,21 +90,17 @@ const GalleryFilters = () => {
           icon={"users"}
           style={styles}
         />
-        {/* </Menu>
-      <Menu> */}
+ 
         <Divider horizontal content='champs at the moment' />
         <Menu.Item
-          // as='h3'
           style={styles}
           content='Most Embraced'
           onClick={() => handleOpenChamps('Most Embraced')}
         />
 
         <Menu.Item
-          // as='h3'
           style={styles}
           content='Highest Rated'
-          // onClick={handleOpenModalHighestRatedMotofy}
           onClick={() => handleOpenChamps('Highest Rated')}
         />
       </Menu>

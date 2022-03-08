@@ -71,14 +71,12 @@ export const postDiaryEntry = {
 
 export const postMechanic = {
   mechanicForm: (url: string, mechanic: IMechanic) => {
-    // console.log('mechanic', mechanic)
-
-    // let testimonial = mechanic.customers[0].testimonial?.text;
     let isCustomer = String(mechanic.customers[0].isCustomer);
     let isOwner = String(mechanic.customers[0].isOwner);
     let customerRecommended = String(mechanic.customers[0].customerRecommended);
     let mechanicData = new FormData();
     mechanicData.append('Id', mechanic.id!)
+    mechanicData.append('MechanicBrands', mechanic.brands)
     mechanicData.append('Name', mechanic.name)
     mechanicData.append('Owner', mechanic.owner)
     mechanicData.append('Description', mechanic.description!)
