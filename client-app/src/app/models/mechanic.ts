@@ -26,6 +26,7 @@ export interface IMechanic {
     commentMechanics: IComment[];
     file: Blob;
     customers: IMechanicCustomer[];
+    averageRating: string;
     ratings: IRating[];
     brands: any;
 

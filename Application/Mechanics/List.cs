@@ -81,7 +81,6 @@ namespace Application.Mechanics
                     && string.IsNullOrEmpty(request.Search))
                 {
                     mechanics = await GetAllMechanics(request, queryable, mechanics);
-
                 }
 
                 if (!string.IsNullOrEmpty(request.Country))

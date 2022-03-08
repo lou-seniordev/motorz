@@ -86,7 +86,7 @@ const GalleryFilters = () => {
           onClick={() => setPredicate("iFollow", "true")}
           color={"blue"}
           name={"country"}
-          content={"From people I follow"}
+          content={"By people I follow"}
           icon={"users"}
           style={styles}
         />

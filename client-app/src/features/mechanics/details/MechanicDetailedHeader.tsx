@@ -36,7 +36,6 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
   const { isCustomer, setCustomer, setOpenCustomerForm, openCustomerForm } =
     rootStore.mechanicStore;
 
-  // const [customerChecked, setCustomerChecked] = useState(false);
 
 
   // const handleView = (localMechanic: any) => {
@@ -52,19 +51,19 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({
     localMechanic.customers.forEach((customer: IMechanicCustomer) => {
       if (user!.userName === customer.username) setCustomer(true);
     });
-    // setCustomerChecked(true);
 }, [setCustomer, user]);
 
   useEffect(() => {
-    
     handleView(mechanic);
-    
-  }, [handleView, mechanic]);
+    return () => {
+      console.log("cleaned up");
+      setCustomer(false);
+    };
+  }, [handleView, mechanic, setCustomer]);
 
-  useEffect(() => {
-    setCustomer(false);
-    // setCustomerChecked(false);
-  }, [setCustomer]);
+  // useEffect(() => {
+  //   setCustomer(false);
+  // }, [setCustomer]);
 
   const handleDeleteMechanic = (id: string) => {
     openModal(<ConfirmDelete mechanicId={id} />);

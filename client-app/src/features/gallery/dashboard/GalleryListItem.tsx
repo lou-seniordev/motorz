@@ -22,19 +22,15 @@ interface IProps {
 }
 
 const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
-  // const owner =
-  //   motofy.embracers.filter((x) => x.isOwner)[0] || "unknown testing";
-  //==test!
-  // const publisher = motofy.embracers.filter((x) => x)[0];
-  const descriptionUiShort = motofy.description!.substring(0, 60);
-  const seeMore = "see more";
+  // const descriptionUiShort = motofy.description!.substring(0, 60);
+  // const seeMore = "see more";
+
   return (
     <Segment.Group raised>
-      <Segment >
+      <Segment>
         <Item>
           <Divider horizontal>
             <Header as='h4'>
-              {/* <Icon name='motorcycle' /> */}
               <Item.Meta>
                 {" "}
                 {motofy.name}, {motofy.brandName}
@@ -42,12 +38,19 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
             </Header>
           </Divider>
           <Item.Group>
-            <Item.Image size='big' bordered src={motofy.photoUrl} centered />
+            <Item.Image
+              size='huge'
+              bordered
+              src={motofy.photoUrl}
+              centered
+              as={Link}
+              to={`/gallery/${motofy.id}`}
+            />
           </Item.Group>
           <Divider horizontal>
             <Header as='h4'>
               <Icon name='tags' />
-              Personal
+              Info
             </Header>
           </Divider>
           <Grid
@@ -61,12 +64,12 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
           >
             <Grid.Row>
               <Grid.Column computer={4} tablet={8} mobile={8}>
-
-              <Popup
-                header={motofy.brandName}
-                trigger={<Image size='mini' src={motofy.brandLogoUrl} centered />}
-            />
-                
+                <Popup
+                  header={motofy.brandName}
+                  trigger={
+                    <Image size='tiny' src={motofy.brandLogoUrl} centered />
+                  }
+                />
               </Grid.Column>
               <Grid.Column computer={4} tablet={8} mobile={8}>
                 <Item.Header as={Link} to={`/gallery/${motofy.id}`}>
@@ -78,30 +81,15 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
               </Grid.Column>
 
               <Grid.Column computer={4} tablet={8} mobile={8}>
-                <Item.Meta>Published by</Item.Meta>
-                <Item.Description>
-                  <Link to={`/profile/${motofy.publisherUsername}`}>
-                    {motofy.publisherDisplayName }
-                  </Link>
-                </Item.Description>
-
-                {/* <Icon name='clock' size="tiny"/>  */}
-
-                {/* <Image
-                  size='mini'
-                  circular
-                  src={publisher.image || "/assets/user.png"}
-                /> */}
+                <Icon name='motorcycle' /> {motofy.model}
               </Grid.Column>
+
               <Grid.Column computer={4} tablet={8} mobile={8}>
-                <Item.Meta>Published on</Item.Meta>
-                <Item.Description>
-                  {motofy.datePublished}
-                  {/* Owned by {owner.displayName || "unknown"} */}
-                </Item.Description>
+                <Icon name='road' /> {motofy.numberOfKilometers} Km
               </Grid.Column>
             </Grid.Row>
-            <Divider horizontal>
+
+            {/* <Divider horizontal>
               <Header as='h4'>
                 <Icon name='tag' />
                 Characteristics
@@ -109,7 +97,12 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
             </Divider>
             <Grid.Row>
               <Grid.Column computer={4} tablet={8} mobile={8}>
-                <Icon name='motorcycle' /> {motofy.model}
+                <Item.Meta>Published by</Item.Meta>
+                <Item.Description>
+                  <Link to={`/profile/${motofy.publisherUsername}`}>
+                    {motofy.publisherDisplayName}
+                  </Link>
+                </Item.Description>
               </Grid.Column>
 
               <Grid.Column computer={4} tablet={8} mobile={8}>
@@ -119,34 +112,32 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
                 <Icon name='calendar check' /> Made in {motofy.yearOfProduction}
               </Grid.Column>
               <Grid.Column computer={4} tablet={8} mobile={8}>
-                <Icon name='road' /> {motofy.numberOfKilometers} Km
+                <Item.Meta>Published on</Item.Meta>
+                <Item.Description>{motofy.datePublished}</Item.Description>
               </Grid.Column>
-            </Grid.Row>
+            </Grid.Row> */}
           </Grid>
-          
         </Item>
-        {/* </Segment> */}
-        <Divider horizontal>
+
+        {/* <Divider horizontal>
           <Header as='h4'>
             <Icon name='tag' />
             Description
           </Header>
         </Divider>
-        {/* <Segment> */}
-        {/* <Item.Meta> <span>{motofy.description}</span></Item.Meta> */}
         <Grid.Row>
-        <Grid.Column computer={16} tablet={16} mobile={16}>
-        <Item.Meta content={descriptionUiShort + '...'}/>
-              
-        <Item.Meta as={Link} to={`/activities/${motofy.id}`}>
-          <span>{seeMore}</span>
-        </Item.Meta>
-              </Grid.Column>
-        </Grid.Row>
-        
+          <Grid.Column computer={16} tablet={16} mobile={16}>
+            <Item.Meta content={descriptionUiShort + "..."} />
+
+            <Item.Meta as={Link} to={`/activities/${motofy.id}`}>
+              <span>{seeMore}</span>
+            </Item.Meta>
+          </Grid.Column>
+        </Grid.Row> */}
+
         <Divider horizontal>
           <Header as='h4'>
-            <Icon name='tag' />
+            <Icon name='like' />
             Embraced by
           </Header>
         </Divider>
@@ -158,7 +149,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
           as={Link}
           to={`/gallery/${motofy.id}`}
           fluid
-          content={'View This ' + motofy.brandName}
+          content={"View This " + motofy.brandName}
           color='blue'
         ></Button>
       </Segment>

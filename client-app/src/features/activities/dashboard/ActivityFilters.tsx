@@ -84,7 +84,7 @@ const ActivityFilters = () => {
             onClick={() => setPredicate("iFollow", "true")}
             color={"blue"}
             name={"country"}
-            content={"From people I follow"}
+            content={"By people I follow"}
             style={styles}
           />
         )}

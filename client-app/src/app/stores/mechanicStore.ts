@@ -74,7 +74,8 @@ export default class MechanicStore {
     try {
 
       runInAction('open form', () => {
-        this.openCustomerForm = true;
+        // this.openCustomerForm = true;
+        this.openCustomerForm = !this.openCustomerForm;
       })
     } catch (error) {
 

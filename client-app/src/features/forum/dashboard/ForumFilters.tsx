@@ -87,7 +87,7 @@ const ForumFilters = () => {
           color={"blue"}
           name={"country"}
           icon={"users"}
-          content={"From people I follow"}
+          content={"By people I follow"}
           style={ styles }
         />
       </Menu>

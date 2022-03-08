@@ -15,6 +15,6 @@ namespace Domain
         public bool IsOwner { get; set; } = false;
         public bool IsCustomer { get; set; } = true;
         public bool CustomerRecommended { get; set; } = false;
-        public DateTime? DateBecameCustomer { get; set; }
+        public DateTime? DateBecameCustomer { get; set; } = DateTime.Now;
     }
 }

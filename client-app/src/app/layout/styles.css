@@ -74,6 +74,12 @@ body {
   position: relative;
 }
 
+/* header link styles for listItems */
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
 /* Classes for mobile messages */
 
 @media only screen and (max-width: 767px) {

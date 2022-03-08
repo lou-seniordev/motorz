@@ -43,7 +43,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
                           {customer.customerRecommended && (
                           <p style={{ color: "green" }}>
                           {/* // <Item.Meta style={{ color: "green" }}> */}
-                            Recommends it!
+                            Recommending
                           {/* // </Item.Meta> */}
                           </p>
                         )}

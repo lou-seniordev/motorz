@@ -85,7 +85,7 @@ const ProductFilters = () => {
           color={"blue"}
           name={"iFollow"}
           style={ styles }
-          content={"From people I follow"}
+          content={"By people I follow"}
         />
         <Menu.Item
           active={predicate.has("iView")}
