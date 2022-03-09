@@ -66,6 +66,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
               <Grid.Column computer={4} tablet={8} mobile={8}>
                 <Popup
                   header={motofy.brandName}
+                  className='computer only'
                   trigger={
                     <Image size='tiny' src={motofy.brandLogoUrl} centered />
                   }
