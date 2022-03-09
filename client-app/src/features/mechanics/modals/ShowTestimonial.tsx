@@ -1,12 +1,11 @@
 import { formatDistance } from "date-fns";
-import { toJS } from "mobx";
-import React, { Fragment, useContext, useState } from "react";
+// import { toJS } from "mobx";
+import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
   Container,
   Grid,
-  GridColumn,
   Header,
   Image,
   Segment,
@@ -22,32 +21,10 @@ interface IProps {
 const ShowTestimonial: React.FC<IProps> = ({  customer, mechanic }) => {
   const rootStore = useContext(RootStoreContext);
 
-  console.log('customer', customer)
-  console.log('mechanic', toJS(mechanic))
+//   console.log('customer', customer)
+//   console.log('mechanic', toJS(mechanic))
 
   const { closeModal } = rootStore.modalStore;
-//   const { deleteDiaryEntry } = rootStore.activityStore;
-//   const host = activity.attendees.filter((h) => h.isHost)[0];
-
-//   const { diaryEntries } = activity;
-
-//   // const [actualDiary, setActualDiary] = useState(diaryEntries[0]);
-//   const [actualDiary, setActualDiary] = useState(diary);
-
-//   const counter = parseInt(actualDiary.dayNumber);
-//   const numberDiaries = activity.diaryEntries.length;
-
-//   const handleChange = async (diaryDay: number) => {
-//     var diary: IDiaryEntry = diaryEntries.find(
-//       (diary) => parseInt(diary.dayNumber) === diaryDay
-//     )!;
-//     setActualDiary(diary);
-//   };
-
-//   const handleDeleteEntry = async (id: string) => {
-//     // console.log(id)
-//     deleteDiaryEntry(diary, activity);
-//   };
 
   return (
     <Fragment>
@@ -84,28 +61,21 @@ const ShowTestimonial: React.FC<IProps> = ({  customer, mechanic }) => {
               </Header.Subheader>
             </Grid.Column>
             <Grid.Column width={3}>
-              <Image src={customer.image} size='tiny' circular />
              
+              <Image src={mechanic.photoUrl} size='small' floated="left"/>
             </Grid.Column>
            
           </Grid>
         </Segment>
         <Segment>
-          {/* <Grid> */}
-            {/* <Grid.Column width={7}> */}
-              <Image src={mechanic.photoUrl} size='small' circular floated="left"/>
-            {/* </Grid.Column> */}
-            {/* <Grid.Column width={6}> */}
+              <Image src={customer.image} size='tiny' circular floated="left"/>
+         
+          
               <p style={{ whiteSpace: 'pre-wrap' }}>{customer.testimonial?.text}</p>
              
-            {/* </Grid.Column> */}
-
-           
-            {/* <Grid.Column width={5}> */}
-              <Button fluid onClick={() => closeModal()} content='Quit' />
-            {/* </Grid.Column> */}
-           
-          {/* </Grid> */}
+         
+              <Button fluid onClick={() => closeModal()} content='Close' />
+         
         </Segment>
       </Container>
     </Fragment>

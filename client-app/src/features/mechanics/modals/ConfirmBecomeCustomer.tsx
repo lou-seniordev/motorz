@@ -12,7 +12,7 @@ interface IProps {
     user: IUser | null;
     hasRecommended: string;
 }
-const ConfirmBecomeCustomer: React.FC<IProps> = ({ hasRecommended, mechanicId, username, rating, testimonial, user}) => {
+const ConfirmBecomeCustomer: React.FC<IProps> = ({ hasRecommended, mechanicId, rating, testimonial, user}) => {
 // const ConfirmBecomeCustomer = () => {
   const rootStore = useContext(RootStoreContext);
   // const { user } = rootStore.userStore;

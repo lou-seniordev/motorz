@@ -36,7 +36,7 @@ const ActivityDetailedChat = () => {
         <Header>Comment This Diary</Header>
       </Segment>
       <Segment attached>
-        <Comment.Group>
+        <Comment.Group style={{maxWidth:'none'}}>
           {activity &&
             activity.comments &&
             activity.comments.map((comment) => (
@@ -53,7 +53,6 @@ const ActivityDetailedChat = () => {
                         new Date()
                       )}
                     </div>
-                    {/* <div>{formatDistance(comment.createdAt, new Date())}</div> */}
                   </Comment.Metadata>
                   <Comment.Text>{comment.body}</Comment.Text>
                 </Comment.Content>
@@ -61,7 +60,7 @@ const ActivityDetailedChat = () => {
             ))}
           <FinalForm
             onSubmit={addComment}
-            render={({ handleSubmit, submitting, form }) => (
+            render={({ handleSubmit, submitting, form, pristine }) => (
               <Form onSubmit={() => handleSubmit()!.then(() => form.reset())}>
                 <Field 
                 name='body'
@@ -73,10 +72,10 @@ const ActivityDetailedChat = () => {
                   content='Add Reply'
                   labelPosition='left'
                   icon='edit'
-                  // primary
                   fluid
-                  color='teal'
+                  color='instagram'
                   loading={submitting}
+                  disabled={pristine}
                 />
               </Form>
             )}

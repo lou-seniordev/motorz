@@ -1,11 +1,12 @@
 import { formatDistance } from 'date-fns';
 import { observer } from 'mobx-react-lite';
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Segment, Header, Form, Button, Comment } from 'semantic-ui-react';
 import { Form as FinalForm, Field } from "react-final-form";
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
+
 
 const MechanicDetailedChat= () => {
 
@@ -19,7 +20,6 @@ const MechanicDetailedChat= () => {
 
     const connectionArgument = 'RecieveMechanicComment';
     useEffect(() => {
-      // console.log('mechanic', mechanic)
   
       createHubConnection(mechanic!.id, connectionArgument);//, mechanic!
       return () => {
@@ -29,7 +29,8 @@ const MechanicDetailedChat= () => {
   
     
   return (
-    <Fragment>
+    <>
+    
     <Segment
       textAlign='center'
       attached='top'
@@ -39,8 +40,8 @@ const MechanicDetailedChat= () => {
     >
       <Header>Chat about this mechanic</Header>
     </Segment>
-    <Segment attached>
-      <Comment.Group>
+    <Segment attached >
+      <Comment.Group style={{maxWidth:'none'}}>
         {mechanic &&
           mechanic.commentMechanics &&
           mechanic.commentMechanics.map((comment) => (
@@ -54,35 +55,39 @@ const MechanicDetailedChat= () => {
                   <div>
                     {formatDistance(new Date(comment.createdAt), new Date())}
                   </div>
-                  {/* <div>{formatDistance(comment.createdAt, new Date())}</div> */}
+                  {' '}ago
                 </Comment.Metadata>
                 <Comment.Text>{comment.body}</Comment.Text>
               </Comment.Content>
             </Comment>
           ))}
-        <FinalForm
+        <FinalForm 
           onSubmit={addComment}
-          render={({ handleSubmit, submitting, form }) => (
+          render={({ handleSubmit, submitting, form, pristine }) => (
+            
             <Form onSubmit={() => handleSubmit()!.then(() => form.reset())}>
               <Field
                 name='body'
                 component={TextAreaInput}
                 rows={2}
                 placeholder='Add your comment'
+               
               />
               <Button
                 content='Add Reply'
                 labelPosition='left'
                 icon='edit'
-                primary
+                color='instagram'
                 loading={submitting}
+                fluid
+                disabled={pristine}
               />
             </Form>
           )}
         />
       </Comment.Group>
     </Segment>
-  </Fragment>
+  </>
   );
 };
 

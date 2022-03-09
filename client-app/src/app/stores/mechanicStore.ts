@@ -58,6 +58,7 @@ export default class MechanicStore {
   }  
 
   @observable isCustomer: boolean;
+  // @observable hasNotCancelledCustomer: boolean = true;
   @observable openCustomerForm: boolean = false;
   @observable confirmCustomer: boolean = false;
 
@@ -156,6 +157,16 @@ export default class MechanicStore {
       console.log(error)
     }
   }
+  // @action setCancelCustomer = async (status: boolean) => {
+  //   try {
+  //     runInAction('seting customer', () => {
+  //       this.hasNotCancelledCustomer = false;
+  //       this.isCustomer = false;
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
 
   @action clearMechanic = async () => {
@@ -201,6 +212,7 @@ export default class MechanicStore {
       try {
         mechanic = await agent.Mechanics.details(id);
         runInAction('getting mechanic', () => {
+          console.log(mechanic)
           this.mechanic = mechanic;
           this.mechanicRegistry.set(mechanic.id, mechanic);
 

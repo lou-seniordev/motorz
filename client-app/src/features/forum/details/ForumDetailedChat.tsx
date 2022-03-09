@@ -39,7 +39,7 @@ const ForumDetailedChat= () => {
       <Header>Get Involved</Header>
     </Segment>
     <Segment attached>
-      <Comment.Group>
+      <Comment.Group style={{maxWidth:'none'}}>
         {forumpost &&
           forumpost.commentForumPosts &&
           forumpost.commentForumPosts.map((comment) => (
@@ -53,7 +53,6 @@ const ForumDetailedChat= () => {
                   <div>
                     {formatDistance(new Date(comment.createdAt), new Date())}
                   </div>
-                  {/* <div>{formatDistance(comment.createdAt, new Date())}</div> */}
                 </Comment.Metadata>
                 <Comment.Text>{comment.body}</Comment.Text>
               </Comment.Content>
@@ -61,7 +60,7 @@ const ForumDetailedChat= () => {
           ))}
         <FinalForm
           onSubmit={addComment}
-          render={({ handleSubmit, submitting, form }) => (
+          render={({ handleSubmit, submitting, form, pristine }) => (
             <Form onSubmit={() => handleSubmit()!.then(() => form.reset())}>
               <Field
                 name='body'
@@ -73,8 +72,9 @@ const ForumDetailedChat= () => {
                 content='Add Reply'
                 labelPosition='left'
                 icon='edit'
-                primary
+                color='instagram'
                 loading={submitting}
+                disabled={pristine}
               />
             </Form>
           )}

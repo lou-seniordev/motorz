@@ -8,6 +8,7 @@ import CustomerForm from "../form/CustomerForm";
 import MechanicDetailedChat from "./MechanicDetailedChat";
 import MechanicDetailedHeader from "./MechanicDetailedHeader";
 import MechanicDetailedInfo from "./MechanicDetailedInfo";
+import MechanicDetailedManager from "./MechanicDetailedManager";
 import MechanicDetailedSidebar from "./MechanicDetailedSidebar";
 
 interface DetailParams {
@@ -23,7 +24,8 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     loadMechanic,
     loadingInitial,
     openCustomerForm,
-    isCustomer
+    isCustomer,
+    // hasNotCancelledCustomer
   } = rootStore.mechanicStore;
 
   useEffect(() => {
@@ -38,9 +40,10 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
       {/* width={11} */}
       <Grid.Column computer={11} mobile={16} >
         <MechanicDetailedHeader mechanic={mechanic} />
+        <MechanicDetailedManager mechanic={mechanic}/>
          { openCustomerForm && <CustomerForm mechanicId={mechanic.id} />}
         <MechanicDetailedInfo mechanic={mechanic} />
-       {isCustomer && <MechanicDetailedChat />}
+       {isCustomer  && <MechanicDetailedChat />}
       </Grid.Column>
       {/* width={4}  */}
       <Grid.Column computer={4} mobile={16} >

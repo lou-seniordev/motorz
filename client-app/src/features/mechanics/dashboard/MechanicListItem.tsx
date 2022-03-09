@@ -50,7 +50,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
               <Grid.Column width={5}>
                 <Item>
                   <Item.Content>
-                    <Item.Header as='h2'>Average Rating</Item.Header>
+                    <Item.Header as='h2'>Rating</Item.Header>
                     <Item.Extra as='h1'>
                       {mechanic.averageRating}
                       {/* {" "}

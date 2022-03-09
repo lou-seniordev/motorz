@@ -68,7 +68,7 @@ const validate = combineValidators({
   )(),
   email: isValidEmail(),
   yearOfStart: isRequired("Year Of Start"),
-  brands: isRequired("Year Of Start"),
+  brands: isRequired("Brands"),
 });
 const ownerOptions = [
   { key: "Owner", text: "Owner", value: "Owner" },

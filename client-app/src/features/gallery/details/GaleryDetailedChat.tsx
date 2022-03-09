@@ -34,7 +34,7 @@ const GaleryDetailedChat = () => {
         <Header>Comment this motofy</Header>
       </Segment>
       <Segment attached>
-        <Comment.Group>
+        <Comment.Group style={{maxWidth:'none'}}>
           {motofy &&
             motofy.commentMotofies &&
             motofy.commentMotofies.map((comment) => (
@@ -48,7 +48,6 @@ const GaleryDetailedChat = () => {
                     <div>
                       {formatDistance(new Date(comment.createdAt), new Date())}
                     </div>
-                    {/* <div>{formatDistance(comment.createdAt, new Date())}</div> */}
                   </Comment.Metadata>
                   <Comment.Text>{comment.body}</Comment.Text>
                 </Comment.Content>
@@ -56,7 +55,7 @@ const GaleryDetailedChat = () => {
             ))}
           <FinalForm
             onSubmit={addComment}
-            render={({ handleSubmit, submitting, form }) => (
+            render={({ handleSubmit, submitting, form, pristine }) => (
               <Form onSubmit={() => handleSubmit()!.then(() => form.reset())}>
                 <Field
                   name='body'
@@ -68,57 +67,17 @@ const GaleryDetailedChat = () => {
                   content='Add Reply'
                   labelPosition='left'
                   icon='edit'
-                  // primary
-                  color="teal"
+                  color='instagram'
                   fluid
                   loading={submitting}
+                  disabled={pristine}
                 />
               </Form>
             )}
           />
         </Comment.Group>
       </Segment>
-      {/* <Segment attached>
-        <Comment.Group>
-          <Comment>
-            <Comment.Avatar src='/assets/user.png' />
-            <Comment.Content>
-              <Comment.Author as='a'>Matt</Comment.Author>
-              <Comment.Metadata>
-                <div>Today at 5:42PM</div>
-              </Comment.Metadata>
-              <Comment.Text>How artistic!</Comment.Text>
-              <Comment.Actions>
-                <Comment.Action>Reply</Comment.Action>
-              </Comment.Actions>
-            </Comment.Content>
-          </Comment>
-
-          <Comment>
-            <Comment.Avatar src='/assets/user.png' />
-            <Comment.Content>
-              <Comment.Author as='a'>Joe Henderson</Comment.Author>
-              <Comment.Metadata>
-                <div>5 days ago</div>
-              </Comment.Metadata>
-              <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
-              <Comment.Actions>
-                <Comment.Action>Reply</Comment.Action>
-              </Comment.Actions>
-            </Comment.Content>
-          </Comment>
-
-          <Form reply>
-            <Form.TextArea />
-            <Button
-              content='Add Reply'
-              labelPosition='left'
-              icon='edit'
-              primary
-            />
-          </Form>
-        </Comment.Group>
-      </Segment> */}
+    
     </Fragment>
   );
 };

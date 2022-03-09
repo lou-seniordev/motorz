@@ -32,7 +32,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
     openModal(<ShowTestimonial customer={customer} mechanic={mechanic}/>);
   };
   return (
-    <div>
+    <>
       <Fragment>
         <Segment
           textAlign='center'
@@ -83,7 +83,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
                         {customer.testimonial && (
                         <Popup 
                           content={customer.displayName + "'s testimony about " + mechanic.name} 
-                          className='computer only'
+                          className='computer large screen only'
                           trigger={
                             <Button
                               circular
@@ -105,9 +105,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
           </List>
         </>
       </Fragment>
-
-      <h1>Testimonials</h1>
-    </div>
+    </>
   );
 };
 
