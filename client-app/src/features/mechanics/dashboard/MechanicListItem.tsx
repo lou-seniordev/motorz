@@ -15,12 +15,16 @@ const mechanicImageStyle = {
   filter: "brightness(95%) contrast(70%) drop-shadow(1px 1px 1px teal)",
 };
 
+const testPositionStyles = {
+  textAlign: 'center'
+}
+
 const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
   // console.log("mechanic in MechanicListItem", toJS(mechanic));
   return (
     <Segment.Group raised>
       <Segment raised>
-        <Header as='h1' floated='right'>
+        <Header as='h1' floated='right' style={{color: 'rgb(58,	98,	139)'}}>
           {mechanic.name}
         </Header>
         <Divider clearing />
@@ -39,7 +43,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
               </Grid.Column>
               <Divider vertical />
               <Grid.Column width={6}>
-                <Item>
+                <Item style={testPositionStyles}>
                   <Item.Content>
                     <Item.Header as='h2'>Customers</Item.Header>
                     <Item.Extra as='h1'>{mechanic.ratings.length}</Item.Extra>
@@ -48,7 +52,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
               </Grid.Column>
               <Divider vertical />
               <Grid.Column width={5}>
-                <Item>
+                <Item style={testPositionStyles}>
                   <Item.Content>
                     <Item.Header as='h2'>Rating</Item.Header>
                     <Item.Extra as='h1'>
@@ -68,11 +72,11 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
           <Grid.Column width={5}>
             <Icon name='history' /> Working since {mechanic.yearOfStart}
           </Grid.Column>
-          <Grid.Column width={6}>
+          <Grid.Column width={6} style={testPositionStyles}>
             <Icon name='envelope outline' /> {mechanic.city},{" "}
             {mechanic.countryName}, {mechanic.address}
           </Grid.Column>
-          <Grid.Column width={5}>
+          <Grid.Column width={5} style={testPositionStyles}>
             <Icon name='mail' /> {mechanic.email || 'email N/A'}
           </Grid.Column>
         </Grid>
@@ -83,7 +87,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
           to={`/mechanics/${mechanic.id}`}
           fluid
           content='View'
-          color='linkedin'
+          color='instagram'
         ></Button>
       </Segment>
     </Segment.Group>

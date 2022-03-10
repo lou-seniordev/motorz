@@ -11,7 +11,7 @@ const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
     <Segment.Group raised>
       {mechanic.brands.length>0 && <Segment attached='top'>
         <Label pointing='below'> <Icon name='trademark' />
-        <img src={mechanic.photoUrl!} />
+        <img src={mechanic.photoUrl!} alt='Mechanic'/>
         {' '}Specialized in {' '} {mechanic.brands.length} {' '} brands</Label>
         <Grid>
           <>

@@ -1,60 +1,92 @@
 import { formatDistance } from "date-fns";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Divider,
+  Header,
+  Icon,
+  Item,
+  Label,
+  Segment,
+} from "semantic-ui-react";
+import HeaderSubHeader from "semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader";
 import { IForumpost } from "../../../app/models/forumpost";
 
 const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
   return (
     <Segment.Group raised>
       <Segment>
+        <Header as='h1' floated='right'>
+          {forumpost.title}
+          <HeaderSubHeader></HeaderSubHeader>
+        </Header>
+        <HeaderSubHeader floated='right'>
+          <Label pointing='below' content={forumpost.category} />
+
+          {/* <p>
+          Posted by{" "}
+          <Link to={`/profile/${forumpost.userName}`}>
+            {forumpost.displayName}
+          </Link>
+          </p> */}
+        </HeaderSubHeader>
+
+        <Divider clearing />
         <Item>
           <Item.Image
             size='tiny'
             // circular
             src={`/assets/forumCategoryImages/${forumpost.category}.jpg`}
+            floated='left'
           />
           <Item.Content>
-            <Item.Header as='a'>{forumpost.title}</Item.Header>
-            {/* <Item.Meta>{forumpost.dateAdded}</Item.Meta> */}
-            <Item.Meta>
-              Posted {formatDistance(new Date(forumpost.dateAdded), new Date())}{" "}
-              ago
-            </Item.Meta>
-
             <Item.Description>
-              Posted by
-              <Link to={`/profile/${forumpost.userName}`}>
-                {forumpost.displayName}
-              </Link>
-            </Item.Description>
-            <Item.Description>
-              <div>{forumpost.body}</div>
+              <>{forumpost.body}</>
             </Item.Description>
 
-            <Item.Description>
-              <div>Just to compare {forumpost.id}</div>
-            </Item.Description>
-
-            <Item.Extra>
-              <Button
-                as={Link}
-                to={`/forum/${forumpost.id}`}
-                floated='right'
-                content='view'
-                color='blue'
-              />
-              <Label basic content={forumpost.category} />
-            </Item.Extra>
+            <Item.Extra></Item.Extra>
           </Item.Content>
         </Item>
       </Segment>
+
       <Segment>
-        <Icon name='clock' /> {forumpost.dateAdded}
+        <Icon name='clock' /> Posted{" "}
+        {formatDistance(new Date(forumpost.dateAdded), new Date())} ago by{" "}
+        <Link to={`/profile/${forumpost.userName}`}>
+          {forumpost.displayName}
+        </Link>
+        {forumpost.commenters?.length! > 0 && (
+          <Segment>
+            {forumpost.numberOfComents! > 1
+              ? forumpost.numberOfComents + " Responses"
+              : forumpost.numberOfComents + " Response"}{" "}
+            from{" "}
+            {forumpost.commenters?.length! > 1
+              ? forumpost.commenters?.length + " Members"
+              : forumpost.commenters?.length + " Member"}
+          </Segment>
+        )}
+        {forumpost.forumpostRatings?.length! > 0 && (
+          <Segment>
+            {forumpost.forumpostRatings!.length > 1
+              ? forumpost.forumpostRatings?.length + " Ratings"
+              : forumpost.forumpostRatings?.length + " Rating"}{" "}
+            from{" "}
+            {forumpost.forumpostRatings?.length! > 1
+              ? forumpost.forumpostRatings?.length + " Members"
+              : forumpost.forumpostRatings?.length + " Member"}
+          </Segment>
+        )}
       </Segment>
-      <Segment secondary>
-        {forumpost.numberOfComents!} Responses from{" "}
-        {forumpost.commenters?.length} Members
+      <Segment>
+        <Button
+          as={Link}
+          to={`/forum/${forumpost.id}`}
+          fluid
+          content='view'
+          color='instagram'
+        />
       </Segment>
     </Segment.Group>
   );

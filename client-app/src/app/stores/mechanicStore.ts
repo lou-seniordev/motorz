@@ -212,7 +212,7 @@ export default class MechanicStore {
       try {
         mechanic = await agent.Mechanics.details(id);
         runInAction('getting mechanic', () => {
-          console.log(mechanic)
+          // console.log(mechanic)
           this.mechanic = mechanic;
           this.mechanicRegistry.set(mechanic.id, mechanic);
 

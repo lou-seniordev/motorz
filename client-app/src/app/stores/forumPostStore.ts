@@ -34,6 +34,32 @@ export default class ForumPostStore {
   @observable loadingInitial = false;
   @observable editMode = false;
   @observable submitting = false;
+  
+  
+  @observable rated = false;
+  // @observable commented = false;
+
+
+  @action setRated = async (status: boolean) => {
+    try {
+      runInAction('seting rated', () => {
+        this.rated = status;
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // @action setCommented = async (status: boolean) => {
+  //   try {
+  //     runInAction('seting commented', () => {
+  //       this.commented = status;
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+
   //delete?
   @observable target = '';
   @observable.ref hubConnection: HubConnection | null = null;
@@ -225,8 +251,8 @@ export default class ForumPostStore {
           this.forumPostRegistry.set(forumpost.id, forumpost);
           this.forumposts.push(forumpost);
           this.loadingInitial = false;
+          this.forumpost = forumpost;
         });
-        this.forumpost = forumpost;
       } catch (error) {
         runInAction('get forumpost error', () => {
           this.loadingInitial = false;

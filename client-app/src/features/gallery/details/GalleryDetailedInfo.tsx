@@ -25,7 +25,7 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
         <Grid verticalAlign='middle'>
           <GridRow>
             <Grid.Column width={2}>
-              <Image size='tiny' src={motofy.brandLogoUrl} />
+              <Image size='mini' src={motofy.brandLogoUrl} />
             </Grid.Column>
             <Grid.Column width={14}>
               <p>
@@ -33,27 +33,29 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
               </p>
             </Grid.Column>
           </GridRow>
+        </Grid>
+      </Segment>
+
+      <Segment attached>
+        <Grid>
           <GridRow>
             <Grid.Column width={2}>
               <Icon
                 size='large'
                 color='teal'
                 name='info'
-                style={{iconStyle}}
+                style={{ iconStyle }}
               />
             </Grid.Column>
             <Grid.Column width={14}>
-              <p style={{ whiteSpace: 'pre-wrap' }}>{motofy.description}</p>
+              <p style={{ whiteSpace: "pre-wrap" }}>{motofy.description}</p>
             </Grid.Column>
           </GridRow>
-          {/* </Grid>
+        </Grid>
       </Segment>
+
       <Segment attached>
-        <Grid> */}
-          {/* </Grid>
-      </Segment>
-      <Segment attached>
-        <Grid verticalAlign='middle'> */}
+        <Grid verticalAlign='middle'>
           <GridRow>
             <Grid.Column width={2}>
               <Icon name='calendar' size='large' color='teal' />
@@ -62,10 +64,10 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
               <span>Made {motofy.yearOfProduction}</span>
             </Grid.Column>
           </GridRow>
-          {/* </Grid>
-        </Segment>
+        </Grid>
+      </Segment>
       <Segment attached>
-        <Grid verticalAlign='middle'> */}
+        <Grid verticalAlign='middle'>
           <Grid.Column width={2}>
             <Icon name='marker' size='large' color='teal' />
           </Grid.Column>
@@ -75,8 +77,8 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
             </span>
           </Grid.Column>
         </Grid>
-        {/* </Segment>
-      <Segment attached> */}
+      </Segment>
+      <Segment attached>
         <Grid verticalAlign='middle'>
           <Grid.Column width={2}>
             <Icon name='motorcycle' size='large' color='teal' />
@@ -89,8 +91,8 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
             </span>
           </Grid.Column>
         </Grid>
-        {/* </Segment>
-      <Segment attached> */}
+      </Segment>
+      <Segment attached>
         <Grid verticalAlign='middle'>
           <Grid.Column width={2}>
             <Icon name='euro sign' size='large' color='teal' />

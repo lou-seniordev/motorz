@@ -19,9 +19,10 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
       forumpost.forumpostRatings?.forEach((rating) => {
         if (rating.authorUsername === user?.userName) {
           setRated(true);
-        } else {
-          setRated(false);
-        }
+        } 
+        // else {
+        //   setRated(false);
+        // }
       });
     }
   }, [forumpost, user]);
@@ -36,8 +37,9 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
   };
 
   return (
-    <Segment.Group>
+    <>
       {user?.userName !== forumpost.userName && !rated && (
+        
         <Segment attached>
           <Grid verticalAlign='middle'>
             <Grid.Column width={5} style={{ width: "100%" }}>
@@ -66,7 +68,7 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
           </Grid>
         </Segment>
       )}
-    </Segment.Group>
+    </>
   );
 };
 

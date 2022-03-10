@@ -53,6 +53,9 @@ namespace Application.Forumposts
 
                 var forumpost = await _context.Forumposts.SingleOrDefaultAsync(x => x.Id == request.Id);
 
+                int rating = 0;
+                // string ratingLevel = "";
+
                 if (forumpost == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { forumpost = "NotFound" });
@@ -61,19 +64,19 @@ namespace Application.Forumposts
                 {
                     case "Interesting":
                         {
-                            var rating = 1;
+                            rating = 1;
                             setRating(user, forumpost, rating);
                             break;
                         }
                     case "Usefull":
                         {
-                            var rating = 3;
+                            rating = 3;
                             setRating(user, forumpost, rating);
                             break;
                         }
                     case "Helping":
                         {
-                            var rating = 5;
+                            rating = 5;
                             setRating(user, forumpost, rating);
                             break;
                         }
@@ -93,13 +96,30 @@ namespace Application.Forumposts
 
             private static void setRating(AppUser user, Forumpost forumpost, int rating)
             {
-                forumpost.ForumpostRatings.Add(new ForumpostRating
+                var forumpostRating = new ForumpostRating();
+                
+                forumpostRating.Author = user;
+                forumpostRating.Forumpost = forumpost;
+                forumpostRating.Rating = rating;
+
+                switch (rating)
                 {
-                    Author = user,
-                    Forumpost = forumpost,
-                    IsInteresting = true,
-                    Rating = rating
-                });
+                    case 1:
+                        forumpostRating.IsInteresting = true;
+                        break;
+                    case 3:
+                        forumpostRating.IsUsefull = true;
+                        break;
+                    case 5:
+                        forumpostRating.IsHelping = true;
+                        break;
+                    default:
+                        throw new RestException(HttpStatusCode.Conflict,
+                           new { forumpostRating = "Not possible establish level" });
+
+                }
+
+                forumpost.ForumpostRatings.Add(forumpostRating);
 
                 if (forumpost.ForumpostRatings.Count() > 0)
                     forumpost.ForumpostRating
