@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
@@ -18,7 +18,8 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  
+  const [ready, setReady] = useState(false);
+
   const {
     mechanic,
     loadMechanic,
@@ -28,12 +29,17 @@ const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     // hasNotCancelledCustomer
   } = rootStore.mechanicStore;
 
+  // const
+
   useEffect(() => {
-      loadMechanic(match.params.id);     
+      loadMechanic(match.params.id);  
+      setReady(true)   
   }, [loadMechanic, match.params.id]); 
 
-  if (loadingInitial || !mechanic)
+  if (loadingInitial || !mechanic || !ready)
     return <LoadingComponent content='Loading mechanic shop...' />;
+
+  // if()
 
   return (
     <Grid>

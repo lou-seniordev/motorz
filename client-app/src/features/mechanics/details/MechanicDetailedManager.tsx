@@ -33,7 +33,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
-  const { isCustomer, setCustomer, setOpenCustomerForm, openCustomerForm } =
+  const { isCustomer, setCustomer, setOpenCustomerForm, openCustomerForm, setCloseCustomerForm } =
     rootStore.mechanicStore;
 
 
@@ -58,6 +58,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
     return () => {
     //   console.log("cleaned up");
       setCustomer(false);
+      setCloseCustomerForm();
     };
   }, [handleView, mechanic, setCustomer]);
 
