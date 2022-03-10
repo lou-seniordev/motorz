@@ -67,7 +67,12 @@ const NavBar: React.FC = () => {
             to='/activities'
             onClick={closeStackableMenu}
           />
-          <Menu.Item exact as={NavLink} to='/gallery' onClick={closeStackableMenu}>
+          <Menu.Item
+            exact
+            as={NavLink}
+            to='/gallery'
+            onClick={closeStackableMenu}
+          >
             Motofy!
           </Menu.Item>
           <Menu.Item
@@ -84,20 +89,7 @@ const NavBar: React.FC = () => {
             to='/mechanics'
             onClick={closeStackableMenu}
           />
-          <Menu.Item
-            name='market'
-            exact
-            as={NavLink}
-            onClick={closeStackableMenu}
-            to='/shop'
-          />
-          <Menu.Item
-            name='messages'
-            exact
-            as={NavLink}
-            onClick={closeStackableMenu}
-            to='/messages'
-          />
+
           <Menu.Item
             name='feed'
             exact
@@ -105,13 +97,37 @@ const NavBar: React.FC = () => {
             onClick={closeStackableMenu}
             to='/feed'
           />
-          <Menu.Item 
-          name='people' 
-           exact
-           as={NavLink}
-           onClick={closeStackableMenu}
-           to='/people'
-           />
+          <Menu.Item
+            name='people'
+            exact
+            as={NavLink}
+            onClick={closeStackableMenu}
+            to='/people'
+          />
+          <Menu.Item>
+            <Dropdown text='Shop' className='icon' floating labeled>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  name='market'
+                  text='Motoranza market'
+                  // exact
+                  value='Market'
+                  as={Link}
+                  to='/shop'
+                  onClick={closeStackableMenu}
+                />
+                <Dropdown.Item
+                  name='messages'
+                  text='Market messages'
+                  // exact
+                  value='Messages'
+                  as={Link}
+                  to='/messages'
+                  onClick={closeStackableMenu}
+                />
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Item>
           <div className='right menu'>
             {user && (
               <Menu.Item>

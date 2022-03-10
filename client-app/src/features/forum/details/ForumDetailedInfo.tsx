@@ -35,6 +35,7 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
               <img
                 className='ui centered circular tiny image'
                 src={forumpost.authorPhotoUrl || "/assets/user.png"}
+                alt='user'
               />
             </Link>
           </Grid.Column>

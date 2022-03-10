@@ -38,14 +38,9 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
             </Header>
           </Divider>
           <Item.Group>
-            <Item.Image
-              size='huge'
-              bordered
-              src={motofy.photoUrl}
-              centered
-              as={Link}
-              to={`/gallery/${motofy.id}`}
-            />
+            <Link to={`/gallery/${motofy.id}`}>
+              <img className='ui centered big image' src={motofy.photoUrl!} alt='Motofy!'/>
+            </Link>
           </Item.Group>
           <Divider horizontal>
             <Header as='h4'>

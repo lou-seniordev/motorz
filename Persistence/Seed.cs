@@ -475,8 +475,8 @@ namespace Persistence
                                 DateActivated = DateTime.Now.AddDays(-1),
                                 PhoneNumber= "+38633890279",
                                 ProductPhoto = new ProductPhoto {
-                                    Id = "gnhxynb60e0kivgydstb",
-                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1543786552/gnhxynb60e0kivgydstb.jpg",
+                                    Id = "smflae7fk3rgjcui7nwh",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1646951457/smflae7fk3rgjcui7nwh.jpg",
                                 }
                             },
                               new Product
