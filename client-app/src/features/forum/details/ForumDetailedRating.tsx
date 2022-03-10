@@ -20,9 +20,6 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
         if (rating.authorUsername === user?.userName) {
           setRated(true);
         } 
-        // else {
-        //   setRated(false);
-        // }
       });
     }
   }, [forumpost, user]);

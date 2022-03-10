@@ -14,6 +14,7 @@ export interface IForumpost {
   dateAdded: string;
   displayName: string;
   userName: string;
+  authorPhotoUrl: string;
   category: string;
   commentForumPosts: IComment[];
   numberOfComents?: number;

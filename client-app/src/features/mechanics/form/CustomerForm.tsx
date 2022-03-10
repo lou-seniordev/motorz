@@ -19,10 +19,13 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import SelectInput from "../../../app/common/form/SelectInput";
 
+import { ratingOptions } from "../../../app/common/options/ratingOptions";
+import { yesNo}   from '../../../app/common/options/yesNoOptions';
+
 import {
   combineValidators,
-  //   composeValidators,
-  //   hasLengthGreaterThan,
+    composeValidators,
+    hasLengthGreaterThan,
   isRequired,
 } from "revalidate";
 import ConfirmBecomeCustomer from "../modals/ConfirmBecomeCustomer";
@@ -30,44 +33,20 @@ import ConfirmBecomeCustomer from "../modals/ConfirmBecomeCustomer";
 // import ConfirmBecomeCustomer from "./ConfirmBecomeCustomer";
 // import { values } from "mobx";
 const validate = combineValidators({
-  //   title: isRequired({ message: "The event title is required" }),
   recommend: isRequired("recommend"),
   rating: isRequired("rating"),
-  //   testimonial: composeValidators(
-  //     isRequired("Testimonial"),
-  //     hasLengthGreaterThan(4)({
-  //       message: "Testimonial needs to be at least 25 characters",
-  //     })
-  //   )(),
+    testimonial: composeValidators(
+      isRequired("Testimonial"),
+      hasLengthGreaterThan(4)({
+        message: "Testimonial needs to be at least 25 characters",
+      })
+    )(),
 });
 
-const ratingOptions = [
-  {
-    key: "1",
-    text: "Not satisfied at all",
-    value: "1",
-  },
-  {
-    key: "2",
-    text: "It could be better, but ok",
-    value: "2",
-  },
-  { key: "3", text: "Satified", value: "3" },
-  { key: "4", text: "Very satisfied", value: "4" },
-  {
-    key: "5",
-    text: "Totally happy",
-    value: "5",
-  },
-];
-const customerOptions = [
-  { key: "Yes", text: "Yes", value: "1" },
-  { key: "No", text: "No", value: "0" },
-];
+
 
 interface IProps {
   mechanicId: string;
-  // user: IUser;
 }
 const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
   const rootStore = useContext(RootStoreContext);
@@ -76,17 +55,7 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
 
     const { 
       setCloseCustomerForm , 
-        // becomeCustomer, recommend, rate, addTestimonial, 
-        // confirmCustomer
       } = rootStore.mechanicStore;
-  // const { closeModal } = rootStore.modalStore;
-  // const [agreeTermsAndServices, setAgreeTermsAndServices] = useState<boolean>(false);
-
- 
-
-  // const cancelBecomeCustomer = () => {
-  //   closeModal();
-  // };
 
   const handleFinalFormSubmit = (values: any) => {
     
@@ -139,7 +108,7 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
                 <Field
                   name='recommend'
                   placeholder='Would you recommend this shop?'
-                  options={customerOptions}
+                  options={yesNo}
                   component={SelectInput}
                 />
                 <Field

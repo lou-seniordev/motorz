@@ -1,33 +1,17 @@
 import { observer } from "mobx-react-lite";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Segment, Button } from "semantic-ui-react";
+import { Segment, Button, Grid, GridColumn } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ConfirmDelete from "../modals/ConfirmDelete";
-import ForumDetailedRating from "./ForumDetailedRating";
-
-// const activityImageStyle = {
-//   filter: "brightness(90%)",
-// };
-
-// const activityImageTextStyle = {
-//   position: "absolute",
-//   bottom: "5%",
-//   left: "5%",
-//   width: "100%",
-//   height: "auto",
-//   color: "white",
-// };
 
 const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
   forumpost,
 }) => {
   const rootStore = useContext(RootStoreContext);
 
-  const { user } = rootStore.userStore;
   const { openModal } = rootStore.modalStore;
-//   const { setRated } = rootStore.forumPostStore;
 
   const [managing, setManaging] = useState(false);
 
@@ -40,71 +24,49 @@ const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
     setManaging(true);
   };
 
-//   const handleView = useCallback(
-//     (forumpost: IForumpost) => {
-//       if (forumpost.forumpostRatings!.length > 0) {
-//         forumpost.forumpostRatings!.forEach((customer: any) => {
-//           if (user!.userName === customer.authorUsername) setRated(true);
-//         });
-//       }
-//     },
-//     [
-//       setRated,
-//       // setCommented,
-//       user,
-//     ]
-//   );
-
-//   useEffect(() => {
-//     handleView(forumpost);
-//     return () => {
-//       //   console.log("cleaned up");
-//       setRated(false);
-//     //   setCommented(false);
-//     };
-//   }, [handleView, forumpost, setRated]);
-
   return (
     <>
       <Segment clearing attached='bottom'>
-        {/* {forumpost.userName === user?.userName && ( */}
-          <>
-            {!managing ? (
-              <Button onClick={toggleManaging} color='twitter' fluid>
-                Manage your diary
-              </Button>
-            ) : (
-              <>
+        <>
+          {!managing ? (
+            <Button onClick={toggleManaging} color='instagram' fluid>
+              Manage your diary
+            </Button>
+          ) : (
+            <Grid>
+              <GridColumn width={5}>
                 <Button
                   as={Link}
                   to={`/manageForum/${forumpost.id}`}
-                  // onClick={handleDeleteForumpost}
                   color='teal'
-                  floated='left'
+                  fluid
                 >
-                  Manage Your Post
+                  Manage
                 </Button>
+              </GridColumn>
+              <GridColumn width={5}>
                 <Button
                   onClick={() => {
                     setManaging(false);
                   }}
                   color='grey'
-                  floated='right'
-                //   fluid
+                  fluid
                 >
                   Cancel
                 </Button>
+              </GridColumn>
+              <GridColumn width={5}>
                 <Button
                   onClick={handleDeleteForumpost}
                   color='google plus'
-                  floated='right'
+                  fluid
                 >
-                  Delete Post
+                  Delete
                 </Button>
-              </>
-            )}
-          </>
-        {/* )} */}
+              </GridColumn>
+            </Grid>
+          )}
+        </>
       </Segment>
     </>
   );

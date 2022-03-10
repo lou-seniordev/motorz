@@ -1,30 +1,16 @@
 import { observer } from "mobx-react-lite";
-import React, { 
-  Fragment, 
-  useCallback, 
-  useContext, 
-  useEffect 
-} from "react"; //useCallback,
+import React, {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
-import { Segment,  Button, Item } from "semantic-ui-react";
+import { Segment, Button, Item, Grid, GridColumn } from "semantic-ui-react";
 import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ConfirmDelete from "../modals/ConfirmDelete";
-
-// import LoadingComponent from '../../../app/layout/LoadingComponent';
-
-// const mechanicImageStyle = {
-//   filter: "brightness(90%) contrast(50%) drop-shadow(4px 4px 8px teal)",
-// };
-
-// const mechanicImageTextStyle = {
-//   position: "absolute",
-//   bottom: "5%",
-//   left: "5%",
-//   width: "100%",
-//   height: "auto",
-//   color: "white",
-// };
 
 const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
   mechanic,
@@ -33,35 +19,33 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
-  const { isCustomer, setCustomer, setOpenCustomerForm, openCustomerForm, setCloseCustomerForm } =
-    rootStore.mechanicStore;
 
+  const [managing, setManaging] = useState(false);
 
+  const {
+    isCustomer,
+    setCustomer,
+    setOpenCustomerForm,
+    openCustomerForm,
+    setCloseCustomerForm,
+  } = rootStore.mechanicStore;
 
-  // const handleView = (localMechanic: any) => {
-  //   localMechanic.customers.some((customer: IMechanicCustomer) => {
-  //     if (user!.userName === customer.username) {
-  //       setCustomer(true);
-  //       return;
-  //     }
-  //   });
-  // };
-
-  const handleView = useCallback((localMechanic: any) => {    
-    localMechanic.customers.forEach((customer: IMechanicCustomer) => {
-      if (user!.userName === customer.username) setCustomer(true);
-    });
-}, [setCustomer, user]);
+  const handleView = useCallback(
+    (localMechanic: any) => {
+      localMechanic.customers.forEach((customer: IMechanicCustomer) => {
+        if (user!.userName === customer.username) setCustomer(true);
+      });
+    },
+    [setCustomer, user]
+  );
 
   useEffect(() => {
     handleView(mechanic);
     return () => {
-    //   console.log("cleaned up");
       setCustomer(false);
       setCloseCustomerForm();
     };
-  }, [handleView, mechanic, setCustomer]);
-
+  }, [handleView, mechanic, setCustomer, setCloseCustomerForm]);
 
   const handleDeleteMechanic = (id: string) => {
     openModal(<ConfirmDelete mechanicId={id} />);
@@ -70,40 +54,14 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
     setOpenCustomerForm();
   };
 
+  const toggleManaging = () => {
+    setManaging(true);
+  };
 
   return (
     <Segment.Group>
-     
-      {/* <Segment basic attached='top' style={{ padding: "0" }}>
-        <Image
-          src={mechanic.photoUrl || `/assets/placeholder.png`}
-          fluid
-          style={mechanicImageStyle}
-          rounded
-        />
-        <Segment basic style={mechanicImageTextStyle}>
-          <Item.Group>
-            <Item>
-              <Item.Content>
-                <Header
-                  size='huge'
-                  content={mechanic.name}
-                  style={{ color: "white" }}
-                />
-                <p>Working since {mechanic.yearOfStart}</p>
-                <p>
-                  Posted by <strong>{mechanic.publisher}</strong>
-                </p>
-              </Item.Content>
-            </Item>
-          </Item.Group>
-        </Segment>
-      </Segment> */}
       <Segment clearing raised>
-        <Item>
-
-      {mechanic.name} 
-        </Item>
+        <Item>{mechanic.name}</Item>
         {mechanic.publisherUsername !== user?.userName && (
           <Fragment>
             {!isCustomer && !openCustomerForm && (
@@ -111,35 +69,57 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
                 onClick={() => {
                   handleBecomeCustomer();
                 }}
-                color='green'
-                floated='right'
+                color='instagram'
+                fluid
               >
                 Register As Customer
               </Button>
             )}
           </Fragment>
         )}
-        {mechanic.publisherUsername === user?.userName && (
-          <Fragment>
-            <Button
-              as={Link}
-              to={`/manageMechanic/${mechanic.id}`}
-              color='teal'
-              floated='right'
-            >
-              Manage Post
+        {mechanic.publisherUsername === user?.userName &&
+          (!managing ? (
+            <Button onClick={toggleManaging} color='instagram' fluid>
+              Manage your diary
             </Button>
-            <Button
-              onClick={() => {
-                handleDeleteMechanic(mechanic.id!);
-              }}
-              color='red'
-              floated='right'
-            >
-              Delete
-            </Button>
-          </Fragment>
-        )}
+          ) : (
+            <Grid>
+              <GridColumn width={5}>
+                <Button
+                  as={Link}
+                  to={`/manageMechanic/${mechanic.id}`}
+                  color='teal'
+                  fluid
+                >
+                  Manage
+                </Button>
+              </GridColumn>
+              <GridColumn width={5}>
+                <Button
+                  onClick={() => {
+                    handleDeleteMechanic(mechanic.id!);
+                  }}
+                  color='red'
+                  fluid
+                >
+                  Delete
+                </Button>
+              </GridColumn>
+              <GridColumn width={5}>
+              <Button
+                  onClick={() => {
+                    setManaging(false);
+                  }}
+                  color='grey'
+                  fluid
+                >
+                  Cancel
+                </Button>
+              </GridColumn>
+            </Grid>
+          ))
+         
+        }
       </Segment>
     </Segment.Group>
   );

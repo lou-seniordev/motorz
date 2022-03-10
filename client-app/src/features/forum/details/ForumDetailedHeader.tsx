@@ -1,10 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-// import { Link } from "react-router-dom";
-import { Segment, Image, Item, Header } from "semantic-ui-react";
+import { Segment, Image, Item } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
-// import { RootStoreContext } from "../../../app/stores/rootStore";
-// import ConfirmDelete from "../modals/ConfirmDelete";
 
 const activityImageStyle = {
   filter: "brightness(90%)",
@@ -22,9 +19,6 @@ const activityImageTextStyle = {
 const ForumDetailedHeader: React.FC<{ forumpost: IForumpost }> = ({
   forumpost,
 }) => {
-  // const rootStore = useContext(RootStoreContext);
-
-  // const { user } = rootStore.userStore;
  
   return (
     <Segment.Group>
