@@ -178,7 +178,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         </Grid.Column>
       )}
       {uploaded &&  (
-        <Grid.Column width={10}>
+        <Grid.Column computer={10} mobile={16}>
           <Segment clearing>
             <FinalForm
               validate={validate}

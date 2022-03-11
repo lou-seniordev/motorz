@@ -166,7 +166,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         </Grid.Column>
       )}
       {uploaded && (
-        <Grid.Column width={10}>
+        <Grid.Column computer={10} mobile={16}>
           <Segment clearing>
             <FinalForm
               validate={validate}
@@ -255,7 +255,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     onClick={
                       product.id
                         ? () => history.push(`/product/${product.id}`)
-                        : () => history.push("/product")
+                        : () => history.push("/productForm")
                     }
                     disabled={loading}
                     floated='right'

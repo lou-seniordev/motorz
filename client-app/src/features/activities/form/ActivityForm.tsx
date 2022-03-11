@@ -99,7 +99,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   return (
     <Grid>
       <Grid.Column width={3} />
-      <Grid.Column width={10}>
+      <Grid.Column 
+      computer={10} mobile={16}
+      // width={10}
+      >
         <Segment clearing>
           <FinalForm
             validate={validate}

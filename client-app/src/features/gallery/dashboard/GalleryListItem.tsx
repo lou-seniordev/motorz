@@ -44,7 +44,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
           </Item.Group>
           <Divider horizontal>
             <Header as='h4'>
-              <Icon name='tags' />
+              {/* <Icon name='info' /> */}
               Info
             </Header>
           </Divider>
@@ -133,8 +133,9 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
 
         <Divider horizontal>
           <Header as='h4'>
-            <Icon name='like' />
+            {/* <Icon name='like' /> */}
             Embraced by
+            {/* <Icon name='like' /> */}
           </Header>
         </Divider>
         {/* <Segment secondary> */}

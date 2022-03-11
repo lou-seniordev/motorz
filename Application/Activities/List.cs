@@ -130,11 +130,13 @@ namespace Application.Activities
                 }
                 if (!string.IsNullOrEmpty(request.Search))
                 {
+                    var search = char.ToUpper(request.Search[0]) + request.Search.Substring(1);
+
                     queryable = queryable
                     .Where(x =>
-                        x.Title.Contains(request.Search) ||
-                        x.Description.Contains(request.Search) ||
-                        x.City.Equals(request.Search) ||
+                        x.Title.Contains(request.Search) || x.Title.Contains(search) ||
+                        x.Description.Contains(request.Search) || x.Description.Contains(search) ||
+                        x.City.Equals(request.Search) ||x.City.Equals(search) ||
                         x.Departure.Equals(request.Search) ||
                         x.Destination.Equals(request.Search)
                     );

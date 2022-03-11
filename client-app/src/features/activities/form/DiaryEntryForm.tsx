@@ -157,7 +157,7 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
         </Grid.Column>
       )}
       {uploaded && (
-        <Grid.Column width={10}>
+        <Grid.Column computer={10} mobile={16}>
           <Segment clearing>
             <FinalForm
               validate={validate}
@@ -227,12 +227,6 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
             <Segment>
               <Header as='h2'>
                 {diaryEntry.locationCity}
-                {/* {formatDistance(
-                  new Date(diaryEntry.entryDate)
-                  ,
-                  new Date()
-                )}{" "}
-                ago{" "} */}
               </Header>
               <Image size='large' bordered src={diaryEntry.photoUrl} />
             </Segment>

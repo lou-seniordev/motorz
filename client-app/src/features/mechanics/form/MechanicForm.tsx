@@ -200,7 +200,10 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
         </Grid.Column>
       )}
       {uploaded && (
-        <Grid.Column width={10}>
+        <Grid.Column 
+        // width={10}
+        computer={10} mobile={16}
+        >
           <Segment clearing>
             <FinalForm
               validate={validate}
@@ -315,7 +318,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     onClick={
                       mechanic.id
                         ? () => history.push(`/mechanics/${mechanic.id}`)
-                        : () => history.push("/mechanics")
+                        : () => history.push("/mechanicForm")
                     }
                     disabled={loading}
                     floated='right'

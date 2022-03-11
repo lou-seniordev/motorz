@@ -34,7 +34,7 @@ const ProfileHeader: React.FC<IProps> = ({
             <Item>
               <Item.Image
                 avatar
-                size='small'
+                size='tiny'
                 src={profile.image || '/assets/user.png'}
               />
               <Item.Content verticalAlign='middle'>

@@ -84,7 +84,10 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
   return (
     <Grid>
       <Grid.Column width={3} />
-      <Grid.Column width={10}>
+      <Grid.Column 
+      // width={10}
+      computer={10} mobile={16}
+      >
         <Segment clearing>
           <FinalForm
             validate={validate}
