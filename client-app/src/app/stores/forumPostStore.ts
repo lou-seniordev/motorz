@@ -247,7 +247,7 @@ export default class ForumPostStore {
           forumpost.numberOfComents = this.summComments(forumpost);
           forumpost.commenters = this.reduceCommenters(forumpost);
           this.forumpost = forumpost;
-           console.log('forumpost in rating', forumpost);
+          //  console.log('forumpost in rating', forumpost);
           this.forumPostRegistry.set(forumpost.id, forumpost);
           this.forumposts.push(forumpost);
           this.loadingInitial = false;

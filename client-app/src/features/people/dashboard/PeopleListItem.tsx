@@ -20,7 +20,7 @@ const PeopleListItem: React.FC<{ member: IProfile }> = ({ member }) => {
     //     </Card.Meta>
     //   </Card>
 
-    <Card as={Link} to={`/profile/${member.username}`}>
+    <Card as={Link} to={`/profile/${member.username}`} raised>
       <Card.Content>
         <Image
           floated='right'
@@ -28,7 +28,7 @@ const PeopleListItem: React.FC<{ member: IProfile }> = ({ member }) => {
           src={member.image || "/assets/user.png"}
         />
         <Card.Header>{member.displayName || "display name"}</Card.Header>
-        <Card.Meta>{member.followersCount} Followers</Card.Meta>
+        <Card.Meta>{member.followersCount === 1 ? member.followersCount + ' Folower' : ' Followers'} </Card.Meta>
         {member.following && (
           <Card.Description style={{ color: "green" }}>
             Following

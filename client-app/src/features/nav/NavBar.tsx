@@ -89,21 +89,29 @@ const NavBar: React.FC = () => {
             to='/mechanics'
             onClick={closeStackableMenu}
           />
+          <Menu.Item>
+            <Dropdown text='Social' className='icon' floating labeled>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  name='people'
+                  text='People'
+                  // exact
+                  as={Link}
+                  onClick={closeStackableMenu}
+                  to='/people'
+                />
 
-          <Menu.Item
-            name='feed'
-            exact
-            as={NavLink}
-            onClick={closeStackableMenu}
-            to='/feed'
-          />
-          <Menu.Item
-            name='people'
-            exact
-            as={NavLink}
-            onClick={closeStackableMenu}
-            to='/people'
-          />
+                <Dropdown.Item
+                  name='feed'
+                  text='Feed'
+                  // exact
+                  as={Link}
+                  onClick={closeStackableMenu}
+                  to='/feed'
+                />
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Item>
           <Menu.Item>
             <Dropdown text='Shop' className='icon' floating labeled>
               <Dropdown.Menu>

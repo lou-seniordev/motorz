@@ -70,13 +70,13 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
           {activity.isHost ? (
             <Fragment>
               {!managing ? (
-                <Button onClick={toggleManaging} color='twitter' fluid>
+                <Button onClick={toggleManaging} color='instagram' fluid>
                   Manage your diary
                 </Button>
               ) : (
                 <Fragment>
                   <Grid>
-                    <GridColumn width={3}>
+                    <GridColumn width={4}>
                       <Button
                         as={Link}
                         to={`/createDiaryEntry/${activity.id}`}

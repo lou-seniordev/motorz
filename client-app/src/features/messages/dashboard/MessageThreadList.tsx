@@ -5,6 +5,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import { useHistory } from "react-router";
 import ConfirmDelete from "../forms/ConfirmDelete";
 import { IMessage } from "../../../app/models/message";
+import { formatDistance } from "date-fns";
 
 const MessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
@@ -28,7 +29,7 @@ const MessageThreadList = () => {
   };
 
   return (
-    <Segment style={{ textAlign: "center" }}>
+    <Segment style={{ textAlign: "center" }} raised>
       <Segment raised>
         <Fragment>
           <Grid>
@@ -43,18 +44,18 @@ const MessageThreadList = () => {
       </Segment>
       <Segment raised>
         <Fragment>
-          <Grid className="mobview" columns={4} divided>
+          <Grid className='mobview' columns={4} divided>
             <Grid.Column width={4}>
-              <p>PRODUCT</p>
+              <h3>PRODUCT</h3>
             </Grid.Column>
             <Grid.Column width={4}>
-              <p>SENDER</p>
+              <h3>SENDER</h3>
             </Grid.Column>
             <Grid.Column width={4}>
-              <p>SENT</p>
+              <h3>SENT</h3>
             </Grid.Column>
             <Grid.Column width={4}>
-              <p>ACTION</p>
+              <h3>ACTION</h3>
             </Grid.Column>
           </Grid>
         </Fragment>
@@ -88,7 +89,7 @@ const MessageThreadList = () => {
                   </h4>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                  <h4>{messages[0].dateSent}</h4>
+                  {formatDistance(new Date(messages[0].dateSent), new Date())}{" "}ago
                 </Grid.Column>
                 <Grid.Column
                   width={4}
@@ -99,11 +100,12 @@ const MessageThreadList = () => {
                     style={{ textAlign: "center" }}
                     animated
                     onClick={() => removeThread(messages[0].messageThreadId)}
-                    
-                  > 
-                  {/* <Icon className="btnview_show" name='delete' /> */}
-                    <Button.Content className="btnview_hide" visible>Delete</Button.Content>
-                    <Button.Content className="btnview_hide" hidden>
+                  >
+                    {/* <Icon className="btnview_show" name='delete' /> */}
+                    <Button.Content className='btnview_hide' visible>
+                      Delete
+                    </Button.Content>
+                    <Button.Content className='btnview_hide' hidden>
                       <Icon name='delete' />
                     </Button.Content>
                   </Button>

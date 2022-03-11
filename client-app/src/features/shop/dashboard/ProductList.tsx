@@ -11,7 +11,7 @@ const ProductList: React.FC = () => {
   return (
     <Grid>
       <Grid.Column width={16}>
-        <Card.Group itemsPerRow={4}>
+        <Card.Group itemsPerRow={4} stackable={true} doubling={true} centered>
           {productsByDate.map((product) => (
             <ProductListItem product={product} key={product.id} />
           ))}

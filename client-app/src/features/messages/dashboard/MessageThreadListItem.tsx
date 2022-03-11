@@ -1,10 +1,11 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import { Button, Divider, Grid, Item, Segment } from "semantic-ui-react"; 
+import { Button, Grid, Item, Segment } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import ReplyForm from "../forms/ReplyForm";
+import { formatDistance } from "date-fns";
 
 interface DetailParams {
   id: string;
@@ -39,6 +40,7 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
           <Button
             content='Reply to sender'
             fluid
+            color="instagram"
             onClick={() => {
               openModal(<ReplyForm />);
             }}
@@ -47,28 +49,35 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
             <Fragment key={message.id}>
               <Segment>
                 <Grid>
-                  <Grid.Row>
-                    <Grid.Column width={2}>
-                      <Item.Image
-                        size='tiny'
-                        circular
-                        src={message.senderPhotoUrl || "/assets/user.png"}
-                      />
-                    </Grid.Column>
-                    <Grid.Column width={14}>
+                  <Grid.Column width={3}>
+                    <Grid.Row>
+                      <Link to={`/gallery/${message.senderUsername}`}>
+                        <img
+                          className='ui centered circular mini image'
+                          src={message.senderPhotoUrl || "/assets/user.png"!}
+                          alt='Sender'
+                        />
+                      </Link>
+                    </Grid.Row>
+                    <Grid.Row>
                       <Item.Header>
-                        <Item.Description>
-                          From{" "}
-                          {message.senderUsername === user?.userName
+                        <Item.Description style={{ textAlign: "center" }}>
+                          {/* {message.senderUsername === user?.userName
                             ? "Me"
-                            : message.senderDisplayName}{" "} -  
-                          Sent on: {message.dateSent}
+                            : message.senderDisplayName},{" "} */}
+                          {formatDistance(
+                            new Date(message.dateSent),
+                            new Date()
+                          )}{" "}
+                          ago
                         </Item.Description>
-                        <Divider />
+                       
                       </Item.Header>
-                      <Item.Description>{message.content}</Item.Description>
-                    </Grid.Column>
-                  </Grid.Row>
+                    </Grid.Row>
+                  </Grid.Column>
+                  <Grid.Column width={13}>
+                    <Item.Description>{message.content}</Item.Description>
+                  </Grid.Column>
                 </Grid>
               </Segment>
             </Fragment>

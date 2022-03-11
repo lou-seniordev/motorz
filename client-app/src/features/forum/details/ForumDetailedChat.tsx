@@ -36,7 +36,7 @@ const ForumDetailedChat= () => {
       color='teal'
       style={{ border: "none" }}
     >
-      <Header>Get Involved</Header>
+      <Header>Comments</Header>
     </Segment>
     <Segment attached>
       <Comment.Group style={{maxWidth:'none'}}>

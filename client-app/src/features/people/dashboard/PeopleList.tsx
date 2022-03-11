@@ -11,7 +11,7 @@ const PeopleList: React.FC = () => {
   return (
     <Grid>
       <Grid.Column width={16}>
-        <Card.Group itemsPerRow={4}>
+        <Card.Group itemsPerRow={4} stackable={true} doubling={true}>
           {displayPeople.map((member) => (
             <PeopleListItem member={member} key={member.id} />
           ))}

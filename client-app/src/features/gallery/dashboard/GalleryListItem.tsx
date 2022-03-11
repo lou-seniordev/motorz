@@ -39,7 +39,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
           </Divider>
           <Item.Group>
             <Link to={`/gallery/${motofy.id}`}>
-              <img className='ui centered big image' src={motofy.photoUrl!} alt='Motofy!'/>
+              <img className='ui centered big image' src={motofy.photoUrl! || "/assets/user.pn"} alt='Motofy!'/>
             </Link>
           </Item.Group>
           <Divider horizontal>
@@ -63,7 +63,7 @@ const GalleryListItem: React.FC<IProps> = ({ motofy }) => {
                   header={motofy.brandName}
                   className='computer only'
                   trigger={
-                    <Image size='tiny' src={motofy.brandLogoUrl} centered />
+                    <Image size='tiny' src={motofy.brandLogoUrl || "/assets/user.pn"} centered />
                   }
                 />
               </Grid.Column>

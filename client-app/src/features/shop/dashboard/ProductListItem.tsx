@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Button, Card } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
 
 const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
@@ -14,32 +14,31 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
   const threeDots = "...";
   return (
 
-    <Card>
+    <Card raised>
       <Card.Content>
         <Card.Header style={{ textAlign: "center" }}>
           {productTitleUiShort}
         </Card.Header>
-        <Image>
+      
           <div className='ui segment'>
             <img
               className='ui centered medium image'
-              style={{ height: "100px" }}
+              // style={{ height: "100px" }}
               src={product.photoUrl}
               alt='Product'
             />
           </div>
-        </Image>
-        {/* style={{ color: "green" }} */}
-        <Card.Description>
+       
+        <Card.Content extra>
           <span>{descriptionUiShort || "Description N/A"}</span>{" "}
           <span>{threeDots}</span>
-        </Card.Description>
+        </Card.Content>
         <Button
           as={Link}
           to={`/product/${product.id}`}
           fluid
           content='View product'
-          color='blue'
+          color='instagram'
         />
       </Card.Content>
     </Card>
