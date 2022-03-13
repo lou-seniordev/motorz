@@ -43,7 +43,6 @@ export default class MechanicStore {
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
-      console.log(predicate);
     }
   }
 
@@ -75,7 +74,6 @@ export default class MechanicStore {
     try {
 
       runInAction('open form', () => {
-        // this.openCustomerForm = true;
         this.openCustomerForm = !this.openCustomerForm;
       })
     } catch (error) {
@@ -212,7 +210,6 @@ export default class MechanicStore {
       try {
         mechanic = await agent.Mechanics.details(id);
         runInAction('getting mechanic', () => {
-          // console.log(mechanic)
           this.mechanic = mechanic;
           this.mechanicRegistry.set(mechanic.id, mechanic);
 

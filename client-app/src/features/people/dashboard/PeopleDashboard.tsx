@@ -10,7 +10,7 @@ import PeopleListItemPlaceholder from "./PeopleListItemPlaceholder";
 const PeopleDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const { loadPeople, loadingPeople, setPage, page, totalPages, cleanPeople } =//, cleanPeople
-    rootStore.profileStore;
+    rootStore.peopleStore;
 
   const [loadingNext, setLoadingNext] = useState(false);
 
@@ -34,7 +34,7 @@ const PeopleDashboard = () => {
   return (
     <Fragment>
       <Grid>
-        <Grid.Column mobile={16} computer={15}>
+        <Grid.Column mobile={16} computer={16}>
         {loadingPeople && page === 0 ? (
           <PeopleListItemPlaceholder />
         ) : (

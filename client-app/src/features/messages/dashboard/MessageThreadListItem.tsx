@@ -59,12 +59,12 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
                         />
                       </Link>
                     </Grid.Row>
-                    <Grid.Row>
+                    {/* <Grid.Row>
                       <Item.Header>
                         <Item.Description style={{ textAlign: "center" }}>
-                          {/* {message.senderUsername === user?.userName
+                          {message.senderUsername === user?.userName
                             ? "Me"
-                            : message.senderDisplayName},{" "} */}
+                            : message.senderDisplayName},{" "}
                           {formatDistance(
                             new Date(message.dateSent),
                             new Date()
@@ -73,11 +73,21 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
                         </Item.Description>
                        
                       </Item.Header>
-                    </Grid.Row>
+                    </Grid.Row> */}
                   </Grid.Column>
                   <Grid.Column width={13}>
                     <Item.Description>{message.content}</Item.Description>
                   </Grid.Column>
+                    <Item.Extra style={{ textAlign: "center" }}>
+                          {/* {message.senderUsername === user?.userName
+                            ? "Me"
+                            : message.senderDisplayName},{" "} */}
+                          {formatDistance(
+                            new Date(message.dateSent),
+                            new Date()
+                          )}{" "}
+                          ago
+                        </Item.Extra>
                 </Grid>
               </Segment>
             </Fragment>

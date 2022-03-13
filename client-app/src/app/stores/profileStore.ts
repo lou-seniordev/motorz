@@ -4,9 +4,9 @@ import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { IPhoto, IProfile, IUserActivity, IUserForumpost, IUserMechanic, IUserMotofy, IUserProduct } from '../models/profile';
 import { RootStore } from './rootStore';
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 
-const LIMIT = 4;
+// const LIMIT = 4;
 
 
 export default class ProfileStore {
@@ -49,21 +49,21 @@ export default class ProfileStore {
   @observable userProducts: IUserProduct[] = [];
   @observable loadingProducts = false;
 
-  @observable loadingPeople = false;
-  @observable people: IProfile[] = [];
-  @observable peopleCount: number;
-  @observable peopleRegistry = new Map();
+  // @observable loadingPeople = false;
+  // @observable people: IProfile[] = [];
+  // @observable peopleCount: number;
+  // @observable peopleRegistry = new Map();
 
 
-  @observable page: number = 0;
+  // @observable page: number = 0;
 
-  @computed get totalPages() {
-    return Math.ceil(this.peopleCount / LIMIT);
-  }
+  // @computed get totalPages() {
+  //   return Math.ceil(this.peopleCount / LIMIT);
+  // }
 
-  @action setPage = (page: number) => {
-    this.page = page;
-  }
+  // @action setPage = (page: number) => {
+  //   this.page = page;
+  // }
 
   @computed get isCurrentUser() {
     if (this.rootStore.userStore.user && this.profile) {
@@ -72,44 +72,44 @@ export default class ProfileStore {
       return false;
     }
   }
-  @computed get displayPeople () {
-    return Array.from(this.peopleRegistry.values());
-    // return this.groupPeople(Array.from(this.peopleRegistry.values()));
+  // @computed get displayPeople () {
+  //   return Array.from(this.peopleRegistry.values());
+  //   // return this.groupPeople(Array.from(this.peopleRegistry.values()));
 
-  } 
+  // } 
 
-  @action cleanPeople = async () => {
-    runInAction(() => {
-      this.peopleRegistry.clear();
-      this.page = 0;
-    })
-  }
-  @action loadPeople = async () => {
+  // @action cleanPeople = async () => {
+  //   runInAction(() => {
+  //     this.peopleRegistry.clear();
+  //     this.page = 0;
+  //   })
+  // }
+  // @action loadPeople = async () => {
 
-    this.loadingPeople = true;
-    try {
-      const peopleEnvelope = await agent.Profiles.listPeople(LIMIT, this.page);
-      const { people, peopleCount } = peopleEnvelope;
-      runInAction(() => {
-        this.loadingPeople = false;
-        // this.people = people;
-        // this.people = [...this.people, ...people];
-        // 
-        people.forEach(person => {
-          person.id = uuid()
-          this.peopleRegistry.set(person.id, person);
-          // console.log('person', person)
-        })
-        this.peopleCount = peopleCount;
-      });
-      // console.log(people)
-    } catch (error) {
-      runInAction(() => {
-        this.loadingPeople = false;
-      })
-      // toast.error('Problem loading members');
-    }
-  }
+  //   this.loadingPeople = true;
+  //   try {
+  //     const peopleEnvelope = await agent.Profiles.listPeople(LIMIT, this.page);
+  //     const { people, peopleCount } = peopleEnvelope;
+  //     runInAction(() => {
+  //       this.loadingPeople = false;
+  //       // this.people = people;
+  //       // this.people = [...this.people, ...people];
+  //       // 
+  //       people.forEach(person => {
+  //         person.id = uuid()
+  //         this.peopleRegistry.set(person.id, person);
+  //         // console.log('person', person)
+  //       })
+  //       this.peopleCount = peopleCount;
+  //     });
+  //     // console.log(people)
+  //   } catch (error) {
+  //     runInAction(() => {
+  //       this.loadingPeople = false;
+  //     })
+  //     // toast.error('Problem loading members');
+  //   }
+  // }
   @action loadUserActivities = async (username: string, predicate?: string) => {
     this.loadingActivities = true;
 

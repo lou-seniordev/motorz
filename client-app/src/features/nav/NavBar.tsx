@@ -100,7 +100,14 @@ const NavBar: React.FC = () => {
                   onClick={closeStackableMenu}
                   to='/people'
                 />
-
+                <Dropdown.Item
+                  name='people'
+                  text='Private messages'
+                  // exact
+                  as={Link}
+                  onClick={closeStackableMenu}
+                  to='/people'
+                />
                 <Dropdown.Item
                   name='feed'
                   text='Feed'

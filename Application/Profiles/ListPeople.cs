@@ -19,13 +19,15 @@ namespace Application.Profiles
         }
         public class Query : IRequest<PeopleEnvelope>
         {
-            public Query(int? limit, int? offset)
+            public Query(int? limit, int? offset, string search)
             {
                 Limit = limit;
                 Offset = offset;
+                Search = search;
             }
             public int? Limit { get; set; }
             public int? Offset { get; set; }
+            public string Search { get; set; }
 
         }
 
@@ -54,6 +56,15 @@ namespace Application.Profiles
                 var user = await _context.Users
                     .SingleOrDefaultAsync(x => x.UserName == _userAccessor
                     .GetCurrentUsername());
+
+                if (!string.IsNullOrEmpty(request.Search))
+                {
+                    var search = char.ToUpper(request.Search[0]) + request.Search.Substring(1);
+
+                    queryable = queryable
+                    .Where(x => x.DisplayName.Contains(request.Search) || x.DisplayName.Contains(search));
+
+                }
 
                 people = await queryable
                 .Where(x => x.Id != user.Id)
