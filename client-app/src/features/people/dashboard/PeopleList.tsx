@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useState } from "react";
-import { Button, Card, Grid, Input, Menu } from "semantic-ui-react"; //Button, Form,
+import { Button, Card, Grid, Input } from "semantic-ui-react"; //Button, Form, , Menu
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import PeopleListItem from "./PeopleListItem";
 

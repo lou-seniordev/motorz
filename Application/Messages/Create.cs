@@ -30,7 +30,7 @@ namespace Application.Messages
         {
             public CommandValidator()
             {
-                RuleFor(x => x.ProductId).NotEmpty();
+                // RuleFor(x => x.ProductId).NotEmpty();
                 RuleFor(x => x.RecipientUsername).NotEmpty();
                 RuleFor(x => x.Content).NotEmpty();
 
@@ -53,8 +53,6 @@ namespace Application.Messages
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-
-
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 if (user.UserName.ToLower() == request.RecipientUsername.ToLower())
@@ -64,18 +62,13 @@ namespace Application.Messages
                 }
                 var sender = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.UserName);
                 var recipient = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.RecipientUsername);
-                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == Guid.Parse(request.ProductId));
 
                 if (recipient == null)
 
                 {
                     throw new Exception("User not found");
                 }
-                if (product == null)
 
-                {
-                    throw new Exception("Product not found");
-                }
 
                 var message = new Message
                 {
@@ -86,7 +79,6 @@ namespace Application.Messages
                     Content = request.Content,
                 };
 
-                product.Messages.Add(message);
 
 
                 if (request.MessageThreadId == null)
@@ -115,7 +107,21 @@ namespace Application.Messages
 
 
                 _context.Messages.Add(message);
-                _context.Products.Update(product);
+
+                if (request.ProductId != null)//)!string.IsNullOrEmpty(
+                {
+
+                    var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == Guid.Parse(request.ProductId));
+                    if (product == null)
+
+                    {
+                        throw new Exception("Product not found");
+                    }
+
+                    product.Messages.Add(message);
+
+                    _context.Products.Update(product);
+                }
 
                 var success = await _context.SaveChangesAsync() > 0;
 

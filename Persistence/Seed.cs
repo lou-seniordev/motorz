@@ -269,7 +269,7 @@ namespace Persistence
                 context.SaveChanges();
             }
 
-           
+
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -303,7 +303,7 @@ namespace Persistence
                                 DateActivated = DateTime.Now.AddDays(-2),
                                 ActivationCounter = 0,
                                 PhoneNumber= "+38533890279",
-                                ProductPhoto = new ProductPhoto 
+                                ProductPhoto = new ProductPhoto
                                 {
                                     Id = "709F91A5-C37B-47F9-A210-BEF3979981D6",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482034/nolan_helmet.jpg",
@@ -326,7 +326,7 @@ namespace Persistence
                                 IsAdvertised = false,
                                 NumberSeen = 20,
                                 ActivationCounter = 1,
-                                ProductPhoto = new ProductPhoto 
+                                ProductPhoto = new ProductPhoto
                                 {
                                     Id = "gloves",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636533746/gloves.jpg",
@@ -349,7 +349,7 @@ namespace Persistence
                                 IsAdvertised = false,
                                 NumberSeen = 0,
                                 ActivationCounter = 0,
-                                ProductPhoto = new ProductPhoto 
+                                ProductPhoto = new ProductPhoto
                                 {
                                     Id = "rain-master-lady-d",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1637227543/rain-master-lady-d.png",
@@ -390,7 +390,7 @@ namespace Persistence
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 0,
-                                ProductPhoto = new ProductPhoto 
+                                ProductPhoto = new ProductPhoto
                                 {
                                     Id = "FBC92591-FD02-4494-9129-C3459DC84D1C",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1636482030/nolan-biker-jacket.jpg",
@@ -414,7 +414,7 @@ namespace Persistence
                                 IsActive = true,
                                 IsAdvertised = false,
                                 ActivationCounter = 0,
-                                 ProductPhoto = new ProductPhoto 
+                                 ProductPhoto = new ProductPhoto
                                 {
                                     Id = "42EDB659-CB21-43EF-9726-43648A254144",
                                     Url = "https://res.cloudinary.com/motofy/image/upload/v1637227585/boots.jpg",
@@ -539,7 +539,7 @@ namespace Persistence
                                 IsMain = true,
                             }
                         },
-                        Products = new List<Product> 
+                        Products = new List<Product>
                         {
                             new Product
                             {
@@ -756,118 +756,117 @@ namespace Persistence
             }
             //==TEST PRODUCT 
             // bool shouldAddTestingData = false;
-            if(initialRun) 
+            if (initialRun)
             {
 
-             var products = new List<Product>();
-            
-                for(int i=1; i<35; i++)
+                var products = new List<Product>();
+
+                for (int i = 1; i < 35; i++)
                 {
-                    var temp = new Product      
+                    var temp = new Product
                     {
                         Id = new Guid(),
                         Seller = userManager.Users.SingleOrDefault(x => x.UserName == "joe"),
                         Title = "Test" + i,
                         Category = "Other",
-                        City= "Ljubljana " + i + ". krat",
+                        City = "Ljubljana " + i + ". krat",
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Switzerland"),
-                        PhoneNumber= "+413868685" + i,
+                        PhoneNumber = "+413868685" + i,
                         Brand = "Test Products",
                         Model = "Test Products",
-                        Price = "100" + i*20,
+                        Price = "100" + i * 20,
                         DatePublished = DateTime.Now.AddMonths(-i),
                         DateActivated = DateTime.Now.AddMonths(-i),
                         IsActive = true,
                         IsAdvertised = false,
                         NumberSeen = 20,
                         ActivationCounter = 1,
-                        ProductPhoto = new ProductPhoto 
+                        ProductPhoto = new ProductPhoto
                         {
-                            Id = "djq0pu"+ (i-1) +"rzfqvkur2f" + i,
+                            Id = "djq0pu" + (i - 1) + "rzfqvkur2f" + i,
                             Url = "https://res.cloudinary.com/motofy/image/upload/v1646220808/sm2am3kwmdyvq6hhmc6t.jpg",
                         }
                     };
                     products.Add(temp);
                 }
-            await context.Products.AddRangeAsync(products);
-            await context.SaveChangesAsync();
+                await context.Products.AddRangeAsync(products);
+                await context.SaveChangesAsync();
 
-            // var moreUsers = new List<AppUser>();
-            // for(int i=1; i<35; i++)
-            //     {
-            //         var tempUsr = new AppUser
-            //         {
-            //             Id = "user_" + i,
-            //             DisplayName = "test_user " + i,
-            //             UserName = "test_user " + i,
-            //             Email = "test_user."+ i +"@test.com",
-            //             Photos = new List<Photo> {
-            //                 new Photo {
-            //                     Id = "test_user" + i,
-            //                     Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
-            //                     IsMain = true,
-            //                 }
-            //             },
-            //         };
-            //         // moreUsers.Add(tempUsr);
-            //     }
-            //     // foreach (var user in users)
-            //     // {
-            //     //     await userManager.CreateAsync(user, "Pa$$w0rd");
-            //     // }
+                // var moreUsers = new List<AppUser>();
+                // for(int i=1; i<35; i++)
+                //     {
+                //         var tempUsr = new AppUser
+                //         {
+                //             Id = "user_" + i,
+                //             DisplayName = "test_user " + i,
+                //             UserName = "test_user " + i,
+                //             Email = "test_user."+ i +"@test.com",
+                //             Photos = new List<Photo> {
+                //                 new Photo {
+                //                     Id = "test_user" + i,
+                //                     Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                //                     IsMain = true,
+                //                 }
+                //             },
+                //         };
+                //         // moreUsers.Add(tempUsr);
+                //     }
+                //     // foreach (var user in users)
+                //     // {
+                //     //     await userManager.CreateAsync(user, "Pa$$w0rd");
+                //     // }
 
-            }                            
+            }
 
 
             //==PRODUCT VIEWERS
             if (!context.ProductViewers.Any())
             {
-                var productViewers = new List<ProductViewer> 
+                var productViewers = new List<ProductViewer>
                 {
 
-                    new ProductViewer  
+                    new ProductViewer
                     {
                         AppUserId = "b",
                         DateStarted = DateTime.Now.AddDays(-1),
                         ProductId = Guid.Parse("FDC7BB35-4A57-4491-AD47-9B0AD9B18637")
                     },
-                    new ProductViewer  
+                    new ProductViewer
                     {
                         AppUserId = "d",
                         DateStarted = DateTime.Now.AddDays(-1),
                         ProductId = Guid.Parse("FDC7BB35-4A57-4491-AD47-9B0AD9B18637")
                     },
-                    new ProductViewer  
+                    new ProductViewer
                     {
                         AppUserId = "b",
                         DateStarted = DateTime.Now.AddDays(-1),
                         ProductId = Guid.Parse("AEE0C4FD-C8C8-4184-B91C-7BAC64213821")
                     },
-                    new ProductViewer  
+                    new ProductViewer
                     {
                         AppUserId = "g",
                         DateStarted = DateTime.Now.AddDays(-1),
                         ProductId = Guid.Parse("AEE0C4FD-C8C8-4184-B91C-7BAC64213821")
                     },
-                    new ProductViewer  
+                    new ProductViewer
                     {
                         AppUserId = "a",
                         DateStarted = DateTime.Now.AddDays(-1),
                         ProductId = Guid.Parse("D938C1D0-3321-4357-B7C3-D5144C4EEB68")
-                        
+
                     },
-                    new ProductViewer  
+                    new ProductViewer
                     {
                         AppUserId = "d",
                         DateStarted = DateTime.Now.AddDays(-1),
                         ProductId = Guid.Parse("D938C1D0-3321-4357-B7C3-D5144C4EEB68")
                     }
                 };
-              
-            await context.ProductViewers.AddRangeAsync(productViewers);
-            await context.SaveChangesAsync();
-            }
 
+                await context.ProductViewers.AddRangeAsync(productViewers);
+                await context.SaveChangesAsync();
+            }
             //==PRODUCT MESSAGES===
             if (!context.Messages.Any())
             {
@@ -884,7 +883,6 @@ namespace Persistence
                     Content= "First Message from Bob to Jane 1!",
                     DateSent = DateTime.Now.AddMinutes(-11),
                     DateRead = DateTime.Now
-// AddDays(-1),
                     },
 
                     new Message
@@ -1106,6 +1104,7 @@ namespace Persistence
                     }
                 };
 
+
                 await context.Messages.AddRangeAsync(messages1);
                 // await context.SaveChangesAsync();
                 await context.Messages.AddRangeAsync(messages2);
@@ -1119,6 +1118,7 @@ namespace Persistence
                 await context.Messages.AddRangeAsync(messages6);
                 // await context.SaveChangesAsync();
                 await context.Messages.AddRangeAsync(messages7);
+
                 await context.SaveChangesAsync();
 
                 Product product1 = context.Products.Find(Guid.Parse("AEE0C4FD-C8C8-4184-B91C-7BAC64213821"));
@@ -1251,12 +1251,140 @@ namespace Persistence
                         ReceiverUsername = "bob",
                         DateUpdated = DateTime.Now.AddMinutes(-1)
                     }
-
                 };
                     await context.MessageThreads.AddRangeAsync(messageThreads);
                     await context.SaveChangesAsync();
 
                 }
+            }
+            //==PRIVATE MESSAGES===
+
+            if (!context.PrivateMessages.Any())
+            {
+
+                var privateMessages1 = new List<PrivateMessage>
+                {
+                    new PrivateMessage
+                    {
+                    Id= new Guid(),
+                    SenderId= "d",
+                    SenderUsername= "jerry",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "First Private PrivateMessage from Jerry to Bob 1",
+                    DateSent = DateTime.Now.AddMinutes(-11),
+                    DateRead = DateTime.Now
+                    },
+                    new PrivateMessage
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "d",
+                    RecipientUsername= "jerry",
+                    Content= "First Private PrivateMessage from Bob to Jerry 1",
+                    DateSent = DateTime.Now.AddMinutes(-12),
+                    DateRead = DateTime.Now
+                    },
+                    new PrivateMessage
+                    {
+                    Id= new Guid(),
+                    SenderId= "d",
+                    SenderUsername= "jerry",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "Second Private PrivateMessage from Jerry to Bob 2",
+                    DateSent = DateTime.Now.AddMinutes(-11),
+                    DateRead = DateTime.Now
+                    },
+                    new PrivateMessage
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "d",
+                    RecipientUsername= "jerry",
+                    Content= "Second Private PrivateMessage from Bob to Jerry 2",
+                    DateSent = DateTime.Now.AddMinutes(-12),
+                    DateRead = DateTime.Now
+                    },
+                };
+                var privateMessages2 = new List<PrivateMessage>
+                {
+                    new PrivateMessage
+                    {
+                    Id= new Guid(),
+                    SenderId= "b",
+                    SenderUsername= "jane",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "First Private PrivateMessage from Jane to Bob 1",
+                    DateSent = DateTime.Now.AddMinutes(-11),
+                    DateRead = DateTime.Now
+                    },
+                    new PrivateMessage
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "d",
+                    RecipientUsername= "jerry",
+                    Content= "First Private PrivateMessage from Bob to Jane 1",
+                    DateSent = DateTime.Now.AddMinutes(-12),
+                    DateRead = DateTime.Now
+                    },
+                    new PrivateMessage
+                    {
+                    Id= new Guid(),
+                    SenderId= "b",
+                    SenderUsername= "jane",
+                    RecipientId= "a",
+                    RecipientUsername= "bob",
+                    Content= "Second Private PrivateMessage from Jane to Bob 2",
+                    DateSent = DateTime.Now.AddMinutes(-11),
+                    DateRead = DateTime.Now
+                    },
+                    new PrivateMessage
+                    {
+                    Id= new Guid(),
+                    SenderId= "a",
+                    SenderUsername= "bob",
+                    RecipientId= "d",
+                    RecipientUsername= "jerry",
+                    Content= "Second Private PrivateMessage from Bob to Jane 2",
+                    DateSent = DateTime.Now.AddMinutes(-12),
+                    DateRead = DateTime.Now
+                    }
+                 };
+                await context.PrivateMessages.AddRangeAsync(privateMessages1);
+                await context.PrivateMessages.AddRangeAsync(privateMessages2);
+                await context.SaveChangesAsync();
+                if (!context.PrivateMessageThreads.Any())
+                {
+                    var privateMessageThreads = new List<PrivateMessageThread>
+                    {
+
+                    new PrivateMessageThread
+                    {
+                        Id = new Guid(),
+                        PrivateMessages = privateMessages1,
+                        InitUsername= "jerry",
+                        ReceiverUsername = "bob",
+                        DateUpdated = DateTime.Now.AddMinutes(-1)
+                    }
+                    ,
+                    new PrivateMessageThread
+                    {
+                        Id = new Guid(),
+                        PrivateMessages = privateMessages2,
+                        InitUsername= "jane",
+                        ReceiverUsername = "bob",
+                        DateUpdated = DateTime.Now.AddMinutes(-1)
+                    }
+                    };
+                    await context.PrivateMessageThreads.AddRangeAsync(privateMessageThreads);
+                    await context.SaveChangesAsync();
+                };
             }
             // === Forumposts
             if (!context.Forumposts.Any())
@@ -2112,14 +2240,14 @@ namespace Persistence
             }
 
             // bool shouldAddBrands = false;
-            if (initialRun) 
+            if (initialRun)
             {
 
-            // if (!context.Brands.Any())
-            // {
+                // if (!context.Brands.Any())
+                // {
                 var brands = new List<Brand>
                 {
-                   
+
                     new Brand
                     {
                         Id = Guid.Parse("7ACE392B-F077-4E4B-8679-2A5D1D8B77A9"),
@@ -2159,7 +2287,7 @@ namespace Persistence
                 };
                 context.Brands.AddRange(brands);
                 context.SaveChanges();
-            // }
+                // }
             }
 
 
@@ -3046,9 +3174,9 @@ namespace Persistence
                 context.Mechanics.AddRange(mechanics);
                 context.SaveChanges();
             }
-             if (!context.MechanicBrands.Any())
-             {
-                 var mechanicBrands = new List<MechanicBrand> 
+            if (!context.MechanicBrands.Any())
+            {
+                var mechanicBrands = new List<MechanicBrand>
                  {
                      new MechanicBrand
                      {
@@ -3074,32 +3202,32 @@ namespace Persistence
                      {
                         BrandId=Guid.Parse("A585178F-1252-413A-939F-B8640E93A940"),//honda
                         MechanicId=Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"), //serena
-                        DateAdded= DateTime.Now 
+                        DateAdded= DateTime.Now
 
                      },
                      new MechanicBrand
                      {
                         BrandId=Guid.Parse("1C8326C8-5843-48E9-AA3B-16496E1CA897"),//ducati
                         MechanicId=Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"), //serena
-                        DateAdded= DateTime.Now 
+                        DateAdded= DateTime.Now
 
                      },
                      new MechanicBrand
                      {
                         BrandId=Guid.Parse("43D5A027-67E2-42AC-B210-6C7B8D1FC591"),//harley davidson
                         MechanicId=Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"), //serena
-                        DateAdded= DateTime.Now 
+                        DateAdded= DateTime.Now
                      },
                      new MechanicBrand
                      {
                         BrandId=Guid.Parse("CFBCB816-86D2-4F51-B60D-DCA907BC474D"),//kawasaki
                         MechanicId=Guid.Parse("B0C1CE45-2E41-4C10-9D89-65EFB7EFE3EA"), //corrado
-                        DateAdded= DateTime.Now 
+                        DateAdded= DateTime.Now
                      },
                  };
-                    context.MechanicBrands.AddRange(mechanicBrands);
-                    context.SaveChanges();
-             }
+                context.MechanicBrands.AddRange(mechanicBrands);
+                context.SaveChanges();
+            }
 
         }
     }

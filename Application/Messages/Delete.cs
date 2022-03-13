@@ -17,9 +17,7 @@ namespace Application.Messages
     {
         public class Command : IRequest
         {
- 
-            public Guid Id { get; set; }
-
+             public Guid Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -76,11 +74,6 @@ namespace Application.Messages
 
                 throw new Exception("Problem Saving Changes");
                 
-
-
-
-
-
             }
         }
     }

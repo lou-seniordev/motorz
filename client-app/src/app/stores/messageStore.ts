@@ -134,7 +134,7 @@ export default class MessageStore {
   @action setReply = (messageThread: IMessage[]) => {
     messageThread.forEach((messages) => {
 
-      this.productId = messages.productId;
+      this.productId = messages.productId!;
       this.messageThreadId = messages.messageThreadId;
       if (this.username === messages.recipientUsername) {
         this.recipientUsername = messages.senderUsername
@@ -188,7 +188,7 @@ export default class MessageStore {
     }
     try {
       await agent.Messages.create(messageToSend);
-      console.log(messageToSend);
+      // console.log(messageToSend);
       runInAction('loading message ', () => {
         this.rootStore.modalStore.closeModal();
       });
@@ -219,6 +219,7 @@ export default class MessageStore {
     }
     try {
 
+      // console.log(messageToSend)
       await agent.Messages.create(messageToSend);
       runInAction('loading message ', () => {
         this.formatDate(placeholderMessageForUI);

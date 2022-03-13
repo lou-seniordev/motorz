@@ -42,6 +42,9 @@ namespace Persistence
         public DbSet<Message> Messages { get; set; }
         public DbSet<MessageThread> MessageThreads { get; set; }
 
+        public DbSet<PrivateMessageThread> PrivateMessageThreads { get; set; }
+        public DbSet<PrivateMessage> PrivateMessages { get; set; }
+
         //=== COMMENTS FOR THE REST OF THE SECTIONS ===
         public DbSet<CommentMotofy> CommentMotofies { get; set; }
         public DbSet<CommentMechanic> CommentMechanics { get; set; }
@@ -71,14 +74,6 @@ namespace Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            // builder.Entity<Value>()
-            //     .HasData(
-            //         new Value { Id = 1, Name = "Value 101 First" },
-            //         new Value { Id = 2, Name = "Value 102 Second" },
-            //         new Value { Id = 3, Name = "Value 103 Third" },
-            //         new Value { Id = 4, Name = "Value 104 Fourth" }
-            //     );
 
             // === define many2many relationship ===
             builder.Entity<UserActivity>(x => x.HasKey(ua => new { ua.AppUserId, ua.ActivityId }));
@@ -201,26 +196,6 @@ namespace Persistence
             .WithOne(m => m.DiaryEntry)
             .HasForeignKey<DiaryPhoto>(m => m.DiaryEntryForeignKey);
 
-            // builder.Entity<ForumpostRating>()
-            // .HasOne(a => a.AppUser)
-            // .WithOne(m => m.ForumpostRating)
-            // .HasForeignKey<ProductPhoto>(m => m.ProductForeignKey);
-
-            // builder.Entity<UserMechanic>()
-            // .HasOne(t => t.Testimonial)
-            // .WithOne(um => um.UserMechanic)
-
-
-            // builder.Entity<AppUser>()
-            // .HasOne(a => a.MotofyPhoto)
-            // .WithOne(a => a.AppUser)
-            // .HasPrincipalKey<MotofyPhoto>(c => c.Id);
-
-            // builder.Entity<MotofyPhoto>()
-            // .HasOne(a => a.AppUser)
-            // .WithOne(a => a.MotofyPhoto)
-            // .HasPrincipalKey<AppUser>(c => c.Id);
-
             //==DEFINE FOR MESSAGES (many to many)==
             //--sender
             builder.Entity<Message>()
@@ -231,6 +206,17 @@ namespace Persistence
             builder.Entity<Message>()
             .HasOne(u => u.Sender)
             .WithMany(m => m.MessagesSent)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.Entity<PrivateMessage>()
+            .HasOne(u => u.Recipient)
+            .WithMany(m => m.PrivateMessagesReceived)
+            .OnDelete(DeleteBehavior.Restrict); 
+            //--recipient
+            builder.Entity<PrivateMessage>()
+            .HasOne(u => u.Sender)
+            .WithMany(m => m.PrivateMessagesSent)
             .OnDelete(DeleteBehavior.Restrict);
 
         }

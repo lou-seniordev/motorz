@@ -24,8 +24,9 @@ namespace Domain
         public DateTime DatePublished { get; set; }
         public DateTime DateActivated { get; set; }
         public DateTime DateAdvertised { get; set; }
-        public int ActivationCounter { get; set; }                
+        public int ActivationCounter { get; set; }
         public virtual ProductPhoto ProductPhoto { get; set; }
+        // public virtual ICollection<ProductMessage> Messages { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<ProductViewer> Viewers { get; set; }
 

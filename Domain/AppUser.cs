@@ -16,6 +16,8 @@ namespace Domain
         public virtual ICollection<UserMechanic> Mechanics { get; set; }
         public virtual ICollection<Message> MessagesSent { get; set; }
         public virtual ICollection<Message> MessagesReceived { get; set; }
+        public virtual ICollection<PrivateMessage> PrivateMessagesSent { get; set; }
+        public virtual ICollection<PrivateMessage> PrivateMessagesReceived { get; set; }
         public virtual ICollection<ProductViewer> ViewingProducts { get; set; }
 
     }

@@ -17,7 +17,7 @@ export interface IMessage {
     content: string;
     dateRead?: string;
     dateSent: string;
-    productId: string;
+    productId?: string;
     productTitle?: string;
     productPhotoUrl?: string;
     messageThreadId: string;
@@ -26,6 +26,6 @@ export interface IMessage {
 export interface IMessageToSend {
     recipientUsername: string;
     content: string;
-    productId: string;
+    productId?: string;
 }
 

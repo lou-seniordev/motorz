@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class Message
+    public class PrivateMessage 
     {
         public Guid Id { get; set; }
         public string SenderId { get; set; }
@@ -19,9 +19,7 @@ namespace Domain
         public DateTime DateSent { get; set; } = DateTime.Now;
         public bool SenderDeleted { get; set; }
         public bool RecipientDeleted { get; set; }
+        public virtual PrivateMessageThread PrivateMessageThread { get; set; }
 
-        //!!
-        public virtual Product Product { get; set; }
-        public virtual MessageThread MessageThread { get; set; }
     }
 }
