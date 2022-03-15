@@ -19,6 +19,7 @@ import { postDiaryEntry, postMotofy } from './agentUtil';
 import { postProduct } from './agentUtil';
 import { postMechanic } from './agentUtil';
 import { IFeedEnvelope } from '../models/feed';
+import { IPrivateMessageEnvelope } from '../models/privatemessages';
 // import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -275,6 +276,19 @@ const Messages = {
   delete: (id: string) => requests.delete(`/messages/${id}`),
   markRead: (id: string) => requests.put(`/messages/${id}/markRead`, {})
 }
+const PrivateMessages = {
+  list: (limit: number, page: number): Promise<IPrivateMessageEnvelope> =>
+    requests.get(`/privatemessages?limit=${limit}&offset=${page ? page * limit! : 0}`),
+
+  thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
+  // details: (id: string) => requests.get(`/messages/${id}`),
+
+  create: (message: IMessageToSend) => requests.post('/privatemessages/', message),
+
+
+  delete: (id: string) => requests.delete(`/messages/${id}`),
+  markRead: (id: string) => requests.put(`/messages/${id}/markRead`, {})
+}
 
 const Forumposts = {
   // list: (limit?:number, page?:number): Promise<IForumpostEnvelope> => 
@@ -355,5 +369,6 @@ export default {
   Messages,
   Countries,
   Feed,
-  DiaryEntries
+  DiaryEntries,
+  PrivateMessages
 };

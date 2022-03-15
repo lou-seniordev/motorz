@@ -40,6 +40,7 @@ const ProfileHeader: React.FC<IProps> = ({
               <Item.Content verticalAlign='middle'>
                 <Header as='h1'>{profile.displayName}</Header>
               </Item.Content>
+              {/* <Button content='Send message'/> */}
             </Item>
           </Item.Group>
         </Grid.Column>

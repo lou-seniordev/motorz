@@ -1,11 +1,9 @@
 using System.Threading.Tasks;
-using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Application.Messages;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
-using System.Net.Http;
 using System;
 
 namespace API.Controllers

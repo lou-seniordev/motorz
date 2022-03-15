@@ -15,6 +15,7 @@ import CommentStore from './commentStore';
 import CountryStore from './countryStore';
 import FeedStore from './feedStore';
 import PeopleStore from './peopleStore';
+import PrivateMessageStore from './privateMessageStore';
 
 // === mobx === //
 configure({ enforceActions: 'always' });
@@ -36,6 +37,7 @@ export class RootStore {
     countryStore: CountryStore;
     feedStore: FeedStore;
     peopleStore: PeopleStore;
+    privateMessageStore: PrivateMessageStore;
 
 
     constructor () {
@@ -54,6 +56,7 @@ export class RootStore {
         this.countryStore = new CountryStore(this);
         this.feedStore = new FeedStore(this);
         this.peopleStore = new PeopleStore(this);
+        this.privateMessageStore = new PrivateMessageStore(this);
     }
 }
 

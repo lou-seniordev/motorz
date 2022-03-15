@@ -29,7 +29,8 @@ const MessageThreadList = () => {
   };
 
   return (
-    <Segment style={{ textAlign: "center" }} raised>
+    <Segment style={{ textAlign: "center", backgroundColor: 'lightblue' }} raised>
+      
       <Segment raised>
         <Fragment>
           <Grid>

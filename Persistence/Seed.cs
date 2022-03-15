@@ -1327,8 +1327,8 @@ namespace Persistence
                     Id= new Guid(),
                     SenderId= "a",
                     SenderUsername= "bob",
-                    RecipientId= "d",
-                    RecipientUsername= "jerry",
+                    RecipientId= "b",
+                    RecipientUsername= "jane",
                     Content= "First Private PrivateMessage from Bob to Jane 1",
                     DateSent = DateTime.Now.AddMinutes(-12),
                     DateRead = DateTime.Now
@@ -1349,8 +1349,8 @@ namespace Persistence
                     Id= new Guid(),
                     SenderId= "a",
                     SenderUsername= "bob",
-                    RecipientId= "d",
-                    RecipientUsername= "jerry",
+                    RecipientId= "b",
+                    RecipientUsername= "jane",
                     Content= "Second Private PrivateMessage from Bob to Jane 2",
                     DateSent = DateTime.Now.AddMinutes(-12),
                     DateRead = DateTime.Now

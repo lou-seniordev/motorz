@@ -73,7 +73,7 @@ export default class MessageStore {
           this.formatDate(message);
           this.messageRegistry.set(message.id, message);
         });
-        // console.log(messages)
+        // console.log(messageRegistry)
         this.messageThreadsCount = messageThreadsCount;
         this.totalPages = totalPages;
         this.loadingInitial = false;
@@ -126,7 +126,7 @@ export default class MessageStore {
 
 
   @action setUser = (username: string, userPhotoUrl: any) => {
-    this.username = username;
+    // this.username = username;
     this.username = username;
     this.senderPhotoUrl = userPhotoUrl;
   }

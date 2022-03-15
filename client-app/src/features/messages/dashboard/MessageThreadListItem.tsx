@@ -34,8 +34,8 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
     return <LoadingComponent content='Loading messages...' />;
 
   return (
-    <Segment.Group>
-      <Segment>
+    // <Segment.Group>
+      <Segment style={{ textAlign: "center", backgroundColor: 'lightblue' }} raised>
         <Fragment>
           <Button
             content='Reply to sender'
@@ -94,7 +94,7 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
           ))}
         </Fragment>
       </Segment>
-    </Segment.Group>
+    // </Segment.Group>
   );
 };
 
