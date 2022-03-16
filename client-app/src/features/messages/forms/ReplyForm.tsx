@@ -1,4 +1,4 @@
-import React, { useContext,  useState } from "react";
+import React, { useContext,  useEffect,  useState } from "react";
 import { Button, Form, Grid, Header } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { Form as FinalForm, Field } from "react-final-form";
@@ -28,10 +28,11 @@ const validate = combineValidators({
   )(),
 });
 
-const ReplyForm = () => {
+const ReplyForm: React.FC<{ messageThreadId: string }> = ({ messageThreadId }) => {
+// const ReplyForm = () => {
     const rootStore = useContext(RootStoreContext);
 
-    const { sendReply } = rootStore.messageStore;
+    const { sendReply, setContent, createHubConnection, stopHubConnection} = rootStore.messageStore;
     const {closeModal} = rootStore.modalStore
     
 
@@ -40,8 +41,22 @@ const ReplyForm = () => {
  
 
     const handleFinalFormSubmit = (values: any) => {
-      sendReply(values.content);
+      console.log(messageThreadId)
+      setContent(values.content)
+      sendReply();
     };
+
+    useEffect(() => {
+      // console.log(messageThreadId)
+      createHubConnection(messageThreadId);
+     return () => {
+       stopHubConnection(messageThreadId);
+     };
+   }, 
+   [
+    createHubConnection, stopHubConnection, 
+    messageThreadId]
+   );
 
   
     return (

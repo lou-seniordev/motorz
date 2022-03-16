@@ -61,7 +61,6 @@ const MessageThreadList = () => {
           </Grid>
         </Fragment>
       </Segment>
-      {/* <Segment> */}
       {messagesByDate.map(([id, messages]) => (
         <Fragment key={id}>
           <Segment raised>
@@ -102,7 +101,6 @@ const MessageThreadList = () => {
                     animated
                     onClick={() => removeThread(messages[0].messageThreadId)}
                   >
-                    {/* <Icon className="btnview_show" name='delete' /> */}
                     <Button.Content className='btnview_hide' visible>
                       Delete
                     </Button.Content>
@@ -116,7 +114,6 @@ const MessageThreadList = () => {
           </Segment>
         </Fragment>
       ))}
-      {/* </Segment> */}
     </Segment>
   );
 };

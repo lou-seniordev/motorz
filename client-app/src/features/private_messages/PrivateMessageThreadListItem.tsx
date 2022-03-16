@@ -16,7 +16,7 @@ const PrivateMessageThreadListItem = () => {
   const { setRecipient, setMessageThreadId, 
     last, setUsername,
     createHubConnection, stopHubConnection,
-     setReply, addComment } =
+     setReply, addReply } =
     rootStore.privateMessageStore;
 
   const userStyles = {
@@ -55,7 +55,7 @@ const PrivateMessageThreadListItem = () => {
       setMessageThreadId(last![0]);
       setReply(input)
       setUsername(user?.userName!);
-      addComment();
+      addReply();
 
     }
   };

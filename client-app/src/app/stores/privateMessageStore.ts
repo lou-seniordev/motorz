@@ -86,7 +86,7 @@ export default class PrivateMessageStore {
             .catch(err => console.log(err));
     }
 
-    @action addComment = async () => {
+    @action addReply = async () => {
         let messageToSend = {
             recipientUsername: this.recipientUsername,
             content: this.messageContent,

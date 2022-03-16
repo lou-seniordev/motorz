@@ -15,10 +15,10 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
   const {
-    setUser,
     loadingMessageThread,
     loadMessageThread,
     messagesFromThread,
+    setUsername
   } = rootStore.messageStore;
 
   const { openModal } = rootStore.modalStore;
@@ -26,15 +26,14 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
   const { user } = rootStore.userStore;
 
   useEffect(() => {
-    setUser(user!.userName, user!.image);
+    setUsername(user?.userName!);
     loadMessageThread(match.params.id);
-  }, [loadMessageThread, match.params.id, setUser, user]);
+  }, [loadMessageThread, match.params.id, setUsername,  user]);
 
   if (loadingMessageThread)
     return <LoadingComponent content='Loading messages...' />;
 
   return (
-    // <Segment.Group>
       <Segment style={{ textAlign: "center", backgroundColor: 'lightblue' }} raised>
         <Fragment>
           <Button
@@ -42,10 +41,10 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
             fluid
             color="instagram"
             onClick={() => {
-              openModal(<ReplyForm />);
+              openModal(<ReplyForm messageThreadId={match.params.id} />);
             }}
           />
-          {messagesFromThread!.reverse().map((message: any) => (
+          {messagesFromThread!.map((message: any) => (
             <Fragment key={message.id}>
               <Segment>
                 <Grid>
@@ -94,7 +93,6 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
           ))}
         </Fragment>
       </Segment>
-    // </Segment.Group>
   );
 };
 

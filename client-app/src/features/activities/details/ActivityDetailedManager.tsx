@@ -27,9 +27,7 @@ import ConfirmDelete from "../modals/ConfirmDelete";
 //   height: "auto",
 //   color: "white",
 // };
-const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({
-  activity,
-}) => {
+const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) => {
   // const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);

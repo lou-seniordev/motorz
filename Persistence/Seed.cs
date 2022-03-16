@@ -268,7 +268,55 @@ namespace Persistence
                 context.Countries.AddRange(countries);
                 context.SaveChanges();
             }
+            if (initialRun)
+            {
 
+                // if (!context.Brands.Any())
+                // {
+                var brands = new List<Brand>
+                {
+
+                    new Brand
+                    {
+                        Id = Guid.Parse("7ACE392B-F077-4E4B-8679-2A5D1D8B77A9"),
+                        Name = "MV Agusta",
+                        DateOfEstablishment = DateTime.Now.AddYears(-76),
+                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636476893/mv_augsta.png",
+                        LandOfOrigin = "Italy",
+                        CityOfOrigin = "Varese",
+                    },
+                    new Brand
+                    {
+                        Id = Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A"),
+                        Name = "Triumph",
+                        DateOfEstablishment = DateTime.Now.AddYears(-48),
+                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636476973/Triumph.png",
+                        LandOfOrigin = "England",
+                        CityOfOrigin = "Hinckley, Leicestershire,",
+                    },
+                    new Brand
+                    {
+                        Id = Guid.Parse("5EF0A7C9-5E33-44AF-8DE5-976990F59340"),
+                        Name = "Suzuki",
+                        DateOfEstablishment = DateTime.Now.AddYears(-111),
+                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636477063/Suzuki.png",
+                        LandOfOrigin = "Japan",
+                        CityOfOrigin = "Hamamatsu",
+                    },
+                    new Brand
+                    {
+                        Id = Guid.Parse("CFBCB816-86D2-4F51-B60D-DCA907BC474D"),
+                        Name = "Kawasaki",
+                        DateOfEstablishment = DateTime.Now.AddYears(-153),
+                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636477576/kawasaki.png",
+                        LandOfOrigin = "Japan",
+                        CityOfOrigin = "Tokyo",
+                    },
+                };
+                context.Brands.AddRange(brands);
+                context.SaveChanges();
+                // }
+            }
 
             if (!userManager.Users.Any())
             {
@@ -893,7 +941,7 @@ namespace Persistence
                     RecipientId= "b",
                     RecipientUsername= "jane",
                     Content= "Second Message from Bob to Jane! 2",
-                    DateSent = DateTime.Now.AddMinutes(-13),
+                    DateSent = DateTime.Now.AddMinutes(-9),
                     DateRead = DateTime.Now
                     },
 
@@ -905,7 +953,7 @@ namespace Persistence
                     RecipientId= "a",
                     RecipientUsername= "bob",
                     Content= "First Message from Jane to Bob! 1",
-                    DateSent = DateTime.Now.AddMinutes(-12),
+                    DateSent = DateTime.Now.AddMinutes(-10),
                     DateRead = DateTime.Now
                     },
                     new Message
@@ -916,7 +964,7 @@ namespace Persistence
                     RecipientId= "a",
                     RecipientUsername= "bob",
                     Content= "Second Messages Jane 2 Bob! 2",
-                    DateSent = DateTime.Now.AddMinutes(-14),
+                    DateSent = DateTime.Now.AddMinutes(-8),
                     DateRead = DateTime.Now
                     },
                      new Message
@@ -927,7 +975,7 @@ namespace Persistence
                     RecipientId= "b",
                     RecipientUsername= "jane",
                     Content= "Third Message from Bob to Jane 3!",
-                    DateSent = DateTime.Now.AddMinutes(-15),
+                    DateSent = DateTime.Now.AddMinutes(-5),
                     DateRead = DateTime.Now
                     },
                 };
@@ -952,7 +1000,7 @@ namespace Persistence
                     RecipientId= "a",
                     RecipientUsername= "bob",
                     Content= "First Message from Tom to Bob 1",
-                    DateSent = DateTime.Now.AddMinutes(-12),
+                    DateSent = DateTime.Now.AddMinutes(-10),
                     DateRead = DateTime.Now
                     },
                     new Message
@@ -963,7 +1011,7 @@ namespace Persistence
                     RecipientId= "a",
                     RecipientUsername= "bob",
                     Content= "Second Message from Tom to Bob 2",
-                    DateSent = DateTime.Now.AddMinutes(-13),
+                    DateSent = DateTime.Now.AddMinutes(-7),
                     DateRead = DateTime.Now
                     },
                 };
@@ -1587,6 +1635,7 @@ namespace Persistence
                         Departure = "Pub",
                         Destination = "Soho",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id == Guid.Parse("7ACE392B-F077-4E4B-8679-2A5D1D8B77A9")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1608,6 +1657,7 @@ namespace Persistence
                         Departure = "The Louvre",
                         Destination = "Champs Elysses",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1792,6 +1842,7 @@ namespace Persistence
                         Departure = "Jamies Italian",
                         Destination = "Italian Pizzeria",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1819,6 +1870,7 @@ namespace Persistence
                         Departure = "Tivoli",
                         Destination = "Triglav",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("a585178f-1252-413a-939f-b8640e93a940")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1964,6 +2016,7 @@ namespace Persistence
                         Departure = "Punch and Judy",
                         Destination = "Calais",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("a585178f-1252-413a-939f-b8640e93a940")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -1991,6 +2044,7 @@ namespace Persistence
                         Departure = "O2 Arena",
                         Destination = "Hide Park",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("a585178f-1252-413a-939f-b8640e93a940")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2018,6 +2072,7 @@ namespace Persistence
                         Departure = "Unter der Leyen",
                         Destination = "Brandburg Gate",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("a585178f-1252-413a-939f-b8640e93a940")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2045,6 +2100,7 @@ namespace Persistence
                         Departure = "Titov park",
                         Destination = "Kamenjak",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2072,6 +2128,7 @@ namespace Persistence
                         Departure = "Varudela",
                         Destination = "Motovun",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2099,6 +2156,7 @@ namespace Persistence
                         Departure = "Kongresni trg",
                         Destination = "Rakov Skocjan",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2120,6 +2178,7 @@ namespace Persistence
                         Departure = "Veliki Park",
                         Destination = "Lendava",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2147,6 +2206,7 @@ namespace Persistence
                         Departure = "Jarun",
                         Destination = "Sava",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2168,6 +2228,7 @@ namespace Persistence
                         Departure = "Piazza Venezia",
                         Destination = "San Gandolfo",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2189,6 +2250,7 @@ namespace Persistence
                         Departure = "Pignetto",
                         Destination = "Ostia, Roma",
                         IsActive = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2217,6 +2279,7 @@ namespace Persistence
                         Destination = "Montfalcone",
                         IsActive = false,
                         IsCompleted = true,
+                        MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("75A7C213-06D2-4EC3-87AD-FFF9F14F83B0")),
                         UserActivities = new List<UserActivity>
                         {
                             new UserActivity
@@ -2240,55 +2303,7 @@ namespace Persistence
             }
 
             // bool shouldAddBrands = false;
-            if (initialRun)
-            {
 
-                // if (!context.Brands.Any())
-                // {
-                var brands = new List<Brand>
-                {
-
-                    new Brand
-                    {
-                        Id = Guid.Parse("7ACE392B-F077-4E4B-8679-2A5D1D8B77A9"),
-                        Name = "MV Agusta",
-                        DateOfEstablishment = DateTime.Now.AddYears(-76),
-                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636476893/mv_augsta.png",
-                        LandOfOrigin = "Italy",
-                        CityOfOrigin = "Varese",
-                    },
-                    new Brand
-                    {
-                        Id = Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A"),
-                        Name = "Triumph",
-                        DateOfEstablishment = DateTime.Now.AddYears(-48),
-                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636476973/Triumph.png",
-                        LandOfOrigin = "England",
-                        CityOfOrigin = "Hinckley, Leicestershire,",
-                    },
-                    new Brand
-                    {
-                        Id = Guid.Parse("5EF0A7C9-5E33-44AF-8DE5-976990F59340"),
-                        Name = "Suzuki",
-                        DateOfEstablishment = DateTime.Now.AddYears(-111),
-                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636477063/Suzuki.png",
-                        LandOfOrigin = "Japan",
-                        CityOfOrigin = "Hamamatsu",
-                    },
-                    new Brand
-                    {
-                        Id = Guid.Parse("CFBCB816-86D2-4F51-B60D-DCA907BC474D"),
-                        Name = "Kawasaki",
-                        DateOfEstablishment = DateTime.Now.AddYears(-153),
-                        LogoUrl = "https://res.cloudinary.com/motofy/image/upload/v1636477576/kawasaki.png",
-                        LandOfOrigin = "Japan",
-                        CityOfOrigin = "Tokyo",
-                    },
-                };
-                context.Brands.AddRange(brands);
-                context.SaveChanges();
-                // }
-            }
 
 
             // if (!context.MotofyPhotos.Any())

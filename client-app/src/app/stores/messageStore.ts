@@ -5,7 +5,6 @@ import { observable, action, computed, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
 
-import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 
 
@@ -28,66 +27,77 @@ export default class MessageStore {
 
   @observable messageThreadId: string;
   @observable loadingMessageThread = false;
-  @observable messagesFromThread: any = [];
+  @observable messagesFromThread: IMessage[] | undefined= [];
 
   @observable messageThreadsCount = 0;
   @observable page = 0;
   @observable totalPages = 0;
 
+  @observable messageContent: string;
+
+
   @observable.ref hubConnection: HubConnection | null = null;
 
   @action createHubConnection = (messageThreadId: string) => {
     this.hubConnection = new HubConnectionBuilder()
-        .withUrl(process.env.REACT_APP_API_MESSAGE_URL!, {
+      .withUrl(process.env.REACT_APP_API_PRODUCTMESSAGE_URL!, {
+        accessTokenFactory: () => this.rootStore.commonStore.token!
+      })
+      .configureLogging(LogLevel.Information)
+      .build();
 
-            accessTokenFactory: () => this.rootStore.commonStore.token!
-        })
-        .configureLogging(LogLevel.Information)
-        .build();
-
-    //!! will try await 
     this.hubConnection
-        .start()
-        .then(() => console.log(this.hubConnection!.state))
-        .then(() => {
-            console.log('Attempting to join group');
-            //!!temp timeout
-            // setTimeout( ()=> {
-               
-                this.hubConnection!.invoke('AddToGroup', messageThreadId)
-        //  }, 500);
-        })
-        .catch(error => console.log('Error establishing connection: ', error));
+      .start()
+      .then(() => console.log(this.hubConnection!.state))
+      .then(() => {
+        console.log('Attempting to join group');
+        this.hubConnection!.invoke('AddToGroup', messageThreadId)
+      })
+      .catch(error => console.log('Error establishing connection: ', error));
 
     this.hubConnection.on('ReceiveMessage', message => {
-       
-        runInAction(() => {
-            // this.last![1].unshift(message);
-        });
-        // console.log('this.last after: ', toJS(this.last))
+
+      runInAction(() => {
+        this.messagesFromThread?.unshift(message);
+      });
     })
     this.hubConnection.on('SendMessage', message => {
-        toast.info(message)
+      toast.info(message)
     })
-}
+  }
 
-@action stopHubConnection = (messageThreadId: string) => {
+  @action stopHubConnection = (messageThreadId: string) => {
     this.hubConnection?.invoke('RemoveFromGroup', messageThreadId)
-        .then(() => {
-            this.hubConnection!.stop();
-        })
-        .then(() => console.log('Connection stopped'))
-        .catch(err => console.log(err));
-}
+      .then(() => {
+        this.hubConnection!.stop();
+      })
+      .then(() => console.log('Connection stopped'))
+      .catch(err => console.log(err));
+  }
 
+  @action sendReply = async () => {
+    let messageToSend = {
 
+      recipientUsername: this.recipientUsername,
+      content: this.messageContent,
+      messageThreadId: this.messageThreadId,
+      productId: this.productId,
+      username: this.username
+    }
+
+    try {
+      await this.hubConnection!.invoke('SendMessage', messageToSend);
+      this.rootStore.modalStore.closeModal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   @action setPage = (page: number) => {
     this.page = page;
   }
 
   @computed get messagesByDate() {
-    // console.log(this.groupMessagesByThreadId(Array.from(this.messageRegistry.values())));
     return this.groupMessagesByThreadId(Array.from(this.messageRegistry.values()));
   }
 
@@ -108,8 +118,6 @@ export default class MessageStore {
     message.dateSent = message.dateSent.replace('T', ' ');
   }
 
-
-
   @action loadMessages = async () => {
 
     this.loadingInitial = true;
@@ -122,7 +130,6 @@ export default class MessageStore {
           this.formatDate(message);
           this.messageRegistry.set(message.id, message);
         });
-        // console.log(messageRegistry)
         this.messageThreadsCount = messageThreadsCount;
         this.totalPages = totalPages;
         this.loadingInitial = false;
@@ -140,7 +147,13 @@ export default class MessageStore {
     this.productId = productId;
   };
 
+  @action setUsername = (username: string) => {
+    this.username = username;
+  }
 
+  @action setContent = (content: string) => {
+    this.messageContent = content;
+  };
 
   getMessageThread = (id: string) => {
     let myArray = Array.from(this.messagesByDate);
@@ -152,8 +165,6 @@ export default class MessageStore {
     }
     return messageThread;
   };
-
-
 
   @action deleteThread = async (id: string) => {
 
@@ -174,11 +185,6 @@ export default class MessageStore {
   }
 
 
-  @action setUser = (username: string, userPhotoUrl: any) => {
-    this.username = username;
-    this.senderPhotoUrl = userPhotoUrl;
-  }
-
   @action setReply = (messageThread: IMessage[]) => {
     messageThread.forEach((messages) => {
 
@@ -190,7 +196,6 @@ export default class MessageStore {
         this.recipientUsername = messages.recipientUsername;
       }
     })
-
   };
 
   @action loadMessageThread = async (id: string) => {
@@ -236,42 +241,7 @@ export default class MessageStore {
     }
     try {
       await agent.Messages.create(messageToSend);
-      // console.log(messageToSend);
       runInAction('loading message ', () => {
-        this.rootStore.modalStore.closeModal();
-      });
-    } catch (error) {
-      runInAction('load thread error', () => {
-      });
-      console.log(error);
-    }
-  };
-
-  @action sendReply = async (messageContent: string) => {
-
-    let messageToSend = {
-      recipientUsername: this.recipientUsername,
-      content: messageContent,
-      productId: this.productId,
-      messageThreadId: this.messageThreadId
-    }
-    let placeholderMessageForUI: IMessage = {
-      senderUsername: this.username,
-      recipientUsername: this.recipientUsername,
-      content: messageContent,
-      productId: this.productId,
-      messageThreadId: this.messageThreadId,
-      senderPhotoUrl: this.senderPhotoUrl,
-      id: uuid(),
-      dateSent: JSON.stringify(new Date()).replace(/['"]+/g, '')
-    }
-    try {
-
-      // console.log(messageToSend)
-      await agent.Messages.create(messageToSend);
-      runInAction('loading message ', () => {
-        this.formatDate(placeholderMessageForUI);
-        this.messagesFromThread.unshift(placeholderMessageForUI);
         this.rootStore.modalStore.closeModal();
       });
     } catch (error) {
