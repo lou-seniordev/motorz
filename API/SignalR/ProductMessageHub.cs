@@ -1,19 +1,20 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Application.PrivateMessages;
+using Application.Messages;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
 namespace API.SignalR
 {
-    public class MessageHub : Hub
+    public class ProductMessageHub : Hub
     {
         private readonly IMediator _mediator;
-        public MessageHub(IMediator mediator)
+        public ProductMessageHub(IMediator mediator)
         {
             _mediator = mediator;
         }
+
         public async Task SendMessage(Create.Command command)
         {
             string username = GetUsername();
@@ -22,10 +23,10 @@ namespace API.SignalR
 
             var message = await _mediator.Send(command);
 
-            await Clients.Group(command.PrivateMessageThreadId.ToString()).SendAsync("ReceiveMessage", message);
+            await Clients.Group(command.MessageThreadId.ToString()).SendAsync("ReceiveMessage", message);
         }
 
-        private string GetUsername()
+          private string GetUsername()
         {
             return Context.User?.Claims?
             .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -46,6 +47,6 @@ namespace API.SignalR
             var username = GetUsername();
 
             await Clients.Group(messageThreadId).SendAsync("SendMessage", $"{username} has left the group");
-        }
+        } 
     }
 }

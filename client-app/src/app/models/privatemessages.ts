@@ -19,9 +19,3 @@ export interface IPrivateMessage {
     dateSent: string;
     privateMessageThreadId: string;
 }
-
-export interface IPrivateMessageThread {
-    // id: string;
-    // privateMessages: IPrivateMessage[];
-    privateMessages?:[string, IPrivateMessage[]][];
-}

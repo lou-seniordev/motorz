@@ -1,3 +1,4 @@
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { IMessage } from './../models/message';
 import { observable, action, computed, runInAction } from 'mobx';
 
@@ -5,6 +6,7 @@ import agent from '../api/agent';
 import { RootStore } from './rootStore';
 
 import { v4 as uuid } from 'uuid';
+import { toast } from 'react-toastify';
 
 
 const LIMIT = 4;
@@ -31,6 +33,53 @@ export default class MessageStore {
   @observable messageThreadsCount = 0;
   @observable page = 0;
   @observable totalPages = 0;
+
+  @observable.ref hubConnection: HubConnection | null = null;
+
+  @action createHubConnection = (messageThreadId: string) => {
+    this.hubConnection = new HubConnectionBuilder()
+        .withUrl(process.env.REACT_APP_API_MESSAGE_URL!, {
+
+            accessTokenFactory: () => this.rootStore.commonStore.token!
+        })
+        .configureLogging(LogLevel.Information)
+        .build();
+
+    //!! will try await 
+    this.hubConnection
+        .start()
+        .then(() => console.log(this.hubConnection!.state))
+        .then(() => {
+            console.log('Attempting to join group');
+            //!!temp timeout
+            // setTimeout( ()=> {
+               
+                this.hubConnection!.invoke('AddToGroup', messageThreadId)
+        //  }, 500);
+        })
+        .catch(error => console.log('Error establishing connection: ', error));
+
+    this.hubConnection.on('ReceiveMessage', message => {
+       
+        runInAction(() => {
+            // this.last![1].unshift(message);
+        });
+        // console.log('this.last after: ', toJS(this.last))
+    })
+    this.hubConnection.on('SendMessage', message => {
+        toast.info(message)
+    })
+}
+
+@action stopHubConnection = (messageThreadId: string) => {
+    this.hubConnection?.invoke('RemoveFromGroup', messageThreadId)
+        .then(() => {
+            this.hubConnection!.stop();
+        })
+        .then(() => console.log('Connection stopped'))
+        .catch(err => console.log(err));
+}
+
 
 
   @action setPage = (page: number) => {
@@ -126,7 +175,6 @@ export default class MessageStore {
 
 
   @action setUser = (username: string, userPhotoUrl: any) => {
-    // this.username = username;
     this.username = username;
     this.senderPhotoUrl = userPhotoUrl;
   }

@@ -1,33 +1,19 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {  useContext, useEffect, useState } from "react";
 import { Input, Segment } from "semantic-ui-react"; //, Segment
 import { observer } from "mobx-react-lite";
-// import { RouteComponentProps, Link } from "react-router-dom";
-// import { formatDistance } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
 // import LoadingComponent from "../../app/layout/LoadingComponent";
 // import { toJS } from "mobx";
 import { IPrivateMessage } from "../../app/models/privatemessages";
-import { toJS } from "mobx";
-// import LoadingComponent from "../../../app/layout/LoadingComponent";
-// import ReplyForm from "../forms/ReplyForm";
 
-// interface IProps {
-//   view: any;
-// }
 
 const PrivateMessageThreadListItem = () => {
   // const PrivateMessageThreadListItem: React.FC<IProps> = ({ view }) => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
-  // const {
-  //   setUser,
-  //   loadingMessageThread,
-  //   loadMessageThread,
-  //   messagesFromThread,
-  // } = rootStore.messageStore;
+
 
   const { setRecipient, setMessageThreadId, 
-    // sendReply, 
     last, setUsername,
     createHubConnection, stopHubConnection,
      setReply, addComment } =
@@ -63,18 +49,7 @@ const PrivateMessageThreadListItem = () => {
 
   const handleSendReply = (e: any) => {
     if (e.key === "Enter") {
-      // console.log(e);
       e.target.value = "";
-      // console.log(input);
-      // console.log('toJS(last[1])');
-      // console.log(toJS(last![1]));
-      // console.log('toJS(last)');
-      // console.log(toJS(last));
-
-      // last!.push('3B8D4A2F-F3C3-4199-BF5C-2B8ED6C94CF7', last![1])
-
-      // console.log('new last:');
-      // console.log(toJS(last));
 
       handleSetRecipient();
       setMessageThreadId(last![0]);
@@ -82,8 +57,6 @@ const PrivateMessageThreadListItem = () => {
       setUsername(user?.userName!);
       addComment();
 
-      // sendReply(input);
-      // last[0]
     }
   };
 
@@ -107,8 +80,7 @@ const PrivateMessageThreadListItem = () => {
     <Segment className="sideScroll">
       {/* style={{height: '100vh '}} */}
 
-      {last![1].reverse().map((message: IPrivateMessage) => (//slice().
-        // <>
+      {last![1].slice().reverse().map((message: IPrivateMessage) => (//slice().
         <Segment
           key={message.id}
           floated={user!.userName === message.senderUsername ? "right" : "left"}
@@ -118,17 +90,11 @@ const PrivateMessageThreadListItem = () => {
               : senderStyles
           }
         >
-          {/* <h4>
-            
-            {message.senderDisplayName}
-          </h4> */}
-          {/* <h6> */}
+         
             from {message.senderUsername === user?.userName
               ? "Me"
               : message.senderDisplayName}{': '}{message.content}
-              {/* </h6> */}
         </Segment>
-        // </>
       ))}
       <Input
         value={input}

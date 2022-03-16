@@ -17,11 +17,5 @@ namespace API.Controllers
         {
             return await Mediator.Send(new List.Query(limit, offset));
         }
-
-        // [HttpPost]
-        // public async Task<ActionResult<Unit>> Create(Create.Command command)
-        // {
-        //     return await Mediator.Send(command);
-        // }
     }
 }

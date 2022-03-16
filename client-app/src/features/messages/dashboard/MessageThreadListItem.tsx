@@ -45,7 +45,7 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
               openModal(<ReplyForm />);
             }}
           />
-          {messagesFromThread!.map((message: any) => (
+          {messagesFromThread!.reverse().map((message: any) => (
             <Fragment key={message.id}>
               <Segment>
                 <Grid>

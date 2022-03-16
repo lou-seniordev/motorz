@@ -181,12 +181,13 @@ namespace API
                         {
                             var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                            if (!string.IsNullOrEmpty(accessToken) 
+                                && ((path.StartsWithSegments("/chat") || (path.StartsWithSegments("/message")))))
                             {
                                 context.Token = accessToken;
                             }
                             //try possible with || in the first if
-                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/message")))
+                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/productmessage")))
                             {
                                 context.Token = accessToken;
                             }
@@ -240,7 +241,9 @@ namespace API
                 endpoints.MapHub<ChatHub>("/chat");
 
                 //??
-                endpoints.MapHub<MessageHub>("/message");
+                endpoints.MapHub<PrivateMessageHub>("/message");
+
+                endpoints.MapHub<ProductMessageHub>("/productmessage");
 
                 // === 
                 endpoints.MapFallbackToController("Index", "Fallback");

@@ -37,19 +37,15 @@ namespace Application.PrivateMessages
         public class Handler : IRequestHandler<Command, PrivateMessageDto>//, MessageDto
         {
             private readonly DataContext _context;
-            // private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
             public Handler(DataContext context, 
-            // IUserAccessor userAccessor, 
             IMapper mapper)
             {
                 _mapper = mapper;
-                // _userAccessor = userAccessor;
                 _context = context;
 
             }
 
-            // public async Task<MessageDto> Handle(Command request, CancellationToken cancellationToken)
             public async Task<PrivateMessageDto> Handle(Command request, CancellationToken cancellationToken)
             {
 
@@ -116,7 +112,6 @@ namespace Application.PrivateMessages
 
                 var success = await _context.SaveChangesAsync() > 0;
 
-                // // if (success) return Unit.Value;
                 if(success ) return _mapper.Map<PrivateMessageDto>(privateMessage);
 
                 throw new Exception("Problem Saving Changes");
