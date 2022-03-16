@@ -29,7 +29,10 @@ const PrivateMessageThreadList = () => {
     // setLast,
     // setUser,
     last,
-    getLast,
+    // getLast,
+    setInitialView,
+    setView,
+    createHubConnection, stopHubConnection,
   } = rootStore.privateMessageStore;
 
 //   const [view, setView] = useState<IPrivateMessage[]>([]);
@@ -39,31 +42,32 @@ const PrivateMessageThreadList = () => {
     // if (view.length === 0) {
     //   console.log("view", view);
 
-      getLast()
-    //   .then((last) => {
-    //     if (isMounted) setView(last[1]);
-    //   });
+      setInitialView();
+    //   if(last) {
+    //     //   console.log(last)
+    //   }
 
-    // } 
-    // else {
-    //   console.log("view in else", view);
-    // }
+    //  createHubConnection(last[0]);
+    // return () => {
+    //   stopHubConnection(last[0]);
+    // };
 
     // return () => {
     //   isMounted = false;
     // };
-  }, [getLast]);//, setView
+  }, [setInitialView]);//, setView
+//   }, [getLast, createHubConnection, stopHubConnection, last]);//, setView
 
-  //   if (loadingInitial || last === {})
-  //     return <LoadingComponent content='Loading messages...' />;
+//    useEffect(() => {
+//     if(last) {
+//         console.log(last[0])
+//         createHubConnection(last[0]);
+//        return () => {
+//          stopHubConnection(last[0]);
+//        };
+//     }
+//   }, [createHubConnection, stopHubConnection, last]);
 
-  //   const { openModal } = rootStore.modalStore;
-
-  //   let history = useHistory();
-
-  //   const removeThread = (id: string) => {
-  //     openModal(<ConfirmDelete id={id} />);
-  //   };
 
   //   const markRead = (message: IMessage) => {
   //     if (message.senderUsername !== user?.userName) {
@@ -87,7 +91,12 @@ const PrivateMessageThreadList = () => {
             <Segment raised key={id}>
               <Grid
                 // columns={4}
-                onClick={() => getLast(messages[0].privateMessageThreadId)}
+                onClick={() => {
+                    // stopHubConnection(last[0])
+                    // getLast(messages[0].privateMessageThreadId)
+                    setView(messages[0].privateMessageThreadId)
+                    createHubConnection(messages[0].privateMessageThreadId)
+                }}
                 divided
                 style={{ cursor: "pointer" }}
               >

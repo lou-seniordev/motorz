@@ -6,12 +6,13 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 // import { RootStoreContext } from "../../../app/stores/rootStore";
 import PrivateMessageThreadList from "./PrivateMessageThreadList";
+import MessagesListItemPlaceholder from "../messages/dashboard/MessagesListItemPlaceholder";
 // import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 // import MessagesListItemPlaceholder from "./MessagesListItemPlaceholder";
 
 const PrivateMessagesDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadMessages, loadingInitial, setPage, page, totalPages, getLast } =
+  const { loadMessages, loadingInitial, setPage, page, totalPages } =
     rootStore.privateMessageStore;
 
   const [loadingNext, setLoadingNext] = useState(false);
@@ -30,12 +31,14 @@ const PrivateMessagesDashboard = () => {
     // console.log(last)
   }, [loadMessages]);
 
+  
+
   return (
     <Grid>
       <Grid.Column width={16}>
         {loadingInitial && page === 0 ? (
-        //   <MessagesListItemPlaceholder />
-        <h1>Placeholder</h1>
+          <MessagesListItemPlaceholder />
+        // <h1>Placeholder</h1>
         ) : (
           <InfiniteScroll
             pageStart={0}

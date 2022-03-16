@@ -185,6 +185,11 @@ namespace API
                             {
                                 context.Token = accessToken;
                             }
+                            //try possible with || in the first if
+                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/message")))
+                            {
+                                context.Token = accessToken;
+                            }
                             return Task.CompletedTask;
                         }
                     };
@@ -233,6 +238,9 @@ namespace API
 
                 // === additional endpoints form SignalR ===
                 endpoints.MapHub<ChatHub>("/chat");
+
+                //??
+                endpoints.MapHub<MessageHub>("/message");
 
                 // === 
                 endpoints.MapFallbackToController("Index", "Fallback");

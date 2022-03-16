@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Input, Segment } from "semantic-ui-react"; //, Segment
 import { observer } from "mobx-react-lite";
 // import { RouteComponentProps, Link } from "react-router-dom";
@@ -26,7 +26,11 @@ const PrivateMessageThreadListItem = () => {
   //   messagesFromThread,
   // } = rootStore.messageStore;
 
-  const { setRecipient, setMessageThreadId, sendReply, last } =
+  const { setRecipient, setMessageThreadId, 
+    // sendReply, 
+    last, setUsername,
+    createHubConnection, stopHubConnection,
+     setReply, addComment } =
     rootStore.privateMessageStore;
 
   const userStyles = {
@@ -35,6 +39,7 @@ const PrivateMessageThreadListItem = () => {
     color: "rgb(29, 115, 152)",
     width: "80%",
     // height: "fit-content",
+    height: "50px",
     // display: "inline-flex",
     backgroundColor: "white",
     // display: "flex",
@@ -48,6 +53,8 @@ const PrivateMessageThreadListItem = () => {
     color: "black",
     width: "80%",
     // height: "fit-content",
+    height: "50px",
+
     // display: "inline-flex",
     backgroundColor: "inherit",
   };
@@ -59,27 +66,48 @@ const PrivateMessageThreadListItem = () => {
       // console.log(e);
       e.target.value = "";
       // console.log(input);
-      // console.log(toJS(last[1]));
+      // console.log('toJS(last[1])');
+      // console.log(toJS(last![1]));
+      // console.log('toJS(last)');
+      // console.log(toJS(last));
+
+      // last!.push('3B8D4A2F-F3C3-4199-BF5C-2B8ED6C94CF7', last![1])
+
+      // console.log('new last:');
+      // console.log(toJS(last));
+
       handleSetRecipient();
-      setMessageThreadId(last[0]);
-      sendReply(input);
+      setMessageThreadId(last![0]);
+      setReply(input)
+      setUsername(user?.userName!);
+      addComment();
+
+      // sendReply(input);
       // last[0]
     }
   };
 
   const handleSetRecipient = () => {
-    if (last[1][0].senderUsername === user?.userName) {
-      setRecipient(last[1][0].recipientUsername, user?.image);
+    if (last![1][0].senderUsername === user?.userName) {
+      setRecipient(last![1][0].recipientUsername!, user?.image);
     } else {
-      setRecipient(last[1][0].senderUsername, user?.image);
+      setRecipient(last![1][0].senderUsername!, user?.image);
     }
   };
 
+  useEffect(() => {
+  
+     createHubConnection(last![0]);
+    return () => {
+      stopHubConnection(last![0]);
+    };
+  }, [createHubConnection, stopHubConnection, last]);
+
   return (
-    <>
+    <Segment className="sideScroll">
       {/* style={{height: '100vh '}} */}
 
-      {last[1].map((message: IPrivateMessage) => (
+      {last![1].reverse().map((message: IPrivateMessage) => (//slice().
         // <>
         <Segment
           key={message.id}
@@ -90,13 +118,15 @@ const PrivateMessageThreadListItem = () => {
               : senderStyles
           }
         >
-          <h4>
-            {/* {message.senderUsername === user?.userName
-              ? "Me"
-              : message.senderDisplayName} */}
+          {/* <h4>
+            
             {message.senderDisplayName}
-          </h4>
-          <h6>{message.content}</h6>
+          </h4> */}
+          {/* <h6> */}
+            from {message.senderUsername === user?.userName
+              ? "Me"
+              : message.senderDisplayName}{': '}{message.content}
+              {/* </h6> */}
         </Segment>
         // </>
       ))}
@@ -107,108 +137,8 @@ const PrivateMessageThreadListItem = () => {
         onKeyDown={(e: any) => handleSendReply(e)}
         style={{ width: "100%", borderRadius: "40px" }}
       />
-    </>
+    </Segment>
   );
 };
 
 export default observer(PrivateMessageThreadListItem);
-
-// // <Segment.Group>
-//   <Segment style={{ textAlign: "center", backgroundColor: 'lightblue' }} raised>
-//     <Fragment>
-//       <Button
-//         content='Reply to sender'
-//         fluid
-//         color="instagram"
-//         // onClick={() => {
-//         //   openModal(<ReplyForm />);
-//         // }}
-//       />
-//       {messagesFromThread!.map((message: any) => (
-//         <Fragment key={message.id}>
-//           <Segment>
-//             <Grid>
-//               <Grid.Column width={3}>
-//                 <Grid.Row>
-//                   <Link to={`/gallery/${message.senderUsername}`}>
-//                     <img
-//                       className='ui centered circular mini image'
-//                       src={message.senderPhotoUrl || "/assets/user.png"!}
-//                       alt='Sender'
-//                     />
-//                   </Link>
-//                 </Grid.Row>
-//                 {/* <Grid.Row>
-//                   <Item.Header>
-//                     <Item.Description style={{ textAlign: "center" }}>
-//                       {message.senderUsername === user?.userName
-//                         ? "Me"
-//                         : message.senderDisplayName},{" "}
-//                       {formatDistance(
-//                         new Date(message.dateSent),
-//                         new Date()
-//                       )}{" "}
-//                       ago
-//                     </Item.Description>
-
-//                   </Item.Header>
-//                 </Grid.Row> */}
-//               </Grid.Column>
-//               <Grid.Column width={13}>
-//                 <Item.Description>{message.content}</Item.Description>
-//               </Grid.Column>
-//                 <Item.Extra style={{ textAlign: "center" }}>
-//                       {/* {message.senderUsername === user?.userName
-//                         ? "Me"
-//                         : message.senderDisplayName},{" "} */}
-//                       {formatDistance(
-//                         new Date(message.dateSent),
-//                         new Date()
-//                       )}{" "}
-//                       ago
-//                     </Item.Extra>
-//             </Grid>
-//           </Segment>
-//         </Fragment>
-//       ))}
-//     </Fragment>
-//   </Segment>
-// // </Segment.Group>
-
-// const [last, setLast] = useState<IPrivateMessage[]>([]);
-// useEffect(() => {
-//   let isMounted = true;
-//   getLast().then((last) => {
-//     if (isMounted) setLast(last[1]);
-//   });
-//   return () => {
-//     isMounted = false;
-//   };
-// }, [getLast, setLast]);
-
-// let isMounted = true;
-// const [view, setView] = useState<IPrivateMessage[]>([]);
-// useEffect(() => {
-//   if (view.length === 0) {
-//     console.log('view', view)
-//     getLast().then((last) => {
-//       if (isMounted) setView(last[1]);
-//     });
-//   }
-//   else if (view.length !== 0) {
-//       console.log('view in else', view)
-//   }
-//   return () => {
-//     isMounted = false;
-//   };
-// }, [getLast, setView]);
-
-// console.log("before");
-// console.log(toJS(last));
-
-// if (!last) return <LoadingComponent content='Still not ready...' />;
-
-// console.log("after");
-// console.log(toJS(last));
-
-// if (view.length === 0)
