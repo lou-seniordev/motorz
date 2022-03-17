@@ -19,8 +19,8 @@ namespace Application.Feeds
         public class Command : IRequest
         {
             public Guid ObjectId { get; set; }
-
             public string Info { get; set; }
+            public string Username { get; set; }
 
         }
 
@@ -28,7 +28,7 @@ namespace Application.Feeds
         {
             public CommandValidator()
             {
-                RuleFor(x => x.ObjectId).NotEmpty();
+                // RuleFor(x => x.ObjectId).NotEmpty();
 
                 RuleFor(x => x.Info).NotEmpty();
 
@@ -160,28 +160,69 @@ namespace Application.Feeds
                     }
                     #endregion
                 }
-                #region Joined Motocycle Diary
-                if (request.Info == "Joined Motocycle Diary")
+                #region Started Following You
+                if (request.Info == "Started Following You")
                 {
-                    // var 
+                    var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
+
+                    var notifee = new FeedNotifyee
+                    {
+                        Id = Guid.NewGuid(),
+                        AppUserId = user.Id,
+                        FeedId = feedId
+                    };
+                    notifees.Add(notifee);
+
+                    if (user != null)
+                    {
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = " started following you on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Joined Motorcycle Diary
+                if (request.Info == "Joined Motorcycle Diary")
+                {
+                    var feedToRemove = await _context.Feeds
+                               .SingleOrDefaultAsync(x => x.FeedType == "Left Motorcycle Diary"
+                               && x.ObjectId == request.ObjectId
+                               && x.Notifier.Id == notifier.Id);
+
+                    if (feedToRemove != null)
+                        _context.Feeds.Remove(feedToRemove);
+
                     notifyeeIds = await _context.UserActivities
-                                        .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
-                                        .Select(x => x.AppUserId)
-                                        .ToListAsync();
+                            .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
+                            .Select(x => x.AppUserId)
+                            .ToListAsync();
 
                     var diary = await _context.Activities
-                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+                            .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
 
                     if (notifyeeIds.Count() > 0)
                     {
 
                         FillNotifyeeList(notifees, feedId, notifyeeIds);
 
-                        var feed = new Feed//"User " + notifier.DisplayName + 
+                        var feed = new Feed
                         {
                             Id = feedId,
-                            Info = " has joined the " + diary.Title + " on " + DateTime.Now
-                            + " alongside with " + notifyeeIds.Count() + " people ",
+                            Info = " started following '" + diary.Title + "' diary ",
                             Notifier = notifier,
                             ObjectId = request.ObjectId,
                             DateTriggered = DateTime.Now,
@@ -200,37 +241,52 @@ namespace Application.Feeds
                 #region Left Motorcycle Diary
                 else if (request.Info == "Left Motorcycle Diary")
                 {
+                    var feedToRemove = await _context.Feeds
+                               .SingleOrDefaultAsync(x => x.FeedType == "Joined Motorcycle Diary"
+                               && x.ObjectId == request.ObjectId
+                               && x.Notifier.Id == notifier.Id);
 
-                    notifyeeIds = await _context.UserActivities
-                                    .Where(x => x.IsHost == true)
-                                    .Select(x => x.AppUserId)
-                                    .ToListAsync();
-
-                    if (notifyeeIds.Count() > 0)
+                    if (feedToRemove == null)
                     {
-
-                        var activity = await _context.Activities
-                                            .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
-
-                        FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                        var feed = new Feed
-                        {
-                            Id = feedId,
-                            Info = " has left the " + activity.Title + ", diary on " + DateTime.Now,
-                            Notifier = notifier,
-                            ObjectId = request.ObjectId,
-                            DateTriggered = DateTime.Now,
-                            FeedType = feedType,
-                            Notifyees = notifees
-                        };
-
-                        _context.Feeds.Add(feed);
+                        throw new Exception("Feed does not exits");
                     }
                     else
                     {
-                        return Unit.Value;
+
+                        _context.Feeds.Remove(feedToRemove);
+
+                        notifyeeIds = await _context.UserActivities
+                                        .Where(x => x.IsHost == true)
+                                        .Select(x => x.AppUserId)
+                                        .ToListAsync();
+
+                        if (notifyeeIds.Count() > 0)
+                        {
+
+                            var activity = await _context.Activities
+                                                .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                            FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                            var feed = new Feed
+                            {
+                                Id = feedId,
+                                Info = " has left the " + activity.Title + " diary on " + DateTime.Now,
+                                Notifier = notifier,
+                                ObjectId = request.ObjectId,
+                                DateTriggered = DateTime.Now,
+                                FeedType = feedType,
+                                Notifyees = notifees
+                            };
+
+                            _context.Feeds.Add(feed);
+                        }
+                        else
+                        {
+                            return Unit.Value;
+                        }
                     }
+
                 }
                 #endregion
                 #region Deactivated Motocycle Diary
@@ -373,10 +429,18 @@ namespace Application.Feeds
                 #region Added to Favorites
                 else if (request.Info == "Added to favorites")
                 {
+                    var feedToRemove = await _context.Feeds
+                               .SingleOrDefaultAsync(x => x.FeedType == "Removed from favorites"
+                               && x.ObjectId == request.ObjectId
+                               && x.Notifier.Id == notifier.Id);
+
+                    if (feedToRemove != null)
+                        _context.Feeds.Remove(feedToRemove);
+
                     notifyeeIds = await _context.Products
-                                    .Where(x => x.Id == request.ObjectId)
-                                    .Select(x => x.Seller.Id)
-                                    .ToListAsync();
+                                .Where(x => x.Id == request.ObjectId)
+                                .Select(x => x.Seller.Id)
+                                .ToListAsync();
                     var product = await _context.Products
                                     .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
                     if (notifyeeIds.Count() > 0)
@@ -387,7 +451,7 @@ namespace Application.Feeds
                         var feed = new Feed//"User " + notifier.DisplayName + 
                         {
                             Id = feedId,
-                            Info = " has added the " + product.Title + " in favorites on " + DateTime.Now,
+                            Info = " has added the " + product.Title + " to favorites on " + DateTime.Now,
                             Notifier = notifier,
                             ObjectId = request.ObjectId,
                             DateTriggered = DateTime.Now,
@@ -406,35 +470,50 @@ namespace Application.Feeds
                 #region Removed from favorites
                 else if (request.Info == "Removed from favorites")
                 {
-                    notifyeeIds = await _context.Products
-                                        .Where(x => x.Id == request.ObjectId)
-                                        .Select(x => x.Seller.Id)
-                                        .ToListAsync();
-                    var product = await _context.Products
-                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+                    var feedToRemove = await _context.Feeds
+                                .SingleOrDefaultAsync(x => x.FeedType == "Added to favorites"
+                                && x.ObjectId == request.ObjectId
+                                && x.Notifier.Id == notifier.Id);
 
-                    if (notifyeeIds.Count() > 0)
+                    if (feedToRemove == null)
                     {
-
-                        FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                        var feed = new Feed//"User " + notifier.DisplayName + 
-                        {
-                            Id = feedId,
-                            Info = " has removed the " + product.Title + " from favorites, on " + DateTime.Now,
-                            Notifier = notifier,
-                            ObjectId = request.ObjectId,
-                            DateTriggered = DateTime.Now,
-                            FeedType = feedType,
-                            Notifyees = notifees
-                        };
-
-                        _context.Feeds.Add(feed);
+                        throw new Exception("Feed does not exits");
                     }
                     else
                     {
-                        return Unit.Value;
+                        _context.Feeds.Remove(feedToRemove);
+                        notifyeeIds = await _context.Products
+                                            .Where(x => x.Id == request.ObjectId)
+                                            .Select(x => x.Seller.Id)
+                                            .ToListAsync();
+                        var product = await _context.Products
+                                            .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                        if (notifyeeIds.Count() > 0)
+                        {
+
+                            FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                            var feed = new Feed//"User " + notifier.DisplayName + 
+                            {
+                                Id = feedId,
+                                Info = " has removed the " + product.Title + " from favorites, on " + DateTime.Now,
+                                Notifier = notifier,
+                                ObjectId = request.ObjectId,
+                                DateTriggered = DateTime.Now,
+                                FeedType = feedType,
+                                Notifyees = notifees
+                            };
+
+                            _context.Feeds.Add(feed);
+                        }
+                        else
+                        {
+                            return Unit.Value;
+                        }
                     }
+
+
                 }
                 #endregion
                 #region Marked Sold
@@ -500,9 +579,9 @@ namespace Application.Feeds
             private async Task<List<string>> GetNotifyeeIdsFromFollowers(AppUser notifier)
             {
                 return await _context.Followings
-                                    .Where(x => x.TargetId == notifier.Id)
-                                    .Select(x => x.ObserverId)
-                                    .ToListAsync();
+                            .Where(x => x.TargetId == notifier.Id)
+                            .Select(x => x.ObserverId)
+                            .ToListAsync();
             }
 
             private static void FillNotifyeeList(List<FeedNotifyee> notifees, Guid feedId, List<string> notifyeeIds)

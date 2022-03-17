@@ -259,8 +259,8 @@ const DiaryEntries = {
 const Feed = {
   list: (limit: number, page: number): Promise<IFeedEnvelope> =>
     requests.get(`/feeds?limit=${limit}&offset=${page ? page * limit! : 0}`),
-  addFeedItem: (id: string, info: string) => requests.post(`/feeds/${id}/${info}/addFeedItem`, {}),
-  removeFeedItem: (id: string, info: string) => requests.delete(`/feeds/${id}/${info}/removeFeedItem`)
+  addFeedItem: (id: string, info: string, username?:string) => requests.post(`/feeds/${id}/${info}/${username}/addFeedItem`, {}),
+  // removeFeedItem: (id: string, info: string) => requests.delete(`/feeds/${id}/${info}/removeFeedItem`)
 };
 
 const Messages = {

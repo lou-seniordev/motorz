@@ -32,7 +32,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
 
   const rootStore = useContext(RootStoreContext);
   const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
-  const { removeFeedItem, addFeedItem } = rootStore.feedStore;
+  const { addFeedItem } = rootStore.feedStore;
 
   const [managing, setManaging] = useState(false);
 
@@ -48,13 +48,13 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
   };
   const handleCancelAttendance = (id: string) => {
     cancelAttendance();
-    removeFeedItem(id, "Joined Motocycle Diary");
+    // removeFeedItem(id, "Joined Motocycle Diary");
     addFeedItem(id, "Left Motorcycle Diary");
     setManaging(false);
   };
   const handleAttendActivity = (id: string) => {
     attendActivity();
-    addFeedItem(id, "Joined Motocycle Diary");
+    addFeedItem(id, "Joined Motorcycle Diary");
     setManaging(false);
   };
 

@@ -54,10 +54,10 @@ export default class FeedStore {
     feed.dateTriggered = feed.dateTriggered?.replace('T', ' ');
   }
 
-  @action addFeedItem = async (id: string, info: string) => {
+  @action addFeedItem = async (id: string, info: string, username?: string) => {
     try {
-      await agent.Feed.addFeedItem(id, info);
-      toast.info('Successfully ' + info);
+      await agent.Feed.addFeedItem(id, info, username);
+      // toast.info('Successfully ' + info);
     } catch (error) {
       console.log(error);
       toast.error('Problem ' + info);
@@ -65,13 +65,13 @@ export default class FeedStore {
     }
   }
 
-  @action removeFeedItem = async (id: string, info: string) => {
-    try {
-      await agent.Feed.removeFeedItem(id, info);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // @action removeFeedItem = async (id: string, info: string) => {
+  //   try {
+  //     await agent.Feed.removeFeedItem(id, info);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   @action loadFeed = async () => {
     this.loadingInitial = true;

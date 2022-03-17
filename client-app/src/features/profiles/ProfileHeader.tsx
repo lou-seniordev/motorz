@@ -1,6 +1,8 @@
-import { toJS } from "mobx";
+// import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
+import { v4 as uuid } from "uuid";
+
 import {
   Segment,
   Item,
@@ -31,6 +33,8 @@ const ProfileHeader: React.FC<IProps> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
+  const { addFeedItem } = rootStore.feedStore;
+
   const { openModal } = rootStore.modalStore;
 
   const handleSendMessage = () => {
@@ -90,7 +94,7 @@ const ProfileHeader: React.FC<IProps> = ({
                   onClick={
                     profile.following
                       ? () => unfollow(profile.username)
-                      : () => follow(profile.username)
+                      : () => [follow(profile.username),  addFeedItem(uuid(), 'Started Following You', profile.username)]
                   }
                 />
               </Reveal.Content>

@@ -8,10 +8,10 @@ namespace API.Controllers
 {
     public class FeedsController: BaseController
     {
-        [HttpPost("{id}/{info}/addFeedItem")]
-        public async Task<ActionResult<Unit>> AddFeedItem(Guid id, string info)
+        [HttpPost("{id}/{info}/{username}/addFeedItem")]
+        public async Task<ActionResult<Unit>> AddFeedItem(Guid id, string info, string username)
         {
-            return await Mediator.Send(new AddFeedItem.Command{ObjectId = id, Info = info});
+            return await Mediator.Send(new AddFeedItem.Command{ObjectId = id, Info = info, Username = username});
 
         }
         [HttpDelete("{id}/{info}/removeFeedItem")]
