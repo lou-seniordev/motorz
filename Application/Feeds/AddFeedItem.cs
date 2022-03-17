@@ -170,7 +170,7 @@ namespace Application.Feeds
                                         .ToListAsync();
 
                     var diary = await _context.Activities
-                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);//;
+                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
 
                     if (notifyeeIds.Count() > 0)
                     {
@@ -367,17 +367,109 @@ namespace Application.Feeds
                     };
 
                     _context.Feeds.Add(feed);
-                   
+
                 }
                 #endregion
-#region Added to Favorites
-else if (request.Info == "Added to favorites")
-{}
-#endregion
-#region Marked Sold
-else if (request.Info == "Marked Sold")
-{}
-#endregion
+                #region Added to Favorites
+                else if (request.Info == "Added to favorites")
+                {
+                    notifyeeIds = await _context.Products
+                                    .Where(x => x.Id == request.ObjectId)
+                                    .Select(x => x.Seller.Id)
+                                    .ToListAsync();
+                    var product = await _context.Products
+                                    .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed//"User " + notifier.DisplayName + 
+                        {
+                            Id = feedId,
+                            Info = " has added the " + product.Title + " in favorites on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Removed from favorites
+                else if (request.Info == "Removed from favorites")
+                {
+                    notifyeeIds = await _context.Products
+                                        .Where(x => x.Id == request.ObjectId)
+                                        .Select(x => x.Seller.Id)
+                                        .ToListAsync();
+                    var product = await _context.Products
+                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed//"User " + notifier.DisplayName + 
+                        {
+                            Id = feedId,
+                            Info = " has removed the " + product.Title + " from favorites, on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Marked Sold
+                else if (request.Info == "Marked Sold")
+                {
+                    notifyeeIds = await _context.ProductViewers
+                                        .Where(x => x.ProductId == request.ObjectId)
+                                        .Select(x => x.AppUserId)
+                                        .ToListAsync();
+                    var product = await _context.Products
+                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed//"User " + notifier.DisplayName + 
+                        {
+                            Id = feedId,
+                            Info = " has marked the " + product.Title + " sold on " + DateTime.Now,
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
 
 
                 var success = await _context.SaveChangesAsync() > 0;

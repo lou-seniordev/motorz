@@ -79,6 +79,22 @@ const ProductFilters = () => {
           style={ styles }
           content={"All Products"}
         />
+          <Menu.Item
+            active={predicate.has("iView")}
+            onClick={() => setPredicate("iView", "true")}
+            color={"blue"}
+            name={"iView"}
+            style={{ textAlign: "center" }}
+            content={"Favorites"}
+          />
+          <Menu.Item
+            active={predicate.has("iView")}
+            onClick={() => setPredicate("iView", "true")}
+            color={"blue"}
+            name={"iView"}
+            style={{ textAlign: "center" }}
+            content={"My products"}
+          />
         <Menu.Item
           active={predicate.has("iFollow")}
           onClick={() => setPredicate("iFollow", "true")}
@@ -86,14 +102,6 @@ const ProductFilters = () => {
           name={"iFollow"}
           style={ styles }
           content={"By people I follow"}
-        />
-        <Menu.Item
-          active={predicate.has("iView")}
-          onClick={() => setPredicate("iView", "true")}
-          color={"blue"}
-          name={"iView"}
-          style={{ textAlign: "center" }}
-          content={"I am following"}
         />
       </Menu>
     </Fragment>

@@ -347,6 +347,7 @@ namespace Persistence
                                 City= "Zagreb",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),//"Italy",
                                 NumberSeen = 10,
+                                NumberFollowed = 2,
                                 DatePublished = DateTime.Now.AddDays(-2),
                                 DateActivated = DateTime.Now.AddDays(-2),
                                 ActivationCounter = 0,
@@ -373,6 +374,7 @@ namespace Persistence
                                 IsActive = true,
                                 IsAdvertised = false,
                                 NumberSeen = 20,
+                                NumberFollowed = 2,
                                 ActivationCounter = 1,
                                 ProductPhoto = new ProductPhoto
                                 {
@@ -432,7 +434,8 @@ namespace Persistence
                                 City= "Ljubljana",
                                 Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                                 PhoneNumber= "+38633890279",
-                                NumberSeen = 1,
+                                NumberSeen = 4,
+                                NumberFollowed = 2,
                                 DatePublished = DateTime.Now.AddDays(-1),
                                 DateActivated = DateTime.Now.AddDays(-1),
                                 IsActive = true,

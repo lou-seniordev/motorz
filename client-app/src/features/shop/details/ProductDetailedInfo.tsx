@@ -20,6 +20,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
     setProductFollowed,
     markSold,
   } = rootStore.productStore;
+  const { addFeedItem } = rootStore.feedStore;
 
   const { user } = rootStore.userStore;
 
@@ -54,12 +55,17 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   };
   const handleFollowProduct = (id: string) => {
     followProduct(id, user!.userName, user!.displayName);
+    addFeedItem(id, 'Added to favorites')
+
   };
   const handleMarkSold = (id: string) => {
     markSold(id, product);
+    addFeedItem(id, 'Marked Sold')
   };
   const handleUnfollowProduct = (id: string) => {
     unfollowProduct(id);
+    addFeedItem(id, 'Removed from favorites')
+
   };
 
   return (
