@@ -26,6 +26,7 @@ namespace Application.Products
         public bool IsSold { get; set; }
         public bool IsAdvertised { get; set; }
         public int NumberSeen { get; set; }
+        public int NumberFollowed { get; set; }
         public DateTime DatePublished { get; set; }
         public DateTime DateActivated { get; set; }
         public DateTime DateAdvertised { get; set; }

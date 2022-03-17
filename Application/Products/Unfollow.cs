@@ -6,7 +6,8 @@ using MediatR;
 using Application.Interfaces;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
-using Domain;
+using System.Net;
+using Application.Errors;
 
 namespace Application.Products
 {
@@ -54,6 +55,15 @@ namespace Application.Products
                     throw new Exception("Product Viewer Not Found");
 
                 _context.Remove(viewer);
+
+                var product = await _context.Products.SingleOrDefaultAsync(x => x.Id == request.Id);
+
+                 if (product == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new { product = "NotFound" });
+                
+                product.NumberFollowed--;
+                _context.Products.Update(product);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

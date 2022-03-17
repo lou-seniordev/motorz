@@ -22,6 +22,7 @@ export interface IProduct {
   isSold: boolean;
   isAdvertised: boolean;
   numberSeen: number;
+  numberFollowed: number;
   viewers: IProductViewer [];
   datePublished: string;
   dateActivated: Date;

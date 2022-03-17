@@ -7,6 +7,8 @@ using Application.Interfaces;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
 using Domain;
+using System.Net;
+using Application.Errors;
 
 namespace Application.Products
 {
@@ -46,12 +48,21 @@ namespace Application.Products
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
+                var product = await _context.Products.SingleOrDefaultAsync(x => x.Id == request.Id);
+
+                 if (product == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new { product = "NotFound" });
+
                 var viewer = new ProductViewer 
                 {
                     AppUserId = user.Id,
                     ProductId = request.Id,
                     DateStarted = DateTime.Now
                 };
+
+                product.NumberFollowed++;
+                _context.Products.Update(product);
 
                 _context.ProductViewers.Add(viewer);
 

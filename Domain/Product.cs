@@ -20,7 +20,8 @@ namespace Domain
         public bool IsActive { get; set; }
         public bool IsAdvertised { get; set; }
         public bool IsSold { get; set; }
-        public int NumberSeen { get; set; }
+        public int NumberSeen { get; set; } = 0;
+        public int NumberFollowed { get; set; } = 0;
         public DateTime DatePublished { get; set; }
         public DateTime DateActivated { get; set; }
         public DateTime DateAdvertised { get; set; }

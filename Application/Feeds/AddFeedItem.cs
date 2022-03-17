@@ -370,7 +370,14 @@ namespace Application.Feeds
                    
                 }
                 #endregion
-
+#region Added to Favorites
+else if (request.Info == "Added to favorites")
+{}
+#endregion
+#region Marked Sold
+else if (request.Info == "Marked Sold")
+{}
+#endregion
 
 
                 var success = await _context.SaveChangesAsync() > 0;

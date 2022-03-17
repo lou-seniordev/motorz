@@ -55,7 +55,7 @@ namespace Application.Products
 
                 if (product == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new { activity = "NotFound" });
+                        new { product = "NotFound" });
 
                 product.Title = request.Title ?? product.Title;
                 product.Description = request.Description ?? product.Description;
