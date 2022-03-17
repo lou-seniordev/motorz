@@ -19,19 +19,21 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 const validate = combineValidators({
   content: composeValidators(
     isRequired("Body"),
-    hasLengthGreaterThan(4)({
-      message: "Body needs to be at least 5 characters",
+    hasLengthGreaterThan(1)({
+      message: "Body needs to be at least 2 characters",
     }),
     hasLengthLessThan(255)({
       message: "Maximum number of characters is 500"
     })
   )(),
 });
-
-const ContactForm = () => {
+interface IProps {
+  userName: string
+}
+const ContactForm: React.FC<IProps> = ({userName}) => {
     const rootStore = useContext(RootStoreContext);
 
-    const { sendMessage } = rootStore.messageStore;
+    const { sendMessage, setUsername } = rootStore.messageStore;
     const {closeModal} = rootStore.modalStore
     
 
@@ -40,13 +42,11 @@ const ContactForm = () => {
  
 
     const handleFinalFormSubmit = (values: any) => {
+      setUsername(userName);
       sendMessage(values.content);
     };
 
-    
-
-    // if (loadingInitial) return <LoadingComponent content="Loading forum post details..."/>
-
+  
     return (
       
         <Grid>

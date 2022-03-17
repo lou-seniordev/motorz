@@ -16,10 +16,7 @@ const PrivateMessageThreadList = () => {
     //    markReadInDB,
     // loadingInitial,
     // messageThreadsCount,
-    // setLast,
-    // setUser,
     last,
-    // getLast,
     setInitialView,
     setView,
     createHubConnection
@@ -39,13 +36,10 @@ const PrivateMessageThreadList = () => {
 
   return (
 
-
     <Segment
       style={{ backgroundColor: "lightblue" }} 
       raised
     >
-    
-
       <Grid>
         <Grid.Column width={6}>
           {messagesByThreadId.map(([id, messages]) => (
@@ -82,7 +76,6 @@ const PrivateMessageThreadList = () => {
                         ? { fontWeight: "bold", color: "rgb(29, 115, 152)" }
                         : { fontWeight: "normal" }
                     }
-                  
                   >
                      <span>
                     {formatDistance(

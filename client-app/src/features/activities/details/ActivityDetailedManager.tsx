@@ -27,8 +27,8 @@ import ConfirmDelete from "../modals/ConfirmDelete";
 //   height: "auto",
 //   color: "white",
 // };
+
 const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) => {
-  // const host = activity.attendees.filter((h) => h.isHost)[0];
 
   const rootStore = useContext(RootStoreContext);
   const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
@@ -79,62 +79,50 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
                         as={Link}
                         to={`/createDiaryEntry/${activity.id}`}
                         color='teal'
-                        // floated='right'
                         fluid
                       >
                         New Day
                       </Button>
                     </GridColumn>
-                    {/* </Grid>
-                  <Grid> */}
                     <GridColumn width={3}>
                       <Button
                         as={Link}
                         to={`/manage/${activity.id}`}
                         color='teal'
                         fluid
-                        // fluid
                       >
                         Edit
                       </Button>
                     </GridColumn>
-                    {/* </Grid>
-                  <Grid> */}
                     <GridColumn width={3}>
                       <Button
                         onClick={() => {
                           handleCompleteActivity(activity.id!);
                         }}
                         color='vk'
-                        // floated='left'
                         fluid
                       >
                         Complete
                       </Button>
                     </GridColumn>
-                    {/* </Grid>
-                  <Grid> */}
                     <GridColumn width={3}>
                       <Button
                         onClick={() => {
                           handleDeleteActivity(activity.id!);
                         }}
                         color='google plus'
-                        // floated='left'
                         fluid
                       >
                         Delete
                       </Button>
                     </GridColumn>
-                    {/* </Grid>
-                  <Grid> */}
+                  
                     <GridColumn width={3}>
                       <Button
                         onClick={() => {
                           setManaging(false);
                         }}
                         color='grey'
-                        // floated='right'
                         fluid
                       >
                         Cancel

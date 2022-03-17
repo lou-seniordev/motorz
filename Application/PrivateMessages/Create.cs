@@ -25,20 +25,21 @@ namespace Application.PrivateMessages
 
 
         }
-        // public class CommandValidator : AbstractValidator<Command, PrivateMessageDto>
-        // {
-        //     public CommandValidator()
-        //     {
-        //         RuleFor(x => x.RecipientUsername).NotEmpty();
-        //         RuleFor(x => x.Content).NotEmpty();
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.RecipientUsername).NotEmpty();
+                RuleFor(x => x.Content).NotEmpty();
+                RuleFor(x => x.Username).NotEmpty();
 
-        //     }
-        // }
+            }
+        }
         public class Handler : IRequestHandler<Command, PrivateMessageDto>//, MessageDto
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
-            public Handler(DataContext context, 
+            public Handler(DataContext context,
             IMapper mapper)
             {
                 _mapper = mapper;
@@ -80,27 +81,43 @@ namespace Application.PrivateMessages
 
 
 
-                if (string.IsNullOrEmpty(request.PrivateMessageThreadId) )
+                if (string.IsNullOrEmpty(request.PrivateMessageThreadId))
                 {
-                    var messageThreadId = Guid.NewGuid();
-                    var newPrivateMessageThread = new PrivateMessageThread
+                    var threadExists = await _context.PrivateMessageThreads.FirstOrDefaultAsync(
+                        x => 
+                        (x.InitUsername == request.Username
+                        && x.ReceiverUsername == request.RecipientUsername) 
+                        || 
+                        (x.InitUsername == request.RecipientUsername
+                        && x.ReceiverUsername == request.Username));
+
+                    if (threadExists != null)
                     {
-                        Id = messageThreadId,
-                        PrivateMessages = new List<PrivateMessage>(),
-                        InitUsername = user.UserName,
-                        ReceiverUsername = request.RecipientUsername,
-                        DateUpdated = DateTime.Now
-                    };
-                    newPrivateMessageThread.PrivateMessages.Add(privateMessage);
-                    _context.PrivateMessageThreads.Add(newPrivateMessageThread);
+                        threadExists.PrivateMessages.Add(privateMessage);
+                    }
+                    else
+                    {
+
+                        var messageThreadId = Guid.NewGuid();
+                        var newPrivateMessageThread = new PrivateMessageThread
+                        {
+                            Id = messageThreadId,
+                            PrivateMessages = new List<PrivateMessage>(),
+                            InitUsername = user.UserName,
+                            ReceiverUsername = request.RecipientUsername,
+                            DateUpdated = DateTime.Now
+                        };
+                        newPrivateMessageThread.PrivateMessages.Add(privateMessage);
+                        _context.PrivateMessageThreads.Add(newPrivateMessageThread);
+                    }
 
                 }
                 else
                 {
                     var messageThread = await _context.PrivateMessageThreads.SingleOrDefaultAsync(
                         x => x.Id == Guid.Parse(request.PrivateMessageThreadId));
-                    if(messageThread == null)
-                        throw new RestException(HttpStatusCode.NotFound, new { MessageThread = "Not found"});
+                    if (messageThread == null)
+                        throw new RestException(HttpStatusCode.NotFound, new { MessageThread = "Not found" });
 
                     messageThread.PrivateMessages.Add(privateMessage);
                     messageThread.DateUpdated = DateTime.Now;
@@ -112,7 +129,7 @@ namespace Application.PrivateMessages
 
                 var success = await _context.SaveChangesAsync() > 0;
 
-                if(success ) return _mapper.Map<PrivateMessageDto>(privateMessage);
+                if (success) return _mapper.Map<PrivateMessageDto>(privateMessage);
 
                 throw new Exception("Problem Saving Changes");
 

@@ -131,7 +131,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 <Button
                   content='Contact the seller'
                   onClick={() => {
-                    openModal(<ContactForm />);
+                    openModal(<ContactForm userName={user?.userName!} />);
                   }}
                 />
                 <Button
@@ -163,6 +163,12 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 >
                   Delete
                 </Button>
+                <Button
+                  content='Mark sold'
+                  // onClick={() => {
+                  //   openModal(<ContactForm userName={user?.userName!} />);
+                  // }}
+                />
                 <Button
                   as={Link}
                   to={`/manageProduct/${product.id}`}

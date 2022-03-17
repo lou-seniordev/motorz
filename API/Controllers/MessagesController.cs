@@ -12,11 +12,11 @@ namespace API.Controllers
     public class MessagesController : BaseController
     {
 
-        // [HttpPost]
-        // public async Task<ActionResult<Unit>> Create(Create.Command command)
-        // {
-        //     return await Mediator.Send(command);
-        // }
+        [HttpPost]
+        public async Task<ActionResult<MessageDto>> Create(Create.Command command)
+        {
+            return await Mediator.Send(command);
+        }
         [HttpPut("{id}/markRead")]
         public async Task<ActionResult<Unit>> MarkRead(Guid id)
         {

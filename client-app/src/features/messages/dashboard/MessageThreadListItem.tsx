@@ -37,8 +37,9 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
       <Segment style={{ textAlign: "center", backgroundColor: 'lightblue' }} raised>
         <Fragment>
           <Button
-            content='Reply to sender'
+            content='Reply'
             fluid
+            attached='top'
             color="instagram"
             onClick={() => {
               openModal(<ReplyForm messageThreadId={match.params.id} />);

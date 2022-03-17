@@ -1,11 +1,12 @@
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { IMessage } from './../models/message';
 import { observable, action, computed, runInAction } from 'mobx';
+import { history } from '../..';
+import { toast } from 'react-toastify';
 
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
 
-import { toast } from 'react-toastify';
 
 
 const LIMIT = 4;
@@ -233,17 +234,18 @@ export default class MessageStore {
   };
 
   @action sendMessage = async (messageContent: string) => {
-
     let messageToSend = {
       recipientUsername: this.recipientUsername,
       content: messageContent,
       productId: this.productId,
+      username:this.username
     }
     try {
-      await agent.Messages.create(messageToSend);
+      const message:IMessage = await agent.Messages.create(messageToSend);
       runInAction('loading message ', () => {
         this.rootStore.modalStore.closeModal();
       });
+      history.push(`/messageThread/${message.messageThreadId}`);
     } catch (error) {
       runInAction('load thread error', () => {
       });

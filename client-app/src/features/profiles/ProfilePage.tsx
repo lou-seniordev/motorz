@@ -1,11 +1,11 @@
-import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Grid } from 'semantic-ui-react';
-import LoadingComponent from '../../app/layout/LoadingComponent';
-import { RootStoreContext } from '../../app/stores/rootStore';
-import ProfileContent from './ProfileContent';
-import ProfileHeader from './ProfileHeader';
+import { observer } from "mobx-react-lite";
+import React, { useContext, useEffect } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { Grid } from "semantic-ui-react";
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import ProfileContent from "./ProfileContent";
+import ProfileHeader from "./ProfileHeader";
 
 interface RouteParams {
   username: string;
@@ -23,8 +23,9 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
     unfollow,
     isCurrentUser,
     loading,
-    setActiveTab
+    setActiveTab,
   } = rootStore.profileStore;
+
 
   useEffect(() => {
     loadProfile(match.params.username);
@@ -35,13 +36,14 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
     <Grid>
       <Grid.Column width={16}>
         <ProfileHeader
+          // username={user?.userName!}
           profile={profile!}
           isCurrentUser={isCurrentUser}
           follow={follow}
           unfollow={unfollow}
           loading={loading}
         />
-        <ProfileContent setActiveTab={setActiveTab}/>
+        <ProfileContent setActiveTab={setActiveTab} />
       </Grid.Column>
     </Grid>
   );

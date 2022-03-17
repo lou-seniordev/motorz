@@ -1,4 +1,4 @@
-import React, { useContext,  useEffect,  useState } from "react";
+import React, { useContext,  useState } from "react";
 import { Button, Form, Grid, Header } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { Form as FinalForm, Field } from "react-final-form";
@@ -23,36 +23,38 @@ const validate = combineValidators({
       message: "Body needs to be at least 2 characters",
     }),
     hasLengthLessThan(255)({
-      message: "Maximum number of characters is 255"
+      message: "Maximum number of characters is 500"
     })
   )(),
 });
 
-const ReplyForm: React.FC<{ messageThreadId: string }> = ({ messageThreadId }) => {
+interface IProps {
+    recipientUsername: string,
+    username: string
+}
+
+const ContactForm: React.FC<IProps> = ({recipientUsername, username}) => {
     const rootStore = useContext(RootStoreContext);
 
-    const { sendReply, setContent, createHubConnection, stopHubConnection} = rootStore.messageStore;
+    const { sendMessage } = rootStore.privateMessageStore;
     const {closeModal} = rootStore.modalStore
     
+
     const [loading] = useState(false);
 
-    const handleFinalFormSubmit = (values: any) => {
-      console.log(messageThreadId)
-      setContent(values.content)
-      sendReply();
+ 
+ const handleFinalFormSubmit = (values: any) => {
+        console.log(values.content,recipientUsername, username)
+        let messageToSend = {
+            recipientUsername:recipientUsername,
+            username: username,
+            content:values.content
+        }
+
+      sendMessage(messageToSend);
     };
 
-    useEffect(() => {
-      createHubConnection(messageThreadId);
-     return () => {
-       stopHubConnection(messageThreadId);
-     };
-   }, 
-   [
-    createHubConnection, stopHubConnection, 
-    messageThreadId]
-   );
-
+  
     return (
       
         <Grid>
@@ -64,7 +66,7 @@ const ReplyForm: React.FC<{ messageThreadId: string }> = ({ messageThreadId }) =
                 <Form onSubmit={handleSubmit} 
                 loading={loading}>
                   
-                <Header as='h2' content='Reply to sender' color='teal' textAlign='center'/>
+                <Header as='h2' content='Send message' color='teal' textAlign='center'/>
                   <Field
                     name='content'
                     rows={4}
@@ -72,11 +74,12 @@ const ReplyForm: React.FC<{ messageThreadId: string }> = ({ messageThreadId }) =
                     component={TextAreaInput}
                   />
                   <Button
+                      // loading={submitting}loading ||
                     disabled={ invalid || pristine}
                     floated='right'
                     color='teal'
                     type='submit'
-                    content='send'
+                    content='submit'
                   />
                   <Button
                   floated='right'
@@ -95,4 +98,4 @@ const ReplyForm: React.FC<{ messageThreadId: string }> = ({ messageThreadId }) =
     );
   };
 
-export default observer(ReplyForm);
+export default observer(ContactForm);

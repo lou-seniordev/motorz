@@ -16,9 +16,8 @@ namespace Application.Messages
 {
     public class Create
     {
-        public class Command : IRequest<MessageDto>//<MessageDto>
+        public class Command : IRequest<MessageDto>
         {
-            // public Guid Id { get; set; }
             public string RecipientUsername { get; set; }
             public string ProductId { get; set; }
             public string MessageThreadId { get; set; }
@@ -27,16 +26,17 @@ namespace Application.Messages
 
 
         }
-        // public class CommandValidator : AbstractValidator<Command>
-        // {
-        //     public CommandValidator()
-        //     {
-        //         // RuleFor(x => x.ProductId).NotEmpty();
-        //         RuleFor(x => x.RecipientUsername).NotEmpty();
-        //         RuleFor(x => x.Content).NotEmpty();
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.RecipientUsername).NotEmpty();
+                RuleFor(x => x.Content).NotEmpty();
+                RuleFor(x => x.Username).NotEmpty();
+                RuleFor(x => x.ProductId).NotEmpty();
 
-        //     }
-        // }
+            }
+        }
         public class Handler : IRequestHandler<Command, MessageDto>//, MessageDto
         {
             private readonly DataContext _context;

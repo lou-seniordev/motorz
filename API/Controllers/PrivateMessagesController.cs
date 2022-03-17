@@ -17,5 +17,11 @@ namespace API.Controllers
         {
             return await Mediator.Send(new List.Query(limit, offset));
         }
+
+        [HttpPost]
+        public async Task<ActionResult<PrivateMessageDto>> Create(Create.Command command)
+        {
+            return await Mediator.Send(command);
+        }
     }
 }

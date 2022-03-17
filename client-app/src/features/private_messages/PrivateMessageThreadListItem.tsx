@@ -2,13 +2,10 @@ import React, {  useContext, useEffect, useState } from "react";
 import { Input, Segment } from "semantic-ui-react"; //, Segment
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
-// import LoadingComponent from "../../app/layout/LoadingComponent";
-// import { toJS } from "mobx";
 import { IPrivateMessage } from "../../app/models/privatemessages";
 
 
 const PrivateMessageThreadListItem = () => {
-  // const PrivateMessageThreadListItem: React.FC<IProps> = ({ view }) => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 

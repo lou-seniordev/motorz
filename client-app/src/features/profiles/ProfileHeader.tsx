@@ -1,5 +1,6 @@
-import { observer } from 'mobx-react-lite';
-import React from 'react';
+import { toJS } from "mobx";
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
 import {
   Segment,
   Item,
@@ -9,8 +10,10 @@ import {
   Statistic,
   Divider,
   Reveal,
-} from 'semantic-ui-react';
-import { IProfile } from '../../app/models/profile';
+} from "semantic-ui-react";
+import { IProfile } from "../../app/models/profile";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import ContactForm from "./forms/ContactForm";
 
 interface IProps {
   profile: IProfile;
@@ -26,6 +29,18 @@ const ProfileHeader: React.FC<IProps> = ({
   follow,
   unfollow,
 }) => {
+  const rootStore = useContext(RootStoreContext);
+  const { user } = rootStore.userStore;
+  const { openModal } = rootStore.modalStore;
+
+  const handleSendMessage = () => {
+    openModal(
+      <ContactForm
+        recipientUsername={profile.username}
+        username={user!.userName}
+      />
+    );
+  };
   return (
     <Segment>
       <Grid>
@@ -35,12 +50,18 @@ const ProfileHeader: React.FC<IProps> = ({
               <Item.Image
                 avatar
                 size='tiny'
-                src={profile.image || '/assets/user.png'}
+                src={profile.image || "/assets/user.png"}
               />
               <Item.Content verticalAlign='middle'>
                 <Header as='h1'>{profile.displayName}</Header>
               </Item.Content>
-              {/* <Button content='Send message'/> */}
+              {user?.userName !== profile.username && (
+                <Button
+                  circular
+                  content='Message'
+                  onClick={handleSendMessage}
+                />
+              )}
             </Item>
           </Item.Group>
         </Grid.Column>
@@ -52,11 +73,11 @@ const ProfileHeader: React.FC<IProps> = ({
           <Divider />
           {!isCurrentUser && (
             <Reveal animated='move'>
-              <Reveal.Content visible style={{ width: '100%' }}>
+              <Reveal.Content visible style={{ width: "100%" }}>
                 <Button
                   fluid
                   color='teal'
-                  content={profile.following ? 'Following' : 'Not following'}
+                  content={profile.following ? "Following" : "Not following"}
                 />
               </Reveal.Content>
               <Reveal.Content hidden>
@@ -64,8 +85,8 @@ const ProfileHeader: React.FC<IProps> = ({
                   loading={loading}
                   fluid
                   basic
-                  color={profile.following ? 'red' : 'green'}
-                  content={profile.following ? 'Unfollow' : 'Follow'}
+                  color={profile.following ? "red" : "green"}
+                  content={profile.following ? "Unfollow" : "Follow"}
                   onClick={
                     profile.following
                       ? () => unfollow(profile.username)
