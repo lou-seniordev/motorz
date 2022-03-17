@@ -23,6 +23,7 @@ namespace Application.Products
         public string CountryId { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
+        public bool IsSold { get; set; }
         public bool IsAdvertised { get; set; }
         public int NumberSeen { get; set; }
         public DateTime DatePublished { get; set; }

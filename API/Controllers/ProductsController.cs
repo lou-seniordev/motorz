@@ -58,6 +58,13 @@ namespace API.Controllers
             return await Mediator.Send(new Follow.Command {Id = id});
         }
 
+        [HttpPut("{id}/markSold")]
+        [Authorize]
+        public async Task<ActionResult<Unit>> MarkSold(Guid id)
+        {
+            return await Mediator.Send(new MarkSold.Command {Id = id});
+        }
+
         [HttpDelete("{id}/unfollow")]
         [Authorize]
         public async Task<ActionResult<Unit>> Unfollow(Guid id)

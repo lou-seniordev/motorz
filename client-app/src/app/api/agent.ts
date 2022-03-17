@@ -220,6 +220,7 @@ const Products = {
   details: (id: string) => requests.get(`/products/${id}`),
   create: (product: IProduct) => postProduct.productForm('/products', product),
   update: (product: IProduct) => requests.put(`/products/${product.id}`, product),
+  markSold: (id: string) => requests.put(`/products/${id}/markSold`, {}),
   delete: (id: string) => requests.delete(`/products/${id}`),
   follow: (id: string) => requests.put(`/products/${id}/follow`, {}),
   unfollow: (id: string) => requests.delete(`/products/${id}/unfollow`),

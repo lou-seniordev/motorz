@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useEffect } from "react"; //, useState
 import { Link } from "react-router-dom";
-import { Segment, Grid, Icon, Image, Button } from "semantic-ui-react";
+import { Segment, Grid, Icon, Image, Button, Label } from "semantic-ui-react";
 // import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IProduct } from "../../../app/models/product";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -18,6 +18,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
     productFollowed,
     unfollowProduct,
     setProductFollowed,
+    markSold,
   } = rootStore.productStore;
 
   const { user } = rootStore.userStore;
@@ -54,6 +55,9 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   const handleFollowProduct = (id: string) => {
     followProduct(id, user!.userName, user!.displayName);
   };
+  const handleMarkSold = (id: string) => {
+    markSold(id, product);
+  };
   const handleUnfollowProduct = (id: string) => {
     unfollowProduct(id);
   };
@@ -76,6 +80,15 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             <Icon name='image' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={15}>
+            {product.isSold && (
+              <Label
+                style={{ position: "absolute" }}
+                color='red'
+                corner='right'
+              >
+                SOLD
+              </Label>
+            )}
             <Image src={product.photoUrl} size='medium' />
           </Grid.Column>
         </Grid>
@@ -165,9 +178,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 </Button>
                 <Button
                   content='Mark sold'
-                  // onClick={() => {
-                  //   openModal(<ContactForm userName={user?.userName!} />);
-                  // }}
+                  onClick={() => handleMarkSold(product.id!)}
                 />
                 <Button
                   as={Link}

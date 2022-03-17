@@ -6,7 +6,6 @@ using Application.Errors;
 using AutoMapper;
 using Domain;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Products
@@ -38,7 +37,7 @@ namespace Application.Products
                 if (product == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { product = "NotFound" });
-                        //                var motofyToReturn = _mapper.Map<Motofy, MotofyDto>(motofy);
+
                 var productToReturn = _mapper.Map<Product, ProductDto>(product);
 
                 return productToReturn;

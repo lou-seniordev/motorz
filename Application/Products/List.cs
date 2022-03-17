@@ -66,7 +66,8 @@ namespace Application.Products
                   x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 var queryable = _context.Products
-                .Where(x => !x.IsSold)
+                //!! work on sold/active combination
+                // .Where(x => x.IsActive)
                 .OrderByDescending(x => x.DatePublished)
                 .AsQueryable();
 

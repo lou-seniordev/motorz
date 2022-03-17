@@ -19,6 +19,7 @@ export interface IProduct {
   city: string;
   phoneNumber: string;
   isActive: boolean;
+  isSold: boolean;
   isAdvertised: boolean;
   numberSeen: number;
   viewers: IProductViewer [];

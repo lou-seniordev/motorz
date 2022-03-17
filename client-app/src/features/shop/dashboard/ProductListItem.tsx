@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Card } from "semantic-ui-react";
+import { Button, Card, Label } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
 
 const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
@@ -13,22 +13,25 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
 
   const threeDots = "...";
   return (
-
     <Card raised>
       <Card.Content>
         <Card.Header style={{ textAlign: "center" }}>
           {productTitleUiShort}
         </Card.Header>
-      
-          <div className='ui segment'>
-            <img
-              className='ui centered medium image'
-              // style={{ height: "100px" }}
-              src={product.photoUrl}
-              alt='Product'
-            />
-          </div>
-       
+        {product.isSold && (
+          <Label style={{ position: "absolute" }} color='red' corner='right'>
+            SOLD
+          </Label>
+        )}
+        <div className='ui segment'>
+          <img
+            className='ui centered medium image'
+            // style={{ height: "100px" }}
+            src={product.photoUrl}
+            alt='Product'
+          />
+        </div>
+
         <Card.Content extra>
           <span>{descriptionUiShort || "Description N/A"}</span>{" "}
           <span>{threeDots}</span>

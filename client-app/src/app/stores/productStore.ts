@@ -184,7 +184,18 @@ export default class ProductStore {
   @action visitCounter = async (id: string) => {
     try {
       await agent.Products.visitCounter(id);
-      runInAction('increasing the number seen counter', () => {
+      runInAction('Increasing the number seen counter', () => {
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  @action markSold = async (id: string, product: IProduct) => {
+    try {
+      await agent.Products.markSold(id);
+      runInAction('Marking the product sold', () => {
+        product.isSold = true;
+        toast.info('This product is marked as sold!');
       })
     } catch (error) {
       console.log(error)
