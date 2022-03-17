@@ -88,10 +88,10 @@ const ProductFilters = () => {
             content={"Favorites"}
           />
           <Menu.Item
-            active={predicate.has("iView")}
-            onClick={() => setPredicate("iView", "true")}
+            active={predicate.has("myProducts")}
+            onClick={() => setPredicate("myProducts", "true")}
             color={"blue"}
-            name={"iView"}
+            name={"myProducts"}
             style={{ textAlign: "center" }}
             content={"My products"}
           />

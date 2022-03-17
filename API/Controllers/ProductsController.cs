@@ -12,9 +12,10 @@ namespace API.Controllers
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<List.ProductsEnvelope>> List(int? limit, int? offset, 
-            string country, string brand, string category, bool iFollow, bool iView, string search)
+            string country, string brand, string category, bool iFollow, bool iView, bool myProducts, string search)
         {
-            return await Mediator.Send(new List.Query(limit, offset, country, brand, category, iFollow, iView, search));
+            return await Mediator.Send(new List.Query(
+                limit, offset, country, brand, category, iFollow, iView, myProducts, search));
         }
 
         [HttpGet("{id}")]

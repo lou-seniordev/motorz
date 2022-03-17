@@ -21,7 +21,7 @@ namespace Application.Products
         public class Query : IRequest<ProductsEnvelope>
         {
             public Query(int? limit, int? offset, string country, string brand,
-                string category, bool iFollow, bool iView, string search)
+                string category, bool iFollow, bool iView, bool myProducts, string search)
             {
                 IFollow = iFollow;
                 IView = iView;
@@ -30,6 +30,7 @@ namespace Application.Products
                 Country = country;
                 Brand = brand;
                 Category = category;
+                MyProducts = myProducts;
                 Search = search;
 
             }
@@ -40,6 +41,7 @@ namespace Application.Products
             public string Country { get; set; }
             public bool IFollow { get; set; }
             public bool IView { get; set; }
+            public bool MyProducts { get; set; }
             public string Search { get; set; }
             //==TODO--
             public string PriceRange { get; set; }
@@ -75,7 +77,7 @@ namespace Application.Products
 
                 if (string.IsNullOrEmpty(request.Country) && string.IsNullOrEmpty(request.Category)
                     && string.IsNullOrEmpty(request.Brand) && string.IsNullOrEmpty(request.Search)
-                    && !request.IFollow && !request.IView)
+                    && !request.IFollow && !request.IView && !request.MyProducts)
                 {
                     products = await GetAllProducts(request, queryable, products);
 
@@ -141,6 +143,12 @@ namespace Application.Products
                 if (request.IView)
                 {
                     queryable = queryable.Where(x => x.Viewers.Any(x => x.AppUserId == user.Id));
+                    products = await GetAllProducts(request, queryable, products);
+
+                }
+                if (request.MyProducts)
+                {
+                    queryable = queryable.Where(x => x.Seller.Id == user.Id);
                     products = await GetAllProducts(request, queryable, products);
 
                 }

@@ -35,7 +35,7 @@ namespace Application.Profiles
                     throw new RestException(HttpStatusCode.NotFound, new { User = "Not found" });
 
                 var queryable = _context.Products
-                    // .Where(x => x.Seller.Id == user.Id)
+                    .Where(x => x.Seller.Id == user.Id)
                     .OrderBy(a => a.DatePublished)
                      .AsQueryable();
                     
@@ -43,11 +43,13 @@ namespace Application.Profiles
                  switch (request.Predicate)
                 {
                     case "iSold":
-                        queryable = queryable.Where(x => x.Seller.Id == user.Id && x.IsSold);
+                        queryable = queryable.Where(x => x.IsSold);
+                        // queryable = queryable.Where(x => x.Seller.Id == user.Id && x.IsSold);
                         break;
                    
                     case "iAmSelling":
-                        queryable = queryable.Where(x => x.Seller.Id == user.Id && !x.IsSold);
+                        queryable = queryable.Where(x => !x.IsSold);
+                        // queryable = queryable.Where(x => x.Seller.Id == user.Id && !x.IsSold);
                         break;
                     default:
                         break;
