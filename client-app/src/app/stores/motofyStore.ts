@@ -30,28 +30,22 @@ export default class MotofyStore {
 
   @observable motofyRegistry = new Map();
 
-  // @observable motofies: IMotofy[] = [];
   @observable motofy: IMotofy | null = null;
 
-  // @observable editMode = false;
   @observable loadingInitial = false;
   @observable submitting = false;
   @observable target = '';
   @observable loading = false;
 
-  //==check?
-  // @observable uploadingMotofyPhoto = false;
   @observable.ref hubConnection: HubConnection | null = null;
   
-  @action createHubConnection = (id: string, connectionArgument: string) => {//, motofy: IMotofy
+  @action createHubConnection = (id: string, connectionArgument: string) => {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
         accessTokenFactory: () => this.rootStore.commonStore.token!,
       })
       .configureLogging(LogLevel.Information)
       .build();
-      // console.log('motofy', this.motofy)
-      // console.log('motofy', motofy)
 
 
     this.hubConnection
@@ -114,11 +108,10 @@ export default class MotofyStore {
   // === FILTERING ===
   @observable predicate = new Map();
 
-  @action setPredicate = (predicate: string, value: string  ) => { //| Date
+  @action setPredicate = (predicate: string, value: string  ) => { 
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
-      // console.log(predicate);
     }
   }
 
@@ -155,7 +148,6 @@ export default class MotofyStore {
       const motofiesEnvelope = await agent.Motofies.list(this.axiosParams);
 
       const { motofies, motofyCount, mostEmbraced, highestRatedMotofy} = motofiesEnvelope;
-    //  console.log('highestRatedMotofy', highestRatedMotofy)
       runInAction('loading motofies', () => {
         this.mostEmbraced = mostEmbraced;
         this.highestRatedMotofy = highestRatedMotofy;
@@ -165,7 +157,6 @@ export default class MotofyStore {
           // === Util Class ===
           setMotofyProps(motofy, this.rootStore.userStore.user!);
           this.motofyRegistry.set(motofy.id, motofy);
-          // console.log('motfy', toJS(motofy))
         });
         this.motofyCount = motofyCount;
         this.loadingInitial = false;
@@ -204,9 +195,7 @@ export default class MotofyStore {
       }
     }
   };
-  // @action clearMotofy = () => {
-  //   this.motofy = null;
-  // };
+
   @action rateMotofy = async (rating: string | number | undefined, motofy: IMotofy, user: IUser | null) => {
     let newRating: IRateMotofy = {
       id: motofy.id,
@@ -223,7 +212,6 @@ export default class MotofyStore {
         // this.motofy = motofy;
         motofy.motofyScores.push(newScore);
         this.motofyRegistry.set(motofy.id, motofy);
-        // console.log(toJS(this.motofyRegistry.get(motofy.id)));
         
       })
     } catch (error) {
@@ -239,13 +227,11 @@ export default class MotofyStore {
 
   @action editMotofy = async (motofy: IMotofy) => {
     this.submitting = true;
-    // this.editMode = true;
     try {
       await agent.Motofies.update(motofy);
       runInAction('editing motofy', () => {
         this.motofyRegistry.set(motofy.id, motofy);
         this.motofy = motofy;
-        // this.editMode = false;
         this.submitting = false;
       });
       history.push(`/gallery/${motofy.id}`);
@@ -268,7 +254,7 @@ export default class MotofyStore {
       motofy.embracers = embracers;
       motofy.isOwner = true;
       runInAction('create motofy', () => {
-        this.motofyRegistry.set(motofy.id, motofy);   // CHECK IF IT IS GOING TO BE NEEDED!! // this.editMode = false;
+        this.motofyRegistry.set(motofy.id, motofy);   
         this.submitting = false;
       });
       history.push(`/gallery/${motofy.id}`);
@@ -303,7 +289,6 @@ export default class MotofyStore {
     }
   };
 
-  // @action embraceMotofy = async () => {
   @action embraceMotofy = async (id: string) => {
     const embracer = createEmbracer(this.rootStore.userStore.user!);
     this.loading = true;

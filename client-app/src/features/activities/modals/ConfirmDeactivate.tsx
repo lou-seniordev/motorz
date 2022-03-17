@@ -11,7 +11,6 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
   const { deactivateActivity } = rootStore.activityStore;
   const {
     addFeedItem,
-    // removeFeedItem
   } = rootStore.feedStore;
 
   const { closeModal } = rootStore.modalStore;
@@ -19,7 +18,6 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
   const handleDeactivateActivity = (id: string) => {
     deactivateActivity(id)
       .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
-      // .then(() => removeFeedItem(id))
       .then(() => closeModal())
       .finally(() => history.push(`/activities`));
   };

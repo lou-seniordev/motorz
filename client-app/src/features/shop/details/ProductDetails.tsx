@@ -37,13 +37,15 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
       </Grid.Column>
       
         <Grid.Column width={7}>
-          <h1>The {product.title} is seen {product.numberSeen} times</h1>
-          <h1>The {product.title} is in favorites of {' '}
+          <h3>The {product.title} is seen {product.numberSeen} times</h3>
+          <>
           {product.numberFollowed !==0  && 
-          (product.numberFollowed > 1 ? product.numberFollowed + ' people' : product.numberFollowed + ' person')} </h1>
+          'The ' + product.title + ' is in favorites of ' +
+          
+          (product.numberFollowed > 1 ? product.numberFollowed + ' people' : product.numberFollowed + ' person')} 
+          </>
           
         </Grid.Column>
-      {/* )} */}
     </Grid>
   );
 };

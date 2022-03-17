@@ -10,7 +10,6 @@ const ConfirmDelete: React.FC<IProps> = ({ activityId }) => {
   const { deleteActivity } = rootStore.activityStore;
   // const {
   //   // addFeedItem,
-  //   // removeFeedItem
   // } = rootStore.feedStore;
 
   const { closeModal } = rootStore.modalStore;
@@ -18,7 +17,6 @@ const ConfirmDelete: React.FC<IProps> = ({ activityId }) => {
   const handleDeleteActivity = (id: string) => {
     deleteActivity(id)
     //   .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
-    //   // .then(() => removeFeedItem(id))
       .then(() => closeModal());
     //   .finally(() => history.push(`/activities`));
   };

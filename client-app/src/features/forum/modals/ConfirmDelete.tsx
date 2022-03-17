@@ -12,7 +12,6 @@ const ConfirmDelete: React.FC<IProps> = ({ forumpostId }) => {
   const {deleteForumpost } = rootStore.forumPostStore;
   // const {
   //   // addFeedItem,
-  //   // removeFeedItem
   // } = rootStore.feedStore;
 
   const { closeModal } = rootStore.modalStore;
@@ -22,7 +21,6 @@ const ConfirmDelete: React.FC<IProps> = ({ forumpostId }) => {
   const handleDeleteForumpost = (id: string) => {
     deleteForumpost(id)
     //   .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
-    //   // .then(() => removeFeedItem(id))
       .then(() => closeModal())
       .finally(() => history.push(`/forum`));
   };

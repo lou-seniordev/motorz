@@ -14,11 +14,6 @@ namespace API.Controllers
             return await Mediator.Send(new AddFeedItem.Command{ObjectId = id, Info = info, Username = username});
 
         }
-        [HttpDelete("{id}/{info}/removeFeedItem")]
-        public async Task<ActionResult<Unit>> RemoveFeedItem(Guid id, string info)
-        {
-            return await Mediator.Send(new RemoveFeedItem.Command{Id = id,  Info = info});
-        }
 
         [HttpGet]
          public async Task<ActionResult<List.FeedEnvelope>> List(int? limit, int? offset)

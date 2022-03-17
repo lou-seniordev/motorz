@@ -65,13 +65,7 @@ export default class FeedStore {
     }
   }
 
-  // @action removeFeedItem = async (id: string, info: string) => {
-  //   try {
-  //     await agent.Feed.removeFeedItem(id, info);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+
 
   @action loadFeed = async () => {
     this.loadingInitial = true;

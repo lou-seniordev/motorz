@@ -3,30 +3,16 @@ import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Segment,
-  // Item, Header,
   Button,
   Grid,
   GridColumn,
-} from "semantic-ui-react"; //, Image
+} from "semantic-ui-react"; 
 import { IActivity } from "../../../app/models/activity";
-// import { format } from "date-fns";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import ConfirmDeactivate from "../modals/ConfirmDeactivate";
 import ConfirmDelete from "../modals/ConfirmDelete";
 
-// const activityImageStyle = {
-//   filter: "brightness(70%)",
-// };
-
-// const activityImageTextStyle = {
-//   position: "absolute",
-//   bottom: "5%",
-//   left: "5%",
-//   width: "100%",
-//   height: "auto",
-//   color: "white",
-// };
 
 const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) => {
 
@@ -48,7 +34,6 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
   };
   const handleCancelAttendance = (id: string) => {
     cancelAttendance();
-    // removeFeedItem(id, "Joined Motocycle Diary");
     addFeedItem(id, "Left Motorcycle Diary");
     setManaging(false);
   };
@@ -135,13 +120,11 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
           ) : activity.isGoing ? (
             <Button
               loading={loading}
-              // onClick={cancelAttendance}>
               onClick={() => handleCancelAttendance(activity.id)}
             >
               Stop following this diary
             </Button>
           ) : (
-            // onClick={attendActivity}
             <Button
               loading={loading}
               onClick={() => handleAttendActivity(activity.id)}

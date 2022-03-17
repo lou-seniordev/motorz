@@ -1,4 +1,3 @@
-// import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { v4 as uuid } from "uuid";
@@ -93,7 +92,6 @@ const ProfileHeader: React.FC<IProps> = ({
                   content={profile.following ? "Unfollow" : "Follow"}
                   onClick={
                     profile.following
-                      // ? () => unfollow(profile.username)
                       ? () => [unfollow(profile.username),  addFeedItem(uuid(), 'Unfollows You', profile.username)]
                       : () => [follow(profile.username),  addFeedItem(uuid(), 'Started Following You', profile.username)]
                   }

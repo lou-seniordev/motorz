@@ -28,7 +28,6 @@ namespace Application.Feeds
         {
             public CommandValidator()
             {
-                // RuleFor(x => x.ObjectId).NotEmpty();
 
                 RuleFor(x => x.Info).NotEmpty();
 
@@ -181,7 +180,6 @@ namespace Application.Feeds
                             Id = feedId,
                             Info = " started following you on " + DateTime.Now,
                             Notifier = notifier,
-                            // ObjectId = request.ObjectId,
                             DateTriggered = DateTime.Now,
                             FeedType = feedType,
                             Notifyees = notifees
