@@ -48,6 +48,10 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
     embraceMotofy(id);
     addFeedItem(id, "Embraced Motofy");
   };
+  const handleUnembraceMotofy = (id: string) => {
+    unembraceMotofy(id);
+    addFeedItem(id, "Unembraced Motofy");
+  };
 
   //
   // const publisher = motofy.embracers.filter((x) => x)[0];
@@ -109,10 +113,10 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
         ) : motofy.embraced ? (
           <Button
             style={buttonVisitorStyle}
-            Negative
+            negative
             loading={loading}
             fluid
-            onClick={unembraceMotofy}
+            onClick={ () => handleUnembraceMotofy(motofy.id!)}
           >
             Embraced
           </Button>

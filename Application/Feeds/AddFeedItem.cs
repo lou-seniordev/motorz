@@ -328,6 +328,14 @@ namespace Application.Feeds
                 #region Embraced Motofy
                 else if (request.Info == "Embraced Motofy")
                 {
+                    var type = "Embraced Motofy";
+                       var feedToRemove = await _context.Feeds
+                               .SingleOrDefaultAsync(x => x.FeedType == type
+                               && x.ObjectId == request.ObjectId
+                               && x.Notifier.Id == notifier.Id);
+
+                    if (feedToRemove != null)
+                        _context.Feeds.Remove(feedToRemove);
                     notifyeeIds = await _context.UserMotofies
                                         .Where(x => x.IsOwner == true)
                                         .Select(x => x.AppUserId)
@@ -357,6 +365,48 @@ namespace Application.Feeds
                     {
                         return Unit.Value;
                     }
+                }
+                #endregion
+                #region Unembraced Motofy
+                else if (request.Info == "Unembraced Motofy")
+                {
+                    var type = "Embraced Motofy";
+                       var feedToRemove = await _context.Feeds
+                               .SingleOrDefaultAsync(x => x.FeedType == type
+                               && x.ObjectId == request.ObjectId
+                               && x.Notifier.Id == notifier.Id);
+
+                    if (feedToRemove != null)
+                        _context.Feeds.Remove(feedToRemove);
+                    // notifyeeIds = await _context.UserMotofies
+                    //                     .Where(x => x.IsOwner == true)
+                    //                     .Select(x => x.AppUserId)
+                    //                     .ToListAsync();
+
+                    // if (notifyeeIds.Count() > 0)
+                    // {
+                    //     var motofy = await _context.Motofies
+                    //                   .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                    //     FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                    //     var feed = new Feed
+                    //     {
+                    //         Id = feedId,
+                    //         Info = " has embraced the " + motofy.Name + ", Motofy! on " + DateTime.Now,
+                    //         Notifier = notifier,
+                    //         ObjectId = request.ObjectId,
+                    //         DateTriggered = DateTime.Now,
+                    //         FeedType = feedType,
+                    //         Notifyees = notifees
+                    //     };
+
+                    //     _context.Feeds.Add(feed);
+                    // }
+                    // else
+                    // {
+                    //     return Unit.Value;
+                    // }
                 }
                 #endregion
                 #region Deleted Motofy

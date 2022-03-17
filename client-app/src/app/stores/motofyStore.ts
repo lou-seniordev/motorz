@@ -318,6 +318,7 @@ export default class MotofyStore {
           this.loading = false;
         }
       });
+      
     } catch (error) {
       runInAction(() => {
         this.loading = false;
@@ -326,10 +327,10 @@ export default class MotofyStore {
     }
   };
 
-  @action unembraceMotofy = async () => {
+  @action unembraceMotofy = async (id: string) => {
     this.loading = true;
     try {
-      await agent.Motofies.unembrace(this.motofy!.id);
+      await agent.Motofies.unembrace(id);
       runInAction(() => {
         if (this.motofy) {
           this.motofy.embracers = this.motofy.embracers.filter(
