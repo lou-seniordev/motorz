@@ -181,7 +181,7 @@ namespace Application.Feeds
                             Id = feedId,
                             Info = " started following you on " + DateTime.Now,
                             Notifier = notifier,
-                            ObjectId = request.ObjectId,
+                            // ObjectId = request.ObjectId,
                             DateTriggered = DateTime.Now,
                             FeedType = feedType,
                             Notifyees = notifees
@@ -193,6 +193,23 @@ namespace Application.Feeds
                     {
                         return Unit.Value;
                     }
+                }
+                #endregion
+                #region Unfollows You
+                if (request.Info == "Unfollows You")
+                {
+                    var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
+                    var type = "Started Following You";
+                       var feedToRemove = await _context.Feeds
+                               .SingleOrDefaultAsync(x => x.FeedType == type
+                            //    && x.ObjectId == request.ObjectId
+                               && x.Notifier.Id == notifier.Id
+                               && x.Notifyees.Any(u => u.AppUserId == user.Id));
+
+                    if (feedToRemove != null)
+                        _context.Feeds.Remove(feedToRemove);
+
+                   
                 }
                 #endregion
                 #region Joined Motorcycle Diary
@@ -378,35 +395,7 @@ namespace Application.Feeds
 
                     if (feedToRemove != null)
                         _context.Feeds.Remove(feedToRemove);
-                    // notifyeeIds = await _context.UserMotofies
-                    //                     .Where(x => x.IsOwner == true)
-                    //                     .Select(x => x.AppUserId)
-                    //                     .ToListAsync();
-
-                    // if (notifyeeIds.Count() > 0)
-                    // {
-                    //     var motofy = await _context.Motofies
-                    //                   .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
-
-                    //     FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                    //     var feed = new Feed
-                    //     {
-                    //         Id = feedId,
-                    //         Info = " has embraced the " + motofy.Name + ", Motofy! on " + DateTime.Now,
-                    //         Notifier = notifier,
-                    //         ObjectId = request.ObjectId,
-                    //         DateTriggered = DateTime.Now,
-                    //         FeedType = feedType,
-                    //         Notifyees = notifees
-                    //     };
-
-                    //     _context.Feeds.Add(feed);
-                    // }
-                    // else
-                    // {
-                    //     return Unit.Value;
-                    // }
+                   
                 }
                 #endregion
                 #region Deleted Motofy
