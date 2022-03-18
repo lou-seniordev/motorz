@@ -33,7 +33,7 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
   return (
     <Grid>
-      <Grid.Column computer={12} mobile={16}>
+      <Grid.Column computer={11} mobile={16}>
         <ForumDetailedInfo forumpost={forumpost} />
         {user?.userName !== forumpost.userName && !rated && (
           <ForumDetailedRating forumpost={forumpost} />
@@ -44,7 +44,7 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({
         )}
         <ForumDetailedChat />
       </Grid.Column>
-      <Grid.Column computer={4} mobile={16}>
+      <Grid.Column computer={5} mobile={16}>
         <Grid.Row className='mobile hidden'>
           <ForumDetailedHeader forumpost={forumpost} />
         </Grid.Row>

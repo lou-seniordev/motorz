@@ -1,6 +1,16 @@
+/* @import url('https://fonts.googleapis.com/css?family=Josefin+Sans'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Jost&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+
 body {
   background-color: rgb(234, 234, 234) !important;
+  /* font-family: 'Josefin Sans', cursive; */
+  /* font-family: 'Jost', sans-serif; */
+  font-family: 'Montserrat', sans-serif;
 }
+
+
 
 .ui.inverted.top.fixed.menu {
   background-image: linear-gradient(

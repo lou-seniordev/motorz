@@ -1,3 +1,4 @@
+import { toJS } from 'mobx';
 import { IRateForumpost } from './../models/forumpost';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
 // import { SyntheticEvent } from 'react';
@@ -114,8 +115,10 @@ export default class ForumPostStore {
 
     this.hubConnection.on(connectionArgument, (comment) => {
       runInAction(() => {
-        console.log('comment', comment)
         this.forumpost!.commentForumPosts.push(comment);
+
+        this.forumpost!.commenters = this.reduceCommenters(this.forumpost!);
+
       });
     });
 
@@ -136,6 +139,8 @@ export default class ForumPostStore {
 
   @action addComment = async (values: any) => {
     values.id = this.forumpost!.id;
+    // console.log(toJS(this.forumpost))
+    // this.forumpost?.commenters.
     try {
       await this.hubConnection!.invoke('SendCommentForumPost', values);
     } catch (error) {

@@ -19,7 +19,11 @@ const ForumDetailedSidebar: React.FC<{ forumpost: IForumpost }> = ({
         inverted
         color='teal'
       >
-        {forumpost.commenters?.length} people participating
+        {forumpost.commenters?.length !== undefined &&
+
+        forumpost.commenters?.length > 1 ? forumpost.commenters?.length + ' people ' : forumpost.commenters?.length+' person '
+        }
+         participating
       </Segment>
 
       <Segment attached>
@@ -29,7 +33,7 @@ const ForumDetailedSidebar: React.FC<{ forumpost: IForumpost }> = ({
               <Segment key={commenter.id}>
                 <Grid>
                   <Grid.Column width={6}>
-                    <Image size='tiny' circular src={commenter.image} />
+                    <Image size='mini' circular src={commenter.image} />
                   </Grid.Column>
                   <Grid.Column width={10}>
                     <Link to={`/profile/${commenter.username}`}>
