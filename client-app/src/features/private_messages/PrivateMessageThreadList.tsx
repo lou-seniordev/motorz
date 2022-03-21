@@ -3,7 +3,7 @@ import React, {  useContext, useEffect } from "react";
 import { Grid, Segment, Image } from "semantic-ui-react";
 import { formatDistance } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
+// import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 
 
 // const PrivateMessageThreadList: React.FC<IProps> = ({ last }) => {
@@ -16,7 +16,7 @@ const PrivateMessageThreadList = () => {
     //    markReadInDB,
     // loadingInitial,
     // messageThreadsCount,
-    last,
+    // last,
     setInitialView,
     setView,
     createHubConnection
@@ -37,13 +37,15 @@ const PrivateMessageThreadList = () => {
   return (
 
     <Segment
-      style={{ backgroundColor: "lightblue" }} 
+      // style={{ backgroundColor: "lightblue" }} 
       raised
+      className="sideScroll"
     >
       <Grid>
-        <Grid.Column width={6}>
+        <Grid.Column width={16}>
           {messagesByThreadId.map(([id, messages]) => (
-            <Segment raised key={id}>
+            //  style={{border: 'none'}}
+            <Segment key={id}>
               <Grid
                 onClick={() => {
                    
@@ -94,10 +96,10 @@ const PrivateMessageThreadList = () => {
             </Segment>
           ))}
         </Grid.Column>
-        <Grid.Column width={10}>
+        {/* <Grid.Column width={10}>
           {last && <PrivateMessageThreadListItem />}
          
-        </Grid.Column>
+        </Grid.Column> */}
       </Grid>
 
     </Segment>

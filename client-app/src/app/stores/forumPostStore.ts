@@ -1,4 +1,3 @@
-import { toJS } from 'mobx';
 import { IRateForumpost } from './../models/forumpost';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
 // import { SyntheticEvent } from 'react';
@@ -11,7 +10,7 @@ import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signal
 import { IComment } from '../models/comment';
 
 // configure({ enforceActions: 'always' });
-const LIMIT = 2;
+const LIMIT = 5;
 
 export default class ForumPostStore {
   rootStore: RootStore;
@@ -139,8 +138,6 @@ export default class ForumPostStore {
 
   @action addComment = async (values: any) => {
     values.id = this.forumpost!.id;
-    // console.log(toJS(this.forumpost))
-    // this.forumpost?.commenters.
     try {
       await this.hubConnection!.invoke('SendCommentForumPost', values);
     } catch (error) {

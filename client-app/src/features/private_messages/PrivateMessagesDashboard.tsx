@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Loader } from "semantic-ui-react";
+import { Grid, Segment } from "semantic-ui-react"; //, Loader
 import InfiniteScroll from "react-infinite-scroller";
 
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import PrivateMessageThreadList from "./PrivateMessageThreadList";
 import MessagesListItemPlaceholder from "../messages/dashboard/MessagesListItemPlaceholder";
+import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 
 const PrivateMessagesDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadMessages, loadingInitial, setPage, page, totalPages } =
+  const { loadMessages, loadingInitial, setPage, page, totalPages, last } =
     rootStore.privateMessageStore;
 
   const [loadingNext, setLoadingNext] = useState(false);
@@ -19,35 +20,45 @@ const PrivateMessagesDashboard = () => {
     setPage(page + 1);
     loadMessages().then(() => setLoadingNext(false));
   };
-  
+
   useEffect(() => {
     loadMessages();
-
   }, [loadMessages]);
 
-  
-
   return (
-    <Grid>
-      <Grid.Column width={16}>
+    <Segment
+      style={{ backgroundColor: "lightblue" }}
+      raised
+      // className='sideScroll'
+    >
+      <Grid style={{ margin: "0", padding: "0" }}>
+        {/* <Grid.Column width={12}> */}
         {loadingInitial && page === 0 ? (
-          <MessagesListItemPlaceholder />
+          <Grid.Row>
+            <Grid.Column width={16}>
+              <MessagesListItemPlaceholder />
+            </Grid.Column>
+          </Grid.Row>
         ) : (
-          <InfiniteScroll
-            pageStart={0}
-            loadMore={handleGetNext}
-            hasMore={!loadingNext && page + 1 < totalPages}
-            initialLoad={false}
-          >
-            <PrivateMessageThreadList/>
-          </InfiniteScroll>
+          <Grid.Row>
+            <Grid.Column width={4}>
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={handleGetNext}
+                hasMore={!loadingNext && page + 1 < totalPages}
+                initialLoad={false}
+              >
+                <PrivateMessageThreadList />
+              </InfiniteScroll>
+            </Grid.Column>
+            <Grid.Column width={12}>
+              {last && <PrivateMessageThreadListItem />}
+            </Grid.Column>
+          </Grid.Row>
         )}
-      </Grid.Column>
-
-      <Grid.Column computer={16} mobile={16}>
-        <Loader active={loadingNext} />
-      </Grid.Column>
-    </Grid>
+        {/* </Grid.Column> */}
+      </Grid>
+    </Segment>
   );
 };
 

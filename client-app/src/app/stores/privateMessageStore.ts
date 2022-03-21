@@ -1,6 +1,6 @@
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { observable, action, computed, runInAction, toJS } from 'mobx';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { history } from '../..';
 
 import agent from '../api/agent';
@@ -8,7 +8,7 @@ import { RootStore } from './rootStore';
 import { IPrivateMessage } from '../models/privatemessages';
 
 
-const LIMIT = 4;
+const LIMIT = 10;
 
 export default class PrivateMessageStore {
     rootStore: RootStore;
@@ -74,7 +74,7 @@ export default class PrivateMessageStore {
             console.log('this.last after: ', toJS(this.last))
         })
         this.hubConnection.on('SendMessage', message => {
-            toast.info(message)
+            // toast.info(message)
         })
     }
 
