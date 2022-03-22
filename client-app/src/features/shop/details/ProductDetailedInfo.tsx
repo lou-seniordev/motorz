@@ -267,6 +267,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                     basic
                     color='olive'
                     content='Mark sold'
+                    disabled={product.isSold}
                     onClick={() => handleMarkSold(product.id!)}
                   />
                   <Button
