@@ -5,6 +5,7 @@ import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductDetailedInfo from "./ProductDetailedInfo";
+import ProductDetailsStatistics from "./ProductDetailsStatistics";
 
 interface DetailParams {
   id: string;
@@ -32,20 +33,20 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
   return (
     <Grid>
-      <Grid.Column width={9}>
+      <Grid.Row>
+          <Grid.Column width={16}>
+         
+          <ProductDetailsStatistics product={product}/>
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+
+      <Grid.Column width={16}>
         <ProductDetailedInfo product={product} />
       </Grid.Column>
+      </Grid.Row>
       
-        <Grid.Column width={7}>
-          <h3>The {product.title} is seen {product.numberSeen} times</h3>
-          <>
-          {product.numberFollowed !==0  && 
-          'The ' + product.title + ' is in favorites of ' +
-          
-          (product.numberFollowed > 1 ? product.numberFollowed + ' people' : product.numberFollowed + ' person')} 
-          </>
-          
-        </Grid.Column>
+      
     </Grid>
   );
 };

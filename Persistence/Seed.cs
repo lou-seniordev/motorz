@@ -527,7 +527,7 @@ namespace Persistence
                                 PhoneNumber= "+38633890279",
                                 ProductPhoto = new ProductPhoto {
                                     Id = "smflae7fk3rgjcui7nwh",
-                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1646951457/smflae7fk3rgjcui7nwh.jpg",
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1646951575/sx13no7gnp7qubrzxb1f.jpg",
                                 }
                             },
                               new Product

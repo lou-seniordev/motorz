@@ -21,7 +21,7 @@ const ForumDetailedHeader: React.FC<{ forumpost: IForumpost }> = ({
 }) => {
  
   return (
-    <Segment.Group>
+    <Segment.Group raised>
       <Segment basic attached='top' style={{ padding: "0" }}>
         <Image
           src={`/assets/forumCategoryImages/${forumpost.category}.jpg`}

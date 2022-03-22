@@ -107,7 +107,7 @@ export default class ProductStore {
           this.productRegistry.set(product.id, product);
           this.loadingInitial = false;
           this.product = product;
-          // console.log('product:::', product);
+          console.log('product:::', product);
         });
         return product;
       } catch (error) {

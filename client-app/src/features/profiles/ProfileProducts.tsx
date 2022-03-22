@@ -9,6 +9,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 const panes = [
   { menuItem: "Products I am selling", pane: { key: "iAmSelling" } },
   { menuItem: "Products I sold", pane: { key: "iSold" } },
+  // { menuItem: "Inactive products", pane: { key: "inactive" } },
 //   { menuItem: "Mechanics I Recommend", pane: { key: "iRecommend" } },
 ];
 
