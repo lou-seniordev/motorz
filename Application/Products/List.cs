@@ -21,7 +21,7 @@ namespace Application.Products
         public class Query : IRequest<ProductsEnvelope>
         {
             public Query(int? limit, int? offset, string country, string brand,
-                string category, bool iFollow, bool iView, bool myProducts, string search)
+                string category, bool iFollow, bool iView, bool myProducts, bool inactive, string search)
             {
                 IFollow = iFollow;
                 IView = iView;
@@ -31,6 +31,7 @@ namespace Application.Products
                 Brand = brand;
                 Category = category;
                 MyProducts = myProducts;
+                Inactive = inactive;
                 Search = search;
 
             }
@@ -42,6 +43,7 @@ namespace Application.Products
             public bool IFollow { get; set; }
             public bool IView { get; set; }
             public bool MyProducts { get; set; }
+            public bool Inactive { get; set; }
             public string Search { get; set; }
             //==TODO--
             public string PriceRange { get; set; }
@@ -69,7 +71,7 @@ namespace Application.Products
 
                 var queryable = _context.Products
                 //!! work on sold/active combination
-                // .Where(x => x.IsActive)
+                .Where(x => x.IsActive)
                 .OrderByDescending(x => x.DatePublished)
                 .AsQueryable();
 
@@ -77,7 +79,7 @@ namespace Application.Products
 
                 if (string.IsNullOrEmpty(request.Country) && string.IsNullOrEmpty(request.Category)
                     && string.IsNullOrEmpty(request.Brand) && string.IsNullOrEmpty(request.Search)
-                    && !request.IFollow && !request.IView && !request.MyProducts)
+                    && !request.IFollow && !request.IView && !request.MyProducts && !request.Inactive)
                 {
                     products = await GetAllProducts(request, queryable, products);
 
@@ -149,6 +151,20 @@ namespace Application.Products
                 if (request.MyProducts)
                 {
                     queryable = queryable.Where(x => x.Seller.Id == user.Id);
+                    products = await GetAllProducts(request, queryable, products);
+
+                }
+                if (request.Inactive)
+                {
+                    queryable = _context.Products
+                
+                    .Where(x => x.IsActive == false)
+                    .Where(x => x.Seller.Id == user.Id)
+                    .OrderByDescending(x => x.DatePublished)
+                    .AsQueryable();
+
+
+                    // queryable.Where(x => x.Seller.Id == user.Id);
                     products = await GetAllProducts(request, queryable, products);
 
                 }

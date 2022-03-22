@@ -103,6 +103,14 @@ const ProductFilters = () => {
           style={ styles }
           content={"By people I follow"}
         />
+        <Menu.Item
+          active={predicate.has("inActive")}
+          onClick={() => setPredicate("inActive", "true")}
+          color={"blue"}
+          name={"inActive"}
+          style={ styles }
+          content={"Inactive products"}
+        />
       </Menu>
     </Fragment>
   );

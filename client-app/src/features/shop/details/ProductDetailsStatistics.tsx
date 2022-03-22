@@ -41,7 +41,7 @@ const ProductDetailsStatistics: React.FC<{ product: IProduct }> = ({
           {formatDistance(new Date(product.datePublished), new Date(), {
             addSuffix: true,
           })}
-          , and seen {product.numberSeen} times
+          , seen {product.numberSeen} times, and active 10 more days
         </Header>
 
         <Header.Subheader>

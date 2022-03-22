@@ -77,6 +77,7 @@ export default class ProductStore {
       runInAction('loading products', () => {
         products.forEach((product) => {
           this.productRegistry.set(product.id, product);
+          console.log('product:::', product);
         });
         // console.log('products', products);
         this.productCount = productCount; 
@@ -107,7 +108,7 @@ export default class ProductStore {
           this.productRegistry.set(product.id, product);
           this.loadingInitial = false;
           this.product = product;
-          console.log('product:::', product);
+          // console.log('product:::', product);
         });
         return product;
       } catch (error) {
@@ -196,6 +197,17 @@ export default class ProductStore {
       runInAction('Marking the product sold', () => {
         product.isSold = true;
         toast.info('This product is marked as sold!');
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  @action toogleActivate = async (id: string, product: IProduct) => {
+    try {
+      await agent.Products.toogleActivate(id);
+      runInAction('Marking the product sold', () => {
+        product.isActive = true;//!this.product?.isActive;
+        toast.info('This product is activated!');
       })
     } catch (error) {
       console.log(error)
