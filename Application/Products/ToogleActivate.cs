@@ -15,7 +15,6 @@ namespace Application.Products
         {
             public Guid Id { get; set; }
 
-
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -32,7 +31,6 @@ namespace Application.Products
             public Handler(DataContext context)
             {
                 _context = context;
-
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -47,6 +45,8 @@ namespace Application.Products
                 product.IsActive = !product.IsActive;
                 if(product.IsActive)
                     product.ActivationCounter ++;
+
+                product.InactivityExpirationDate = DateTime.Now.AddDays(30);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

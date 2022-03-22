@@ -1,30 +1,22 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
-// import { RouteComponentProps } from "react-router-dom";
 import { Header, Icon, Segment } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IProduct } from "../../../app/models/product";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-// import ProductDetailedInfo from "./ProductDetailedInfo";
 
-// interface DetailParams {
-//   id: string;
-// }
 const ProductDetailsStatistics: React.FC<{ product: IProduct }> = ({
   product,
 }) => {
-  // ) => {
   const rootStore = useContext(RootStoreContext);
   const {
-    // product,
-    // loadProduct,
+
     loadingInitial,
     visitCounter,
   } = rootStore.productStore;
 
   useEffect(() => {
-    // loadProduct(match.params.id);
     visitCounter(product.id);
   }, [product, visitCounter]);
 
@@ -41,7 +33,11 @@ const ProductDetailsStatistics: React.FC<{ product: IProduct }> = ({
           {formatDistance(new Date(product.datePublished), new Date(), {
             addSuffix: true,
           })}
-          , seen {product.numberSeen} times, and active 10 more days
+          , seen {product.numberSeen} times and expires {" "} 
+          {formatDistance(new Date(product.inactivityExpirationDate), new Date(), {
+            addSuffix: true,
+          })}
+           
         </Header>
 
         <Header.Subheader>

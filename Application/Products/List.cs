@@ -70,7 +70,6 @@ namespace Application.Products
                   x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 var queryable = _context.Products
-                //!! work on sold/active combination
                 .Where(x => x.IsActive)
                 .OrderByDescending(x => x.DatePublished)
                 .AsQueryable();
@@ -157,14 +156,11 @@ namespace Application.Products
                 if (request.Inactive)
                 {
                     queryable = _context.Products
-                
                     .Where(x => x.IsActive == false)
                     .Where(x => x.Seller.Id == user.Id)
                     .OrderByDescending(x => x.DatePublished)
                     .AsQueryable();
 
-
-                    // queryable.Where(x => x.Seller.Id == user.Id);
                     products = await GetAllProducts(request, queryable, products);
 
                 }

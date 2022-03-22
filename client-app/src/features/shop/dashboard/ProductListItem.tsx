@@ -34,14 +34,13 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
           </Label>
         )}
         {!product.isActive && (
-          <Label color='grey' attached='top'>
-            INACTIVE !!!
+          <Label color='red' attached='top' style={{textAlign: 'center'}}>
+            INACTIVE
           </Label>
         )}
         <div className='ui segment'>
           <img
             className='ui centered medium image'
-            // style={{ height: "100px" }}
             src={product.photoUrl}
             alt='Product'
             
@@ -62,12 +61,10 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
         /> :
 
         <Button
-          // as={Link}
-          // to={`/product/${product.id}`}
           onClick={()=> handleToogleActivate()}
           fluid
-          content='Activate product'
-          color='yellow'
+          content='Activate'
+          color='instagram'
         />
         }
       </Card.Content>

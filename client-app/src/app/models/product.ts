@@ -26,10 +26,12 @@ export interface IProduct {
   viewers: IProductViewer [];
   datePublished: string;
   dateActivated: Date;
+  advertisingEndDate?: Date;
+  inactivityExpirationDate: Date;
   dateAdvertised: Date;
+  typeAdvertising: string;
   photoUrl: string;
   file: Blob;
-  // flagged: boolean;
 
 }
 

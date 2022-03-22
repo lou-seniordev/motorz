@@ -3,7 +3,6 @@ import { Divider, Dropdown, Input, Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { categories } from "../../../app/common/options/productOptions";
-// import { Segment } from "semantic-ui-react";
 
 const ProductFilters = () => {
   const rootStore = useContext(RootStoreContext);

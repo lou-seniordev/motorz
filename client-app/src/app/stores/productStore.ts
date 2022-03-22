@@ -1,7 +1,6 @@
 import { IProductViewer } from './../models/product';
 import { IProduct } from '../models/product';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
-// import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import agent from '../api/agent';
 import { toast } from 'react-toastify';
@@ -108,7 +107,7 @@ export default class ProductStore {
           this.productRegistry.set(product.id, product);
           this.loadingInitial = false;
           this.product = product;
-          // console.log('product:::', product);
+          // console.log('product:::', toJS(product));
         });
         return product;
       } catch (error) {

@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react"; //, useState
 import { Link } from "react-router-dom";
 import { Segment, Grid, Icon, Image, Button, Label } from "semantic-ui-react";
-// import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IProduct } from "../../../app/models/product";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ContactForm from "../forms/ContactForm";
@@ -25,8 +24,6 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
 
   const { user } = rootStore.userStore;
 
-  // if (loadingThread)
-  // return <LoadingComponent content='Loading product...' />;
 
   useEffect(() => {
     product.viewers.forEach((viewer) => {
@@ -64,7 +61,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
     unfollowProduct(id);
     addFeedItem(id, "Removed from favorites");
   };
-
+  const styles={minWidth:"10em"}
   return (
     <Grid>
       <Grid.Column width={8}>
@@ -74,11 +71,8 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon size='large' color='grey' name='info' />
             </Grid.Column>
             <Grid.Column width={14}>
-            {/* <Label attached='top left'>Title */}
-            <Label color='yellow' horizontal>Title </Label>
-              {/* <h3> */}
+            <Label style={styles} color='yellow' horizontal>Title </Label>
                  {product.title}
-              {/* </h3> */}
              
             </Grid.Column>
           </Grid>
@@ -88,11 +82,8 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='monero' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-            {/* Price:  */}
-            <Label color='yellow' horizontal>Price </Label>
-              {/* <h4> */}
+            <Label style={styles} color='yellow' horizontal>Price </Label>
                 {product.price} €
-                {/* </h4> */}
             </Grid.Column>
           </Grid>
 
@@ -101,13 +92,10 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='calendar' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-            <Label color='yellow' horizontal>Published </Label>
-              {/* <h4> */}
-                {/* Published:{" "} */}
+            <Label style={styles} color='yellow' horizontal>Published </Label>
                 {formatDistance(new Date(product.datePublished), new Date(), {
                   addSuffix: true,
                 })}
-              {/* </h4> */}
             </Grid.Column>
           </Grid>
          
@@ -117,11 +105,8 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='certificate' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-            <Label color='yellow' horizontal>Category </Label>
-              {/* <h4> */}
-                {/* Category:  */}
+            <Label style={styles} color='yellow' horizontal>Category </Label>
                 {product.category}
-                {/* </h4> */}
             </Grid.Column>
           </Grid>
 
@@ -130,11 +115,8 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='copyright' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-            <Label color='yellow' horizontal>Brand </Label>
-              {/* <h4> */}
-                {/* Brand:  */}
+            <Label style={styles} color='yellow' horizontal>Brand </Label>
                 {product.brand}
-                {/* </h4> */}
             </Grid.Column>
           </Grid>
 
@@ -143,10 +125,8 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='id badge outline' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-              {/* <h4> */}
-              <Label color='yellow' horizontal>Model </Label>
+              <Label style={styles} color='yellow' horizontal>Model </Label>
                 {product.model}
-                {/* </h4> */}
             </Grid.Column>
           </Grid>
           {product.sellerUsername !== user?.userName && (
@@ -156,51 +136,39 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 <Icon name='location arrow' size='large' color='grey' />
               </Grid.Column>
               <Grid.Column width={14}>
-                {/* <h4> */}
-                <Label color='yellow' horizontal>City </Label>
-                  {/* City:  */}
+                  <Label style={styles} color='yellow' horizontal>City </Label>
                   {product.city}
-                  {/* </h4> */}
-              </Grid.Column>
+                </Grid.Column>
             </Grid>
             <Grid verticalAlign='middle'>
               <Grid.Column width={2}>
                 <Icon name='map marker alternate' size='large' color='grey' />
               </Grid.Column>
               <Grid.Column width={14}>
-                {/* <h4> */}
-                <Label color='yellow' horizontal>Country </Label>
-                  {/* Country:  */}
+                  <Label style={styles} color='yellow' horizontal>Country </Label>
                   {product.countryName}
-                  {/* </h4> */}
-              </Grid.Column>
+                </Grid.Column>
             </Grid>
              <Grid verticalAlign='middle'>
               <Grid.Column width={2}>
                 <Icon name='user' size='large' color='grey' />
               </Grid.Column>
               <Grid.Column width={14}>
-                {/* <h4> */}
-                  {/* Seller name:  */}
-                  <Label color='yellow' horizontal>Seller </Label>
+                  <Label style={styles} color='yellow' horizontal>Seller </Label>
                   <Link to={`/profile/${product.sellerUsername}`}>
                   {" "}
                   {product.sellerDisplayName}
                 </Link>
-                 {/* </h4> */}
-              </Grid.Column>
+               </Grid.Column>
             </Grid>
            { product.phoneNumber && <Grid verticalAlign='middle'>
               <Grid.Column width={2}>
                 <Icon name='phone' size='large' color='grey' />
               </Grid.Column>
               <Grid.Column width={14}>
-                {/* <h4> */}
-                  {/* Contact number:  */}
                   <Label color='yellow' horizontal>Contact number </Label>
                   {product.phoneNumber}
-                  {/* </h4> */}
-              </Grid.Column>
+                </Grid.Column>
             </Grid>}
            { product.description && <Grid verticalAlign='middle'>
               <Grid.Column width={2}>
@@ -208,10 +176,9 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               </Grid.Column>
               <Grid.Column width={14}>
                
-                  <Label color='yellow' horizontal>Description </Label>
+                  <Label style={styles} color='yellow' horizontal>Description </Label>
                   {product.description}
-                  {/* </h4> */}
-              </Grid.Column>
+                </Grid.Column>
             </Grid>}
             </>
           )}
@@ -224,15 +191,12 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                     basic
                     content='Contact the seller'
                     color='blue'
-                    // button
                     onClick={() => {
                       openModal(<ContactForm userName={user?.userName!} />);
                     }}
                   />
                   <Button
-                    // basic
                     color='instagram'
-                    // button
                     content={
                       productFollowed === true
                         ? "Unfollow this product"
@@ -253,13 +217,10 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                   <Button
                     basic
                     onClick={() => {
-                      // () =>
 
                       handleDeleteProduct(product.id!);
-                      // history.push("/gallery");
                     }}
                     color='red'
-                    // floated='left'
                   >
                     Delete
                   </Button>
@@ -271,11 +232,9 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                     onClick={() => handleMarkSold(product.id!)}
                   />
                   <Button
-                    // basic
                     as={Link}
                     to={`/manageProduct/${product.id}`}
                     color='instagram'
-                    // floated='right'
                   >
                     Manage
                   </Button>

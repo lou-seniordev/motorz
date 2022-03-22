@@ -78,12 +78,10 @@ namespace Application.Products
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 var country = await _context.Countries.SingleOrDefaultAsync(x => x.Name == request.Country);
-
 
                 var product = new Product
                 {
@@ -102,12 +100,9 @@ namespace Application.Products
                     IsAdvertised = false,
                     DatePublished = DateTime.Now,
                     DateActivated = DateTime.Now,
+                    InactivityExpirationDate = DateTime.Now.AddDays(30),
                     ActivationCounter = 1,
                 };
-
-
-
-
 
                 var ProductId = product.Id;
 
@@ -128,8 +123,6 @@ namespace Application.Products
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;
-
-                // return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
             }

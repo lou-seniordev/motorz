@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain;
 
 namespace Application.Products
 {
@@ -30,6 +27,9 @@ namespace Application.Products
         public DateTime DatePublished { get; set; }
         public DateTime DateActivated { get; set; }
         public DateTime DateAdvertised { get; set; }
+        public DateTime? AdvertisingEndDate { get; set; }
+        public string TypeAdvertising { get; set; }
+        public DateTime InactivityExpirationDate { get; set; }
         public int ActivationCounter { get; set; }
         public string PhotoUrl { get; set; }
         public ICollection<ProductViewerDto> Viewers { get; set; }
