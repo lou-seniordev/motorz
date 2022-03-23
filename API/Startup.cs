@@ -26,6 +26,8 @@ using Infrastructure.Photos;
 using System.Threading.Tasks;
 using API.SignalR;
 using Application.Profiles;
+using Coravel;
+using API.Workers;
 
 namespace API
 {
@@ -116,6 +118,10 @@ namespace API
                           .AllowCredentials();
                 });
             });
+             // === SCHEDULER ===
+            services.AddScheduler();
+            services.AddTransient<ProcessExpiredProducts>();
+            services.AddTransient<ProcessInactiveProducts>();
 
             // ===  MEDIATOR ===
             // comment

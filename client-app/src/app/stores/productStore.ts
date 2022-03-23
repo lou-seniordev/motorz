@@ -76,7 +76,7 @@ export default class ProductStore {
       runInAction('loading products', () => {
         products.forEach((product) => {
           this.productRegistry.set(product.id, product);
-          console.log('product:::', product);
+          // console.log('product:::', product);
         });
         // console.log('products', products);
         this.productCount = productCount; 

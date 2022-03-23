@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistence;
+using Coravel;
+using API.Workers;
+
 
 namespace API
 {
@@ -32,6 +35,15 @@ namespace API
                     logger.LogError(ex, "An Error Occured During Migrations");
                 }
             }
+
+            host.Services.UseScheduler(schedular => 
+            {
+                var processExpiredProducts = schedular.Schedule<ProcessExpiredProducts>();
+                processExpiredProducts.Daily().PreventOverlapping("ProcessExpiredJob");
+
+                var processInactiveProducts = schedular.Schedule<ProcessInactiveProducts>();
+                processInactiveProducts.Daily().PreventOverlapping("ProcessInactiveJob");
+            });
 
             host.Run();
 

@@ -126,6 +126,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...product,
         id: newId,
         datePublished: new Date().toISOString(),
+        inactivityExpirationDate: new Date(Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 30),
         file: imageToUpload,
         photoUrl: previewImage,
         sellerUsername: user?.userName,
