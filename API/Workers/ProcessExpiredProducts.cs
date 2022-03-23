@@ -24,7 +24,6 @@ namespace API.Workers
 
         public async Task ProcessExpired(RunServiceDeactivateExpiredProducts.Command command)
         {
-            // var result = 
             await _mediator.Send(command);
 
             _logger.LogInformation($"Processed Expired Product is complete");

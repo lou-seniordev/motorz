@@ -38,14 +38,7 @@ namespace Application.Products
 
                 if (products == null)
                     _logger.LogInformation("None of the Products are to be dectivated");
-                // {
-                // }
-                // else 
-                // {
-                //      _logger.LogInformation($"{products.Count()} of the Products are to be dectivated");
-                // }
-
-
+              
                 foreach (var product in products)
                 {
                     product.IsActive = false;

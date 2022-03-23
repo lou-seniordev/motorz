@@ -23,10 +23,9 @@ namespace API.Workers
 
         public async Task ProcessInactive (RunServiceDeleteInactiveProducts.Command command)
         {
-            var result = await _mediator.Send(command);
+            await _mediator.Send(command);
 
-            // return Task.CompletedTask Test Coravel 2
-             _logger.LogInformation($"Processed Inactive Product with result - {result} is complete"); 
+            _logger.LogInformation($"Processed Inactive Product is complete");
         }
     }
 }

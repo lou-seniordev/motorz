@@ -16,7 +16,6 @@ namespace Application.Products
     {
         public class Command : IRequest
         {
-            // public Guid Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -35,9 +34,6 @@ namespace Application.Products
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-                // var product = await _context.Products.FirstOrDefaultAsync(x => x.IsActive == true);
-                // var product = await _context.Products
-                //     .FirstOrDefaultAsync(x => x.Id == Guid.Parse("A416C68D-7EA8-4218-83A1-B86BECE80849"));
                 var products = await _context.Products
                     .Where(x => x.IsActive == false)
                     .ToListAsync();
@@ -45,7 +41,6 @@ namespace Application.Products
                 if (products == null)
                     _logger.LogInformation("All Products Are Active");
 
-                // throw new RestException(HttpStatusCode.NotFound, new { Product = "Product NotFound" });
 
                 foreach (var product in products)
 

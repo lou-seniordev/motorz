@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Persistence;
 using Coravel;
 using API.Workers;
+using Serilog;
+// using Serilog;
 
 
 namespace API
@@ -54,6 +56,10 @@ namespace API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .UseSerilog((hostingContext, loggerConfiguration) => 
+                {
+                    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
                 });
     }
 }

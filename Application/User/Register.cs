@@ -7,11 +7,12 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Persistence;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Application.Errors;
 using System.Net;
 using Application.Validators;
+// using Serilog;
+
 
 namespace Application.User
 {
@@ -51,6 +52,10 @@ namespace Application.User
 
                 public async Task<User> Handle(Command request, CancellationToken cancellationToken)
                 {
+                    // Log.Logger = new LoggerConfiguration()
+                    //     .WriteTo.Console()
+                    //     .CreateLogger();
+
                     if (await _context.Users.AnyAsync(x => x.Email == request.Email))
                         throw new RestException(HttpStatusCode.BadRequest,
                         new { Email = "Email already exists" });
@@ -70,16 +75,18 @@ namespace Application.User
 
                     if (result.Succeeded)
                     {
+                        // Log.Information("Trying to register");
+                        // Log.CloseAndFlush();
                         return new User
                         {
                             DisplayName = user.DisplayName,
                             Token = _jwtGenerator.CreateToken(user),
                             UserName = user.UserName,
-                            Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                            // Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
                         };
                     }
 
-
+                    // Log.Fatal("Exception in application");
                     throw new Exception("Problem creating user  ");
                 }
             }

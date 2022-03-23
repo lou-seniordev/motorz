@@ -8,7 +8,7 @@ using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Persistence;
+// using Serilog;
 
 namespace Application.User
 {
@@ -45,16 +45,25 @@ namespace Application.User
 
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
+                // Log.Logger = new LoggerConfiguration()
+                //        .WriteTo.Console()
+                //        .CreateLogger();
+
                 var user = await _userManager.FindByEmailAsync(request.Email);
 
                 if (user == null)
+                {
+                    // Log.Fatal("Unauthorized attempt to loggin");
                     throw new RestException(HttpStatusCode.Unauthorized);
+                }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user,
                     request.Password, false);
 
                 if (result.Succeeded)
                 {
+                    // Log.Information("Trying to register");
+                    // Log.CloseAndFlush();
                     // TODO: Generate Token
                     return new User
                     {
@@ -64,6 +73,7 @@ namespace Application.User
                         Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
                     };
                 }
+                // Log.Fatal("Exception in application");
 
                 throw new RestException(HttpStatusCode.Unauthorized);
 
