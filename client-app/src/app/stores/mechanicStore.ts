@@ -44,6 +44,7 @@ export default class MechanicStore {
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
     }
+    console.log(value)
   }
 
   @computed get axiosParams () {

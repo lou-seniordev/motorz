@@ -63,7 +63,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   };
   const styles={minWidth:"10em"}
   return (
-    <Grid>
+    <Grid stackable columns={2}>
       <Grid.Column width={8}>
         <Segment raised>
           <Grid>

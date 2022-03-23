@@ -29,7 +29,7 @@ const GalleryChamps: React.FC<{ motofy: IMotofy, info:string }> = ({
             </Grid.Column>
             <Grid.Column width={16}>
               <Grid.Row>
-              <Item.Image size='huge' src={motofy.photoUrl} bordered fluid/>
+              <Item.Image src={motofy.photoUrl} bordered fluid/>
               </Grid.Row>
               <Grid.Row>
                 <Item.Group>

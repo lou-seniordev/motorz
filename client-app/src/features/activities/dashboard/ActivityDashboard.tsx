@@ -5,7 +5,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import InfiniteScroll from "react-infinite-scroller";
 import ActivityFilters from "./ActivityFilters";
 import ActivityListItemPlaceholder from "./ActivityListItemPlaceholder";
-import ActivityMobileMenu from "./ActivityMobileMenu";
+import ActivityMobileFilters from "./ActivityMobileFilters";
 import ActivityList from "./ActivityList";
 
 //REFACTOR or delete!!!
@@ -38,7 +38,7 @@ const ActivityDashboard: React.FC = () => {
   return (
     <Grid>
       <Grid.Column mobile={16} tablet={16} className='mobile only'>
-        <ActivityMobileMenu />
+        <ActivityMobileFilters />
       </Grid.Column>
       <Grid.Column computer={11} mobile={16}>
         {loadingInitial && page === 0 ? (

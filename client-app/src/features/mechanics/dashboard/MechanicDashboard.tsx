@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import MechanicFilters from "./MechanicFilters";
 import MechanicListItemPlaceholder from "./MechanicListItemPlaceholder";
+import MechanicMobileFilters from "./MechanicMobileFilters";
 
 const MechanicDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -26,6 +27,9 @@ const MechanicDashboard = () => {
 
   return (
     <Grid>
+      <Grid.Column mobile={16} tablet={16} className='mobile only'>
+        <MechanicMobileFilters />
+      </Grid.Column>
       <Grid.Column computer={11} mobile={16}>
         {loadingInitial && page === 0 ? (
           <MechanicListItemPlaceholder />

@@ -34,7 +34,7 @@ const ForumFilters = () => {
         </Menu.Item>
         <Menu.Item>
           <Dropdown
-            placeholder='Search by category'
+            placeholder='Filter by category'
             selection
             fluid
             search
