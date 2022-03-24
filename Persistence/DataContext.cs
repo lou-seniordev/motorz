@@ -9,8 +9,6 @@ namespace Persistence
         public DataContext(DbContextOptions options) : base(options)
         {
         }
-
-        // public DbSet<Value> Values { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<UserActivity> UserActivities { get; set; }
         public DbSet<DiaryEntry> DiaryEntries { get; set; }
@@ -35,7 +33,6 @@ namespace Persistence
 
         //==Redundant but kept for future options== (code:finduser)
 
-        // coming soon...
         public DbSet<Testimonial> Testimonials { get; set; }
 
         // === MESSAGES ===

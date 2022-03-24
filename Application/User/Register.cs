@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Errors;
 using System.Net;
 using Application.Validators;
-
+using System.Collections.Generic;
 
 namespace Application.User
 {
@@ -61,27 +61,44 @@ namespace Application.User
                         throw new RestException(HttpStatusCode.BadRequest,
                         new { UserName = "UserName already exists" });
 
+                    // private ICollection refreshTokens = new Collection<RefreshToken>();
                     var user = new AppUser
                     {
                         DisplayName = request.DisplayName,
                         Email = request.Email,
-                        UserName = request.UserName
+                        UserName = request.UserName,
                     };
 
-                    var refreshToken = _jwtGenerator.GenerateRefreshToken();
-                    user.RefreshTokens.Add(refreshToken);
+                    
+                    // var refreshToken = _jwtGenerator.GenerateRefreshToken();
+                    // refreshToken.AppUser = user;
+
+                    // var x = new Domain.RefreshToken {
+                    //     Id = refreshToken.Id,
+                    //     Token = refreshToken.Token,
+                    //     AppUser = user,
+                    //     Expires = refreshToken.Expires,
+                       
+                    // };
+
+                    // var y = new List<Domain.RefreshToken>();
+                    // user.RefreshTokens = y;
+                    // y.Add(refreshToken);
+                    
+
+                    // user.RefreshTokens.Add(refreshToken);
 
                     var result = await _userManager.CreateAsync(user, request.Password);
 
                     if (result.Succeeded)
                     {
-                        return new User(user, _jwtGenerator, refreshToken.Token);
-                        // return new User
-                        // {
-                        //     DisplayName = user.DisplayName,
-                        //     Token = _jwtGenerator.CreateToken(user),
-                        //     UserName = user.UserName,
-                        // };
+                        // return new User(user, _jwtGenerator, refreshToken.Token);
+                        return new User
+                        {
+                            DisplayName = user.DisplayName,
+                            Token = _jwtGenerator.CreateToken(user),
+                            Username = user.UserName,
+                        };
                     }
 
                     throw new Exception("Problem creating user  ");

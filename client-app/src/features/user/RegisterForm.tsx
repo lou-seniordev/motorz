@@ -21,7 +21,7 @@ const RegisterForm = () => {
   return (
     <FinalForm
       onSubmit={(values: IUserFormValues) =>
-        register(values).catch((error) => ({
+        register(values).then(()=> console.log(values)).catch((error) => ({
           [FORM_ERROR]: error,
         }))
       }
@@ -60,9 +60,7 @@ const RegisterForm = () => {
 
             />
           )}
-            {/* text={JSON.stringify(submitError.data.errors)} */}
-
-          {/* <br /> */}
+          
           <Button
             disabled={(invalid && !dirtySinceLastSubmit) || pristine}
             loading={submitting}
@@ -70,7 +68,6 @@ const RegisterForm = () => {
             content='Register'
             fluid
           />
-          {/* <pre>{JSON.stringify(form.getState(), null, 2)}</pre> */}
         </Form>
       )}
     />

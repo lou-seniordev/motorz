@@ -26,17 +26,13 @@ namespace Infrastructure.Security
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
             };
-
-            // generate signing credentials
             
-
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                // Expires = DateTime.Now.AddMinutes(2),//10 - 15
-                Expires = DateTime.Now.AddMinutes(15),
+                Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = creds
             };
 
@@ -48,14 +44,5 @@ namespace Infrastructure.Security
 
         }
 
-        public RefreshToken GenerateRefreshToken()
-        {
-            var randomNumber = new byte[32];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return new RefreshToken{
-                Token = Convert.ToBase64String(randomNumber)
-            };
-        }
     }
 } 

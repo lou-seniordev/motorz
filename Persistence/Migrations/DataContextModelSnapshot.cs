@@ -1028,31 +1028,6 @@ namespace Persistence.Migrations
                     b.ToTable("Ratings");
                 });
 
-            modelBuilder.Entity("Domain.RefreshToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Expires")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("Revoked")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("RefreshToken");
-                });
-
             modelBuilder.Entity("Domain.Testimonial", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1658,15 +1633,6 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.RefreshToken", b =>
-                {
-                    b.HasOne("Domain.AppUser", "AppUser")
-                        .WithMany("RefreshTokens")
-                        .HasForeignKey("AppUserId");
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("Domain.UserActivity", b =>
                 {
                     b.HasOne("Domain.Activity", "Activity")
@@ -1830,8 +1796,6 @@ namespace Persistence.Migrations
                     b.Navigation("PrivateMessagesSent");
 
                     b.Navigation("Products");
-
-                    b.Navigation("RefreshTokens");
 
                     b.Navigation("UserActivities");
 

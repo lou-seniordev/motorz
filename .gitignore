@@ -4,5 +4,6 @@ obj
 .DS_Store
 appsettings.json
 *.db
+*.txt
 
 

@@ -586,6 +586,38 @@ namespace Application.Feeds
                     }
                 }
                 #endregion
+                #region Registered
+                else if (request.Info == "Registered")
+                {
+                    notifyeeIds = await _context.Users
+                                        .Where(x => x.UserName == request.Username)
+                                        .Select(x => x.Id)
+                                        .ToListAsync();
+                  
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                        var feed = new Feed
+                        {
+                            Id = feedId,
+                            Info = ", welcome to Motoranza!",
+                            Notifier = notifier,
+                            ObjectId = request.ObjectId,
+                            DateTriggered = DateTime.Now,
+                            FeedType = feedType,
+                            Notifyees = notifees
+                        };
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
 
 
                 var success = await _context.SaveChangesAsync() > 0;
