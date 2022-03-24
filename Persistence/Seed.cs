@@ -854,29 +854,32 @@ namespace Persistence
                 await context.Products.AddRangeAsync(products);
                 await context.SaveChangesAsync();
 
-                // var moreUsers = new List<AppUser>();
-                // for(int i=1; i<35; i++)
-                //     {
-                //         var tempUsr = new AppUser
-                //         {
-                //             Id = "user_" + i,
-                //             DisplayName = "test_user " + i,
-                //             UserName = "test_user " + i,
-                //             Email = "test_user."+ i +"@test.com",
-                //             Photos = new List<Photo> {
-                //                 new Photo {
-                //                     Id = "test_user" + i,
-                //                     Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
-                //                     IsMain = true,
-                //                 }
-                //             },
-                //         };
-                //         // moreUsers.Add(tempUsr);
-                //     }
-                //     // foreach (var user in users)
-                //     // {
-                //     //     await userManager.CreateAsync(user, "Pa$$w0rd");
-                //     // }
+               
+                var moreUsers = new List<AppUser>();
+                for(int i = 1; i < 35; i++)
+                    {
+                        var tempUsr = new AppUser
+                        {
+                            Id = "user_" + i,
+                            DisplayName = "test_user " + i,
+                            UserName = "test_user " + i,
+                            Email = "test_user."+ i +"@test.com",
+                            Photos = new List<Photo> {
+                                new Photo {
+                                    Id = "test_user" + i,
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                    IsMain = true,
+                                }
+                            },
+                        };
+                        moreUsers.Add(tempUsr);
+                    }
+                    foreach (var user in moreUsers)
+                    {
+                        await userManager.CreateAsync(user, "Pa$$w0rd");
+                    }
+                    await context.Users.AddRangeAsync(moreUsers);
+                    await context.SaveChangesAsync();
 
             }
 

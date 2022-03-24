@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Application.Errors;
 using System.Net;
 using Application.Validators;
-// using Serilog;
 
 
 namespace Application.User
@@ -52,9 +51,7 @@ namespace Application.User
 
                 public async Task<User> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    // Log.Logger = new LoggerConfiguration()
-                    //     .WriteTo.Console()
-                    //     .CreateLogger();
+
 
                     if (await _context.Users.AnyAsync(x => x.Email == request.Email))
                         throw new RestException(HttpStatusCode.BadRequest,
@@ -71,22 +68,22 @@ namespace Application.User
                         UserName = request.UserName
                     };
 
+                    var refreshToken = _jwtGenerator.GenerateRefreshToken();
+                    user.RefreshTokens.Add(refreshToken);
+
                     var result = await _userManager.CreateAsync(user, request.Password);
 
                     if (result.Succeeded)
                     {
-                        // Log.Information("Trying to register");
-                        // Log.CloseAndFlush();
-                        return new User
-                        {
-                            DisplayName = user.DisplayName,
-                            Token = _jwtGenerator.CreateToken(user),
-                            UserName = user.UserName,
-                            // Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                        };
+                        return new User(user, _jwtGenerator, refreshToken.Token);
+                        // return new User
+                        // {
+                        //     DisplayName = user.DisplayName,
+                        //     Token = _jwtGenerator.CreateToken(user),
+                        //     UserName = user.UserName,
+                        // };
                     }
 
-                    // Log.Fatal("Exception in application");
                     throw new Exception("Problem creating user  ");
                 }
             }

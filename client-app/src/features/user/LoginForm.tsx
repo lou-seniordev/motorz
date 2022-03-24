@@ -32,7 +32,7 @@ const LoginForm = () => {
         pristine,
         dirtySinceLastSubmit,
       }) => (
-        <Form onSubmit={handleSubmit} error={submitError}>
+        <Form onSubmit={handleSubmit} error={submitError} autoComplete='off'>
           <Header
             as='h2'
             content='Login to Motoranza'

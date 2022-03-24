@@ -9,7 +9,7 @@ namespace Domain
         public string Bio { get; set; }
         public virtual ICollection<UserActivity> UserActivities { get; set; } //virtual??
         public virtual ICollection<Photo> Photos { get; set; }
-        public virtual ICollection<UserFollowing> Followings {get; set;}
+        public virtual ICollection<UserFollowing> Followings { get; set; }
         public virtual ICollection<UserFollowing> Followers { get; set; }
         public virtual ICollection<UserMotofy> UserMotofies { get; set; }
         public virtual ICollection<Product> Products { get; set; }
@@ -19,6 +19,8 @@ namespace Domain
         public virtual ICollection<PrivateMessage> PrivateMessagesSent { get; set; }
         public virtual ICollection<PrivateMessage> PrivateMessagesReceived { get; set; }
         public virtual ICollection<ProductViewer> ViewingProducts { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
+
 
     }
 }

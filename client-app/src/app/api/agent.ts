@@ -28,7 +28,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.interceptors.request.use(
   (config) => {
     const token = window.localStorage.getItem('jwt');
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    if (token) config.headers!.Authorization = `Bearer ${token}`;
     return config;
   },
   (error) => {
@@ -327,6 +327,7 @@ const User = {
     requests.post(`user/login`, user),
   register: (user: IUserFormValues): Promise<IUser> =>
     requests.post(`user/register`, user),
+  refreshToken: (): Promise<IUser> => requests.post(`/user/refreshToken`, {})
 };
 
 

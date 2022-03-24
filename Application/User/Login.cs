@@ -8,7 +8,6 @@ using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-// using Serilog;
 
 namespace Application.User
 {
@@ -45,15 +44,11 @@ namespace Application.User
 
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
-                // Log.Logger = new LoggerConfiguration()
-                //        .WriteTo.Console()
-                //        .CreateLogger();
-
+               
                 var user = await _userManager.FindByEmailAsync(request.Email);
 
                 if (user == null)
                 {
-                    // Log.Fatal("Unauthorized attempt to loggin");
                     throw new RestException(HttpStatusCode.Unauthorized);
                 }
 
@@ -62,18 +57,18 @@ namespace Application.User
 
                 if (result.Succeeded)
                 {
-                    // Log.Information("Trying to register");
-                    // Log.CloseAndFlush();
-                    // TODO: Generate Token
-                    return new User
-                    {
-                        DisplayName = user.DisplayName,
-                        Token = _jwtGenerator.CreateToken(user),
-                        UserName = user.UserName,
-                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                    };
+                    var refreshToken = _jwtGenerator.GenerateRefreshToken();
+                    user.RefreshTokens.Add(refreshToken);
+                    await _userManager.UpdateAsync(user);
+                    return new User(user, _jwtGenerator, refreshToken.Token);
+                    // return new User
+                    // {
+                    //     DisplayName = user.DisplayName,
+                    //     Token = _jwtGenerator.CreateToken(user),
+                    //     UserName = user.UserName,
+                    //     Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                    // };
                 }
-                // Log.Fatal("Exception in application");
 
                 throw new RestException(HttpStatusCode.Unauthorized);
 
