@@ -51,7 +51,7 @@ namespace Application.Feeds
                 var notifier = await _context.Users.SingleOrDefaultAsync(
                      x => x.UserName == _userAccessor.GetCurrentUsername());
 
-                if (_context.Feeds.Any(x => x.ObjectId == request.ObjectId && x.Notifier.Id == notifier.Id && x.FeedType == request.Info))
+                if (notifier != null && _context.Feeds.Any(x => x.ObjectId == request.ObjectId && x.Notifier.Id == notifier.Id && x.FeedType == request.Info))
                     throw new RestException(HttpStatusCode.Conflict, new { Feed = "Already Exists" });
 
                 var notifees = new List<FeedNotifyee>();
@@ -198,16 +198,16 @@ namespace Application.Feeds
                 {
                     var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
                     var type = "Started Following You";
-                       var feedToRemove = await _context.Feeds
-                               .SingleOrDefaultAsync(x => x.FeedType == type
+                    var feedToRemove = await _context.Feeds
+                            .SingleOrDefaultAsync(x => x.FeedType == type
                             //    && x.ObjectId == request.ObjectId
-                               && x.Notifier.Id == notifier.Id
-                               && x.Notifyees.Any(u => u.AppUserId == user.Id));
+                            && x.Notifier.Id == notifier.Id
+                            && x.Notifyees.Any(u => u.AppUserId == user.Id));
 
                     if (feedToRemove != null)
                         _context.Feeds.Remove(feedToRemove);
 
-                   
+
                 }
                 #endregion
                 #region Joined Motorcycle Diary
@@ -344,10 +344,10 @@ namespace Application.Feeds
                 else if (request.Info == "Embraced Motofy")
                 {
                     var type = "Embraced Motofy";
-                       var feedToRemove = await _context.Feeds
-                               .SingleOrDefaultAsync(x => x.FeedType == type
-                               && x.ObjectId == request.ObjectId
-                               && x.Notifier.Id == notifier.Id);
+                    var feedToRemove = await _context.Feeds
+                            .SingleOrDefaultAsync(x => x.FeedType == type
+                            && x.ObjectId == request.ObjectId
+                            && x.Notifier.Id == notifier.Id);
 
                     if (feedToRemove != null)
                         _context.Feeds.Remove(feedToRemove);
@@ -386,14 +386,14 @@ namespace Application.Feeds
                 else if (request.Info == "Unembraced Motofy")
                 {
                     var type = "Embraced Motofy";
-                       var feedToRemove = await _context.Feeds
-                               .SingleOrDefaultAsync(x => x.FeedType == type
-                               && x.ObjectId == request.ObjectId
-                               && x.Notifier.Id == notifier.Id);
+                    var feedToRemove = await _context.Feeds
+                            .SingleOrDefaultAsync(x => x.FeedType == type
+                            && x.ObjectId == request.ObjectId
+                            && x.Notifier.Id == notifier.Id);
 
                     if (feedToRemove != null)
                         _context.Feeds.Remove(feedToRemove);
-                   
+
                 }
                 #endregion
                 #region Deleted Motofy
@@ -593,7 +593,7 @@ namespace Application.Feeds
                                         .Where(x => x.UserName == request.Username)
                                         .Select(x => x.Id)
                                         .ToListAsync();
-                  
+
                     if (notifyeeIds.Count() > 0)
                     {
 
@@ -602,7 +602,7 @@ namespace Application.Feeds
                         var feed = new Feed
                         {
                             Id = feedId,
-                            Info = ", welcome to Motoranza!",
+                            Info = "Welcome to Motoranza!",
                             Notifier = notifier,
                             ObjectId = request.ObjectId,
                             DateTriggered = DateTime.Now,

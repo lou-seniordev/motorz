@@ -3,12 +3,10 @@ import { history } from '../..';
 import agent from '../api/agent';
 import { IUser, IUserFormValues } from '../models/user';
 import { RootStore } from './rootStore';
-import { v4 as uuid } from "uuid";
 
 
 export default class UserStore {
 
-    // refreshTokenTimeout: any;
 
     rootStore: RootStore;
     constructor(rootStore: RootStore) {
@@ -25,8 +23,7 @@ export default class UserStore {
             runInAction(() => {
                 this.user = user;
             });
-            // this.rootStore.commonStore.setToken(user.token);
-            // this.startRefreshTokenTimer(user);
+            this.rootStore.commonStore.setToken(user.token);
             this.rootStore.modalStore.closeModal();
             history.push('/activities');
             
@@ -41,11 +38,9 @@ export default class UserStore {
                 this.user = user;
             });
             // this.rootStore.commonStore.setToken(user.token);
-            // this.startRefreshTokenTimer(user);
         } catch (error) {
             console.log(error);
         }
-        // console.log(this.user?.userName);
     }
     @action logout = () => {
         this.rootStore.commonStore.setToken(null);
@@ -54,14 +49,11 @@ export default class UserStore {
     }
     
     @action register = async (values: IUserFormValues) => {
-        const { addFeedItem } = this.rootStore.feedStore;
 
-        // console.log(values)
         try {
-            const user = await agent.User.register(values);
+            await agent.User.register(values);
             this.rootStore.modalStore.closeModal();
-            addFeedItem(uuid(), "Registered", values.userName!)
-            history.push('/activities');
+            history.push(`/user/registerSuccess?email=${values.email}`);
         } catch (error) {
             throw error;
         }

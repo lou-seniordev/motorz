@@ -1,8 +1,6 @@
-using System;
 using System.Threading.Tasks;
 using Application.User;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,15 +11,36 @@ namespace API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<User>> Login(Login.Query query)
         {
+
             return await Mediator.Send(query);
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<User>> Register(Register.Command command)
+        public async Task<ActionResult> Register(Register.Command command)
         {
-            
-            return await Mediator.Send(command);
+            command.Origin = Request.Headers["origin"];
+            await Mediator.Send(command);
+            return Ok("Registration successfull - please check your email");
+        }
+        [HttpPost("verifyEmail")]
+        [AllowAnonymous]
+        public async Task<ActionResult> VerifyEmail(ConfirmEmail.Command command)
+        {
+
+            var result = await Mediator.Send(command);
+            if (!result.Succeeded) return BadRequest("Problem verifying email address");
+            return Ok("Email confirmation successfull - you can now login");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("resendEmailVerification")]
+        public async Task<ActionResult> ResendEmailVerification([FromQuery] ResendEmailVerification.Query query)
+        {
+            query.Origin = Request.Headers["origin"];
+            await Mediator.Send(query);
+
+            return Ok("Email verification link sent - please check email");
         }
 
         [HttpGet]
