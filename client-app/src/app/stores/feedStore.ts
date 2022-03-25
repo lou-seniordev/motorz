@@ -29,7 +29,6 @@ export default class FeedStore {
   }
 
   @computed get feedByDate() {
-    // return Array.from(this.feedRegistry.values());
     return this.groupFeedItemsByDate(Array.from(this.feedRegistry.values()));
   }
 
@@ -55,9 +54,11 @@ export default class FeedStore {
   }
 
   @action addFeedItem = async (id: string, info: string, username?: string) => {
+    console.log('id', 'info', 'username')
+    console.log(id, info, username)
     try {
       await agent.Feed.addFeedItem(id, info, username);
-      // toast.info('Successfully ' + info);
+      toast.info('Successfully ' + info);
     } catch (error) {
       console.log(error);
       toast.error('Problem ' + info);

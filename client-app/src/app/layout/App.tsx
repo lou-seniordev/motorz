@@ -40,6 +40,8 @@ import FeedDashboard from "../../features/feed/dashboard/FeedDashboard";
 import PeopleDashboard from "../../features/people/dashboard/PeopleDashboard";
 import DiaryEntryForm from "../../features/activities/form/DiaryEntryForm";
 import PrivateMessagesDashboard from "../../features/private_messages/PrivateMessagesDashboard";
+import RegisterSuccess from "../../features/user/RegisterSuccess";
+import VerifyEmail from "../../features/user/VerifyEmail";
 
 //t
 
@@ -149,12 +151,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path='/privateMessages'
                   component={PrivateMessagesDashboard}
                 />
-                {/* <PrivateRoute
-                  exact
-                  path='/privateMessageThread/:id'
-                  component={MessageThreadListItem}
-                /> */}
-
+                
                 <PrivateRoute exact path='/feed' component={FeedDashboard} />
                 <PrivateRoute
                   exact
@@ -166,6 +163,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path='/profile/:username'
                   component={ProfilePage}
                 />
+                <Route path='/user/registerSuccess' component={RegisterSuccess} />
+                <Route path='/user/verifyEmail' component={VerifyEmail} />
                 <Route path='/login' component={LoginForm} />
                 <Route path='/confirmDelete' component={ConfirmDelete} />
                 <Route component={NotFound} />

@@ -23,9 +23,9 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
               </Feed.User>
               {" "} 
               <Feed.Meta>{feed.info}</Feed.Meta>
-              <Feed.Date>
+              {/* <Feed.Date>
                 {feed.dateTriggered}
-              </Feed.Date>
+              </Feed.Date> */}
             </Feed.Summary>
           </Feed.Content>
         </Feed.Event>

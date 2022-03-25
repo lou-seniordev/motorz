@@ -28,6 +28,7 @@ using API.SignalR;
 using Application.Profiles;
 using Coravel;
 using API.Workers;
+using Infrastructure.Email;
 
 namespace API
 {
@@ -138,10 +139,14 @@ namespace API
             // === SIGNAL R ===
             services.AddSignalR();
 
-            var builder = services.AddIdentityCore<AppUser>();
+            var builder = services.AddIdentityCore<AppUser>(options => 
+            {
+                options.SignIn.RequireConfirmedEmail = true;
+            });
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
+            identityBuilder.AddDefaultTokenProviders();
 
 
             // === IS ACTIVITY HOST (ONE POSSIBLE WAY)===
@@ -210,7 +215,9 @@ namespace API
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IEntityPhotoAccessor, EntityPhotoAccessor>();
             services.AddScoped<IProfileReader, ProfileReader>();
+            services.AddScoped<IEmailSender, EmailSender>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
+            services.Configure<SendGridSettings>(Configuration.GetSection("SendGrid"));
 
         }
 

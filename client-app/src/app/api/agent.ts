@@ -239,13 +239,13 @@ const Activities = {
   details: (id: string) => requests.get(`/activities/${id}`),
   create: (activity: IActivity) => requests.post('/activities', activity),
   update: (activity: IActivity) =>
-  requests.put(`/activities/${activity.id}`, activity),
+    requests.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => requests.delete(`/activities/${id}`),
   deactivate: (id: string) => requests.put(`/activities/${id}/deactivate`, {}),
   attend: (id: string) => requests.post(`/activities/${id}/attend`, {}),
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
-  
-  
+
+
 };
 
 const DiaryEntries = {
@@ -259,7 +259,7 @@ const DiaryEntries = {
 const Feed = {
   list: (limit: number, page: number): Promise<IFeedEnvelope> =>
     requests.get(`/feeds?limit=${limit}&offset=${page ? page * limit! : 0}`),
-  addFeedItem: (id: string, info: string, username?:string) => requests.post(`/feeds/${id}/${info}/${username}/addFeedItem`, {}),
+  addFeedItem: (id: string, info: string, username?: string) => requests.post(`/feeds/${id}/${info}/${username}/addFeedItem`, {}),
 };
 
 const Messages = {
@@ -327,6 +327,10 @@ const User = {
     requests.post(`user/login`, user),
   register: (user: IUserFormValues): Promise<IUser> =>
     requests.post(`user/register`, user),
+  verifyEmail: (token: string, email: string): Promise<void> =>
+    requests.post(`/user/verifyEmail`, { token, email }),
+  resendVerifyEmailConfirm: (email: string): Promise<void> =>
+    requests.get(`/user/resendEmailVerification?email=${email}`)
 };
 
 
