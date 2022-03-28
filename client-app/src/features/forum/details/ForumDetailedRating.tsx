@@ -1,3 +1,4 @@
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect, useState } from "react";
 import { Segment, Grid, Button } from "semantic-ui-react";
@@ -13,11 +14,13 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
   const { addFeedItem } = rootStore.feedStore;
 
   const [rated, setRated] = useState(false);
+  let formattedUser: any = user;
 
   useEffect(() => {
     if (forumpost.forumpostRatings!.length > 0) {
+      
       forumpost.forumpostRatings?.forEach((rating) => {
-        if (rating.authorUsername === user?.userName) {
+        if (rating.authorUsername === formattedUser.userName) {
           setRated(true);
         } 
       });
@@ -35,7 +38,7 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
 
   return (
     <>
-      {user?.userName !== forumpost.userName && !rated && (
+      {formattedUser?.username !== forumpost.userName && !rated && (
         
         <Segment attached>
           <Grid verticalAlign='middle'>

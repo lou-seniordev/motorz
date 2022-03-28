@@ -1723,6 +1723,9 @@ namespace Persistence
                                 LocationCity = "Pula",
                                 LocationCountry = "Croatia",
                                 Mood = "Enthusiastic",
+                                Road = "Very good",
+                                Weather = "Sunny",
+                                NumberOfKilometers = 150,
                                 DiaryPhoto = new DiaryPhoto
                                 {
                                     Id = "dayoneid",
@@ -1740,6 +1743,9 @@ namespace Persistence
                                 LocationCity = "Labin",
                                 LocationCountry = "Croatia",
                                 Mood = "Happy",
+                                Road = "Very good",
+                                Weather = "Sunny",
+                                NumberOfKilometers = 90,
                                 DiaryPhoto = new DiaryPhoto
                                 {
                                     Id = "daytwoid",
@@ -1757,6 +1763,9 @@ namespace Persistence
                                 LocationCity = "Pazin",
                                 LocationCountry = "Croatia",
                                 Mood = "Relaxed",
+                                Road = "Excellent",
+                                Weather = "Sunny",
+                                NumberOfKilometers = 150,
                                 DiaryPhoto = new DiaryPhoto
                                 {
                                     Id = "daythreeid",
@@ -1935,6 +1944,9 @@ namespace Persistence
                                 LocationCity = "Nova Gorica",
                                 LocationCountry = "Slovenia",
                                 Mood = "Enthusiastic",
+                                Road = "Excellent",
+                                Weather = "Sunny",
+                                NumberOfKilometers = 250,
                                 DiaryPhoto = new DiaryPhoto
                                 {
                                     Id = "day1id",
@@ -1952,6 +1964,9 @@ namespace Persistence
                                 LocationCity = "Trieste",
                                 LocationCountry = "Italy",
                                 Mood = "Concerned",
+                                Road = "Very good",
+                                Weather = "Sunny",
+                                NumberOfKilometers = 150,
                                 DiaryPhoto = new DiaryPhoto
                                 {
                                     Id = "day2id",
@@ -1969,6 +1984,9 @@ namespace Persistence
                                 LocationCity = "Venice",
                                 LocationCountry = "Italy",
                                 Mood = "Relaxed",
+                                Road = "Poor",
+                                Weather = "Sunny",
+                                NumberOfKilometers = 70,
                                 DiaryPhoto = new DiaryPhoto
                                 {
                                     Id = "day3id",
@@ -1986,6 +2004,9 @@ namespace Persistence
                                 LocationCity = "Bologna",
                                 LocationCountry = "Italy",
                                 Mood = "Tired",
+                                Road = "Good",
+                                Weather = "Sunny",
+                                NumberOfKilometers = 150,
                                 DiaryPhoto = new DiaryPhoto
                                 {
                                     Id = "day4id",
@@ -2003,6 +2024,9 @@ namespace Persistence
                                 LocationCity = "Florence",
                                 LocationCountry = "Italy",
                                 Mood = "Happy",
+                                Road = "Very good",
+                                Weather = "Sunny",
+                                NumberOfKilometers = 150,
                                 DiaryPhoto = new DiaryPhoto
                                 {
                                     Id = "day5id",

@@ -252,7 +252,8 @@ const DiaryEntries = {
   createDiaryEntry: (diaryEntry: IDiaryEntry) => postDiaryEntry.diaryEntryForm('/diaryentries', diaryEntry),
   deleteDiaryEntry: (id: string) => requests.delete(`/diaryentries/${id}`),
   detailsDiaryEntry: (id: string) => requests.get(`/diaryentries/${id}`),
-  updateDiaryEntry: (diaryEntry: IDiaryEntry) => requests.put(`/diaryentries/${diaryEntry.id}`, diaryEntry),
+  // updateDiaryEntry: (diaryEntry: IDiaryEntry) => requests.put(`/diaryentries/${diaryEntry.id}`, diaryEntry),
+  updateDiaryEntry: (diaryEntry: IDiaryEntry) => console.log(diaryEntry),
 
 }
 

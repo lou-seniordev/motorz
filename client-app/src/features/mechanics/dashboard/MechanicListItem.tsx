@@ -46,7 +46,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
                 <Item style={testPositionStyles}>
                   <Item.Content>
                     <Item.Header as='h2'>Customers</Item.Header>
-                    <Item.Extra as='h1'>{mechanic.ratings.length}</Item.Extra>
+                   { mechanic.ratings !== undefined &&<Item.Extra as='h1'>{mechanic.ratings.length}</Item.Extra>}
                   </Item.Content>
                 </Item>
               </Grid.Column>
@@ -55,11 +55,9 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
                 <Item style={testPositionStyles}>
                   <Item.Content>
                     <Item.Header as='h2'>Rating</Item.Header>
-                    <Item.Extra as='h1'>
+                    {mechanic.averageRating !== undefined && <Item.Extra as='h1'>
                       {mechanic.averageRating}
-                      {/* {" "}
-                      by {mechanic.ratings.length} people */}
-                    </Item.Extra>
+                    </Item.Extra>}
                   </Item.Content>
                 </Item>
               </Grid.Column>

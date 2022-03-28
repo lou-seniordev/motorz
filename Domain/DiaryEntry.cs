@@ -14,6 +14,9 @@ namespace Domain
         public string Mood { get; set; }
         public string LocationCity { get; set; }
         public string LocationCountry { get; set; }
+        public string Road { get; set; }
+        public string Weather { get; set; }
+        public int NumberOfKilometers { get; set; }
         public virtual Activity Activity { get; set; }
         public virtual DiaryPhoto DiaryPhoto { get; set; }
 

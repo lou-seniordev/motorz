@@ -21,6 +21,9 @@ namespace Application.DiaryEntries
             public Guid ActivityId { get; set; }
             public string Body { get; set; }
             public string Mood { get; set; }
+            public string Weather { get; set; }
+            public string Road { get; set; }
+            public string NumberOfKilometers { get; set; }
             public IFormFile File { get; set; }
             public string LocationCity { get; set; }
             public string LocationCountry { get; set; }
@@ -36,6 +39,9 @@ namespace Application.DiaryEntries
                 RuleFor(x => x.ActivityId).NotEmpty();
                 RuleFor(x => x.Body).NotEmpty();
                 RuleFor(x => x.Mood).NotEmpty();
+                RuleFor(x => x.Weather).NotEmpty();
+                RuleFor(x => x.Road).NotEmpty();
+                RuleFor(x => x.NumberOfKilometers).NotEmpty();
                 RuleFor(x => x.File).NotEmpty();
                 RuleFor(x => x.LocationCity).NotEmpty();
                 RuleFor(x => x.LocationCountry).NotEmpty();
@@ -74,6 +80,9 @@ namespace Application.DiaryEntries
                     Body = request.Body,
                     Mood = request.Mood,
                     EntryDate = DateTime.Now,
+                    Weather = request.Weather,
+                    Road = request.Road,
+                    NumberOfKilometers = Int32.Parse(request.NumberOfKilometers),
                     LocationCity = request.LocationCity,
                     LocationCountry = country.Name,
                     Activity = activity

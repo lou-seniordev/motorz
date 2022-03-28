@@ -24,7 +24,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
 
   const [managing, setManaging] = useState(false);
 
-  console.log(toJS(activity));
+  // console.log(toJS(activity));
 
   // activity.attendees
   // user?.userName 

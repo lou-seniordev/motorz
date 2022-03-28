@@ -18,6 +18,8 @@ import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import SelectInput from "../../../app/common/form/SelectInput";
 import { mood } from "../../../app/common/options/moodOptions";
 import { motoOptions } from "../../../app/common/options/motoOptions";
+import { weather } from "../../../app/common/options/weatherOptions";
+import { road } from "../../../app/common/options/roadOptions";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import {
   combineValidators,
@@ -103,7 +105,7 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
       .finally(() => setLoading(false));
 
     if (match.path === "/manageDiaryEntry/:id/:activityId") {
-      console.log("match", match);
+      // console.log("match", match);
       loadDiaryEntry(match.params.id)
         .then((diaryEntry) => setdiaryEntry(diaryEntry!))
         .finally(() => setLoading(false));
@@ -178,6 +180,18 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     component={SelectInput}
                   />
                   <Field
+                    name='weather'
+                    placeholder='What is weather like today?'
+                    options={weather}
+                    component={SelectInput}
+                  />
+                  <Field
+                    name='road'
+                    placeholder='What is road like?'
+                    options={road}
+                    component={SelectInput}
+                  />
+                  <Field
                     name='locationCountry'
                     placeholder={"Country you are in"} //
                     options={countries}
@@ -186,6 +200,11 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   <Field
                     name='locationCity'
                     placeholder='City you are in'
+                    component={TextInput}
+                  />
+                  <Field
+                    name='numberOfKilometers'
+                    placeholder='Number of kilometers'
                     component={TextInput}
                   />
                   <Button

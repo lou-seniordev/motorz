@@ -390,7 +390,6 @@ export default class ActivityStore {
     this.submitting = true;
 
     try {
-      
       await agent.DiaryEntries.updateDiaryEntry(diaryEntry);
 
       runInAction('updating diary entry', () => {

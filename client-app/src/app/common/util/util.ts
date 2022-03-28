@@ -1,3 +1,4 @@
+import { toJS } from 'mobx';
 import { IActivity, IAttendee } from '../../models/activity';
 import { IEmbracer, IMotofy } from '../../models/motofy';
 import { IUser } from '../../models/user';
@@ -16,17 +17,21 @@ export const combineDateAndTime = (date: Date, time: Date) => {
   //
   return new Date(dateString + 'T' + timeString);
 };
-// NB: here userName should be changed (also in DB and EF) to username/Username
 export const setActivityProps = (activity: IActivity, userFromStore: IUser) => {
+  // NB: here userName changed (also in DB and EF) to match problem
   let user: any = userFromStore;
   activity.date = new Date(activity.date);
+  
   activity.isGoing = activity.attendees.some(
-    (a) => a.username === user.userName
+    (a) => a.username === user.username
   );
+ 
   activity.isHost = activity.attendees.some(
-    (a) => a.username === user.userName && a.isHost
-  );
-  return activity;
+    (a) => 
+    a.username === user.username && a.isHost
+    
+    );
+    return activity;
 };
 
 export const setMotofyProps = (motofy: IMotofy, user: IUser) => {

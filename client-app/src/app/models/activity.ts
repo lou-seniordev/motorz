@@ -72,6 +72,9 @@ export interface IDiaryEntry {
   entryDate: Date;
   locationCity: string;
   locationCountry: string;
+  road: string;
+  weather: string;
+  numberOfKilometers: number;
   photoUrl: string;
   mood: string;
   file: any;
