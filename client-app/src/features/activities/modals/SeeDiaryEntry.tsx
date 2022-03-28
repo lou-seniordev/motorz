@@ -143,6 +143,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
 
             <Grid.Column width={5}>
               <Button
+               className="mobile hidden"
                 fluid
                 onClick={() =>
                   handleChange(parseInt(actualDiary.dayNumber) - 1)
@@ -151,17 +152,39 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                 icon='angle left'
                 disabled={counter === 1}
               />
+              <Button
+               className="mobile only"
+                fluid
+                onClick={() =>
+                  handleChange(parseInt(actualDiary.dayNumber) - 1)
+                }
+                // content='Previous day'
+                icon='angle left'
+                disabled={counter === 1}
+              />
             </Grid.Column>
             <Grid.Column width={5}>
-              <Button fluid onClick={() => closeModal()} content='Quit' />
+              <Button fluid onClick={() => closeModal()} content='Quit'/>
             </Grid.Column>
             <Grid.Column width={5}>
               <Button
+              className="mobile hidden"
                 fluid
                 onClick={() =>
                   handleChange(parseInt(actualDiary.dayNumber) + 1)
                 }
-                content='Next day'
+                content={'Next day'}
+                icon='angle right'
+                disabled={counter === numberDiaries}
+              />
+              <Button
+              className="mobile only"
+                fluid
+                circular
+                onClick={() =>
+                  handleChange(parseInt(actualDiary.dayNumber) + 1)
+                }
+                // content={'Next day'}
                 icon='angle right'
                 disabled={counter === numberDiaries}
               />

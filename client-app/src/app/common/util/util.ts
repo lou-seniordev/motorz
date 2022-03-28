@@ -17,7 +17,8 @@ export const combineDateAndTime = (date: Date, time: Date) => {
   return new Date(dateString + 'T' + timeString);
 };
 // NB: here userName should be changed (also in DB and EF) to username/Username
-export const setActivityProps = (activity: IActivity, user: IUser) => {
+export const setActivityProps = (activity: IActivity, userFromStore: IUser) => {
+  let user: any = userFromStore;
   activity.date = new Date(activity.date);
   activity.isGoing = activity.attendees.some(
     (a) => a.username === user.userName
@@ -38,18 +39,18 @@ export const setMotofyProps = (motofy: IMotofy, user: IUser) => {
   return motofy;
 }
 
-export const createAttendee = (user: IUser):IAttendee => {
+export const createAttendee = (user: IUser): IAttendee => {
 
-    return {
-        displayName: user.displayName,
-        isHost: false,
-        username: user.userName,
-        image: user.image!
-    }
+  return {
+    displayName: user.displayName,
+    isHost: false,
+    username: user.userName,
+    image: user.image!
+  }
 }
 
-export const createEmbracer = (user: IUser) : IEmbracer => {
-  
+export const createEmbracer = (user: IUser): IEmbracer => {
+
   return {
     displayName: user.displayName,
     isOwner: false,

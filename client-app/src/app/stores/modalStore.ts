@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, runInAction } from 'mobx';
 import { RootStore } from './rootStore';
 
 export default class ModalStore {
@@ -12,8 +12,15 @@ export default class ModalStore {
   @observable.shallow modal = {
     open: false,
     body: null,
-    // size: '',
+    size: undefined,
   };
+  // @observable size: string | undefined;
+
+  @action setSize = (size: any) => {
+    runInAction(() => {
+      this.modal.size = size 
+    })
+  }
 
   @action openModal = (content: any) => {//, size: string
       this.modal.open = true;

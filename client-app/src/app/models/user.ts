@@ -4,6 +4,7 @@ export interface IUser {
     displayName: string;
     token: string;
     image?: string
+    
 }
 
 export interface IUserFormValues {

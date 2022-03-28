@@ -1,20 +1,37 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 import {
   Segment,
   List,
   Item,
-  Label,
   Image,
+  Divider,
   SegmentGroup,
 } from "semantic-ui-react";
-import { IAttendee } from "../../../app/models/activity";
+import { IActivity, IDiaryEntry } from "../../../app/models/activity";
+import { RootStoreContext } from "../../../app/stores/rootStore";
+import SeeDiaryEntry from "../modals/SeeDiaryEntry";
 
 interface IProps {
-  attendees: IAttendee[];
+  activity: IActivity;
 }
-const ActivityDetailedSidebarRight: React.FC<IProps> = ({ attendees }) => {
+const ActivityDetailedSidebarRight: React.FC<IProps> = ({ activity }) => {
+  const rootStore = useContext(RootStoreContext);
+
+  const { openModal } = rootStore.modalStore;
+
+  const { diaryEntries } = activity;
+
+  const handleOpenDiaryModal = (diary: IDiaryEntry) => {
+    openModal(<SeeDiaryEntry diary={diary} activity={activity} />);
+  };
+  //mobx] `observableArray.sort()` will not update the array in place. Use `observableArray.slice().sort()`
+  // to suppress this warning and perform the operation on a copy, or `observableArray.replace(observableArray.slice().sort())`
+  //to sort & update in place
+  const diariesByDate = diaryEntries
+    .slice()
+    .sort((a, b) => parseInt(b.dayNumber) - parseInt(a.dayNumber));
+
   return (
     <SegmentGroup raised>
       <Segment
@@ -25,34 +42,34 @@ const ActivityDetailedSidebarRight: React.FC<IProps> = ({ attendees }) => {
         inverted
         color='teal'
       >
-        {attendees.length} {attendees.length === 1 ? "Person" : "People "}{" "}
-        following
+        {diaryEntries.length} {diaryEntries.length === 1 ? "Day" : "Days "}{" "}
+        passed
       </Segment>
-      <Segment attached>
+      <Segment attached textAlign='center'>
         <List relaxed divided>
-          {attendees.map((attendee) => (
-            <Item key={attendee.username} style={{ position: "relative" }}>
-              {attendee.isHost && (
-                <Label
-                  style={{ position: "absolute" }}
-                  color='teal'
-                  corner='right'
-                >
-                  Host
-                </Label>
-              )}
-              <Image size='mini' src={attendee.image || "/assets/user.png"} />
-              <Item.Content verticalAlign='middle'>
-                <Item.Header as='h4'>
-                  <Link to={`/profile/${attendee.username}`}>
-                    {attendee.displayName}
-                  </Link>
-                </Item.Header>
-                {attendee.following && (
-                  <Item.Extra style={{ color: "green" }}>Following</Item.Extra>
-                )}
-              </Item.Content>
-            </Item>
+          {diariesByDate.map((entry) => (
+            <div key={entry.id}>
+              <Item
+                as='h4'
+                onClick={() => handleOpenDiaryModal(entry)}
+                style={{ cursor: "pointer" }}
+              >
+                {"Day number "}
+                {entry.dayNumber}
+                {/* <Image
+                  size='small'
+                  src={entry.photoUrl || "/assets/user.png"}
+                /> */}
+                <div className='ui segment'>
+                  <img
+                    className='ui centered medium image'
+                    src={entry.photoUrl || "/assets/user.png"}
+                    alt='DayPhoto'
+                  />
+                </div>
+              </Item>
+              <Divider horizontal />
+            </div>
           ))}
         </List>
       </Segment>

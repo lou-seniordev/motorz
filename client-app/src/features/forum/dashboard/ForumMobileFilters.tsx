@@ -1,8 +1,7 @@
 // import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react"; 
-import { category } from "../../../app/common/options/forumCategoryOptions";
-import { Dropdown, Menu } from "semantic-ui-react";
+import {  Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import SearchForum from "../modals/SearchForum";
 import SearchForumByCategory from "../modals/SearchForumByCategory";
@@ -13,9 +12,6 @@ const ForumMobileFilters = () => {
 
   const { openModal } = rootStore.modalStore;
 
-  const handleOnChange = (e: any, data: any) => {
-    setPredicate("category", data.value);
-  };
 
   const handleSearch = () => {
     openModal(<SearchForum />);

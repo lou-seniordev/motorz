@@ -1,38 +1,30 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import {
   Segment,
   List,
   Item,
+  Label,
   Image,
-  Divider,
   SegmentGroup,
 } from "semantic-ui-react";
-import { IActivity, IDiaryEntry } from "../../../app/models/activity";
+import { IAttendee } from "../../../app/models/activity";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import SeeDiaryEntry from "../modals/SeeDiaryEntry";
+import AllAttendeesList from "../modals/AllAttendeesList";
 
 interface IProps {
-  activity: IActivity
+  attendees: IAttendee[];
 }
-const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {
+const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ attendees }) => {
   const rootStore = useContext(RootStoreContext);
 
-  const { openModal } = rootStore.modalStore;
+  const { openModal, setSize } = rootStore.modalStore;
 
-  const {diaryEntries} = activity;
-
-  const handleOpenDiaryModal = (diary: IDiaryEntry) => {
-
-    openModal(<SeeDiaryEntry diary={diary} activity={activity}/>);
-  };
-//mobx] `observableArray.sort()` will not update the array in place. Use `observableArray.slice().sort()`
-// to suppress this warning and perform the operation on a copy, or `observableArray.replace(observableArray.slice().sort())` 
-//to sort & update in place 
-  const diariesByDate = diaryEntries.slice().sort(
-    (a, b) => parseInt(b.dayNumber) - parseInt(a.dayNumber)
-  );
-  
+  const handleShowAll = () => {
+    setSize('mini')
+    openModal(<AllAttendeesList attendees={attendees}/>)
+  }
   return (
     <SegmentGroup raised>
       <Segment
@@ -43,25 +35,41 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ activity }) => {
         inverted
         color='teal'
       >
-        {diaryEntries.length} {diaryEntries.length === 1 ? "Day" : "Days "}{" "}
-        passed
+        {attendees.length} {attendees.length === 1 ? "Person" : "People "}{" "}
+        following
       </Segment>
-      <Segment attached textAlign='center'>
+      <Segment attached>
         <List relaxed divided>
-          {diariesByDate.map((entry) => (
-            <div key={entry.id} >
-              <Item as='h4' onClick={() => handleOpenDiaryModal(entry)} style={{cursor: 'pointer'}}>
-                {"Day number "}
-                {entry.dayNumber}
-                <Image
-                  size='small'
-                  src={entry.photoUrl || "/assets/user.png"}
-                />
-              </Item>
-              <Divider horizontal />
-            </div>
+          {attendees.slice(0, 10).map((attendee) => (
+            <Item key={attendee.username} style={{ position: "relative" }}>
+              {attendee.isHost && (
+                <Label
+                  style={{ position: "absolute" }}
+                  color='teal'
+                  corner='right'
+                >
+                  Host
+                </Label>
+              )}
+              
+              <Image size='mini' src={attendee.image || "/assets/user.png"} />
+
+              <Item.Content verticalAlign='middle'>
+                <Item.Header as='h4'>
+                  <Link to={`/profile/${attendee.username}`}>
+                    {attendee.displayName}
+                  </Link>
+                </Item.Header>
+                {attendee.following && (
+                  <Item.Extra style={{ color: "green" }}>Following</Item.Extra>
+                )}
+              </Item.Content>
+            </Item>
           ))}
         </List>
+        {attendees.length > 10 && 
+        <a style={{cursor: 'pointer'}} onClick={handleShowAll}>and {attendees.length - 10} more</a>
+        }
       </Segment>
     </SegmentGroup>
   );

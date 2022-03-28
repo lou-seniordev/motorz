@@ -1,3 +1,4 @@
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -19,8 +20,14 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
   const rootStore = useContext(RootStoreContext);
   const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
   const { addFeedItem } = rootStore.feedStore;
+  const { user } = rootStore.userStore;
 
   const [managing, setManaging] = useState(false);
+
+  console.log(toJS(activity));
+
+  // activity.attendees
+  // user?.userName 
 
   const { openModal } = rootStore.modalStore;
 
@@ -117,7 +124,8 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
                 </Fragment>
               )}
             </Fragment>
-          ) : activity.isGoing ? (
+          ) : activity.isGoing 
+          ? (
             <Button
               loading={loading}
               onClick={() => handleCancelAttendance(activity.id)}

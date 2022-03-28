@@ -97,9 +97,9 @@ body {
 
 
 
-#test :hover, #test:active, #test:focus {
+/* #test :hover, #test:active, #test:focus {
   overflow-y: auto;
-} */
+}  */
 
 /* header link styles for listItems */
 a {

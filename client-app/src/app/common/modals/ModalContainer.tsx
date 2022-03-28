@@ -5,9 +5,9 @@ import { RootStoreContext } from '../../stores/rootStore';
 
 const ModalContainer = () => {
     const rootStore = useContext(RootStoreContext);
-    const {modal: {open, body}, closeModal} = rootStore.modalStore;
+    const {modal: {open, body, size}, closeModal } = rootStore.modalStore;
   return (
-    <Modal open={open} onClose={closeModal} size='small'>
+    <Modal open={open} onClose={closeModal} size={size}>
       <Modal.Content>{body}</Modal.Content>
      
     </Modal>

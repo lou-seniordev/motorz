@@ -38,7 +38,7 @@ const NavBar: React.FC = () => {
         e.preventDefault();
       };
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <>
