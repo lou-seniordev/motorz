@@ -44,7 +44,7 @@ const ActivityFilters = () => {
             onClick={() => setPredicate("all", "true")}
             color={"blue"}
             name={"all"}
-            content={"All Diaries"}
+            content={"Active Diaries"}
             style={styles}
           />
         )}

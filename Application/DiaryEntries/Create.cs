@@ -89,6 +89,7 @@ namespace Application.DiaryEntries
                 };
 
                 _context.DiaryEntries.Add(diaryEntry);
+                
 
                 var photoUploadResult = _entityPhotoAccessor.AddPhoto(request.File, 400, 500);
 
@@ -101,6 +102,7 @@ namespace Application.DiaryEntries
                 };
 
                 diaryEntry.DiaryPhoto = diaryPhoto;
+                activity.IsActive = true;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

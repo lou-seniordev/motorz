@@ -55,7 +55,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
   };
   return (
     <Segment.Group raised>
-      {activity.isActive && (
+      {/* {activity.isActive && ( */}
         <Segment clearing attached='bottom'>
           {activity.isHost ? (
             <Fragment>
@@ -142,7 +142,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
             </Button>
           )}
         </Segment>
-      )}
+      {/* )} */}
     </Segment.Group>
   );
 };

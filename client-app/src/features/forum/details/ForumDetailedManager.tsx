@@ -30,7 +30,7 @@ const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
         <>
           {!managing ? (
             <Button onClick={toggleManaging} color='instagram' fluid>
-              Manage your diary
+              Manage your post
             </Button>
           ) : (
             <Grid>

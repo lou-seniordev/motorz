@@ -328,6 +328,7 @@ namespace Persistence
                         DisplayName = "Bob",
                         UserName = "bob",
                         Email = "bob@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "zfma0utdfu2ce5wyrrmq",
@@ -418,6 +419,7 @@ namespace Persistence
                         DisplayName = "Jane",
                         UserName = "jane",
                         Email = "jane@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "qc4p1rr7qfymo8pap6ig",
@@ -509,6 +511,7 @@ namespace Persistence
                         DisplayName = "Tom",
                         UserName = "tom",
                         Email = "tom@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ahy5hc8yd7cmeck8xnf7",
@@ -592,6 +595,7 @@ namespace Persistence
                         DisplayName = "Jerry",
                         UserName = "jerry",
                         Email = "jerry@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "nzgorptzllx41uflfmal",
@@ -633,6 +637,7 @@ namespace Persistence
                         DisplayName = "Joe",
                         UserName = "joe",
                         Email = "joe@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "Joe",
@@ -646,28 +651,32 @@ namespace Persistence
                         Id = "f",
                         DisplayName = "Emir",
                         UserName = "emir",
-                        Email = "emir@test.com"
+                        Email = "emir@test.com",
+                        EmailConfirmed = true,
                     },
                     new AppUser
                     {
                         Id = "g",
                         DisplayName = "Nina",
                         UserName = "nina",
-                        Email = "nina@test.com"
+                        Email = "nina@test.com",
+                        EmailConfirmed = true,
                     },
                     new AppUser
                     {
                         Id = "h",
                         DisplayName = "Cato",
                         UserName = "cato",
-                        Email = "cato@test.com"
+                        Email = "cato@test.com",
+                        EmailConfirmed = true,
                     },
                     new AppUser
                     {
                         Id = "i",
                         DisplayName = "Giulietta",
                         UserName = "giulietta",
-                        Email = "giulietta@test.com"
+                        Email = "giulietta@test.com",
+                        EmailConfirmed = true,
                     },
                     new AppUser
                     {
@@ -1867,7 +1876,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Departure = "Jamies Italian",
                         Destination = "Italian Pizzeria",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
@@ -1895,7 +1904,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Departure = "Tivoli",
                         Destination = "Triglav",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("a585178f-1252-413a-939f-b8640e93a940")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2056,7 +2065,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Departure = "Punch and Judy",
                         Destination = "Calais",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("a585178f-1252-413a-939f-b8640e93a940")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2084,7 +2093,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "United Kingdom"),
                         Departure = "O2 Arena",
                         Destination = "Hide Park",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("a585178f-1252-413a-939f-b8640e93a940")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2112,7 +2121,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Germany"),
                         Departure = "Unter der Leyen",
                         Destination = "Brandburg Gate",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("a585178f-1252-413a-939f-b8640e93a940")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2140,7 +2149,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Departure = "Titov park",
                         Destination = "Kamenjak",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2160,7 +2169,7 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "adventuros Diary 9",
+                        Title = "Il adventuros Diary 9",
                         Date = DateTime.Now.AddMonths(9),
                         Description = "Diary 9 months in adventuros. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
                         Category = "By The Sea",
@@ -2168,7 +2177,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Departure = "Varudela",
                         Destination = "Motovun",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2188,7 +2197,7 @@ namespace Persistence
                     },
                     new Activity
                     {
-                        Title = "adventuros Diary 10",
+                        Title = "Los adventuros Diary 10",
                         Date = DateTime.Now.AddMonths(10),
                         Description = "Diary 10 months in adventuros. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.",
                         Category = "Outdoors",
@@ -2196,7 +2205,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Departure = "Kongresni trg",
                         Destination = "Rakov Skocjan",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2218,7 +2227,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Slovenia"),
                         Departure = "Veliki Park",
                         Destination = "Lendava",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2246,7 +2255,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Croatia"),
                         Departure = "Jarun",
                         Destination = "Sava",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2268,7 +2277,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Departure = "Piazza Venezia",
                         Destination = "San Gandolfo",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {
@@ -2290,7 +2299,7 @@ namespace Persistence
                         Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                         Departure = "Pignetto",
                         Destination = "Ostia, Roma",
-                        IsActive = true,
+                        IsActive = false,
                         MotorcycleBrand = context.Brands.FirstOrDefault(m => m.Id ==Guid.Parse("D1AA07A2-094F-4239-8E98-337E71D6350A")),
                         UserActivities = new List<UserActivity>
                         {

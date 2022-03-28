@@ -324,7 +324,7 @@ namespace Application.Feeds
                         var feed = new Feed
                         {
                             Id = feedId,
-                            Info = " has deactivated the " + diary.Title + " on " + DateTime.Now,
+                            Info = " has completed the " + diary.Title + " on " + DateTime.Now,
                             Notifier = notifier,
                             ObjectId = request.ObjectId,
                             DateTriggered = DateTime.Now,

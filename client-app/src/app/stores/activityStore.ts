@@ -45,12 +45,12 @@ export default class ActivityStore {
   @observable predicate = new Map();
 
   @action setPredicate = (predicate: string, value: string | Date) => {
-    // console.log(predicate)
     // console.log(value)
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
     }
+    // console.log(toJS(this.predicate))
     // if (predicate !== 'iFollow') {
     //   this.activityMax = false;
     // }
@@ -66,6 +66,7 @@ export default class ActivityStore {
       } else {
         params.append(key, value)
       }
+      // console.log('params', params.keys)
     })
     return params;
   }

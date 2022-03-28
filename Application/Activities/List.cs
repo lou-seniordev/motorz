@@ -65,7 +65,7 @@ namespace Application.Activities
                    x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 var queryable = _context.Activities
-                .Where(x => x.Date >= request.StartDate)
+                // .Where(x => x.Date >= request.StartDate)
                 // .Where(x => x.IsActive == true)
                 .OrderBy(x => x.Date)
                 .AsQueryable();
@@ -75,6 +75,8 @@ namespace Application.Activities
                 if (!request.IsGoing && !request.IsHost && !request.IFollow && !request.IsCompleted
                 && string.IsNullOrEmpty(request.Search))
                 {
+                    queryable = queryable.Where(x => x.IsActive == true);
+
                     activities = await GetActivityList(request, queryable, activities);
 
                 }
@@ -82,7 +84,8 @@ namespace Application.Activities
                 if (request.IsGoing && !request.IsHost)
                 {
                     queryable = queryable
-                    .Where(x => x.UserActivities.Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername()));
+                    .Where(x => x.UserActivities
+                    .Any(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername()));
                     activities = await GetActivityList(request, queryable, activities);
 
                 }
@@ -99,13 +102,23 @@ namespace Application.Activities
                     // queryable = queryable.Where(x => x.UserActivities.Any(
                     //     a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
                     queryable = _context.Activities
-                        .Where(x => x.Date >= request.StartDate)
-                        .Where(x => x.IsActive == false)
+                        // .Where(x => x.Date >= request.StartDate)
+                        .Where(x => x.IsActive == false && x.IsCompleted == true)
                         .OrderBy(x => x.Date)
                         .AsQueryable();
                     activities = await GetActivityList(request, queryable, activities);
 
                 }
+                // if (!string.IsNullOrEmpty(request.StartDate.ToString()))
+                // {
+                //     queryable = _context.Activities
+                //         .Where(x => x.Date == request.StartDate)
+                //         // .Where(x => x.IsActive == true)
+                //         .OrderBy(x => x.Date)
+                //         .AsQueryable();
+                //     activities = await GetActivityList(request, queryable, activities);
+
+                // }
                 if (request.IFollow)
                 {
                     var followings = await _context.Followings
