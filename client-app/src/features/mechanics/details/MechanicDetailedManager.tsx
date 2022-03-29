@@ -20,7 +20,6 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
-  // let formattedUser: any = user;
 
   const [managing, setManaging] = useState(false);
 
@@ -35,7 +34,6 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
   const handleView = useCallback(
     (localMechanic: any) => {
       localMechanic.customers.forEach((customer: IMechanicCustomer) => {
-        // if (formattedUser.username === customer.username) setCustomer(true);
         if (user!.userName === customer.username) setCustomer(true);
       });
     },
@@ -43,7 +41,6 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
     );
     
     useEffect(() => {
-    // console.log("formattedUser", toJS(formattedUser))
     handleView(mechanic);
     return () => {
       setCustomer(false);

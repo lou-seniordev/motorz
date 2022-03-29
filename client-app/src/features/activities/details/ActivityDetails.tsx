@@ -44,7 +44,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
           <ActivityDetailedChat />
 
       </Grid.Column>
-      <Grid.Column computer={3} mobile={16} className={'sideScroll'}>
+      <Grid.Column computer={3} mobile={16} className={'hideScroll'} >
           <ActivityDetailedSidebarRight activity={activity!} />
       </Grid.Column>
     </Grid>

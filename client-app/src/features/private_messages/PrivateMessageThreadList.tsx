@@ -1,11 +1,9 @@
 import { observer } from "mobx-react-lite";
-import React, {  useContext, useEffect } from "react";
-import { Grid, Segment, Image } from "semantic-ui-react";
+import React, { Fragment, useContext, useEffect } from "react";
+import { Grid, Image, Container } from "semantic-ui-react";
 import { formatDistance } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import { RSA_NO_PADDING } from "constants";
 // import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
-
 
 // const PrivateMessageThreadList: React.FC<IProps> = ({ last }) => {
 const PrivateMessageThreadList = () => {
@@ -20,13 +18,13 @@ const PrivateMessageThreadList = () => {
     // last,
     setInitialView,
     setView,
-    createHubConnection
+    createHubConnection,
     // , stopHubConnection,
   } = rootStore.privateMessageStore;
 
-
   useEffect(() => {
-      setInitialView();
+    setInitialView();
+    // getSenderPhoto();
   }, [setInitialView]);
 
   //   const markRead = (message: IMessage) => {
@@ -35,29 +33,44 @@ const PrivateMessageThreadList = () => {
   //     }
   //   };
 
-  return (
+  // const getSenderPhoto =()=> {
+  //   messagesByThreadId.map(([id, message]) => {
+  //     console.log(toJS(message[0]))
+  //   })
+  // }
+  
 
-    <Segment
-      // style={{ backgroundColor: "lightblue" }} 
-      raised
-      className="sideScroll"
-    >
+  return (
+    <Fragment>
       <Grid>
         <Grid.Column width={16}>
           {messagesByThreadId.map(([id, messages]) => (
-            //  style={{border: 'none'}}
-            <Segment key={id}>
+            <Container
+              key={id}
+              style={{ backgroundColor: "lightblue", paddingTop: "3em" }}
+            >
               <Grid
-              // className='computer only' 
                 onClick={() => {
-                   
-                    setView(messages[0].privateMessageThreadId)
-                    createHubConnection(messages[0].privateMessageThreadId)
+                  setView(messages[0].privateMessageThreadId);
+                  createHubConnection(messages[0].privateMessageThreadId);
                 }}
                 divided
                 style={{ cursor: "pointer" }}
               >
-                <Grid.Column computer={4} className='computer only' >
+                <Grid.Column
+                  mobile={16}
+                  className='mobile only'
+                  style={{ padding: "0px", margin: "0px" }}
+                >
+                  <img
+                    className='ui centered medium image'
+                    style={{ borderRadius: "50%" }}
+                    width={"40px"}
+                    src={messages[0].senderPhotoUrl || "/assets/user.png"}
+                  />
+                </Grid.Column>
+
+                <Grid.Column computer={4} className='mobile hidden'>
                   <Image
                     size='mini'
                     circular
@@ -70,21 +83,8 @@ const PrivateMessageThreadList = () => {
                       ? "Me"
                       : messages[0].senderDisplayName}
                   </span>
-                 
                 </Grid.Column>
-                <Grid.Column mobile={12} className='mobile only' style={{padding: '0px', margin: '0px'}}>
-                  <img
-                  // className='mobile only'
-                    // size='large'
-                    // circular
-                    // verticalAlign='middle'
-                    style={{borderRadius: "50%"}}
-                    width={'40px'}
-                    src={messages[0].senderPhotoUrl || "/assets/user.png"}
-                  />
-                 
-                </Grid.Column>
-                <Grid.Column width={12} className='computer only'>
+                <Grid.Column width={12} className='mobile hidden'>
                   <Grid.Row
                     style={
                       messages[0].dateRead === null &&
@@ -93,27 +93,25 @@ const PrivateMessageThreadList = () => {
                         : { fontWeight: "normal" }
                     }
                   >
-                     <span>
-                    {formatDistance(
-                      new Date(messages[0].dateSent),
-                      new Date(),
-                      {
-                        addSuffix: true,
-                      }
-                    )}
-                  </span>
+                    <span>
+                      {formatDistance(
+                        new Date(messages[0].dateSent),
+                        new Date(),
+                        {
+                          addSuffix: true,
+                        }
+                      )}
+                    </span>
 
                     <Grid.Row>{messages[0].content}</Grid.Row>
                   </Grid.Row>
                 </Grid.Column>
               </Grid>
-            </Segment>
+            </Container>
           ))}
         </Grid.Column>
       </Grid>
-
-    </Segment>
-
+    </Fragment>
   );
 };
 

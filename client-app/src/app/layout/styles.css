@@ -72,6 +72,15 @@ body {
 .prudence {
   background-color: red;
 } */
+.hideScroll {
+  overflow-y: hidden;
+}
+.hideScroll:hover, #ID:active, #ID:focus {
+  overflow-y: auto;
+  float: left;
+  height: 80vh;
+
+}
 
 /* scrollable details style */
 /* :hover */
@@ -97,9 +106,28 @@ body {
 
 
 
-/* #test :hover, #test:active, #test:focus {
-  overflow-y: auto;
-}  */
+::-webkit-input-placeholder {
+  color: gray;
+  text-align: center;
+  font-size: medium;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: gray;
+  text-align: center;
+  font-size: medium;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: gray;
+  text-align: center;
+  font-size: medium;
+}
+:-ms-input-placeholder {
+  color: gray;
+  text-align: center;
+  font-size: medium;
+}
 
 /* header link styles for listItems */
 a {
