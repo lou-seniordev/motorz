@@ -59,7 +59,7 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
               )}
               {forumpost.forumpostRating > 0 && (
                 <span>
-                  , rated {forumpost.forumpostRating.toFixed(2)} out of 5{" "}
+                  , rated {forumpost.forumpostRating.toFixed(2)}
                 </span>
               )}
               {rated && <span>, you already rated </span>}

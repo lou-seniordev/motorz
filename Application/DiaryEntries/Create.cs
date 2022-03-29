@@ -15,7 +15,7 @@ namespace Application.DiaryEntries
     {
         public class Command : IRequest
         {
-            
+
 
             public Guid Id { get; set; }
             public Guid ActivityId { get; set; }
@@ -27,7 +27,7 @@ namespace Application.DiaryEntries
             public IFormFile File { get; set; }
             public string LocationCity { get; set; }
             public string LocationCountry { get; set; }
-           
+
 
         }
 
@@ -54,7 +54,7 @@ namespace Application.DiaryEntries
 
             private readonly IEntityPhotoAccessor _entityPhotoAccessor;
 
-            public Handler(DataContext context, IUserAccessor userAccessor, 
+            public Handler(DataContext context, IUserAccessor userAccessor,
                 IEntityPhotoAccessor entityPhotoAccessor)
             {
                 _entityPhotoAccessor = entityPhotoAccessor;
@@ -89,7 +89,7 @@ namespace Application.DiaryEntries
                 };
 
                 _context.DiaryEntries.Add(diaryEntry);
-                
+
 
                 var photoUploadResult = _entityPhotoAccessor.AddPhoto(request.File, 400, 500);
 
@@ -102,7 +102,10 @@ namespace Application.DiaryEntries
                 };
 
                 diaryEntry.DiaryPhoto = diaryPhoto;
-                activity.IsActive = true;
+                if (activity.DiaryEntries.Count == 0)
+                {
+                    activity.IsActive = true;
+                }
 
                 var success = await _context.SaveChangesAsync() > 0;
 

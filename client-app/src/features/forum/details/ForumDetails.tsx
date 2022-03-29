@@ -23,6 +23,8 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     rootStore.forumPostStore;
 
   const { user } = rootStore.userStore;
+  let formattedUser: any = user;
+
 
   useEffect(() => {
     loadForumPost(match.params.id);
@@ -39,7 +41,7 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({
           <ForumDetailedRating forumpost={forumpost} />
         )}
 
-        {forumpost.userName === user?.userName && (
+        {forumpost.userName === formattedUser.username && (
           <ForumDetailedManager forumpost={forumpost} />
         )}
         <ForumDetailedChat />

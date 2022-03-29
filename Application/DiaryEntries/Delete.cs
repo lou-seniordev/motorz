@@ -47,6 +47,13 @@ namespace Application.DiaryEntries
                 if (deletePhotoResult == null)
                     throw new Exception("Problem deleting photo");
 
+                var activity = await _context.Activities.FirstOrDefaultAsync(x => x.Id == diaryEntry.Activity.Id);
+
+                if(activity.DiaryEntries.Count == 1)
+                {
+                    activity.IsActive = false;
+                }
+
                 _context.Remove(diaryEntry);
 
                 var success = await _context.SaveChangesAsync() > 0;

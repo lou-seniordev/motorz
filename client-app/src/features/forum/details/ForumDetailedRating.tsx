@@ -36,9 +36,11 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
     addFeedItem(forumpost.id, 'Rated Forumpost')
   };
 
+  console.log('forumpost', toJS(forumpost))
+  console.log('formattedUser', toJS(formattedUser))
   return (
     <>
-      {formattedUser?.username !== forumpost.userName && !rated && (
+      {formattedUser?.username !== toJS(forumpost.userName) && !rated && (
         
         <Segment attached>
           <Grid verticalAlign='middle'>
