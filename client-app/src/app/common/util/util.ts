@@ -17,30 +17,36 @@ export const combineDateAndTime = (date: Date, time: Date) => {
   //
   return new Date(dateString + 'T' + timeString);
 };
-export const setActivityProps = (activity: IActivity, userFromStore: IUser) => {
+export const setActivityProps = (activity: IActivity, user: IUser) => {
   // NB: here userName changed (also in DB and EF) to match problem
-  let user: any = userFromStore;
+  // let user: any = userFromStore;
   activity.date = new Date(activity.date);
   
   activity.isGoing = activity.attendees.some(
-    (a) => a.username === user.username
+    (a) => a.username === user.userName
   );
  
   activity.isHost = activity.attendees.some(
     (a) => 
-    a.username === user.username && a.isHost
+    a.username === user.userName && a.isHost
     
     );
     return activity;
 };
 
 export const setMotofyProps = (motofy: IMotofy, user: IUser) => {
+  console.log('motofy', toJS(motofy))
+  console.log('user', toJS(user))
   motofy.embraced = motofy.embracers.some(
     a => a.username === user?.userName
   )
-  motofy.isOwner = motofy.embracers.some(
-    a => a.username === user.userName && a.isOwner
-  )
+  // if(motofy.publisherUsername === user.userName)
+  // {
+    motofy.embracers[0].isOwner = motofy.publisherUsername === user.userName;
+  // }
+  // motofy.isOwner = motofy.embracers.some(
+  //   a => a.username === user.userName && a.isOwner
+  // )
   return motofy;
 }
 

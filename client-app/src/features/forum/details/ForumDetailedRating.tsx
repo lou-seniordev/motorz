@@ -5,7 +5,7 @@ import { Segment, Grid, Button } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
-const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
+const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
   forumpost,
 }) => {
   const rootStore = useContext(RootStoreContext);
@@ -14,13 +14,16 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
   const { addFeedItem } = rootStore.feedStore;
 
   const [rated, setRated] = useState(false);
-  let formattedUser: any = user;
+  // let formattedUser: any = user;
 
   useEffect(() => {
+    console.log('user', user)
+
     if (forumpost.forumpostRatings!.length > 0) {
       
       forumpost.forumpostRatings?.forEach((rating) => {
-        if (rating.authorUsername === formattedUser.userName) {
+        if (rating.authorUsername === user?.userName) {
+        // if (rating.authorUsername === formattedUser.userName) {
           setRated(true);
         } 
       });
@@ -36,11 +39,11 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
     addFeedItem(forumpost.id, 'Rated Forumpost')
   };
 
-  console.log('forumpost', toJS(forumpost))
-  console.log('formattedUser', toJS(formattedUser))
+  // console.log('forumpost', toJS(forumpost))
   return (
     <>
-      {formattedUser?.username !== toJS(forumpost.userName) && !rated && (
+    {user?.userName !== forumpost.userName && !rated && (
+      // {formattedUser?.username !== toJS(forumpost.userName) && !rated && (
         
         <Segment attached>
           <Grid verticalAlign='middle'>
@@ -74,4 +77,4 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
   );
 };
 
-export default observer(ForumDetailedInfo);
+export default observer(ForumDetailedRating);

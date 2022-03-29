@@ -15,6 +15,7 @@ import {
 import { IProfile } from "../../app/models/profile";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import ContactForm from "./forms/ContactForm";
+import { toJS } from "mobx";
 
 interface IProps {
   profile: IProfile;
@@ -32,15 +33,18 @@ const ProfileHeader: React.FC<IProps> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
+  let formattedUser: any = user;
+
   const { addFeedItem } = rootStore.feedStore;
 
   const { openModal } = rootStore.modalStore;
 
   const handleSendMessage = () => {
+    // console.log(toJS(formattedUser))
     openModal(
       <ContactForm
         recipientUsername={profile.username}
-        username={user!.userName}
+        username={toJS(formattedUser.username)}
       />
     );
   };

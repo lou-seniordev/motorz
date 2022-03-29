@@ -1,6 +1,7 @@
 export interface IUser {
     // NB: this userName should be changed also in DB and EF to username/Username
     userName: string;
+    // username: string;
     displayName: string;
     token: string;
     image?: string

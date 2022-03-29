@@ -9,7 +9,6 @@ import {
   GridColumn,
   Header,
   Image,
-  Label,
   Segment,
 } from "semantic-ui-react";
 import { IActivity, IDiaryEntry } from "../../../app/models/activity";

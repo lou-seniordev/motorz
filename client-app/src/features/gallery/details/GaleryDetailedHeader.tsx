@@ -1,9 +1,11 @@
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image, Icon } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import UserStore from "../../../app/stores/userStore";
 
 import ConfirmDelete from "../modals/ConfirmDelete";
 
@@ -33,7 +35,9 @@ interface IProps {
   motofy: IMotofy;
 }
 const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
+  // console.log('motofy', toJS(motofy))
   const rootStore = useContext(RootStoreContext);
+  const { user } = rootStore.userStore;
 
   const { embraceMotofy, unembraceMotofy, loading } = rootStore.motofyStore;
 
@@ -83,7 +87,7 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
         </Segment>
       </Segment>
       <Segment clearing attached='bottom'>
-        {motofy.isOwner ? (
+        {motofy.publisherUsername === user!.userName ? (
           <Segment clearing>
             <Button
               as={Link}
@@ -116,7 +120,7 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
             negative
             loading={loading}
             fluid
-            onClick={ () => handleUnembraceMotofy(motofy.id!)}
+            onClick={() => handleUnembraceMotofy(motofy.id!)}
           >
             Embraced
           </Button>

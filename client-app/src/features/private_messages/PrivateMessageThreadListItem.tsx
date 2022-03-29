@@ -16,6 +16,9 @@ const PrivateMessageThreadListItem = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
+  let formattedUser: any = user;
+
+
   const {
     setRecipient,
     setMessageThreadId,
@@ -72,7 +75,7 @@ const PrivateMessageThreadListItem = () => {
         handleSetRecipient();
         setMessageThreadId(last![0]);
         setReply(input);
-        setUsername(user?.userName!);
+        setUsername(formattedUser.username!);
         addReply();
       }
     }
@@ -80,7 +83,7 @@ const PrivateMessageThreadListItem = () => {
 
 
   const handleSetRecipient = () => {
-    if (last![1][0].senderUsername === user?.userName) {
+    if (last![1][0].senderUsername === formattedUser.username) {
       setRecipient(last![1][0].recipientUsername!, user?.image);
     } else {
       setRecipient(last![1][0].senderUsername!, user?.image);

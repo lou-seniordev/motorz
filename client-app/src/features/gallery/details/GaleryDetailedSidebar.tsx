@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Segment, List, Item, Label, Image } from "semantic-ui-react";
+import { Segment, List, Item, Label, Image, Grid } from "semantic-ui-react";
 import { IEmbracer } from "../../../app/models/motofy";
 
 interface IProps {
@@ -18,14 +18,42 @@ const GaleryDetailedSidebar: React.FC<IProps> = ({ embracers }) => {
         inverted
         color='teal'
       >
-        {embracers.length} {embracers.length === 1 ? "Person" : "People "}{" "}
+        {embracers.length} {embracers.length === 1 ? "Person " : "People "}{" "}
         embraced
       </Segment>
-      <Segment attached>
-        <List relaxed divided>
-          {embracers.map((embracer) => (
-            <Item key={embracer.username} style={{ position: "relative" }}>
-              {embracer.isOwner && (
+      <>
+        <List divided>
+          <Item.Group divided>
+            {embracers.map((embracer) => (
+              <Segment key={embracer.username} style={{ position: "relative" }}>
+                <Grid>
+                  <Grid.Column width={4}>
+                    <Image
+                      size='mini'
+                      circular
+                      src={embracer.image || "/assets/user.png"}
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={12}>
+                        <Link to={`/profile/${embracer.username}`}>
+                          <Item.Extra as='h5'>
+                            {embracer.displayName}
+                           
+                          </Item.Extra>
+
+                          {embracer.isOwner && (
+                            <Label
+                              style={{ position: "top" }}
+                              color='teal'
+                              corner='right'
+                            >
+                              Pub
+                            </Label>
+                          )}
+                        </Link>
+                      </Grid.Column>
+                </Grid>
+                {/* {embracer.isOwner && (
                 <Label
                   style={{ position: "absolute" }}
                   color='teal'
@@ -45,11 +73,12 @@ const GaleryDetailedSidebar: React.FC<IProps> = ({ embracers }) => {
                 {embracer.following && (
                   <Item.Extra style={{ color: "teal" }}>Following</Item.Extra>
                 )}
-              </Item.Content>
-            </Item>
-          ))}
+              </Item.Content> */}
+              </Segment>
+            ))}
+          </Item.Group>
         </List>
-      </Segment>
+      </>
     </Fragment>
   );
 };

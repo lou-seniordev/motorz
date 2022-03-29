@@ -3,6 +3,7 @@ import React, {  useContext, useEffect } from "react";
 import { Grid, Segment, Image } from "semantic-ui-react";
 import { formatDistance } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import { RSA_NO_PADDING } from "constants";
 // import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 
 
@@ -47,6 +48,7 @@ const PrivateMessageThreadList = () => {
             //  style={{border: 'none'}}
             <Segment key={id}>
               <Grid
+              // className='computer only' 
                 onClick={() => {
                    
                     setView(messages[0].privateMessageThreadId)
@@ -55,7 +57,7 @@ const PrivateMessageThreadList = () => {
                 divided
                 style={{ cursor: "pointer" }}
               >
-                <Grid.Column width={4}>
+                <Grid.Column computer={4} className='computer only' >
                   <Image
                     size='mini'
                     circular
@@ -70,7 +72,19 @@ const PrivateMessageThreadList = () => {
                   </span>
                  
                 </Grid.Column>
-                <Grid.Column width={12}>
+                <Grid.Column mobile={12} className='mobile only' style={{padding: '0px', margin: '0px'}}>
+                  <img
+                  // className='mobile only'
+                    // size='large'
+                    // circular
+                    // verticalAlign='middle'
+                    style={{borderRadius: "50%"}}
+                    width={'40px'}
+                    src={messages[0].senderPhotoUrl || "/assets/user.png"}
+                  />
+                 
+                </Grid.Column>
+                <Grid.Column width={12} className='computer only'>
                   <Grid.Row
                     style={
                       messages[0].dateRead === null &&
@@ -96,10 +110,6 @@ const PrivateMessageThreadList = () => {
             </Segment>
           ))}
         </Grid.Column>
-        {/* <Grid.Column width={10}>
-          {last && <PrivateMessageThreadListItem />}
-         
-        </Grid.Column> */}
       </Grid>
 
     </Segment>

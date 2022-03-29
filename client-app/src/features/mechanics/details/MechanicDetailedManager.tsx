@@ -20,7 +20,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
-  let formattedUser: any = user;
+  // let formattedUser: any = user;
 
   const [managing, setManaging] = useState(false);
 
@@ -35,14 +35,15 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
   const handleView = useCallback(
     (localMechanic: any) => {
       localMechanic.customers.forEach((customer: IMechanicCustomer) => {
-        if (formattedUser.username === customer.username) setCustomer(true);
+        // if (formattedUser.username === customer.username) setCustomer(true);
+        if (user!.userName === customer.username) setCustomer(true);
       });
     },
     [setCustomer, user]
     );
     
     useEffect(() => {
-    console.log("formattedUser", toJS(formattedUser))
+    // console.log("formattedUser", toJS(formattedUser))
     handleView(mechanic);
     return () => {
       setCustomer(false);
@@ -65,7 +66,8 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
     <Segment.Group>
       <Segment clearing raised>
         <Item>{mechanic.name}</Item>
-        {mechanic.publisherUsername !== toJS(formattedUser.username) && (
+        {/* {mechanic.publisherUsername !== toJS(formattedUser.username) && ( */}
+        {mechanic.publisherUsername !== user?.userName && (
           <Fragment>
             {!isCustomer && !openCustomerForm && (
               <Button
@@ -80,7 +82,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
             )}
           </Fragment>
         )}
-        {mechanic.publisherUsername === formattedUser.username &&
+         {mechanic.publisherUsername === user?.userName &&
           (!managing ? (
             <Button onClick={toggleManaging} color='instagram' fluid>
               Manage mechanic

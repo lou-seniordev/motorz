@@ -55,7 +55,7 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
         <Item.Group>
 
         <Item.Header>Average Rating: {motofy.averageRating}</Item.Header>
-        {!motofy.isOwner ? (
+        {motofy.publisherUsername !== user!.userName ? (
           <Fragment>
             <Rating
               icon='star'

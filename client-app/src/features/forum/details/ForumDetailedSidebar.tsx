@@ -1,4 +1,4 @@
-import { toJS } from "mobx";
+// import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import { IForumpost } from "../../../app/models/forumpost";
 const ForumDetailedSidebar: React.FC<{ forumpost: IForumpost }> = ({
   forumpost,
 }) => {
-  console.log("forumpost.commenters", toJS(forumpost.commenters));
+  // console.log("forumpost.commenters", toJS(forumpost.commenters));
   return (
     <Fragment>
       <Segment
