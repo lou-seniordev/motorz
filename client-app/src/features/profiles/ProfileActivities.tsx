@@ -52,7 +52,7 @@ const ProfileEvents = () => {
     <Tab.Pane loading={loadingActivities}>
       <Grid>
         <Grid.Column width={16}>
-          <Header floated='left' icon='calendar' content={'Activities'} />
+          <Header floated='left' icon='blogger' content={'Motorcycle Diaries'} />
         </Grid.Column>
         <Grid.Column width={16}>
           <Tab
@@ -61,7 +61,7 @@ const ProfileEvents = () => {
             onTabChange={(e, data) => handleTabChange(e, data)}
           />
           <br />
-          <Card.Group itemsPerRow={6}>
+          <Card.Group itemsPerRow={4} stackable={true} doubling={true} centered>
             {userActivities.map((activity: IUserActivity) => (
               <Card
                 as={Link}

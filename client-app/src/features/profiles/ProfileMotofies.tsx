@@ -7,9 +7,9 @@ import { format } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 const panes = [
-  { menuItem: "Motofies I Embraced", pane: { key: "iEmbraced" } },
-  { menuItem: "Motofies I Published", pane: { key: "iPublished" } },
-  { menuItem: "Motofies I Rated", pane: { key: "iRated" } },
+  { menuItem: "Embraced", pane: { key: "iEmbraced" } },
+  { menuItem: "Published", pane: { key: "iPublished" } },
+  { menuItem: "Rated", pane: { key: "iRated" } },
 ];
 
 const ProfileMotofies = () => {
@@ -45,7 +45,7 @@ const ProfileMotofies = () => {
     <Tab.Pane loading={loadingMotofies}>
       <Grid>
         <Grid.Column width={16}>
-          <Header floated='left' icon='calendar' content={"Motofies"} />
+          <Header floated='left' icon='motorcycle' content={"Motofies"} />
         </Grid.Column>
         <Grid.Column width={16}>
           <Tab
@@ -54,7 +54,7 @@ const ProfileMotofies = () => {
             onTabChange={(e, data) => handleTabChange(e, data)}
           />
           <br />
-          <Card.Group itemsPerRow={6}>
+          <Card.Group itemsPerRow={4} stackable={true} doubling={true} centered>
             {userMotofies.map((motofy: IUserMotofy) => (
               <Card as={Link} to={`/gallery/${motofy.id}`} key={motofy.id}>
                 <Image

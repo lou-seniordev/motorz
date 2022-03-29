@@ -7,8 +7,8 @@ import { format } from 'date-fns';
 import { RootStoreContext } from '../../app/stores/rootStore';
 
 const panes = [
-  { menuItem: 'Questions I Asked', pane: { key: 'iAsked' } },
-  { menuItem: 'Questions I Rated', pane: { key: 'iRated' } },
+  { menuItem: 'Asked', pane: { key: 'iAsked' } },
+  { menuItem: 'Rated', pane: { key: 'iRated' } },
 //   { menuItem: 'Hosting', pane: { key: 'hosted' } }
 ];
 
@@ -45,7 +45,7 @@ const ProfileForumposts = () => {
     <Tab.Pane loading={loadingForumposts}>
       <Grid>
         <Grid.Column width={16}>
-          <Header floated='left' icon='calendar' content={'Forumposts'} />
+          <Header floated='left' icon='question circle' content={'Forumposts'} />
         </Grid.Column>
         <Grid.Column width={16}>
           <Tab
@@ -54,7 +54,7 @@ const ProfileForumposts = () => {
             onTabChange={(e, data) => handleTabChange(e, data)}
           />
           <br />
-          <Card.Group itemsPerRow={6}>
+          <Card.Group itemsPerRow={4} stackable={true} doubling={true} centered>
             {userForumposts.map((forumpost: IUserForumpost) => (
               <Card
                 as={Link}

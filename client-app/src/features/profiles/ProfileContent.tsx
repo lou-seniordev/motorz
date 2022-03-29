@@ -32,13 +32,51 @@ const panes = [
     menuItem: "Products",
     render: () => <ProfileProducts />,
   },
-  { 
-    menuItem: "Followers", 
-    render: () => <ProfileFollowings /> 
+  {
+    menuItem: "Followers",
+    render: () => <ProfileFollowings />,
   },
-  { 
-    menuItem: "Followings", 
-    render: () => <ProfileFollowings /> 
+  {
+    menuItem: "Followings",
+    render: () => <ProfileFollowings />,
+  },
+];
+const mobilePanes = [
+  {
+    menuItem: { key: "About", icon: "user" },
+    render: () => <ProfileDescription />,
+  },
+  {
+    menuItem: { key: "Photos", icon: "image" },
+    render: () => <ProfilePhotos />,
+  },
+  {
+    menuItem: { key: "Motofies!", icon: "motorcycle" },
+    render: () => <ProfileMotofies />,
+  },
+  {
+    menuItem: { key: "Motorcycle Diaries", icon: "blogger" },
+    render: () => <ProfileActivities />,
+  },
+  {
+    menuItem: { key: "Forumposts", icon: "question circle" },
+    render: () => <ProfileForumposts />,
+  },
+  {
+    menuItem: { key: "Mechanics", icon: "servicestack" },
+    render: () => <ProfileMechanics />,
+  },
+  {
+    menuItem: { key: "Products", icon: "shopping bag" },
+    render: () => <ProfileProducts />,
+  },
+  {
+    menuItem: { key: "Followers", icon: "user circle" },
+    render: () => <ProfileFollowings />,
+  },
+  {
+    menuItem: { key: "Followings", icon: "users" },
+    render: () => <ProfileFollowings />,
   },
 ];
 
@@ -47,12 +85,22 @@ interface IProps {
 }
 const ProfileContent: React.FC<IProps> = ({ setActiveTab }) => {
   return (
-    <Tab
-      menu={{ fluid: true, vertical: true }}
-      menuPosition='right'
-      panes={panes}
-      onTabChange={(e, data) => setActiveTab(data.activeIndex)}
-    />
+    <>
+      <Tab
+        className='mobile hidden'
+        menu={{ fluid: true, vertical: true }}
+        menuPosition='right'
+        panes={panes}
+        onTabChange={(e, data) => setActiveTab(data.activeIndex)}
+      />
+      {/* , style:{width: '0.9em' */}
+      <Tab
+        className='mobile only'
+        menu={{ fluid: true, style:{fontSize: '0.85em'} }}
+        panes={mobilePanes}
+        onTabChange={(e, data) => setActiveTab(data.activeIndex)}
+      />
+    </>
   );
 };
 // == so that the switching is disabled ==

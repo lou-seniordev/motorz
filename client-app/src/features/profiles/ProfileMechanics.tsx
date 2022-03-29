@@ -7,9 +7,9 @@ import { format } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 const panes = [
-  { menuItem: "Mechanics I Published", pane: { key: "iPublished" } },
-  { menuItem: "Mechanics I Rated", pane: { key: "iRated" } },
-  { menuItem: "Mechanics I Recommend", pane: { key: "iRecommend" } },
+  { menuItem: "Published", pane: { key: "iPublished" } },
+  { menuItem: "Rated", pane: { key: "iRated" } },
+  { menuItem: "Recommend", pane: { key: "iRecommend" } },
 ];
 
 const ProfileMechanics = () => {
@@ -46,7 +46,7 @@ const ProfileMechanics = () => {
     <Tab.Pane loading={loadingMechanics}>
       <Grid>
         <Grid.Column width={16}>
-          <Header floated='left' icon='calendar' content={"Mechanics"} />
+          <Header floated='left' icon='servicestack' content={"Mechanics"} />
         </Grid.Column>
         <Grid.Column width={16}>
           <Tab
@@ -55,7 +55,7 @@ const ProfileMechanics = () => {
             onTabChange={(e, data) => handleTabChange(e, data)}
           />
           <br />
-          <Card.Group itemsPerRow={6}>
+          <Card.Group itemsPerRow={4} stackable={true} doubling={true} centered>
             {userMechanics.map((mechanic: IUserMechanic) => (
               <Card
                 as={Link}

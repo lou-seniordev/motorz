@@ -18,7 +18,7 @@ const ProfileFollowings = () => {
         <Grid.Column width={16}>
           <Header
             floated='left'
-            icon='user'
+            icon='user circle'
             content={
               activeTab === 7
                 ? `People following ${profile!.displayName}`
@@ -27,7 +27,7 @@ const ProfileFollowings = () => {
           />
         </Grid.Column>
         <Grid.Column width={16}>
-          <Card.Group itemsPerRow={5}>
+          <Card.Group itemsPerRow={4} stackable={true} doubling={true} centered>
               {followings.map((profile) => (
                   <ProfileCard key={profile.username} profile={profile}/>
               ))}

@@ -7,8 +7,8 @@ import { format } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 const panes = [
-  { menuItem: "Products I am selling", pane: { key: "iAmSelling" } },
-  { menuItem: "Products I sold", pane: { key: "iSold" } },
+  { menuItem: "I am selling", pane: { key: "iAmSelling" } },
+  { menuItem: "I sold", pane: { key: "iSold" } },
 ];
 
 const ProfileProducts = () => {
@@ -53,7 +53,7 @@ const ProfileProducts = () => {
             onTabChange={(e, data) => handleTabChange(e, data)}
           />
           <br />
-          <Card.Group itemsPerRow={6}>
+          <Card.Group itemsPerRow={4} stackable={true} doubling={true} centered>
             {userProducts.map((product: IUserProduct) => (
               <Card
                 as={Link}

@@ -51,7 +51,7 @@ const ProfileHeader: React.FC<IProps> = ({
   return (
     <Segment>
       <Grid>
-        <Grid.Column width={12}>
+        <Grid.Column computer={12} mobile={16}>
           <Item.Group>
             <Item>
               <Item.Image
@@ -65,14 +65,14 @@ const ProfileHeader: React.FC<IProps> = ({
               {user?.userName !== profile.username && (
                 <Button
                   circular
-                  content='Message'
+                  content='Send Message'
                   onClick={handleSendMessage}
                 />
               )}
             </Item>
           </Item.Group>
         </Grid.Column>
-        <Grid.Column width={4}>
+        <Grid.Column computer={4} mobile={16}>
           <Statistic.Group widths={2}>
             <Statistic label='Followers' value={profile.followersCount} />
             <Statistic label='Following' value={profile.followingCount} />
@@ -83,7 +83,7 @@ const ProfileHeader: React.FC<IProps> = ({
               <Reveal.Content visible style={{ width: "100%" }}>
                 <Button
                   fluid
-                  color='teal'
+                  color='instagram'
                   content={profile.following ? "Following" : "Not following"}
                 />
               </Reveal.Content>
@@ -92,7 +92,7 @@ const ProfileHeader: React.FC<IProps> = ({
                   loading={loading}
                   fluid
                   basic
-                  color={profile.following ? "red" : "green"}
+                  color={profile.following ? "red" : "instagram"}
                   content={profile.following ? "Unfollow" : "Follow"}
                   onClick={
                     profile.following

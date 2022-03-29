@@ -44,7 +44,7 @@ const ProfilePhotos = () => {
               loading={uploadingPhoto}
             />
           ) : (
-            <Card.Group itemsPerRow={5}>
+            <Card.Group itemsPerRow={4} stackable={true} doubling={true} centered>
               {profile &&
                 profile.photos.map((photo) => (
                   <Card key={photo.id}>
