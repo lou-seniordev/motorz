@@ -10,7 +10,7 @@ import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 
 const PrivateMessagesDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadMessages, loadingInitial, setPage, page, totalPages, last } =
+  const { loadMessages, loadingInitial, setPage, page, totalPages, listOfMessagesInFocus } =
     rootStore.privateMessageStore;
 
   const [loadingNext, setLoadingNext] = useState(false);
@@ -32,7 +32,6 @@ const PrivateMessagesDashboard = () => {
       // className='sideScroll'
     >
       <Grid style={{ margin: "0", padding: "0" }}>
-        {/* <Grid.Column width={12}> */}
         {loadingInitial && page === 0 ? (
           <Grid.Row>
             <Grid.Column width={16}>
@@ -52,11 +51,10 @@ const PrivateMessagesDashboard = () => {
               </InfiniteScroll>
             </Grid.Column>
             <Grid.Column width={12}>
-              {last && <PrivateMessageThreadListItem />}
+              {listOfMessagesInFocus && <PrivateMessageThreadListItem />}
             </Grid.Column>
           </Grid.Row>
         )}
-        {/* </Grid.Column> */}
       </Grid>
     </Segment>
   );

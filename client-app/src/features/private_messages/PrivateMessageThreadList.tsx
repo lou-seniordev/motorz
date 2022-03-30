@@ -4,7 +4,7 @@ import { Grid, Image, Container } from "semantic-ui-react";
 import { formatDistance } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { IPrivateMessage } from "../../app/models/privatemessages";
-// import { toJS } from "mobx";
+import { toJS } from "mobx";
 // import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 
 // const PrivateMessageThreadList: React.FC<IProps> = ({ last }) => {
@@ -14,7 +14,7 @@ const PrivateMessageThreadList = () => {
 
   const {
     messagesByThreadId,
-      //  markReadInDB,
+    //  markReadInDB,
     // loadingInitial,
     // messageThreadsCount,
     // last,
@@ -26,25 +26,23 @@ const PrivateMessageThreadList = () => {
 
   useEffect(() => {
     setInitialView();
-    // getSenderPhoto();
   }, [setInitialView]);
 
-    const markRead = (messages: IPrivateMessage[]) => {
-      messages.forEach(m => {
+  // const markRead = (messages: IPrivateMessage[]) => {
+  //   messages.forEach((m) => {
+  //     if (m.senderUsername !== user?.userName && m.dateRead === null) {
+  //       // console.log(toJS(m));
+  //       markReadInDB(m.id);
+  //     }
+  //   });
+  // };
 
-        if (m.senderUsername !== user?.userName && m.dateRead === null) {
-          // console.log(toJS(m));
-          // markReadInDB(message.id);
-        }
-      })
-    };
-
+  // getSenderPhoto();
   // const getSenderPhoto =()=> {
   //   messagesByThreadId.map(([id, message]) => {
   //     console.log(toJS(message[0]))
   //   })
   // }
-  
 
   return (
     <Fragment>
@@ -57,7 +55,7 @@ const PrivateMessageThreadList = () => {
             >
               <Grid
                 onClick={() => {
-                  markRead(messages);
+                  // markRead(messages);
                   setView(messages[0].privateMessageThreadId);
                   createHubConnection(messages[0].privateMessageThreadId);
                 }}
@@ -111,7 +109,9 @@ const PrivateMessageThreadList = () => {
                       )}
                     </span>
 
-                    <Grid.Row>{messages[0].content}</Grid.Row>
+                    <Grid.Row>
+                      {messages[0].content.substring(0, 18)}...
+                    </Grid.Row>
                   </Grid.Row>
                 </Grid.Column>
               </Grid>
@@ -124,4 +124,3 @@ const PrivateMessageThreadList = () => {
 };
 
 export default observer(PrivateMessageThreadList);
-

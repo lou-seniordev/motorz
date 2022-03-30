@@ -17,28 +17,29 @@ export default class PrivateMessageStore {
 
     }
 
+    //   @observable messageThreadRegistry = new Map();
+    //   @observable message: IMessage | null = null;
+    //   @observable loadingMessageThread = false;
+    //   @observable messagesFromThread: any = [];
+    // @observable receivingList: [string, IPrivateMessage[]] | undefined = undefined;
+
+
     @observable username: string = '';
     @observable senderPhotoUrl: string;
 
     @observable messageRegistry = new Map();
-    //   @observable messageThreadRegistry = new Map();
-    //   @observable message: IMessage | null = null;
     @observable loadingInitial = false;
     @observable recipientUsername: any = '';
-    //   @observable productId: string = '';
 
     @observable messageThreadId: string;
     @observable messageContent: string;
-    //   @observable loadingMessageThread = false;
-    //   @observable messagesFromThread: any = [];
 
     @observable messageThreadsCount = 0;
     @observable page = 0;
     @observable totalPages = 0;
 
 
-    @observable last: [string, IPrivateMessage[]] | undefined = undefined;
-    @observable receivingList: [string, IPrivateMessage[]] | undefined = undefined;
+    @observable listOfMessagesInFocus: [string, IPrivateMessage[]] | undefined = undefined;
     @observable index: number;
 
 
@@ -53,7 +54,6 @@ export default class PrivateMessageStore {
         const sortedMessages = messages.sort(
             (a, b) => Date.parse(b.dateSent) - Date.parse(a.dateSent)
         )
-          console.log(toJS(sortedMessages))
         return Object.entries(sortedMessages.reduce((messages, message) => {
             const threadId = message.privateMessageThreadId;
             messages[threadId] = messages[threadId] ? [...messages[threadId], message] : [message];
@@ -73,9 +73,9 @@ export default class PrivateMessageStore {
         //!! try await 
         this.hubConnection
             .start()
-            // .then(() => console.log(this.hubConnection!.state))
+            .then(() => console.log(this.hubConnection!.state))
             .then(() => {
-                // console.log('Attempting to join group');
+                console.log('Attempting to join group');
                 //!!temp timeout
                 setTimeout(() => {
 
@@ -85,14 +85,11 @@ export default class PrivateMessageStore {
             .catch(error => console.log('Error establishing connection: ', error));
 
         this.hubConnection.on('ReceiveMessage', message => {
-
-            // console.log('this.last before: ', toJS(this.last))
-            // console.log('this messageRegistry before: ', toJS(this.messageRegistry))
+           
             runInAction(() => {
-                this.last![1].unshift(message);
+                this.messageRegistry.set(message.privateMessageThreadId, message);
+                this.setView(message.privateMessageThreadId)
             });
-            // console.log('message: ', toJS(message))
-            // console.log('this.last after: ', toJS(this.last))
         })
         this.hubConnection.on('SendMessage', message => {
             // toast.info(message)
@@ -104,7 +101,7 @@ export default class PrivateMessageStore {
             .then(() => {
                 this.hubConnection!.stop();
             })
-            // .then(() => console.log('Connection stopped'))
+            .then(() => console.log('Connection stopped'))
             .catch(err => console.log(err));
     }
 
@@ -133,6 +130,7 @@ export default class PrivateMessageStore {
                 privateMessages.forEach((message) => {
                     this.formatDate(message);
                     this.messageRegistry.set(message.id, message);
+                    
                 });
                 this.messageThreadsCount = privateMessageThreadsCount;
 
@@ -153,7 +151,7 @@ export default class PrivateMessageStore {
 
     @action setInitialView = () => {
 
-        this.last = this.messagesByThreadId[0]
+        this.listOfMessagesInFocus = this.messagesByThreadId[0]
     }
 
     @action setView = (id?: string) => {
@@ -161,9 +159,8 @@ export default class PrivateMessageStore {
         runInAction(() => {
             this.index = this.messagesByThreadId.findIndex(m => m[0] === id);
         })
-        this.last = this.messagesByThreadId[this.index];
-        console.log(toJS(this.last))
-        return this.last;
+        this.listOfMessagesInFocus = this.messagesByThreadId[this.index];
+        return this.listOfMessagesInFocus;
     }
 
 
@@ -179,25 +176,45 @@ export default class PrivateMessageStore {
 
 
 
+
+
+
+
+
     @action setRecipient = (username: string, userPhotoUrl: any) => {
         this.recipientUsername = username;
-        // this.senderPhotoUrl = userPhotoUrl;
     }
-
     @action setMessageThreadId = (messageThreadId: string) => {
         this.messageThreadId = messageThreadId
-
     };
-
     @action setReply = (content: string) => {
         this.messageContent = content;
     };
-
     @action setUsername = (username: string) => {
         this.username = username;
     }
-
-
+    @action sendMessage = async (messageToSend: any) => {
+      
+        try {
+            let message =  await agent.PrivateMessages.create(messageToSend);
+            console.log(message);
+            runInAction('loading message ', () => {
+                this.rootStore.modalStore.closeModal();
+            });
+            history.push('/privateMessages');
+        } catch (error) {
+            runInAction('load thread error', () => {
+            });
+            console.log(error);
+        }
+    };
+      @action markReadInDB = async (id: string) => {
+        try {
+          await agent.PrivateMessages.markRead(id);
+        } catch (error) {
+          console.log(error);
+        }
+      }
 
     //   getMessageThread = (id: string) => {
     //     let myArray = Array.from(this.messagesByDate);
@@ -279,31 +296,7 @@ export default class PrivateMessageStore {
 
     //   };
 
-    @action sendMessage = async (messageToSend: any) => {
-      
-        try {
-            let message =  await agent.PrivateMessages.create(messageToSend);
-            console.log(message);
-            runInAction('loading message ', () => {
-                this.rootStore.modalStore.closeModal();
-            });
-            history.push('/privateMessages');
-        } catch (error) {
-            runInAction('load thread error', () => {
-            });
-            console.log(error);
-        }
-    };
-
-
-
-      @action markReadInDB = async (id: string) => {
-        try {
-          await agent.PrivateMessages.markRead(id);
-        } catch (error) {
-          console.log(error);
-        }
-      }
+    
 }
 
 

@@ -10,6 +10,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { IPrivateMessage } from "../../app/models/privatemessages";
+// import { toJS } from "mobx";
 
 const PrivateMessageThreadListItem = () => {
   const rootStore = useContext(RootStoreContext);
@@ -20,7 +21,8 @@ const PrivateMessageThreadListItem = () => {
   const {
     setRecipient,
     setMessageThreadId,
-    last,
+    listOfMessagesInFocus,
+    markReadInDB,
     setUsername,
     createHubConnection,
     stopHubConnection,
@@ -61,7 +63,7 @@ const PrivateMessageThreadListItem = () => {
       } else {
         setInput("");
         handleSetRecipient();
-        setMessageThreadId(last![0]);
+        setMessageThreadId(listOfMessagesInFocus![0]);
         setReply(input);
         setUsername(user?.userName!);
         addReply();
@@ -70,19 +72,29 @@ const PrivateMessageThreadListItem = () => {
   };
 
   const handleSetRecipient = () => {
-    if (last![1][0].senderUsername === user?.userName) {
-      setRecipient(last![1][0].recipientUsername!, user?.image);
+    if (listOfMessagesInFocus![1][0].senderUsername === user?.userName) {
+      setRecipient(listOfMessagesInFocus![1][0].recipientUsername!, user?.image);
     } else {
-      setRecipient(last![1][0].senderUsername!, user?.image);
+      setRecipient(listOfMessagesInFocus![1][0].senderUsername!, user?.image);
     }
   };
 
   useEffect(() => {
-    createHubConnection(last![0]);
+    createHubConnection(listOfMessagesInFocus![0]);
+    markRead(listOfMessagesInFocus![1])
     return () => {
-      stopHubConnection(last![0]);
+      stopHubConnection(listOfMessagesInFocus![0]);
     };
-  }, [createHubConnection, stopHubConnection, last]);
+  }, [createHubConnection, stopHubConnection, listOfMessagesInFocus]);
+
+
+  const markRead = (messages: IPrivateMessage[]) => {
+    messages.forEach((m) => {
+      if (m.senderUsername !== user?.userName && m.dateRead === null) {
+        markReadInDB(m.id);
+      }
+    });
+  };
 
   return (
     <>
@@ -90,7 +102,7 @@ const PrivateMessageThreadListItem = () => {
         className='scrollRevert'
         style={{ height: "70vh", width: "100%" }}
       >
-        {last![1].map((message: IPrivateMessage) => (
+        {listOfMessagesInFocus![1].map((message: IPrivateMessage) => (
           <Fragment key={message.id}>
             {message.senderUsername !== user?.userName && (
               <Grid
