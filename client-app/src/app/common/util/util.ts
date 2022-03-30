@@ -1,4 +1,3 @@
-import { toJS } from 'mobx';
 import { IActivity, IAttendee } from '../../models/activity';
 import { IEmbracer, IMotofy } from '../../models/motofy';
 import { IUser } from '../../models/user';
@@ -35,8 +34,8 @@ export const setActivityProps = (activity: IActivity, user: IUser) => {
 };
 
 export const setMotofyProps = (motofy: IMotofy, user: IUser) => {
-  console.log('motofy', toJS(motofy))
-  console.log('user', toJS(user))
+  // console.log('motofy', toJS(motofy))
+  // console.log('user', toJS(user))
   motofy.embraced = motofy.embracers.some(
     a => a.username === user?.userName
   )

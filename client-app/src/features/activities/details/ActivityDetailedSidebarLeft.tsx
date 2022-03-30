@@ -68,7 +68,7 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ attendees }) => {
           ))}
         </List>
         {attendees.length > 10 && 
-        <a style={{cursor: 'pointer'}} onClick={handleShowAll}>and {attendees.length - 10} more</a>
+        <span style={{cursor: 'pointer'}} onClick={handleShowAll}>and {attendees.length - 10} more</span>
         }
       </Segment>
     </SegmentGroup>

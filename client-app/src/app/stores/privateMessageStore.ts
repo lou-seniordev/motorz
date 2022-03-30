@@ -38,10 +38,28 @@ export default class PrivateMessageStore {
 
 
     @observable last: [string, IPrivateMessage[]] | undefined = undefined;
+    @observable receivingList: [string, IPrivateMessage[]] | undefined = undefined;
     @observable index: number;
 
 
     @observable.ref hubConnection: HubConnection | null = null;
+
+    @computed get messagesByThreadId() {
+        return this.groupMessagesByThreadId(Array.from(this.messageRegistry.values()));
+    }
+
+    groupMessagesByThreadId(messages: IPrivateMessage[]) {
+        //   console.log(toJS(messages))
+        const sortedMessages = messages.sort(
+            (a, b) => Date.parse(b.dateSent) - Date.parse(a.dateSent)
+        )
+          console.log(toJS(sortedMessages))
+        return Object.entries(sortedMessages.reduce((messages, message) => {
+            const threadId = message.privateMessageThreadId;
+            messages[threadId] = messages[threadId] ? [...messages[threadId], message] : [message];
+            return messages;
+        }, {} as { [key: string]: IPrivateMessage[] }));
+    }
 
     @action createHubConnection = (messageThreadId: string) => {
         this.hubConnection = new HubConnectionBuilder()
@@ -55,9 +73,9 @@ export default class PrivateMessageStore {
         //!! try await 
         this.hubConnection
             .start()
-            .then(() => console.log(this.hubConnection!.state))
+            // .then(() => console.log(this.hubConnection!.state))
             .then(() => {
-                console.log('Attempting to join group');
+                // console.log('Attempting to join group');
                 //!!temp timeout
                 setTimeout(() => {
 
@@ -68,10 +86,13 @@ export default class PrivateMessageStore {
 
         this.hubConnection.on('ReceiveMessage', message => {
 
+            // console.log('this.last before: ', toJS(this.last))
+            // console.log('this messageRegistry before: ', toJS(this.messageRegistry))
             runInAction(() => {
                 this.last![1].unshift(message);
             });
-            console.log('this.last after: ', toJS(this.last))
+            // console.log('message: ', toJS(message))
+            // console.log('this.last after: ', toJS(this.last))
         })
         this.hubConnection.on('SendMessage', message => {
             // toast.info(message)
@@ -83,7 +104,7 @@ export default class PrivateMessageStore {
             .then(() => {
                 this.hubConnection!.stop();
             })
-            .then(() => console.log('Connection stopped'))
+            // .then(() => console.log('Connection stopped'))
             .catch(err => console.log(err));
     }
 
@@ -141,26 +162,12 @@ export default class PrivateMessageStore {
             this.index = this.messagesByThreadId.findIndex(m => m[0] === id);
         })
         this.last = this.messagesByThreadId[this.index];
+        console.log(toJS(this.last))
         return this.last;
     }
 
 
-    @computed get messagesByThreadId() {
-        return this.groupMessagesByThreadId(Array.from(this.messageRegistry.values()));
-    }
 
-    groupMessagesByThreadId(messages: IPrivateMessage[]) {
-        //   console.log(toJS(messages))
-        const sortedMessages = messages.sort(
-            (a, b) => Date.parse(b.dateSent) - Date.parse(a.dateSent)
-        )
-        return Object.entries(sortedMessages.reduce((messages, message) => {
-            const threadId = message.privateMessageThreadId;
-            messages[threadId] = messages[threadId] ? [...messages[threadId], message] : [message];
-            //   console.log(toJS(messages))
-            return messages;
-        }, {} as { [key: string]: IPrivateMessage[] }));
-    }
 
     formatDate(message: IPrivateMessage) {
         const delimiter = '.';
@@ -290,13 +297,13 @@ export default class PrivateMessageStore {
 
 
 
-    //   @action markReadInDB = async (id: string) => {
-    //     try {
-    //       await agent.Messages.markRead(id);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   }
+      @action markReadInDB = async (id: string) => {
+        try {
+          await agent.PrivateMessages.markRead(id);
+        } catch (error) {
+          console.log(error);
+        }
+      }
 }
 
 

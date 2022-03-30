@@ -23,5 +23,11 @@ namespace API.Controllers
         {
             return await Mediator.Send(command);
         }
+
+        [HttpPut("{id}/markRead")]
+        public async Task<ActionResult<Unit>> MarkRead(Guid id)
+        {
+            return await Mediator.Send(new MarkRead.Command { Id = id });
+        }
     }
 }

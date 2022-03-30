@@ -1,25 +1,20 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Segment,
   List,
-  Item,
-  Label,
   Image,
-  SegmentGroup,
-  Card,
 } from "semantic-ui-react";
 import { IAttendee } from "../../../app/models/activity";
-import { RootStoreContext } from "../../../app/stores/rootStore";
+// import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface IProps {
   attendees: IAttendee[];
 }
 const AllAttendeesList: React.FC<IProps> = ({ attendees }) => {
-  const rootStore = useContext(RootStoreContext);
+  // const rootStore = useContext(RootStoreContext);
 
-  const { closeModal } = rootStore.modalStore;
+  // const { closeModal } = rootStore.modalStore;
 
   return (
 

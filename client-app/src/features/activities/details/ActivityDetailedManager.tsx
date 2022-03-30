@@ -1,4 +1,3 @@
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -20,7 +19,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
   const rootStore = useContext(RootStoreContext);
   const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
   const { addFeedItem } = rootStore.feedStore;
-  const { user } = rootStore.userStore;
+  // const { user } = rootStore.userStore;
 
   const [managing, setManaging] = useState(false);
 

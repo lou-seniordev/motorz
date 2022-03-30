@@ -3,6 +3,8 @@ import React, { Fragment, useContext, useEffect } from "react";
 import { Grid, Image, Container } from "semantic-ui-react";
 import { formatDistance } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import { IPrivateMessage } from "../../app/models/privatemessages";
+// import { toJS } from "mobx";
 // import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 
 // const PrivateMessageThreadList: React.FC<IProps> = ({ last }) => {
@@ -12,7 +14,7 @@ const PrivateMessageThreadList = () => {
 
   const {
     messagesByThreadId,
-    //    markReadInDB,
+      //  markReadInDB,
     // loadingInitial,
     // messageThreadsCount,
     // last,
@@ -27,11 +29,15 @@ const PrivateMessageThreadList = () => {
     // getSenderPhoto();
   }, [setInitialView]);
 
-  //   const markRead = (message: IMessage) => {
-  //     if (message.senderUsername !== user?.userName) {
-  //       markReadInDB(message.id);
-  //     }
-  //   };
+    const markRead = (messages: IPrivateMessage[]) => {
+      messages.forEach(m => {
+
+        if (m.senderUsername !== user?.userName && m.dateRead === null) {
+          // console.log(toJS(m));
+          // markReadInDB(message.id);
+        }
+      })
+    };
 
   // const getSenderPhoto =()=> {
   //   messagesByThreadId.map(([id, message]) => {
@@ -51,6 +57,7 @@ const PrivateMessageThreadList = () => {
             >
               <Grid
                 onClick={() => {
+                  markRead(messages);
                   setView(messages[0].privateMessageThreadId);
                   createHubConnection(messages[0].privateMessageThreadId);
                 }}
@@ -67,6 +74,7 @@ const PrivateMessageThreadList = () => {
                     style={{ borderRadius: "50%" }}
                     width={"40px"}
                     src={messages[0].senderPhotoUrl || "/assets/user.png"}
+                    alt='sender'
                   />
                 </Grid.Column>
 

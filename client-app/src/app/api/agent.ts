@@ -281,14 +281,14 @@ const PrivateMessages = {
   list: (limit: number, page: number): Promise<IPrivateMessageEnvelope> =>
     requests.get(`/privatemessages?limit=${limit}&offset=${page ? page * limit! : 0}`),
 
-  thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
+  // thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
   // details: (id: string) => requests.get(`/messages/${id}`),
 
   create: (message: IMessageToSend) => requests.post('/privatemessages/', message),
 
 
   delete: (id: string) => requests.delete(`/messages/${id}`),
-  markRead: (id: string) => requests.put(`/messages/${id}/markRead`, {})
+  markRead: (id: string) => requests.put(`/privatemessages/${id}/markRead`, {})
 }
 
 const Forumposts = {

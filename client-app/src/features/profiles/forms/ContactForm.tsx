@@ -44,7 +44,7 @@ const ContactForm: React.FC<IProps> = ({recipientUsername, username}) => {
 
  
  const handleFinalFormSubmit = (values: any) => {
-        console.log(values.content,recipientUsername, username)
+        // console.log(values.content,recipientUsername, username)
         let messageToSend = {
             recipientUsername:recipientUsername,
             username: username,

@@ -1,11 +1,10 @@
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image, Icon } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import UserStore from "../../../app/stores/userStore";
+// import UserStore from "../../../app/stores/userStore";
 
 import ConfirmDelete from "../modals/ConfirmDelete";
 

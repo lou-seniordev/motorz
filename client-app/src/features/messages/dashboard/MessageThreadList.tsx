@@ -29,8 +29,10 @@ const MessageThreadList = () => {
   };
 
   return (
-    <Segment style={{ textAlign: "center", backgroundColor: 'lightblue' }} raised>
-      
+    <Segment
+      style={{ textAlign: "center", backgroundColor: "lightblue" }}
+      raised
+    >
       <Segment raised>
         <Fragment>
           <Grid>
@@ -45,19 +47,36 @@ const MessageThreadList = () => {
       </Segment>
       <Segment raised>
         <Fragment>
-          <Grid className='mobview' columns={4} divided>
-            <Grid.Column width={4}>
-              <h3>PRODUCT</h3>
-            </Grid.Column>
-            <Grid.Column width={4}>
-              <h3>SENDER</h3>
-            </Grid.Column>
-            <Grid.Column width={4}>
-              <h3>SENT</h3>
-            </Grid.Column>
-            <Grid.Column width={4}>
-              <h3>ACTION</h3>
-            </Grid.Column>
+          {/* className='mobview' */}
+          <Grid columns={4} divided>
+            <Grid.Row className="mobile hidden">
+              <Grid.Column width={4}>
+                <h3>PRODUCT</h3>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <h3>SENDER</h3>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <h3>SENT</h3>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <h3>ACTION</h3>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row className="mobile only">
+              <Grid.Column width={4} style={{textAlign: 'center'}}>
+                <h5>PRODUCT</h5>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <h5>SENDER</h5>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <h5>SENT</h5>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <h5>ACTION</h5>
+              </Grid.Column>
+            </Grid.Row>
           </Grid>
         </Fragment>
       </Segment>
@@ -89,7 +108,9 @@ const MessageThreadList = () => {
                   </h4>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                  {formatDistance(new Date(messages[0].dateSent), new Date())}{" "}ago
+                  {formatDistance(new Date(messages[0].dateSent), new Date(), {
+                  addSuffix: true,
+                })}
                 </Grid.Column>
                 <Grid.Column
                   width={4}

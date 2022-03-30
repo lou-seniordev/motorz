@@ -4,7 +4,6 @@ import {
   Segment,
   List,
   Item,
-  Image,
   Divider,
   SegmentGroup,
 } from "semantic-ui-react";
