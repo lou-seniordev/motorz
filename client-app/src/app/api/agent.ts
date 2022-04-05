@@ -275,7 +275,9 @@ const Messages = {
 
 
   delete: (id: string) => requests.delete(`/messages/${id}`),
-  markRead: (id: string) => requests.put(`/messages/${id}/markRead`, {})
+  markRead: (id: string) => requests.put(`/messages/${id}/markRead`, {}),
+  checkUnread: () => requests.get('/messages/checkUnread'),
+
 }
 const PrivateMessages = {
   list: (limit: number, page: number): Promise<IPrivateMessageEnvelope> =>
@@ -288,6 +290,7 @@ const PrivateMessages = {
 
 
   delete: (id: string) => requests.delete(`/messages/${id}`),
+  checkUnread: () => requests.get('/privatemessages/checkUnread'),
   markRead: (id: string) => requests.put(`/privatemessages/${id}/markRead`, {})
 }
 

@@ -14,7 +14,6 @@ import ActivityForm from "../../features/activities/form/ActivityForm";
 import GalleryDashboard from "../../features/gallery/dashboard/GalleryDashboard";
 import MechanicDashboard from "../../features/mechanics/dashboard/MechanicDashboard";
 import ActivityDetails from "../../features/activities/details/ActivityDetails";
-// import MerchantDashboard from '../../features/shop/dashboard/MerchantDashboard';
 import ProductDetails from "../../features/shop/details/ProductDetails";
 import NotFound from "./NotFound";
 import { ToastContainer } from "react-toastify";
@@ -43,7 +42,6 @@ import PrivateMessagesDashboard from "../../features/private_messages/PrivateMes
 import RegisterSuccess from "../../features/user/RegisterSuccess";
 import VerifyEmail from "../../features/user/VerifyEmail";
 
-//t
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -53,10 +51,15 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   useEffect(() => {
     if (token) {
       getUser().finally(() => setAppLoaded());
+     
     } else {
       setAppLoaded();
     }
   }, [getUser, setAppLoaded, token]);
+
+
+
+
 
   if (!appLoaded) return <LoadingComponent content={"Loading app..."} />;
   return (
@@ -87,7 +90,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 />
                 <PrivateRoute
                   key={location.key}
-                  path={["/createDiaryEntry/:activityId", "/manageDiaryEntry/:id/:activityId"]}
+                  path={[
+                    "/createDiaryEntry/:activityId",
+                    "/manageDiaryEntry/:id/:activityId",
+                  ]}
                   component={DiaryEntryForm}
                 />
 
@@ -151,7 +157,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path='/privateMessages'
                   component={PrivateMessagesDashboard}
                 />
-                
+
                 <PrivateRoute exact path='/feed' component={FeedDashboard} />
                 <PrivateRoute
                   exact
@@ -163,7 +169,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path='/profile/:username'
                   component={ProfilePage}
                 />
-                <Route path='/user/registerSuccess' component={RegisterSuccess} />
+                <Route
+                  path='/user/registerSuccess'
+                  component={RegisterSuccess}
+                />
                 <Route path='/user/verifyEmail' component={VerifyEmail} />
                 <Route path='/login' component={LoginForm} />
                 <Route path='/confirmDelete' component={ConfirmDelete} />

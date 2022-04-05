@@ -46,5 +46,11 @@ namespace API.Controllers
             return await Mediator.Send(new Delete.Command { Id = id });
         }
 
+        [HttpGet("checkUnread")]
+        public async Task<ActionResult<int>> CheckUnread()
+        {
+            return await Mediator.Send(new CheckUnread.Query());
+        }
+
     }
 }

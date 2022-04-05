@@ -159,7 +159,7 @@ namespace API
             });
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 
-            // === IS ACTIVITY HOST (ONE POSSIBLE WAY)===
+            // === IS MOTOFY OWNER ===
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("IsMotofyOwner", policy =>
@@ -193,15 +193,21 @@ namespace API
                             var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) 
-                                && ((path.StartsWithSegments("/chat") || (path.StartsWithSegments("/message")))))
+                                && (
+                                    (path.StartsWithSegments("/chat") 
+                                || 
+                                (path.StartsWithSegments("/message")) 
+                                || (path.StartsWithSegments("/productmessage"))
+                                ))
+                                )
                             {
                                 context.Token = accessToken;
                             }
-                            //try possible with || in the first if
-                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/productmessage")))
-                            {
-                                context.Token = accessToken;
-                            }
+                            // //try possible with || in the first if
+                            // if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/productmessage")))
+                            // {
+                            //     context.Token = accessToken;
+                            // }
                             return Task.CompletedTask;
                         }
                     };
@@ -255,8 +261,8 @@ namespace API
 
                 //??
                 endpoints.MapHub<PrivateMessageHub>("/message");
-
                 endpoints.MapHub<ProductMessageHub>("/productmessage");
+
 
                 // === 
                 endpoints.MapFallbackToController("Index", "Fallback");

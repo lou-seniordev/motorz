@@ -12,6 +12,11 @@ namespace API.Controllers
 {
     public class PrivateMessagesController : BaseController
     {
+        [HttpGet("checkUnread")]
+        public async Task<ActionResult<int>> CheckUnread()
+        {
+            return await Mediator.Send(new CheckUnread.Query());
+        }
         [HttpGet]
         public async Task<ActionResult<List.PrivateMessagesEnvelope>> List(int? limit, int? offset)
         {
@@ -29,5 +34,7 @@ namespace API.Controllers
         {
             return await Mediator.Send(new MarkRead.Command { Id = id });
         }
+
+
     }
 }

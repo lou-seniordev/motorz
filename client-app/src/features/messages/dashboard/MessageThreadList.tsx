@@ -6,6 +6,7 @@ import { useHistory } from "react-router";
 import ConfirmDelete from "../forms/ConfirmDelete";
 import { IMessage } from "../../../app/models/message";
 import { formatDistance } from "date-fns";
+import { toJS } from "mobx";
 
 const MessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
@@ -13,6 +14,8 @@ const MessageThreadList = () => {
 
   const { messagesByDate, markReadInDB, messageThreadsCount } =
     rootStore.messageStore;
+
+    // console.log('messagesByDate in list', messagesByDate)
 
   const { openModal } = rootStore.modalStore;
 
@@ -22,11 +25,31 @@ const MessageThreadList = () => {
     openModal(<ConfirmDelete id={id} />);
   };
 
-  const markRead = (message: IMessage) => {
-    if (message.senderUsername !== user?.userName) {
-      markReadInDB(message.id);
-    }
+  const markRead = (messages: IMessage[]) => {
+    // if (message.senderUsername !== user?.userName) {
+    //   markReadInDB(message.id);
+    // }
+
+    // console.log(toJS(messages))
+
+    messages.forEach((message) => {
+      if (
+        message.senderUsername !== user?.userName &&
+        message.dateRead === null
+      ) {
+        markReadInDB(message.id);
+        // console.log(toJS(message))
+      }
+    });
   };
+
+  // const markRead = (messages: IPrivateMessage[]) => {
+  //   messages.forEach((m) => {
+  //     if (m.senderUsername !== user?.userName && m.dateRead === null) {
+  //       markReadInDB(m.id);
+  //     }
+  //   });
+  // };
 
   return (
     <Segment
@@ -49,7 +72,7 @@ const MessageThreadList = () => {
         <Fragment>
           {/* className='mobview' */}
           <Grid columns={4} divided>
-            <Grid.Row className="mobile hidden">
+            <Grid.Row className='mobile hidden'>
               <Grid.Column width={4}>
                 <h3>PRODUCT</h3>
               </Grid.Column>
@@ -63,8 +86,8 @@ const MessageThreadList = () => {
                 <h3>ACTION</h3>
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row className="mobile only">
-              <Grid.Column width={4} style={{textAlign: 'center'}}>
+            <Grid.Row className='mobile only'>
+              <Grid.Column width={4} style={{ textAlign: "center" }}>
                 <h5>PRODUCT</h5>
               </Grid.Column>
               <Grid.Column width={4}>
@@ -88,12 +111,12 @@ const MessageThreadList = () => {
                 style={
                   messages[0].dateRead === null &&
                   messages[0].senderUsername !== user?.userName
-                    ? { fontWeight: "bold", color: "rgb(29, 115, 152)" }
+                    ? { fontWeight: "bold", color: "rgb(211, 81, 21)" }
                     : { fontWeight: "normal" }
                 }
                 onClick={() => {
                   history.push(`/messageThread/${messages[0].messageThreadId}`);
-                  markRead(messages[0]);
+                  markRead(messages);
                 }}
               >
                 <Grid.Column width={4}>
@@ -109,8 +132,8 @@ const MessageThreadList = () => {
                 </Grid.Column>
                 <Grid.Column width={4}>
                   {formatDistance(new Date(messages[0].dateSent), new Date(), {
-                  addSuffix: true,
-                })}
+                    addSuffix: true,
+                  })}
                 </Grid.Column>
                 <Grid.Column
                   width={4}

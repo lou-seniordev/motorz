@@ -1,6 +1,6 @@
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { observable, action, computed, runInAction, toJS } from 'mobx';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { history } from '../..';
 
 import agent from '../api/agent';
@@ -23,7 +23,7 @@ export default class PrivateMessageStore {
     //   @observable messagesFromThread: any = [];
     // @observable receivingList: [string, IPrivateMessage[]] | undefined = undefined;
 
-
+    // const {user} = this.RootStore.
     @observable username: string = '';
     @observable senderPhotoUrl: string;
 
@@ -37,6 +37,25 @@ export default class PrivateMessageStore {
     @observable messageThreadsCount = 0;
     @observable page = 0;
     @observable totalPages = 0;
+
+    @observable counterUnread: number = 0;
+
+    // @action setUnread = async () => {
+    //     this.loadMessages().then(() => {
+    //         // console.log(this.counterUnread);
+    //     });
+    // }
+    @computed get unreadPrivateMessages() {
+        return this.counterUnread;
+    }
+
+    @action getUnreadPrivate = async () => {
+        const result = await agent.PrivateMessages.checkUnread();
+        runInAction(() => {
+            this.counterUnread = result;
+        })
+        // console.log('**************** :::::: ->', result)
+    }
 
 
     @observable listOfMessagesInFocus: [string, IPrivateMessage[]] | undefined = undefined;
@@ -67,6 +86,7 @@ export default class PrivateMessageStore {
 
                 accessTokenFactory: () => this.rootStore.commonStore.token!
             })
+            // .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
 
@@ -75,20 +95,22 @@ export default class PrivateMessageStore {
             .start()
             .then(() => console.log(this.hubConnection!.state))
             .then(() => {
-                console.log('Attempting to join group');
+                // console.log('Attempting to join group');
                 //!!temp timeout
                 setTimeout(() => {
-
                     this.hubConnection!.invoke('AddToGroup', messageThreadId)
-                }, 500);
+                }, 300);
             })
             .catch(error => console.log('Error establishing connection: ', error));
 
         this.hubConnection.on('ReceiveMessage', message => {
-           
+            console.log('message :::', message)
+
             runInAction(() => {
                 this.messageRegistry.set(message.privateMessageThreadId, message);
                 this.setView(message.privateMessageThreadId)
+                console.log('message in runinaction :::', message)
+
             });
         })
         this.hubConnection.on('SendMessage', message => {
@@ -120,7 +142,7 @@ export default class PrivateMessageStore {
     };
 
     @action loadMessages = async () => {
-
+        // let counter: number = 0;
         this.loadingInitial = true;
         try {
 
@@ -130,7 +152,6 @@ export default class PrivateMessageStore {
                 privateMessages.forEach((message) => {
                     this.formatDate(message);
                     this.messageRegistry.set(message.id, message);
-                    
                 });
                 this.messageThreadsCount = privateMessageThreadsCount;
 
@@ -164,15 +185,27 @@ export default class PrivateMessageStore {
     }
 
 
-
-
     formatDate(message: IPrivateMessage) {
         const delimiter = '.';
         message.dateSent = message.dateSent?.split(delimiter)[0];
         message.dateSent = message.dateSent.replace('T', ' ');
     }
 
+    @action markReadInDB = async (id: string) => {
+        try {
+            await agent.PrivateMessages.markRead(id);
+            runInAction(() => {
+                this.listOfMessagesInFocus?.[1].forEach((messages: IPrivateMessage) => {
+                    if (messages.dateRead === null) {
+                        messages.dateRead = new Date().toISOString()
+                    }
+                })
+            })
 
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
 
@@ -194,9 +227,9 @@ export default class PrivateMessageStore {
         this.username = username;
     }
     @action sendMessage = async (messageToSend: any) => {
-      
+
         try {
-            let message =  await agent.PrivateMessages.create(messageToSend);
+            let message = await agent.PrivateMessages.create(messageToSend);
             console.log(message);
             runInAction('loading message ', () => {
                 this.rootStore.modalStore.closeModal();
@@ -208,24 +241,9 @@ export default class PrivateMessageStore {
             console.log(error);
         }
     };
-      @action markReadInDB = async (id: string) => {
-        try {
-          await agent.PrivateMessages.markRead(id);
-        } catch (error) {
-          console.log(error);
-        }
-      }
 
-    //   getMessageThread = (id: string) => {
-    //     let myArray = Array.from(this.messagesByDate);
-    //     let messageThread;
-    //     for (let i = 0; i < myArray.length; i++) {
-    //       if (myArray[i][0] === id) {
-    //         messageThread = myArray[i][1];
-    //       }
-    //     }
-    //     return messageThread;
-    //   };
+
+
 
 
 
@@ -296,7 +314,7 @@ export default class PrivateMessageStore {
 
     //   };
 
-    
+
 }
 
 

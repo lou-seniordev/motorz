@@ -7,6 +7,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import PrivateMessageThreadList from "./PrivateMessageThreadList";
 import MessagesListItemPlaceholder from "../messages/dashboard/MessagesListItemPlaceholder";
 import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
+import PrivateMessageReply from "./PrivateMessageReply";
 
 const PrivateMessagesDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -50,8 +51,17 @@ const PrivateMessagesDashboard = () => {
                 <PrivateMessageThreadList />
               </InfiniteScroll>
             </Grid.Column>
+              
             <Grid.Column width={12}>
+            <Grid.Row>
               {listOfMessagesInFocus && <PrivateMessageThreadListItem />}
+            {/* </Grid.Column> */}
+            </Grid.Row>
+            <Grid.Row>
+
+            {/* <Grid.Column width={12}> */}
+              <PrivateMessageReply/>
+            </Grid.Row>
             </Grid.Column>
           </Grid.Row>
         )}

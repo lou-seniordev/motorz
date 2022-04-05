@@ -3,13 +3,23 @@ import React, { useContext, useEffect, useRef } from "react";
 import "./Navbar.css";
 
 import { Link, NavLink } from "react-router-dom";
-import { Container, Dropdown, Image, Menu, Popup } from "semantic-ui-react";
+import {
+  Container,
+  Dropdown,
+  Image,
+  Label,
+  Menu,
+  Popup,
+} from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
+  const { unreadPrivateMessages, getUnreadPrivate } =
+    rootStore.privateMessageStore;
+  const { unreadProductMessages, getUnreadProduct } = rootStore.messageStore;
 
   const menuRef: any = useRef();
 
@@ -39,6 +49,15 @@ const NavBar: React.FC = () => {
       };
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setInterval(() => {
+        getUnreadPrivate();
+        getUnreadProduct();
+      }, 2000);
+    }
+  }, [getUnreadPrivate, getUnreadProduct]);
 
   return (
     <>
@@ -105,9 +124,8 @@ const NavBar: React.FC = () => {
                     <Dropdown.Item
                       name='people'
                       text='Private messages'
-                      // exact
-                      as={Link}
                       onClick={closeStackableMenu}
+                      as={Link}
                       to='/privateMessages'
                     />
                     <Dropdown.Item
@@ -120,6 +138,16 @@ const NavBar: React.FC = () => {
                     />
                   </Dropdown.Menu>
                 </Dropdown>
+                {unreadPrivateMessages > 0 && (
+                  <Label
+                    as={Link}
+                    to='/privateMessages'
+                    color='orange'
+                    onClick={closeStackableMenu}
+                  >
+                    {unreadPrivateMessages}
+                  </Label>
+                )}
               </Menu.Item>
               <Menu.Item>
                 <Dropdown text='Shop' className='icon' floating labeled>
@@ -144,6 +172,16 @@ const NavBar: React.FC = () => {
                     />
                   </Dropdown.Menu>
                 </Dropdown>
+                {unreadProductMessages > 0 && (
+                  <Label
+                    as={Link}
+                    to='/messages'
+                    color='orange'
+                    onClick={closeStackableMenu}
+                  >
+                    {unreadProductMessages}
+                  </Label>
+                )}
               </Menu.Item>
               <div className='right menu'>
                 {/* {user && ( */}

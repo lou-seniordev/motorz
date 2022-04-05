@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import ReplyForm from "../forms/ReplyForm";
 import { formatDistance } from "date-fns";
+import { toJS } from "mobx";
 
 interface DetailParams {
   id: string;
@@ -18,10 +19,18 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
     loadingMessageThread,
     loadMessageThread,
     messagesFromThread,
-    setUsername
+    messagesByDate,
+    setUsername,
+    // createHubConnection,
+    // stopHubConnection,
+    // messageThreadId
   } = rootStore.messageStore;
 
   const { openModal } = rootStore.modalStore;
+
+  // console.log('messagesFromThread in item', toJS(messagesFromThread))
+  // console.log('messagesByDate in item', messagesByDate)
+  // console.log('match in item', match)
 
   const { user } = rootStore.userStore;
 
@@ -29,6 +38,17 @@ const MessageThreadListItem: React.FC<RouteComponentProps<DetailParams>> = ({
     setUsername(user?.userName!);
     loadMessageThread(match.params.id);
   }, [loadMessageThread, match.params.id, setUsername,  user]);
+
+//   useEffect(() => {
+//     createHubConnection(messageThreadId);
+//    return () => {
+//      stopHubConnection(messageThreadId);
+//    };
+//  }, 
+//  [
+//   createHubConnection, stopHubConnection, 
+//   messageThreadId]
+//  );
 
   if (loadingMessageThread)
     return <LoadingComponent content='Loading messages...' />;

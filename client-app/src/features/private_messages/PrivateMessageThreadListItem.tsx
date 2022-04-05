@@ -1,11 +1,11 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import {
   Segment,
   Image,
   Grid,
   GridColumn,
   GridRow,
-  TextArea,
+  // TextArea,
 } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
@@ -19,16 +19,18 @@ const PrivateMessageThreadListItem = () => {
   // let formattedUser: any = user;
 
   const {
-    setRecipient,
-    setMessageThreadId,
+    // setRecipient,
+    // setMessageThreadId,
     listOfMessagesInFocus,
     markReadInDB,
-    setUsername,
+    // setUsername,
     createHubConnection,
     stopHubConnection,
-    setReply,
-    addReply,
+    // setReply,
+    // addReply,
+    // // unreadPrivateMessages
   } = rootStore.privateMessageStore;
+
 
   const userStyles = {
     fontWeight: "normal",
@@ -52,41 +54,32 @@ const PrivateMessageThreadListItem = () => {
     backgroundColor: "inherit",
   };
 
-  const [input, setInput] = useState("");
+  // const [input, setInput] = useState("");
 
-  const handleSendReply = (e: any) => {
-    if (e.key === "Enter") {
-      e.target.value = "";
-      console.log(e);
-      if (input === "") {
-        console.log("need to validate");
-      } else {
-        setInput("");
-        handleSetRecipient();
-        setMessageThreadId(listOfMessagesInFocus![0]);
-        setReply(input);
-        setUsername(user?.userName!);
-        addReply();
-      }
-    }
-  };
+  // const handleSendReply = (e: any) => {
+  //   if (e.key === "Enter") {
+  //     e.target.value = "";
+  //     console.log(e);
+  //     if (input === "") {
+  //       console.log("need to validate");
+  //     } else {
+  //       setInput("");
+  //       handleSetRecipient();
+  //       setMessageThreadId(listOfMessagesInFocus![0]);
+  //       setReply(input);
+  //       setUsername(user?.userName!);
+  //       addReply();
+  //     }
+  //   }
+  // };
 
-  const handleSetRecipient = () => {
-    if (listOfMessagesInFocus![1][0].senderUsername === user?.userName) {
-      setRecipient(listOfMessagesInFocus![1][0].recipientUsername!, user?.image);
-    } else {
-      setRecipient(listOfMessagesInFocus![1][0].senderUsername!, user?.image);
-    }
-  };
-
-  useEffect(() => {
-    createHubConnection(listOfMessagesInFocus![0]);
-    markRead(listOfMessagesInFocus![1])
-    return () => {
-      stopHubConnection(listOfMessagesInFocus![0]);
-    };
-  }, [createHubConnection, stopHubConnection, listOfMessagesInFocus]);
-
+  // const handleSetRecipient = () => {
+  //   if (listOfMessagesInFocus![1][0].senderUsername === user?.userName) {
+  //     setRecipient(listOfMessagesInFocus![1][0].recipientUsername!, user?.image);
+  //   } else {
+  //     setRecipient(listOfMessagesInFocus![1][0].senderUsername!, user?.image);
+  //   }
+  // };
 
   const markRead = (messages: IPrivateMessage[]) => {
     messages.forEach((m) => {
@@ -95,6 +88,16 @@ const PrivateMessageThreadListItem = () => {
       }
     });
   };
+
+  useEffect(() => {
+    createHubConnection(listOfMessagesInFocus![0]);
+    markRead(listOfMessagesInFocus![1])
+    // return () => {
+    //   stopHubConnection(listOfMessagesInFocus![0]);
+    // };
+  }, [createHubConnection, stopHubConnection, listOfMessagesInFocus, markRead]);
+
+
 
   return (
     <>
@@ -151,14 +154,15 @@ const PrivateMessageThreadListItem = () => {
           </Fragment>
         ))}
       </Segment>
-      <TextArea
+      {/* <TextArea
         autoFocus
         value={input}
         placeholder='Reply'
+        name='reply'
         onInput={(e: any) => setInput(e.target.value)}
-        onKeyDown={(e: any) => handleSendReply(e)}
-        style={{ width: "100%", borderRadius: "10px", border: 'none' }}
-      />
+        // onKeyDown={(e: any) => handleSendReply(e)}
+        style={{ width: "100%", borderRadius: "10px", border: 'none', fontSize: '18px' }}
+      /> */}
     </>
   );
 };

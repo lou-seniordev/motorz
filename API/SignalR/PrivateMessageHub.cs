@@ -14,6 +14,7 @@ namespace API.SignalR
         {
             _mediator = mediator;
         }
+        // public async Task SendMessage(Create.Command command)
         public async Task SendMessage(Create.Command command)
         {
             string username = GetUsername();

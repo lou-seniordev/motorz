@@ -167,3 +167,25 @@ a {
     /* background-color: blue; */
   }
 }
+
+/* Dropdown messages */
+/* .messagesDropdown {
+  color: darkgoldenrod !Important;
+}
+
+.ui.dropdown .menu>.item  {
+  border-bottom: 1px solid #3F72AF !Important;
+  color: darkgoldenrod !Important;
+} */
+/* .a.item>.messagesDropdown {
+  background-color: darkgoldenrod;
+}
+.a.item {
+  background-color: darkgoldenrod;
+}
+.ui.dropdown .menu>.item .messagesDropdown {
+  background-color: darkgoldenrod;
+}
+.ui.menu .ui.dropdown .menu>.item>.messagesDropdown{
+  background-color: darkgoldenrod;
+} */

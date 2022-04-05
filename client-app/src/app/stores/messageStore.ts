@@ -28,7 +28,7 @@ export default class MessageStore {
 
   @observable messageThreadId: string;
   @observable loadingMessageThread = false;
-  @observable messagesFromThread: IMessage[] | undefined= [];
+  @observable messagesFromThread: IMessage[] | undefined = [];
 
   @observable messageThreadsCount = 0;
   @observable page = 0;
@@ -41,26 +41,32 @@ export default class MessageStore {
 
   @action createHubConnection = (messageThreadId: string) => {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(process.env.REACT_APP_API_PRODUCTMESSAGE_URL!, {
-        accessTokenFactory: () => this.rootStore.commonStore.token!
-      })
-      .configureLogging(LogLevel.Information)
-      .build();
-
+    .withUrl(process.env.REACT_APP_API_PRODUCTMESSAGE_URL!, {
+      accessTokenFactory: () => this.rootStore.commonStore.token!
+    })
+    .configureLogging(LogLevel.Information)
+    .build();
+    
     this.hubConnection
-      .start()
-      .then(() => console.log(this.hubConnection!.state))
-      .then(() => {
-        console.log('Attempting to join group');
-        this.hubConnection!.invoke('AddToGroup', messageThreadId)
-      })
-      .catch(error => console.log('Error establishing connection: ', error));
-
+    .start()
+    .then(() => console.log(this.hubConnection!.state))
+    .then(() => {
+      // console.log('Attempting to join group');
+      this.hubConnection!.invoke('AddToGroup', messageThreadId)
+    })
+    .catch(error => console.log('Error establishing connection: ', error));
+    
     this.hubConnection.on('ReceiveMessage', message => {
+      // console.log('message :::', message)
+      // console.log('CREATED :::')
 
       runInAction(() => {
         this.messagesFromThread?.unshift(message);
+        // this.messageThread?.unshift(message);
+        this.messageRegistry.set(message.id, message);
+        console.log('messages in runinaction :::', message)
       });
+      // console.log('messagesFromThread :::', this.messagesFromThread)
     })
     this.hubConnection.on('SendMessage', message => {
       toast.info(message)
@@ -74,6 +80,20 @@ export default class MessageStore {
       })
       .then(() => console.log('Connection stopped'))
       .catch(err => console.log(err));
+  }
+
+  @observable counterUnread: number = 0;
+
+  @computed get unreadProductMessages() {
+    return this.counterUnread;
+  }
+
+  @action getUnreadProduct = async () => {
+    const result = await agent.Messages.checkUnread();
+    runInAction(() => {
+      this.counterUnread = result;
+    })
+    // console.log('******* getUnreadProduct ********* :::::: ->', result)
   }
 
   @action sendReply = async () => {
@@ -123,7 +143,6 @@ export default class MessageStore {
 
     this.loadingInitial = true;
     try {
-
       const messagesEnvelope = await agent.Messages.list(LIMIT, this.page);
       const { messages, messageThreadsCount, totalPages } = messagesEnvelope;
       runInAction('loading messages', () => {
@@ -156,16 +175,27 @@ export default class MessageStore {
     this.messageContent = content;
   };
 
-  getMessageThread = (id: string) => {
+  @computed get messageThread() {
     let myArray = Array.from(this.messagesByDate);
     let messageThread;
     for (let i = 0; i < myArray.length; i++) {
-      if (myArray[i][0] === id) {
+      if (myArray[i][0] === this.messageThreadId) {
         messageThread = myArray[i][1];
       }
     }
     return messageThread;
-  };
+  }
+
+  // getMessageThread = (id: string) => {
+  //   let myArray = Array.from(this.messagesByDate);
+  //   let messageThread;
+  //   for (let i = 0; i < myArray.length; i++) {
+  //     if (myArray[i][0] === id) {
+  //       messageThread = myArray[i][1];
+  //     }
+  //   }
+  //   return messageThread;
+  // };
 
   @action deleteThread = async (id: string) => {
 
@@ -200,8 +230,9 @@ export default class MessageStore {
   };
 
   @action loadMessageThread = async (id: string) => {
-
-    let messageThread = this.getMessageThread(id);
+    this.messageThreadId = id;
+    // let messageThread = this.getMessageThread(id);
+    let messageThread = this.messageThread;
     if (messageThread) {
       this.messagesFromThread = messageThread;
       this.setReply(messageThread)
@@ -238,10 +269,10 @@ export default class MessageStore {
       recipientUsername: this.recipientUsername,
       content: messageContent,
       productId: this.productId,
-      username:this.username
+      username: this.username
     }
     try {
-      const message:IMessage = await agent.Messages.create(messageToSend);
+      const message: IMessage = await agent.Messages.create(messageToSend);
       runInAction('loading message ', () => {
         this.rootStore.modalStore.closeModal();
       });
@@ -255,7 +286,7 @@ export default class MessageStore {
 
   @action markReadInDB = async (id: string) => {
     try {
-      await agent.Messages.markRead(id);
+      // await agent.Messages.markRead(id);
     } catch (error) {
       console.log(error);
     }

@@ -11,13 +11,15 @@ import { toJS } from "mobx";
 const PrivateMessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
+  // const connectionArgument = "RecievePrivateMessage";
 
   const {
     messagesByThreadId,
-    //  markReadInDB,
+     markReadInDB,
     // loadingInitial,
     // messageThreadsCount,
     // last,
+    // unreadPrivateMessages,
     setInitialView,
     setView,
     createHubConnection,
@@ -28,14 +30,14 @@ const PrivateMessageThreadList = () => {
     setInitialView();
   }, [setInitialView]);
 
-  // const markRead = (messages: IPrivateMessage[]) => {
-  //   messages.forEach((m) => {
-  //     if (m.senderUsername !== user?.userName && m.dateRead === null) {
-  //       // console.log(toJS(m));
-  //       markReadInDB(m.id);
-  //     }
-  //   });
-  // };
+  const markRead = (messages: IPrivateMessage[]) => {
+    messages.forEach((m) => {
+      if (m.senderUsername !== user?.userName && m.dateRead === null) {
+        // console.log(toJS(m));
+        markReadInDB(m.id);
+      }
+    });
+  };
 
   // getSenderPhoto();
   // const getSenderPhoto =()=> {
@@ -55,7 +57,7 @@ const PrivateMessageThreadList = () => {
             >
               <Grid
                 onClick={() => {
-                  // markRead(messages);
+                  markRead(messages);
                   setView(messages[0].privateMessageThreadId);
                   createHubConnection(messages[0].privateMessageThreadId);
                 }}
@@ -93,9 +95,11 @@ const PrivateMessageThreadList = () => {
                 <Grid.Column width={12} className='mobile hidden'>
                   <Grid.Row
                     style={
+                      // unreadPrivateMessages > 0 &&
+
                       messages[0].dateRead === null &&
                       messages[0].senderUsername !== user?.userName
-                        ? { fontWeight: "bold", color: "rgb(29, 115, 152)" }
+                        ? { fontWeight: "bold", color: "rgb(211, 81, 21)" }
                         : { fontWeight: "normal" }
                     }
                   >
