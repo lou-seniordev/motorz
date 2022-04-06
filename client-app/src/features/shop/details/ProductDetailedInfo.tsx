@@ -1,16 +1,15 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect } from "react"; //, useState
+import React, { useContext, useEffect } from "react"; 
 import { Link } from "react-router-dom";
 import { Segment, Grid, Icon, Image, Button, Label } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import ContactForm from "../forms/ContactForm";
+import ContactForm from "../../profiles/forms/ContactForm";
 import ConfirmDelete from "../modals/ConfirmDelete";
 
 const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   const rootStore = useContext(RootStoreContext);
-  const { setMessage, cleanMessage } = rootStore.messageStore; //
 
   const { openModal } = rootStore.modalStore;
   const {
@@ -24,21 +23,13 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
 
   const { user } = rootStore.userStore;
 
-
   useEffect(() => {
     product.viewers.forEach((viewer) => {
       if (viewer.username === user?.userName) {
         setProductFollowed();
       }
     });
-    setMessage(product.sellerUsername, product.id);
-
-    return () => {
-      cleanMessage();
-    };
   }, [
-    setMessage,
-    cleanMessage,
     product.sellerUsername,
     product.id,
     setProductFollowed,
@@ -61,7 +52,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
     unfollowProduct(id);
     addFeedItem(id, "Removed from favorites");
   };
-  const styles={minWidth:"10em"}
+  const styles = { minWidth: "10em" };
   return (
     <Grid stackable columns={2}>
       <Grid.Column width={8}>
@@ -71,9 +62,10 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon size='large' color='grey' name='info' />
             </Grid.Column>
             <Grid.Column width={14}>
-            <Label style={styles} color='yellow' horizontal>Title </Label>
-                 {product.title}
-             
+              <Label style={styles} color='yellow' horizontal>
+                Title{" "}
+              </Label>
+              {product.title}
             </Grid.Column>
           </Grid>
 
@@ -82,8 +74,10 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='monero' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-            <Label style={styles} color='yellow' horizontal>Price </Label>
-                {product.price} €
+              <Label style={styles} color='yellow' horizontal>
+                Price{" "}
+              </Label>
+              {product.price} €
             </Grid.Column>
           </Grid>
 
@@ -92,21 +86,24 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='calendar' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-            <Label style={styles} color='yellow' horizontal>Published </Label>
-                {formatDistance(new Date(product.datePublished), new Date(), {
-                  addSuffix: true,
-                })}
+              <Label style={styles} color='yellow' horizontal>
+                Published{" "}
+              </Label>
+              {formatDistance(new Date(product.datePublished), new Date(), {
+                addSuffix: true,
+              })}
             </Grid.Column>
           </Grid>
-         
 
           <Grid verticalAlign='middle'>
             <Grid.Column width={2}>
               <Icon name='certificate' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-            <Label style={styles} color='yellow' horizontal>Category </Label>
-                {product.category}
+              <Label style={styles} color='yellow' horizontal>
+                Category{" "}
+              </Label>
+              {product.category}
             </Grid.Column>
           </Grid>
 
@@ -115,8 +112,10 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='copyright' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-            <Label style={styles} color='yellow' horizontal>Brand </Label>
-                {product.brand}
+              <Label style={styles} color='yellow' horizontal>
+                Brand{" "}
+              </Label>
+              {product.brand}
             </Grid.Column>
           </Grid>
 
@@ -125,61 +124,76 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
               <Icon name='id badge outline' size='large' color='grey' />
             </Grid.Column>
             <Grid.Column width={14}>
-              <Label style={styles} color='yellow' horizontal>Model </Label>
-                {product.model}
+              <Label style={styles} color='yellow' horizontal>
+                Model{" "}
+              </Label>
+              {product.model}
             </Grid.Column>
           </Grid>
           {product.sellerUsername !== user?.userName && (
             <>
-            <Grid verticalAlign='middle'>
-              <Grid.Column width={2}>
-                <Icon name='location arrow' size='large' color='grey' />
-              </Grid.Column>
-              <Grid.Column width={14}>
-                  <Label style={styles} color='yellow' horizontal>City </Label>
+              <Grid verticalAlign='middle'>
+                <Grid.Column width={2}>
+                  <Icon name='location arrow' size='large' color='grey' />
+                </Grid.Column>
+                <Grid.Column width={14}>
+                  <Label style={styles} color='yellow' horizontal>
+                    City{" "}
+                  </Label>
                   {product.city}
                 </Grid.Column>
-            </Grid>
-            <Grid verticalAlign='middle'>
-              <Grid.Column width={2}>
-                <Icon name='map marker alternate' size='large' color='grey' />
-              </Grid.Column>
-              <Grid.Column width={14}>
-                  <Label style={styles} color='yellow' horizontal>Country </Label>
+              </Grid>
+              <Grid verticalAlign='middle'>
+                <Grid.Column width={2}>
+                  <Icon name='map marker alternate' size='large' color='grey' />
+                </Grid.Column>
+                <Grid.Column width={14}>
+                  <Label style={styles} color='yellow' horizontal>
+                    Country{" "}
+                  </Label>
                   {product.countryName}
                 </Grid.Column>
-            </Grid>
-             <Grid verticalAlign='middle'>
-              <Grid.Column width={2}>
-                <Icon name='user' size='large' color='grey' />
-              </Grid.Column>
-              <Grid.Column width={14}>
-                  <Label style={styles} color='yellow' horizontal>Seller </Label>
+              </Grid>
+              <Grid verticalAlign='middle'>
+                <Grid.Column width={2}>
+                  <Icon name='user' size='large' color='grey' />
+                </Grid.Column>
+                <Grid.Column width={14}>
+                  <Label style={styles} color='yellow' horizontal>
+                    Seller{" "}
+                  </Label>
                   <Link to={`/profile/${product.sellerUsername}`}>
-                  {" "}
-                  {product.sellerDisplayName}
-                </Link>
-               </Grid.Column>
-            </Grid>
-           { product.phoneNumber && <Grid verticalAlign='middle'>
-              <Grid.Column width={2}>
-                <Icon name='phone' size='large' color='grey' />
-              </Grid.Column>
-              <Grid.Column width={14}>
-                  <Label color='yellow' horizontal>Contact number </Label>
-                  {product.phoneNumber}
+                    {" "}
+                    {product.sellerDisplayName}
+                  </Link>
                 </Grid.Column>
-            </Grid>}
-           { product.description && <Grid verticalAlign='middle'>
-              <Grid.Column width={2}>
-                <Icon name='info circle' size='large' color='grey' />
-              </Grid.Column>
-              <Grid.Column width={14}>
-               
-                  <Label style={styles} color='yellow' horizontal>Description </Label>
-                  {product.description}
-                </Grid.Column>
-            </Grid>}
+              </Grid>
+              {product.phoneNumber && (
+                <Grid verticalAlign='middle'>
+                  <Grid.Column width={2}>
+                    <Icon name='phone' size='large' color='grey' />
+                  </Grid.Column>
+                  <Grid.Column width={14}>
+                    <Label color='yellow' horizontal>
+                      Contact number{" "}
+                    </Label>
+                    {product.phoneNumber}
+                  </Grid.Column>
+                </Grid>
+              )}
+              {product.description && (
+                <Grid verticalAlign='middle'>
+                  <Grid.Column width={2}>
+                    <Icon name='info circle' size='large' color='grey' />
+                  </Grid.Column>
+                  <Grid.Column width={14}>
+                    <Label style={styles} color='yellow' horizontal>
+                      Description{" "}
+                    </Label>
+                    {product.description}
+                  </Grid.Column>
+                </Grid>
+              )}
             </>
           )}
 
@@ -192,7 +206,12 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                     content='Contact the seller'
                     color='blue'
                     onClick={() => {
-                      openModal(<ContactForm userName={user?.userName!} />);
+                      openModal(
+                        <ContactForm
+                          recipientUsername={product.sellerUsername}
+                          username={user?.userName!}
+                        />
+                      );
                     }}
                   />
                   <Button
@@ -212,12 +231,10 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                   />
                 </div>
               ) : (
-                
                 <div className='ui three buttons'>
                   <Button
                     basic
                     onClick={() => {
-
                       handleDeleteProduct(product.id!);
                     }}
                     color='red'

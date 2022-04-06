@@ -19,7 +19,7 @@ const NavBar: React.FC = () => {
   const { user, logout, isLoggedIn } = rootStore.userStore;
   const { unreadPrivateMessages, getUnreadPrivate } =
     rootStore.privateMessageStore;
-  const { unreadProductMessages, getUnreadProduct } = rootStore.messageStore;
+  // const { unreadProductMessages, getUnreadProduct } = rootStore.messageStore;
 
   const menuRef: any = useRef();
 
@@ -54,10 +54,9 @@ const NavBar: React.FC = () => {
     if (isLoggedIn) {
       setInterval(() => {
         getUnreadPrivate();
-        getUnreadProduct();
       }, 2000);
     }
-  }, [getUnreadPrivate, getUnreadProduct]);
+  }, [getUnreadPrivate, isLoggedIn]);
 
   return (
     <>
@@ -110,6 +109,15 @@ const NavBar: React.FC = () => {
                 to='/mechanics'
                 onClick={closeStackableMenu}
               />
+              <Menu.Item
+                name='market'
+                text='Motoranza market'
+                // exact
+                value='Market'
+                as={Link}
+                to='/shop'
+                onClick={closeStackableMenu}
+              />
               <Menu.Item>
                 <Dropdown text='Social' className='icon' floating labeled>
                   <Dropdown.Menu>
@@ -146,40 +154,6 @@ const NavBar: React.FC = () => {
                     onClick={closeStackableMenu}
                   >
                     {unreadPrivateMessages}
-                  </Label>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                <Dropdown text='Shop' className='icon' floating labeled>
-                  <Dropdown.Menu>
-                    <Dropdown.Item
-                      name='market'
-                      text='Motoranza market'
-                      // exact
-                      value='Market'
-                      as={Link}
-                      to='/shop'
-                      onClick={closeStackableMenu}
-                    />
-                    <Dropdown.Item
-                      name='messages'
-                      text='Market messages'
-                      // exact
-                      value='Messages'
-                      as={Link}
-                      to='/messages'
-                      onClick={closeStackableMenu}
-                    />
-                  </Dropdown.Menu>
-                </Dropdown>
-                {unreadProductMessages > 0 && (
-                  <Label
-                    as={Link}
-                    to='/messages'
-                    color='orange'
-                    onClick={closeStackableMenu}
-                  >
-                    {unreadProductMessages}
                   </Label>
                 )}
               </Menu.Item>

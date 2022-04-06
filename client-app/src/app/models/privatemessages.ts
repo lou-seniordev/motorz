@@ -19,3 +19,9 @@ export interface IPrivateMessage {
     dateSent: string;
     privateMessageThreadId: string;
 }
+
+export interface IPrivateMessageToSend {
+    recipientUsername: string;
+    content: string;
+    productId?: string;
+}

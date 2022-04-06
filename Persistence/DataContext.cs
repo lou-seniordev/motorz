@@ -35,10 +35,6 @@ namespace Persistence
 
         public DbSet<Testimonial> Testimonials { get; set; }
 
-        // === MESSAGES ===
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<MessageThread> MessageThreads { get; set; }
-
         public DbSet<PrivateMessageThread> PrivateMessageThreads { get; set; }
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
 
@@ -192,19 +188,6 @@ namespace Persistence
             .HasOne(a => a.DiaryPhoto)
             .WithOne(m => m.DiaryEntry)
             .HasForeignKey<DiaryPhoto>(m => m.DiaryEntryForeignKey);
-
-            //==DEFINE FOR MESSAGES (many to many)==
-            //--sender
-            builder.Entity<Message>()
-            .HasOne(u => u.Recipient)
-            .WithMany(m => m.MessagesReceived)
-            .OnDelete(DeleteBehavior.Restrict); //not deleting if other party has not deleted themselves
-            //--recipient
-            builder.Entity<Message>()
-            .HasOne(u => u.Sender)
-            .WithMany(m => m.MessagesSent)
-            .OnDelete(DeleteBehavior.Restrict);
-
 
             builder.Entity<PrivateMessage>()
             .HasOne(u => u.Recipient)

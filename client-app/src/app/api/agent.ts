@@ -1,7 +1,7 @@
 import { IProfileEnvelope } from './../models/profile';
 import { IRateMotofy } from './../models/motofy';
 // import { MechanicValues, IMechanicCustomerToBecome } from './../models/mechanic';
-import { IMessage, IMessageEnvelope, IMessageToSend } from './../models/message';
+// import { IMessage, IMessageEnvelope, IMessageToSend } from './../models/message';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
@@ -19,7 +19,7 @@ import { postDiaryEntry, postMotofy } from './agentUtil';
 import { postProduct } from './agentUtil';
 import { postMechanic } from './agentUtil';
 import { IFeedEnvelope } from '../models/feed';
-import { IPrivateMessageEnvelope } from '../models/privatemessages';
+import { IPrivateMessageEnvelope, IPrivateMessageToSend } from '../models/privatemessages';
 // import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -263,22 +263,6 @@ const Feed = {
   addFeedItem: (id: string, info: string, username?: string) => requests.post(`/feeds/${id}/${info}/${username}/addFeedItem`, {}),
 };
 
-const Messages = {
-  list: (limit: number, page: number): Promise<IMessageEnvelope> =>
-    requests.get(`/messages?limit=${limit}&offset=${page ? page * limit! : 0}`),
-  // list: (container: string): Promise<IMessage[]> => requests.get(`/messages/?container=${container}`),
-
-  thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
-  // details: (id: string) => requests.get(`/messages/${id}`),
-
-  create: (message: IMessageToSend) => requests.post('/messages/', message),
-
-
-  delete: (id: string) => requests.delete(`/messages/${id}`),
-  markRead: (id: string) => requests.put(`/messages/${id}/markRead`, {}),
-  checkUnread: () => requests.get('/messages/checkUnread'),
-
-}
 const PrivateMessages = {
   list: (limit: number, page: number): Promise<IPrivateMessageEnvelope> =>
     requests.get(`/privatemessages?limit=${limit}&offset=${page ? page * limit! : 0}`),
@@ -286,7 +270,7 @@ const PrivateMessages = {
   // thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
   // details: (id: string) => requests.get(`/messages/${id}`),
 
-  create: (message: IMessageToSend) => requests.post('/privatemessages/', message),
+  create: (message: IPrivateMessageToSend) => requests.post('/privatemessages/', message),
 
 
   delete: (id: string) => requests.delete(`/messages/${id}`),
@@ -374,7 +358,6 @@ export default {
   Mechanics,
   Brands,
   Products,
-  Messages,
   Countries,
   Feed,
   DiaryEntries,

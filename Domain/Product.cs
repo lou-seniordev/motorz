@@ -30,7 +30,6 @@ namespace Domain
         public DateTime InactivityExpirationDate { get; set; } = DateTime.Now.AddDays(30);
         public int ActivationCounter { get; set; }
         public virtual ProductPhoto ProductPhoto { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<ProductViewer> Viewers { get; set; }
 
     }

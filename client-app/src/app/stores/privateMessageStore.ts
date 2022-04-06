@@ -1,6 +1,6 @@
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { observable, action, computed, runInAction, toJS } from 'mobx';
-import { toast } from 'react-toastify';
+import { observable, action, computed, runInAction } from 'mobx';
+// import { toast } from 'react-toastify';
 import { history } from '../..';
 
 import agent from '../api/agent';
@@ -17,13 +17,6 @@ export default class PrivateMessageStore {
 
     }
 
-    //   @observable messageThreadRegistry = new Map();
-    //   @observable message: IMessage | null = null;
-    //   @observable loadingMessageThread = false;
-    //   @observable messagesFromThread: any = [];
-    // @observable receivingList: [string, IPrivateMessage[]] | undefined = undefined;
-
-    // const {user} = this.RootStore.
     @observable username: string = '';
     @observable senderPhotoUrl: string;
 
@@ -40,29 +33,13 @@ export default class PrivateMessageStore {
 
     @observable counterUnread: number = 0;
 
-    // @action setUnread = async () => {
-    //     this.loadMessages().then(() => {
-    //         // console.log(this.counterUnread);
-    //     });
-    // }
+    @observable listOfMessagesInFocus: [string, IPrivateMessage[]] | undefined = undefined;
+    @observable index: number;
+    @observable.ref hubConnection: HubConnection | null = null;
+
     @computed get unreadPrivateMessages() {
         return this.counterUnread;
     }
-
-    @action getUnreadPrivate = async () => {
-        const result = await agent.PrivateMessages.checkUnread();
-        runInAction(() => {
-            this.counterUnread = result;
-        })
-        // console.log('**************** :::::: ->', result)
-    }
-
-
-    @observable listOfMessagesInFocus: [string, IPrivateMessage[]] | undefined = undefined;
-    @observable index: number;
-
-
-    @observable.ref hubConnection: HubConnection | null = null;
 
     @computed get messagesByThreadId() {
         return this.groupMessagesByThreadId(Array.from(this.messageRegistry.values()));
@@ -140,9 +117,14 @@ export default class PrivateMessageStore {
             console.log(error);
         }
     };
+    @action getUnreadPrivate = async () => {
+        const result = await agent.PrivateMessages.checkUnread();
+        runInAction(() => {
+            this.counterUnread = result;
+        })
+    }
 
     @action loadMessages = async () => {
-        // let counter: number = 0;
         this.loadingInitial = true;
         try {
 
@@ -207,13 +189,6 @@ export default class PrivateMessageStore {
         }
     }
 
-
-
-
-
-
-
-
     @action setRecipient = (username: string, userPhotoUrl: any) => {
         this.recipientUsername = username;
     }
@@ -241,80 +216,6 @@ export default class PrivateMessageStore {
             console.log(error);
         }
     };
-
-
-
-
-
-
-    //   @action deleteThread = async (id: string) => {
-
-    //     try {
-    //       await agent.Messages.delete(id);
-    //       runInAction('deleting thread', () => {
-
-    //         this.messageRegistry.forEach(m => {
-    //           if (m.messageThreadId === id)
-    //             this.messageRegistry.delete(m.id);
-    //         })
-    //       })
-    //     } catch (error) {
-    //       runInAction('delete error thread', () => {
-    //         console.log(error);
-    //       });
-    //     }
-    //   }
-
-
-
-    //   @action setReply = (messageThread: IPrivateMessage[]) => {
-    //     messageThread.forEach((messages) => {
-
-    //       this.messageThreadId = messages.privateMessageThreadId;
-    //       if (this.username === messages.recipientUsername) {
-    //         this.recipientUsername = messages.senderUsername
-    //       } else {
-    //         this.recipientUsername = messages.recipientUsername;
-    //       }
-    //     })
-
-    //   };
-
-    //   @action loadMessageThread = async (id: string) => {
-
-    //     let messageThread = this.getMessageThread(id);
-    //     if (messageThread) {
-    //       this.messagesFromThread = messageThread;
-    //       this.setReply(messageThread)
-    //     } else {
-    //       this.loadingMessageThread = true;
-    //       try {
-    //         messageThread = await agent.Messages.thread(id);
-    //         runInAction('getting messages', () => {
-    //           messageThread?.map(message => {
-    //             this.formatDate(message)
-    //           })
-    //           this.messagesFromThread = messageThread;
-    //           this.loadingMessageThread = false;
-    //         });
-    //         this.setReply(messageThread)
-    //         return messageThread;
-    //       } catch (error) {
-    //         runInAction('error get messages', () => {
-    //           this.loadingMessageThread = false;
-    //         });
-    //         console.log(error);
-    //       }
-    //     }
-    //   };
-
-    //   @action cleanMessage = () => {
-    //     this.recipientUsername = '';
-    //     this.productId = '';
-
-    //   };
-
-
 }
 
 

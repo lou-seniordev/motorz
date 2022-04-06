@@ -1,34 +1,19 @@
 import React, { useContext, useState } from "react";
-import {
-  //   Segment,
-  //   Image,
-  //   Grid,
-  //   GridColumn,
-  //   GridRow,
-  TextArea,
-} from "semantic-ui-react";
+import { TextArea } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
-// import { IPrivateMessage } from "../../app/models/privatemessages";
-// import { toJS } from "mobx";
 
 const PrivateMessageReply = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
-  // let formattedUser: any = user;
-
   const {
     setRecipient,
     setMessageThreadId,
     listOfMessagesInFocus,
-    // markReadInDB,
     setUsername,
-    // createHubConnection,
-    // stopHubConnection,
     setReply,
     addReply,
-    // unreadPrivateMessages
   } = rootStore.privateMessageStore;
 
   const tAreatyles = {

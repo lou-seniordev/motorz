@@ -12,7 +12,6 @@ namespace Application.PrivateMessages
     {
         public class Query : IRequest<int>
         {
-            // public string Id { get; set; }
         }
 
          public class Handler : IRequestHandler<Query, int>
@@ -29,8 +28,6 @@ namespace Application.PrivateMessages
             {
 
                 // // === Lazy loading ===
-                // var product = await _context.Products
-                // .FindAsync(request.Id);
 
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());

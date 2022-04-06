@@ -32,9 +32,9 @@ import GalleryForm from "../../features/gallery/form/GalleryForm";
 import PrivateRoute from "./PrivateRoute";
 import ConfirmDelete from "../../features/gallery/modals/ConfirmDelete";
 import ProductDashboard from "../../features/shop/dashboard/ProductDashboard";
-import MessagesDashboard from "../../features/messages/dashboard/MessagesDashboard";
+// import MessagesDashboard from "../../features/messages/dashboard/MessagesDashboard";
 import ProductForm from "../../features/shop/forms/ProductForm";
-import MessageThreadListItem from "../../features/messages/dashboard/MessageThreadListItem";
+// import MessageThreadListItem from "../../features/messages/dashboard/MessageThreadListItem";
 import FeedDashboard from "../../features/feed/dashboard/FeedDashboard";
 import PeopleDashboard from "../../features/people/dashboard/PeopleDashboard";
 import DiaryEntryForm from "../../features/activities/form/DiaryEntryForm";
@@ -140,17 +140,6 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   key={location.key}
                   path={["/productForm", "/manageProduct/:id"]}
                   component={ProductForm}
-                />
-
-                <PrivateRoute
-                  exact
-                  path='/messages'
-                  component={MessagesDashboard}
-                />
-                <PrivateRoute
-                  exact
-                  path='/messageThread/:id'
-                  component={MessageThreadListItem}
                 />
                 <PrivateRoute
                   exact

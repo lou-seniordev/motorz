@@ -10,7 +10,6 @@ import MotofyStore from './motofyStore';
 import MechanicStore from './mechanicStore';
 import BrandStore from './brandStore';
 import ProductStore from './productStore';
-import MessageStore from './messageStore';
 import CommentStore from './commentStore';
 import CountryStore from './countryStore';
 import FeedStore from './feedStore';
@@ -32,7 +31,6 @@ export class RootStore {
     mechanicStore: MechanicStore;
     brandStore: BrandStore;
     productStore: ProductStore;
-    messageStore: MessageStore;
     commentStore: CommentStore;
     countryStore: CountryStore;
     feedStore: FeedStore;
@@ -51,7 +49,6 @@ export class RootStore {
         this.mechanicStore = new MechanicStore(this);
         this.brandStore = new BrandStore(this);
         this.productStore = new ProductStore(this);
-        this.messageStore = new MessageStore(this);
         this.commentStore = new CommentStore(this);
         this.countryStore = new CountryStore(this);
         this.feedStore = new FeedStore(this);

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useCallback, useContext, useEffect } from "react";
 import {
   Segment,
   Image,
@@ -30,7 +30,6 @@ const PrivateMessageThreadListItem = () => {
     // addReply,
     // // unreadPrivateMessages
   } = rootStore.privateMessageStore;
-
 
   const userStyles = {
     fontWeight: "normal",
@@ -81,23 +80,29 @@ const PrivateMessageThreadListItem = () => {
   //   }
   // };
 
-  const markRead = (messages: IPrivateMessage[]) => {
+  const markRead = useCallback((messages: IPrivateMessage[]) => {
     messages.forEach((m) => {
       if (m.senderUsername !== user?.userName && m.dateRead === null) {
         markReadInDB(m.id);
       }
     });
-  };
+  }, [markReadInDB, user]);
+
+  // const markRead = (messages: IPrivateMessage[]) => {
+  //   messages.forEach((m) => {
+  //     if (m.senderUsername !== user?.userName && m.dateRead === null) {
+  //       markReadInDB(m.id);
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
     createHubConnection(listOfMessagesInFocus![0]);
-    markRead(listOfMessagesInFocus![1])
+    markRead(listOfMessagesInFocus![1]);
     // return () => {
     //   stopHubConnection(listOfMessagesInFocus![0]);
     // };
   }, [createHubConnection, stopHubConnection, listOfMessagesInFocus, markRead]);
-
-
 
   return (
     <>
@@ -126,7 +131,14 @@ const PrivateMessageThreadListItem = () => {
 
                   <GridColumn width={14}>{message.content}</GridColumn>
                 </GridRow>
-                <GridRow only={"mobile"} style={{fontSize: "smaller", paddingTop: '.3rem', paddingBottom: '.3rem'}}>
+                <GridRow
+                  only={"mobile"}
+                  style={{
+                    fontSize: "smaller",
+                    paddingTop: ".3rem",
+                    paddingBottom: ".3rem",
+                  }}
+                >
                   <GridColumn width={14}>{message.content}</GridColumn>
                 </GridRow>
               </Grid>
@@ -145,7 +157,14 @@ const PrivateMessageThreadListItem = () => {
                       />
                     </GridColumn>
                   </GridRow>
-                  <GridRow only={"mobile"} style={{fontSize: "smaller", paddingTop: '.3rem', paddingBottom: '.3rem'}}>
+                  <GridRow
+                    only={"mobile"}
+                    style={{
+                      fontSize: "smaller",
+                      paddingTop: ".3rem",
+                      paddingBottom: ".3rem",
+                    }}
+                  >
                     <GridColumn width={14}>{message.content}</GridColumn>
                   </GridRow>
                 </Grid>
@@ -154,15 +173,6 @@ const PrivateMessageThreadListItem = () => {
           </Fragment>
         ))}
       </Segment>
-      {/* <TextArea
-        autoFocus
-        value={input}
-        placeholder='Reply'
-        name='reply'
-        onInput={(e: any) => setInput(e.target.value)}
-        // onKeyDown={(e: any) => handleSendReply(e)}
-        style={{ width: "100%", borderRadius: "10px", border: 'none', fontSize: '18px' }}
-      /> */}
     </>
   );
 };

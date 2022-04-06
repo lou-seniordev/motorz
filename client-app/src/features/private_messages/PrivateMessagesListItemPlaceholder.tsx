@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Segment,  Placeholder } from 'semantic-ui-react';
-const MessagesListItemPlaceholder = () => {
+const PrivateMessagesListItemPlaceholder = () => {
   return (
     <Fragment>
       <Placeholder fluid >
@@ -30,5 +30,5 @@ const MessagesListItemPlaceholder = () => {
     </Fragment>
   );
 };
-export default MessagesListItemPlaceholder;
+export default PrivateMessagesListItemPlaceholder;
 

@@ -4,26 +4,17 @@ import { Grid, Image, Container } from "semantic-ui-react";
 import { formatDistance } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { IPrivateMessage } from "../../app/models/privatemessages";
-import { toJS } from "mobx";
-// import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 
-// const PrivateMessageThreadList: React.FC<IProps> = ({ last }) => {
 const PrivateMessageThreadList = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
-  // const connectionArgument = "RecievePrivateMessage";
 
   const {
     messagesByThreadId,
      markReadInDB,
-    // loadingInitial,
-    // messageThreadsCount,
-    // last,
-    // unreadPrivateMessages,
     setInitialView,
     setView,
     createHubConnection,
-    // , stopHubConnection,
   } = rootStore.privateMessageStore;
 
   useEffect(() => {

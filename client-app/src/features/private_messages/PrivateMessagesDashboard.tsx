@@ -5,9 +5,9 @@ import InfiniteScroll from "react-infinite-scroller";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import PrivateMessageThreadList from "./PrivateMessageThreadList";
-import MessagesListItemPlaceholder from "../messages/dashboard/MessagesListItemPlaceholder";
 import PrivateMessageThreadListItem from "./PrivateMessageThreadListItem";
 import PrivateMessageReply from "./PrivateMessageReply";
+import PrivateMessagesListItemPlaceholder from "./PrivateMessagesListItemPlaceholder";
 
 const PrivateMessagesDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -36,7 +36,7 @@ const PrivateMessagesDashboard = () => {
         {loadingInitial && page === 0 ? (
           <Grid.Row>
             <Grid.Column width={16}>
-              <MessagesListItemPlaceholder />
+              <PrivateMessagesListItemPlaceholder />
             </Grid.Column>
           </Grid.Row>
         ) : (
