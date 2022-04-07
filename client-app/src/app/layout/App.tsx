@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect, Suspense } from "react";
 import { Container } from "semantic-ui-react";
 import NavBar from "../../features/nav/NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
@@ -32,9 +32,7 @@ import GalleryForm from "../../features/gallery/form/GalleryForm";
 import PrivateRoute from "./PrivateRoute";
 import ConfirmDelete from "../../features/gallery/modals/ConfirmDelete";
 import ProductDashboard from "../../features/shop/dashboard/ProductDashboard";
-// import MessagesDashboard from "../../features/messages/dashboard/MessagesDashboard";
 import ProductForm from "../../features/shop/forms/ProductForm";
-// import MessageThreadListItem from "../../features/messages/dashboard/MessageThreadListItem";
 import FeedDashboard from "../../features/feed/dashboard/FeedDashboard";
 import PeopleDashboard from "../../features/people/dashboard/PeopleDashboard";
 import DiaryEntryForm from "../../features/activities/form/DiaryEntryForm";
@@ -58,12 +56,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   }, [getUser, setAppLoaded, token]);
 
 
-
-
-
   if (!appLoaded) return <LoadingComponent content={"Loading app..."} />;
   return (
-    <Fragment>
+    <Suspense fallback={null}>
       <ModalContainer />
       <ToastContainer position='top-right' />
       <Route exact path='/' component={HomePage} />
@@ -171,7 +166,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           </Fragment>
         )}
       />
-    </Fragment>
+    </Suspense>
   );
 };
 

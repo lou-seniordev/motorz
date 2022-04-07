@@ -5,12 +5,15 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import LoginForm from "../user/LoginForm";
 import RegisterForm from "../user/RegisterForm";
 import "./Homepage.css";
+import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
   const token = window.localStorage.getItem("jwt");
   const rootStore = useContext(RootStoreContext);
   const { isLoggedIn, user } = rootStore.userStore;
   const { openModal } = rootStore.modalStore;
+
+  const {t} = useTranslation('home'); 
 
   return (
     <Segment inverted textAlign='center' vertical className='masthead'>
@@ -33,8 +36,10 @@ const HomePage = () => {
               // className='animationLeft'
               as='h2'
               inverted
-              content={`Welcome back to Motoranza ${user.displayName}`}
-            />
+              // content={`t("welcome back to motoranza") ${user.displayName}`}
+            >
+              {t("welcome back to motoranza")}{" "} {user.displayName}
+            </Header>
             <Button
               as={Link}
               to='/activities'
@@ -42,7 +47,7 @@ const HomePage = () => {
               inverted
               className='btn'
             >
-              Enter Motoranza
+             {t('enter motoranza')}
             </Button>
           </Fragment>
         ) : (
@@ -54,14 +59,16 @@ const HomePage = () => {
               size='huge'
               inverted
             >
-              Login to Enter
+              {/* Login to Enter */}
+              {t('login to enter')}
             </Button>
             <Button
               onClick={() => openModal(<RegisterForm />)}
               size='huge'
               inverted
             >
-              Register to Enter
+              {/* Register to Enter */}
+              {t('register to enter')}
             </Button>
           </Fragment>
         )}
