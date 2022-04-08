@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Segment, Grid, Button } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -13,16 +14,15 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
   const { addFeedItem } = rootStore.feedStore;
 
   const [rated, setRated] = useState(false);
-  // let formattedUser: any = user;
+  const { t } = useTranslation(["forum"]);
+
 
   useEffect(() => {
-    console.log('user', user)
 
     if (forumpost.forumpostRatings!.length > 0) {
       
       forumpost.forumpostRatings?.forEach((rating) => {
         if (rating.authorUsername === user?.userName) {
-        // if (rating.authorUsername === formattedUser.userName) {
           setRated(true);
         } 
       });
@@ -38,11 +38,9 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
     addFeedItem(forumpost.id, 'Rated Forumpost')
   };
 
-  // console.log('forumpost', toJS(forumpost))
   return (
     <>
     {user?.userName !== forumpost.userName && !rated && (
-      // {formattedUser?.username !== toJS(forumpost.userName) && !rated && (
         
         <Segment attached>
           <Grid verticalAlign='middle'>
@@ -50,7 +48,7 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
               <Button
                 fluid
                 onClick={(e, data) => handleRating(e, data)}
-                content='Interesting'
+                content={t('Interesting')}
               />
             </Grid.Column>
 
@@ -58,7 +56,7 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
               <Button
                 fluid
                 onClick={(e, data) => handleRating(e, data)}
-                content='Usefull'
+                content={t('Usefull')}
               />
             </Grid.Column>
 
@@ -66,7 +64,7 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
               <Button
                 fluid
                 onClick={(e, data) => handleRating(e, data)}
-                content='Helping'
+                content={t('Helping')}
               />
             </Grid.Column>
           </Grid>

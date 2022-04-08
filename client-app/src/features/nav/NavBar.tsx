@@ -166,7 +166,7 @@ const NavBar: React.FC = () => {
                       as={Link}
                       onClick={closeStackableMenu}
                       to='/feed'
-                      >   {t("feeds")}
+                      >   Feed
                       </Dropdown.Item>
                   </Dropdown.Menu>
                    

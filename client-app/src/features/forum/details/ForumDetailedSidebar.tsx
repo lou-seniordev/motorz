@@ -1,6 +1,7 @@
 // import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Segment, List, Item, Image, Grid } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
@@ -8,7 +9,9 @@ import { IForumpost } from "../../../app/models/forumpost";
 const ForumDetailedSidebar: React.FC<{ forumpost: IForumpost }> = ({
   forumpost,
 }) => {
-  // console.log("forumpost.commenters", toJS(forumpost.commenters));
+  const { t } = useTranslation(["forum"]);
+  const person = " " + t("person");
+  const people = " " + t("people");
   return (
     <Fragment>
       <Segment
@@ -21,9 +24,9 @@ const ForumDetailedSidebar: React.FC<{ forumpost: IForumpost }> = ({
       >
         {forumpost.commenters?.length !== undefined &&
 
-        forumpost.commenters?.length > 1 ? forumpost.commenters?.length + ' people ' : forumpost.commenters?.length+' person '
+        forumpost.commenters?.length > 1 ? forumpost.commenters?.length  + people : forumpost.commenters?.length+ person 
         }
-         participating
+          {" "}{t("participating")}
       </Segment>
 
       <Segment attached>

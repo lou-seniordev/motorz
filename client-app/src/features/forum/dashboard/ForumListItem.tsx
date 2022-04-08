@@ -12,8 +12,17 @@ import {
 } from "semantic-ui-react";
 import HeaderSubHeader from "semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader";
 import { IForumpost } from "../../../app/models/forumpost";
+import { useTranslation } from "react-i18next";
 
 const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
+  const { t } = useTranslation(["forum"]);
+
+  const Response = t("Response");
+  const Responses = t("Responses");
+  const Member = t("Member");
+  const Members = t("Members");
+  const Rating = t("Rating");
+  const Ratings = t("Ratings");
   return (
     <Segment.Group raised>
       <Segment>
@@ -51,31 +60,31 @@ const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
       </Segment>
 
       <Segment>
-        <Icon name='clock' /> Posted{" "}
-        {formatDistance(new Date(forumpost.dateAdded), new Date())} ago by{" "}
+        <Icon name='clock' /> {t("Posted")}{" "}
+        {formatDistance(new Date(forumpost.dateAdded), new Date())} {t("ago by")}{" "}
         <Link to={`/profile/${forumpost.userName}`}>
           {forumpost.displayName}
         </Link>
         {forumpost.commenters?.length! > 0 && (
           <Segment>
             {forumpost.numberOfComents! > 1
-              ? forumpost.numberOfComents + " Responses"
-              : forumpost.numberOfComents + " Response"}{" "}
-            from{" "}
+              ? forumpost.numberOfComents + Response
+              : forumpost.numberOfComents + Responses}{" "}
+            {t("from")}{" "}
             {forumpost.commenters?.length! > 1
-              ? forumpost.commenters?.length + " Members"
-              : forumpost.commenters?.length + " Member"}
+              ? forumpost.commenters?.length + Members
+              : forumpost.commenters?.length + Member}
           </Segment>
         )}
         {forumpost.forumpostRatings?.length! > 0 && (
           <Segment>
             {forumpost.forumpostRatings!.length > 1
-              ? forumpost.forumpostRatings?.length + " Ratings"
-              : forumpost.forumpostRatings?.length + " Rating"}{" "}
-            from{" "}
+              ? forumpost.forumpostRatings?.length + Ratings
+              : forumpost.forumpostRatings?.length + Rating}{" "}
+            {t("from")}{" "}
             {forumpost.forumpostRatings?.length! > 1
-              ? forumpost.forumpostRatings?.length + " Members"
-              : forumpost.forumpostRatings?.length + " Member"}
+              ? forumpost.forumpostRatings?.length + Members
+              : forumpost.forumpostRatings?.length + Member}
           </Segment>
         )}
       </Segment>
@@ -84,7 +93,7 @@ const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
           as={Link}
           to={`/forum/${forumpost.id}`}
           fluid
-          content='view'
+          content={t('View')}
           color='instagram'
         />
       </Segment>
