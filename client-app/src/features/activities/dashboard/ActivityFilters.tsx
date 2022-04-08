@@ -3,12 +3,17 @@ import { Menu, Input, Divider, Icon, SegmentGroup } from "semantic-ui-react";
 import { Calendar } from "react-widgets";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
+
 
 const ActivityFilters = () => {
   const rootStore = useContext(RootStoreContext);
   const { predicate, setPredicate } = rootStore.activityStore;
 
   const [calendarFilter, setCalendarFilter] = useState(false);
+
+  const { t } = useTranslation(["diaries"]);
+
 
   const handleResultSelect = (e: any) => {
     if (e.key === "Enter") {
@@ -31,11 +36,13 @@ const ActivityFilters = () => {
             <Menu.Item active={predicate.has("search")}>
               <Input
                 icon='search'
-                placeholder='Search all...'
+                placeholder={t("Search all")}
                 onKeyDown={(e: any) => handleResultSelect(e)}
               />
             </Menu.Item>
-            <Divider horizontal content='or chose from built in filters' />
+            <Divider horizontal 
+            content={t("or choose from built in filters")}
+            />
           </>
         )}
         {!calendarFilter && (
@@ -44,7 +51,7 @@ const ActivityFilters = () => {
             onClick={() => setPredicate("all", "true")}
             color={"blue"}
             name={"all"}
-            content={"Active Diaries"}
+            content={t("Active Diaries")}
             style={styles}
           />
         )}
@@ -54,7 +61,7 @@ const ActivityFilters = () => {
             onClick={() => setPredicate("isCompleted", "true")}
             color={"blue"}
             name={"isCompleted"}
-            content={"Completed Diaries"}
+            content={t("Completed Diaries")}
             style={styles}
           />
         )}
@@ -64,7 +71,7 @@ const ActivityFilters = () => {
             onClick={() => setPredicate("isHost", "true")}
             color={"blue"}
             name={"host"}
-            content={"My own"}
+            content={t("My own")}
             style={styles}
           />
         )}
@@ -74,7 +81,7 @@ const ActivityFilters = () => {
             onClick={() => setPredicate("isGoing", "true")}
             color={"blue"}
             name={"username"}
-            content={"Diaries I follow"}
+            content={t("Diaries I follow")}
             style={styles}
           />
         )}
@@ -84,15 +91,15 @@ const ActivityFilters = () => {
             onClick={() => setPredicate("iFollow", "true")}
             color={"blue"}
             name={"country"}
-            content={"By people I follow"}
+            content={t("By people I follow")}
             style={styles}
           />
         )}
         <Menu.Item
           active={calendarFilter}
           color={"blue"}
-          content={!calendarFilter ? "Select Diaries After A Date"
-          : <span><Icon name="arrow left"/> Go back to built-in filters</span> }
+          content={!calendarFilter ? t("Select Diaries After A Date")
+          : <span><Icon name="arrow left"/>{ t("Go back to built-in filters")}</span> }
           style={styles}
           onClick={toggleCalendar}
         />

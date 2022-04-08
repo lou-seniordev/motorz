@@ -12,6 +12,7 @@ import {
 import { IAttendee } from "../../../app/models/activity";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import AllAttendeesList from "../modals/AllAttendeesList";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   attendees: IAttendee[];
@@ -21,10 +22,15 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ attendees }) => {
 
   const { openModal, setSize } = rootStore.modalStore;
 
+  const { t } = useTranslation(["diaries"]);
+
   const handleShowAll = () => {
-    setSize('mini')
-    openModal(<AllAttendeesList attendees={attendees}/>)
-  }
+    setSize("mini");
+    openModal(<AllAttendeesList attendees={attendees} />);
+  };
+
+  const person = t("Person");
+  const persons = t("People");
   return (
     <SegmentGroup raised>
       <Segment
@@ -35,8 +41,8 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ attendees }) => {
         inverted
         color='teal'
       >
-        {attendees.length} {attendees.length === 1 ? "Person" : "People "}{" "}
-        following
+        {attendees.length} {attendees.length === 1 ? person : persons }{" "}
+        {t("following")}
       </Segment>
       <Segment attached>
         <List relaxed divided>
@@ -48,10 +54,10 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ attendees }) => {
                   color='teal'
                   corner='right'
                 >
-                  Host
+                  {t("Host")}
                 </Label>
               )}
-              
+
               <Image size='mini' src={attendee.image || "/assets/user.png"} />
 
               <Item.Content verticalAlign='middle'>
@@ -61,15 +67,17 @@ const ActivityDetailedSidebarLeft: React.FC<IProps> = ({ attendees }) => {
                   </Link>
                 </Item.Header>
                 {attendee.following && (
-                  <Item.Extra style={{ color: "green" }}>Following</Item.Extra>
+                  <Item.Extra style={{ color: "green" }}>{t("Following")}</Item.Extra>
                 )}
               </Item.Content>
             </Item>
           ))}
         </List>
-        {attendees.length > 10 && 
-        <span style={{cursor: 'pointer'}} onClick={handleShowAll}>and {attendees.length - 10} more</span>
-        }
+        {attendees.length > 10 && (
+          <span style={{ cursor: "pointer" }} onClick={handleShowAll}>
+            {t("and")} {attendees.length - 10} {t("more")}
+          </span>
+        )}
       </Segment>
     </SegmentGroup>
   );

@@ -12,6 +12,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import ConfirmDeactivate from "../modals/ConfirmDeactivate";
 import ConfirmDelete from "../modals/ConfirmDelete";
+import { useTranslation } from "react-i18next";
 
 
 const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) => {
@@ -19,14 +20,10 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
   const rootStore = useContext(RootStoreContext);
   const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
   const { addFeedItem } = rootStore.feedStore;
-  // const { user } = rootStore.userStore;
 
   const [managing, setManaging] = useState(false);
 
-  // console.log(toJS(activity));
-
-  // activity.attendees
-  // user?.userName 
+  const { t } = useTranslation(["diaries"]);
 
   const { openModal } = rootStore.modalStore;
 
@@ -60,7 +57,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
             <Fragment>
               {!managing ? (
                 <Button onClick={toggleManaging} color='instagram' fluid>
-                  Manage your diary
+                  {t("Manage your diary")}
                 </Button>
               ) : (
                 <Fragment>
@@ -72,7 +69,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
                         color='teal'
                         fluid
                       >
-                        New Day
+                       {t("New Day")}
                       </Button>
                     </GridColumn>
                     <GridColumn width={3}>
@@ -82,7 +79,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
                         color='teal'
                         fluid
                       >
-                        Edit
+                        {t("Edit")}
                       </Button>
                     </GridColumn>
                     <GridColumn width={3}>
@@ -93,7 +90,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
                         color='vk'
                         fluid
                       >
-                        Complete
+                        {t("Complete")}
                       </Button>
                     </GridColumn>
                     <GridColumn width={3}>
@@ -104,7 +101,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
                         color='google plus'
                         fluid
                       >
-                        Delete
+                        {t("Delete")}
                       </Button>
                     </GridColumn>
                   
@@ -116,7 +113,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
                         color='grey'
                         fluid
                       >
-                        Cancel
+                        {t("Cancel")}
                       </Button>
                     </GridColumn>
                   </Grid>
@@ -129,7 +126,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
               loading={loading}
               onClick={() => handleCancelAttendance(activity.id)}
             >
-              Stop following this diary
+              {t("Stop following this diary")}
             </Button>
           ) : (
             <Button
@@ -137,7 +134,7 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
               onClick={() => handleAttendActivity(activity.id)}
               color='teal'
             >
-              Become a part of it
+              {t("Become a part of it")}
             </Button>
           )}
         </Segment>

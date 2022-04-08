@@ -2,6 +2,7 @@ import React, { Fragment, useContext } from "react";
 import { useHistory } from "react-router";
 import { Header, Button, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   activityId: string;
@@ -14,6 +15,9 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
   } = rootStore.feedStore;
 
   const { closeModal } = rootStore.modalStore;
+
+  const { t } = useTranslation(["diaries"]);
+
 
   const handleDeactivateActivity = (id: string) => {
     deactivateActivity(id)
@@ -33,7 +37,7 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
       <Grid.Column width={16}>
         <Header
           as='h2'
-          content='Sure you want to do this?'
+          content={t('Sure you want to do this?')}
           color='teal'
           textAlign='center'
         />
@@ -43,13 +47,13 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
             fluid
             onClick={() => handleDeactivateActivity(activityId)}
             color='teal'
-            content='Yes, I finished my trip!'
+            content={t('Yes, I finished my trip!')}
             floated='left'
           />
           <Button
             fluid
             onClick={() => cancelDeactivateActivity()}
-            content='No, keep it active'
+            content={t('No, keep it active')}
             floated='right'
           />
         </Fragment>

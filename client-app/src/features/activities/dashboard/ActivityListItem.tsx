@@ -1,43 +1,44 @@
-import React
-// , { useContext } 
-from "react";
+import React, {
+  // useEffect, // , { useContext }
+} from "react";
 import { Link } from "react-router-dom";
-import { Accordion, Button, Item,  Segment } from "semantic-ui-react";
+import { Accordion, Button, Item, Segment } from "semantic-ui-react";
 import { IActivity } from "../../../app/models/activity";
 import { format } from "date-fns";
 import ActivityListItemAttendees from "./ActivityListItemAttendees";
-// import { RootStoreContext } from "../../../app/stores/rootStore";
+
+import { useTranslation } from "react-i18next";
+// import i18next from "i18next";
 
 const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
-  // const rootStore = useContext(RootStoreContext);
-  // const { user } = rootStore.userStore;
-
-  // const namedMessage =
-  //   user?.displayName + ", you are taking part in this diary";
-  // const userMessage = user?.displayName + ", you created this diary";
+  const { t } = useTranslation(["diaries"]);
 
   const host = activity.attendees.filter((h) => h.isHost)[0];
+
+  const when = t("when");
+  const starting_point = t("starting_point");
+  const destination = t("destination");
 
   const panels = [
     {
       key: "when",
-      title: "When does it start?",
+      title: when ,
       content: ["On " + format(activity.date, "MMMM d yyyy h:mm:a")].join(" "),
     },
     {
       key: "starting_point",
-      title: "Where is a starting Point?",
+      title: starting_point,
       content: ["In " + activity.city + ", " + activity.departure].join(" "),
     },
     {
       key: "destination",
-      title: "What is the destination?",
+      title:destination,
       content: [activity.destination],
     },
   ];
 
-  const descriptionUiShort = activity.description.substring(0, 60);
-  const seeMore = "...see more";
+  // const descriptionUiShort = activity.description.substring(0, 60);
+  // const seeMore = "...see more";
 
   return (
     <Segment.Group raised>
@@ -45,7 +46,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
         <Item.Group>
           <Item>
             {/* <Item.Content> */}
-              {/* <Item.Description>
+            {/* <Item.Description>
                 {activity.isHost && (
                   <Label
                     // pointing='below'
@@ -64,12 +65,12 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
                   />
                 )}
               </Item.Description> */}
-              <Item.Image
-                size='tiny'
-                circular
-                src={host.image || "/assets/user.png"}
-                style={{ marginBottom: 3 }}
-              />
+            <Item.Image
+              size='tiny'
+              circular
+              src={host.image || "/assets/user.png"}
+              style={{ marginBottom: 3 }}
+            />
             {/* </Item.Content> */}
             <Item.Content
               verticalAlign='middle'
@@ -99,7 +100,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
       <Segment clearing>
         <Item.Group>
           <Item.Description as={Link} to={`/activities/${activity.id}`}>
-            <span>{descriptionUiShort}</span> <span>{seeMore}</span>
+            <span>{activity.description.substring(0, 60)}</span> <span>...see more</span>
           </Item.Description>
         </Item.Group>
       </Segment>
@@ -111,7 +112,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
           as={Link}
           to={`/activities/${activity.id}`}
           // floated='right'
-          content='Check This Diary'
+          content={t("Check This Diary")}
           color='blue'
           fluid
         />

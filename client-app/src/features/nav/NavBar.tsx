@@ -190,6 +190,7 @@ const NavBar: React.FC = () => {
                       <Popup
                         size='mini'
                         position='right center'
+                        // className="mobile hidden"
                         trigger={
                           <Dropdown.Item
                             text={t("motorcycle diary")}
