@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -20,7 +21,7 @@ const testPositionStyles = {
 }
 
 const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
-  // console.log("mechanic in MechanicListItem", toJS(mechanic));
+  const { t } = useTranslation(["mechanics"]);
   return (
     <Segment.Group raised>
       <Segment raised>
@@ -45,7 +46,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
               <Grid.Column width={6}>
                 <Item style={testPositionStyles}>
                   <Item.Content>
-                    <Item.Header as='h2'>Customers</Item.Header>
+                    <Item.Header as='h2'>{t("Customers")}</Item.Header>
                    { mechanic.ratings !== undefined &&<Item.Extra as='h1'>{mechanic.ratings.length}</Item.Extra>}
                   </Item.Content>
                 </Item>
@@ -54,7 +55,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
               <Grid.Column width={5}>
                 <Item style={testPositionStyles}>
                   <Item.Content>
-                    <Item.Header as='h2'>Rating</Item.Header>
+                    <Item.Header as='h2'>{t("Rating")}</Item.Header>
                     {mechanic.averageRating !== undefined && <Item.Extra as='h1'>
                       {mechanic.averageRating}
                     </Item.Extra>}
@@ -68,7 +69,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
       <Segment>
         <Grid>
           <Grid.Column width={5}>
-            <Icon name='history' /> Working since {mechanic.yearOfStart}
+            <Icon name='history' /> {t("In business since")} {mechanic.yearOfStart}
           </Grid.Column>
           <Grid.Column width={6} style={testPositionStyles}>
             <Icon name='envelope outline' /> {mechanic.city},{" "}
@@ -84,7 +85,7 @@ const MechanicListItem: React.FC<{ mechanic: IMechanic }> = ({ mechanic }) => {
           as={Link}
           to={`/mechanics/${mechanic.id}`}
           fluid
-          content='View'
+          content={t('View')}
           color='instagram'
         ></Button>
       </Segment>

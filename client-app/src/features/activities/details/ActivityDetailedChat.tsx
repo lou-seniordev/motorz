@@ -18,7 +18,7 @@ const ActivityDetailedChat = () => {
     activity,
   } = rootStore.activityStore;
 
-  const { t } = useTranslation(["diaries"]);
+  const { t } = useTranslation(["comments"]);
 
 
   useEffect(() => {

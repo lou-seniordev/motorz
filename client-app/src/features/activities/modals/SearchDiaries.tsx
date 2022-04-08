@@ -10,7 +10,7 @@ const SearchDiaries = () => {
 
   const { closeModal } = rootStore.modalStore;
 
-  const { t } = useTranslation(["diaries"]);
+  const { t } = useTranslation(["modals"]);
 
   const handleResultSelect = (e: any) => {
     if (e.key === "Enter") {

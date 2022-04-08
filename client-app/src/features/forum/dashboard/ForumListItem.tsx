@@ -17,12 +17,12 @@ import { useTranslation } from "react-i18next";
 const ForumListItem: React.FC<{ forumpost: IForumpost }> = ({ forumpost }) => {
   const { t } = useTranslation(["forum"]);
 
-  const Response = t("Response");
-  const Responses = t("Responses");
-  const Member = t("Member");
-  const Members = t("Members");
-  const Rating = t("Rating");
-  const Ratings = t("Ratings");
+  const Response = " " + t("Response");
+  const Responses = " " + t("Responses");
+  const Member = " " + t("Member");
+  const Members = " " + t("Members");
+  const Rating = " " + t("Rating");
+  const Ratings = " " + t("Ratings");
   return (
     <Segment.Group raised>
       <Segment>

@@ -26,7 +26,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   const rootStore = useContext(RootStoreContext);
   const { loadActivity, activity, loadingInitial} = rootStore.activityStore;
 
-  const { t } = useTranslation(["gallery"]);
+  const { t } = useTranslation(["diaries"]);
 
 
   useEffect(() => {

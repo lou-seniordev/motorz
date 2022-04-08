@@ -1,6 +1,7 @@
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import {
   Segment,
@@ -25,7 +26,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
 
-// const [pop, setPop] = useState(false)
+  const { t } = useTranslation(["mechanics"]);
 
 
   const handleShowTestimonial = (customer: IMechanicCustomer, mechanic:IMechanic) => {
@@ -42,8 +43,9 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
           inverted
           color='teal'
         >
-          {mechanicShop.customers && mechanicShop.customers.length} People are
-          customers of this shop
+          {mechanicShop.customers && mechanicShop.customers.length > 1 
+          ? mechanicShop.customers.length + t("People are customers") : mechanicShop.customers.length + t("Person is customer")}  
+           {t("of this shop")}
         </Segment>
         <>
           <List divided>
@@ -64,7 +66,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
                           <Item.Extra as='h5'>
                             {customer.displayName}
                             {customer.customerRecommended && (
-                              <p style={{ color: "green" }}>Recommending</p>
+                              <p style={{ color: "green" }}>{t("Recommending")}</p>
                             )}
                           </Item.Extra>
 
@@ -74,7 +76,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
                               color='teal'
                               corner='right'
                             >
-                              Owner
+                              {t("Owner")}
                             </Label>
                           )}
                         </Link>
@@ -82,7 +84,7 @@ const MechanicDetailedSidebar: React.FC<{ mechanic: IMechanic }> = ({
                       <Grid.Column width={2}>
                         {customer.testimonial && (
                         <Popup 
-                          content={customer.displayName + "'s testimony about " + mechanic.name} 
+                          content={customer.displayName + t("'s testimony about") + mechanic.name} 
                           className='computer large screen only'
                           trigger={
                             <Button

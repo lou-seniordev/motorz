@@ -1,18 +1,21 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Segment, Grid, Icon, List, Popup, Image, Label } from "semantic-ui-react";
 import { IMechanic } from "../../../app/models/mechanic";
 
 const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
   mechanic,
 }) => {
+  const { t } = useTranslation(["mechanics"]);
+
   return (
     <Segment.Group raised>
       {mechanic.brands.length>0 && <Segment attached='top'>
         <Label pointing='below'> <Icon name='trademark' />
         <img src={mechanic.photoUrl!} alt='Mechanic'/>
-        {' '}Specialized in {' '} {mechanic.brands.length} {' '} brands</Label>
+        {' '} {t("Specialized in")} {' '} {mechanic.brands.length} {' '} brands</Label>
         <Grid>
           <>
             <Grid.Column width={1}>
@@ -56,7 +59,7 @@ const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
             <Icon name='calendar' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={15}>
-            <span>In business since {mechanic.yearOfStart}</span>
+            <span>{t("In business since")} {mechanic.yearOfStart}</span>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -78,7 +81,7 @@ const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
             <Icon name='tty' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={11}>
-            <span>Phone number: {mechanic.phone || "Phone not available"}</span>
+            <span>{t("Phone number")}: {mechanic.phone || t("Phone not available")}</span>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -89,7 +92,7 @@ const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
           </Grid.Column>
           <Grid.Column width={11}>
             <span>
-              Email address: {mechanic.email || "Email address not available"}
+              {t("Email address")}: {mechanic.email || t("Email address not available")}
             </span>
           </Grid.Column>
         </Grid>
@@ -100,7 +103,7 @@ const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
             <Icon name='internet explorer' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={11}>
-            <span>Website: {mechanic.website || "Website not available"}</span>
+            <span>{t("Website")}: {mechanic.website || t("Website not available")}</span>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -112,10 +115,10 @@ const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
           </Grid.Column>
           <Grid.Column width={11}>
             <span>
-              Published {/* {mechanic.datePublished} */}
+              {t("Published")} 
               {formatDistance(new Date(mechanic.datePublished), new Date())}
             </span>{" "}
-            ago
+            {t("ago")}
           </Grid.Column>
         </Grid>
       </Segment>

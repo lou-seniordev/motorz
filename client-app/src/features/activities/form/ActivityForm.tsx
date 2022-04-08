@@ -58,7 +58,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const [editMode, setEditMode] = useState(false);
 
 
-  const { t } = useTranslation(["diaries"]);
+  const { t } = useTranslation(["forms"]);
 
   const [activity, setActivity] = useState(new ActivityFormValues());
   const [loading, setLoading] = useState(false);

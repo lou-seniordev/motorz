@@ -13,7 +13,7 @@ const ConfirmDelete: React.FC<IProps> = ({ motofyId }) => {
   const { closeModal } = rootStore.modalStore;
   const {addFeedItem} = rootStore.feedStore;
 
-  const { t } = useTranslation(["gallery"]);
+  const { t } = useTranslation(["modals"]);
 
 
   const handleDeleteMotofy = (id: string) => {

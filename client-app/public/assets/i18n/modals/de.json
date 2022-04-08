@@ -3,5 +3,12 @@
     "Yes, delete it":  "Ja, löschen",
     "No, don't delete": "Nein, nicht löschen",
     "Search all": "Alle durchsuchen",
-    "Filter by category": "Nach Kategorie filtern"
+    "Filter by category": "Nach Kategorie filtern",
+    "Sure you want to do this?": "Sicher, dass Sie dies tun möchten?",
+    "Yes, I finished my trip!": "Ja, ich habe meine Reise beendet!",
+    "No, keep it active": "Nein, lass es aktiv",
+    "Sure you want to do this? You cannot go back...": "Sind Sie sicher, dass Sie dies tun möchten? Sie können nicht zurückgehen ...",
+    "Sure you want to do this (cannot undo)?": "Sind Sie sicher, dass Sie dies tun möchten (kann nicht rückgängig gemacht werden)?",
+    "Yes, delete it!":"Ja, löschen!",
+    "No, keep it": "Nein, behalte es"
 }

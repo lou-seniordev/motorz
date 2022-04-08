@@ -16,7 +16,7 @@ const GaleryDetailedChat = () => {
 
   const connectionArgument = "RecieveMotofyComment";
 
-  const { t } = useTranslation(["gallery"]);
+  const { t } = useTranslation(["comments"]);
 
   useEffect(() => {
 

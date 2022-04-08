@@ -91,7 +91,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const { loadCountriesToSelect, countries } = rootStore.countryStore;
   const { addFeedItem } = rootStore.feedStore;
 
-  const { t } = useTranslation(["gallery"]);
+  const { t } = useTranslation(["forms"]);
 
 
   const [motofy, setMotofy] = useState(new MotofyFormValues());
@@ -209,7 +209,7 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   />
                     {editMode && <Label content={t('City')}/>}
                   <Field
-                    placeholder='City'
+                    placeholder={t('City')}
                     name='city'
                     value={motofy.city}
                     component={TextInput}

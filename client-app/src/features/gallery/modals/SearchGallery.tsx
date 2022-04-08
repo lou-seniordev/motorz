@@ -10,7 +10,7 @@ const SearchGallery = () => {
 
   const { closeModal } = rootStore.modalStore;
 
-  const { t } = useTranslation(["gallery"]);
+  const { t } = useTranslation(["modals"]);
 
   const handleResultSelect = (e: any) => {
     if (e.key === "Enter") {

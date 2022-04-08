@@ -274,7 +274,7 @@ const NavBar: React.FC = () => {
                         placeholder='Select your country'
                       >
                         <option value='en'>English</option>
-                        <option value='it'>Italian</option>
+                        <option value='it'>Italiano</option>
                         <option value='de'>Deutsch</option>
 
                       </select>

@@ -16,7 +16,7 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
 
   const { closeModal } = rootStore.modalStore;
 
-  const { t } = useTranslation(["diaries"]);
+  const { t } = useTranslation(["modals"]);
 
 
   const handleDeactivateActivity = (id: string) => {

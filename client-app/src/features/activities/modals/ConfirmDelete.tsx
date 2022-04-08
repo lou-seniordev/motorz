@@ -12,7 +12,7 @@ const ConfirmDelete: React.FC<IProps> = ({ activityId }) => {
 
   const { closeModal } = rootStore.modalStore;
 
-  const { t } = useTranslation(["diaries"]);
+  const { t } = useTranslation(["modals"]);
 
 
   const handleDeleteActivity = (id: string) => {
