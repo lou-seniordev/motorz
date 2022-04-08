@@ -10,7 +10,6 @@ const styles = {
   borderWidth: 2
 }
 const GalleryListItemEmbracers: React.FC<IProps> = ({ embracers }) => {
-  // console.log(embracers);
   return (
     <List horizontal>
       {embracers.map(embracer => (

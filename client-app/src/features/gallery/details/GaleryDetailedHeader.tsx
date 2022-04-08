@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image, Icon } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-// import UserStore from "../../../app/stores/userStore";
 
 import ConfirmDelete from "../modals/ConfirmDelete";
+
+import { useTranslation } from "react-i18next";
+
 
 const motofyImageStyle = {
   filter: "brightness(90%)",
@@ -34,7 +36,6 @@ interface IProps {
   motofy: IMotofy;
 }
 const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
-  // console.log('motofy', toJS(motofy))
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
@@ -43,6 +44,9 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
   const { addFeedItem } = rootStore.feedStore;
 
   const { openModal } = rootStore.modalStore;
+
+  const { t } = useTranslation(["gallery"]);
+
 
   const handleDeleteMotofy = (id: string) => {
     openModal(<ConfirmDelete motofyId={id} />);
@@ -76,10 +80,6 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
                   content={motofy.name}
                   style={{ color: "white" }}
                 />
-                {/* <p>Published on {motofy.datePublished}</p> */}
-                {/* <p>
-                  By <strong>{publisher || 'unknown'}</strong>
-                </p> */}
               </Item.Content>
             </Item>
           </Item.Group>
@@ -96,21 +96,18 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
               style={buttonOwnerStyle}
             >
               <Icon name='edit' />
-              Manage
+              {t("Manage")}
             </Button>
             <Button
               onClick={() => {
-                // () =>
-
                 handleDeleteMotofy(motofy.id!);
-                // history.push("/gallery");
               }}
               color='red'
               floated='right'
               style={buttonOwnerStyle}
             >
               <Icon name='stop circle' />
-              Delete
+              {t("Delete")}
             </Button>
           </Segment>
         ) : motofy.embraced ? (
@@ -121,10 +118,9 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
             fluid
             onClick={() => handleUnembraceMotofy(motofy.id!)}
           >
-            Embraced
+            {t("Embraced")}
           </Button>
         ) : (
-          // onClick={embraceMotofy}
           <Button
             style={buttonVisitorStyle}
             loading={loading}
@@ -133,7 +129,7 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
             color='teal'
           >
             <Icon name='heart' />
-            Embrace
+            {t("Embrace")}
           </Button>
         )}
       </Segment>

@@ -1,10 +1,9 @@
-// import { toJS } from "mobx";
-// import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Item, ItemExtra, Rating, RatingProps, Segment } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -15,6 +14,9 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
   const rootStore = useContext(RootStoreContext);
   const { rateMotofy } = rootStore.motofyStore;
   const { user } = rootStore.userStore;
+
+  const { t } = useTranslation(["gallery"]);
+
 
   let username = user?.userName;
   const [rated, setRated] = useState(false);
@@ -54,7 +56,7 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
           justifyContent: 'space-around'}}>
         <Item.Group>
 
-        <Item.Header>Average Rating: {motofy.averageRating}</Item.Header>
+        <Item.Header>{t("Average Rating:")} {motofy.averageRating}</Item.Header>
         {motofy.publisherUsername !== user!.userName ? (
           <Fragment>
             <Rating
@@ -68,13 +70,13 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
               disabled={rated}
             />
             {userRated ? (
-              <ItemExtra>You Gave This Motofy {userRated} Stars</ItemExtra>
+              <ItemExtra>{t("You Gave This Motofy ")} {userRated} {t("Stars")}</ItemExtra>
             ) : (
-              <ItemExtra>You Have Not Rated Yet</ItemExtra>
+              <ItemExtra>{t("You Have Not Rated Yet")}</ItemExtra>
             )}
           </Fragment>
         ) : (
-          <Fragment>NB: You cannot rate your own motofy</Fragment>
+          <Fragment>{t("NB: You cannot rate your own motofy")}</Fragment>
         )}
         </Item.Group>
       </Segment>

@@ -12,6 +12,8 @@ from "./ActivityDetailedSidebarRight";
 import ActivityDetailedHeader from "./ActivityDetailedHeader";
 import ActivityDetailedSidebarLeft 
 from "./ActivityDetailedSidebarLeft";
+import { useTranslation } from "react-i18next";
+
 
 interface DetailParams {
   id: string;
@@ -24,11 +26,14 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   const rootStore = useContext(RootStoreContext);
   const { loadActivity, activity, loadingInitial} = rootStore.activityStore;
 
+  const { t } = useTranslation(["gallery"]);
+
+
   useEffect(() => {
     loadActivity(match.params.id);
   }, [loadActivity, match.params.id, history]);
 
-  if (loadingInitial || !activity ) return <LoadingComponent content='Loading activity...' />;
+  if (loadingInitial || !activity ) return <LoadingComponent content={t('Loading activity...')} />;
 
 
   return (

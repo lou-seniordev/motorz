@@ -1,6 +1,7 @@
 import React from "react";
 import { Segment, Grid, Icon, Image, GridRow } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
+import { useTranslation } from "react-i18next";
 
 const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
   const iconStyle = {
@@ -9,6 +10,9 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
     textAlign: "right",
     justifyContent: "center",
   };
+
+  const { t } = useTranslation(["gallery"]);
+
 
   return (
     <Segment.Group>
@@ -61,7 +65,7 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
               <Icon name='calendar' size='large' color='teal' />
             </Grid.Column>
             <Grid.Column width={14}>
-              <span>Made {motofy.yearOfProduction}</span>
+              <span>{t("Made")} {motofy.yearOfProduction}</span>
             </Grid.Column>
           </GridRow>
         </Grid>
@@ -73,7 +77,7 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
           </Grid.Column>
           <Grid.Column width={14}>
             <span>
-              In {motofy.city}, {motofy.countryName}
+              {t("In")} {motofy.city}, {motofy.countryName}
             </span>
           </Grid.Column>
         </Grid>
@@ -86,8 +90,8 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
           <Grid.Column width={14}>
             <span>
               {" "}
-              Engine {motofy.cubicCentimeters}cc, done{" "}
-              {motofy.numberOfKilometers} kilometers
+              {t("Engine")} {motofy.cubicCentimeters}{t("cc")}, {t("done")}{" "}
+              {motofy.numberOfKilometers} {t("kilometers")}
             </span>
           </Grid.Column>
         </Grid>
@@ -100,7 +104,7 @@ const GalleryDetailedInfo: React.FC<{ motofy: IMotofy }> = ({ motofy }) => {
           <Grid.Column width={14}>
             <span>
               {" "}
-              Price paid {motofy.pricePaid} Euro, present value{" "}
+              {t("Price paid")} {motofy.pricePaid} {t("Euro")}, {t(" present value")}{" "}
               {motofy.estimatedValue} Euro
             </span>
           </Grid.Column>
