@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
 import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../../app/layout/LoadingComponent";
@@ -26,12 +27,13 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
     setActiveTab,
   } = rootStore.profileStore;
 
+  const { t } = useTranslation(["social"]);
 
   useEffect(() => {
     loadProfile(match.params.username);
   }, [loadProfile, match]);
 
-  if (loadingProfile) return <LoadingComponent content='Loading profile...' />;
+  if (loadingProfile) return <LoadingComponent content={t('Loading profile...')} />;
   return (
     <Grid>
       <Grid.Column width={16}>

@@ -5,17 +5,21 @@ import { Link } from "react-router-dom";
 import { IUserMechanic } from "../../app/models/profile";
 import { format } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import { useTranslation } from "react-i18next";
 
-const panes = [
-  { menuItem: "Published", pane: { key: "iPublished" } },
-  { menuItem: "Rated", pane: { key: "iRated" } },
-  { menuItem: "Recommend", pane: { key: "iRecommend" } },
-];
 
 const ProfileMechanics = () => {
   const rootStore = useContext(RootStoreContext);
   const { loadUserMechanics, profile, loadingMechanics, userMechanics } =
-    rootStore.profileStore!;
+  rootStore.profileStore!;
+
+  const { t } = useTranslation(["social"]);
+
+  const panes = [
+    { menuItem: t("Published"), pane: { key: "iPublished" } },
+    { menuItem: t("Rated"), pane: { key: "iRated" } },
+    { menuItem: t("Recommended"), pane: { key: "iRecommend" } },
+  ];
 
   useEffect(() => {
     loadUserMechanics(profile!.username);

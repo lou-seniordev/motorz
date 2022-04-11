@@ -5,12 +5,8 @@ import { Link } from 'react-router-dom';
 import {  IUserForumpost } from '../../app/models/profile';
 import { format } from 'date-fns';
 import { RootStoreContext } from '../../app/stores/rootStore';
+import { useTranslation } from 'react-i18next';
 
-const panes = [
-  { menuItem: 'Asked', pane: { key: 'iAsked' } },
-  { menuItem: 'Rated', pane: { key: 'iRated' } },
-//   { menuItem: 'Hosting', pane: { key: 'hosted' } }
-];
 
 const ProfileForumposts = () => {
   const rootStore = useContext(RootStoreContext);
@@ -20,7 +16,12 @@ const ProfileForumposts = () => {
     loadingForumposts,
     userForumposts
   } = rootStore.profileStore!;
+  const { t } = useTranslation(["social"]);
 
+  const panes = [
+    { menuItem: t('Asked'), pane: { key: 'iAsked' } },
+    { menuItem: t('Rated'), pane: { key: 'iRated' } },
+  ];
   useEffect(() => {
     loadUserForumposts(profile!.username);
   }, [loadUserForumposts, profile]);

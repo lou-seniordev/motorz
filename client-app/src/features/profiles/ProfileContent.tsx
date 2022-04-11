@@ -8,39 +8,40 @@ import ProfileMotofies from "./ProfileMotofies";
 import ProfileForumposts from "./ProfileForumposts";
 import ProfileMechanics from "./ProfileMechanics";
 import ProfileProducts from "./ProfileProducts";
+import { useTranslation } from "react-i18next";
 
-const panes = [
-  { menuItem: "About", render: () => <ProfileDescription /> },
-  { menuItem: "Photos", render: () => <ProfilePhotos /> },
-  {
-    menuItem: "Motofies!",
-    render: () => <ProfileMotofies />,
-  },
-  {
-    menuItem: "Motorcycle Diaries",
-    render: () => <ProfileActivities />,
-  },
-  {
-    menuItem: "Forumposts",
-    render: () => <ProfileForumposts />,
-  },
-  {
-    menuItem: "Mechanics",
-    render: () => <ProfileMechanics />,
-  },
-  {
-    menuItem: "Products",
-    render: () => <ProfileProducts />,
-  },
-  {
-    menuItem: "Followers",
-    render: () => <ProfileFollowings />,
-  },
-  {
-    menuItem: "Followings",
-    render: () => <ProfileFollowings />,
-  },
-];
+// const panes = [
+//   { menuItem: "About", render: () => <ProfileDescription /> },
+//   { menuItem: "Photos", render: () => <ProfilePhotos /> },
+//   {
+//     menuItem: "Motofies!",
+//     render: () => <ProfileMotofies />,
+//   },
+//   {
+//     menuItem: "Motorcycle Diaries",
+//     render: () => <ProfileActivities />,
+//   },
+//   {
+//     menuItem: "Forumposts",
+//     render: () => <ProfileForumposts />,
+//   },
+//   {
+//     menuItem: "Mechanics",
+//     render: () => <ProfileMechanics />,
+//   },
+//   {
+//     menuItem: "Products",
+//     render: () => <ProfileProducts />,
+//   },
+//   {
+//     menuItem: "Followers",
+//     render: () => <ProfileFollowings />,
+//   },
+//   {
+//     menuItem: "Followings",
+//     render: () => <ProfileFollowings />,
+//   },
+// ];
 const mobilePanes = [
   {
     menuItem: { key: "About", icon: "user" },
@@ -84,6 +85,42 @@ interface IProps {
   setActiveTab: (activeIndex: any) => void;
 }
 const ProfileContent: React.FC<IProps> = ({ setActiveTab }) => {
+
+  const { t } = useTranslation(["social"]);
+
+
+  const panes = [
+    { menuItem: t("About"), render: () => <ProfileDescription /> },
+    { menuItem: t("Photos"), render: () => <ProfilePhotos /> },
+    {
+      menuItem: "Motofies!",
+      render: () => <ProfileMotofies />,
+    },
+    {
+      menuItem: t("Motorcycle Diaries"),
+      render: () => <ProfileActivities />,
+    },
+    {
+      menuItem: t("Forumposts"),
+      render: () => <ProfileForumposts />,
+    },
+    {
+      menuItem: t("Mechanics"),
+      render: () => <ProfileMechanics />,
+    },
+    {
+      menuItem: t("Products"),
+      render: () => <ProfileProducts />,
+    },
+    {
+      menuItem: t("Followers"),
+      render: () => <ProfileFollowings />,
+    },
+    {
+      menuItem: t("Followings"),
+      render: () => <ProfileFollowings />,
+    },
+  ];
   return (
     <>
       <Tab

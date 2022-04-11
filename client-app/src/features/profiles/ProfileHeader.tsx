@@ -15,6 +15,7 @@ import {
 import { IProfile } from "../../app/models/profile";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import ContactForm from "./forms/ContactForm";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   profile: IProfile;
@@ -36,6 +37,9 @@ const ProfileHeader: React.FC<IProps> = ({
   const { addFeedItem } = rootStore.feedStore;
 
   const { openModal } = rootStore.modalStore;
+
+  const { t } = useTranslation(["social"]);
+
 
   const handleSendMessage = () => {
     openModal(
@@ -62,7 +66,7 @@ const ProfileHeader: React.FC<IProps> = ({
               {user?.userName !== profile.username && (
                 <Button
                   circular
-                  content='Send Message'
+                  content={t('Send Message')}
                   onClick={handleSendMessage}
                 />
               )}
@@ -71,8 +75,8 @@ const ProfileHeader: React.FC<IProps> = ({
         </Grid.Column>
         <Grid.Column computer={4} mobile={16}>
           <Statistic.Group widths={2}>
-            <Statistic label='Followers' value={profile.followersCount} />
-            <Statistic label='Following' value={profile.followingCount} />
+            <Statistic label={t('Followers')} value={profile.followersCount} />
+            <Statistic label={t('Following')} value={profile.followingCount} />
           </Statistic.Group>
           <Divider />
           {!isCurrentUser && (
@@ -81,7 +85,7 @@ const ProfileHeader: React.FC<IProps> = ({
                 <Button
                   fluid
                   color='instagram'
-                  content={profile.following ? "Following" : "Not following"}
+                  content={profile.following ? t("Following") : t("Not following")}
                 />
               </Reveal.Content>
               <Reveal.Content hidden>
@@ -90,7 +94,7 @@ const ProfileHeader: React.FC<IProps> = ({
                   fluid
                   basic
                   color={profile.following ? "red" : "instagram"}
-                  content={profile.following ? "Unfollow" : "Follow"}
+                  content={profile.following ? t("Unfollow") : t("Follow")}
                   onClick={
                     profile.following
                       ? () => [unfollow(profile.username),  addFeedItem(uuid(), 'Unfollows You', profile.username)]

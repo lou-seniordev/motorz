@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, Card, Grid, Input } from "semantic-ui-react"; //Button, Form, , Menu
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import PeopleListItem from "./PeopleListItem";
@@ -11,7 +12,9 @@ const PeopleList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { displayPeople, setPredicate } = rootStore.peopleStore;
 
-  const [input, setInput] = useState(""); // '' is the initial state value
+  const { t } = useTranslation(["social"]);
+
+  const [input, setInput] = useState(""); 
 
   const handleSearchResults = (e: any) => {
     if (e.key === "Enter") {
@@ -32,7 +35,7 @@ const PeopleList: React.FC = () => {
               name='search'
               // style={{ width: "80%" }}
               fluid
-              placeholder='Search all...'
+              placeholder={t('Search all')}
               value={input}
               onInput={(e: any) => setInput(e.target.value)}
               onKeyDown={(e: any) => handleSearchResults(e)}
@@ -40,7 +43,7 @@ const PeopleList: React.FC = () => {
           </Grid.Column>
           <Grid.Column width={8}>
             <Button
-              content='See all'
+              content={t('See all')}
               fluid
               // style={{ width: "19%" }}
               floated='right'

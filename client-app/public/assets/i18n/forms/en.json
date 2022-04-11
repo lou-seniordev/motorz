@@ -101,5 +101,8 @@
     "Verifying...": "Verifying...",
     "Verication failed - you can try resending the verification email": "Verication failed - you can try resending the verification email",
     "Email has been verified - you can now login": "Email has been verified - you can now login",
-    "Email verification": "Email verification"
+    "Email verification": "Email verification",
+    "Bio": "Bio",
+    "Update profile": "Update profile"
+
 }

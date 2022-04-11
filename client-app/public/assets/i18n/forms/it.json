@@ -101,5 +101,7 @@
     "Verifying...": "Verifica in corso...",
     "Verication failed - you can try resending the verification email": "Verifica non riuscita - puoi provare a inviare nuovamente l'e-mail di verifica",
     "Email has been verified - you can now login": "L'e-mail è stata verificata - ora puoi accedere",
-    "Email verification": "Verifica e-mail"
+    "Email verification": "Verifica e-mail",
+    "Bio": "Biografia",
+    "Update profile": "Aggiorna profilo"
 }

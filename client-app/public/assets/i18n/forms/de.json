@@ -101,5 +101,7 @@
     "Verifying...": "Überprüfe ...",
     "Verication failed - you can try resending the verification email": "Verifizierung fehlgeschlagen - Sie können versuchen, die Verifizierungs-E-Mail erneut zu senden",
     "Email has been verified - you can now login": "E-Mail wurde bestätigt - Sie können sich jetzt anmelden",
-    "Email verification": "E-Mail-Bestätigung"
+    "Email verification": "E-Mail-Bestätigung",
+    "Bio": "Biografie",
+    "Update profile": "Profil aktualisieren"
 }
