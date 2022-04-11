@@ -20,16 +20,7 @@ import SelectInput from "../../../app/common/form/SelectInput";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { useTranslation } from "react-i18next";
 
-const validate = combineValidators({
-  title: isRequired({ message: "The event title is required" }),
-  category: isRequired("Category"),
-  body: composeValidators(
-    isRequired("Body"),
-    hasLengthGreaterThan(4)({
-      message: "Body needs to be at least 5 characters",
-    })
-  )(),
-});
+
 
 interface DetailParams {
   id: string;
@@ -52,7 +43,16 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const [loading, setLoading] = useState(false);
 
   const { t } = useTranslation(["forms"]);
-
+  const validate = combineValidators({
+    title: isRequired({ message: t("Title is required") }),
+    category: isRequired({ message: t("Category is required") }),
+    body: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message: t("Description needs to be at least 5 characters"),
+      })
+    )(),
+  });
 
   useEffect(() => {
     if (match.params.id) {

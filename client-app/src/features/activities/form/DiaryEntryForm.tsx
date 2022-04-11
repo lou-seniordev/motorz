@@ -31,17 +31,7 @@ import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
 import { useTranslation } from "react-i18next";
 
-const validate = combineValidators({
-  locationCity: isRequired({ message: "The location city is required" }),
-  locationCountry: isRequired({ message: "The location country is required" }),
-  body: composeValidators(
-    isRequired("Body"),
-    hasLengthGreaterThan(4)({
-      message: "Body needs to be at least 5 characters",
-    })
-  )(),
-  mood: isRequired({ message: "The mood is required" }),
-});
+
 
 interface DetailParams {
   id: string;
@@ -70,7 +60,17 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const motomoto = motoOptions[random];
 
   const { t } = useTranslation(["diaries"]);
-
+  const validate = combineValidators({
+    locationCity: isRequired({ message: t("The location city is required")}),
+    locationCountry: isRequired({ message: t("The location country is required") }),
+    body: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message: t("Description needs to be at least 5 characters"),
+      })
+    )(),
+    mood: isRequired({ message: "The mood is required" }),
+  });
 
   const [diaryEntry, setdiaryEntry] = useState(new DiaryEntryFormValues());
   const [loading, setLoading] = useState(false);

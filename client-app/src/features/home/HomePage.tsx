@@ -52,7 +52,7 @@ const HomePage = () => {
           </Fragment>
         ) : (
           <Fragment>
-            <Header as='h2' inverted content={"Welcome to Motoranza"} />
+            <Header as='h2' inverted content={t("Welcome to Motoranza")} />
             <Button
               onClick={() => openModal(<LoginForm />)}
               to='/login'

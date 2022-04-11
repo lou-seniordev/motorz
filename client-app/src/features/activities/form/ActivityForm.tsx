@@ -20,20 +20,7 @@ import {
 } from 'revalidate';
 import { useTranslation } from "react-i18next";
 
-const validate = combineValidators({
-  title: isRequired({ message: 'The title is required' }),
-  category: isRequired('Category'),
-  description: composeValidators(
-    isRequired('Description'),
-    hasLengthGreaterThan(4)({
-      message: 'Description needs to be at least 5 characters',
-    })
-  )(),
-  city: isRequired('City'),
-  departure: isRequired('Departure'),
-  date: isRequired('Date'),
-  time: isRequired('Time'),
-});
+
 
 interface DetailParams {
   id: string;
@@ -59,7 +46,22 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
 
   const { t } = useTranslation(["forms"]);
-
+  const validate = combineValidators({
+    title: isRequired({ message: t("Title is required") }),
+    category: isRequired({ message: t("Category is required") }),
+    description: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message: t("Description needs to be at least 5 characters"),
+      })
+    )(),
+    countryName: isRequired({ message: t("Country is required") }),
+    city: isRequired( { message: t("City is required") }),
+    departure: isRequired( { message: t("Place of departure is required")}),
+    destination: isRequired( { message: t("Place of destination is required")}),
+    date: isRequired({ message: t("Date is required") }),
+    time: isRequired( { message: t("Time is required") }),
+  });
   const [activity, setActivity] = useState(new ActivityFormValues());
   const [loading, setLoading] = useState(false);
 

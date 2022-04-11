@@ -6,6 +6,7 @@ import {
   isRequired,
   matchesField,
   composeValidators,
+  createValidator,
 } from "revalidate";
 import { v4 as uuid } from "uuid";
 import { Button, Form, Header } from "semantic-ui-react";
@@ -13,28 +14,42 @@ import ErrorMessage from "../../app/common/form/ErrorMessage";
 import TextInput from "../../app/common/form/TextInput";
 // import { IUserFormValues } from '../../app/models/user';
 import { RootStoreContext } from "../../app/stores/rootStore";
-
-
-const validate = combineValidators({
-  username: isRequired("Username"),
-  displayName: isRequired("DisplayName"),
-  password: isRequired("Password"),
-  email: isRequired("Email"),
-  confirmPassword: composeValidators(
-    isRequired("Confirmation of password"),
-    matchesField(
-      "password",
-      "confirmPassword"
-    )({
-      message: "Passwords do not match",
-    })
-  )(),
-});
+import { useTranslation } from "react-i18next";
 
 const RegisterForm = () => {
   const rootStore = useContext(RootStoreContext);
   const { register } = rootStore.userStore;
   const { addFeedItem } = rootStore.feedStore;
+
+  const { t } = useTranslation(["forms"]);
+  
+  const isValidEmail = createValidator(
+    (message) => (value) => {
+      if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+        return message;
+      }
+    },
+    t("Invalid email address")
+  );
+
+  const validate = combineValidators({
+    username: isRequired({ message: t("Username is required") }),
+    displayName: isRequired({ message: t("Display Name is required") }),
+    password: isRequired({ message: t("Password is required") }),
+    email: composeValidators (
+      isRequired({ message: t("Email is required") }),
+      isValidEmail({ message: t("Invalid email address") }),
+    )(),
+    confirmPassword: composeValidators(
+      isRequired({ message: t("Confirmation of password is required") }),
+      matchesField(
+        "password",
+        "confirmPassword"
+      )({
+        message: t("Passwords do not match"),
+      })
+    )(),
+  });
 
   return (
     <FinalForm
@@ -57,27 +72,31 @@ const RegisterForm = () => {
         <Form onSubmit={handleSubmit} error={submitError}>
           <Header
             as='h2'
-            content='Sign up to Motoranza'
+            content={t("Sign up to Motoranza")}
             color='teal'
             textAlign='center'
           />
-          <Field name='username' component={TextInput} placeholder='Username' />
+          <Field
+            name='username'
+            component={TextInput}
+            placeholder={t("Username")}
+          />
           <Field
             name='displayName'
             component={TextInput}
-            placeholder='Display Name'
+            placeholder={t("Display Name")}
           />
-          <Field name='email' component={TextInput} placeholder='Email' />
+          <Field name='email' component={TextInput} placeholder={t("Email")} />
           <Field
             name='password'
             component={TextInput}
-            placeholder='Password'
+            placeholder={t("Password")}
             type='password'
           />
           <Field
             name='confirmPassword'
             component={TextInput}
-            placeholder='Confirm Password'
+            placeholder={t("Confirm Password")}
             type='password'
           />
           {submitError && !dirtySinceLastSubmit && (
@@ -88,7 +107,7 @@ const RegisterForm = () => {
             disabled={(invalid && !dirtySinceLastSubmit) || pristine}
             loading={submitting}
             color='teal'
-            content='Register'
+            content={t("Register")}
             fluid
           />
         </Form>

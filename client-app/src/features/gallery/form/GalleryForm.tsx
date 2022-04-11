@@ -38,35 +38,7 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useTranslation } from "react-i18next";
 
 
-const validate = combineValidators({
-  name: isRequired({ message: "The event name is required" }),
-  description: composeValidators(
-    isRequired("Description"),
-    hasLengthGreaterThan(4)({
-      message: "Description needs to be at least 5 characters",
-    })
-  )(),
-  city: isRequired("City"),
-  countryName: isRequired("countryName"),
-  model: isRequired("model"),
-  pricePaid: composeValidators(
-    isNumeric("Price paid"),
-    isRequired("Price paid")
-  )(),
-  cubicCentimeters: composeValidators(
-    isNumeric("Power of engine"),
-    isRequired("Power of engine")
-  )(),
-  yearOfProduction: isRequired("Year of production"),
-  numberOfKilometers: composeValidators(
-    isNumeric("Number of kilometers"),
-    isRequired("Number of kilometers")
-  )(),
-  estimatedValue: composeValidators(
-    isNumeric("Estimated valude"),
-    isRequired("Estimated valude")
-  )(),
-});
+
 
 interface DetailParams {
   id: string;
@@ -92,7 +64,35 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const { addFeedItem } = rootStore.feedStore;
 
   const { t } = useTranslation(["forms"]);
-
+  const validate = combineValidators({
+    name: isRequired({ message: "Name is required" }),
+    description: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message: t("Description needs to be at least 5 characters"),
+      })
+    )(),
+    city: isRequired( { message: t("City is required") }),
+    countryName: isRequired({ message: t("Country is required") }),
+    model: isRequired( { message: t("Model is required") }),
+    // pricePaid: composeValidators(
+    //   isNumeric("Price paid"),
+    //   isRequired("Price paid")
+    // )(),
+    cubicCentimeters: composeValidators(
+      isNumeric({ message: t("Power of engine must be numeric value") }),
+      isRequired( { message: t("Power of engine is required") })
+    )(),
+    yearOfProduction: isRequired({ message: t("Year of production is required") }),
+    numberOfKilometers: composeValidators(
+      isNumeric({ message: t("Number of kilometers must be numeric value") }),
+      isRequired({ message: t("Number of kilometers is required") })
+    )(),
+    // estimatedValue: composeValidators(
+    //   isNumeric("Estimated valude"),
+    //   isRequired("Estimated valude")
+    // )(),
+  });
 
   const [motofy, setMotofy] = useState(new MotofyFormValues());
   const [loading, setLoading] = useState(false);
