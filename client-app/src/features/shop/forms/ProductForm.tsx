@@ -35,33 +35,11 @@ import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
 import { motoOptions } from "../../../app/common/options/motoOptions";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { useTranslation } from "react-i18next";
 
 
-const validate = combineValidators({
-  title: isRequired({ message: "The title is required" }),
-  category: isRequired("Category"),
-  description: composeValidators(
-    isRequired("Description"),
-    hasLengthGreaterThan(4)({
-      message: "Description needs to be at least 5 characters",
-    })
-  )(),
-  countryName: isRequired("countryName"),
-  city: isRequired("City"),
-  phoneNumber: composeValidators(
-    isNumeric("Phone"),
-    isRequired("Phone"),
-    hasLengthGreaterThan(4)({
-      message: "Description needs to be at least 5 characters",
-    })
-  )(),
-  price: composeValidators(
-    isNumeric("Price"),
-    isRequired("Price")
 
-  )(),
- 
-});
+
 interface DetailParams {
   id: string;
 }
@@ -69,6 +47,8 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
   match,
 }) => {
+
+
   const rootStore = useContext(RootStoreContext);
 
   const { createProduct, editProduct, submitting, loadProduct } =
@@ -80,6 +60,34 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const random = Math.floor(Math.random() * motoOptions.length);
   const motomoto = motoOptions[random];
 
+  const { t } = useTranslation(["forms"]);
+
+  const validate = combineValidators({
+  
+    title: isRequired({ message: t("Title is required") }),
+    category: isRequired({ message: t("Category is required") }),
+    description: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message:t("Description needs to be at least 5 characters"),
+      })
+    )(),
+    countryName: isRequired({ message: t("Country is required") }),
+    city: isRequired({ message: t("City is required") }),
+    phoneNumber: composeValidators(
+      isNumeric({ message: t("Phone must be numeric value") }),
+      // isRequired({ message: t("Phone is required") }),
+      hasLengthGreaterThan(8)({
+        message: t("Phone needs to be at least 9 characters"),
+      })
+    )(),
+    price: composeValidators(
+      isNumeric({ message: t("Price must be numeric value") }),
+      isRequired({ message: t("Price is required") })
+  
+    )(),
+   
+  });
   const [product, setProduct] = useState(new ProductFormValues());
   const [loading, setLoading] = useState(false);
 
@@ -150,9 +158,9 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     image = photo;
     setPreview(photo);
     setUploaded(true);
-    toast.info("Your image is uploaded, please give us more details");
+    toast.info(t("Your image is uploaded, please give us more details"));
   };
-  if (!ready) return <LoadingComponent content='Loading values...' />;
+  if (!ready) return <LoadingComponent content={t('Loading values...')} />;
 
   return (
     <Grid>
@@ -175,71 +183,71 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
               onSubmit={handleFinalFormSubmit}
               render={({ handleSubmit, invalid, pristine }) => (
                 <Form onSubmit={handleSubmit} loading={loading}>
-                  {editMode && <Label content='Title' />}
+                  {editMode && <Label content={t('Title')} />}
 
                   <Field
+                    placeholder={t('Title')}
                     name='title'
-                    placeholder='Title *'
                     value={product.title}
                     component={TextInput}
                   />
-                  {editMode && <Label content='Price' />}
+                  {editMode && <Label content={t('Price')} />}
                   <Field
+                    placeholder={t('Price')}
                     name='price'
-                    placeholder='Price *'
                     value={product.price}
                     component={TextInput}
                   />
-                  {editMode && <Label content='Description' />}
+                  {editMode && <Label content={t('Description')} />}
                   <Field
+                    placeholder={t('Description')}
                     name='description'
                     rows={3}
-                    placeholder='Description *'
                     value={product.description}
                     component={TextAreaInput}
                   />
 
-                  {editMode && <Label content='Category' />}
+                  {editMode && <Label content={t('Category')} />}
                   <Field
+                    placeholder={t('Category')}
                     name='category'
-                    placeholder='Category *'
                     options={categories}
                     value={product.category}
                     component={SelectInput}
                   />
 
-                  {editMode && <Label content='Country' />}
+                  {editMode && <Label content={t('Country')} />}
                   <Field
+                    placeholder={t('Country')} 
                     name='countryName'
-                    placeholder={"Country *"} //
                     options={countries}
                     component={SelectInput}
                   />
-                  {editMode && <Label content='City' />}
+                  {editMode && <Label content={t('City')} />}
                   <Field
+                    placeholder={t('City')}
                     name='city'
-                    placeholder='City'
                     value={product.city}
                     component={TextInput}
                   />
-                  {editMode && <Label content='Phone' />}
+                  {editMode && <Label content={t('Phone')} />}
                   <Field
+                    placeholder={t('Phone')}
                     name='phoneNumber'
-                    placeholder='Phone *'
                     value={product.phoneNumber}
                     component={TextInput}
                   />
-                  {editMode && <Label content='Model' />}
+                  {editMode && <Label content={t('Model')} />}
                   <Field
+                    placeholder={t('Model')}
                     name='model'
-                    placeholder='Model'
                     value={product.model}
                     component={TextInput}
                   />
-                  {editMode && <Label content='Brand' />}
+                  {editMode && <Label content={t('Brand')} />}
                   <Field
+                    placeholder={t('Brand')}
                     name='brand'
-                    placeholder='Brand'
                     value={product.brand}
                     component={TextInput}
                   />
@@ -250,7 +258,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     positive
                     floated='right'
                     type='submit'
-                    content='submit'
+                    content={t('Submit')}
                   />
                   <Button
                     onClick={
@@ -261,7 +269,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     disabled={loading}
                     floated='right'
                     type='button'
-                    content='cancel'
+                    content={t('Cancel')}
                   />
                 </Form>
               )}

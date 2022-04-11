@@ -10,5 +10,7 @@
     "Sure you want to do this? You cannot go back...": "Sind Sie sicher, dass Sie dies tun möchten? Sie können nicht zurückgehen ...",
     "Sure you want to do this (cannot undo)?": "Sind Sie sicher, dass Sie dies tun möchten (kann nicht rückgängig gemacht werden)?",
     "Yes, delete it!":"Ja, löschen!",
-    "No, keep it": "Nein, behalte es"
+    "No, keep it": "Nein, behalte es",
+    "No, cancel": "No, abbrechen"
+
 }

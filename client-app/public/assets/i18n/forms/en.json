@@ -1,5 +1,5 @@
 {
-    "Title": "Title",
+    "Title": "Title *",
     "Body": "Body",
     "Category": "Category",
     "Submit": "Submit",
@@ -9,7 +9,7 @@
     "Date": "Date",
     "Time": "Time",
     "Date and Time": "Date and Time",
-    "Country": "Country",
+    "Country": "Country *",
     "City": "City",
     "Departure/Starting Point": "Departure/Starting Point",
     "Destination": "Destination",
@@ -43,5 +43,20 @@
     "Phone *": "Phone *",
     "Email": "Email",
     "Website": "Website",
-    "Year of Start *": "Year of Start *"
+    "Year of Start *": "Year of Start *",
+    "Brand not asigned": "Brand not asigned",
+    "Model not asigned": "Model not asigned",
+    "Price": "Price *",
+    "Phone": "Phone",
+    "Title is required": "Title is required",
+    "Category is required": "Category is required",
+    "Description is required": "Description is required",
+    "Description needs to be at least 5 characters": "Description needs to be at least 5 characters",
+    "Country is required": "Country is required",
+    "City is required": "City is required",
+    "Phone must be numeric value": "Phone must be numeric value",
+    "Phone needs to be at least 9 characters": "Phone needs to be at least 9 characters",
+    "Phone is required": "Phone is required",
+    "Price is required": "Price is required",
+    "Price must be numeric value": "Price must be numeric value"
 }

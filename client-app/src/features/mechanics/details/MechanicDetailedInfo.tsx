@@ -59,7 +59,7 @@ const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
             <Icon name='calendar' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={15}>
-            <span>{t("In business since")} {mechanic.yearOfStart}</span>
+            <span>{t("In business since")}: {mechanic.yearOfStart}</span>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -115,7 +115,7 @@ const MechanicDetailedInfo: React.FC<{ mechanic: IMechanic }> = ({
           </Grid.Column>
           <Grid.Column width={11}>
             <span>
-              {t("Published")} 
+              {t("Published")}:{" "} 
               {formatDistance(new Date(mechanic.datePublished), new Date())}
             </span>{" "}
             {t("ago")}

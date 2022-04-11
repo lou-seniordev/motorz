@@ -64,7 +64,7 @@ const validate = combineValidators({
     isNumeric("Phone"),
     isRequired("Phone"),
     hasLengthGreaterThan(4)({
-      message: "Description needs to be at least 5 characters",
+      message: "Phone needs to be at least 5 characters",
     })
   )(),
   email: isValidEmail(),

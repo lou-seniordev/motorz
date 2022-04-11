@@ -10,5 +10,6 @@
     "Sure you want to do this? You cannot go back...": "Sicuro di volerlo fare? Non puoi tornare indietro...",
     "Sure you want to do this (cannot undo)?": "Sicuro di voler eseguire questa operazione (non è possibile annullare)?",
     "Yes, delete it!":"Sì, eliminalo!",
-    "No, keep it": "No, tienilo"
+    "No, keep it": "No, tienilo",
+    "No, cancel": "No, annulla"
 }
