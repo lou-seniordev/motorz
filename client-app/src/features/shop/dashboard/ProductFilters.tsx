@@ -3,6 +3,7 @@ import { Divider, Dropdown, Input, Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 import { categories } from "../../../app/common/options/productOptions";
+import { useTranslation } from "react-i18next";
 
 const ProductFilters = () => {
   const rootStore = useContext(RootStoreContext);
@@ -23,6 +24,7 @@ const ProductFilters = () => {
       e.target.value = "";
     }
   };
+  const { t } = useTranslation(["shop"]);
 
   useEffect(() => {
     loadCountriesToSelect();
@@ -38,15 +40,15 @@ const ProductFilters = () => {
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
-            placeholder='Search all...'
+            placeholder={t('Search all')}
             onKeyDown={(e: any) => handleResultSelect(e)}
           />
         </Menu.Item>
-        <Divider horizontal content='or' />
+        <Divider horizontal content={t('or')} />
         <Menu.Item active={predicate.has("country")}>
           <Dropdown
             fluid
-            placeholder='Search products by country'
+            placeholder={t('Search products by country')}
             selection
             floating
             search
@@ -55,11 +57,11 @@ const ProductFilters = () => {
             clearable
           />
         </Menu.Item>
-        <Divider horizontal content='or' />
+        <Divider horizontal content={t('or')} />
         <Menu.Item>
           <Dropdown
             fluid
-            placeholder='Search products by category'
+            placeholder={t('Search products by category')}
             selection
             floating
             search
@@ -68,7 +70,7 @@ const ProductFilters = () => {
             clearable
           />
         </Menu.Item>
-        <Divider horizontal content='or chose built in filters' />
+        <Divider horizontal content={t('or choose from built in filters')} />
 
         <Menu.Item
           active={predicate.size === 0}
@@ -76,7 +78,7 @@ const ProductFilters = () => {
           color={"blue"}
           name={"all"}
           style={ styles }
-          content={"All Products"}
+          content={t("All Products")}
         />
           <Menu.Item
             active={predicate.has("iView")}
@@ -84,7 +86,7 @@ const ProductFilters = () => {
             color={"blue"}
             name={"iView"}
             style={{ textAlign: "center" }}
-            content={"Favorites"}
+            content={t("Favorites")}
           />
           <Menu.Item
             active={predicate.has("myProducts")}
@@ -92,7 +94,7 @@ const ProductFilters = () => {
             color={"blue"}
             name={"myProducts"}
             style={{ textAlign: "center" }}
-            content={"My products"}
+            content={t("My products")}
           />
         <Menu.Item
           active={predicate.has("iFollow")}
@@ -100,7 +102,7 @@ const ProductFilters = () => {
           color={"blue"}
           name={"iFollow"}
           style={ styles }
-          content={"By people I follow"}
+          content={t("By people I follow")}
         />
         <Menu.Item
           active={predicate.has("inActive")}
@@ -108,7 +110,7 @@ const ProductFilters = () => {
           color={"blue"}
           name={"inActive"}
           style={ styles }
-          content={"Inactive products"}
+          content={t("Inactive products")}
         />
       </Menu>
     </Fragment>

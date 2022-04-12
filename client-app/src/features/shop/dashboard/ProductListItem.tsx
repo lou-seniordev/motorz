@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Button, Card, Label } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
@@ -10,6 +11,8 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
   const {
     toogleActivate
   } = rootStore.productStore;
+
+  const { t } = useTranslation(["shop"]);
 
   const handleToogleActivate = () => {
     toogleActivate(product.id, product)
@@ -26,16 +29,16 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
     <Card raised>
       <Card.Content>
         <Card.Header style={{ textAlign: "center" }}>
-          {productTitleUiShort}
+          {product.title.substring(0, 15)}
         </Card.Header>
         {product.isSold && (
           <Label style={{ position: "absolute" }} color='red' corner='right'>
-            SOLD
+            {t("SOLD")}
           </Label>
         )}
         {!product.isActive && (
           <Label color='red' attached='top' style={{textAlign: 'center'}}>
-            INACTIVE
+            {t("INACTIVE")}
           </Label>
         )}
         <div className='ui segment'>
@@ -56,14 +59,14 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
           as={Link}
           to={`/product/${product.id}`}
           fluid
-          content='View product'
+          content={t('View product')}
           color='instagram'
         /> :
 
         <Button
           onClick={()=> handleToogleActivate()}
           fluid
-          content='Activate'
+          content={t('Activate')}
           color='instagram'
         />
         }

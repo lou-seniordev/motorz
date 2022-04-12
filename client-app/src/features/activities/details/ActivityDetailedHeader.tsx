@@ -4,26 +4,13 @@ import { Link } from "react-router-dom";
 import { Segment, Header } from "semantic-ui-react"; //, Image
 import { IActivity } from "../../../app/models/activity";
 import { format } from "date-fns";
-// import { RootStoreContext } from "../../../app/stores/rootStore";
+import { useTranslation } from "react-i18next";
 
-// import ConfirmDeactivate from "../modals/ConfirmDeactivate";
-
-// const activityImageStyle = {
-//   filter: "brightness(70%)",
-// };
-
-// const activityImageTextStyle = {
-//   position: "absolute",
-//   bottom: "5%",
-//   left: "5%",
-//   width: "100%",
-//   height: "auto",
-//   color: "white",
-// };
 const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   activity,
 }) => {
   const host = activity.attendees.filter((h) => h.isHost)[0];
+  const { t } = useTranslation(["diaries"]);
 
   return (
     <Segment style={{ padding: "0" }} raised>
@@ -32,7 +19,7 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
           {activity.title}
           <Header.Subheader>
             <span>
-              Hosted by{" "}
+              {t("Hosted by")}{" "}
               <Link to={`/profile/${host.username}`}>
                 <strong>{host.displayName}</strong>
               </Link>

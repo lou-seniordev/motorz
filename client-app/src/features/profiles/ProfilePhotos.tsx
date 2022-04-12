@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Card, Grid, Header, Image, Tab } from 'semantic-ui-react';
 import PhotoUploadWidget from '../../app/common/photoUpload/PhotoUploadWidget';
 import { RootStoreContext } from '../../app/stores/rootStore';
@@ -15,7 +16,9 @@ const ProfilePhotos = () => {
     loading,
     deletePhoto,
   } = rootStore.profileStore;
-  const [addPhotoMode, setAddPhotoMode] = useState(false);//false
+  const { t } = useTranslation(["social"]);
+
+  const [addPhotoMode, setAddPhotoMode] = useState(false);
   const [target, setTarget] = useState<string | undefined>(undefined);
   const [deleteTarget, setDeleteTarget] = useState<string | undefined>(
     undefined
@@ -27,12 +30,12 @@ const ProfilePhotos = () => {
     <Tab.Pane>
       <Grid>
         <Grid.Column width={16} style={{ paddingBottom: 0 }}>
-          <Header floated='left' icon='image' content='Photos' />
+          <Header floated='left' icon='image' content={t('Photos')} />
           {isCurrentUser && (
             <Button
               floated='right'
               basic
-              content={addPhotoMode ? 'Cancel' : 'Add Photo'}
+              content={addPhotoMode ? t('Cancel') : t('Add Photo')}
               onClick={() => setAddPhotoMode(!addPhotoMode)}
             />
           )}
@@ -55,7 +58,7 @@ const ProfilePhotos = () => {
                           name={photo.id}
                           basic
                           positive
-                          content='Main'
+                          content={t('Main')}
                           onClick={(e) => {
                             setMainPhoto(photo);
                             setTarget(e.currentTarget.name);

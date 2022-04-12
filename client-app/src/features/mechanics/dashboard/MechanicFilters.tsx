@@ -2,6 +2,7 @@ import React, { Fragment, useContext, useEffect } from "react";
 import { Menu, Dropdown, Input, Divider } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 
 const MechanicFilters = () => {
   const rootStore = useContext(RootStoreContext);
@@ -18,6 +19,7 @@ const MechanicFilters = () => {
       e.target.value = "";
     }
   };
+  const { t } = useTranslation(["mechanics"]);
 
   useEffect(() => {
     loadCountriesToSelect();
@@ -33,14 +35,14 @@ const MechanicFilters = () => {
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
-            placeholder='Search all...'
+            placeholder={t('Search all')}
             onKeyDown={(e: any) => handleResultSelect(e)}
           />
         </Menu.Item>
 
         <Menu.Item>
           <Dropdown
-            placeholder='Search by country'
+            placeholder={t('Search by country')}
             selection
             fluid
             search
@@ -49,7 +51,7 @@ const MechanicFilters = () => {
             clearable
           />
         </Menu.Item>
-        <Divider horizontal content='or chose built in filters' />
+        <Divider horizontal content={t('or choose from built in filters')} />
 
         <Menu.Item
           active={predicate.size === 0}
@@ -57,7 +59,7 @@ const MechanicFilters = () => {
           color={"blue"}
           name={"all"}
           icon={"arrows alternate"}
-          content={"All"}
+          content={t("All")}
           style={ styles }
         />
 
@@ -67,7 +69,7 @@ const MechanicFilters = () => {
           color={"blue"}
           name={"isCustomer"}
           icon={"info"}
-          content={"My Shops (customer)"}
+          content={t("My Shops (customer)")}
           style={ styles }
         />
 
@@ -77,7 +79,7 @@ const MechanicFilters = () => {
           color={"blue"}
           name={"mostRecommended"}
           icon={"heart outline"}
-          content={"Most Recommended"}
+          content={t("Most Recommended")}
           style={ styles }
         />
 
@@ -87,7 +89,7 @@ const MechanicFilters = () => {
           color={"blue"}
           name={"bestRated"}
           icon={"heart"}
-          content={"Best Rated"}
+          content={t("Best Rated")}
           style={ styles }
         />
 
@@ -96,7 +98,7 @@ const MechanicFilters = () => {
           onClick={() => setPredicate("iFollow", "true")}
           color={"blue"}
           name={"country"}
-          content={"By people I follow"}
+          content={t("By people I follow")}
           style={ styles }
           icon={"users"}
         />

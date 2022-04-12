@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Segment, Button, Grid, GridColumn } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
@@ -12,6 +13,8 @@ const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
   const rootStore = useContext(RootStoreContext);
 
   const { openModal } = rootStore.modalStore;
+
+  const { t } = useTranslation(["forum"]);
 
   const [managing, setManaging] = useState(false);
 
@@ -30,7 +33,7 @@ const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
         <>
           {!managing ? (
             <Button onClick={toggleManaging} color='instagram' fluid>
-              Manage your post
+              {t("Manage your post")}
             </Button>
           ) : (
             <Grid>
@@ -41,7 +44,7 @@ const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
                   color='teal'
                   fluid
                 >
-                  Manage
+                  {t("Manage")}
                 </Button>
               </GridColumn>
               <GridColumn width={5}>
@@ -52,7 +55,7 @@ const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
                   color='grey'
                   fluid
                 >
-                  Cancel
+                  {t("Cancel")}
                 </Button>
               </GridColumn>
               <GridColumn width={5}>
@@ -61,7 +64,7 @@ const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
                   color='google plus'
                   fluid
                 >
-                  Delete
+                  {t("Delete")}
                 </Button>
               </GridColumn>
             </Grid>

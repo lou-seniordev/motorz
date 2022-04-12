@@ -18,17 +18,9 @@ import {
 } from "revalidate";
 import SelectInput from "../../../app/common/form/SelectInput";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import { useTranslation } from "react-i18next";
 
-const validate = combineValidators({
-  title: isRequired({ message: "The event title is required" }),
-  category: isRequired("Category"),
-  body: composeValidators(
-    isRequired("Body"),
-    hasLengthGreaterThan(4)({
-      message: "Body needs to be at least 5 characters",
-    })
-  )(),
-});
+
 
 interface DetailParams {
   id: string;
@@ -49,6 +41,18 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const [forumpost, setForumpost] = useState(new ForumpostFormValues());
   const [loading, setLoading] = useState(false);
+
+  const { t } = useTranslation(["forms"]);
+  const validate = combineValidators({
+    title: isRequired({ message: t("Title is required") }),
+    category: isRequired({ message: t("Category is required") }),
+    body: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message: t("Description needs to be at least 5 characters"),
+      })
+    )(),
+  });
 
   useEffect(() => {
     if (match.params.id) {
@@ -95,28 +99,28 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
             onSubmit={handleFinalFormSubmit}
             render={({ handleSubmit, invalid, pristine }) => (
               <Form onSubmit={handleSubmit} loading={loading}>
-                {editMode && <Label content='Title' />}
+                {editMode && <Label content={t('Title')} />}
 
                 <Field
+                  placeholder={t('Title')}
                   name='title'
-                  placeholder='Title'
                   value={forumpost.title}
                   component={TextInput}
                 />
-                {editMode && <Label content='Body' />}
+                {editMode && <Label content={t('Body')} />}
 
                 <Field
+                  placeholder={t('Body')}
                   name='body'
                   rows={4}
-                  placeholder='Body'
                   value={forumpost.body}
                   component={TextAreaInput}
                 />
-                {editMode && <Label content='Category' />}
+                {editMode && <Label content={t('Category')} />}
 
                 <Field
+                  placeholder={t('Category')}
                   name='category'
-                  placeholder='Category'
                   options={category}
                   value={forumpost.category}
                   component={SelectInput}
@@ -127,13 +131,13 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   floated='right'
                   positive
                   type='submit'
-                  content='submit'
+                  content={t('Submit')}
                 />
                 <Button
                   floated='right'
                   disabled={loading}
                   type='button'
-                  content='cancel'
+                  content={t('Cancel')}
                   onClick={
                     forumpost.id
                       ? () => history.push(`/forum/${forumpost.id}`)

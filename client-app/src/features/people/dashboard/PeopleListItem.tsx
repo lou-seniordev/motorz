@@ -1,9 +1,12 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Card, Image } from "semantic-ui-react";
 import { IProfile } from "../../../app/models/profile";
 
 const PeopleListItem: React.FC<{ member: IProfile }> = ({ member }) => {
+
+  const { t } = useTranslation(["social"]);
 
  
   return (
@@ -28,10 +31,10 @@ const PeopleListItem: React.FC<{ member: IProfile }> = ({ member }) => {
           src={member.image || "/assets/user.png"}
         />
         <Card.Header>{member.displayName || "display name"}</Card.Header>
-        <Card.Meta>{member.followersCount === 1 ? member.followersCount + ' Folower' : ' Followers'} </Card.Meta>
+        <Card.Meta>{member.followersCount === 1 ? member.followersCount + t('Folower') : t('Followers')} </Card.Meta>
         {member.following && (
           <Card.Description style={{ color: "green" }}>
-            Following
+            {t("Following")}
           </Card.Description>
         )}
       </Card.Content>

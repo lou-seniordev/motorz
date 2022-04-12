@@ -32,21 +32,23 @@ import GalleryForm from "../../features/gallery/form/GalleryForm";
 import PrivateRoute from "./PrivateRoute";
 import ConfirmDelete from "../../features/gallery/modals/ConfirmDelete";
 import ProductDashboard from "../../features/shop/dashboard/ProductDashboard";
-// import MessagesDashboard from "../../features/messages/dashboard/MessagesDashboard";
 import ProductForm from "../../features/shop/forms/ProductForm";
-// import MessageThreadListItem from "../../features/messages/dashboard/MessageThreadListItem";
 import FeedDashboard from "../../features/feed/dashboard/FeedDashboard";
 import PeopleDashboard from "../../features/people/dashboard/PeopleDashboard";
 import DiaryEntryForm from "../../features/activities/form/DiaryEntryForm";
 import PrivateMessagesDashboard from "../../features/private_messages/PrivateMessagesDashboard";
 import RegisterSuccess from "../../features/user/RegisterSuccess";
 import VerifyEmail from "../../features/user/VerifyEmail";
+import { useTranslation } from "react-i18next";
+
 
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
   const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
   const { getUser } = rootStore.userStore;
+
+  const { t } = useTranslation(["home"]);
 
   useEffect(() => {
     if (token) {
@@ -58,12 +60,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   }, [getUser, setAppLoaded, token]);
 
 
-
-
-
-  if (!appLoaded) return <LoadingComponent content={"Loading app..."} />;
+  if (!appLoaded) return <LoadingComponent content={t("Loading app...")} />;
   return (
-    <Fragment>
+    <>
       <ModalContainer />
       <ToastContainer position='top-right' />
       <Route exact path='/' component={HomePage} />
@@ -171,7 +170,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           </Fragment>
         )}
       />
-    </Fragment>
+    </>
   );
 };
 

@@ -5,17 +5,18 @@ import { Link } from "react-router-dom";
 import { IUserMotofy } from "../../app/models/profile";
 import { format } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
-
-const panes = [
-  { menuItem: "Embraced", pane: { key: "iEmbraced" } },
-  { menuItem: "Published", pane: { key: "iPublished" } },
-  { menuItem: "Rated", pane: { key: "iRated" } },
-];
+import { useTranslation } from "react-i18next";
 
 const ProfileMotofies = () => {
   const rootStore = useContext(RootStoreContext);
   const { loadUserMotofies, profile, loadingMotofies, userMotofies } =
     rootStore.profileStore!;
+  const { t } = useTranslation(["social"]);
+  const panes = [
+    { menuItem: t("Embraced"), pane: { key: "iEmbraced" } },
+    { menuItem: t("Published"), pane: { key: "iPublished" } },
+    { menuItem: t("Rated"), pane: { key: "iRated" } },
+  ];
 
   useEffect(() => {
     loadUserMotofies(profile!.username);
@@ -25,7 +26,7 @@ const ProfileMotofies = () => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     data: TabProps
   ) => {
-     let predicate;
+    let predicate;
 
     switch (data.activeIndex) {
       case 1:

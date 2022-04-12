@@ -3,10 +3,13 @@ import { Tab, Grid, Header, Button } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ProfileEditForm from './ProfileEditForm';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 
 const ProfileDescription = () => {
   const rootStore = useContext(RootStoreContext);
   const { updateProfile, profile, isCurrentUser } = rootStore.profileStore;
+  const { t } = useTranslation(["social"]);
+
   const [editMode, setEditMode] = useState(false);
   return (
     <Tab.Pane>
@@ -15,13 +18,13 @@ const ProfileDescription = () => {
           <Header
             floated='left'
             icon='user'
-            content={`About ${profile!.displayName}`}
+            content={t("About") + " " + profile!.displayName}
           />
           {isCurrentUser && (
             <Button
               floated='right'
               basic
-              content={editMode ? 'Cancel' : 'Edit Profile'}
+              content={editMode ? t('Cancel') : t('Edit Profile')}
               onClick={() => setEditMode(!editMode)}
             />
           )}

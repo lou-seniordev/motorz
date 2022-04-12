@@ -6,6 +6,7 @@ import { Segment, Header, Form, Button, Comment } from "semantic-ui-react";
 import { Form as FinalForm, Field } from "react-final-form";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import TextAreaInput from "../../../app/common/form/TextAreaInput";
+import { useTranslation } from "react-i18next";
 
 const MechanicDetailedChat = () => {
   const rootStore = useContext(RootStoreContext);
@@ -13,6 +14,9 @@ const MechanicDetailedChat = () => {
     rootStore.mechanicStore;
 
   const connectionArgument = "RecieveMechanicComment";
+
+  const { t } = useTranslation(["comments"]);
+
   useEffect(() => {
     createHubConnection(mechanic!.id, connectionArgument); //, mechanic!
     return () => {
@@ -21,12 +25,11 @@ const MechanicDetailedChat = () => {
   }, [createHubConnection, stopHubConnection, mechanic]);
   
 
-  const handleTest = (event: FormEvent<HTMLTextAreaElement>) => {
+  // const handleTest = (event: FormEvent<HTMLTextAreaElement>) => {
 
-    const {name, value} = event.currentTarget;
-    console.log(name)
-    console.log(value)
-  }
+  //   const {name, value} = event.currentTarget;
+
+  // }
 
 
   return (
@@ -38,7 +41,7 @@ const MechanicDetailedChat = () => {
         color='teal'
         style={{ border: "none" }}
       >
-        <Header>Chat about this mechanic</Header>
+        <Header>{t("Chat about this mechanic")}</Header>
       </Segment>
       <Segment attached>
         <Comment.Group style={{ maxWidth: "none" }}>
@@ -55,7 +58,7 @@ const MechanicDetailedChat = () => {
                     <div>
                       {formatDistance(new Date(comment.createdAt), new Date())}
                     </div>{" "}
-                    ago
+                    {t("ago")}
                   </Comment.Metadata>
                   <Comment.Text>{comment.body}</Comment.Text>
                 </Comment.Content>
@@ -69,11 +72,11 @@ const MechanicDetailedChat = () => {
                   name='body'
                   component={TextAreaInput}
                   rows={2}
-                  placeholder='Add your comment'
-                  onChange={handleTest}
+                  placeholder={t('Add your comment')}
+                  // onChange={handleTest}
                 />
                 <Button
-                  content='Add Reply'
+                  content={t('Add Reply')}
                   labelPosition='left'
                   icon='edit'
                   color='instagram'

@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Segment, Button, Item, Grid, GridColumn } from "semantic-ui-react";
 import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
@@ -19,6 +20,8 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
 
   const { openModal } = rootStore.modalStore;
   const { user } = rootStore.userStore;
+
+  const { t } = useTranslation(["mechanics"]);
 
   const [managing, setManaging] = useState(false);
 
@@ -62,7 +65,6 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
     <Segment.Group>
       <Segment clearing raised>
         <Item>{mechanic.name}</Item>
-        {/* {mechanic.publisherUsername !== toJS(formattedUser.username) && ( */}
         {mechanic.publisherUsername !== user?.userName && (
           <Fragment>
             {!isCustomer && !openCustomerForm && (
@@ -73,7 +75,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
                 color='instagram'
                 fluid
               >
-                Register As Customer
+                {t("Register As Customer")}
               </Button>
             )}
           </Fragment>
@@ -81,7 +83,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
          {mechanic.publisherUsername === user?.userName &&
           (!managing ? (
             <Button onClick={toggleManaging} color='instagram' fluid>
-              Manage mechanic
+              {t("Manage mechanic")}
             </Button>
           ) : (
             <Grid>
@@ -92,7 +94,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
                   color='teal'
                   fluid
                 >
-                  Manage
+                  {t("Manage")}
                 </Button>
               </GridColumn>
               <GridColumn width={5}>
@@ -103,7 +105,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
                   color='red'
                   fluid
                 >
-                  Delete
+                  {t("Delete")}
                 </Button>
               </GridColumn>
               <GridColumn width={5}>
@@ -114,7 +116,7 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
                   color='grey'
                   fluid
                 >
-                  Cancel
+                  {t("Cancel")}
                 </Button>
               </GridColumn>
             </Grid>

@@ -1,6 +1,7 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Header, Icon, Segment } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IProduct } from "../../../app/models/product";
@@ -16,12 +17,14 @@ const ProductDetailsStatistics: React.FC<{ product: IProduct }> = ({
     visitCounter,
   } = rootStore.productStore;
 
+  const { t } = useTranslation(["shop"]);
+
   useEffect(() => {
     visitCounter(product.id);
   }, [product, visitCounter]);
 
   if (loadingInitial || !product)
-    return <LoadingComponent content='Loading product details...' />;
+    return <LoadingComponent content={t('Loading product details...')} />;
 
   return (
     <Segment raised>
@@ -29,11 +32,11 @@ const ProductDetailsStatistics: React.FC<{ product: IProduct }> = ({
         <Icon name='shopping basket' circular />
         <Header.Content>{product.title}</Header.Content>
         <Header sub>
-          The {product.title} is published{" "}
+          {t("The")} {product.title} {t("is published")}{" "}
           {formatDistance(new Date(product.datePublished), new Date(), {
             addSuffix: true,
           })}
-          , seen {product.numberSeen} times and expires {" "} 
+          , {t("seen")} {product.numberSeen} {t("times and expires")} {" "} 
           {formatDistance(new Date(product.inactivityExpirationDate), new Date(), {
             addSuffix: true,
           })}
@@ -42,12 +45,12 @@ const ProductDetailsStatistics: React.FC<{ product: IProduct }> = ({
 
         <Header.Subheader>
           {product.numberFollowed !== 0 &&
-            "The " +
+            t("The") +
               product.title +
-              " is in favorites of " +
+              t("is in favorites of") +
               (product.numberFollowed > 1
-                ? product.numberFollowed + " people"
-                : product.numberFollowed + " person")}
+                ? product.numberFollowed + t("people")
+                : product.numberFollowed + t("person"))}
         </Header.Subheader>
       </Header>
     </Segment>

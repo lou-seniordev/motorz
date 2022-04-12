@@ -37,22 +37,22 @@ namespace Application.Profiles
                     throw new RestException(HttpStatusCode.NotFound, new { User = "Not found" });
 
                 var queryable = user.UserActivities
+                    .Where(a => a.IsHost)
                     .OrderBy(a => a.Activity.Date)
                     .AsQueryable();
 
                 switch (request.Predicate)
                 {
-                    case "past":
-                        queryable = queryable.Where(a => a.Activity.Date <= DateTime.Now);
+                    case "active":
+                        queryable = queryable.Where(a => a.Activity.IsActive == true);
                         break;
-                    case "hosting":
-                        queryable = queryable.Where(a => a.IsHost);
+                    case "in future":
+                        queryable = queryable.Where(a => a.Activity.IsActive == false && a.Activity.IsCompleted == false);
                         break;
-                    case "deactivated":
-                        queryable = queryable.Where(a => a.Activity.IsActive == false);
+                    case "completed":
+                        queryable = queryable.Where(a => a.Activity.IsCompleted == true);
                         break;
                     default:
-                        queryable = queryable.Where(a => a.Activity.Date >= DateTime.Now);
                         break;
                 }
 

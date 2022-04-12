@@ -7,6 +7,7 @@ import React
 //   useEffect 
 // } 
 from "react"; //useCallback,
+import { useTranslation } from "react-i18next";
 // import { Link } from "react-router-dom";
 import { Segment, Item, Header, 
   // Button, 
@@ -33,45 +34,7 @@ const mechanicImageTextStyle = {
 };
 
 const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({mechanic}) => {
-  // const rootStore = useContext(RootStoreContext);
-
-  // const { openModal } = rootStore.modalStore;
-  // const { user } = rootStore.userStore;
-  // const { isCustomer, setCustomer, setOpenCustomerForm, openCustomerForm } =
-  //   rootStore.mechanicStore;
-
-
-
-  // const handleView = (localMechanic: any) => {
-  //   localMechanic.customers.some((customer: IMechanicCustomer) => {
-  //     if (user!.userName === customer.username) {
-  //       setCustomer(true);
-  //       return;
-  //     }
-  //   });
-  // };
-
-//   const handleView = useCallback((localMechanic: any) => {    
-//     localMechanic.customers.forEach((customer: IMechanicCustomer) => {
-//       if (user!.userName === customer.username) setCustomer(true);
-//     });
-// }, [setCustomer, user]);
-
-//   useEffect(() => {
-//     handleView(mechanic);
-//     return () => {
-//       console.log("cleaned up");
-//       setCustomer(false);
-//     };
-//   }, [handleView, mechanic, setCustomer]);
-
-
-  // const handleDeleteMechanic = (id: string) => {
-  //   openModal(<ConfirmDelete mechanicId={id} />);
-  // };
-  // const handleBecomeCustomer = () => {
-  //   setOpenCustomerForm();
-  // };
+  const { t } = useTranslation(["mechanics"]);
 
   return (
     <Segment.Group>
@@ -91,53 +54,15 @@ const MechanicDetailedHeader: React.FC<{ mechanic: IMechanic }> = ({mechanic}) =
                   content={mechanic.name}
                   style={{ color: "white" }}
                 />
-                <p>Working since {mechanic.yearOfStart}</p>
+                <p>{t("In business since")} {mechanic.yearOfStart}</p>
                 <p>
-                  Posted by <strong>{mechanic.publisher}</strong>
+                  {t("Posted by")} <strong>{mechanic.publisher}</strong>
                 </p>
               </Item.Content>
             </Item>
           </Item.Group>
         </Segment>
       </Segment>
-      {/* <Segment clearing attached='bottom'>
-        {mechanic.publisherUsername !== user?.userName && (
-          <Fragment>
-            {!isCustomer && !openCustomerForm && (
-              <Button
-                onClick={() => {
-                  handleBecomeCustomer();
-                }}
-                color='green'
-                floated='right'
-              >
-                Register As Customer
-              </Button>
-            )}
-          </Fragment>
-        )}
-        {mechanic.publisherUsername === user?.userName && (
-          <Fragment>
-            <Button
-              as={Link}
-              to={`/manageMechanic/${mechanic.id}`}
-              color='teal'
-              floated='right'
-            >
-              Manage Post
-            </Button>
-            <Button
-              onClick={() => {
-                handleDeleteMechanic(mechanic.id!);
-              }}
-              color='red'
-              floated='right'
-            >
-              Delete
-            </Button>
-          </Fragment>
-        )}
-      </Segment> */}
     </Segment.Group>
   );
 };

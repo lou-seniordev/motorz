@@ -29,9 +29,8 @@ import {
   isRequired,
 } from "revalidate";
 import ConfirmBecomeCustomer from "../modals/ConfirmBecomeCustomer";
-// import ConfirmDelete from "./ConfirmDelete";
-// import ConfirmBecomeCustomer from "./ConfirmBecomeCustomer";
-// import { values } from "mobx";
+import { useTranslation } from "react-i18next";
+
 const validate = combineValidators({
   recommend: isRequired("recommend"),
   rating: isRequired("rating"),
@@ -52,6 +51,9 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
   const rootStore = useContext(RootStoreContext);
     const { user } = rootStore.userStore;
     const { openModal } = rootStore.modalStore;
+
+    const { t } = useTranslation(["forms"]);
+
 
     const { 
       setCloseCustomerForm , 
@@ -90,7 +92,7 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
         <Segment clearing>
           <Header
             as='h2'
-            content='Register as a customer of this mechanic is enabling you to review, evaluate, comment and more...'
+            content={t('Register as a customer of this mechanic is enabling you to review, evaluate, comment and more...')}
             color='teal'
             textAlign='center'
           />
@@ -101,32 +103,32 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
               <Form onSubmit={handleSubmit}>
                 <Field
                   name='rating'
-                  placeholder='How would you evaluate this shop?'
+                  placeholder={t('How would you evaluate this shop?')}
                   options={ratingOptions}
                   component={SelectInput}
                 />
                 <Field
                   name='recommend'
-                  placeholder='Would you recommend this shop?'
+                  placeholder={t('Would you recommend this shop?')}
                   options={yesNo}
                   component={SelectInput}
                 />
                 <Field
                   name='testimonial'
                   rows={4}
-                  placeholder='Please write a couple of words about your experience with this mechanic shop'
+                  placeholder={t('Please write a couple of words about your experience with this mechanic shop')}
                   component={TextAreaInput}
                 />
                 <Checkbox
                   name='checkForUpdates'
                   onChange={(e, data) => handleChange(e, data)}
                   />
-                <Label onClick={()=> console.log('open modal')} content='I have read and understood the rules of a portal'/>
+                <Label onClick={()=> console.log('open modal')} content={t('I have read and understood the rules of a portal')}/>
 
                 <Button
                   floated='right'
                   type='button'
-                  content="No, don't register me"
+                  content={t("No, don't register me")}
                   onClick={() => setCloseCustomerForm()}
                 />
                 <Button
@@ -134,7 +136,7 @@ const CustomerForm: React.FC<IProps> = ({ mechanicId }) => {
                   disabled={invalid || pristine}
                   positive
                   type='submit'
-                  content='Yes, register me as a customer'
+                  content={t('Yes, register me as a customer')}
                 />
               </Form>
             )}

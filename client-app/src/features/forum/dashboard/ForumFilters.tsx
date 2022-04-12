@@ -3,10 +3,14 @@ import { Menu, Dropdown, Input, Divider } from "semantic-ui-react";
 import { category } from "../../../app/common/options/forumCategoryOptions";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 
 const ForumFilters = () => {
   const rootStore = useContext(RootStoreContext);
   const { predicate, setPredicate } = rootStore.forumPostStore;
+
+  const { t } = useTranslation(["forum"]);
+
 
   const handleOnChange = (e: any, data: any) => {
     setPredicate("category", data.value);
@@ -28,13 +32,13 @@ const ForumFilters = () => {
         <Menu.Item active={predicate.has("search")}>
           <Input
             icon='search'
-            placeholder='Search all...'
+            placeholder={t('Search all')}
             onKeyDown={(e: any) => handleResultSelect(e)}
           />
         </Menu.Item>
         <Menu.Item>
           <Dropdown
-            placeholder='Filter by category'
+            placeholder={t('Filter by category')}
             selection
             fluid
             search
@@ -43,7 +47,7 @@ const ForumFilters = () => {
             clearable
           />
         </Menu.Item>
-        <Divider horizontal content='or chose built in filters' />
+        <Divider horizontal content={t('or choose from built in filters')} />
 
         <Menu.Item
           active={predicate.size === 0}
@@ -51,7 +55,7 @@ const ForumFilters = () => {
           color={"blue"}
           name={"all"}
           icon={"arrows alternate"}
-          content={"All Posts"}
+          content={t("All Posts")}
           style={ styles }
         />
         <Menu.Item
@@ -60,7 +64,7 @@ const ForumFilters = () => {
           color={"blue"}
           name={"iAsked"}
           icon={"question circle outline"}
-          content={"I Asked"}
+          content={t("I Asked")}
           style={ styles }
         />
         <Menu.Item
@@ -69,7 +73,7 @@ const ForumFilters = () => {
           color={"blue"}
           name={"iRated"}
           icon={"heart outline"}
-          content={"I rated"}
+          content={t("I rated")}
           style={ styles }
         />
         <Menu.Item
@@ -78,7 +82,7 @@ const ForumFilters = () => {
           color={"blue"}
           name={"trending"}
           icon={"globe"}
-          content={"Trending"}
+          content={t("Trending")}
           style={ styles }
         />
         <Menu.Item
@@ -87,7 +91,7 @@ const ForumFilters = () => {
           color={"blue"}
           name={"country"}
           icon={"users"}
-          content={"By people I follow"}
+          content={t("By people I follow")}
           style={ styles }
         />
       </Menu>

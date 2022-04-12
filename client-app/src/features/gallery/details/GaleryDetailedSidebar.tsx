@@ -3,11 +3,18 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Segment, List, Item, Label, Image, Grid } from "semantic-ui-react";
 import { IEmbracer } from "../../../app/models/motofy";
+import { useTranslation } from "react-i18next";
+
 
 interface IProps {
   embracers: IEmbracer[];
 }
+
 const GaleryDetailedSidebar: React.FC<IProps> = ({ embracers }) => {
+  const { t } = useTranslation(["gallery"]);
+  
+  const person = t("Person");
+  const persons = t("People");
   return (
     <Fragment>
       <Segment
@@ -18,8 +25,8 @@ const GaleryDetailedSidebar: React.FC<IProps> = ({ embracers }) => {
         inverted
         color='teal'
       >
-        {embracers.length} {embracers.length === 1 ? "Person " : "People "}{" "}
-        embraced
+        {embracers.length} {embracers.length === 1 ? person : persons}{" "}
+        {t("embraced")}
       </Segment>
       <>
         <List divided>
@@ -53,27 +60,6 @@ const GaleryDetailedSidebar: React.FC<IProps> = ({ embracers }) => {
                         </Link>
                       </Grid.Column>
                 </Grid>
-                {/* {embracer.isOwner && (
-                <Label
-                  style={{ position: "absolute" }}
-                  color='teal'
-                  ribbon='right'
-                >
-                  Owner
-                </Label>
-              )}
-
-              <Image size='tiny' src={embracer.image || "/assets/user.png"} />
-              <Item.Content verticalAlign='middle'>
-                <Item.Header as='h3'>
-                  <Link to={`/profile/${embracer.username}`}>
-                    {embracer.displayName}
-                  </Link>
-                </Item.Header>
-                {embracer.following && (
-                  <Item.Extra style={{ color: "teal" }}>Following</Item.Extra>
-                )}
-              </Item.Content> */}
               </Segment>
             ))}
           </Item.Group>

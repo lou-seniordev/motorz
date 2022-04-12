@@ -18,22 +18,9 @@ import {
   hasLengthGreaterThan,
   isRequired,
 } from 'revalidate';
-import { toJS } from 'mobx';
+import { useTranslation } from "react-i18next";
 
-const validate = combineValidators({
-  title: isRequired({ message: 'The title is required' }),
-  category: isRequired('Category'),
-  description: composeValidators(
-    isRequired('Description'),
-    hasLengthGreaterThan(4)({
-      message: 'Description needs to be at least 5 characters',
-    })
-  )(),
-  city: isRequired('City'),
-  departure: isRequired('Departure'),
-  date: isRequired('Date'),
-  time: isRequired('Time'),
-});
+
 
 interface DetailParams {
   id: string;
@@ -58,6 +45,23 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const [editMode, setEditMode] = useState(false);
 
 
+  const { t } = useTranslation(["forms"]);
+  const validate = combineValidators({
+    title: isRequired({ message: t("Title is required") }),
+    category: isRequired({ message: t("Category is required") }),
+    description: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message: t("Description needs to be at least 5 characters"),
+      })
+    )(),
+    countryName: isRequired({ message: t("Country is required") }),
+    city: isRequired( { message: t("City is required") }),
+    departure: isRequired( { message: t("Place of departure is required")}),
+    destination: isRequired( { message: t("Place of destination is required")}),
+    date: isRequired({ message: t("Date is required") }),
+    time: isRequired( { message: t("Time is required") }),
+  });
   const [activity, setActivity] = useState(new ActivityFormValues());
   const [loading, setLoading] = useState(false);
 
@@ -80,7 +84,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     const dateAndTime = combineDateAndTime(values.date, values.time);
     const { date, time, ...activity } = values;
     activity.date = dateAndTime;
-    console.log('brands in edit',toJS(brands));
+    // console.log('brands in edit',toJS(brands));
     if (!activity.id) {
       let newActivity = {
         ...activity,
@@ -109,10 +113,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
             onSubmit={handleFinalFormSubmit}
             render={({ handleSubmit, invalid, pristine }) => (
               <Form onSubmit={handleSubmit} loading={loading}>
-                {editMode && <Label content='Title'/>}
+                {editMode && <Label content={t('Title')}/>}
                 <Field
                   name='title'
-                  placeholder='Title'
+                  placeholder={t('Title')}
                   value={activity.title}
                   component={TextInput}
                 />
@@ -120,69 +124,69 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   {!editMode && (
                     <Field
                       name='motorcycleBrandName'
-                      placeholder={"Your motorcycyle brand"} //
+                      placeholder={t("Your motorcycyle brand")} 
                       options={brands}
                       component={SelectInput}
                     />
                   )} 
-                  {editMode && <Label content='Description'/>}
+                  {editMode && <Label content={t('Description')}/>}
                 <Field
+                  placeholder={t('Description')}
                   name='description'
-                  placeholder='Description'
                   value={activity.description}
                   rows={3}
                   component={TextAreaInput}
                 />
-                {editMode && <Label content='Category'/>}
+                {editMode && <Label content={t('Category')}/>}
                 <Field
+                  placeholder={t('Category')}
                   name='category'
-                  placeholder='Category'
                   options={category}
                   value={activity.category}
                   component={SelectInput}
-                />{editMode && <Label content='Date and time'/>}
+                />{editMode && <Label content={t('Date and Time')}/>}
                 <Form.Group widths='equal'>
                   <Field
+                    placeholder={t('Date')}
                     component={DateInput}
                     name='date'
                     date={true}
-                    placeholder='Date'
                     value={activity.date}
                   />
                   <Field
                     component={DateInput}
                     name='time'
                     time={true}
-                    placeholder='Time'
+                    placeholder={t('Time')}
                     value={activity.time}
                   />
                 </Form.Group>
 
-                  {editMode && <Label content='Country'/>}
+                  {editMode && <Label content={t('Country')}/>}
                     <Field
+                      placeholder={t('Country')}
                       name='countryName'
-                      placeholder={"Country"} //
                       options={countries}
                       component={SelectInput}
                     />
-                {editMode && <Label content='City'/>}
+                {editMode && <Label content={t('City')}/>}
                 <Field
+                  placeholder={t('City')}
                   name='city'
-                  placeholder='City'
                   value={activity.city}
                   component={TextInput}
                 />
-                {editMode && <Label content='Country'/>}
+                {editMode && <Label content={t('Departure/Starting Point')}/>}
                 <Field
                   name='departure'
-                  placeholder='Departure/Starting Point'
+                  placeholder={t('Departure/Starting Point')}
                   value={activity.departure}
                   component={TextInput}
                 />
-                {editMode && <Label content='Destination'/>}
+                {editMode && <Label content={t('Destination')}/>}
                 <Field
+                  placeholder={t('Destination')}
                   name='destination'
-                  placeholder='Destination'
                   value={activity.destination}
                   component={TextInput}
                 />
@@ -192,7 +196,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   floated='right'
                   positive
                   type='submit'
-                  content='Submit'
+                  content={t('Submit')}
                 ></Button>
                 <Button
                   onClick={
@@ -203,7 +207,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   disabled={loading}
                   floated='right'
                   type='button'
-                  content='Cancel'
+                  content={t('Cancel')}
                 ></Button>
               </Form>
             )}

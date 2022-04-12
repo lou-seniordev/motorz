@@ -1,6 +1,7 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react"; 
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Segment, Grid, Icon, Image, Button, Label } from "semantic-ui-react";
 import { IProduct } from "../../../app/models/product";
@@ -22,6 +23,9 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   const { addFeedItem } = rootStore.feedStore;
 
   const { user } = rootStore.userStore;
+
+  const { t } = useTranslation(["shop"]);
+
 
   useEffect(() => {
     product.viewers.forEach((viewer) => {
@@ -63,7 +67,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             </Grid.Column>
             <Grid.Column width={14}>
               <Label style={styles} color='yellow' horizontal>
-                Title{" "}
+                {t("Title")}{" "}
               </Label>
               {product.title}
             </Grid.Column>
@@ -75,7 +79,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             </Grid.Column>
             <Grid.Column width={14}>
               <Label style={styles} color='yellow' horizontal>
-                Price{" "}
+                {t("Price")}{" "}
               </Label>
               {product.price} €
             </Grid.Column>
@@ -87,7 +91,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             </Grid.Column>
             <Grid.Column width={14}>
               <Label style={styles} color='yellow' horizontal>
-                Published{" "}
+                {t("Published")}{" "}
               </Label>
               {formatDistance(new Date(product.datePublished), new Date(), {
                 addSuffix: true,
@@ -101,7 +105,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             </Grid.Column>
             <Grid.Column width={14}>
               <Label style={styles} color='yellow' horizontal>
-                Category{" "}
+                {t("Category")}{" "}
               </Label>
               {product.category}
             </Grid.Column>
@@ -113,7 +117,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             </Grid.Column>
             <Grid.Column width={14}>
               <Label style={styles} color='yellow' horizontal>
-                Brand{" "}
+                {t("Brand")}{" "}
               </Label>
               {product.brand}
             </Grid.Column>
@@ -125,7 +129,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
             </Grid.Column>
             <Grid.Column width={14}>
               <Label style={styles} color='yellow' horizontal>
-                Model{" "}
+                {t("Model")}{" "}
               </Label>
               {product.model}
             </Grid.Column>
@@ -138,7 +142,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 </Grid.Column>
                 <Grid.Column width={14}>
                   <Label style={styles} color='yellow' horizontal>
-                    City{" "}
+                    {t("City")}{" "}
                   </Label>
                   {product.city}
                 </Grid.Column>
@@ -149,7 +153,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 </Grid.Column>
                 <Grid.Column width={14}>
                   <Label style={styles} color='yellow' horizontal>
-                    Country{" "}
+                    {t("Country")}{" "}
                   </Label>
                   {product.countryName}
                 </Grid.Column>
@@ -160,7 +164,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 </Grid.Column>
                 <Grid.Column width={14}>
                   <Label style={styles} color='yellow' horizontal>
-                    Seller{" "}
+                    {t("Seller")}{" "}
                   </Label>
                   <Link to={`/profile/${product.sellerUsername}`}>
                     {" "}
@@ -175,7 +179,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                   </Grid.Column>
                   <Grid.Column width={14}>
                     <Label color='yellow' horizontal>
-                      Contact number{" "}
+                      {t("Contact number")}{" "}
                     </Label>
                     {product.phoneNumber}
                   </Grid.Column>
@@ -188,7 +192,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                   </Grid.Column>
                   <Grid.Column width={14}>
                     <Label style={styles} color='yellow' horizontal>
-                      Description{" "}
+                      {t("Description")}{" "}
                     </Label>
                     {product.description}
                   </Grid.Column>
@@ -203,7 +207,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 <div className='ui two buttons'>
                   <Button
                     basic
-                    content='Contact the seller'
+                    content={t('Contact the seller')}
                     color='blue'
                     onClick={() => {
                       openModal(
@@ -218,8 +222,8 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                     color='instagram'
                     content={
                       productFollowed === true
-                        ? "Unfollow this product"
-                        : "Follow this product"
+                        ? t("Unfollow this product")
+                        : t("Follow this product")
                     }
                     onClick={() => {
                       if (!productFollowed) {
@@ -239,12 +243,12 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                     }}
                     color='red'
                   >
-                    Delete
+                    {t("Delete")}
                   </Button>
                   <Button
                     basic
                     color='olive'
-                    content='Mark sold'
+                    content={t('Mark sold')}
                     disabled={product.isSold}
                     onClick={() => handleMarkSold(product.id!)}
                   />
@@ -253,7 +257,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                     to={`/manageProduct/${product.id}`}
                     color='instagram'
                   >
-                    Manage
+                    {t("Manage")}
                   </Button>
                 </div>
               )}

@@ -5,17 +5,19 @@ import { Link } from "react-router-dom";
 import {  IUserProduct } from "../../app/models/profile";
 import { format } from "date-fns";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import { useTranslation } from "react-i18next";
 
-const panes = [
-  { menuItem: "I am selling", pane: { key: "iAmSelling" } },
-  { menuItem: "I sold", pane: { key: "iSold" } },
-];
 
 const ProfileProducts = () => {
   const rootStore = useContext(RootStoreContext);
   const { loadUserProducts, profile, loadingProducts, userProducts } =
-    rootStore.profileStore!;
+  rootStore.profileStore!;
+  const { t } = useTranslation(["social"]);
 
+  const panes = [
+    { menuItem: t("I am selling"), pane: { key: "iAmSelling" } },
+    { menuItem: t("I sold"), pane: { key: "iSold" } },
+  ];
   useEffect(() => {
     loadUserProducts(profile!.username);
   }, [loadUserProducts, profile]);

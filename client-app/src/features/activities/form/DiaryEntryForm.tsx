@@ -29,19 +29,9 @@ import {
 } from "revalidate";
 import { toast } from "react-toastify";
 import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
-// import { formatDistance } from "date-fns";
+import { useTranslation } from "react-i18next";
 
-const validate = combineValidators({
-  locationCity: isRequired({ message: "The location city is required" }),
-  locationCountry: isRequired({ message: "The location country is required" }),
-  body: composeValidators(
-    isRequired("Body"),
-    hasLengthGreaterThan(4)({
-      message: "Body needs to be at least 5 characters",
-    })
-  )(),
-  mood: isRequired({ message: "The mood is required" }),
-});
+
 
 interface DetailParams {
   id: string;
@@ -69,6 +59,19 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const motomoto = motoOptions[random];
 
+  const { t } = useTranslation(["diaries"]);
+  const validate = combineValidators({
+    locationCity: isRequired({ message: t("The location city is required")}),
+    locationCountry: isRequired({ message: t("The location country is required") }),
+    body: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message: t("Description needs to be at least 5 characters"),
+      })
+    )(),
+    mood: isRequired({ message: "The mood is required" }),
+  });
+
   const [diaryEntry, setdiaryEntry] = useState(new DiaryEntryFormValues());
   const [loading, setLoading] = useState(false);
 
@@ -90,7 +93,7 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     image = photo;
     setPreview(photo);
     setUploaded(true);
-    toast.info("Your image is uploaded, please give us more details");
+    toast.info(t("Your image is uploaded, please give us more details"));
   };
 
   const [edited, setEdited] = useState(false);
@@ -169,42 +172,42 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 <Form onSubmit={handleSubmit} loading={loading}>
                   <Field
                     name='body'
-                    placeholder='What happened today?'
+                    placeholder={t('What happened today?')}
                     rows={5}
                     component={TextAreaInput}
                   />
                   <Field
                     name='mood'
-                    placeholder='What is your mood today?'
+                    placeholder={t('What is your mood today?')}
                     options={mood}
                     component={SelectInput}
                   />
                   <Field
                     name='weather'
-                    placeholder='What is weather like today?'
+                    placeholder={t('What is weather like today?')}
                     options={weather}
                     component={SelectInput}
                   />
                   <Field
                     name='road'
-                    placeholder='What is road like?'
+                    placeholder={t('What is road like')}
                     options={road}
                     component={SelectInput}
                   />
                   <Field
                     name='locationCountry'
-                    placeholder={"Country you are in"} //
+                    placeholder={t("Country you are in")} //
                     options={countries}
                     component={SelectInput}
                   />
                   <Field
                     name='locationCity'
-                    placeholder='City you are in'
+                    placeholder={t('City you are in')}
                     component={TextInput}
                   />
                   <Field
                     name='numberOfKilometers'
-                    placeholder='Number of kilometers'
+                    placeholder={t('Number of kilometers')}
                     component={TextInput}
                   />
                   <Button
@@ -213,7 +216,7 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     floated='right'
                     positive
                     type='submit'
-                    content='Submit'
+                    content={t('Submit')}
                   ></Button>
                   <Button
                     onClick={() =>
@@ -222,7 +225,7 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     disabled={loading}
                     floated='right'
                     type='button'
-                    content='Cancel'
+                    content={t('Cancel')}
                   ></Button>
                 </Form>
               )}

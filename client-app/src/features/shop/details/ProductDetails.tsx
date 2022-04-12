@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
 import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
@@ -21,7 +22,7 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     visitCounter
   } = rootStore.productStore;
 
-
+  const { t } = useTranslation(["shop"]);
 
   useEffect(() => {
     loadProduct(match.params.id); 
@@ -29,7 +30,7 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadProduct, match.params.id, visitCounter]); 
 
   if (loadingInitial || !product )
-    return <LoadingComponent content='Loading product details...' />;
+    return <LoadingComponent content={t('Loading product details...')} />;
 
   return (
     <Grid>

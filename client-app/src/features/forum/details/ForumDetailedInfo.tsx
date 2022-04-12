@@ -1,6 +1,7 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Segment, Grid, Icon, Divider, Rating } from "semantic-ui-react";
 import { IForumpost } from "../../../app/models/forumpost";
@@ -12,6 +13,9 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
   const rootStore = useContext(RootStoreContext);
 
   const { rated } = rootStore.forumPostStore;
+
+  const { t } = useTranslation(["forum"]);
+
 
   return (
     <Segment.Group>
@@ -40,7 +44,7 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
             </Link>
           </Grid.Column>
         </Grid>
-        <Divider vertical>By {forumpost.displayName}</Divider>
+        <Divider vertical>{t("By")} {forumpost.displayName}</Divider>
       </Segment>
       <Segment attached>
         <Grid verticalAlign='middle'>
@@ -50,19 +54,19 @@ const ForumDetailedInfo: React.FC<{ forumpost: IForumpost }> = ({
           <Grid.Column width={15}>
             <i>
               <span>
-                Posted{" "}
+                {t("Posted")}{" "}
                 {formatDistance(new Date(forumpost.dateAdded), new Date())}
               </span>{" "}
-              ago in <span>'{forumpost.category}' category </span>
+              {t("ago in")} <span>'{forumpost.category}' {t("category")} </span>
               {forumpost.numberOfComents! > 0 && (
-                <span>, so far with {forumpost.numberOfComents} comments </span>
+                <span>, {t("so far with")} {forumpost.numberOfComents} {t("comments")} </span>
               )}
               {forumpost.forumpostRating > 0 && (
                 <span>
-                  , rated {forumpost.forumpostRating.toFixed(2)}
+                  , {t("rated")} {forumpost.forumpostRating.toFixed(2)}
                 </span>
               )}
-              {rated && <span>, you already rated </span>}
+              {rated && <span>, {t("you already rated")} </span>}
             </i>
           </Grid.Column>
         </Grid>

@@ -1,5 +1,4 @@
 import { formatDistance } from "date-fns";
-import { toJS } from "mobx";
 import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -9,10 +8,12 @@ import {
   GridColumn,
   Header,
   Image,
+  Label,
   Segment,
 } from "semantic-ui-react";
 import { IActivity, IDiaryEntry } from "../../../app/models/activity";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   diary: IDiaryEntry;
@@ -27,9 +28,8 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
 
   const { diaryEntries } = activity;
 
-  console.log(toJS(diaryEntries));
+  const { t } = useTranslation(["diaries"]);
 
-  // const [actualDiary, setActualDiary] = useState(diaryEntries[0]);
   const [actualDiary, setActualDiary] = useState(diary);
 
   const counter = parseInt(actualDiary.dayNumber);
@@ -43,7 +43,6 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
   };
 
   const handleDeleteEntry = async (id: string) => {
-    // console.log(id)
     deleteDiaryEntry(diary, activity);
   };
 
@@ -61,15 +60,15 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
           <Grid>
             <Grid.Column width={3}>
               <Image src={host.image} size='tiny' circular />
-              <p>Driving {activity.motorcycleBrandName}</p>
+              <p>{t("You are driving:")} {activity.motorcycleBrandName}</p>
             </Grid.Column>
             <Grid.Column width={10}>
               <Header as='h2' color='pink'>
-                Day {actualDiary.dayNumber} of {activity.title}
+                {t("Day")} {actualDiary.dayNumber} {t("of")} {activity.title}
               </Header>
               <p>
                 {" "}
-                Published{" "}
+                {t("Published")}{" "}
                 {formatDistance(new Date(actualDiary.entryDate), new Date(), {
                   addSuffix: true,
                 })}
@@ -79,15 +78,15 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                   to={`/profile/${host.username}`}
                   onClick={() => closeModal()}
                 >
-                  by {host.displayName}
+                  {t("by")} {host.displayName}
                 </Link>
                 <p>
                   {" "}
-                  Started in {activity.city}, {activity.countryName}
+                  {t("Started in")} {activity.city}, {activity.countryName}
                 </p>
                 <p>
                   {" "}
-                  At the moment: in {actualDiary.locationCity},{" "}
+                  {t("At the moment in")} {actualDiary.locationCity},{" "}
                   {actualDiary.locationCountry}
                 </p>
               </Header.Subheader>
@@ -136,24 +135,25 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
               </Grid.Column>
               <Grid.Column computer={7} mobile={16}>
                 <Segment attached>
-                  <p>At the moment in {actualDiary.locationCity}</p>
+                  <p>{t("At the moment in")} {actualDiary.locationCity}</p>
                 </Segment>
                 <Segment attached>
-                  <p>Feeling {actualDiary.mood}</p>
+                  <p>{t("Feeling")} {actualDiary.mood}</p>
                 </Segment>
                 <Segment attached>
-                  <p>Road was {actualDiary.road}</p>
+                  <p>{t("Road was")} {actualDiary.road}</p>
                 </Segment>
                 <Segment attached>
-                  <p>Weather was {actualDiary.road}</p>
+                  <p>{t("Weather was")} {actualDiary.road}</p>
                 </Segment>
                 <Segment attached>
-                  <p>Made {actualDiary.numberOfKilometers} kilometers </p>
+                  <p>{t("Made")} {actualDiary.numberOfKilometers} {t("kilometers")} </p>
                 </Segment>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Segment attached>
+                <Label content={t("What happened today?")}/>
                 <p style={{ whiteSpace: "pre-wrap" }}>{actualDiary.body}</p>
               </Segment>
             </Grid.Row>
@@ -165,7 +165,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                   onClick={() =>
                     handleChange(parseInt(actualDiary.dayNumber) - 1)
                   }
-                  content='Previous day'
+                  content={t('Previous day')}
                   icon='angle left'
                   disabled={counter === 1}
                 />
@@ -181,7 +181,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                 />
               </Grid.Column>
               <Grid.Column width={5}>
-                <Button fluid onClick={() => closeModal()} content='Quit' />
+                <Button fluid onClick={() => closeModal()} content={t('Quit')} />
               </Grid.Column>
               <Grid.Column width={5}>
                 <Button
@@ -190,7 +190,7 @@ const SeeDiaryEntry: React.FC<IProps> = ({ diary, activity }) => {
                   onClick={() =>
                     handleChange(parseInt(actualDiary.dayNumber) + 1)
                   }
-                  content={"Next day"}
+                  content={t("Next day")}
                   icon='angle right'
                   disabled={counter === numberDiaries}
                 />

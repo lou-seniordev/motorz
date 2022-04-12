@@ -38,38 +38,8 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 import { motoOptions } from "../../../app/common/options/motoOptions";
 import SelectMultiple from "../../../app/common/form/SelectMultiple";
+import { useTranslation } from "react-i18next";
 
-const isValidEmail = createValidator(
-  (message) => (value) => {
-    if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-      return message;
-    }
-  },
-  "Invalid email address"
-);
-const validate = combineValidators({
-  name: isRequired({ message: "The name is required" }),
-  description: composeValidators(
-    isRequired("Description"),
-    hasLengthGreaterThan(4)({
-      message: "Description needs to be at least 5 characters",
-    })
-  )(),
-  // photoUrl: isRequired("Photo"),
-  countryName: isRequired("countryName"),
-  city: isRequired("City"),
-  address: isRequired("address"),
-  phone: composeValidators(
-    isNumeric("Phone"),
-    isRequired("Phone"),
-    hasLengthGreaterThan(4)({
-      message: "Description needs to be at least 5 characters",
-    })
-  )(),
-  email: isValidEmail(),
-  yearOfStart: isRequired("Year Of Start"),
-  brands: isRequired("Brands"),
-});
 const ownerOptions = [
   { key: "Owner", text: "Owner", value: "Owner" },
   { key: "Customer", text: "Customer", value: "Customer" },
@@ -83,16 +53,46 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
 
-  const {
-    createMechanic,
-    editMechanic,
-    submitting,
-    loadMechanic,
-  } = rootStore.mechanicStore;
+  const { createMechanic, editMechanic, submitting, loadMechanic } =
+    rootStore.mechanicStore;
 
   const random = Math.floor(Math.random() * motoOptions.length);
 
   const motomoto = motoOptions[random];
+
+  const { t } = useTranslation(["forms"]);
+
+  const isValidEmail = createValidator(
+    (message) => (value) => {
+      if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+        return message;
+      }
+    },
+    t("Invalid email address")
+  );
+  const validate = combineValidators({
+    name: isRequired({ message: "Name is required" }),
+    description: composeValidators(
+      isRequired({ message: t("Description is required") }),
+      hasLengthGreaterThan(4)({
+        message: t("Description needs to be at least 5 characters"),
+      })
+    )(),
+    // photoUrl: isRequired("Photo"),
+    countryName: isRequired({ message: t("Country is required") }),
+    city: isRequired( { message: t("City is required") }),
+    address: isRequired( { message: t("Address is required") }),
+    phone: composeValidators(
+      isNumeric({ message: t("Phone must be numeric value") }),
+      isRequired({ message: t("Phone is required") }),
+      hasLengthGreaterThan(8)({
+        message: t("Phone needs to be at least 9 characters"),
+      })
+    )(),
+    email: isValidEmail(),
+    yearOfStart: isRequired({ message: t("Year of start is required") }),
+    brands: isRequired({ message: t("Brand is required") }),
+  });
 
   const { user } = rootStore.userStore;
   const { addFeedItem } = rootStore.feedStore;
@@ -126,7 +126,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
       setUploaded(true);
       setEdited(true);
 
-      loadMechanic(match.params.id) 
+      loadMechanic(match.params.id)
         .then((mechanic) => {
           setMechanic(new MechanicFromValues(mechanic));
         })
@@ -182,10 +182,10 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
     image = photo;
     setPreview(photo);
     setUploaded(true);
-    toast.info("Your image is uploaded, please give us more details");
+    toast.info(t("Your image is uploaded, please give us more details"));
   };
 
-  if (!ready) return <LoadingComponent content='Loading values...' />;
+  if (!ready) return <LoadingComponent content={t("Loading values...")} />;
 
   return (
     <Grid>
@@ -200,9 +200,10 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
         </Grid.Column>
       )}
       {uploaded && (
-        <Grid.Column 
-        // width={10}
-        computer={10} mobile={16}
+        <Grid.Column
+          // width={10}
+          computer={10}
+          mobile={16}
         >
           <Segment clearing>
             <FinalForm
@@ -211,11 +212,11 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
               onSubmit={handleFinalFormSubmit}
               render={({ handleSubmit, invalid, pristine }) => (
                 <Form onSubmit={handleSubmit} loading={loading}>
-                  {editMode && <Label content='Name' />}
+                  {editMode && <Label content={t("Name")} />}
 
                   <Field
+                    placeholder={t("Name")}
                     name='name'
-                    placeholder='Name *'
                     value={mechanic.name}
                     component={TextInput}
                   />
@@ -223,7 +224,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   {!editMode && (
                     <Field
                       name='owner'
-                      placeholder='Are you owner or customer of this shop?'
+                      placeholder={t("Are you owner or customer of this shop?")}
                       options={ownerOptions}
                       value={mechanic.owner}
                       component={SelectInput}
@@ -232,7 +233,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   {!editMode && (
                     <Field
                       name='brands'
-                      placeholder={"What brands are you specialized in *"}
+                      placeholder={t("What brands are you specialized in *")}
                       options={brands}
                       multiple
                       component={SelectMultiple}
@@ -242,7 +243,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   {!editMode && (
                     <Field
                       name='countryName'
-                      placeholder={"Country *"} //
+                      placeholder={t("Country")} //
                       options={countries}
                       component={SelectInput}
                     />
@@ -251,58 +252,58 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   {!editMode && (
                     <Field
                       name='city'
-                      placeholder='City *'
+                      placeholder={t("City")}
                       value={mechanic.city}
                       component={TextInput}
                     />
                   )}
-                  {editMode && <Label content='Address' />}
+                  {editMode && <Label content={t("Address *")} />}
 
                   <Field
+                    placeholder={t("Address *")}
                     name='address'
-                    placeholder='Address *'
                     value={mechanic.address}
                     component={TextInput}
                   />
-                  {editMode && <Label content='Phone' />}
+                  {editMode && <Label content={t("Phone *")} />}
 
                   <Field
+                    placeholder={t("Phone *")}
                     name='phone'
-                    placeholder='Phone *'
                     value={mechanic.phone}
                     component={TextInput}
                   />
                   {editMode && <Label content='Email' />}
 
                   <Field
+                    placeholder={t("Email")}
                     name='email'
-                    placeholder='Email'
                     value={mechanic.email}
                     component={TextInput}
                   />
-                  {editMode && <Label content='Website' />}
+                  {editMode && <Label content={t("Website")} />}
 
                   <Field
+                    placeholder={t("Website")}
                     name='website'
-                    placeholder='Website'
                     value={mechanic.website}
                     component={TextInput}
                   />
                   {!editMode && (
                     <Field
                       name='yearOfStart'
-                      placeholder='Year of Start *'
+                      placeholder={t("Year of Start *")}
                       value={mechanic.yearOfStart}
                       options={year}
                       component={SelectInput}
                     />
                   )}
-                  {editMode && <Label content='Description' />}
+                  {editMode && <Label content={t("Description")} />}
 
                   <Field
                     name='description'
                     raws={3}
-                    placeholder='Description *'
+                    placeholder={t("Description")}
                     value={mechanic.description}
                     component={TextAreaInput}
                   />
@@ -312,7 +313,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     positive
                     floated='right'
                     type='submit'
-                    content='submit'
+                    content={toast("Submit")}
                   />
                   <Button
                     onClick={
@@ -323,7 +324,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     disabled={loading}
                     floated='right'
                     type='button'
-                    content='cancel'
+                    content={t("Cancel")}
                   />
                 </Form>
               )}

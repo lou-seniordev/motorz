@@ -10,6 +10,7 @@ import {
 import { IActivity, IDiaryEntry } from "../../../app/models/activity";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import SeeDiaryEntry from "../modals/SeeDiaryEntry";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   activity: IActivity;
@@ -18,6 +19,9 @@ const ActivityDetailedSidebarRight: React.FC<IProps> = ({ activity }) => {
   const rootStore = useContext(RootStoreContext);
 
   const { openModal } = rootStore.modalStore;
+
+  const { t } = useTranslation(["diaries"]);
+
 
   const { diaryEntries } = activity;
 
@@ -31,6 +35,9 @@ const ActivityDetailedSidebarRight: React.FC<IProps> = ({ activity }) => {
     .slice()
     .sort((a, b) => parseInt(b.dayNumber) - parseInt(a.dayNumber));
 
+    const day = t("Day");
+    const days = t("Days");
+
   return (
     <SegmentGroup raised>
       <Segment
@@ -41,8 +48,8 @@ const ActivityDetailedSidebarRight: React.FC<IProps> = ({ activity }) => {
         inverted
         color='teal'
       >
-        {diaryEntries.length} {diaryEntries.length === 1 ? "Day" : "Days "}{" "}
-        passed
+        {diaryEntries.length} {diaryEntries.length === 1 ? day : days}{" "}
+        {t("passed")}
       </Segment>
       <Segment attached textAlign='center'>
         <List relaxed divided>
@@ -53,7 +60,7 @@ const ActivityDetailedSidebarRight: React.FC<IProps> = ({ activity }) => {
                 onClick={() => handleOpenDiaryModal(entry)}
                 style={{ cursor: "pointer" }}
               >
-                {"Day number "}
+                {t("Day number ")}
                 {entry.dayNumber}
                 {/* <Image
                   size='small'

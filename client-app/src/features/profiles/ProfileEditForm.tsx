@@ -6,10 +6,8 @@ import { combineValidators, isRequired } from 'revalidate';
 import { Form, Button } from 'semantic-ui-react';
 import TextInput from '../../app/common/form/TextInput';
 import TextAreaInput from '../../app/common/form/TextAreaInput';
+import { useTranslation } from 'react-i18next';
 
-const validate = combineValidators({
-  displayName: isRequired('displayName')
-});
 
 interface IProps {
   updateProfile: (profile: Partial<IProfile>) => void;
@@ -17,6 +15,12 @@ interface IProps {
 }
 
 const ProfileEditForm: React.FC<IProps> = ({ updateProfile, profile }) => {
+
+  const { t } = useTranslation(["forms"]);
+  const validate = combineValidators({
+    displayName: isRequired({ message: t("Display Name is required") })
+  });
+  
   return (
     <FinalForm
       onSubmit={updateProfile}
@@ -27,14 +31,14 @@ const ProfileEditForm: React.FC<IProps> = ({ updateProfile, profile }) => {
           <Field
             name='displayName'
             component={TextInput}
-            placeholder='Display Name'
+            placeholder={t('Display Name')}
             value={profile!.displayName}
           />
           <Field
             name='bio'
             component={TextAreaInput}
             rows={3}
-            placeholder='Bio'
+            placeholder={t('Bio')}
             value={profile!.bio}
           />
           <Button 
@@ -42,7 +46,7 @@ const ProfileEditForm: React.FC<IProps> = ({ updateProfile, profile }) => {
             floated='right'
             disabled={invalid || pristine}
             positive
-            content='Update profile'
+            content={t('Update profile')}
           />
         </Form>
       )}

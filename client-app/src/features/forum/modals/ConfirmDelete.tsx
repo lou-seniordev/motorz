@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 // import { useHistory } from "react-router";
 import { Header, Button, Grid } from "semantic-ui-react";
@@ -10,12 +11,11 @@ interface IProps {
 const ConfirmDelete: React.FC<IProps> = ({ forumpostId }) => {
   const rootStore = useContext(RootStoreContext);
   const {deleteForumpost } = rootStore.forumPostStore;
-  // const {
-  //   // addFeedItem,
-  // } = rootStore.feedStore;
-
+ 
   const { closeModal } = rootStore.modalStore;
-    let history = useHistory();
+  let history = useHistory();
+
+  const { t } = useTranslation(["modals"]);
 
 
   const handleDeleteForumpost = (id: string) => {
@@ -36,7 +36,7 @@ const ConfirmDelete: React.FC<IProps> = ({ forumpostId }) => {
       <Grid.Column width={16}>
         <Header
           as='h2'
-          content='Irreversible action! Are you sure you want to do this? '
+          content={t('Irreversible action! Are you sure you want to do this?')}
           color='teal'
           textAlign='center'
         />
@@ -46,13 +46,13 @@ const ConfirmDelete: React.FC<IProps> = ({ forumpostId }) => {
             fluid
             onClick={() => handleDeleteForumpost(forumpostId)}
             color='teal'
-            content='Yes, delete it'
+            content={t('Yes, delete it')}
             floated='left'
           />
           <Button
             fluid
             onClick={() => cancelDeleteForumpost()}
-            content="No, don't delete"
+            content={t("No, don't delete")}
             floated='right'
           />
         </Fragment>

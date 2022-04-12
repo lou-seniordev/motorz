@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Tab, Grid, Header, Card } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ProfileCard from './ProfileCard';
@@ -11,6 +12,7 @@ const ProfileFollowings = () => {
     loading,
     activeTab
   } = rootStore.profileStore;
+  const { t } = useTranslation(["social"]);
 
   return (
     <Tab.Pane loading={loading}>
@@ -21,8 +23,8 @@ const ProfileFollowings = () => {
             icon='user circle'
             content={
               activeTab === 7
-                ? `People following ${profile!.displayName}`
-                : `People ${profile!.displayName} is following`
+                ? t("People following") +' '+ profile!.displayName 
+                : t("People") + ' ' + profile!.displayName + " " + t("is following")
             }
           />
         </Grid.Column>

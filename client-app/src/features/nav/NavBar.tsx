@@ -13,17 +13,21 @@ import {
 } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+
 const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
   const { unreadPrivateMessages, getUnreadPrivate } =
     rootStore.privateMessageStore;
-  // const { unreadProductMessages, getUnreadProduct } = rootStore.messageStore;
+
+  const { i18n, t } = useTranslation(["navbar"]);
 
   const menuRef: any = useRef();
 
-  const closeStackableMenu = (e: any) => {
+  const closeStackableMenu = () => {//e: any
     var actionMenu = menuRef.current.parentNode;
     var actionIcon = menuRef.current;
     actionMenu.classList.remove("active");
@@ -51,12 +55,21 @@ const NavBar: React.FC = () => {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    if (localStorage.getItem("i18nextLng")?.length! > 2) {
+      i18next.changeLanguage("en");
+    }
     if (isLoggedIn) {
       setInterval(() => {
         getUnreadPrivate();
       }, 2000);
     }
   }, [getUnreadPrivate, isLoggedIn]);
+
+  const handleLanguageChange = (e: any) => {
+    i18n.changeLanguage(e.target.value);
+    closeStackableMenu()
+  };
+  
 
   return (
     <>
@@ -81,12 +94,14 @@ const NavBar: React.FC = () => {
           {isLoggedIn && (
             <>
               <Menu.Item
-                name='Motorcycle Diaries'
+                // name='Motorcycle Diaries'
                 exact
                 as={NavLink}
                 to='/activities'
                 onClick={closeStackableMenu}
-              />
+              >
+                {t("motorcycle diaries")}
+              </Menu.Item>
               <Menu.Item
                 exact
                 as={NavLink}
@@ -96,19 +111,24 @@ const NavBar: React.FC = () => {
                 Motofy!
               </Menu.Item>
               <Menu.Item
-                name='forum'
+                // name='forum'
                 exact
                 as={NavLink}
                 onClick={closeStackableMenu}
                 to='/forum'
-              />
+              >
+                {" "}
+                {t("forum")}
+              </Menu.Item>
               <Menu.Item
                 name='mechanics'
                 exact
                 as={NavLink}
                 to='/mechanics'
                 onClick={closeStackableMenu}
-              />
+              >
+                 {t("mechanics")}
+              </Menu.Item>
               <Menu.Item
                 name='market'
                 text='Motoranza market'
@@ -117,34 +137,39 @@ const NavBar: React.FC = () => {
                 as={Link}
                 to='/shop'
                 onClick={closeStackableMenu}
-              />
+              >   {t("market")}
+              </Menu.Item>
               <Menu.Item>
-                <Dropdown text='Social' className='icon' floating labeled>
+                <Dropdown  text={t("social")} className='icon' floating labeled>
                   <Dropdown.Menu>
                     <Dropdown.Item
                       name='people'
-                      text='People'
+                      // text='People'
                       // exact
                       as={Link}
                       onClick={closeStackableMenu}
                       to='/people'
-                    />
+                      >   {t("people")}
+                      </Dropdown.Item>
                     <Dropdown.Item
                       name='people'
-                      text='Private messages'
+                      // text='Private messages'
                       onClick={closeStackableMenu}
                       as={Link}
                       to='/privateMessages'
-                    />
+                      >   {t("private messages")}
+                      </Dropdown.Item>
                     <Dropdown.Item
                       name='feed'
-                      text='Feed'
+                      // text='Feed'
                       // exact
                       as={Link}
                       onClick={closeStackableMenu}
                       to='/feed'
-                    />
+                      >   Feed
+                      </Dropdown.Item>
                   </Dropdown.Menu>
+                   
                 </Dropdown>
                 {unreadPrivateMessages > 0 && (
                   <Label
@@ -160,108 +185,125 @@ const NavBar: React.FC = () => {
               <div className='right menu'>
                 {/* {user && ( */}
                 <Menu.Item>
-                  <Dropdown text='New' className='icon' floating labeled>
+                  <Dropdown text= {t("new")}className='icon' floating labeled>
                     <Dropdown.Menu>
                       <Popup
                         size='mini'
                         position='right center'
+                        // className="mobile hidden"
                         trigger={
                           <Dropdown.Item
-                            text='Motorcycle Diary'
+                            text={t("motorcycle diary")}
                             value='MotoDiary'
                             as={Link}
                             onClick={closeStackableMenu}
                             to='/createDiary'
                           />
                         }
-                        content='Show us what you do, where you go? Find brothers and sisters to ride together...'
-                      />
-
+                        content={t("motorcycle diary pop")}
+                        />
                       <Popup
                         size='mini'
                         position='right center'
                         trigger={
                           <Dropdown.Item
-                            text='Motofy!'
+                          text='Motofy!'
                             value='Motofy'
                             as={Link}
                             onClick={closeStackableMenu}
                             to='/galleryForm'
+                            />
+                          }
+                          content={t("motofy pop")}
                           />
-                        }
-                        content='Everybody wants to see a great photo of your bike. Tell us more about it'
-                      />
 
                       <Popup
                         size='mini'
                         position='right center'
                         trigger={
                           <Dropdown.Item
-                            text='Mecanics Shop'
-                            value='Mecanic'
-                            as={Link}
-                            onClick={closeStackableMenu}
-                            to='/mechanicForm'
+                          text={t("mechanic shop")}
+                          value='Mecanic'
+                          as={Link}
+                          onClick={closeStackableMenu}
+                          to='/mechanicForm'
                           />
                         }
-                        content='Let us know about your shop or recommend a mecanic that you know about'
-                      />
+                        content={t("mechanic shop pop")}
+                        />
                       <Popup
                         size='mini'
                         position='right center'
                         trigger={
                           <Dropdown.Item
-                            text='Forum post'
+                            text={t("forumpost")}
                             value='Forum'
                             as={Link}
                             onClick={closeStackableMenu}
                             to='/forumform'
+                            />
+                          }
+                          content={t("forumpost pop")}
                           />
-                        }
-                        content='Ask about anything. Some one from community will have the right answer'
-                      />
                       <Popup
                         size='mini'
                         position='right center'
                         trigger={
                           <Dropdown.Item
-                            text='Product to sell'
-                            value='Product'
-                            as={Link}
-                            onClick={closeStackableMenu}
-                            to='/productform'
+                          text={t("product to sell")}
+                          value='Product'
+                          as={Link}
+                          onClick={closeStackableMenu}
+                          to='/productform'
                           />
                         }
-                        content='Post and item that you want to sell'
+                        content={t("product to sell pop")}
                       />
                     </Dropdown.Menu>
                   </Dropdown>
                 </Menu.Item>
                 {/* )}*/}
                 {user && (
-                  <Menu.Item position='right'>
-                    <Image
-                      avatar
-                      spaced='right'
-                      src={user!.image || "/assets/user.png"}
-                    />
-                    <Dropdown pointing='top left' text={user!.displayName}>
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          as={Link}
-                          to={`/profile/${user!.userName}`}
-                          text='My profile'
-                          onClick={closeStackableMenu}
-                          icon='user'
-                        />
-                        <Dropdown.Item
-                          onClick={logout}
-                          text='Logout'
-                          icon='power'
-                        />
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </Menu.Item>
+                  <>
+                    <Menu.Item position='right'>
+                      <select
+                      onChange={(e) => {
+                        handleLanguageChange(e)
+                      }}
+                        value={localStorage.getItem("i18nextLng")!}
+                        placeholder='Select your country'
+                      >
+                        <option value='en'>English</option>
+                        <option value='it'>Italiano</option>
+                        <option value='de'>Deutsch</option>
+
+                      </select>
+                     
+                    </Menu.Item>
+                    <Menu.Item position='right'>
+                      <Image
+                        avatar
+                        spaced='right'
+                        src={user!.image || "/assets/user.png"}
+                      />
+                      <Dropdown pointing='top left' text={user!.displayName}>
+                        <Dropdown.Menu>
+                          <Dropdown.Item
+                            as={Link}
+                            to={`/profile/${user!.userName}`}
+                            text={t("my profile")}
+                            onClick={closeStackableMenu}
+                            icon='user'
+                          />
+                          <Dropdown.Item
+                            onClick={logout}
+                            text={t("logout")}
+                            icon='power'
+                          />
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Menu.Item>
+                  </>
                 )}
               </div>
               <div ref={menuRef} className='hamburger '>

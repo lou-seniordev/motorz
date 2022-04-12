@@ -6,6 +6,7 @@ import { Segment, Header, Form, Button, Comment } from "semantic-ui-react";
 import { Form as FinalForm, Field } from "react-final-form";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import TextAreaInput from "../../../app/common/form/TextAreaInput";
+import { useTranslation } from "react-i18next";
 
 const ForumDetailedChat = () => {
   const rootStore = useContext(RootStoreContext);
@@ -13,9 +14,9 @@ const ForumDetailedChat = () => {
     rootStore.forumPostStore;
 
   const connectionArgument = "RecieveForumPostComment";
-  useEffect(() => {
-    // console.log('mechanic', mechanic)
+  const { t } = useTranslation(["comments"]);
 
+  useEffect(() => {
     createHubConnection(forumpost!.id, connectionArgument); //, mechanic!
     return () => {
       stopHubConnection();
@@ -31,7 +32,7 @@ const ForumDetailedChat = () => {
         color='teal'
         style={{ border: "none" }}
       >
-        <Header>Comments</Header>
+        <Header>{t("Comments")}</Header>
       </Segment>
       <Segment attached>
         <Comment.Group style={{ maxWidth: "none" }}>
@@ -61,10 +62,10 @@ const ForumDetailedChat = () => {
                   name='body'
                   component={TextAreaInput}
                   rows={2}
-                  placeholder='Add your comment'
+                  placeholder={t('Add your comment')}
                 />
                 <Button
-                  content='Add Reply'
+                  content={t('Add Reply')}
                   labelPosition='left'
                   icon='edit'
                   color='instagram'

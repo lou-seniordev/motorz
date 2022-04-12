@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
 import { observer } from 'mobx-react-lite';
 import { formatDistance } from 'date-fns';
+import { useTranslation } from "react-i18next";
+
 
 const ActivityDetailedChat = () => {
   const rootStore = useContext(RootStoreContext);
@@ -15,6 +17,9 @@ const ActivityDetailedChat = () => {
     addComment,
     activity,
   } = rootStore.activityStore;
+
+  const { t } = useTranslation(["comments"]);
+
 
   useEffect(() => {
     createHubConnection(activity!.id);
@@ -32,7 +37,7 @@ const ActivityDetailedChat = () => {
         color='teal'
         style={{ border: 'none' }}
       >
-        <Header>Comment This Diary</Header>
+        <Header>{t("Comment This Diary")}</Header>
       </Segment>
       <Segment attached>
         <Comment.Group style={{maxWidth:'none'}}>
@@ -65,10 +70,10 @@ const ActivityDetailedChat = () => {
                 name='body'
                 component={TextAreaInput}
                 rows={2}
-                placeholder='Add your comment'
+                placeholder={t('Add your comment')}
                 />
                 <Button
-                  content='Add Reply'
+                  content={t('Add Reply')}
                   labelPosition='left'
                   icon='edit'
                   fluid

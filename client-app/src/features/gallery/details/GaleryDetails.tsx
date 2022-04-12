@@ -9,6 +9,7 @@ import GaleryDetailedHeader from "./GaleryDetailedHeader";
 import GaleryDetailedRating from "./GaleryDetailedRating";
 import GaleryDetailedSidebar from "./GaleryDetailedSidebar";
 import GalleryDetailedInfo from "./GalleryDetailedInfo";
+import { useTranslation } from "react-i18next";
 
 interface DetailParams {
   id: string;
@@ -19,12 +20,14 @@ const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   const rootStore = useContext(RootStoreContext);
   const { motofy, loadMotofy, loadingInitial } = rootStore.motofyStore;
 
+  const { t } = useTranslation(["gallery"]);
+
   useEffect(() => {
     loadMotofy(match.params.id);
   }, [loadMotofy, match.params.id]);
 
   if (loadingInitial || !motofy)
-    return <LoadingComponent content='Loading motofies...' />;
+    return <LoadingComponent content={t('Loading motofies...')} />;
 
   return (
     <Grid>     
