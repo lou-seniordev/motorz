@@ -5,13 +5,8 @@ import { Link } from 'react-router-dom';
 import { IUserActivity } from '../../app/models/profile';
 import { format } from 'date-fns';
 import { RootStoreContext } from '../../app/stores/rootStore';
+import { useTranslation } from 'react-i18next';
 
-const panes = [
-  { menuItem: 'Future Diaries', pane: { key: 'futureEvents' } },
-  { menuItem: 'Past Diaries', pane: { key: 'pastEvents' } },
-  { menuItem: 'Hosting', pane: { key: 'hosted' } },
-  { menuItem: 'Not active', pane: { key: 'deactivated' } },
-];
 
 const ProfileEvents = () => {
   const rootStore = useContext(RootStoreContext);
@@ -22,6 +17,12 @@ const ProfileEvents = () => {
     userActivities
   } = rootStore.profileStore!;
 
+  const { t } = useTranslation(["social"]);
+  const panes = [
+    { menuItem: t('Active'), pane: { key: 'active' } },
+    { menuItem: t('Completed'), pane: { key: 'completed' } },
+    { menuItem: t('In future'), pane: { key: 'in future' } },
+  ];
   useEffect(() => {
     loadUserActivities(profile!.username);
   }, [loadUserActivities, profile]);
@@ -32,17 +33,16 @@ const ProfileEvents = () => {
   ) => {
     let predicate;
     switch (data.activeIndex) {
+      case 0:
+        predicate = 'active';
+        break;
       case 1:
-        predicate = 'past';
+        predicate = 'completed';
         break;
       case 2:
-        predicate = 'hosting';
-        break;
-      case 3:
-        predicate = 'deactivated';
+        predicate = 'in future';
         break;
       default:
-        predicate = 'future';
         break;
     }
     loadUserActivities(profile!.username, predicate);
@@ -52,7 +52,7 @@ const ProfileEvents = () => {
     <Tab.Pane loading={loadingActivities}>
       <Grid>
         <Grid.Column width={16}>
-          <Header floated='left' icon='blogger' content={'Motorcycle Diaries'} />
+          <Header floated='left' icon='blogger' content={t('Motorcycle Diaries')} />
         </Grid.Column>
         <Grid.Column width={16}>
           <Tab

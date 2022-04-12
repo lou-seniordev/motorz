@@ -1,4 +1,5 @@
 {
+    "Reply": " Rispondi",
     "Folower": " Seguace",
     "Followers": " Seguaci",
     "Following": "Seguente",
@@ -29,5 +30,8 @@
     "Add Photo": "Aggiungi foto",
     "Main": "Principale",
     "I am selling": "Vendo",
-    "I sold": "Ho venduto"
+    "I sold": "Ho venduto",
+    "Active": "Attivo",
+    "Completed": "Completato",
+    "In future": "In futuro"
 }

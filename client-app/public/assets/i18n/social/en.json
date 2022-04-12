@@ -1,4 +1,5 @@
 {
+    "Reply": " Reply",
     "Folower": " Folower",
     "Followers": " Followers",
     "Following": "Following",
@@ -29,6 +30,8 @@
     "Add Photo": "Add Photo",
     "Main": "Main",
     "I am selling": "I am selling",
-    "I sold": "I sold"
-
+    "I sold": "I sold",
+    "Active": "Active",
+    "Completed": "Completed",
+    "In future": "In future"
 }

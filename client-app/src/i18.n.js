@@ -18,8 +18,8 @@ i18n
     },
     fallbackLng: "en",
     // disable for prod
-    debug: true,
-    ns: ["home", "navbar", "diaries", "gallery", "widget", "forum", "comments", "modals", "mechanics", "shop", "social"], //"common", "diaries", "forms", 
+    debug: false,
+    ns: ["home", "navbar", "diaries", "gallery", "widget", "forum", "comments", "modals", "mechanics", "shop", "social"], 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
       formatSeparator: ",",

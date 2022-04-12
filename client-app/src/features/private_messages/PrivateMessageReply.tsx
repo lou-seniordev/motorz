@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { TextArea } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import { useTranslation } from "react-i18next";
 
 const PrivateMessageReply = () => {
   const rootStore = useContext(RootStoreContext);
@@ -23,6 +24,8 @@ const PrivateMessageReply = () => {
     fontSize: "18px",
     marginTop: "8px",
   };
+
+  const { t } = useTranslation(["social"]);
 
   const [input, setInput] = useState("");
 
@@ -58,7 +61,7 @@ const PrivateMessageReply = () => {
     <TextArea
       autoFocus
       value={input}
-      placeholder='Reply'
+      placeholder={t('Reply')}
       name='reply'
       onInput={(e: any) => setInput(e.target.value)}
       onKeyDown={(e: any) => handleSendReply(e)}
