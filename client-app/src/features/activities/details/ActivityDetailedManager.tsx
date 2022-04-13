@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import {
   Segment,
   Button,
-  Grid,
-  GridColumn,
+  // Grid,
+  // GridColumn,
 } from "semantic-ui-react"; 
 import { IActivity } from "../../../app/models/activity";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -60,64 +60,53 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
                   {t("Manage your diary")}
                 </Button>
               ) : (
-                <Fragment>
-                  <Grid>
-                    <GridColumn width={4}>
+                <div className='ui five buttons'>
+                 
                       <Button
                         as={Link}
                         to={`/createDiaryEntry/${activity.id}`}
-                        color='teal'
-                        fluid
+                        color='yellow'
+                        basic
                       >
                        {t("New Day")}
                       </Button>
-                    </GridColumn>
-                    <GridColumn width={3}>
+                   
                       <Button
                         as={Link}
                         to={`/manage/${activity.id}`}
-                        color='teal'
-                        fluid
+                        color='pink'
+                        basic
                       >
                         {t("Edit")}
                       </Button>
-                    </GridColumn>
-                    <GridColumn width={3}>
-                      <Button
-                        onClick={() => {
-                          handleCompleteActivity(activity.id!);
-                        }}
-                        color='vk'
-                        fluid
-                      >
-                        {t("Complete")}
-                      </Button>
-                    </GridColumn>
-                    <GridColumn width={3}>
+                  
                       <Button
                         onClick={() => {
                           handleDeleteActivity(activity.id!);
                         }}
                         color='google plus'
-                        fluid
                       >
                         {t("Delete")}
                       </Button>
-                    </GridColumn>
-                  
-                    <GridColumn width={3}>
+
+                      <Button
+                        onClick={() => {
+                          handleCompleteActivity(activity.id!);
+                        }}
+                        color='vk'
+                      >
+                        {t("Complete")}
+                      </Button>
+  
                       <Button
                         onClick={() => {
                           setManaging(false);
                         }}
-                        color='grey'
-                        fluid
                       >
                         {t("Cancel")}
                       </Button>
-                    </GridColumn>
-                  </Grid>
-                </Fragment>
+                   
+                </div>
               )}
             </Fragment>
           ) : activity.isGoing 

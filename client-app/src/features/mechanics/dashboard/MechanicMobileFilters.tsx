@@ -64,7 +64,6 @@ const MechanicMobileFilters = () => {
         color={"blue"}
         icon={"search"}
       />
-      Î
     </Menu>
   );
 };

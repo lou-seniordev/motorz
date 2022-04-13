@@ -1,8 +1,10 @@
-import React, { useContext, useState } from "react";
-import { TextArea } from "semantic-ui-react";
+import React, { useContext, useLayoutEffect, useRef, useState } from "react";
+// import { TextArea } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { useTranslation } from "react-i18next";
+import Picker from "emoji-picker-react";
+import { Form, Grid, GridColumn, GridRow, Icon, TextArea } from "semantic-ui-react";
 
 const PrivateMessageReply = () => {
   const rootStore = useContext(RootStoreContext);
@@ -26,20 +28,57 @@ const PrivateMessageReply = () => {
   };
 
   const { t } = useTranslation(["social"]);
+  // const [chosenEmoji, setChosenEmoji] = useState<any>(null);
 
-  const [input, setInput] = useState("");
+  // const onEmojiClick = (event:any, emojiObject:any) => {
+  //   setChosenEmoji(emojiObject);
+  // };
+
+  // const [input, setInput] = useState("");
+  // const [inputStr, setInputStr] = useState("");
+  const [showPicker, setShowPicker] = useState(false);
+
+  
+
+  // const areaHeight = 16;
+  const MIN_TEXTAREA_HEIGHT = 16;
+
+
+  const textareaRef = useRef<any>(null);
+  const [value, setValue] = useState("");
+  const onChange = (event:any) => setValue(event.target.value);
+
+  const onEmojiClick = (event: any, emojiObject: any) => {
+    setValue((prevInput) => prevInput + emojiObject.emoji);
+    setShowPicker(false);
+  };
+  
+  useLayoutEffect(() => {
+    // Reset height - important to shrink on delete
+    textareaRef.current.style.height = "inherit";
+    // Set height
+    textareaRef.current.style.height = `${Math.max(
+      textareaRef.current.scrollHeight,
+      MIN_TEXTAREA_HEIGHT
+    )}px`;
+  }, [value]);
+
+
 
   const handleSendReply = (e: any) => {
     if (e.key === "Enter") {
       e.target.value = "";
-      console.log(e);
-      if (input === "") {
+      console.log('value:::', value)
+      // console.log(e.target.value);
+      // console.log(inputStr);
+      if (value === "") {
         console.log("need to validate");
       } else {
-        setInput("");
+        e.preventDefault();
+        setValue("");
         handleSetRecipient();
         setMessageThreadId(listOfMessagesInFocus![0]);
-        setReply(input);
+        setReply(value);
         setUsername(user?.userName!);
         addReply();
       }
@@ -58,16 +97,77 @@ const PrivateMessageReply = () => {
   };
 
   return (
-    <TextArea
-      autoFocus
-      value={input}
-      placeholder={t('Reply')}
-      name='reply'
-      onInput={(e: any) => setInput(e.target.value)}
-      onKeyDown={(e: any) => handleSendReply(e)}
-      style={tAreatyles}
-    />
+    // <TextArea
+    //   autoFocus
+    //   value={input}
+    //   placeholder={t('Reply')}
+    //   name='reply'
+    //   onInput={(e: any) => setInput(e.target.value)}
+    //   onKeyDown={(e: any) => handleSendReply(e)}
+    //   style={tAreatyles}
+    // />
+    // <div className="app">
+    // <h3>Add Emoji Picker</h3>
+    <Grid>
+      <GridRow>
+        {/* <GridColumn width={2}>
+          <Icon name="smile outline" size="big" onClick={() => setShowPicker((val) => !val)}/>
+          
+        </GridColumn> */}
+        <GridColumn width={16}>
+          
+        <Form>
+          <textarea
+            ref={textareaRef}
+            autoFocus
+            placeholder={t("Reply")}
+            // value={inputStr}
+            // onChange={(e) => setInputStr(e.currentTarget.value)}
+            onKeyDown={(e: any) => handleSendReply(e)}
+            onChange={onChange}
+            style={{
+              minHeight: MIN_TEXTAREA_HEIGHT,
+              resize: "none"
+            }}
+            value={value}
+           
+          />
+          <img
+            className='emoji-icon'
+            src='https://icons.getbootstrap.com/assets/icons/emoji-smile.svg'
+            onClick={() => setShowPicker((val) => !val)}
+          />
+          {showPicker && (
+            <Picker
+              pickerStyle={{ width: "100%", marginTop:"-380px" }}
+              onEmojiClick={onEmojiClick}
+              // native
+            />
+          )}
+        </Form>
+        </GridColumn>
+      </GridRow>
+    </Grid>
+
+    // <div className="picker-container">
+    //   <input
+    //     className="input-style"
+    //     placeholder={t('Reply')}
+    //     value={inputStr}
+    //     onChange={e => setInputStr(e.target.value)}
+    //     onKeyDown={(e: any) => handleSendReply(e)}/>
+    //   <img
+    //     className="emoji-icon"
+    //     src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
+    //     onClick={() => setShowPicker(val => !val)} />
+    //   {showPicker && <Picker
+    //     pickerStyle={{ width: '100%' }}
+    //     onEmojiClick={onEmojiClick} />}
+    // </div>
   );
 };
 
 export default observer(PrivateMessageReply);
+{
+  /* </div> */
+}

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image, Icon } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
@@ -9,16 +9,15 @@ import ConfirmDelete from "../modals/ConfirmDelete";
 
 import { useTranslation } from "react-i18next";
 
-
 const motofyImageStyle = {
   filter: "brightness(90%)",
   border: "white solid 1px",
   borderRadius: "5px",
 };
-const buttonOwnerStyle = {
-  borderRadius: "7px",
-  width: "40%",
-};
+// const buttonOwnerStyle = {
+//   borderRadius: "7px",
+//   width: "40%",
+// };
 const buttonVisitorStyle = {
   borderRadius: "7px",
   backgroundColor: "rgb(29, 115, 152)",
@@ -30,6 +29,8 @@ const motofyImageTextStyle = {
   left: "10%",
   fontSize: "1rem",
   color: "#FFD700",
+  backgroundColor: "orange",
+  borderRadius: "50%",
 };
 
 interface IProps {
@@ -45,8 +46,9 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
 
   const { openModal } = rootStore.modalStore;
 
-  const { t } = useTranslation(["gallery"]);
+  const [managing, setManaging] = useState(false);
 
+  const { t } = useTranslation(["gallery"]);
 
   const handleDeleteMotofy = (id: string) => {
     openModal(<ConfirmDelete motofyId={id} />);
@@ -60,8 +62,9 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
     addFeedItem(id, "Unembraced Motofy");
   };
 
-  //
-  // const publisher = motofy.embracers.filter((x) => x)[0];
+  const toggleManaging = () => {
+    setManaging(true);
+  };
 
   return (
     <Segment.Group>
@@ -87,29 +90,42 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
       </Segment>
       <Segment clearing attached='bottom'>
         {motofy.publisherUsername === user!.userName ? (
-          <Segment clearing>
-            <Button
-              as={Link}
-              to={`/manageGallery/${motofy.id}`}
-              color='teal'
-              floated='left'
-              style={buttonOwnerStyle}
-            >
-              <Icon name='edit' />
-              {t("Manage")}
-            </Button>
-            <Button
-              onClick={() => {
-                handleDeleteMotofy(motofy.id!);
-              }}
-              color='red'
-              floated='right'
-              style={buttonOwnerStyle}
-            >
-              <Icon name='stop circle' />
-              {t("Delete")}
-            </Button>
-          </Segment>
+          <Fragment>
+            {!managing ? (
+              <Button onClick={toggleManaging} color='instagram' fluid>
+                {t("Manage")}
+              </Button>
+            ) : (
+              <div className='ui three buttons'>
+                <Button
+                  as={Link}
+                  to={`/manageGallery/${motofy.id}`}
+                  color='pink'
+                  basic
+                >
+                  {t("Edit")}
+                </Button>
+                <Button
+                  onClick={() => {
+                    handleDeleteMotofy(motofy.id!);
+                  }}
+                  color='google plus'
+                
+                >
+                  {t("Delete")}
+                </Button>
+                <Button
+                  onClick={() => {
+                    setManaging(false);
+                  }}
+                  // color='grey'
+                  // basic
+                >
+                  {t("Cancel")}
+                </Button>
+              </div>
+            )}
+          </Fragment>
         ) : motofy.embraced ? (
           <Button
             style={buttonVisitorStyle}

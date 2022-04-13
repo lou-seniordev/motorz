@@ -40,9 +40,9 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
       });
     },
     [setCustomer, user]
-    );
-    
-    useEffect(() => {
+  );
+
+  useEffect(() => {
     handleView(mechanic);
     return () => {
       setCustomer(false);
@@ -80,49 +80,40 @@ const MechanicDetailedManager: React.FC<{ mechanic: IMechanic }> = ({
             )}
           </Fragment>
         )}
-         {mechanic.publisherUsername === user?.userName &&
+        {mechanic.publisherUsername === user?.userName &&
           (!managing ? (
             <Button onClick={toggleManaging} color='instagram' fluid>
               {t("Manage mechanic")}
             </Button>
           ) : (
-            <Grid>
-              <GridColumn width={5}>
-                <Button
-                  as={Link}
-                  to={`/manageMechanic/${mechanic.id}`}
-                  color='teal'
-                  fluid
-                >
-                  {t("Manage")}
-                </Button>
-              </GridColumn>
-              <GridColumn width={5}>
-                <Button
-                  onClick={() => {
-                    handleDeleteMechanic(mechanic.id!);
-                  }}
-                  color='red'
-                  fluid
-                >
-                  {t("Delete")}
-                </Button>
-              </GridColumn>
-              <GridColumn width={5}>
+            <div className='ui three buttons'>
               <Button
-                  onClick={() => {
-                    setManaging(false);
-                  }}
-                  color='grey'
-                  fluid
-                >
-                  {t("Cancel")}
-                </Button>
-              </GridColumn>
-            </Grid>
-          ))
-         
-        }
+                as={Link}
+                to={`/manageMechanic/${mechanic.id}`}
+                color='pink'
+                basic
+              >
+                {t("Edit")}
+              </Button>
+
+              <Button
+                onClick={() => {
+                  handleDeleteMechanic(mechanic.id!);
+                }}
+                color='red'
+              >
+                {t("Delete")}
+              </Button>
+
+              <Button
+                onClick={() => {
+                  setManaging(false);
+                }}
+              >
+                {t("Cancel")}
+              </Button>
+            </div>
+          ))}
       </Segment>
     </Segment.Group>
   );

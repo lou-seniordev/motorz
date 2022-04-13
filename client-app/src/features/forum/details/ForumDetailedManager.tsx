@@ -36,38 +36,35 @@ const ForumDetailedManager: React.FC<{ forumpost: IForumpost }> = ({
               {t("Manage your post")}
             </Button>
           ) : (
-            <Grid>
-              <GridColumn width={5}>
+            <div className='ui three buttons'>
+
+          
                 <Button
                   as={Link}
                   to={`/manageForum/${forumpost.id}`}
-                  color='teal'
-                  fluid
+                  color='pink'
+                  basic
                 >
-                  {t("Manage")}
+                  {t("Edit")}
                 </Button>
-              </GridColumn>
-              <GridColumn width={5}>
+           
+                <Button
+                  onClick={handleDeleteForumpost}
+                  color='google plus'
+                  // fluid
+                >
+                  {t("Delete")}
+                </Button>
                 <Button
                   onClick={() => {
                     setManaging(false);
                   }}
-                  color='grey'
-                  fluid
+                  // color='grey'
+                  // fluid
                 >
                   {t("Cancel")}
                 </Button>
-              </GridColumn>
-              <GridColumn width={5}>
-                <Button
-                  onClick={handleDeleteForumpost}
-                  color='google plus'
-                  fluid
-                >
-                  {t("Delete")}
-                </Button>
-              </GridColumn>
-            </Grid>
+            </div>
           )}
         </>
       </Segment>

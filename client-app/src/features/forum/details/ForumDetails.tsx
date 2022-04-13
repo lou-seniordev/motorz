@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
 import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
@@ -23,6 +24,7 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     rootStore.forumPostStore;
 
   const { user } = rootStore.userStore;
+  const { t } = useTranslation(["forum"]);
 
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadForumPost, match.params.id]);
 
   if (loadingInitial || !forumpost)
-    return <LoadingComponent content='Loading forum post details...' />;
+    return <LoadingComponent content={t('Loading forum post details...')} />;
 
   return (
     <Grid>

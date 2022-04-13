@@ -1,6 +1,6 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect } from "react"; 
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Segment, Grid, Icon, Image, Button, Label } from "semantic-ui-react";
@@ -23,9 +23,9 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   const { addFeedItem } = rootStore.feedStore;
 
   const { user } = rootStore.userStore;
+  const [managing, setManaging] = useState(false);
 
   const { t } = useTranslation(["shop"]);
-
 
   useEffect(() => {
     product.viewers.forEach((viewer) => {
@@ -57,6 +57,11 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
     addFeedItem(id, "Removed from favorites");
   };
   const styles = { minWidth: "10em" };
+
+  const toggleManaging = () => {
+    setManaging(true);
+  };
+
   return (
     <Grid stackable columns={2}>
       <Grid.Column width={8}>
@@ -207,7 +212,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                 <div className='ui two buttons'>
                   <Button
                     basic
-                    content={t('Contact the seller')}
+                    content={t("Contact the seller")}
                     color='blue'
                     onClick={() => {
                       openModal(
@@ -235,31 +240,49 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                   />
                 </div>
               ) : (
-                <div className='ui three buttons'>
-                  <Button
-                    basic
-                    onClick={() => {
-                      handleDeleteProduct(product.id!);
-                    }}
-                    color='red'
-                  >
-                    {t("Delete")}
-                  </Button>
-                  <Button
-                    basic
-                    color='olive'
-                    content={t('Mark sold')}
-                    disabled={product.isSold}
-                    onClick={() => handleMarkSold(product.id!)}
-                  />
-                  <Button
-                    as={Link}
-                    to={`/manageProduct/${product.id}`}
-                    color='instagram'
-                  >
-                    {t("Manage")}
-                  </Button>
-                </div>
+                <Fragment>
+                  {!managing ? (
+                    <Button onClick={toggleManaging} color='instagram' fluid>
+                      {t("Manage")}
+                    </Button>
+                  ) : (
+                    <div className='ui four buttons'>
+                      <Button
+                        basic
+                        color='olive'
+                        content={t("Mark sold")}
+                        disabled={product.isSold}
+                        onClick={() => handleMarkSold(product.id!)}
+                      />
+                        <Button
+                        as={Link}
+                        to={`/manageProduct/${product.id}`}
+                        color='pink'
+                        basic
+                      >
+                        {t("Edit")}
+                      </Button>
+
+                      <Button
+                        onClick={() => {
+                          handleDeleteProduct(product.id!);
+                        }}
+                        color='red'
+                      >
+                        {t("Delete")}
+                      </Button>
+
+                    
+                      <Button
+                        onClick={() => {
+                          setManaging(false);
+                        }}
+                      >
+                        {t("Cancel")}
+                      </Button>
+                    </div>
+                  )}
+                </Fragment>
               )}
             </Grid.Column>
           </Grid>

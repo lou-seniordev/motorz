@@ -83,7 +83,6 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
     }
   };
 
-  // if (loadingInitial) return <LoadingComponent content="Loading forum post details..."/>
 
   return (
     <Grid>

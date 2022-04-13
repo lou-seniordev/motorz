@@ -1,6 +1,6 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
-import React, { FormEvent, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Segment, Header, Form, Button, Comment } from "semantic-ui-react";
 import { Form as FinalForm, Field } from "react-final-form";

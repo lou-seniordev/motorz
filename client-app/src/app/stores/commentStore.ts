@@ -22,9 +22,6 @@ export default class CommentStore {
           })
           .configureLogging(LogLevel.Information)
           .build();
-          console.log('motofy', this.motofy)
-          console.log('motofy', motofy)
-    
     
         this.hubConnection
           .start()

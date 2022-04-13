@@ -1,19 +1,16 @@
 import { IProfileEnvelope } from './../models/profile';
 import { IRateMotofy } from './../models/motofy';
-// import { MechanicValues, IMechanicCustomerToBecome } from './../models/mechanic';
-// import { IMessage, IMessageEnvelope, IMessageToSend } from './../models/message';
-import { IMotofy, IMotofyEnvelope } from './../models/motofy'; //MotofyFormValues
+import { IMotofy, IMotofyEnvelope } from './../models/motofy'; 
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
 import { IActivity, IActivitiesEnvelope, IDiaryEntry } from '../models/activity';
 import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
-// import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost, IForumpostEnvelope, IRateForumpost } from '../models/forumpost';
 import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend, IMechanicsEnvelope } from '../models/mechanic';
 import { IBrand } from '../models/brand';
-import { IProduct, IProductsEnvelope } from '../models/product';//, ProductFormValues
+import { IProduct, IProductsEnvelope } from '../models/product';
 import { ICountry } from '../models/country';
 import { postDiaryEntry, postMotofy } from './agentUtil';
 import { postProduct } from './agentUtil';
@@ -104,73 +101,6 @@ const requests = {
   }
 };
 
-// const specialRequests = {
-//   motofyForm: (url: string, motofy: IMotofy) => {
-//     let motofyData = new FormData();
-//     motofyData.append('Id', motofy.id!)
-//     motofyData.append('Name', motofy.name)
-//     motofyData.append('BrandName', motofy.brandName)
-//     motofyData.append('Model', motofy.model)
-//     motofyData.append('CubicCentimeters', motofy.cubicCentimeters)
-//     motofyData.append('File', motofy.file);
-//     motofyData.append('Description', motofy.description!)
-//     motofyData.append('YearOfProduction', motofy.yearOfProduction!)
-//     motofyData.append('DatePublished', motofy.datePublished!)
-//     motofyData.append('City', motofy.city)
-//     motofyData.append('Country', motofy.countryName)
-//     motofyData.append('PricePaid', motofy.pricePaid)
-//     motofyData.append('EstimatedValue', motofy.estimatedValue)
-//     motofyData.append('NumberOfKilometers', motofy.numberOfKilometers)
-//     return axios.post(url, motofyData, {
-//       headers: { 'Content-type': 'multipart/form-data' }
-//     })
-//       .then(responseBody);
-//   }
-// };
-
-// const postProduct = {
-//   productForm: (url: string, product: IProduct) => {
-//     let productData = new FormData();
-//     productData.append('Id', product.id!)
-//     productData.append('Title', product.title)
-//     productData.append('Description', product.description!)
-//     productData.append('brand', product.brand)
-//     productData.append('Model', product.model)
-//     productData.append('Category', product.category)
-//     productData.append('File', product.file);
-//     productData.append('Country', product.countryName)
-//     productData.append('City', product.city)
-//     productData.append('Price', product.price)
-//     productData.append('PhoneNumber', product.phoneNumber)
-//     return axios.post(url, productData, {
-//       headers: { 'Content-type': 'multipart/form-data' }
-//     })
-//       .then(responseBody);
-//   }
-// };
-
-
-// const postMechanic = {
-//   mechanicForm: (url: string, mechanic: IMechanic) => {
-//     // console.log('mechanic', mechanic) 
-//     let mechanicData = new FormData();
-//     mechanicData.append('Id', mechanic.id!)
-//     mechanicData.append('Name', mechanic.name)
-//     mechanicData.append('Description', mechanic.description!)
-//     mechanicData.append('YearOfStart', mechanic.yearOfStart!)
-//     mechanicData.append('Country', mechanic.countryName)
-//     mechanicData.append('City', mechanic.city)
-//     mechanicData.append('Address', mechanic.address)
-//     mechanicData.append('Email', mechanic.email)
-//     mechanicData.append('Phone', mechanic.phone)
-//     mechanicData.append('Website', mechanic.website)
-//     mechanicData.append('File', mechanic.file);
-//     return axios.post(url, mechanicData, {
-//       headers: { 'Content-type': 'multipart/form-data' }
-//     })
-//       .then(responseBody);
-//   }
-// };
 
 const Motofies = {
   // list: (limit?: number, page?: number): Promise<IMotofyEnvelope> => 
@@ -181,13 +111,8 @@ const Motofies = {
     axios.get('/motofies', { params: params })
       // .then(sleep(1000))
       .then(responseBody),
-
-
   details: (id: string) => requests.get(`/motofies/${id}`),
-  // TODO: 
-  // create: (motofy: IMotofy) => requests.post('/motofies', motofy),
-  create: (motofy: IMotofy) => postMotofy.motofyForm('/motofies', motofy),//: Promise<IMotofy>
-
+  create: (motofy: IMotofy) => postMotofy.motofyForm('/motofies', motofy),
   update: (motofy: IMotofy) =>
     requests.put(`/motofies/${motofy.id}`, motofy),
   delete: (id: string) => requests.delete(`/motofies/${id}`),
@@ -201,8 +126,6 @@ const Mechanics = {
     axios.get('/mechanics', { params: params }).then(sleep(1000)).then(responseBody),
 
   details: (id: string) => requests.get(`/mechanics/${id}`),
-  // // TODO: 
-  // create: (mechanic: IMechanic) => requests.post('/mechanics', mechanic),
   create: (mechanic: IMechanic) => postMechanic.mechanicForm('/mechanics', mechanic),
   update: (mechanic: IMechanic) => requests.put(`/mechanics/${mechanic.id}`, mechanic),
   becomecustomer: (newCustomer: IMechanicCustomerToBecome) => requests.post('/mechanics/addcustomer', newCustomer),
@@ -266,13 +189,7 @@ const Feed = {
 const PrivateMessages = {
   list: (limit: number, page: number): Promise<IPrivateMessageEnvelope> =>
     requests.get(`/privatemessages?limit=${limit}&offset=${page ? page * limit! : 0}`),
-
-  // thread: (id: string): Promise<IMessage[]> => requests.get(`/messages/thread/${id}`),
-  // details: (id: string) => requests.get(`/messages/${id}`),
-
   create: (message: IPrivateMessageToSend) => requests.post('/privatemessages/', message),
-
-
   delete: (id: string) => requests.delete(`/messages/${id}`),
   checkUnread: () => requests.get('/privatemessages/checkUnread'),
   markRead: (id: string) => requests.put(`/privatemessages/${id}/markRead`, {})

@@ -22,7 +22,7 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
   if (product.description) {
     descriptionUiShort = product.description.substring(0, 20);
   }
-  const productTitleUiShort = product.title.substring(0, 15);
+  // const productTitleUiShort = product.title.substring(0, 15);
 
   const threeDots = "...";
   return (
