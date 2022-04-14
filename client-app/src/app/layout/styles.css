@@ -33,7 +33,8 @@ body {
       rgb(33, 138, 174, 0.7),
       rgb(32, 167, 172, 9)
     ),
-    url("/assets/motoguzi\ aniversary.jpeg") !important;
+    url("https://res.cloudinary.com/motofy/image/upload/v1542881348/bjpdqdis9vwcagtxffa5.jpg") !important;
+  /* background-repeat: no-repeat !important; */
   height: 100vh;
 }
 

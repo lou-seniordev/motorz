@@ -66,15 +66,15 @@ axios.interceptors.response.use(undefined, (error) => {
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-const sleep = (ms: number) => (response: AxiosResponse) =>
-  new Promise<AxiosResponse>((resolve) =>
-    setTimeout(() => resolve(response), ms)
-  );
+// const sleep = (ms: number) => (response: AxiosResponse) =>
+//   new Promise<AxiosResponse>((resolve) =>
+//     setTimeout(() => resolve(response), ms)
+//   );
 
 const requests = {
   get: (url: string) =>
     axios.get(url)
-      .then(sleep(1000))
+      // .then(sleep(1000))
       .then(responseBody),
   post: (url: string, body: {}) =>
     axios.post(url, body)
@@ -123,7 +123,7 @@ const Motofies = {
 
 const Mechanics = {
   list: (params: URLSearchParams): Promise<IMechanicsEnvelope> =>
-    axios.get('/mechanics', { params: params }).then(sleep(1000)).then(responseBody),
+    axios.get('/mechanics', { params: params }).then(responseBody),//then(sleep(1000)).
 
   details: (id: string) => requests.get(`/mechanics/${id}`),
   create: (mechanic: IMechanic) => postMechanic.mechanicForm('/mechanics', mechanic),
@@ -138,7 +138,7 @@ const Mechanics = {
 const Products = {
   list: (params: URLSearchParams): Promise<IProductsEnvelope> =>
     // requests.get(`/products?limit=${limit}&offset=${page ? limit * page : 0}`),
-    axios.get('/products', { params: params }).then(sleep(1000)).then(responseBody),
+    axios.get('/products', { params: params }).then(responseBody),//then(sleep(1000)).
 
   details: (id: string) => requests.get(`/products/${id}`),
   create: (product: IProduct) => postProduct.productForm('/products', product),
@@ -200,7 +200,7 @@ const Forumposts = {
   //   requests.get(`/forumposts?limit=${limit}&offset=${page ? page * limit! : 0}`),
 
   list: (params: URLSearchParams): Promise<IForumpostEnvelope> =>
-    axios.get('/forumposts', { params: params }).then(sleep(1000)).then(responseBody),
+    axios.get('/forumposts', { params: params }).then(responseBody),  //then(sleep(1000)).
   details: (id: string) => requests.get(`/forumposts/${id}`),
   create: (forumpost: IForumpost) => requests.post('/forumposts', forumpost),
   update: (forumpost: IForumpost) =>
@@ -243,7 +243,7 @@ const Profiles = {
   get: (username: string): Promise<IProfile> =>
     requests.get(`/profiles/${username}`),
   listPeople: (params: URLSearchParams): Promise<IProfileEnvelope> =>
-    axios.get('/profiles/people', { params: params }).then(sleep(1000)).then(responseBody),
+    axios.get('/profiles/people', { params: params }).then(responseBody),//.then(sleep(1000))
   uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm(`/photos/`, photo),
   setMain: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
   deletePhoto: (id: string) => requests.delete(`/photos/${id}`),
