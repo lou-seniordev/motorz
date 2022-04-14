@@ -59,7 +59,7 @@ namespace API
 
             services.AddDbContext<DataContext>(options =>
         {
-            options.UseLazyLoadingProxies();
+            // options.UseLazyLoadingProxies();
              
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
