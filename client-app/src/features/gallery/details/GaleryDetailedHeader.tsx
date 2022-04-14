@@ -29,7 +29,7 @@ const motofyImageTextStyle = {
   left: "10%",
   fontSize: "1rem",
   color: "#FFD700",
-  backgroundColor: "orange",
+  backgroundColor: "lightblue",
   borderRadius: "50%",
 };
 
