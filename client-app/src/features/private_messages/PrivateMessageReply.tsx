@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { useTranslation } from "react-i18next";
 import Picker from "emoji-picker-react";
-import { Form, Grid, GridColumn, GridRow, Icon, TextArea } from "semantic-ui-react";
+import { Form, Grid, GridColumn, GridRow} from "semantic-ui-react";
 
 const PrivateMessageReply = () => {
   const rootStore = useContext(RootStoreContext);
@@ -19,13 +19,13 @@ const PrivateMessageReply = () => {
     addReply,
   } = rootStore.privateMessageStore;
 
-  const tAreatyles = {
-    width: "100%",
-    borderRadius: "10px",
-    border: "none",
-    fontSize: "18px",
-    marginTop: "8px",
-  };
+  // const tAreatyles = {
+  //   width: "100%",
+  //   borderRadius: "10px",
+  //   border: "none",
+  //   fontSize: "18px",
+  //   marginTop: "8px",
+  // };
 
   const { t } = useTranslation(["social"]);
   // const [chosenEmoji, setChosenEmoji] = useState<any>(null);
@@ -135,6 +135,7 @@ const PrivateMessageReply = () => {
           <img
             className='emoji-icon'
             src='https://icons.getbootstrap.com/assets/icons/emoji-smile.svg'
+            alt="smiley"
             onClick={() => setShowPicker((val) => !val)}
           />
           {showPicker && (
@@ -168,6 +169,4 @@ const PrivateMessageReply = () => {
 };
 
 export default observer(PrivateMessageReply);
-{
-  /* </div> */
-}
+

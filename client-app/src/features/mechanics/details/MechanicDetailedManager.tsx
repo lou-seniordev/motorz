@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { Segment, Button, Item, Grid, GridColumn } from "semantic-ui-react";
+import { Segment, Button, Item} from "semantic-ui-react";
 import { IMechanic, IMechanicCustomer } from "../../../app/models/mechanic";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ConfirmDelete from "../modals/ConfirmDelete";
