@@ -47,54 +47,54 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // // == COMMENTED AND REPLACED WITH HEROKU CONFIG
-            // services.AddDbContext<DataContext>(opt =>
-            // {
-            //     // === must add in order to use Lazy Loading Proxies ===
-            //     opt.UseLazyLoadingProxies();
-            //     // opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-            //     opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-            // });
-
-
-            services.AddDbContext<DataContext>(options =>
+            // == COMMENTED AND REPLACED WITH HEROKU CONFIG
+            services.AddDbContext<DataContext>(opt =>
             {
-                options.UseLazyLoadingProxies();
-
-                var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-                string connStr;
-
-                // Depending on if in development or production, use either Heroku-provided
-                // connection string, or development connection string from env var.
-                if (env == "Development")
-                {
-                    // Use connection string from file.
-                    connStr = _configuration.GetConnectionString("DefaultConnection");
-                }
-                else
-                {
-                    // Use connection string provided at runtime by Heroku.
-                    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-
-                    // Parse connection URL to connection string for Npgsql
-                    connUrl = connUrl.Replace("postgres://", string.Empty);
-                    var pgUserPass = connUrl.Split("@")[0];
-                    var pgHostPortDb = connUrl.Split("@")[1];
-                    var pgHostPort = pgHostPortDb.Split("/")[0];
-                    var pgDb = pgHostPortDb.Split("/")[1];
-                    var pgUser = pgUserPass.Split(":")[0];
-                    var pgPass = pgUserPass.Split(":")[1];
-                    var pgHost = pgHostPort.Split(":")[0];
-                    var pgPort = pgHostPort.Split(":")[1];
-
-                    connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
-                }
-
-                // Whether the connection string came from the local development configuration file
-                // or from the environment variable from Heroku, use it to set up your DbContext.
-                options.UseNpgsql(connStr);
+                // === must add in order to use Lazy Loading Proxies ===
+                opt.UseLazyLoadingProxies();
+                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                // opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+
+            // services.AddDbContext<DataContext>(options =>
+            // {
+            //     options.UseLazyLoadingProxies();
+
+            //     var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            //     string connStr;
+
+            //     // Depending on if in development or production, use either Heroku-provided
+            //     // connection string, or development connection string from env var.
+            //     if (env == "Development")
+            //     {
+            //         // Use connection string from file.
+            //         connStr = _configuration.GetConnectionString("DefaultConnection");
+            //     }
+            //     else
+            //     {
+            //         // Use connection string provided at runtime by Heroku.
+            //         var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+            //         // Parse connection URL to connection string for Npgsql
+            //         connUrl = connUrl.Replace("postgres://", string.Empty);
+            //         var pgUserPass = connUrl.Split("@")[0];
+            //         var pgHostPortDb = connUrl.Split("@")[1];
+            //         var pgHostPort = pgHostPortDb.Split("/")[0];
+            //         var pgDb = pgHostPortDb.Split("/")[1];
+            //         var pgUser = pgUserPass.Split(":")[0];
+            //         var pgPass = pgUserPass.Split(":")[1];
+            //         var pgHost = pgHostPort.Split(":")[0];
+            //         var pgPort = pgHostPort.Split(":")[1];
+
+            //         connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
+            //     }
+
+            //     // Whether the connection string came from the local development configuration file
+            //     // or from the environment variable from Heroku, use it to set up your DbContext.
+            //     options.UseNpgsql(connStr);
+            // });
 
 
             services.AddControllers(opt =>
@@ -224,11 +224,38 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
-            if (env.IsDevelopment())
-            {
-                // commented for own middleware 
-                // app.UseDeveloperExceptionPage();
-            }
+
+            // app.UseXContentTypeOptions();
+            // app.UseReferrerPolicy(opt => opt.NoReferrer());
+            // app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+            // app.UseXfo(opt => opt.Deny());
+            // app.UseCsp(opt => opt
+            // .BlockAllMixedContent()
+            // .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", "http://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"))
+            // .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:", "https://cdn.jsdelivr.net"))
+            // .FormActions(s => s.Self())
+            // .FrameAncestors(s => s.Self())
+            // // .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com", "data:", "https://icons.getbootstrap.com", "https://cdn.jsdelivr.net/npm/emoji-datasource-apple"))
+            // .ScriptSources(s => s.Self().CustomSources
+            // ("sha256-ma5XxS1EBgt17N22Qq31rOxxRWRfzUTQS1KOtfYwuNo=", 
+            // "sha256-PmHF+y22EWy0WlrrcqhBTX9F6aYpg6ydu5dOnFQVV7E=", 
+            // "sha256-K6uBQM4l8N6EURcKc2ZNQm+Gc1KvdEC8pC/MXadsE+I=",
+            // "sha256-3Lf4VvkT+g5P4ttKjNTtwi9JCU/bUA2Ja4zMcjlw27k=",
+            // "sha256-/LyxTDXIpXrAQ/Rz0qzI4leFgZ1eYPs2l40VLtOHYYk=",
+            // "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+            // "sha256-QQPGQ6JxqKsyu64fPMwV7cZA6fL+tWpwhvQqaQv0pY4=",
+            // "sha256-zM69Aacc2A+NAmKUdtYQzCdWduXTxlDmwpguKPSVGo8=",
+            // "sha256-4JqrX7rrNLxYOU9KFPHnQGL6TQuE9qWtUPge+ZpwA9o=",
+            // "sha256-XwjND1lF2BByy27WKWeHM83JIFtpK44dNTydjb9W4mM=",
+            // "sha256-e/E2+Ei+m9StjuUexPCI3BHbmPJm9vSj4zkB3a1VqEo="
+            // ))
+            // );
+
+            // if (env.IsDevelopment())
+            // {
+            //     // commented for own middleware 
+            //     // app.UseDeveloperExceptionPage();
+            // }
 
             // app.UseHttpsRedirection();
 
