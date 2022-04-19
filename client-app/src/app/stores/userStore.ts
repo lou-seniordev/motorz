@@ -15,7 +15,7 @@ export default class UserStore {
 
     @observable user: IUser | null = null;
 
-    @computed get isLoggedIn() {return !! this.user};
+    @computed get isLoggedIn() { return !!this.user };
 
     @action login = async (values: IUserFormValues) => {
         try {
@@ -25,8 +25,10 @@ export default class UserStore {
             });
             this.rootStore.commonStore.setToken(user.token);
             this.rootStore.modalStore.closeModal();
+            //==01
+            this.rootStore.presenceStore.createHubConnection();
             history.push('/activities');
-            
+
         } catch (error) {
             throw error
         }
@@ -45,9 +47,11 @@ export default class UserStore {
     @action logout = () => {
         this.rootStore.commonStore.setToken(null);
         this.user = null;
+        //==02
+        this.rootStore.presenceStore.stopHubConnection();
         history.push('/')
     }
-    
+
     @action register = async (values: IUserFormValues) => {
 
         try {

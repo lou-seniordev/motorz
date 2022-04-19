@@ -193,11 +193,7 @@ namespace API
                             var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken)
-                                && (
-                                    (path.StartsWithSegments("/chat")
-                                ||
-                                (path.StartsWithSegments("/message"))
-                                ))
+                                && ((path.StartsWithSegments("/chat") || (path.StartsWithSegments("/message")) || (path.StartsWithSegments("/presence"))))
                                 )
                             {
                                 context.Token = accessToken;
@@ -208,7 +204,7 @@ namespace API
                     };
                 });
 
-
+            services.AddSingleton<PresenceTracker>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
@@ -280,6 +276,7 @@ namespace API
                 endpoints.MapHub<ChatHub>("/chat");
 
                 endpoints.MapHub<PrivateMessageHub>("/message");
+                endpoints.MapHub<PresenceHub>("/presence");
 
                 // === 
                 endpoints.MapFallbackToController("Index", "Fallback");

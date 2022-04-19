@@ -20,8 +20,12 @@ const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
-  const { unreadPrivateMessages, getUnreadPrivate } =
+  const { unreadPrivateMessages
+    // , getUnreadPrivate 
+  } =
     rootStore.privateMessageStore;
+
+  // const { createHubConnection } = rootStore.presenceStore;
 
   const { i18n, t } = useTranslation(["navbar"]);
 
@@ -38,6 +42,8 @@ const NavBar: React.FC = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
+      //  //==03
+      // createHubConnection();
       menuRef.current.onclick = function (e: any) {
         var menu = menuRef.current.parentNode;
 
@@ -58,12 +64,15 @@ const NavBar: React.FC = () => {
     if (localStorage.getItem("i18nextLng")?.length! > 2) {
       i18next.changeLanguage("en");
     }
-    if (isLoggedIn) {
-      setInterval(() => {
-        getUnreadPrivate();
-      }, 2000);
-    }
-  }, [getUnreadPrivate, isLoggedIn]);
+    // //temp comment trying presence
+    // if (isLoggedIn) {
+    //   setInterval(() => {
+    //     getUnreadPrivate();
+    //   }, 2000);
+    // }
+  }, [
+    // getUnreadPrivate, isLoggedIn
+  ]);
 
   const handleLanguageChange = (e: any) => {
     i18n.changeLanguage(e.target.value);
