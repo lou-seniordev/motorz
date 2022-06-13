@@ -276,6 +276,7 @@ namespace API
                 endpoints.MapHub<ChatHub>("/chat");
 
                 endpoints.MapHub<PrivateMessageHub>("/message");
+                // endpoints.MapHub<MessageHub>("/newmessage"); 
                 endpoints.MapHub<PresenceHub>("/presence");
 
                 // === 

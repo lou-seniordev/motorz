@@ -56,11 +56,12 @@ const PrivateMessagesDashboard = () => {
             <Grid.Row>
               {listOfMessagesInFocus && <PrivateMessageThreadListItem />}
             {/* </Grid.Column> */}
-            </Grid.Row>
-            <Grid.Row>
+            {/* </Grid.Row>
+            <Grid.Row> */}
 
             {/* <Grid.Column width={12}> */}
               <PrivateMessageReply/>
+             
             </Grid.Row>
             </Grid.Column>
           </Grid.Row>

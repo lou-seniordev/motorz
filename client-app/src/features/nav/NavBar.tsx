@@ -21,7 +21,7 @@ const NavBar: React.FC = () => {
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
   const { unreadPrivateMessages
-    // , getUnreadPrivate 
+    , getUnreadPrivate 
   } =
     rootStore.privateMessageStore;
 
@@ -64,14 +64,15 @@ const NavBar: React.FC = () => {
     if (localStorage.getItem("i18nextLng")?.length! > 2) {
       i18next.changeLanguage("en");
     }
-    // //temp comment trying presence
-    // if (isLoggedIn) {
-    //   setInterval(() => {
-    //     getUnreadPrivate();
-    //   }, 2000);
-    // }
+    //temp comment trying presence
+    if (isLoggedIn) {
+      setInterval(() => {
+        getUnreadPrivate();
+      }, 2000);
+    }
   }, [
-    // getUnreadPrivate, isLoggedIn
+    getUnreadPrivate, 
+    isLoggedIn
   ]);
 
   const handleLanguageChange = (e: any) => {

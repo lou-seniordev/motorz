@@ -44,19 +44,19 @@ export default class PresenceStore {
             // })
             .catch(error => console.log('Error establishing connection: ', error));
 
-        this.hubConnection.on('UserIsOnline', username => {
-            // console.log('message :::', username)
-            toast.info(username + ' has connected')
+        // this.hubConnection.on('UserIsOnline', username => {
+        //     // console.log('message :::', username)
+        //     toast.info(username + ' has connected')
 
-            // runInAction(() => {
+        //     // runInAction(() => {
              
 
-            // });
-        });
+        //     // });
+        // });
         
-        this.hubConnection.on('UserIsOffline', username => {
-            toast.warning(username + ' has disconnected')
-        });
+        // this.hubConnection.on('UserIsOffline', username => {
+        //     toast.warning(username + ' has disconnected')
+        // });
 
         this.hubConnection.on('GetOnlineUsers', (usernames: string[]) => {
             // toast.success(usernames + ' are present')

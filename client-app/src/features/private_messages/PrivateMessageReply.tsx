@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { useTranslation } from "react-i18next";
 import Picker from "emoji-picker-react";
-import { Form, Grid, GridColumn, GridRow} from "semantic-ui-react";
+import { Form, Grid } from "semantic-ui-react";
 
 const PrivateMessageReply = () => {
   const rootStore = useContext(RootStoreContext);
@@ -38,21 +38,18 @@ const PrivateMessageReply = () => {
   // const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
 
-  
-
   // const areaHeight = 16;
   const MIN_TEXTAREA_HEIGHT = 16;
 
-
   const textareaRef = useRef<any>(null);
   const [value, setValue] = useState("");
-  const onChange = (event:any) => setValue(event.target.value);
+  const onChange = (event: any) => setValue(event.target.value);
 
   const onEmojiClick = (event: any, emojiObject: any) => {
     setValue((prevInput) => prevInput + emojiObject.emoji);
     setShowPicker(false);
   };
-  
+
   useLayoutEffect(() => {
     // Reset height - important to shrink on delete
     textareaRef.current.style.height = "inherit";
@@ -63,14 +60,10 @@ const PrivateMessageReply = () => {
     )}px`;
   }, [value]);
 
-
-
   const handleSendReply = (e: any) => {
     if (e.key === "Enter") {
       e.target.value = "";
-      console.log('value:::', value)
-      // console.log(e.target.value);
-      // console.log(inputStr);
+      // console.log('value:::', value)
       if (value === "") {
         console.log("need to validate");
       } else {
@@ -108,47 +101,45 @@ const PrivateMessageReply = () => {
     // />
     // <div className="app">
     // <h3>Add Emoji Picker</h3>
-    <Grid>
-      <GridRow>
-        {/* <GridColumn width={2}>
-          <Icon name="smile outline" size="big" onClick={() => setShowPicker((val) => !val)}/>
-          
-        </GridColumn> */}
-        <GridColumn width={16}>
-          
-        <Form>
-          <textarea
-            ref={textareaRef}
-            autoFocus
-            placeholder={t("Reply")}
-            // value={inputStr}
-            // onChange={(e) => setInputStr(e.currentTarget.value)}
-            onKeyDown={(e: any) => handleSendReply(e)}
-            onChange={onChange}
-            style={{
-              minHeight: MIN_TEXTAREA_HEIGHT,
-              resize: "none"
-            }}
-            value={value}
-           
-          />
-          <img
-            className='emoji-icon'
-            src='https://icons.getbootstrap.com/assets/icons/emoji-smile.svg'
-            alt="smiley"
-            onClick={() => setShowPicker((val) => !val)}
-          />
-          {showPicker && (
-            <Picker
-              pickerStyle={{ width: "100%", marginTop:"-380px" }}
-              onEmojiClick={onEmojiClick}
-              // native
-            />
-          )}
-        </Form>
-        </GridColumn>
-      </GridRow>
-    </Grid>
+
+    // <Grid>
+    //   <Grid.Row>
+    //     <Grid.Column width={16}>
+    <Form>
+      <textarea
+        ref={textareaRef}
+        autoFocus
+        placeholder={t("Reply")}
+        // value={inputStr}
+        // onChange={(e) => setInputStr(e.currentTarget.value)}
+        onKeyDown={(e: any) => handleSendReply(e)}
+        onChange={onChange}
+        style={{
+          minHeight: MIN_TEXTAREA_HEIGHT,
+          resize: "none",
+        }}
+        value={value}
+      />
+
+      <img
+        className='emoji-icon'
+        src='https://icons.getbootstrap.com/assets/icons/emoji-smile.svg'
+        alt='smiley'
+        onClick={() => setShowPicker((val) => !val)}
+      />
+
+      {showPicker && (
+        <Picker
+          pickerStyle={{ width: "50%", left: "20px", bottom: "370px" }}
+          // marginTop: "-380px"
+          onEmojiClick={onEmojiClick}
+          // native
+        />
+      )}
+    </Form>
+    //     </Grid.Column>
+    //   </Grid.Row>
+    // </Grid>
 
     // <div className="picker-container">
     //   <input
@@ -169,4 +160,3 @@ const PrivateMessageReply = () => {
 };
 
 export default observer(PrivateMessageReply);
-

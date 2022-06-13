@@ -197,9 +197,10 @@ a {
 }
 .emoji-icon {
   cursor: pointer;
-  position: absolute;
-  top: 8px;
-  right: 5px;
+  position: relative;
+  top: -45px;
+  /* left: 5px; */
+  right: -700px;
 }
 .input-style {
   padding: 7px 30px 7px 10px;
