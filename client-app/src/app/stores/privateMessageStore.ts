@@ -1,4 +1,5 @@
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { toJS } from 'mobx';
+import {  HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { observable, action, computed, runInAction } from 'mobx';
 // import { toast } from 'react-toastify';
 import { history } from '../..';
@@ -60,8 +61,10 @@ export default class PrivateMessageStore {
     @action createHubConnection = (messageThreadId: string) => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(process.env.REACT_APP_API_MESSAGE_URL!, {
-
+                skipNegotiation: true,
+                transport: HttpTransportType.WebSockets,
                 accessTokenFactory: () => this.rootStore.commonStore.token!
+
             })
             // .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
@@ -81,18 +84,24 @@ export default class PrivateMessageStore {
             .catch(error => console.log('Error establishing connection: ', error));
 
         this.hubConnection.on('ReceiveMessage', message => {
-            console.log('message :::', message)
+            // console.log('message :::', message)
 
             runInAction(() => {
-                this.messageRegistry.set(message.privateMessageThreadId, message);
-                this.setView(message.privateMessageThreadId)
-                console.log('message in runinaction :::', message)
+                this.messageRegistry.set(message.id, message);
+                // console.log('message in runinaction :::', message)
+                console.log('this.messageRegistry in runinaction :::', toJS(this.messageRegistry))
 
             });
+            this.setView(message.privateMessageThreadId)
+            console.log('messageRegistry after runinaction :::', toJS(this.messageRegistry))
         })
         this.hubConnection.on('SendMessage', message => {
             // toast.info(message)
         })
+        // this.hubConnection.on('NewMessageReceived', ({username}) => {
+        //     toast.info(username + ' has sent you a new message!')
+
+        // })
     }
 
     @action stopHubConnection = (messageThreadId: string) => {
@@ -153,8 +162,10 @@ export default class PrivateMessageStore {
 
 
     @action setInitialView = () => {
+        runInAction(() => {
 
-        this.listOfMessagesInFocus = this.messagesByThreadId[0]
+            this.listOfMessagesInFocus = this.messagesByThreadId[0]
+        })
     }
 
     @action setView = (id?: string) => {

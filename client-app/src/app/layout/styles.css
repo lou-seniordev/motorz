@@ -197,9 +197,10 @@ a {
 }
 .emoji-icon {
   cursor: pointer;
-  position: absolute;
-  top: 8px;
-  right: 5px;
+  position: relative;
+  top: -45px;
+  /* left: 5px; */
+  right: -700px;
 }
 .input-style {
   padding: 7px 30px 7px 10px;
@@ -207,4 +208,15 @@ a {
   border-radius: 3px;
   border: 1px solid #999;
   margin-bottom: 10px;
+}
+
+/* User Online */
+@keyframes fa-blink {
+  0% {opacity: 1;}
+  100% {opacity: 0.4;}
+}
+
+.isOnline {
+  animation: fa-blink 1.5s linear infinite;
+  color: rgb(1, 189, 42);
 }

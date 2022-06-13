@@ -41,24 +41,23 @@ import RegisterSuccess from "../../features/user/RegisterSuccess";
 import VerifyEmail from "../../features/user/VerifyEmail";
 import { useTranslation } from "react-i18next";
 
-
-
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
   const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
   const { getUser } = rootStore.userStore;
+  const { createHubConnection } = rootStore.presenceStore;
 
   const { t } = useTranslation(["home"]);
 
   useEffect(() => {
     if (token) {
       getUser().finally(() => setAppLoaded());
-     
+      //==00
+      createHubConnection();
     } else {
       setAppLoaded();
     }
-  }, [getUser, setAppLoaded, token]);
-
+  }, [getUser, setAppLoaded, token, createHubConnection]);
 
   if (!appLoaded) return <LoadingComponent content={t("Loading app...")} />;
   return (

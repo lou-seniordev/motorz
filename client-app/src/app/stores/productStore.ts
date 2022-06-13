@@ -70,11 +70,16 @@ export default class ProductStore {
 
   @action loadProducts = async () => {
     this.loadingInitial = true;
+    
     try {
       const productEnvelope = await agent.Products.list(this.axiosParams);
+      // console.log('loadProducts::', this.axiosParams)
+
       const {products, productCount} = productEnvelope
+      // console.log('loadProducts::', products)
       runInAction('loading products', () => {
         products.forEach((product) => {
+          
           this.productRegistry.set(product.id, product);
           // console.log('product:::', product);
         });

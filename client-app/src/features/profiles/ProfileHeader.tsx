@@ -11,6 +11,7 @@ import {
   Statistic,
   Divider,
   Reveal,
+  Icon,
 } from "semantic-ui-react";
 import { IProfile } from "../../app/models/profile";
 import { RootStoreContext } from "../../app/stores/rootStore";
@@ -38,8 +39,9 @@ const ProfileHeader: React.FC<IProps> = ({
 
   const { openModal } = rootStore.modalStore;
 
-  const { t } = useTranslation(["social"]);
+  const { onlineUsers } = rootStore.presenceStore;
 
+  const { t } = useTranslation(["social"]);
 
   const handleSendMessage = () => {
     openModal(
@@ -61,12 +63,24 @@ const ProfileHeader: React.FC<IProps> = ({
                 src={profile.image || "/assets/user.png"}
               />
               <Item.Content verticalAlign='middle'>
-                <Header as='h1'>{profile.displayName}</Header>
+                <Header as='h1'>
+                {onlineUsers.includes(profile.username) && (
+                  <Icon
+                    name='check circle'
+                    className='isOnline'
+                    bordered
+                    circular
+                    size='small'
+                  />
+                )}
+                  {profile.displayName}
+                
+                </Header>
               </Item.Content>
               {user?.userName !== profile.username && (
                 <Button
                   circular
-                  content={t('Send Message')}
+                  content={t("Send Message")}
                   onClick={handleSendMessage}
                 />
               )}
@@ -75,8 +89,8 @@ const ProfileHeader: React.FC<IProps> = ({
         </Grid.Column>
         <Grid.Column computer={4} mobile={16}>
           <Statistic.Group widths={2}>
-            <Statistic label={t('Followers')} value={profile.followersCount} />
-            <Statistic label={t('Following')} value={profile.followingCount} />
+            <Statistic label={t("Followers")} value={profile.followersCount} />
+            <Statistic label={t("Following")} value={profile.followingCount} />
           </Statistic.Group>
           <Divider />
           {!isCurrentUser && (
@@ -85,7 +99,9 @@ const ProfileHeader: React.FC<IProps> = ({
                 <Button
                   fluid
                   color='instagram'
-                  content={profile.following ? t("Following") : t("Not following")}
+                  content={
+                    profile.following ? t("Following") : t("Not following")
+                  }
                 />
               </Reveal.Content>
               <Reveal.Content hidden>
@@ -97,8 +113,22 @@ const ProfileHeader: React.FC<IProps> = ({
                   content={profile.following ? t("Unfollow") : t("Follow")}
                   onClick={
                     profile.following
-                      ? () => [unfollow(profile.username),  addFeedItem(uuid(), 'Unfollows You', profile.username)]
-                      : () => [follow(profile.username),  addFeedItem(uuid(), 'Started Following You', profile.username)]
+                      ? () => [
+                          unfollow(profile.username),
+                          addFeedItem(
+                            uuid(),
+                            "Unfollows You",
+                            profile.username
+                          ),
+                        ]
+                      : () => [
+                          follow(profile.username),
+                          addFeedItem(
+                            uuid(),
+                            "Started Following You",
+                            profile.username
+                          ),
+                        ]
                   }
                 />
               </Reveal.Content>
