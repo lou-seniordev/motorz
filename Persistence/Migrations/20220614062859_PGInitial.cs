@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AddIsCompletedActivity : Migration
+    public partial class PGInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,10 +11,10 @@ namespace Persistence.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,23 +25,23 @@ namespace Persistence.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    DisplayName = table.Column<string>(nullable: true),
-                    Bio = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    DisplayName = table.Column<string>(type: "TEXT", nullable: true),
+                    Bio = table.Column<string>(type: "TEXT", nullable: true),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,9 +52,9 @@ namespace Persistence.Migrations
                 name: "AverageRatings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Count = table.Column<int>(nullable: false),
-                    Average = table.Column<double>(nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Count = table.Column<int>(type: "INTEGER", nullable: false),
+                    Average = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,12 +65,12 @@ namespace Persistence.Migrations
                 name: "Brands",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    DateOfEstablishment = table.Column<DateTime>(nullable: false),
-                    LogoUrl = table.Column<string>(nullable: true),
-                    LandOfOrigin = table.Column<string>(nullable: true),
-                    CityOfOrigin = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    DateOfEstablishment = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LogoUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    LandOfOrigin = table.Column<string>(type: "TEXT", nullable: true),
+                    CityOfOrigin = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,9 +81,9 @@ namespace Persistence.Migrations
                 name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    CountryCode = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    CountryCode = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,28 +91,28 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MessageThreads",
+                name: "PrivateMessageThreads",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    InitUsername = table.Column<string>(nullable: true),
-                    ReceiverUsername = table.Column<string>(nullable: true),
-                    InitDeleted = table.Column<bool>(nullable: false),
-                    ReceiverDeleted = table.Column<bool>(nullable: false),
-                    DateUpdated = table.Column<DateTime>(nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    InitUsername = table.Column<string>(type: "TEXT", nullable: true),
+                    ReceiverUsername = table.Column<string>(type: "TEXT", nullable: true),
+                    InitDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ReceiverDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MessageThreads", x => x.Id);
+                    table.PrimaryKey("PK_PrivateMessageThreads", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Testimonials",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Text = table.Column<string>(nullable: true),
-                    DateAdded = table.Column<DateTime>(nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Text = table.Column<string>(type: "TEXT", nullable: true),
+                    DateAdded = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,11 +123,11 @@ namespace Persistence.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,11 +144,11 @@ namespace Persistence.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -165,10 +165,10 @@ namespace Persistence.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
+                    ProviderKey = table.Column<string>(type: "TEXT", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -185,8 +185,8 @@ namespace Persistence.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -209,10 +209,10 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Value = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -229,12 +229,12 @@ namespace Persistence.Migrations
                 name: "Feeds",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Info = table.Column<string>(nullable: true),
-                    NotifierId = table.Column<string>(nullable: true),
-                    ObjectId = table.Column<Guid>(nullable: false),
-                    DateTriggered = table.Column<DateTime>(nullable: false),
-                    FeedType = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Info = table.Column<string>(type: "TEXT", nullable: true),
+                    NotifierId = table.Column<string>(type: "TEXT", nullable: true),
+                    ObjectId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DateTriggered = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FeedType = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -251,8 +251,8 @@ namespace Persistence.Migrations
                 name: "Followings",
                 columns: table => new
                 {
-                    ObserverId = table.Column<string>(nullable: false),
-                    TargetId = table.Column<string>(nullable: false)
+                    ObserverId = table.Column<string>(type: "TEXT", nullable: false),
+                    TargetId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -275,13 +275,13 @@ namespace Persistence.Migrations
                 name: "Forumposts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    DateAdded = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(nullable: true),
-                    Body = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true),
-                    ForumpostRating = table.Column<double>(nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: true),
+                    DateAdded = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Body = table.Column<string>(type: "TEXT", nullable: true),
+                    Category = table.Column<string>(type: "TEXT", nullable: true),
+                    ForumpostRating = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -298,10 +298,10 @@ namespace Persistence.Migrations
                 name: "Photos",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    IsMain = table.Column<bool>(nullable: false),
-                    AppUserId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    IsMain = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -318,32 +318,32 @@ namespace Persistence.Migrations
                 name: "Activities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false),
-                    City = table.Column<string>(nullable: true),
-                    CountryId = table.Column<Guid>(nullable: true),
-                    Departure = table.Column<string>(nullable: true),
-                    Destination = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsCompleted = table.Column<bool>(nullable: false),
-                    MotorcycleBrandId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Category = table.Column<string>(type: "TEXT", nullable: true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    CountryId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Departure = table.Column<string>(type: "TEXT", nullable: true),
+                    Destination = table.Column<string>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    MotorcycleBrandId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Activities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Activities_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Activities_Brands_MotorcycleBrandId",
                         column: x => x.MotorcycleBrandId,
                         principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Activities_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -352,27 +352,33 @@ namespace Persistence.Migrations
                 name: "Mechanics",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    PublisherId = table.Column<string>(nullable: true),
-                    IsOwner = table.Column<bool>(nullable: false),
-                    Owner = table.Column<string>(nullable: true),
-                    PhotoUrl = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    YearOfStart = table.Column<string>(nullable: true),
-                    DatePublished = table.Column<DateTime>(nullable: false),
-                    CountryId = table.Column<Guid>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Website = table.Column<string>(nullable: true),
-                    TotalRecommended = table.Column<int>(nullable: false),
-                    AverageRatingId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    PublisherId = table.Column<string>(type: "TEXT", nullable: true),
+                    IsOwner = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Owner = table.Column<string>(type: "TEXT", nullable: true),
+                    PhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    YearOfStart = table.Column<string>(type: "TEXT", nullable: true),
+                    DatePublished = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CountryId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    Address = table.Column<string>(type: "TEXT", nullable: true),
+                    Phone = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    Website = table.Column<string>(type: "TEXT", nullable: true),
+                    TotalRecommended = table.Column<int>(type: "INTEGER", nullable: false),
+                    AverageRatingId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mechanics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Mechanics_AspNetUsers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Mechanics_AverageRatings_AverageRatingId",
                         column: x => x.AverageRatingId,
@@ -385,39 +391,39 @@ namespace Persistence.Migrations
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Mechanics_AspNetUsers_PublisherId",
-                        column: x => x.PublisherId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Motofies",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    PublisherId = table.Column<string>(nullable: true),
-                    BrandId = table.Column<Guid>(nullable: true),
-                    Model = table.Column<string>(nullable: true),
-                    CubicCentimeters = table.Column<string>(nullable: true),
-                    PhotoUrl = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    YearOfProduction = table.Column<string>(nullable: true),
-                    DatePublished = table.Column<DateTime>(nullable: false),
-                    City = table.Column<string>(nullable: true),
-                    CountryId = table.Column<Guid>(nullable: true),
-                    PricePaid = table.Column<string>(nullable: true),
-                    EstimatedValue = table.Column<string>(nullable: true),
-                    NumberOfKilometers = table.Column<string>(nullable: true),
-                    TotalEmbraced = table.Column<int>(nullable: false),
-                    AverageRatingId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    PublisherId = table.Column<string>(type: "TEXT", nullable: true),
+                    BrandId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Model = table.Column<string>(type: "TEXT", nullable: true),
+                    CubicCentimeters = table.Column<string>(type: "TEXT", nullable: true),
+                    PhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    YearOfProduction = table.Column<string>(type: "TEXT", nullable: true),
+                    DatePublished = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    CountryId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    PricePaid = table.Column<string>(type: "TEXT", nullable: true),
+                    EstimatedValue = table.Column<string>(type: "TEXT", nullable: true),
+                    NumberOfKilometers = table.Column<string>(type: "TEXT", nullable: true),
+                    TotalEmbraced = table.Column<int>(type: "INTEGER", nullable: false),
+                    AverageRatingId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Motofies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Motofies_AspNetUsers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Motofies_AverageRatings_AverageRatingId",
                         column: x => x.AverageRatingId,
@@ -436,52 +442,89 @@ namespace Persistence.Migrations
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Motofies_AspNetUsers_PublisherId",
-                        column: x => x.PublisherId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    SellerId = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    Model = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Price = table.Column<string>(nullable: true),
-                    PictureUrl = table.Column<string>(nullable: true),
-                    Brand = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    CountryId = table.Column<Guid>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsAdvertised = table.Column<bool>(nullable: false),
-                    IsSold = table.Column<bool>(nullable: false),
-                    NumberSeen = table.Column<int>(nullable: false),
-                    DatePublished = table.Column<DateTime>(nullable: false),
-                    DateActivated = table.Column<DateTime>(nullable: false),
-                    DateAdvertised = table.Column<DateTime>(nullable: false),
-                    ActivationCounter = table.Column<int>(nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SellerId = table.Column<string>(type: "TEXT", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Model = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Price = table.Column<string>(type: "TEXT", nullable: true),
+                    PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    Brand = table.Column<string>(type: "TEXT", nullable: true),
+                    Category = table.Column<string>(type: "TEXT", nullable: true),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    CountryId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsAdvertised = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsSold = table.Column<bool>(type: "INTEGER", nullable: false),
+                    NumberSeen = table.Column<int>(type: "INTEGER", nullable: false),
+                    NumberFollowed = table.Column<int>(type: "INTEGER", nullable: false),
+                    DatePublished = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DateActivated = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DateAdvertised = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    AdvertisingEndDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    TypeAdvertising = table.Column<string>(type: "TEXT", nullable: true),
+                    InactivityExpirationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ActivationCounter = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrivateMessages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SenderId = table.Column<string>(type: "TEXT", nullable: true),
+                    SenderUsername = table.Column<string>(type: "TEXT", nullable: true),
+                    RecipientId = table.Column<string>(type: "TEXT", nullable: true),
+                    RecipientUsername = table.Column<string>(type: "TEXT", nullable: true),
+                    Content = table.Column<string>(type: "TEXT", nullable: true),
+                    DateRead = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DateSent = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    SenderDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    RecipientDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PrivateMessageThreadId = table.Column<Guid>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrivateMessages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_AspNetUsers_SellerId",
-                        column: x => x.SellerId,
+                        name: "FK_PrivateMessages_AspNetUsers_RecipientId",
+                        column: x => x.RecipientId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PrivateMessages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PrivateMessages_PrivateMessageThreads_PrivateMessageThreadId",
+                        column: x => x.PrivateMessageThreadId,
+                        principalTable: "PrivateMessageThreads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -490,9 +533,9 @@ namespace Persistence.Migrations
                 name: "FeedNotifyees",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    AppUserId = table.Column<string>(nullable: true),
-                    FeedId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    FeedId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -509,11 +552,11 @@ namespace Persistence.Migrations
                 name: "CommentForumPosts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Body = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    ForumpostId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: true),
+                    ForumpostId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Body = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -536,13 +579,13 @@ namespace Persistence.Migrations
                 name: "ForumpostRatings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    ForumpostId = table.Column<Guid>(nullable: true),
-                    IsInteresting = table.Column<bool>(nullable: true),
-                    IsUsefull = table.Column<bool>(nullable: true),
-                    IsHelping = table.Column<bool>(nullable: true),
-                    Rating = table.Column<int>(nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: true),
+                    ForumpostId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    IsInteresting = table.Column<bool>(type: "INTEGER", nullable: true),
+                    IsUsefull = table.Column<bool>(type: "INTEGER", nullable: true),
+                    IsHelping = table.Column<bool>(type: "INTEGER", nullable: true),
+                    Rating = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -565,11 +608,11 @@ namespace Persistence.Migrations
                 name: "CommentActivity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Body = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    ActivityId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: true),
+                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Body = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -592,11 +635,11 @@ namespace Persistence.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Body = table.Column<string>(nullable: true),
-                    AuthorId = table.Column<string>(nullable: true),
-                    ActivityId = table.Column<Guid>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Body = table.Column<string>(type: "TEXT", nullable: true),
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: true),
+                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -619,14 +662,17 @@ namespace Persistence.Migrations
                 name: "DiaryEntries",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    EntryDate = table.Column<DateTime>(nullable: false),
-                    DayNumber = table.Column<int>(nullable: false),
-                    Body = table.Column<string>(nullable: true),
-                    Mood = table.Column<string>(nullable: true),
-                    LocationCity = table.Column<string>(nullable: true),
-                    LocationCountry = table.Column<string>(nullable: true),
-                    ActivityId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    EntryDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DayNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    Body = table.Column<string>(type: "TEXT", nullable: true),
+                    Mood = table.Column<string>(type: "TEXT", nullable: true),
+                    LocationCity = table.Column<string>(type: "TEXT", nullable: true),
+                    LocationCountry = table.Column<string>(type: "TEXT", nullable: true),
+                    Road = table.Column<string>(type: "TEXT", nullable: true),
+                    Weather = table.Column<string>(type: "TEXT", nullable: true),
+                    NumberOfKilometers = table.Column<int>(type: "INTEGER", nullable: false),
+                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -643,10 +689,10 @@ namespace Persistence.Migrations
                 name: "UserActivities",
                 columns: table => new
                 {
-                    AppUserId = table.Column<string>(nullable: false),
-                    ActivityId = table.Column<Guid>(nullable: false),
-                    DateJoined = table.Column<DateTime>(nullable: false),
-                    IsHost = table.Column<bool>(nullable: false)
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: false),
+                    ActivityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DateJoined = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsHost = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -669,11 +715,11 @@ namespace Persistence.Migrations
                 name: "CommentMechanics",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Body = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    MechanicId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: true),
+                    MechanicId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Body = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -693,13 +739,38 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MechanicBrands",
+                columns: table => new
+                {
+                    BrandId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    MechanicId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DateAdded = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MechanicBrands", x => new { x.MechanicId, x.BrandId });
+                    table.ForeignKey(
+                        name: "FK_MechanicBrands_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MechanicBrands_Mechanics_MechanicId",
+                        column: x => x.MechanicId,
+                        principalTable: "Mechanics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MechanicPhotos",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    DateUploaded = table.Column<DateTime>(nullable: false),
-                    MechanicForeignKey = table.Column<Guid>(nullable: false)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    DateUploaded = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    MechanicForeignKey = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -716,24 +787,24 @@ namespace Persistence.Migrations
                 name: "Ratings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    Score = table.Column<int>(nullable: false),
-                    MechanicId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
+                    Score = table.Column<int>(type: "INTEGER", nullable: false),
+                    MechanicId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ratings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ratings_Mechanics_MechanicId",
-                        column: x => x.MechanicId,
-                        principalTable: "Mechanics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Ratings_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Ratings_Mechanics_MechanicId",
+                        column: x => x.MechanicId,
+                        principalTable: "Mechanics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -742,13 +813,13 @@ namespace Persistence.Migrations
                 name: "UserMechanics",
                 columns: table => new
                 {
-                    AppUserId = table.Column<string>(nullable: false),
-                    MechanicId = table.Column<Guid>(nullable: false),
-                    TestimonialId = table.Column<Guid>(nullable: true),
-                    IsOwner = table.Column<bool>(nullable: false),
-                    IsCustomer = table.Column<bool>(nullable: false),
-                    CustomerRecommended = table.Column<bool>(nullable: false),
-                    DateBecameCustomer = table.Column<DateTime>(nullable: true)
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: false),
+                    MechanicId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    TestimonialId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    IsOwner = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsCustomer = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CustomerRecommended = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DateBecameCustomer = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -777,11 +848,11 @@ namespace Persistence.Migrations
                 name: "CommentMotofies",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Body = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    MotofyId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: true),
+                    MotofyId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Body = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -804,9 +875,9 @@ namespace Persistence.Migrations
                 name: "MotofyPhotos",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    MotofyForeignKey = table.Column<Guid>(nullable: false)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    MotofyForeignKey = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -823,24 +894,24 @@ namespace Persistence.Migrations
                 name: "MotofyScores",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    Score = table.Column<int>(nullable: false),
-                    MotofyId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
+                    Score = table.Column<int>(type: "INTEGER", nullable: false),
+                    MotofyId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MotofyScores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MotofyScores_Motofies_MotofyId",
-                        column: x => x.MotofyId,
-                        principalTable: "Motofies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_MotofyScores_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MotofyScores_Motofies_MotofyId",
+                        column: x => x.MotofyId,
+                        principalTable: "Motofies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -849,10 +920,10 @@ namespace Persistence.Migrations
                 name: "UserMotofies",
                 columns: table => new
                 {
-                    AppUserId = table.Column<string>(nullable: false),
-                    MotofyId = table.Column<Guid>(nullable: false),
-                    DateEmbraced = table.Column<DateTime>(nullable: false),
-                    IsOwner = table.Column<bool>(nullable: false)
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: false),
+                    MotofyId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DateEmbraced = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsOwner = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -872,58 +943,12 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    SenderId = table.Column<string>(nullable: true),
-                    SenderUsername = table.Column<string>(nullable: true),
-                    RecipientId = table.Column<string>(nullable: true),
-                    RecipientUsername = table.Column<string>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
-                    DateRead = table.Column<DateTime>(nullable: true),
-                    DateSent = table.Column<DateTime>(nullable: false),
-                    SenderDeleted = table.Column<bool>(nullable: false),
-                    RecipientDeleted = table.Column<bool>(nullable: false),
-                    ProductId = table.Column<Guid>(nullable: true),
-                    MessageThreadId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_MessageThreads_MessageThreadId",
-                        column: x => x.MessageThreadId,
-                        principalTable: "MessageThreads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Messages_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_RecipientId",
-                        column: x => x.RecipientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductPhotos",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    ProductForeignKey = table.Column<Guid>(nullable: false)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    ProductForeignKey = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -940,9 +965,9 @@ namespace Persistence.Migrations
                 name: "ProductViewers",
                 columns: table => new
                 {
-                    AppUserId = table.Column<string>(nullable: false),
-                    ProductId = table.Column<Guid>(nullable: false),
-                    DateStarted = table.Column<DateTime>(nullable: false)
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: false),
+                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DateStarted = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -965,10 +990,10 @@ namespace Persistence.Migrations
                 name: "DiaryPhotos",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    DateUploaded = table.Column<DateTime>(nullable: false),
-                    DiaryEntryForeignKey = table.Column<Guid>(nullable: false)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    DateUploaded = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DiaryEntryForeignKey = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1120,6 +1145,11 @@ namespace Persistence.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MechanicBrands_BrandId",
+                table: "MechanicBrands",
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MechanicPhotos_MechanicForeignKey",
                 table: "MechanicPhotos",
                 column: "MechanicForeignKey",
@@ -1139,26 +1169,6 @@ namespace Persistence.Migrations
                 name: "IX_Mechanics_PublisherId",
                 table: "Mechanics",
                 column: "PublisherId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_MessageThreadId",
-                table: "Messages",
-                column: "MessageThreadId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_ProductId",
-                table: "Messages",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_RecipientId",
-                table: "Messages",
-                column: "RecipientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_SenderId",
-                table: "Messages",
-                column: "SenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Motofies_AverageRatingId",
@@ -1200,6 +1210,21 @@ namespace Persistence.Migrations
                 name: "IX_Photos_AppUserId",
                 table: "Photos",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrivateMessages_PrivateMessageThreadId",
+                table: "PrivateMessages",
+                column: "PrivateMessageThreadId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrivateMessages_RecipientId",
+                table: "PrivateMessages",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrivateMessages_SenderId",
+                table: "PrivateMessages",
+                column: "SenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPhotos_ProductForeignKey",
@@ -1298,10 +1323,10 @@ namespace Persistence.Migrations
                 name: "ForumpostRatings");
 
             migrationBuilder.DropTable(
-                name: "MechanicPhotos");
+                name: "MechanicBrands");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "MechanicPhotos");
 
             migrationBuilder.DropTable(
                 name: "MotofyPhotos");
@@ -1311,6 +1336,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Photos");
+
+            migrationBuilder.DropTable(
+                name: "PrivateMessages");
 
             migrationBuilder.DropTable(
                 name: "ProductPhotos");
@@ -1343,7 +1371,7 @@ namespace Persistence.Migrations
                 name: "Forumposts");
 
             migrationBuilder.DropTable(
-                name: "MessageThreads");
+                name: "PrivateMessageThreads");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -1361,16 +1389,16 @@ namespace Persistence.Migrations
                 name: "Activities");
 
             migrationBuilder.DropTable(
-                name: "AverageRatings");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Countries");
+                name: "AverageRatings");
 
             migrationBuilder.DropTable(
                 name: "Brands");
+
+            migrationBuilder.DropTable(
+                name: "Countries");
         }
     }
 }

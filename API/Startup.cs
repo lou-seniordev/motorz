@@ -52,8 +52,8 @@ namespace API
             {
                 // === must add in order to use Lazy Loading Proxies ===
                 opt.UseLazyLoadingProxies();
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-                // opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+                // opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
 
 
