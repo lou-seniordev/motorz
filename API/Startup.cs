@@ -47,14 +47,14 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // == COMMENTED AND REPLACED WITH HEROKU CONFIG
-            services.AddDbContext<DataContext>(opt =>
-            {
-                // === must add in order to use Lazy Loading Proxies ===
-                opt.UseLazyLoadingProxies();
-                // opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            // // == COMMENTED AND REPLACED WITH HEROKU CONFIG
+            // services.AddDbContext<DataContext>(opt =>
+            // {
+            //     // === must add in order to use Lazy Loading Proxies ===
+            //     opt.UseLazyLoadingProxies();
+            //     // opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            //     opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            // });
 
 
             services.AddDbContext<DataContext>(options =>
