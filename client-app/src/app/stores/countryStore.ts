@@ -44,6 +44,12 @@ export default class CountryStore {
         }
     }
 
+    // @action cleanCountries = async () => {
+    //     runInAction('cleaning countries', () => {
+    //         this.countries = [];
+    //     })
+    // }
+
 
 
     // @action clearBrand = () => {

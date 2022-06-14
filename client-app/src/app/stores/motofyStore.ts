@@ -37,6 +37,9 @@ export default class MotofyStore {
   @observable target = '';
   @observable loading = false;
 
+  @observable info: string = 'All motofies'
+
+
   @observable.ref hubConnection: HubConnection | null = null;
   
   @action createHubConnection = (id: string, connectionArgument: string) => {
@@ -109,9 +112,32 @@ export default class MotofyStore {
   @observable predicate = new Map();
 
   @action setPredicate = (predicate: string, value: string  ) => { 
+    this.setInfo(predicate);
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
+    }
+  }
+  @action setInfo = (prodicate: string) => {
+    switch (prodicate) {
+      case 'bestRated':
+        this.info = 'Best rated'
+        break;
+      case 'mostEmbraced':
+        this.info = 'Most embraced'
+        break;
+      case 'iEmbraced':
+        this.info = 'Motofies I embraced'
+        break;
+      case 'iFollow':
+        this.info = 'Motofies I follow'
+        break;
+      case 'calendar':
+        this.info = 'Search motofies'
+        break;
+      default:
+        this.info = 'All motofies'
+        break;
     }
   }
 

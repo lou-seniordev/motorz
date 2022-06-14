@@ -5,7 +5,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 
 const SearchMechanicByCountry = () => {
   const rootStore = useContext(RootStoreContext);
-  const { setPredicate } = rootStore.forumPostStore;
+  const { setPredicate } = rootStore.mechanicStore;
   const { countries, loadCountriesToSelect } = rootStore.countryStore;
   const { closeModal } = rootStore.modalStore;
 

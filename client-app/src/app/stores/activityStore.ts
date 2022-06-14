@@ -44,16 +44,34 @@ export default class ActivityStore {
 
   @observable predicate = new Map();
 
+  @observable info: string = 'All diaries'
+
   @action setPredicate = (predicate: string, value: string | Date) => {
-    // console.log(value)
+    this.setInfo(predicate);
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
     }
-    // console.log(toJS(this.predicate))
-    // if (predicate !== 'iFollow') {
-    //   this.activityMax = false;
-    // }
+  }
+
+  @action setInfo = (prodicate: string) => {
+    switch (prodicate) {
+      case 'isCompleted':
+        this.info = 'Completed diaries'
+        break;
+      case 'isGoing':
+        this.info = 'Diaries You Are Attending'
+        break;
+      case 'isHost':
+        this.info = 'Your diaries'
+        break;
+      case 'calendar':
+        this.info = 'Search diaries'
+        break;
+      default:
+        this.info = 'All diaries'
+        break;
+    }
   }
 
   @computed get axiosParams() {
@@ -168,7 +186,7 @@ export default class ActivityStore {
         activities.forEach((activity) => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
-         
+
         });
         this.activityCount = activityCount;
         this.loadingInitial = false;
@@ -222,7 +240,7 @@ export default class ActivityStore {
       }
     }
   };
-  
+
 
   // === helper method to loadActivity ===
   getActivity = (id: string) => {
@@ -410,34 +428,34 @@ export default class ActivityStore {
 
   @action loadDiaryEntry = async (id: string) => {
 
-      this.loadingInitial = true;
-      try {
-        let diaryEntry:IDiaryEntry = await agent.DiaryEntries.detailsDiaryEntry(id);
-       
-        runInAction('getting activity', () => {
-        
-          this.diaryEntry = diaryEntry;
-          this.loadingInitial = false;
+    this.loadingInitial = true;
+    try {
+      let diaryEntry: IDiaryEntry = await agent.DiaryEntries.detailsDiaryEntry(id);
 
-        });
-        return this.diaryEntry;
-      } catch (error) {
-        runInAction('error get diary entry', () => {
-          this.loadingInitial = false;
-        });
-        console.log(error);
-      }
+      runInAction('getting activity', () => {
+
+        this.diaryEntry = diaryEntry;
+        this.loadingInitial = false;
+
+      });
+      return this.diaryEntry;
+    } catch (error) {
+      runInAction('error get diary entry', () => {
+        this.loadingInitial = false;
+      });
+      console.log(error);
+    }
   };
 
 
   @action deleteDiaryEntry = async (diaryEntry: IDiaryEntry, activity: IActivity): Promise<void> => {
 
     activity.diaryEntries.splice(activity.diaryEntries.indexOf(diaryEntry));
-    
+
     this.submitting = true;
     try {
       await agent.DiaryEntries.deleteDiaryEntry(diaryEntry.id);
-    
+
       runInAction('creating diary entry', () => {
         this.activityRegistry.set(activity.id, activity);
         this.submitting = false;

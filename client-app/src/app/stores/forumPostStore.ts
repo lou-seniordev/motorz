@@ -39,6 +39,9 @@ export default class ForumPostStore {
   @observable rated = false;
   // @observable commented = false;
 
+  @observable info: string = 'All posts'
+
+
 
   @action setRated = async (status: boolean) => {
     try {
@@ -68,9 +71,36 @@ export default class ForumPostStore {
   @observable predicate = new Map();
 
   @action setPredicate = (predicate: string, value: string) => {
+    this.setInfo(predicate);
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
+    }
+  }
+
+  @action setInfo = (prodicate: string) => {
+    switch (prodicate) {
+      case 'iAsked':
+        this.info = 'My posts'
+        break;
+      case 'iRated':
+        this.info = 'Posts I rated'
+        break;
+      case 'trending':
+        this.info = 'Trending'
+        break;
+      case 'iFollow':
+        this.info = 'Posts I follow'
+        break;
+      case 'category':
+        this.info = 'Search by category'
+        break;
+      case 'search':
+        this.info = 'Search all'
+        break;
+      default:
+        this.info = 'All posts'
+        break;
     }
   }
 

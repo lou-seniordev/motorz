@@ -39,12 +39,44 @@ export default class MechanicStore {
   @observable page = 0;
   @observable predicate = new Map();
 
-  @action setPredicate = (predicate: string, value: string  ) => { //| Date
+  @observable info: string = 'All mechanics'
+
+
+  @action setPredicate = (predicate: string, value: string  ) => { 
+    console.log(predicate);
+    console.log(value)
+    this.setInfo(predicate);
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
     }
-    console.log(value)
+  }
+
+
+  @action setInfo = (prodicate: string) => {
+    switch (prodicate) {
+      case 'isCustomer':
+        this.info = 'I am customer'
+        break;
+      case 'mostRecommended':
+        this.info = 'Most recommended'
+        break;
+      case 'bestRated':
+        this.info = 'Best rated'
+        break;
+      case 'iFollow':
+        this.info = 'Mechanics I follow'
+        break;
+      case 'country':
+        this.info = 'Search by country'
+        break;
+      case 'search':
+        this.info = 'Search all'
+        break;
+      default:
+        this.info = 'All posts'
+        break;
+    }
   }
 
   @computed get axiosParams () {
@@ -61,6 +93,8 @@ export default class MechanicStore {
   // @observable hasNotCancelledCustomer: boolean = true;
   @observable openCustomerForm: boolean = false;
   @observable confirmCustomer: boolean = false;
+
+
 
 
   @computed get totalPages() {

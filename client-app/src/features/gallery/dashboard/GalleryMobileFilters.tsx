@@ -6,6 +6,7 @@ import { Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 // import GalleryChamps from "../modals/GalleryChamps";
 import SearchGallery from "../modals/SearchGallery";
+import GalleryMobileInfo from "./GalleryMobileInfo";
 
 const GalleryMobileFilters = () => {
   const rootStore = useContext(RootStoreContext);
@@ -29,10 +30,12 @@ const GalleryMobileFilters = () => {
   // };
 
   const handleSearch = () => {
+    setPredicate("calendar", "true");
     openModal(<SearchGallery />);
   };
 
   return (
+    <>
     <Menu fluid widths={6}>
       <Menu.Item
         active={predicate.size === 0}
@@ -65,6 +68,7 @@ const GalleryMobileFilters = () => {
         icon={"users"}
       />
       <Menu.Item
+        active={predicate.has("calendar")}
         onClick={() => handleSearch()}
         color={"blue"}
         icon={"search"}
@@ -83,6 +87,8 @@ const GalleryMobileFilters = () => {
           onClick={() => handleOpenChamps('Highest Rated')}
         /> */}
     </Menu>
+    <GalleryMobileInfo/>
+    </>
   );
 };
 

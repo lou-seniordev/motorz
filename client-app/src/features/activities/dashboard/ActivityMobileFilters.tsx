@@ -6,6 +6,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 import SearchDiaries from "../modals/SearchDiaries";
+import ActivityMobileInfo from "./ActivityMobileInfo";
 
 
 const ActivityMobileFilters = () => {
@@ -15,11 +16,12 @@ const ActivityMobileFilters = () => {
   const { openModal } = rootStore.modalStore;
 
 const handleSearch = () => {
+  setPredicate('calendar', 'true');
   openModal(<SearchDiaries />)
 }
 
   return (
-    
+    <>
     <Menu fluid widths={5} style={{top: '200px'}}>
       <Menu.Item
         active={predicate.size === 0}
@@ -59,6 +61,9 @@ const handleSearch = () => {
         />
       </Menu.Item> */}
     </Menu>
+    <ActivityMobileInfo/>
+    </>
+
   );
 };
 
