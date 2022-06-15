@@ -12,6 +12,8 @@ import {
   LogLevel,
 } from '@microsoft/signalr';
 
+// import { withTranslation } from 'react-i18next';
+
 const LIMIT = 2;
 
 export default class ActivityStore {
@@ -29,6 +31,8 @@ export default class ActivityStore {
     )
   }
 
+  
+
   @observable activityRegistry = new Map();
   @observable activity: IActivity | null = null;
 
@@ -44,35 +48,41 @@ export default class ActivityStore {
 
   @observable predicate = new Map();
 
-  @observable info: string = 'All diaries'
+  @observable info: string = 'Active diaries'
 
   @action setPredicate = (predicate: string, value: string | Date) => {
-    this.setInfo(predicate);
+    // this.setInfo(predicate);
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
     }
   }
 
-  @action setInfo = (prodicate: string) => {
-    switch (prodicate) {
-      case 'isCompleted':
-        this.info = 'Completed diaries'
-        break;
-      case 'isGoing':
-        this.info = 'Diaries You Are Attending'
-        break;
-      case 'isHost':
-        this.info = 'Your diaries'
-        break;
-      case 'calendar':
-        this.info = 'Search diaries'
-        break;
-      default:
-        this.info = 'All diaries'
-        break;
-    }
+  @action setInfo = (info: string) => {
+    runInAction(() => {
+      this.info = info;
+    })
   }
+
+  // @action setInfo = (prodicate: string) => {
+  //   switch (prodicate) {
+  //     case 'isCompleted':
+  //       this.info = 'Completed diaries'
+  //       break;
+  //     case 'isGoing':
+  //       this.info = 'Diaries I Follow'
+  //       break;
+  //     case 'isHost':
+  //       this.info = 'My diaries'
+  //       break;
+  //     case 'calendar':
+  //       this.info = 'Search diaries'
+  //       break;
+  //     default:
+  //       this.info = 'Active diaries'
+  //       break;
+  //   }
+  // }
 
   @computed get axiosParams() {
     const params = new URLSearchParams();

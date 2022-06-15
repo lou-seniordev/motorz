@@ -110,7 +110,7 @@ const ProductFilters = () => {
           color={"blue"}
           name={"inActive"}
           style={ styles }
-          content={t("Inactive products")}
+          content={t("My inactive products")}
         />
       </Menu>
     </Fragment>

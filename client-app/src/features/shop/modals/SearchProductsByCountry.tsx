@@ -3,9 +3,9 @@ import {  Dropdown, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 
-const SearchMechanicByCountry = () => {
+const SearchProductsByCountry = () => {
   const rootStore = useContext(RootStoreContext);
-  const { setPredicate } = rootStore.mechanicStore;
+  const { setPredicate } = rootStore.productStore;
   const { countries, loadCountriesToSelect } = rootStore.countryStore;
   const { closeModal } = rootStore.modalStore;
 
@@ -36,4 +36,4 @@ const handleOnChange = (e: any, data: any) => {
   );
 };
 
-export default SearchMechanicByCountry;
+export default SearchProductsByCountry;

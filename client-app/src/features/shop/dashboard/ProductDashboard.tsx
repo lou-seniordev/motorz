@@ -9,6 +9,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import ProductFilters from "./ProductFilters";
 import InfiniteScroll from "react-infinite-scroller";
 import ProductListItemPlaceholder from "./ProductListItemPlaceholder";
+import ProductMobileFilters from "./ProductMobileFilters";
 
 const ProductDashboard = () => {
   const rootStore = useContext(RootStoreContext);
@@ -31,7 +32,9 @@ const ProductDashboard = () => {
   
   return (
     <Grid>
-      {/* width={9} */}
+      <Grid.Column mobile={16} tablet={16} className='mobile only'>
+        <ProductMobileFilters />
+      </Grid.Column>
       <Grid.Column computer={11} mobile={16} >
      { loadingInitial && page === 0 ? <ProductListItemPlaceholder/> :
      <InfiniteScroll

@@ -43,41 +43,19 @@ export default class MechanicStore {
 
 
   @action setPredicate = (predicate: string, value: string  ) => { 
-    console.log(predicate);
-    console.log(value)
-    this.setInfo(predicate);
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
     }
   }
 
-
-  @action setInfo = (prodicate: string) => {
-    switch (prodicate) {
-      case 'isCustomer':
-        this.info = 'I am customer'
-        break;
-      case 'mostRecommended':
-        this.info = 'Most recommended'
-        break;
-      case 'bestRated':
-        this.info = 'Best rated'
-        break;
-      case 'iFollow':
-        this.info = 'Mechanics I follow'
-        break;
-      case 'country':
-        this.info = 'Search by country'
-        break;
-      case 'search':
-        this.info = 'Search all'
-        break;
-      default:
-        this.info = 'All posts'
-        break;
-    }
+  @action setInfo = (info: string) => {
+    runInAction(() => {
+      this.info = info;
+    })
   }
+
+
 
   @computed get axiosParams () {
     const params = new URLSearchParams();

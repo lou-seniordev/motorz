@@ -1,4 +1,4 @@
-import { toJS } from "mobx";
+// import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,10 +16,10 @@ const PeopleListItem: React.FC<{ member: IProfile }> = ({ member }) => {
   // console.log("member.username", member.username);
 
   //  console.log('onlineUsers', toJS(onlineUsers))
-  const styles = {
-    borderColor: "green",
-    borderWidth: 3,
-  };
+  // const styles = {
+  //   borderColor: "green",
+  //   borderWidth: 3,
+  // };
   return (
     // <Card as={Link} to={`/profile/${member.username}`}>
     //     <Image src={member.image || '/assets/user.png'} size='tiny' circular/>

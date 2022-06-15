@@ -9,7 +9,7 @@ import ForumMobileInfo from "./ForumMobileInfo";
 
 const ForumMobileFilters = () => {
   const rootStore = useContext(RootStoreContext);
-  const { predicate, setPredicate } = rootStore.forumPostStore;
+  const { predicate, setPredicate, setInfo } = rootStore.forumPostStore;
 
   const { openModal } = rootStore.modalStore;
 
@@ -22,48 +22,95 @@ const ForumMobileFilters = () => {
     openModal(<SearchForumByCategory />);
   };
 
+  const handleSetInfo = () => {
+    switch (predicate.keys().next().value) {
+      case "iAsked":
+        setInfo("My posts");
+        break;
+      case "iRated":
+        setInfo("Posts I rated");
+        break;
+      case "trending":
+        setInfo("Trending");
+        break;
+      case "iFollow":
+        setInfo("Posts I follow");
+        break;
+      case "category":
+        setInfo("Search by category");
+        break;
+      case "search":
+        setInfo("Search all");
+        break;
+      default:
+        setInfo("All posts");
+        break;
+    }
+  };
+
   return (
     <>
       <Menu fluid widths={7}>
         <Menu.Item
           active={predicate.size === 0}
-          onClick={() => setPredicate("all", "true")}
+          onClick={() => {
+            setPredicate("all", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
           icon={"home"}
         />
         <Menu.Item
           active={predicate.has("iAsked")}
-          onClick={() => setPredicate("iAsked", "true")}
+          onClick={() => {
+            setPredicate("iAsked", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
-          icon={"question circle outline"}
+          icon={"user circle"}
         />
         <Menu.Item
           active={predicate.has("iRated")}
-          onClick={() => setPredicate("iRated", "true")}
+          onClick={() => {
+            setPredicate("iRated", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
           icon={"heart outline"}
         />
         <Menu.Item
           active={predicate.has("trending")}
-          onClick={() => setPredicate("trending", "true")}
+          onClick={() => {
+            setPredicate("trending", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
-          icon={"globe"}
+          icon={"diamond"}
         />
         <Menu.Item
           active={predicate.has("iFollow")}
-          onClick={() => setPredicate("iFollow", "true")}
+          onClick={() => {
+            setPredicate("iFollow", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
-          icon={"users"}
+          icon={"eye"}
         />
         <Menu.Item
           active={predicate.has("category")}
-          onClick={() => handleSearchByCategory()}
+          onClick={() => {
+            handleSearchByCategory();
+            handleSetInfo();
+          }}
           color={"blue"}
-          icon={"tags"}
+          icon={"filter"}
         />
         <Menu.Item
           active={predicate.has("search")}
-          onClick={() => handleSearch()}
+          onClick={() => {
+            handleSearch();
+            handleSetInfo();
+          }}
           color={"blue"}
           icon={"search"}
         />

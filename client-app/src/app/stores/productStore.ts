@@ -30,26 +30,33 @@ export default class ProductStore {
   @observable productCount = 0;
   @observable page = 0;
   @observable predicate = new Map();
+  @observable info: string = 'All products'
 
   @observable productFollowed = false;
 
 
-  @action setPredicate = (predicate: string, value: string  ) => { 
+  @action setPredicate = (predicate: string, value: string) => {
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
     }
   }
 
-  @computed get axiosParams () {
+  @action setInfo = (info: string) => {
+    runInAction(() => {
+      this.info = info;
+    })
+  }
+
+  @computed get axiosParams() {
     const params = new URLSearchParams();
     params.append('limit', String(LIMIT));
     params.append('offset', `${this.page ? this.page * LIMIT : 0}`);
     this.predicate.forEach((value, key) => {
-        params.append(key, value )
+      params.append(key, value)
     })
     return params;
-  }  
+  }
 
   @computed get totalPages() {
     return Math.ceil(this.productCount / LIMIT);
@@ -65,26 +72,26 @@ export default class ProductStore {
 
   @computed get productsByDate() {
     return Array.from(this.productRegistry.values())
-  
+
   }
 
   @action loadProducts = async () => {
     this.loadingInitial = true;
-    
+
     try {
       const productEnvelope = await agent.Products.list(this.axiosParams);
       // console.log('loadProducts::', this.axiosParams)
 
-      const {products, productCount} = productEnvelope
+      const { products, productCount } = productEnvelope
       // console.log('loadProducts::', products)
       runInAction('loading products', () => {
         products.forEach((product) => {
-          
+
           this.productRegistry.set(product.id, product);
           // console.log('product:::', product);
         });
         // console.log('products', products);
-        this.productCount = productCount; 
+        this.productCount = productCount;
         this.loadingInitial = false;
       });
     } catch (error) {
@@ -228,14 +235,14 @@ export default class ProductStore {
 
     let product: IProduct = this.getProduct(id);
     let productViewer: IProductViewer = {
-      username: userName, 
-      displayName: displayName, 
+      username: userName,
+      displayName: displayName,
     }
     product.viewers.push(productViewer)
     try {
       await agent.Products.follow(id);
       runInAction('following product', () => {
-        this.productRegistry.set(product.id, product );
+        this.productRegistry.set(product.id, product);
         this.productFollowed = true;
       });
     } catch (error) {
@@ -247,11 +254,11 @@ export default class ProductStore {
     // console.log("id unfollow", id);
 
     let product: IProduct = this.getProduct(id);
-   
+
     try {
       await agent.Products.unfollow(id);
       runInAction('following product', () => {
-        this.productRegistry.set(product.id, product );
+        this.productRegistry.set(product.id, product);
         this.productFollowed = false;
       });
     } catch (error) {

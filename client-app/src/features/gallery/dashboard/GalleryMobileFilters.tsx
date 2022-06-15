@@ -13,6 +13,7 @@ const GalleryMobileFilters = () => {
   const {
     predicate,
     setPredicate,
+    setInfo
     // mostEmbraced, highestRatedMotofy
   } = rootStore.motofyStore;
 
@@ -34,42 +35,65 @@ const GalleryMobileFilters = () => {
     openModal(<SearchGallery />);
   };
 
+  const handleSetInfo = () => {
+    switch (predicate.keys().next().value) {
+      case 'bestRated':
+       setInfo ('Best rated')
+        break;
+      case 'mostEmbraced':
+       setInfo ('Most embraced')
+        break;
+      case 'iEmbraced':
+       setInfo ('Motofies I embraced')
+        break;
+      case 'iFollow':
+       setInfo ('By people I follow')
+        break;
+      case 'calendar':
+       setInfo ('Search motofies')
+        break;
+      default:
+       setInfo ('All motofies')
+        break;
+    }
+  }
+
   return (
     <>
     <Menu fluid widths={6}>
       <Menu.Item
         active={predicate.size === 0}
-        onClick={() => setPredicate("all", "true")}
+        onClick={() => {setPredicate("all", "true"); handleSetInfo()}}
         color={"blue"}
         icon={"home"}
       />
       <Menu.Item
         active={predicate.has("bestRated")}
-        onClick={() => setPredicate("bestRated", "true")}
-        color={"blue"}
-        icon={"hand spock"}
-      />
-      <Menu.Item
-        active={predicate.has("mostEmbraced")}
-        onClick={() => setPredicate("mostEmbraced", "true")}
+        onClick={() => {setPredicate("bestRated", "true"); handleSetInfo()}}
         color={"blue"}
         icon={"winner"}
       />
       <Menu.Item
+        active={predicate.has("mostEmbraced")}
+        onClick={() => {setPredicate("mostEmbraced", "true"); handleSetInfo()}}
+        color={"blue"}
+        icon={"thumbs up outline"}
+      />
+      <Menu.Item
         active={predicate.has("iEmbraced")}
-        onClick={() => setPredicate("iEmbraced", "true")}
+        onClick={() => {setPredicate("iEmbraced", "true"); handleSetInfo()}}
         color={"blue"}
         icon={"heart"}
       />
       <Menu.Item
         active={predicate.has("iFollow")}
-        onClick={() => setPredicate("iFollow", "true")}
+        onClick={() => {setPredicate("iFollow", "true"); handleSetInfo()}}
         color={"blue"}
-        icon={"users"}
+        icon={"eye"}
       />
       <Menu.Item
         active={predicate.has("calendar")}
-        onClick={() => handleSearch()}
+        onClick={() => {handleSearch(); handleSetInfo()}}
         color={"blue"}
         icon={"search"}
       />

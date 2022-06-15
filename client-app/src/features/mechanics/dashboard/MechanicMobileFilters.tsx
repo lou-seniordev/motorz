@@ -11,7 +11,7 @@ import MechanicMobileInfo from "./MechanicMobileInfo";
 
 const MechanicMobileFilters = () => {
   const rootStore = useContext(RootStoreContext);
-  const { predicate, setPredicate } = rootStore.mechanicStore;
+  const { predicate, setPredicate, setInfo } = rootStore.mechanicStore;
 
   const { openModal } = rootStore.modalStore;
 
@@ -21,52 +21,99 @@ const MechanicMobileFilters = () => {
   };
   const handleSearchByCountry = () => {
     // setPredicate("all", "true");
-    // setPredicate("country", "true");
+    setPredicate("country", "true");
     openModal(<SearchMechanicByCountry />);
+  };
+
+  const handleSetInfo = () => {
+    switch (predicate.keys().next().value) {
+      case "isCustomer":
+        setInfo("I am customer");
+        break;
+      case "mostRecommended":
+        setInfo("Most recommended");
+        break;
+      case "bestRated":
+        setInfo("Best rated");
+        break;
+      case "iFollow":
+        setInfo("Mechanics I follow");
+        break;
+      case "country":
+        setInfo("Search by country");
+        break;
+      case "search":
+        setInfo("Search all");
+        break;
+      default:
+        setInfo("All posts");
+        break;
+    }
   };
 
   return (
     <>
-      <Menu fluid widths={7} style={{ top: "200px" }}>
+      <Menu fluid widths={7} >
         <Menu.Item
           active={predicate.size === 0}
-          onClick={() => setPredicate("all", "true")}
+          onClick={() => {
+            setPredicate("all", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
           icon={"home"}
         />
         <Menu.Item
           active={predicate.has("isCustomer")}
-          onClick={() => setPredicate("isCustomer", "true")}
+          onClick={() => {
+            setPredicate("isCustomer", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
-          icon={"users"}
+          icon={"heart outline"}
         />
         <Menu.Item
           active={predicate.has("mostRecommended")}
-          onClick={() => setPredicate("mostRecommended", "true")}
-          color={"blue"}
-          icon={"winner"}
-        />
-        <Menu.Item
-          active={predicate.has("bestRated")}
-          onClick={() => setPredicate("bestRated", "true")}
+          onClick={() => {
+            setPredicate("mostRecommended", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
           icon={"chess king"}
         />
         <Menu.Item
+          active={predicate.has("bestRated")}
+          onClick={() => {
+            setPredicate("bestRated", "true");
+            handleSetInfo();
+          }}
+          color={"blue"}
+          icon={"winner"}
+        />
+        <Menu.Item
           active={predicate.has("iFollow")}
-          onClick={() => setPredicate("iFollow", "true")}
+          onClick={() => {
+            setPredicate("iFollow", "true");
+            handleSetInfo();
+          }}
           color={"blue"}
           icon={"eye"}
         />
         <Menu.Item
           active={predicate.has("country")}
-          onClick={() => handleSearchByCountry()}
+          onClick={() => {
+            handleSearchByCountry();
+            handleSetInfo();
+          }}
           color={"blue"}
-          icon={"tags"}
+          icon={"globe"}
         />
         <Menu.Item
           active={predicate.has("search")}
-          onClick={() => handleSearch()}
+          onClick={() => {
+            handleSearch();
+            handleSetInfo();
+          }}
           color={"blue"}
           icon={"search"}
         />

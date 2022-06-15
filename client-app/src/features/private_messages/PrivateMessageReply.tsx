@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { useTranslation } from "react-i18next";
 import Picker from "emoji-picker-react";
-import { Form, Grid } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 
 const PrivateMessageReply = () => {
   const rootStore = useContext(RootStoreContext);
