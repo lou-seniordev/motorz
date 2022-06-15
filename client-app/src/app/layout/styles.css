@@ -16,6 +16,8 @@ body {
     rgb(33, 138, 174) 59%,
     rgb(16, 45, 46) 89%
   ) !important;
+  position: fixed;
+  z-index: 1000;
 }
 
 .button.ui.positive.button {
@@ -76,18 +78,19 @@ body {
 .hideScroll {
   overflow-y: hidden;
 }
-.hideScroll:hover, #ID:active, #ID:focus {
+.hideScroll:hover,
+#ID:active,
+#ID:focus {
   overflow-y: auto;
   float: left;
   height: 80vh;
-
 }
 
 /* scrollable details style */
 /* :hover */
 .sideScroll {
-  overflow-y: auto;
-  float: left;
+  /* overflow-y: auto;
+  float: left; */
   height: 80vh;
   /* width: '100%'; */
   position: relative;
@@ -96,15 +99,16 @@ body {
   flex-direction: column-reverse; */
   /* color: inherit; */
 }
-.scrollRevert  {
-  overflow-y: auto;
-  float: left;
-  height: 80vh;
-  position: relative;
-  display: flex; 
+.scrollRevert {
+  /* overflow-y: auto; */
+  overflow: scroll;
+  /* float: left; */
+  height: 70vh;
+  width: 100%;
+  /* position: absolute; */
+  display: flex;
   flex-direction: column-reverse;
 }
-
 
 /* PLACEHOLDER (Private messages but also forms) */
 ::-webkit-input-placeholder {
@@ -197,10 +201,13 @@ a {
 }
 .emoji-icon {
   cursor: pointer;
-  position: relative;
-  top: -45px;
+  display: flex;
+  justify-content: center;
+  font-size: larger;
+  /* position: relative; */
+  /* top: -45px; */
   /* left: 5px; */
-  right: -700px;
+  /* right: -700px; */
 }
 .input-style {
   padding: 7px 30px 7px 10px;
@@ -212,8 +219,12 @@ a {
 
 /* User Online */
 @keyframes fa-blink {
-  0% {opacity: 1;}
-  100% {opacity: 0.4;}
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
 }
 
 .isOnline {
@@ -222,21 +233,69 @@ a {
 }
 
 /* Mobile info */
-.mobileInfo{
-  display: flex;  
+.mobileInfo {
+  display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
   /* color: rgba(4, 42, 129, 0.87); */
 }
 
-.language-switch{
-  color: white;
-  border: none;
-  background-image: linear-gradient(
-    135deg,
-    rgb(129, 140, 185) 0%,
-    rgb(33, 138, 174) 59%,
-    rgb(16, 45, 46) 89%
-  ) !important;
+/* Fix messenger area */
+#top {
+  position: fixed;
+  top: 60px;
+  left: 30px;
+  right: 30px;
+  z-index: 999;
+  width: 95%;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.send-button,
+.smiley-picker {
+  font-size: 26px;
+}
+
+.textareaRef {
+  min-height: 16px;
+  resize: none;
+  font-size: 16px;
+  /* border: 3px solid red; */
+}
+
+.message-list-item {
+  font-size: 16px;
+}
+
+/* .inside {
+  min-height: 12px;
+  max-height: 14px;
+  border-radius: 20px;
+} */
+
+@media only screen and (max-width: 767px) {
+  .send-button,
+  .smiley-picker {
+    font-size: 14px;
+  }
+  .message-list-item {
+    font-size: 12px;
+  }
+  .textareaRef {
+    /* max-height: 2rem; */
+    height: 1.5rem;
+    max-width: 98%;
+  }
+  .scrollRevert{
+    height: 75vh;
+  }
+
+  #top {
+    top: 50px;
+    left: 7px;
+    right: 7px;
+    height: 100%;
+  }
 }

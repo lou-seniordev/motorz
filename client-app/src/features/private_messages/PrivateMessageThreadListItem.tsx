@@ -108,11 +108,12 @@ const PrivateMessageThreadListItem = () => {
     <>
       <Segment
         className='scrollRevert'
-        style={{ height: "70vh", width: "100%" }}
       >
         {listOfMessagesInFocus![1].map((message: IPrivateMessage) => (
           <Fragment key={message.id}>
             {message.senderUsername !== user?.userName && (
+              <div className="message-list-item">
+
               <Grid
                 key={message.id}
                 style={senderStyles}
@@ -142,9 +143,10 @@ const PrivateMessageThreadListItem = () => {
                   <GridColumn width={14}>{message.content}</GridColumn>
                 </GridRow>
               </Grid>
+              </div>
             )}
             {message.senderUsername === user?.userName && (
-              <div>
+              <div className="message-list-item">
                 <Grid style={userStyles} textAlign='right' floated='right'>
                   <GridRow className='mobile hidden'>
                     <GridColumn width={14}>{message.content}</GridColumn>
@@ -168,7 +170,7 @@ const PrivateMessageThreadListItem = () => {
                     <GridColumn width={14}>{message.content}</GridColumn>
                   </GridRow>
                 </Grid>
-              </div>
+               </div>
             )}
           </Fragment>
         ))}

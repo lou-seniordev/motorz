@@ -11,8 +11,14 @@ import PrivateMessagesListItemPlaceholder from "./PrivateMessagesListItemPlaceho
 
 const PrivateMessagesDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadMessages, loadingInitial, setPage, page, totalPages, listOfMessagesInFocus } =
-    rootStore.privateMessageStore;
+  const {
+    loadMessages,
+    loadingInitial,
+    setPage,
+    page,
+    totalPages,
+    listOfMessagesInFocus,
+  } = rootStore.privateMessageStore;
 
   const [loadingNext, setLoadingNext] = useState(false);
 
@@ -30,6 +36,7 @@ const PrivateMessagesDashboard = () => {
     <Segment
       style={{ backgroundColor: "lightblue" }}
       raised
+      id='top'
       // className='sideScroll'
     >
       <Grid style={{ margin: "0", padding: "0" }}>
@@ -51,18 +58,13 @@ const PrivateMessagesDashboard = () => {
                 <PrivateMessageThreadList />
               </InfiniteScroll>
             </Grid.Column>
-              
-            <Grid.Column width={12}>
-            <Grid.Row>
-              {listOfMessagesInFocus && <PrivateMessageThreadListItem />}
-            {/* </Grid.Column> */}
-            {/* </Grid.Row>
-            <Grid.Row> */}
 
-            {/* <Grid.Column width={12}> */}
-              <PrivateMessageReply/>
-             
-            </Grid.Row>
+            <Grid.Column width={12}>
+              <Grid.Row>
+                {listOfMessagesInFocus && <PrivateMessageThreadListItem />}
+
+                <PrivateMessageReply />
+              </Grid.Row>
             </Grid.Column>
           </Grid.Row>
         )}

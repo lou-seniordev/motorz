@@ -1,10 +1,9 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from "react";
-// import { TextArea } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { useTranslation } from "react-i18next";
 import Picker from "emoji-picker-react";
-import { Form } from "semantic-ui-react";
+import { Form, Grid, GridColumn, Icon, Popup } from "semantic-ui-react";
 
 const PrivateMessageReply = () => {
   const rootStore = useContext(RootStoreContext);
@@ -19,27 +18,11 @@ const PrivateMessageReply = () => {
     addReply,
   } = rootStore.privateMessageStore;
 
-  // const tAreatyles = {
-  //   width: "100%",
-  //   borderRadius: "10px",
-  //   border: "none",
-  //   fontSize: "18px",
-  //   marginTop: "8px",
-  // };
-
   const { t } = useTranslation(["social"]);
-  // const [chosenEmoji, setChosenEmoji] = useState<any>(null);
 
-  // const onEmojiClick = (event:any, emojiObject:any) => {
-  //   setChosenEmoji(emojiObject);
-  // };
-
-  // const [input, setInput] = useState("");
-  // const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
 
-  // const areaHeight = 16;
-  const MIN_TEXTAREA_HEIGHT = 16;
+  const MIN_TEXTAREA_HEIGHT = 12;
 
   const textareaRef = useRef<any>(null);
   const [value, setValue] = useState("");
@@ -58,14 +41,15 @@ const PrivateMessageReply = () => {
       textareaRef.current.scrollHeight,
       MIN_TEXTAREA_HEIGHT
     )}px`;
+    // textareaRef.current.style.fontSize = "20px";
   }, [value]);
 
   const handleSendReply = (e: any) => {
-    if (e.key === "Enter") {
+    if (e !== null && e.key === "Enter") {
       e.target.value = "";
-      // console.log('value:::', value)
       if (value === "") {
-        console.log("need to validate");
+        e.preventDefault();
+        alert("Cannot send an empty message!");
       } else {
         e.preventDefault();
         setValue("");
@@ -75,6 +59,20 @@ const PrivateMessageReply = () => {
         setUsername(user?.userName!);
         addReply();
       }
+    }
+  };
+
+  const handleSendButton = () => {
+    if (value !== "") {
+      handleSetRecipient();
+      setMessageThreadId(listOfMessagesInFocus![0]);
+      setReply(value);
+      setUsername(user?.userName!);
+      addReply();
+      setValue("");
+      textareaRef.current.value = "";
+    } else {
+      alert("Cannot send an empty message!");
     }
   };
 
@@ -90,72 +88,57 @@ const PrivateMessageReply = () => {
   };
 
   return (
-    // <TextArea
-    //   autoFocus
-    //   value={input}
-    //   placeholder={t('Reply')}
-    //   name='reply'
-    //   onInput={(e: any) => setInput(e.target.value)}
-    //   onKeyDown={(e: any) => handleSendReply(e)}
-    //   style={tAreatyles}
-    // />
-    // <div className="app">
-    // <h3>Add Emoji Picker</h3>
-
-    // <Grid>
-    //   <Grid.Row>
-    //     <Grid.Column width={16}>
     <Form>
-      <textarea
-        ref={textareaRef}
-        autoFocus
-        placeholder={t("Reply")}
-        // value={inputStr}
-        // onChange={(e) => setInputStr(e.currentTarget.value)}
-        onKeyDown={(e: any) => handleSendReply(e)}
-        onChange={onChange}
-        style={{
-          minHeight: MIN_TEXTAREA_HEIGHT,
-          resize: "none",
-        }}
-        value={value}
-      />
-
-      <img
-        className='emoji-icon'
-        src='https://icons.getbootstrap.com/assets/icons/emoji-smile.svg'
-        alt='smiley'
-        onClick={() => setShowPicker((val) => !val)}
-      />
+      <Grid>
+        <GridColumn width={1}>
+          <div className='smiley-picker'>
+            <Icon
+              name='smile outline'
+              circular
+              onClick={() => setShowPicker((val) => !val)}
+            />
+          </div>
+        </GridColumn>
+        <GridColumn width={1}>
+          <div className='send-button'>
+          <Popup
+                header={'SEND'}
+                trigger={
+              
+                  <Icon name='send' circular onClick={() => handleSendButton()} />
+              }
+               content={'You can also hit enter to send'}
+            />
+          </div>
+        </GridColumn>
+        <GridColumn computer={14} mobile={12}>
+          <div className='textareaRef'>
+            <textarea
+              ref={textareaRef}
+              autoFocus
+              placeholder={t("Reply")}
+              onKeyDown={(e: any) => handleSendReply(e)}
+              onChange={onChange}
+              style={{
+                minHeight: MIN_TEXTAREA_HEIGHT,                
+                resize: "none",
+                borderRadius: '20px',
+              }}
+              // className='inside'
+              // 
+              value={value}
+            />
+          </div>
+        </GridColumn>
+      </Grid>
 
       {showPicker && (
         <Picker
-          pickerStyle={{ width: "50%", left: "20px", bottom: "370px" }}
-          // marginTop: "-380px"
+          pickerStyle={{ width: "90%", left: "5rem", bottom: "330px" }}
           onEmojiClick={onEmojiClick}
-          // native
         />
       )}
     </Form>
-    //     </Grid.Column>
-    //   </Grid.Row>
-    // </Grid>
-
-    // <div className="picker-container">
-    //   <input
-    //     className="input-style"
-    //     placeholder={t('Reply')}
-    //     value={inputStr}
-    //     onChange={e => setInputStr(e.target.value)}
-    //     onKeyDown={(e: any) => handleSendReply(e)}/>
-    //   <img
-    //     className="emoji-icon"
-    //     src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
-    //     onClick={() => setShowPicker(val => !val)} />
-    //   {showPicker && <Picker
-    //     pickerStyle={{ width: '100%' }}
-    //     onEmojiClick={onEmojiClick} />}
-    // </div>
   );
 };
 

@@ -284,8 +284,6 @@ const NavBar: React.FC = () => {
                             text={t("English")}
                             onClick={()=>handleLanguageChange('en')}
                             flag='uk'
-                            selection={localStorage.getItem("i18nextLng")!}
-                           
                           />
                           <Dropdown.Item
                             text={t("Italiano")}
@@ -296,6 +294,11 @@ const NavBar: React.FC = () => {
                             text={t("Deutsch")}
                             onClick={()=>handleLanguageChange('de')}
                             flag='germany'
+                          />
+                          <Dropdown.Item
+                            text={t("France")}
+                            onClick={()=>handleLanguageChange('en')}
+                            flag='france'
                           />
                         
                         </Dropdown.Menu>

@@ -47,7 +47,6 @@ export default class PrivateMessageStore {
     }
 
     groupMessagesByThreadId(messages: IPrivateMessage[]) {
-        //   console.log(toJS(messages))
         const sortedMessages = messages.sort(
             (a, b) => Date.parse(b.dateSent) - Date.parse(a.dateSent)
         )
@@ -204,13 +203,15 @@ export default class PrivateMessageStore {
         this.recipientUsername = username;
     }
     @action setMessageThreadId = (messageThreadId: string) => {
-        this.messageThreadId = messageThreadId
+        this.messageThreadId = messageThreadId;
     };
     @action setReply = (content: string) => {
         this.messageContent = content;
     };
     @action setUsername = (username: string) => {
         this.username = username;
+        console.log('this.username:::', this.username)
+
     }
     @action sendMessage = async (messageToSend: any) => {
 

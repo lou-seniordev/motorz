@@ -64,7 +64,15 @@ const PrivateMessageThreadList = () => {
                     className='ui centered medium image'
                     style={{ borderRadius: "50%" }}
                     width={"40px"}
-                    src={messages[0].senderPhotoUrl || "/assets/user.png"}
+                    src={(messages[0].senderUsername === user?.userName 
+                      ? 
+                     messages[0].recipientPhotoUrl
+                      :
+                      messages[0].senderPhotoUrl ) 
+                      || "/assets/user.png"
+                    } 
+                   
+                    // src={messages[0].senderPhotoUrl || "/assets/user.png"}
                     alt='sender'
                   />
                 </Grid.Column>
@@ -74,12 +82,20 @@ const PrivateMessageThreadList = () => {
                     size='mini'
                     circular
                     verticalAlign='middle'
-                    src={messages[0].senderPhotoUrl || "/assets/user.png"}
+                    // src={messages[0].senderPhotoUrl || "/assets/user.png"}
+                    // src={"/assets/user.png"}
+                    src={(messages[0].senderUsername === user?.userName 
+                      ? 
+                     messages[0].recipientPhotoUrl
+                      :
+                      messages[0].senderPhotoUrl ) 
+                      || "/assets/user.png"
+                    } 
                   />
                   <span>
                     {" "}
                     {messages[0].senderUsername === user?.userName
-                      ? "Me"
+                      ? messages[0].recipientUsername
                       : messages[0].senderDisplayName}
                   </span>
                 </Grid.Column>
