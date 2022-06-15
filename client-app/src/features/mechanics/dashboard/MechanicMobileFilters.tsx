@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
@@ -12,6 +13,13 @@ import MechanicMobileInfo from "./MechanicMobileInfo";
 const MechanicMobileFilters = () => {
   const rootStore = useContext(RootStoreContext);
   const { predicate, setPredicate, setInfo } = rootStore.mechanicStore;
+
+  const { t } = useTranslation(["mobile-info"]);
+
+  
+  useEffect(()=>{
+    setInfo(t('All mechanics'))
+  },[setInfo])
 
   const { openModal } = rootStore.modalStore;
 
@@ -28,25 +36,25 @@ const MechanicMobileFilters = () => {
   const handleSetInfo = () => {
     switch (predicate.keys().next().value) {
       case "isCustomer":
-        setInfo("I am customer");
+        setInfo(t("I am customer"));
         break;
       case "mostRecommended":
-        setInfo("Most recommended");
+        setInfo(t("Most recommended"));
         break;
       case "bestRated":
-        setInfo("Best rated");
+        setInfo(t("Best rated"));
         break;
       case "iFollow":
-        setInfo("Mechanics I follow");
+        setInfo(t("Mechanics I follow"));
         break;
       case "country":
-        setInfo("Search by country");
+        setInfo(t("Search by country"));
         break;
       case "search":
-        setInfo("Search all");
+        setInfo(t("Search all"));
         break;
       default:
-        setInfo("All posts");
+        setInfo(t("All mechanics"));
         break;
     }
   };

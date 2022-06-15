@@ -1,6 +1,7 @@
 // import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react"; //, useState
+import React, { useContext, useEffect } from "react"; //, useState
+import { useTranslation } from "react-i18next";
 // Input,
 import { Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -18,6 +19,13 @@ const GalleryMobileFilters = () => {
   } = rootStore.motofyStore;
 
   const { openModal } = rootStore.modalStore;
+
+  const { t } = useTranslation(["mobile-info"]);
+
+  useEffect(()=>{
+    setInfo(t('All motofies'))
+  },[setInfo])
+
 
   // const handleOpenChamps = (info: string) => {
   //   switch (info) {
@@ -38,22 +46,22 @@ const GalleryMobileFilters = () => {
   const handleSetInfo = () => {
     switch (predicate.keys().next().value) {
       case 'bestRated':
-       setInfo ('Best rated')
+       setInfo (t('Best rated'))
         break;
       case 'mostEmbraced':
-       setInfo ('Most embraced')
+       setInfo (t('Most embraced'))
         break;
       case 'iEmbraced':
-       setInfo ('Motofies I embraced')
+       setInfo (t('Motofies I embraced'))
         break;
       case 'iFollow':
-       setInfo ('By people I follow')
+       setInfo (t('By people I follow'))
         break;
       case 'calendar':
-       setInfo ('Search motofies')
+       setInfo (t('Search motofies'))
         break;
       default:
-       setInfo ('All motofies')
+       setInfo (t('All motofies'))
         break;
     }
   }

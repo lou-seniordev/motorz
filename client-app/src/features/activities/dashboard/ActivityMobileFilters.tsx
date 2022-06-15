@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
@@ -22,6 +22,11 @@ const ActivityMobileFilters = () => {
     setPredicate("calendar", "true");
     openModal(<SearchDiaries />);
   };
+
+  useEffect(()=>{
+    setInfo(t('Active diaries'))
+
+  },[setInfo])
 
   const handleSetInfo = () => {
     switch (predicate.keys().next().value) {

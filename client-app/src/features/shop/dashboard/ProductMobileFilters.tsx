@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import SearchProducts from "../modals/SearchProducts";
@@ -11,6 +12,12 @@ const ProductMobileFilters = () => {
   const rootStore = useContext(RootStoreContext);
   const { predicate, setPredicate, setInfo } = rootStore.productStore;
 
+  const { t } = useTranslation(["mobile-info"]);
+
+  
+  useEffect(()=>{
+    setInfo(t('All products'))
+  },[setInfo])
   const { openModal } = rootStore.modalStore;
 
   const handleSearch = () => {
@@ -18,7 +25,6 @@ const ProductMobileFilters = () => {
     openModal(<SearchProducts />);
   };
   const handleSearchByCountry = () => {
-    // setPredicate("all", "true");
     setPredicate("country", "true");
     openModal(<SearchProductsByCountry />);
   };
@@ -30,28 +36,28 @@ const ProductMobileFilters = () => {
   const handleSetInfo = () => {
     switch (predicate.keys().next().value) {
       case "iView":
-        setInfo("Favorites");
+        setInfo(t("Favorites"));
         break;
       case "myProducts":
-        setInfo("My products");
+        setInfo(t("My products"));
         break;
       case "iFollow":
-        setInfo("By people I follow");
+        setInfo(t("By people I follow"));
         break;
       case "inActive":
-        setInfo("My inactive products");
+        setInfo(t("My inactive products"));
         break;
       case "search":
-        setInfo("Search products");
+        setInfo(t("Search products"));
         break;
       case "category":
-        setInfo("Search by category");
+        setInfo(t("Search by category"));
         break;
       case "country":
-        setInfo("Search by country");
+        setInfo(t("Search by country"));
         break;
       default:
-        setInfo("All products");
+        setInfo(t("All products"));
         break;
     }
   };

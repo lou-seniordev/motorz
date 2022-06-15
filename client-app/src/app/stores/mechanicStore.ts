@@ -39,7 +39,7 @@ export default class MechanicStore {
   @observable page = 0;
   @observable predicate = new Map();
 
-  @observable info: string = 'All mechanics'
+  @observable info: string = ''
 
 
   @action setPredicate = (predicate: string, value: string  ) => { 

@@ -48,7 +48,7 @@ export default class ActivityStore {
 
   @observable predicate = new Map();
 
-  @observable info: string = 'Active diaries'
+  @observable info: string = '';
 
   @action setPredicate = (predicate: string, value: string | Date) => {
     // this.setInfo(predicate);

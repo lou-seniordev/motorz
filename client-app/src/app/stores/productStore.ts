@@ -30,7 +30,7 @@ export default class ProductStore {
   @observable productCount = 0;
   @observable page = 0;
   @observable predicate = new Map();
-  @observable info: string = 'All products'
+  @observable info: string = ''
 
   @observable productFollowed = false;
 

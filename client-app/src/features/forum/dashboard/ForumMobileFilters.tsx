@@ -1,6 +1,7 @@
 // import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Menu } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import SearchForum from "../modals/SearchForum";
@@ -12,6 +13,13 @@ const ForumMobileFilters = () => {
   const { predicate, setPredicate, setInfo } = rootStore.forumPostStore;
 
   const { openModal } = rootStore.modalStore;
+
+  const { t } = useTranslation(["mobile-info"]);
+
+  
+  useEffect(()=>{
+    setInfo(t('All posts'))
+  },[setInfo])
 
   const handleSearch = () => {
     setPredicate("search", "true");
@@ -25,25 +33,25 @@ const ForumMobileFilters = () => {
   const handleSetInfo = () => {
     switch (predicate.keys().next().value) {
       case "iAsked":
-        setInfo("My posts");
+        setInfo(t("My posts"));
         break;
       case "iRated":
-        setInfo("Posts I rated");
+        setInfo(t("Posts I rated"));
         break;
       case "trending":
-        setInfo("Trending");
+        setInfo(t("Trending"));
         break;
       case "iFollow":
-        setInfo("Posts I follow");
+        setInfo(t("Posts I follow"));
         break;
       case "category":
-        setInfo("Search by category");
+        setInfo(t("Search by category"));
         break;
       case "search":
-        setInfo("Search all");
+        setInfo(t("Search all"));
         break;
       default:
-        setInfo("All posts");
+        setInfo(t("All posts"));
         break;
     }
   };

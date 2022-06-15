@@ -39,7 +39,7 @@ export default class ForumPostStore {
   @observable rated = false;
   // @observable commented = false;
 
-  @observable info: string = 'All posts'
+  @observable info: string = ''
 
 
 

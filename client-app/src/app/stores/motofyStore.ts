@@ -37,7 +37,7 @@ export default class MotofyStore {
   @observable target = '';
   @observable loading = false;
 
-  @observable info: string = 'All motofies'
+  @observable info: string = ''
 
 
   @observable.ref hubConnection: HubConnection | null = null;
