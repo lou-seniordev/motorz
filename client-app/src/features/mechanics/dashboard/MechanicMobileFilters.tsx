@@ -19,7 +19,7 @@ const MechanicMobileFilters = () => {
   
   useEffect(()=>{
     setInfo(t('All mechanics'))
-  },[setInfo])
+  },[setInfo, t])
 
   const { openModal } = rootStore.modalStore;
 

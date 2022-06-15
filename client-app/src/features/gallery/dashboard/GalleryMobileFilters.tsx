@@ -24,7 +24,7 @@ const GalleryMobileFilters = () => {
 
   useEffect(()=>{
     setInfo(t('All motofies'))
-  },[setInfo])
+  },[setInfo, t])
 
 
   // const handleOpenChamps = (info: string) => {

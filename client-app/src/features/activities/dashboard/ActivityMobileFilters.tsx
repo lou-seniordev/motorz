@@ -26,7 +26,7 @@ const ActivityMobileFilters = () => {
   useEffect(()=>{
     setInfo(t('Active diaries'))
 
-  },[setInfo])
+  },[setInfo, t])
 
   const handleSetInfo = () => {
     switch (predicate.keys().next().value) {

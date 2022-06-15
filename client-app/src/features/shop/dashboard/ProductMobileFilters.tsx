@@ -17,7 +17,7 @@ const ProductMobileFilters = () => {
   
   useEffect(()=>{
     setInfo(t('All products'))
-  },[setInfo])
+  },[setInfo, t])
   const { openModal } = rootStore.modalStore;
 
   const handleSearch = () => {

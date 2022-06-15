@@ -75,8 +75,8 @@ const NavBar: React.FC = () => {
     isLoggedIn
   ]);
 
-  const handleLanguageChange = (e: any) => {
-    i18n.changeLanguage(e.target.value);
+  const handleLanguageChange = (e: string) => {
+    i18n.changeLanguage(e);
     closeStackableMenu()
   };
   
@@ -274,22 +274,35 @@ const NavBar: React.FC = () => {
                 </Menu.Item>
                 {/* )}*/}
                 {user && (
+                      // placeholder='Select your country'
                   <>
                     <Menu.Item position='right'>
-                      <select
-                      onChange={(e) => {
-                        handleLanguageChange(e)
-                      }}
-                        value={localStorage.getItem("i18nextLng")!}
-                        placeholder='Select your country'
-                      >
-                        <option value='en'>English</option>
-                        <option value='it'>Italiano</option>
-                        <option value='de'>Deutsch</option>
 
-                      </select>
+                       <Dropdown pointing='top left' text={t('Select language')} >
+                        <Dropdown.Menu >
+                          <Dropdown.Item
+                            text={t("English")}
+                            onClick={()=>handleLanguageChange('en')}
+                            flag='uk'
+                            selection={localStorage.getItem("i18nextLng")!}
+                           
+                          />
+                          <Dropdown.Item
+                            text={t("Italiano")}
+                            onClick={()=>handleLanguageChange('it')}
+                            flag='italy'
+                          />
+                          <Dropdown.Item
+                            text={t("Deutsch")}
+                            onClick={()=>handleLanguageChange('de')}
+                            flag='germany'
+                          />
+                        
+                        </Dropdown.Menu>
+                      </Dropdown>
                      
                     </Menu.Item>
+  
                     <Menu.Item position='right'>
                       <Image
                         avatar

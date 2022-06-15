@@ -229,3 +229,14 @@ a {
   font-size: 1.5rem;
   /* color: rgba(4, 42, 129, 0.87); */
 }
+
+.language-switch{
+  color: white;
+  border: none;
+  background-image: linear-gradient(
+    135deg,
+    rgb(129, 140, 185) 0%,
+    rgb(33, 138, 174) 59%,
+    rgb(16, 45, 46) 89%
+  ) !important;
+}

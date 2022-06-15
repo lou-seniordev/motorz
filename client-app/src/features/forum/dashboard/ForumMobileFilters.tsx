@@ -19,7 +19,7 @@ const ForumMobileFilters = () => {
   
   useEffect(()=>{
     setInfo(t('All posts'))
-  },[setInfo])
+  },[setInfo, t])
 
   const handleSearch = () => {
     setPredicate("search", "true");
