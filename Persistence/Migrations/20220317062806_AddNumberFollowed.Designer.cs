@@ -2,19 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220317062806_AddNumberFollowed")]
+    partial class AddNumberFollowed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.4");
+                .HasAnnotation("ProductVersion", "3.0.1");
 
             modelBuilder.Entity("Domain.Activity", b =>
                 {
@@ -83,8 +85,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
@@ -96,12 +98,12 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
@@ -119,17 +121,17 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
+                        .HasName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                        .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -354,15 +356,6 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Mood")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("NumberOfKilometers")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Road")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Weather")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -610,6 +603,84 @@ namespace Persistence.Migrations
                     b.ToTable("MechanicPhotos");
                 });
 
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateSent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("MessageThreadId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RecipientId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecipientUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderUsername")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageThreadId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Domain.MessageThread", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InitDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("InitUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("ReceiverDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReceiverUsername")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MessageThreads");
+                });
+
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
                     b.Property<Guid>("Id")
@@ -823,9 +894,6 @@ namespace Persistence.Migrations
                     b.Property<int>("ActivationCounter")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime?>("AdvertisingEndDate")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Brand")
                         .HasColumnType("TEXT");
 
@@ -841,16 +909,13 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateActivated")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("DateAdvertised")
+                    b.Property<DateTime>("DateAdvertised")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DatePublished")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("InactivityExpirationDate")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -884,9 +949,6 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TypeAdvertising")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -1075,18 +1137,18 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                        .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -1202,10 +1264,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Brand", "MotorcycleBrand")
                         .WithMany()
                         .HasForeignKey("MotorcycleBrandId");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("MotorcycleBrand");
                 });
 
             modelBuilder.Entity("Domain.Comment", b =>
@@ -1217,10 +1275,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
-
-                    b.Navigation("Activity");
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Domain.CommentActivity", b =>
@@ -1232,10 +1286,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
-
-                    b.Navigation("Activity");
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Domain.CommentForumPost", b =>
@@ -1247,10 +1297,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Forumpost", "Forumpost")
                         .WithMany("CommentForumPosts")
                         .HasForeignKey("ForumpostId");
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Forumpost");
                 });
 
             modelBuilder.Entity("Domain.CommentMechanic", b =>
@@ -1262,10 +1308,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Mechanic", "Mechanic")
                         .WithMany("CommentMechanics")
                         .HasForeignKey("MechanicId");
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Mechanic");
                 });
 
             modelBuilder.Entity("Domain.CommentMotofy", b =>
@@ -1277,10 +1319,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Motofy", "Motofy")
                         .WithMany("CommentMotofies")
                         .HasForeignKey("MotofyId");
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Motofy");
                 });
 
             modelBuilder.Entity("Domain.DiaryEntry", b =>
@@ -1288,8 +1326,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Activity", "Activity")
                         .WithMany("DiaryEntries")
                         .HasForeignKey("ActivityId");
-
-                    b.Navigation("Activity");
                 });
 
             modelBuilder.Entity("Domain.DiaryPhoto", b =>
@@ -1299,8 +1335,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("Domain.DiaryPhoto", "DiaryEntryForeignKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("DiaryEntry");
                 });
 
             modelBuilder.Entity("Domain.Feed", b =>
@@ -1308,8 +1342,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Notifier")
                         .WithMany()
                         .HasForeignKey("NotifierId");
-
-                    b.Navigation("Notifier");
                 });
 
             modelBuilder.Entity("Domain.FeedNotifyee", b =>
@@ -1326,8 +1358,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Domain.ForumpostRating", b =>
@@ -1339,10 +1369,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Forumpost", "Forumpost")
                         .WithMany("ForumpostRatings")
                         .HasForeignKey("ForumpostId");
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Forumpost");
                 });
 
             modelBuilder.Entity("Domain.Mechanic", b =>
@@ -1358,12 +1384,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
-
-                    b.Navigation("AverageRating");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("Domain.MechanicBrand", b =>
@@ -1379,10 +1399,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("MechanicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Mechanic");
                 });
 
             modelBuilder.Entity("Domain.MechanicPhoto", b =>
@@ -1392,8 +1408,27 @@ namespace Persistence.Migrations
                         .HasForeignKey("Domain.MechanicPhoto", "MechanicForeignKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("Mechanic");
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.HasOne("Domain.MessageThread", "MessageThread")
+                        .WithMany("Messages")
+                        .HasForeignKey("MessageThreadId");
+
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany("Messages")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("Domain.AppUser", "Recipient")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.AppUser", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Domain.Motofy", b =>
@@ -1413,14 +1448,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
-
-                    b.Navigation("AverageRating");
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("Domain.MotofyPhoto", b =>
@@ -1430,8 +1457,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("Domain.MotofyPhoto", "MotofyForeignKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Motofy");
                 });
 
             modelBuilder.Entity("Domain.MotofyScore", b =>
@@ -1443,8 +1468,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>
@@ -1469,12 +1492,6 @@ namespace Persistence.Migrations
                         .WithMany("PrivateMessagesSent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("PrivateMessageThread");
-
-                    b.Navigation("Recipient");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Domain.Product", b =>
@@ -1486,10 +1503,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Domain.ProductPhoto", b =>
@@ -1499,8 +1512,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("Domain.ProductPhoto", "ProductForeignKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.ProductViewer", b =>
@@ -1516,10 +1527,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Rating", b =>
@@ -1531,8 +1538,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>
@@ -1548,10 +1553,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Activity");
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Domain.UserFollowing", b =>
@@ -1567,10 +1568,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("TargetId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Observer");
-
-                    b.Navigation("Target");
                 });
 
             modelBuilder.Entity("Domain.UserMechanic", b =>
@@ -1590,12 +1587,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Testimonial", "Testimonial")
                         .WithMany()
                         .HasForeignKey("TestimonialId");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Mechanic");
-
-                    b.Navigation("Testimonial");
                 });
 
             modelBuilder.Entity("Domain.UserMotofy", b =>
@@ -1611,10 +1602,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("MotofyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Motofy");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1666,100 +1653,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Activity", b =>
-                {
-                    b.Navigation("CommentActivities");
-
-                    b.Navigation("Comments");
-
-                    b.Navigation("DiaryEntries");
-
-                    b.Navigation("UserActivities");
-                });
-
-            modelBuilder.Entity("Domain.AppUser", b =>
-                {
-                    b.Navigation("Followers");
-
-                    b.Navigation("Followings");
-
-                    b.Navigation("Mechanics");
-
-                    b.Navigation("Photos");
-
-                    b.Navigation("PrivateMessagesReceived");
-
-                    b.Navigation("PrivateMessagesSent");
-
-                    b.Navigation("Products");
-
-                    b.Navigation("UserActivities");
-
-                    b.Navigation("UserMotofies");
-
-                    b.Navigation("ViewingProducts");
-                });
-
-            modelBuilder.Entity("Domain.Brand", b =>
-                {
-                    b.Navigation("Mechanics");
-
-                    b.Navigation("Motofies");
-                });
-
-            modelBuilder.Entity("Domain.DiaryEntry", b =>
-                {
-                    b.Navigation("DiaryPhoto");
-                });
-
-            modelBuilder.Entity("Domain.Feed", b =>
-                {
-                    b.Navigation("Notifyees");
-                });
-
-            modelBuilder.Entity("Domain.Forumpost", b =>
-                {
-                    b.Navigation("CommentForumPosts");
-
-                    b.Navigation("ForumpostRatings");
-                });
-
-            modelBuilder.Entity("Domain.Mechanic", b =>
-                {
-                    b.Navigation("Brands");
-
-                    b.Navigation("CommentMechanics");
-
-                    b.Navigation("Customers");
-
-                    b.Navigation("MechanicPhoto");
-
-                    b.Navigation("Ratings");
-                });
-
-            modelBuilder.Entity("Domain.Motofy", b =>
-                {
-                    b.Navigation("CommentMotofies");
-
-                    b.Navigation("MotofyPhoto");
-
-                    b.Navigation("MotofyScores");
-
-                    b.Navigation("UserMotofies");
-                });
-
-            modelBuilder.Entity("Domain.PrivateMessageThread", b =>
-                {
-                    b.Navigation("PrivateMessages");
-                });
-
-            modelBuilder.Entity("Domain.Product", b =>
-                {
-                    b.Navigation("ProductPhoto");
-
-                    b.Navigation("Viewers");
                 });
 #pragma warning restore 612, 618
         }

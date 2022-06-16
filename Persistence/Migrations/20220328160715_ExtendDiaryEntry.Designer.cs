@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220328160715_ExtendDiaryEntry")]
+    partial class ExtendDiaryEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -608,6 +610,84 @@ namespace Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("MechanicPhotos");
+                });
+
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateSent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("MessageThreadId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RecipientId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecipientUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderUsername")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageThreadId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Domain.MessageThread", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InitDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("InitUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("ReceiverDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReceiverUsername")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MessageThreads");
                 });
 
             modelBuilder.Entity("Domain.Motofy", b =>
@@ -1396,6 +1476,35 @@ namespace Persistence.Migrations
                     b.Navigation("Mechanic");
                 });
 
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.HasOne("Domain.MessageThread", "MessageThread")
+                        .WithMany("Messages")
+                        .HasForeignKey("MessageThreadId");
+
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany("Messages")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("Domain.AppUser", "Recipient")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.AppUser", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("MessageThread");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
                     b.HasOne("Domain.AverageRating", "AverageRating")
@@ -1687,6 +1796,10 @@ namespace Persistence.Migrations
 
                     b.Navigation("Mechanics");
 
+                    b.Navigation("MessagesReceived");
+
+                    b.Navigation("MessagesSent");
+
                     b.Navigation("Photos");
 
                     b.Navigation("PrivateMessagesReceived");
@@ -1739,6 +1852,11 @@ namespace Persistence.Migrations
                     b.Navigation("Ratings");
                 });
 
+            modelBuilder.Entity("Domain.MessageThread", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
                     b.Navigation("CommentMotofies");
@@ -1757,6 +1875,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
+                    b.Navigation("Messages");
+
                     b.Navigation("ProductPhoto");
 
                     b.Navigation("Viewers");
