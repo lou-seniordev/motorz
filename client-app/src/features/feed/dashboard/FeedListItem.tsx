@@ -8,7 +8,7 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
     <Segment.Group raised>
 
       <Feed>
-        <Feed.Event>
+        <Feed.Event style={{backgroundColor: "white"}}>
           <Feed.Label
           >
             <img
@@ -16,7 +16,7 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
               alt='userPoto'
             />
           </Feed.Label>
-          <Feed.Content>
+          <Feed.Content >
             <Feed.Summary>
               <Feed.User as={Link} to={`/profile/${feed.notifierUsername}`}>
                 {feed.notifierDisplayname} 

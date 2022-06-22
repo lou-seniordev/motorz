@@ -59,7 +59,6 @@
     "Price is required": "Preis ist erforderlich",
     "Price must be numeric value": "Preis muss numerischer Wert sein",
     "Title is required": "Titel ist erforderlich",
-    
     "The location city is required": "Die Stadt des Standorts ist erforderlich",
     "The location country is required": "Das Land des Standorts ist erforderlich",
     "Address is required": "Adresse ist erforderlich",
@@ -103,5 +102,15 @@
     "Email has been verified - you can now login": "E-Mail wurde bestätigt - Sie können sich jetzt anmelden",
     "Email verification": "E-Mail-Bestätigung",
     "Bio": "Biografie",
-    "Update profile": "Profil aktualisieren"
+    "Update profile": "Profil aktualisieren",
+    "Forgot your password?": "Passwort vergessen?",
+    "Don't have an account yet? Sign Up!": "Noch kein Konto? Melden Sie sich an!",
+    "Reset password": "Passwort zurücksetzen",
+    "Send me the reset link": "Senden Sie mir den Reset-Link",
+    "Password reset link resent - please check your email": "Passwort-Reset-Link erneut gesendet - bitte überprüfen Sie Ihre E-Mail",
+    "Password reset link sent": " Link zum Zurücksetzen des Passworts gesendet",
+    "Please check your email (including junk email) for the password reset link": "Bitte überprüfen Sie Ihre E-Mail (einschließlich Junk-E-Mail) auf den Link zum Zurücksetzen des Passworts",
+    "Password requires a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character": "Passwort erfordert mindestens acht Zeichen, mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen",
+    "Forgotten password": " Passwort vergessen",
+    "Passwort zurücksetzen":"Passwort zurücksetzen"
 }

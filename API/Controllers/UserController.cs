@@ -50,7 +50,6 @@ namespace API.Controllers
 
             query.Origin = Request.Headers["origin"];
             var result = await Mediator.Send(query);
-            // if(result == BadRequest)
             return Ok("Please check your email for the password reset link");
         }
 

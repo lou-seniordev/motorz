@@ -46,7 +46,7 @@ const RequestResetPasswordForm = () => {
         <Form onSubmit={handleSubmit} autoComplete='off'>
           <Header
             as='h2'
-            content='Reset password'
+            content={t('Reset password')}
             color='teal'
             textAlign='center'
           />
@@ -56,7 +56,7 @@ const RequestResetPasswordForm = () => {
             disabled={invalid || pristine}
             loading={submitting}
             color='teal'
-            content='Send me the reset link'
+            content={t('Send me the reset link')}
             fluid
           />
         </Form>

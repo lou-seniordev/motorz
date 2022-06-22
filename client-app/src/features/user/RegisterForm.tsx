@@ -13,7 +13,6 @@ import { v4 as uuid } from "uuid";
 import { Button, Form, Header } from "semantic-ui-react";
 import ErrorMessage from "../../app/common/form/ErrorMessage";
 import TextInput from "../../app/common/form/TextInput";
-// import { IUserFormValues } from '../../app/models/user';
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { useTranslation } from "react-i18next";
 
@@ -39,10 +38,9 @@ const RegisterForm = () => {
   const validate = combineValidators({
     username: isRequired({ message: t("Username is required") }),
     displayName: isRequired({ message: t("Display Name is required") }),
-    // password: isRequired({ message: t("Password is required") }),
     password: composeValidators(
       isRequired({ message: t("Password is required") }),
-      matchesPattern((regexRule))({message: "Password requires a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"})
+      matchesPattern((regexRule))({message: t("Password requires a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")})
     )(),
     
     email: composeValidators (

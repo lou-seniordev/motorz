@@ -20,7 +20,6 @@ import { IPrivateMessageEnvelope, IPrivateMessageToSend } from '../models/privat
 // import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-// axios.defaults.baseURL = 'http://localhost:5000/api';
 
 axios.interceptors.request.use(
   (config) => {

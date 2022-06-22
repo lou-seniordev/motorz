@@ -5,31 +5,25 @@ import {
   Grid,
   GridColumn,
   GridRow,
-  // TextArea,
 } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { IPrivateMessage } from "../../app/models/privatemessages";
-// import { toJS } from "mobx";
+import ConfirmDelete from "./modals/ConfirmDelete";
 
 const PrivateMessageThreadListItem = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
 
-  // let formattedUser: any = user;
 
   const {
-    // setRecipient,
-    // setMessageThreadId,
     listOfMessagesInFocus,
     markReadInDB,
-    // setUsername,
     createHubConnection,
     stopHubConnection,
-    // setReply,
-    // addReply,
-    // // unreadPrivateMessages
   } = rootStore.privateMessageStore;
+
+  const {openModal} =rootStore.modalStore
 
   const userStyles = {
     fontWeight: "normal",
@@ -53,32 +47,7 @@ const PrivateMessageThreadListItem = () => {
     backgroundColor: "inherit",
   };
 
-  // const [input, setInput] = useState("");
-
-  // const handleSendReply = (e: any) => {
-  //   if (e.key === "Enter") {
-  //     e.target.value = "";
-  //     console.log(e);
-  //     if (input === "") {
-  //       console.log("need to validate");
-  //     } else {
-  //       setInput("");
-  //       handleSetRecipient();
-  //       setMessageThreadId(listOfMessagesInFocus![0]);
-  //       setReply(input);
-  //       setUsername(user?.userName!);
-  //       addReply();
-  //     }
-  //   }
-  // };
-
-  // const handleSetRecipient = () => {
-  //   if (listOfMessagesInFocus![1][0].senderUsername === user?.userName) {
-  //     setRecipient(listOfMessagesInFocus![1][0].recipientUsername!, user?.image);
-  //   } else {
-  //     setRecipient(listOfMessagesInFocus![1][0].senderUsername!, user?.image);
-  //   }
-  // };
+  
 
   const markRead = useCallback((messages: IPrivateMessage[]) => {
     messages.forEach((m) => {
@@ -88,20 +57,11 @@ const PrivateMessageThreadListItem = () => {
     });
   }, [markReadInDB, user]);
 
-  // const markRead = (messages: IPrivateMessage[]) => {
-  //   messages.forEach((m) => {
-  //     if (m.senderUsername !== user?.userName && m.dateRead === null) {
-  //       markReadInDB(m.id);
-  //     }
-  //   });
-  // };
+
 
   useEffect(() => {
     createHubConnection(listOfMessagesInFocus![0]);
     markRead(listOfMessagesInFocus![1]);
-    // return () => {
-    //   stopHubConnection(listOfMessagesInFocus![0]);
-    // };
   }, [createHubConnection, stopHubConnection, listOfMessagesInFocus, markRead]);
 
   return (
@@ -146,7 +106,7 @@ const PrivateMessageThreadListItem = () => {
               </div>
             )}
             {message.senderUsername === user?.userName && (
-              <div className="message-list-item">
+              <div className="message-list-item" style={{cursor: "pointer"}} onClick={()=> openModal(<ConfirmDelete messageId="2"/>)}>
                 <Grid style={userStyles} textAlign='right' floated='right'>
                   <GridRow className='mobile hidden'>
                     <GridColumn width={14}>{message.content}</GridColumn>

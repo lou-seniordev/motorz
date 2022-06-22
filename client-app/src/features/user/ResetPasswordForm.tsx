@@ -31,7 +31,7 @@ const ResetPasswordForm = () => {
     password: composeValidators(
 
       isRequired({ message: t("Password is required") }),
-      matchesPattern((regexRule))({message: "Password requires a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"})
+      matchesPattern((regexRule))({message: t("Password requires a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")})
     )(),
     
     
@@ -58,7 +58,7 @@ const ResetPasswordForm = () => {
     <Segment placeholder>
       <Header icon>
         <Icon name='envelope' />
-        {t("Email verification")}
+        {t("Forgotten password")}
       </Header>
 
       <FinalForm
@@ -74,10 +74,8 @@ const ResetPasswordForm = () => {
         render={({
           handleSubmit,
           submitting,
-          //   submitError,
           invalid,
           pristine,
-          dirtySinceLastSubmit,
         }) => (
           <Form
             onSubmit={handleSubmit}
@@ -86,7 +84,7 @@ const ResetPasswordForm = () => {
           >
             <Header
               as='h2'
-              content='Reset password'
+              content={t('Reset password')}
               color='teal'
               textAlign='center'
             />
@@ -99,24 +97,15 @@ const ResetPasswordForm = () => {
             <Field
               name='confirmPassword'
               component={TextInput}
-              placeholder='Confirm Password'
+              placeholder={t("Confirm Password")}
               type='password'
             />
 
-            {/* {submitError && !dirtySinceLastSubmit && (
-              <ErrorMessage
-                error={submitError}
-                // text={t("Invalid email address or password")}
-                text="Invalid email"
-              />
-            )} */}
             <Button
               disabled={invalid || pristine}
-              //   disabled={(invalid && !dirtySinceLastSubmit) || pristine}
               loading={submitting}
               color='teal'
-              //   content={t("Login")}
-              content='Reset your password'
+              content={t('Reset your password')}
               fluid
             />
           </Form>

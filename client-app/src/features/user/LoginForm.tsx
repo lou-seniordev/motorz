@@ -83,11 +83,11 @@ const LoginForm = () => {
             openModal(<ResetPasswordForm />);
           }}
         >
-          Forgot your password?
+          {t("Forgot your password?")}
         </Button>
         {/* onClick={ openModal(<RegisterForm />)} */}
         <Button color='teal' onClick={()=>{closeModal(); setSize("mini"); openModal(<RegisterForm />)}}>
-          Don't have an account yet? Sign Up!
+          {t("Don't have an account yet? Sign Up!")}
         </Button>
       </div>
     </>

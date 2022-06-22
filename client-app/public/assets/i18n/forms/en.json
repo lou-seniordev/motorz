@@ -59,7 +59,6 @@
     "Phone is required": "Phone is required",
     "Price is required": "Price is required",
     "Price must be numeric value": "Price must be numeric value",
-    
     "The location city is required": "The location city is required",
     "The location country is required": "The location country is required",
     "Address is required": "Address is required",
@@ -103,6 +102,15 @@
     "Email has been verified - you can now login": "Email has been verified - you can now login",
     "Email verification": "Email verification",
     "Bio": "Bio",
-    "Update profile": "Update profile"
-
+    "Update profile": "Update profile",
+    "Forgot your password?": "Forgot your password?",
+    "Don't have an account yet? Sign Up!": "Don't have an account yet? Sign Up!",
+    "Reset password": "Reset password",
+    "Send me the reset link": "Send me the reset link",
+    "Password reset link resent - please check your email": "Password reset link resent - please check your email",
+    "Password reset link sent": "Password reset link sent",
+    "Please check your email (including junk email) for the password reset link": "Please check your email (including junk email) for the password reset link",
+    "Password requires a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character": "Password requires a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character",
+    "Forgotten password": "Forgotten password",
+    "Reset your password": "Reset your password"
 }

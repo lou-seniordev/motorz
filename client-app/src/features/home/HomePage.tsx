@@ -63,7 +63,7 @@ const HomePage = () => {
               {t('login to enter')}
             </Button>
             <Button
-              onClick={() => openModal(<RegisterForm />)}
+              onClick={() => {setSize('tiny');openModal(<RegisterForm />)}}
               size='huge'
               inverted
             >

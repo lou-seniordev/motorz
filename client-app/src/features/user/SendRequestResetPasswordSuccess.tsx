@@ -21,8 +21,7 @@ const SendRequestResetPasswordSuccess = () => {
     <Segment placeholder textAlign='center'>
       <Header icon color='green'>
         <Icon name='check' />
-        {/* {t("Successfully registered!")} */}
-        {"Password reset link sent"}
+        {t("Password reset link sent")}
       </Header>
       <p>
         {t("Please check your email (including junk email) for the password reset link")}
