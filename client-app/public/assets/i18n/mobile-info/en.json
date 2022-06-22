@@ -1,9 +1,6 @@
 {
     "Completed diaries": "Completed diaries",
-    "Diaries I Follow": "Diaries I Follow",
-    "My diaries": "My diaries",
-    "Search diaries": "Search diaries",
-    "Active diaries": "Active diaries",
+   "Active diaries": "Active diaries",
     "Best rated": "Best rated",
     "Most embraced": "Most embraced",
     "Motofies I embraced": "Motofies I embraced",
@@ -26,5 +23,8 @@
     "My products": "My products",
     "My inactive products": "My inactive products",
     "Search products": "Search products",
-    "All products": "All products"
+    "All products": "All products"   "Diaries I Follow": "Diaries I Follow",
+    "My diaries": "My diaries",
+    "Search diaries": "Search diaries",
+  
 }

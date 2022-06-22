@@ -19,5 +19,9 @@
     "product to sell pop": "Publish an item that you want to sell",
     "my profile": "My profile",
     "logout": "Logout",
-    "Select language": "Select language"
+    "Select language": "Select language",
+    "English": "English",
+    "Italian": "Italian",
+    "German": "German",
+    "French": "French"
 }

@@ -19,5 +19,9 @@
     "product to sell pop": "Pubblica un oggetto che vuoi vendere",
     "my profile": "Il mio profilo",
     "logout": "Disconnettersi",
-    "Select language": "Seleziona la lingua"
+    "Select language": "Seleziona la lingua",
+    "English": "Inglese",
+    "Italian": "Italiano",
+    "German": "Tedesco",
+    "French": "Francese"
 }

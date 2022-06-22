@@ -286,18 +286,18 @@ const NavBar: React.FC = () => {
                             flag='uk'
                           />
                           <Dropdown.Item
-                            text={t("Italiano")}
+                            text={t("Italian")}
                             onClick={()=>handleLanguageChange('it')}
                             flag='italy'
                           />
                           <Dropdown.Item
-                            text={t("Deutsch")}
+                            text={t("German")}
                             onClick={()=>handleLanguageChange('de')}
                             flag='germany'
                           />
                           <Dropdown.Item
-                            text={t("France")}
-                            onClick={()=>handleLanguageChange('en')}
+                            text={t("French")}
+                            onClick={()=>handleLanguageChange('fr')}
                             flag='france'
                           />
                         
