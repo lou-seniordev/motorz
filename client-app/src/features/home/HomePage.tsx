@@ -11,7 +11,7 @@ const HomePage = () => {
   const token = window.localStorage.getItem("jwt");
   const rootStore = useContext(RootStoreContext);
   const { isLoggedIn, user } = rootStore.userStore;
-  const { openModal } = rootStore.modalStore;
+  const { openModal, setSize } = rootStore.modalStore;
 
   const {t} = useTranslation('home'); 
 
@@ -54,7 +54,7 @@ const HomePage = () => {
           <Fragment>
             <Header as='h2' inverted content={t("Welcome to Motoranza")} />
             <Button
-              onClick={() => openModal(<LoginForm />)}
+              onClick={() => {setSize('tiny'); openModal(<LoginForm />)}}
               to='/login'
               size='huge'
               inverted

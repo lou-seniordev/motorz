@@ -15,16 +15,16 @@ namespace API.Controllers
             return await Mediator.Send(query);
         }
 
-        [HttpPost("register")]
         [AllowAnonymous]
+        [HttpPost("register")]
         public async Task<ActionResult> Register(Register.Command command)
         {
             command.Origin = Request.Headers["origin"];
             await Mediator.Send(command);
             return Ok("Registration successfull - please check your email");
         }
-        [HttpPost("verifyEmail")]
         [AllowAnonymous]
+        [HttpPost("verifyEmail")]
         public async Task<ActionResult> VerifyEmail(ConfirmEmail.Command command)
         {
 
@@ -42,6 +42,40 @@ namespace API.Controllers
 
             return Ok("Email verification link sent - please check email");
         }
+
+        [AllowAnonymous]
+        [HttpGet("handleForgottenPassword")]
+        public async Task<ActionResult> HandleForgottenPassword([FromQuery]HandleForgottenPassword.Query query)
+        {
+
+            query.Origin = Request.Headers["origin"];
+            var result = await Mediator.Send(query);
+            // if(result == BadRequest)
+            return Ok("Please check your email for the password reset link");
+        }
+
+        [AllowAnonymous]
+        [HttpPost("resetPassword")]
+        public async Task<ActionResult> ResetPassword(ResetPassword.Command command)
+        {
+
+            var result = await Mediator.Send(command);
+            if (!result.Succeeded) return BadRequest("Problem verifying email address");
+
+            return Ok("Email confirmed - please enter the new password");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("resendPasswordRequest")]
+        public async Task<ActionResult> ResendPasswordRequest([FromQuery] ResendPasswordRequest.Query query)
+        {
+
+            query.Origin = Request.Headers["origin"];
+            await Mediator.Send(query);
+            return Ok("Please check your email for the resent password reset link");
+        }
+
+
 
         [HttpGet]
         public async Task<ActionResult<User>> CurrentUser()

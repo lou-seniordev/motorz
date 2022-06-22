@@ -40,6 +40,8 @@ import PrivateMessagesDashboard from "../../features/private_messages/PrivateMes
 import RegisterSuccess from "../../features/user/RegisterSuccess";
 import VerifyEmail from "../../features/user/VerifyEmail";
 import { useTranslation } from "react-i18next";
+import SendRequestResetPasswordSuccess from "../../features/user/SendRequestResetPasswordSuccess";
+import ResetPasswordForm from "../../features/user/ResetPasswordForm";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -161,6 +163,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   component={RegisterSuccess}
                 />
                 <Route path='/user/verifyEmail' component={VerifyEmail} />
+                <Route path='/user/sendRequestResetPasswordSuccess' component={SendRequestResetPasswordSuccess} />
+                <Route path='/user/ResetPasswordForm' component={ResetPasswordForm} />
                 <Route path='/login' component={LoginForm} />
                 <Route path='/confirmDelete' component={ConfirmDelete} />
                 <Route component={NotFound} />

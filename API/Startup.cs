@@ -47,7 +47,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // == COMMENTED AND REPLACED WITH HEROKU CONFIG
+            // // == COMMENTED AND REPLACED WITH HEROKU CONFIG
             services.AddDbContext<DataContext>(opt =>
             {
                 // === must add in order to use Lazy Loading Proxies ===
@@ -127,11 +127,6 @@ namespace API
             // ===  MEDIATOR ===
             // comment
             services.AddMediatR(typeof(List.Handler).Assembly);
-
-            // uncomment
-            // services.AddMediatR(typeof(Application.Activities.List.Handler).Assembly);
-            // services.AddMediatR(typeof(Application.Mechanics.List.Handler).Assembly);
-            // services.AddMediatR(typeof(Application.Motofies.List.Handler).Assembly);
 
             // === AUTOMAPPER ===
             services.AddAutoMapper(typeof(List.Handler));

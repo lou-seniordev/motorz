@@ -7,6 +7,7 @@ import {
   matchesField,
   composeValidators,
   createValidator,
+  matchesPattern,
 } from "revalidate";
 import { v4 as uuid } from "uuid";
 import { Button, Form, Header } from "semantic-ui-react";
@@ -32,10 +33,18 @@ const RegisterForm = () => {
     t("Invalid email address")
   );
 
+  const regexRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+
   const validate = combineValidators({
     username: isRequired({ message: t("Username is required") }),
     displayName: isRequired({ message: t("Display Name is required") }),
-    password: isRequired({ message: t("Password is required") }),
+    // password: isRequired({ message: t("Password is required") }),
+    password: composeValidators(
+      isRequired({ message: t("Password is required") }),
+      matchesPattern((regexRule))({message: "Password requires a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"})
+    )(),
+    
     email: composeValidators (
       isRequired({ message: t("Email is required") }),
       isValidEmail({ message: t("Invalid email address") }),

@@ -39,7 +39,6 @@ export default class UserStore {
             runInAction(() => {
                 this.user = user;
             });
-            // this.rootStore.commonStore.setToken(user.token);
         } catch (error) {
             console.log(error);
         }
@@ -58,6 +57,27 @@ export default class UserStore {
             await agent.User.register(values);
             this.rootStore.modalStore.closeModal();
             history.push(`/user/registerSuccess?email=${values.email}`);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @action handleForgottenPassword = async (values: IUserFormValues) => {
+       
+        try {
+            await agent.User.handleForgottenPassword(values.email);
+            this.rootStore.modalStore.closeModal();
+            history.push(`/user/SendRequestResetPasswordSuccess?email=${values.email}`);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @action resetPassword = async (token: string, email: string, password: string) => {
+
+        try {
+            await agent.User.resetPassword(token, email, password);
+            history.push(`/`);
         } catch (error) {
             throw error;
         }
