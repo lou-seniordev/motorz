@@ -71,16 +71,16 @@
 
 @media only screen and (max-width: 767px) {
 
-  .home-container {
-    padding-bottom: 2rem;
-    padding-top: 12rem;
-    /* border: solid 1px white; */
-    margin-left: 3rem !important; 
-    min-height: 30rem !important;
+  .container.home-container {
+    /* padding-bottom: 2rem;
+    padding-top: 12rem; */
+    border: solid 1px white;
+    padding: 2rem !important; 
+    /* min-height: 30rem !important; */
 
   }
   .ui.container {
-    margin-left: 3rem !important;  
+    margin-left: 1rem !important;  
     padding: auto;
   }
   .ui inverted header {
