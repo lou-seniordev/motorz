@@ -1,57 +1,99 @@
-.animationLeft {
-    animation-name: moveInLeft !important;
-    animation-duration: 5 s !important;
-  }
-.animationRight {
-    animation-name: moveInRight !important;
-    animation-duration: 5 s !important;
-  }
+/*home page styles*/
 
-  @keyframes moveInLeft {
-    0% {
-      opacity: 0 !important;
-      transform: translateX(-100px) !important;
-    }
-    80% {
-  
-    }
-    100% {
-      opacity: 1 !important;
-      transform: translate(0) !important;
-    }
-  }
+.masthead {
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(
+      135deg,
+      rgb(24, 42, 115, 0),
+      rgb(33, 138, 174, 0.7),
+      rgb(32, 167, 172, 9)
+    ),
+    url("https://res.cloudinary.com/motofy/image/upload/v1542881348/bjpdqdis9vwcagtxffa5.jpg") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  height: 100vh;
+}
 
-  @keyframes moveInRight {
-    0% {
-      opacity: 0;
-      transform: translateX(100px) !important;
-    }
-    80% {
-      transform: translateX(-5px) !important;
-  
-    }
-    100% {
-      opacity: 1 !important;
-      transform: translate(0) !important;
-    }
-  }
+.masthead .ui.menu .ui.button,
+.ui.menu a.ui.inverted.button {
+  margin-left: 0.5em;
+}
 
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+.masthead h1.ui.header {
+  font-size: 7em;
+  /* font-weight: 1000 !important; */
+  font-weight:bold;
+}
+
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+
+.btn{
+  margin-top: 1.5rem !important;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn:link,
+.btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 40px;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all 0.2s;
+}
+
+.home-container {
+  width: 50rem !important;
+  padding-bottom: 2rem;
+  border-radius: 30px !important;
+  opacity: 0.9;
+}
+
+/* .home-container:hover {
+  background-color: rgb(49, 49, 68);
+  opacity: 0.5;
+} */
+
+
+
+@media only screen and (max-width: 767px) {
+
+  .home-container {
+    padding-bottom: 2rem;
+    padding-top: 12rem;
+    /* border: solid 1px white; */
+    margin-left: 3rem !important; 
+    min-height: 30rem !important;
+
   }
-  
-  .btn:active {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  .ui.container {
+    margin-left: 3rem !important;  
+    padding: auto;
   }
-  
-  .btn:link,
-  .btn:visited {
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 15px 40px;
-    display: inline-block;
-    border-radius: 100px;
-    transition: all .2s;
+  .ui inverted header {
+    margin: 0rem !important;
   }
+  .masthead h1.ui.header {
+    font-size: 3em;
+    margin-left: 0.5rem !important;
+  }
+  .masthead h2 {
+    font-size: 1.4em !important;
+  }
+  .usr-btn {
+    margin: .1rem !important;
+  }
+}

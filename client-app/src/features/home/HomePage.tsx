@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Header, Image, Segment } from "semantic-ui-react";
+import { Button, Container, Header, Segment } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import LoginForm from "../user/LoginForm";
 import RegisterForm from "../user/RegisterForm";
@@ -13,32 +13,18 @@ const HomePage = () => {
   const { isLoggedIn, user } = rootStore.userStore;
   const { openModal, setSize } = rootStore.modalStore;
 
-  const {t} = useTranslation('home'); 
+  const { t } = useTranslation("home");
 
   return (
     <Segment inverted textAlign='center' vertical className='masthead'>
-      <Container text>
-        {/* <Transition animation='slide left' duration={5} directional> */}
-
-        <Header as='h1' inverted className='animationLeft'>
-          <Image
-            size='massive'
-            src='/assets/logo.png'
-            alt='logo'
-            style={{ marginBottom: 12 }}
-          />
-          MOTORANZA
+      <Container textAlign='center' className="home-container" style={{    marginLeft:"auto", marginRight:"auto"}}>
+        <Header as='h1' inverted style={{marginLeft:"5rem"}}>
+          <span style={{ color: "#FA5" }}>M</span>OTORANZA
         </Header>
-        {/* </Transition> */}
         {isLoggedIn && user && token ? (
           <Fragment>
-            <Header
-              // className='animationLeft'
-              as='h2'
-              inverted
-              // content={`t("welcome back to motoranza") ${user.displayName}`}
-            >
-              {t("welcome back to motoranza")}{" "} {user.displayName}
+            <Header as='h2' inverted>
+              {t("welcome back to motoranza")} {user.displayName}
             </Header>
             <Button
               as={Link}
@@ -47,28 +33,34 @@ const HomePage = () => {
               inverted
               className='btn'
             >
-             {t('enter motoranza')}
+              {t("enter motoranza")}
             </Button>
           </Fragment>
         ) : (
           <Fragment>
             <Header as='h2' inverted content={t("Welcome to Motoranza")} />
             <Button
-              onClick={() => {setSize('tiny'); openModal(<LoginForm />)}}
+              onClick={() => {
+                setSize("tiny");
+                openModal(<LoginForm />);
+              }}
               to='/login'
               size='huge'
               inverted
+              className="usr-btn"
             >
-              {/* Login to Enter */}
-              {t('login to enter')}
+              {t("login to enter")}
             </Button>
             <Button
-              onClick={() => {setSize('tiny');openModal(<RegisterForm />)}}
+              onClick={() => {
+                setSize("tiny");
+                openModal(<RegisterForm />);
+              }}
               size='huge'
               inverted
+              className="usr-btn"
             >
-              {/* Register to Enter */}
-              {t('register to enter')}
+              {t("register to enter")}
             </Button>
           </Fragment>
         )}
