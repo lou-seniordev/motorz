@@ -11,5 +11,11 @@
     "Sure you want to do this (cannot undo)?": "Sure you want to do this (cannot undo)?",
     "Yes, delete it!": "Oui, supprimez-le !",
     "No, keep it": "Non, gardez-le",
-    "No, cancel": "Non, annuler"
+    "No, cancel": "Non, annuler",
+    "This action is irreversible": "Cette action est irréversible",
+    "Are you sure you want to delete this message?": "Etes-vous sur de vouloir supprimer ce message?",
+    "Content is required": "Le contenu est requis",
+    "Edit message": "Modifier le message",
+    "Cancel": "Annuler",
+    "Submit": "Soumettre"
 }
