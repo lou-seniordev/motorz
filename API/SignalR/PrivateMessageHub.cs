@@ -32,28 +32,19 @@ namespace API.SignalR
 
             command.Username = username;
 
-            
-            // var otherUser = command.RecipientUsername;
-
-            // var connections = _tracker.GetConnectionsForUser(otherUser);
-
-            // var otherUser = command.RecipientUsername;
-
-            // var connections = await _tracker.GetConnectionsForUser(otherUser);
-
-            // if (connections != null)
-            // {
-            //     await _presenceHub
-            //         .Clients
-            //         .Clients(connections)
-            //         .SendAsync("NewMessageReceived",
-            //         new { username = username });
-            // }
             var message = await _mediator.Send(command);
 
             await Clients
                 .Group(command.PrivateMessageThreadId.ToString())
                 .SendAsync("ReceiveMessage", message);
+        }
+        public async Task DeleteMessage(Delete.Command command)
+        {
+            var message = await _mediator.Send(command);
+
+            await Clients
+                .Group(command.PrivateMessageThreadId.ToString())
+                .SendAsync("MessageDeleted", message);
         }
 
         private string GetUsername()

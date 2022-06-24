@@ -1,43 +1,43 @@
 import React, { Fragment, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
-// import { useHistory } from "react-router";
 import { Header, Button, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface IProps {
   messageId: string;
+  privateMessageThreadId: string;
 }
-const ConfirmDelete: React.FC<IProps> = ({ messageId }) => {
+const ConfirmDelete: React.FC<IProps> = ({ messageId, privateMessageThreadId }) => {
   const rootStore = useContext(RootStoreContext);
-  const {deleteForumpost } = rootStore.forumPostStore;
+  const { deleteSingleMessage} = rootStore.privateMessageStore;
  
   const { closeModal } = rootStore.modalStore;
-  let history = useHistory();
 
   const { t } = useTranslation(["modals"]);
 
 
-  const handleDeleteForumpost = (id: string) => {
-    deleteForumpost(id)
-    //   .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
+  const handleDeleteSingleMessage = () => {
+    deleteSingleMessage(messageId, privateMessageThreadId)
       .then(() => closeModal())
-      .finally(() => history.push(`/forum`));
   };
 
-  const cancelDeleteForumpost = () => {
+  const cancelDeleteSingleMessage = () => {
     closeModal();
   };
 
-  // let history = useHistory();
 
   return (
     <Grid>
       <Grid.Column width={16}>
         <Header
           as='h2'
-        //   content={t('Irreversible action! Are you sure you want to do this?')}
-        content="todo: delete message!!! ~ also edit"
+          content={t('This action is irreversible')}
+          color='teal'
+          textAlign='center'
+        />
+        <Header
+          sub
+          content={t('Are you sure you want to delete this message?')}
           color='teal'
           textAlign='center'
         />
@@ -45,14 +45,14 @@ const ConfirmDelete: React.FC<IProps> = ({ messageId }) => {
         <Fragment>
           <Button
             fluid
-            onClick={() => handleDeleteForumpost(messageId)}
+            onClick={() => handleDeleteSingleMessage()}
             color='teal'
             content={t('Yes, delete it')}
             floated='left'
           />
           <Button
             fluid
-            onClick={() => cancelDeleteForumpost()}
+            onClick={() => cancelDeleteSingleMessage()}
             content={t("No, don't delete")}
             floated='right'
           />

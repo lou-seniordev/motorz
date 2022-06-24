@@ -27,7 +27,7 @@ export default class CommentStore {
           .start()
           .then(() => console.log(this.hubConnection!.state))
           .then(() => {
-            console.log('Attempting to join group');
+            // console.log('Attempting to join group');
             if (this.hubConnection!.state === 'Connected') {
               this.hubConnection?.invoke('AddToGroup', motofyId);
             }
@@ -36,8 +36,6 @@ export default class CommentStore {
     
         this.hubConnection.on(connectionArgument, (comment) => {
           runInAction(() => {
-            // console.log('comment', comment)
-            // console.log('this.motofy!.comments', this.motofy!.commentMotofies)
             this.motofy!.commentMotofies.push(comment);
           });
         });
