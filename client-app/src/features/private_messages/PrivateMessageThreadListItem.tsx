@@ -11,6 +11,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { IPrivateMessage } from "../../app/models/privatemessages";
 import ConfirmDelete from "./modals/ConfirmDelete";
+import EditMessage from "./modals/EditMessage";
 
 const PrivateMessageThreadListItem = () => {
   const rootStore = useContext(RootStoreContext);
@@ -21,7 +22,6 @@ const PrivateMessageThreadListItem = () => {
     markReadInDB,
     createHubConnection,
     stopHubConnection,
-    deleteSingleMessage,
   } = rootStore.privateMessageStore;
 
   const { openModal, setSize } = rootStore.modalStore;
@@ -107,6 +107,7 @@ const PrivateMessageThreadListItem = () => {
                 <Grid style={userStyles} textAlign='right' floated='right'>
                   <GridRow className='mobile hidden'>
                     <GridColumn width={1}>
+                      {/* ellipsis vertical */}
                       <Icon
                         name='delete'
                         style={{ cursor: "pointer" }}
@@ -122,26 +123,27 @@ const PrivateMessageThreadListItem = () => {
                           );
                         }}
                       />
-                      <Icon name='edit' style={{ cursor: "pointer" }} />
-                    </GridColumn>
-                    {/* <GridColumn width={1}>
                       <Icon
                         name='edit'
                         style={{ cursor: "pointer" }}
-                        // onClick={() => {
-                        //   setSize("mini");
-                        //   openModal(
-                        //     <ConfirmDelete
-                        //       messageId={message.id}
-                        //       privateMessageThreadId={
-                        //         message.privateMessageThreadId
-                        //       }
-                        //     />
-                        //   );
+                        onClick={() => {
+                          setSize("mini");
+                          openModal(
+                            <EditMessage
+                              messageId={message.id}
+                              privateMessageThreadId={
+                                message.privateMessageThreadId
+                              }
+                              content={message.content}
+                              recipientUsername={message.recipientUsername!}
+                              senderPhotoUrl={message.senderPhotoUrl}
 
-                        // }}
+                            />
+                          );
+                        }}
                       />
-                    </GridColumn> */}
+                    </GridColumn>
+
                     <GridColumn width={13}>{message.content}</GridColumn>
                     <GridColumn width={2}>
                       <Image
@@ -160,24 +162,6 @@ const PrivateMessageThreadListItem = () => {
                       paddingBottom: ".3rem",
                     }}
                   >
-                    <GridColumn width={1}>
-                      <Icon
-                        name='delete'
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          setSize("mini");
-                          openModal(
-                            <ConfirmDelete
-                              messageId={message.id}
-                              privateMessageThreadId={
-                                message.privateMessageThreadId
-                              }
-                            />
-                          );
-                        }}
-                      />
-                      <Icon name='edit' style={{ cursor: "pointer" }} />
-                    </GridColumn>
                     <GridColumn width={13}>{message.content}</GridColumn>
                   </GridRow>
                 </Grid>

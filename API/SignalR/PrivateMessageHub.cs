@@ -47,6 +47,19 @@ namespace API.SignalR
                 .SendAsync("MessageDeleted", message);
         }
 
+        public async Task EditMessage(Edit.Command command)
+        {
+            string username = GetUsername();
+
+            command.Username = username;
+
+            var message = await _mediator.Send(command);
+
+            await Clients
+                .Group(command.PrivateMessageThreadId.ToString())
+                .SendAsync("MessageEdited", message);
+        }
+
         private string GetUsername()
         {
             return Context

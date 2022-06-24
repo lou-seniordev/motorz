@@ -49,7 +49,6 @@ namespace Application.PrivateMessages
             public async Task<PrivateMessageDto> Handle(Command request, CancellationToken cancellationToken)
             {
 
-                // var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
 
                 if (user.UserName.ToLower() == request.RecipientUsername.ToLower())
@@ -59,8 +58,6 @@ namespace Application.PrivateMessages
                 }
                 var sender = await _context.Users.SingleOrDefaultAsync(x => x.UserName == user.UserName);
                 var recipient = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.RecipientUsername);
-                // var sender = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.UserName);
-                // var recipient = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.RecipientUsername);
 
                 if (recipient == null)
 

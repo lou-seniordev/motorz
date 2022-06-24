@@ -29,3 +29,22 @@ export interface IPrivateMessageToDelete {
     id: string;
     privateMessageThreadId: string;
 }
+export interface IPrivateMessageToEdit {
+    id: string;
+    privateMessageThreadId: string;
+    content: string;
+    recipientUsername: string;
+    senderUsername: string;
+    senderPhotoUrl: string;
+}
+
+export class PrivateMessageToEditValues {
+    id?: string;
+    content: string = '';
+    privateMessageThreadId: string = '';
+  
+    constructor(init?: PrivateMessageToEditValues) {
+      if (init)
+        Object.assign(this, init);
+    }
+  }

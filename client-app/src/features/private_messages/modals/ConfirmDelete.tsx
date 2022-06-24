@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Header, Button, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -42,21 +42,22 @@ const ConfirmDelete: React.FC<IProps> = ({ messageId, privateMessageThreadId }) 
           textAlign='center'
         />
 
-        <Fragment>
+        <div className='ui two buttons' style={{paddingTop: "2rem"}}>
           <Button
             fluid
             onClick={() => handleDeleteSingleMessage()}
-            color='teal'
+            // color='teal'
             content={t('Yes, delete it')}
-            floated='left'
+            // floated='left'
           />
           <Button
             fluid
+            positive
             onClick={() => cancelDeleteSingleMessage()}
             content={t("No, don't delete")}
-            floated='right'
+            // floated='right'
           />
-        </Fragment>
+        </div>
       </Grid.Column>
     </Grid>
   );
