@@ -13,6 +13,10 @@
     "No, keep it": "Nein, behalte es",
     "No, cancel": "No, abbrechen",
     "This action is irreversible": "Diese Aktion ist irreversibel",
-    "Are you sure you want to delete this message?": "Möchten Sie diese Nachricht wirklich löschen?"
+    "Are you sure you want to delete this message?": "Möchten Sie diese Nachricht wirklich löschen?",
+    "Content is required": "Inhalt ist erforderlich",
+    "Edit message": "Nachricht bearbeiten",
+    "Cancel": "Abbrechen",
+    "Submit": "Absenden"
 
 }

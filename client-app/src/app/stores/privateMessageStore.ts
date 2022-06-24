@@ -1,9 +1,7 @@
-import { IPrivateMessageToDelete } from './../models/privatemessages';
-// import { Message } from 'semantic-ui-react';
+import { IPrivateMessageToDelete, IPrivateMessageToEdit } from './../models/privatemessages';
 // import { toJS } from 'mobx';
-import {  HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { observable, action, computed, runInAction } from 'mobx';
-// import { toast } from 'react-toastify';
 import { history } from '../..';
 
 import agent from '../api/agent';
@@ -85,23 +83,28 @@ export default class PrivateMessageStore {
             .catch(error => console.log('Error establishing connection: ', error));
 
         this.hubConnection.on('ReceiveMessage', message => {
-            // console.log('ReceiveMessage :::', message)
 
             runInAction(() => {
                 this.messageRegistry.set(message.id, message);
 
             });
             this.setView(message.privateMessageThreadId)
-            // console.log('messageRegistry after runinaction :::', toJS(this.messageRegistry))
         })
-        this.hubConnection.on('MessageDeleted', (messageToDelete:IPrivateMessageToDelete) => {
+        this.hubConnection.on('MessageDeleted', (messageToDelete: IPrivateMessageToDelete) => {
 
-            // console.log('MessageDeleted id:::', messageToDelete)
             runInAction(() => {
                 this.messageRegistry.delete(messageToDelete.id);
             })
             this.setView(messageToDelete.privateMessageThreadId)
         })
+
+
+        this.hubConnection.on('MessageEdited', (messageToEdit: IPrivateMessageToEdit) => {
+
+            this.resetView(messageToEdit);
+        })
+
+
         this.hubConnection.on('SendMessage', message => {
             console.log(message);
         })
@@ -117,7 +120,6 @@ export default class PrivateMessageStore {
     }
 
     @action addReply = async () => {
-        // console.log("this.hubConnection!", this.hubConnection!)
 
         let messageToSend = {
             recipientUsername: this.recipientUsername,
@@ -125,7 +127,6 @@ export default class PrivateMessageStore {
             privateMessageThreadId: this.messageThreadId,
             username: this.username
         }
-        console.log("this.messageToSend!", messageToSend)
 
         try {
             await this.hubConnection!.invoke('SendMessage', messageToSend);
@@ -135,27 +136,47 @@ export default class PrivateMessageStore {
     };
 
     @action deleteSingleMessage = async (id: string, privateMessageThreadId: string) => {
-        // console.log("this.hubConnection!", this.hubConnection!)
+
         let messageToSend = {
             id,
             privateMessageThreadId
         }
-        console.log("this.messageToSend!", messageToSend)
         try {
-            // await agent.PrivateMessages.delete(id);
             await this.hubConnection!.invoke('DeleteMessage', messageToSend)
-           
-            // this.setView(privateMessageThreadId);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    @action editMessage = async (id: string, privateMessageThreadId: string, content: string, recipientUsername: string, senderPhotoUrl: string) => {
+        
+        let messageToEdit = {
+            id,
+            privateMessageThreadId,
+            content,
+            recipientUsername,
+            senderPhotoUrl
+        }
+        try {
+            await this.hubConnection!.invoke('EditMessage', messageToEdit)
+
         } catch (error) {
             console.log(error);
         }
     }
 
     @action getUnreadPrivate = async () => {
-        const result = await agent.PrivateMessages.checkUnread();
-        runInAction(() => {
-            this.counterUnread = result;
-        })
+        
+        try {
+            const result = await agent.PrivateMessages.checkUnread();
+            runInAction(() => {
+                if(result){
+                    this.counterUnread = result;
+                }
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     @action loadMessages = async () => {
@@ -203,7 +224,14 @@ export default class PrivateMessageStore {
     }
 
 
-    formatDate(message: IPrivateMessage) {
+    private resetView(messageToEdit: IPrivateMessageToEdit) {
+        runInAction(() => {
+            var index = this.listOfMessagesInFocus![1].findIndex(m => m.id === messageToEdit.id);
+            this.listOfMessagesInFocus![1][index].content = messageToEdit.content;
+        });
+    }
+
+    private formatDate(message: IPrivateMessage) {
         const delimiter = '.';
         message.dateSent = message.dateSent?.split(delimiter)[0];
         message.dateSent = message.dateSent.replace('T', ' ');
@@ -223,7 +251,7 @@ export default class PrivateMessageStore {
             console.log(error);
         }
     }
- 
+
 
     @action setRecipient = (username: string, userPhotoUrl: any) => {
         this.recipientUsername = username;
@@ -236,17 +264,13 @@ export default class PrivateMessageStore {
     };
     @action setUsername = (username: string) => {
         this.username = username;
-        // console.log('this.username:::', this.username)
 
     }
     @action sendMessage = async (messageToSend: any) => {
-        // console.log("this.hubConnection!", this.hubConnection!)
 
         try {
-            // let message = 
             await agent.PrivateMessages.create(messageToSend);
-            // await this.hubConnection!.invoke('SendMessage', messageToSend)
-            // console.log(message);
+
             runInAction('loading message ', () => {
                 this.rootStore.modalStore.closeModal();
             });

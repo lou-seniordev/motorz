@@ -42,11 +42,8 @@ namespace Application.PrivateMessages
                 {
                     Id = request.Id,
                     PrivateMessageThreadId = request.PrivateMessageThreadId
-                    // Id = message.Id,
-                    // PrivateMessageThreadId = message.PrivateMessageThread.Id
                 };
 
-                // if (success) return Unit.Value;
                 if (success) return messageToDelete;
 
                 throw new Exception("Problem Saving Changes");

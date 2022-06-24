@@ -31,12 +31,5 @@ namespace API.Controllers
             return await Mediator.Send(new MarkRead.Command { Id = id });
         }
 
-        // [HttpDelete("{id}")]
-        // public async Task<ActionResult<Unit>> DeleteSingleMessage (Guid id)
-        // {
-        //     return await Mediator.Send(new Delete.Command {Id = id});
-        // }
-
-
     }
 }

@@ -30,7 +30,6 @@ namespace API.SignalR
             string username = GetUsername();
             command.Username = username;
             string connectionArgument = "RecieveMotofyComment";
-            // command.ConnectionArgument = connectionArgument;
 
             var comment = await _mediator.Send(command);
 

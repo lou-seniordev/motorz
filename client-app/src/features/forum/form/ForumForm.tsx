@@ -88,7 +88,6 @@ const ForumForm: React.FC<RouteComponentProps<DetailParams>> = ({
     <Grid>
       <Grid.Column width={3} />
       <Grid.Column 
-      // width={10}
       computer={10} mobile={16}
       >
         <Segment clearing>

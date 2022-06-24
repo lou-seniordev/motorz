@@ -189,7 +189,7 @@ const PrivateMessages = {
   list: (limit: number, page: number): Promise<IPrivateMessageEnvelope> =>
     requests.get(`/privatemessages?limit=${limit}&offset=${page ? page * limit! : 0}`),
   create: (message: IPrivateMessageToSend) => requests.post('/privatemessages/', message),
-  delete: (id: string) => requests.delete(`/privatemessages/${id}`),
+  // delete: (id: string) => requests.delete(`/privatemessages/${id}`),
   checkUnread: () => requests.get('/privatemessages/checkUnread'),
   markRead: (id: string) => requests.put(`/privatemessages/${id}/markRead`, {})
 }
