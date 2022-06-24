@@ -25,3 +25,7 @@ export interface IPrivateMessageToSend {
     content: string;
     productId?: string;
 }
+export interface IPrivateMessageToDelete {
+    id: string;
+    privateMessageThreadId: string;
+}

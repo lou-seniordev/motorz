@@ -1,11 +1,7 @@
 using System.Threading.Tasks;
-using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Application.PrivateMessages;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 using MediatR;
-using System.Net.Http;
 using System;
 
 namespace API.Controllers
@@ -34,6 +30,12 @@ namespace API.Controllers
         {
             return await Mediator.Send(new MarkRead.Command { Id = id });
         }
+
+        // [HttpDelete("{id}")]
+        // public async Task<ActionResult<Unit>> DeleteSingleMessage (Guid id)
+        // {
+        //     return await Mediator.Send(new Delete.Command {Id = id});
+        // }
 
 
     }

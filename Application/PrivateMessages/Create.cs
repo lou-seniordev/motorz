@@ -6,7 +6,6 @@ using Domain;
 using MediatR;
 using Persistence;
 using FluentValidation;
-using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Application.Errors;
