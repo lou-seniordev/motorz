@@ -1,7 +1,9 @@
-import { HubConnection, HubConnectionBuilder
+import {
+    HubConnection, HubConnectionBuilder
     // , LogLevel 
 } from '@microsoft/signalr';
-import { action, observable, runInAction } from 'mobx';
+import { action, computed, observable, runInAction } from 'mobx';
+import agent from '../api/agent';
 // import { toast } from 'react-toastify';
 // import { history } from '../..';
 // import agent from '../api/agent';
@@ -22,11 +24,53 @@ export default class PresenceStore {
     @observable onlineUsersSource: string[] = [];
     @observable onlineUsers: string[] = []
 
+    @observable counterUnread: number = 0;
+
+    @observable counterUnreadItems = new Set();
+    @observable unreadItems: string[] = [];
+
+    @computed get unreadIncomingMessages() {
+        return this.unreadItems.length;
+    }
+    // @computed set markMessagesRead(username:string) {
+    //     // return this.unreadItems.length;
+    //     console.log(username)
+    //     // console.log(this.unreadItems)
+    // }
+
+    @action markReadNavbar = async (username: string) => {
+ 
+        console.log('HERE NAMES BEFORE', this.unreadItems)
+        runInAction(() => {
+            const index = this.unreadItems.indexOf(username);
+            if (index > -1) { 
+                this.unreadItems.splice(index, 1); 
+              }
+            console.log('HERE NAMES AFTER', this.unreadItems)
+        })
+    }
+
+    @action getUnreadItems = async () => {
+
+        try {
+            const result = await agent.PrivateMessages.checkUnread();
+       
+            runInAction(() => {
+                if (result) {
+                    this.unreadItems = result;
+                    // console.log(this.unreadItems)
+                }
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     @action createHubConnection = () => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(process.env.REACT_APP_API_PRESENCE_URL!, {
-            // .withUrl('http://localhost:5000/presence', {
+                // .withUrl('http://localhost:5000/presence', {
 
                 accessTokenFactory: () => this.rootStore.commonStore.token!
             })
@@ -51,11 +95,11 @@ export default class PresenceStore {
         //     toast.info(username + ' has connected')
 
         //     // runInAction(() => {
-             
+
 
         //     // });
         // });
-        
+
         // this.hubConnection.on('UserIsOffline', username => {
         //     toast.warning(username + ' has disconnected')
         // });
@@ -68,6 +112,22 @@ export default class PresenceStore {
                 //  console.log('onlineUsersSource', this.onlineUsersSource)
 
             })
+        })
+        this.hubConnection.on('NewMessageReceived', ({ username }) => {
+
+            // console.log(username + ' has sent you a new message');
+
+            // this.counterUnreadItems.add(username);
+            runInAction(() => {
+                // this.unreadItems.push(username)
+                // console.log("this.counterUnreadItems: ", this.counterUnreadItems.size);
+                if (this.unreadItems.indexOf(username) === -1) {
+                    this.unreadItems.push(username);
+                }
+            })
+            // console.log("this.unreadItems: ",this.unreadItems.length);
+            // console.log("this.unreadItemss: ", this.unreadItems.length);
+
         })
     }
 
@@ -94,7 +154,7 @@ export default class PresenceStore {
     //         this.rootStore.commonStore.setToken(user.token);
     //         this.rootStore.modalStore.closeModal();
     //         history.push('/activities');
-            
+
     //     } catch (error) {
     //         throw error
     //     }
@@ -115,7 +175,7 @@ export default class PresenceStore {
     //     this.user = null;
     //     history.push('/')
     // }
-    
+
     // @action register = async (values: IUserFormValues) => {
 
     //     try {

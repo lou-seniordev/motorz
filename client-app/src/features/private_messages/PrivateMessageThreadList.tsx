@@ -30,12 +30,6 @@ const PrivateMessageThreadList = () => {
     });
   };
 
-  // getSenderPhoto();
-  // const getSenderPhoto =()=> {
-  //   messagesByThreadId.map(([id, message]) => {
-  //     console.log(toJS(message[0]))
-  //   })
-  // }
 
   return (
     <Fragment>
@@ -50,7 +44,7 @@ const PrivateMessageThreadList = () => {
                 onClick={() => {
                   markRead(messages);
                   setView(messages[0].privateMessageThreadId);
-                  createHubConnection(messages[0].privateMessageThreadId);
+                  // createHubConnection(messages[0].privateMessageThreadId);
                 }}
                 divided
                 style={{ cursor: "pointer" }}

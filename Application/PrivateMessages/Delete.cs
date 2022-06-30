@@ -14,6 +14,7 @@ namespace Application.PrivateMessages
         {
             public Guid Id { get; set; }
             public Guid PrivateMessageThreadId { get; set; }
+            public string RecipientUsername { get; set; }
 
         }
 

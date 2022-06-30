@@ -20,10 +20,16 @@ const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
-  const { unreadPrivateMessages
-    , getUnreadPrivate 
+  const { 
+    // unreadMessages,
+    unreadIncomingMessages,
+    getUnreadItems
   } =
-    rootStore.privateMessageStore;
+    rootStore.presenceStore;
+  // const { unreadPrivateMessages
+  //   , getUnreadPrivate 
+  // } =
+  //   rootStore.privateMessageStore;
 
   // const { createHubConnection } = rootStore.presenceStore;
 
@@ -66,12 +72,16 @@ const NavBar: React.FC = () => {
     }
     //temp comment trying presence
     if (isLoggedIn) {
-      setInterval(() => {
-        getUnreadPrivate();
-      }, 2000);
+      // setInterval(() => {
+      //   getUnreadPrivate();
+      // }, 2000);
+      // getUnreadItems();
+      getUnreadItems()
+      // console.log('unreadMessages: ', unreadMessages)
     }
   }, [
-    getUnreadPrivate, 
+    // unreadIncomingMessages, 
+    getUnreadItems,
     isLoggedIn
   ]);
 
@@ -141,7 +151,7 @@ const NavBar: React.FC = () => {
               </Menu.Item>
               <Menu.Item
                 name='market'
-                text='Motoranza market'
+                // text='Motoranza market'
                 // exact
                 value='Market'
                 as={Link}
@@ -181,14 +191,14 @@ const NavBar: React.FC = () => {
                   </Dropdown.Menu>
                    
                 </Dropdown>
-                {unreadPrivateMessages > 0 && (
+                {unreadIncomingMessages > 0 && (
                   <Label
                     as={Link}
                     to='/privateMessages'
                     color='orange'
                     onClick={closeStackableMenu}
                   >
-                    {unreadPrivateMessages}
+                    {unreadIncomingMessages}
                   </Label>
                 )}
               </Menu.Item>

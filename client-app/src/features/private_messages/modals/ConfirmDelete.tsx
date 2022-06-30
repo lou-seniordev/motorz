@@ -6,8 +6,9 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 interface IProps {
   messageId: string;
   privateMessageThreadId: string;
+  recipientUsername: string;
 }
-const ConfirmDelete: React.FC<IProps> = ({ messageId, privateMessageThreadId }) => {
+const ConfirmDelete: React.FC<IProps> = ({ messageId, privateMessageThreadId, recipientUsername }) => {
   const rootStore = useContext(RootStoreContext);
   const { deleteSingleMessage} = rootStore.privateMessageStore;
  
@@ -17,7 +18,7 @@ const ConfirmDelete: React.FC<IProps> = ({ messageId, privateMessageThreadId }) 
 
 
   const handleDeleteSingleMessage = () => {
-    deleteSingleMessage(messageId, privateMessageThreadId)
+    deleteSingleMessage(messageId, privateMessageThreadId, recipientUsername)
       .then(() => closeModal())
   };
 

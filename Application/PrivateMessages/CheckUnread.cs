@@ -5,16 +5,18 @@ using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using System.Collections.Generic;
+
 
 namespace Application.PrivateMessages
 {
     public class CheckUnread
     {
-        public class Query : IRequest<int>
+        public class Query : IRequest<List<string>>
         {
         }
 
-         public class Handler : IRequestHandler<Query, int>
+         public class Handler : IRequestHandler<Query, List<string>>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
@@ -24,7 +26,7 @@ namespace Application.PrivateMessages
                  _userAccessor = userAccessor;
             }
 
-            public async Task<int> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<string>> Handle(Query request, CancellationToken cancellationToken)
             {
 
                 // // === Lazy loading ===
@@ -34,11 +36,22 @@ namespace Application.PrivateMessages
 
                 var queryable =  _context.PrivateMessages.AsQueryable();
 
-                int counter =  queryable
-                .Where(x => x.DateRead == null && x.RecipientUsername == user.UserName)
-                .Count();
+                // int counter =  queryable
+                // .Where(x => x.DateRead == null && x.RecipientUsername == user.UserName)
+                // .Count();
 
-                return counter;
+                var usernames = new List<string>();
+                // string [] usernames;
+
+                usernames =  queryable
+                .Where(x => x.DateRead == null && x.RecipientUsername == user.UserName)
+                .Select(x => x.SenderUsername)
+                .Distinct()
+                .ToList();
+
+                // usernames = names;
+            //   throw new System.Exception();
+                return usernames;
                 
             }
         }

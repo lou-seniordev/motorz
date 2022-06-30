@@ -1,12 +1,14 @@
 import { IPrivateMessageToDelete, IPrivateMessageToEdit } from './../models/privatemessages';
 // import { toJS } from 'mobx';
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { observable, action, computed, runInAction } from 'mobx';
+import { observable, action, computed, runInAction, toJS } from 'mobx';
 import { history } from '../..';
 
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
 import { IPrivateMessage } from '../models/privatemessages';
+import { toast } from 'react-toastify';
+// import { IUser } from '../models/user';
 
 
 const LIMIT = 10;
@@ -32,15 +34,30 @@ export default class PrivateMessageStore {
     @observable page = 0;
     @observable totalPages = 0;
 
-    @observable counterUnread: number = 0;
+    // @observable counterUnread: number = 0;
 
     @observable listOfMessagesInFocus: [string, IPrivateMessage[]] | undefined = undefined;
     @observable index: number;
     @observable.ref hubConnection: HubConnection | null = null;
 
-    @computed get unreadPrivateMessages() {
-        return this.counterUnread;
+    @observable otherUser: string = '';
+
+    @action setOtherUser = async (otherUser: string) => {
+        runInAction(() => {
+            this.otherUser = otherUser;
+            // console.log("in store: ", toJS(this.otherUser))
+        })
     }
+    @action cleanOtherUser = () => {
+        runInAction(() => {
+            this.otherUser = '';
+            // console.log("in store: ", toJS(this.otherUser))
+        })
+    }
+
+    // @computed get unreadPrivateMessages() {
+    //     return this.counterUnread;
+    // }
 
     @computed get messagesByThreadId() {
         return this.groupMessagesByThreadId(Array.from(this.messageRegistry.values()));
@@ -57,29 +74,29 @@ export default class PrivateMessageStore {
         }, {} as { [key: string]: IPrivateMessage[] }));
     }
 
-    @action createHubConnection = (messageThreadId: string) => {
+    @action createHubConnection = ( otherUsername: string) => {//messageThreadId: string
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_API_MESSAGE_URL!, {
+            .withUrl(process.env.REACT_APP_API_MESSAGE_URL! + '?user=' + otherUsername, {
                 skipNegotiation: true,
                 transport: HttpTransportType.WebSockets,
                 accessTokenFactory: () => this.rootStore.commonStore.token!
 
             })
-            // .withAutomaticReconnect()
+            .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
 
         //!! try await 
         this.hubConnection
             .start()
-            .then(() => console.log(this.hubConnection!.state))
-            .then(() => {
-                // console.log('Attempting to join group');
-                //!!temp timeout
-                setTimeout(() => {
-                    this.hubConnection!.invoke('AddToGroup', messageThreadId)
-                }, 300);
-            })
+            .then(() => console.log("CONN STATE: ", this.hubConnection!.state))
+            // .then(() => {
+            //     // console.log('Attempting to join group');
+            //     //!!temp timeout
+            //     // setTimeout(() => {
+            //     //     this.hubConnection!.invoke('AddToGroup')//, messageThreadId
+            //     // }, 300);
+            // })
             .catch(error => console.log('Error establishing connection: ', error));
 
         this.hubConnection.on('ReceiveMessage', message => {
@@ -105,18 +122,20 @@ export default class PrivateMessageStore {
         })
 
 
-        this.hubConnection.on('SendMessage', message => {
-            console.log(message);
-        })
+        // this.hubConnection.on('Send', message => {
+        //     console.log(message);
+        //     toast.info(message)
+        // })
     }
 
-    @action stopHubConnection = (messageThreadId: string) => {
-        this.hubConnection?.invoke('RemoveFromGroup', messageThreadId)
-            .then(() => {
-                this.hubConnection!.stop();
-            })
-            .then(() => console.log('Connection stopped'))
-            .catch(err => console.log(err));
+    @action stopHubConnection = () => {
+        // this.hubConnection?.invoke('RemoveFromGroup', messageThreadId)
+        //     .then(() => {
+        //         this.hubConnection!.stop();
+        //     })
+        //     .then(() => console.log('Connection stopped'))
+        //     .catch(err => console.log(err));
+        this.hubConnection?.stop();
     }
 
     @action addReply = async () => {
@@ -135,11 +154,12 @@ export default class PrivateMessageStore {
         }
     };
 
-    @action deleteSingleMessage = async (id: string, privateMessageThreadId: string) => {
+    @action deleteSingleMessage = async (id: string, privateMessageThreadId: string, recipientUsername: string) => {
 
         let messageToSend = {
             id,
-            privateMessageThreadId
+            privateMessageThreadId,
+            recipientUsername
         }
         try {
             await this.hubConnection!.invoke('DeleteMessage', messageToSend)
@@ -165,19 +185,19 @@ export default class PrivateMessageStore {
         }
     }
 
-    @action getUnreadPrivate = async () => {
+    // @action getUnreadPrivate = async () => {
         
-        try {
-            const result = await agent.PrivateMessages.checkUnread();
-            runInAction(() => {
-                if(result){
-                    this.counterUnread = result;
-                }
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //     try {
+    //         const result = await agent.PrivateMessages.checkUnread();
+    //         runInAction(() => {
+    //             if(result){
+    //                 this.counterUnread = result;
+    //             }
+    //         })
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     @action loadMessages = async () => {
         this.loadingInitial = true;
