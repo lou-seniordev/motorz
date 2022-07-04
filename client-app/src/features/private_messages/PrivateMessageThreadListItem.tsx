@@ -1,8 +1,4 @@
-import React, { Fragment, 
-  useCallback, 
-  useEffect,
-  useContext 
- } from "react";
+import React, { Fragment, useCallback, useEffect, useContext } from "react";
 import {
   Segment,
   Image,
@@ -16,7 +12,6 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import { IPrivateMessage } from "../../app/models/privatemessages";
 import ConfirmDelete from "./modals/ConfirmDelete";
 import EditMessage from "./modals/EditMessage";
-import { toJS } from "mobx";
 
 const PrivateMessageThreadListItem = () => {
   const rootStore = useContext(RootStoreContext);
@@ -27,14 +22,11 @@ const PrivateMessageThreadListItem = () => {
     markReadInDB,
     createHubConnection,
     stopHubConnection,
-    // otherUser,
     setOtherUser,
-    cleanOtherUser
+    cleanOtherUser,
   } = rootStore.privateMessageStore;
 
-  const {
-    markReadNavbar
-  } = rootStore.presenceStore;
+  const { markReadNavbar } = rootStore.presenceStore;
 
   const { openModal, setSize } = rootStore.modalStore;
 
@@ -71,39 +63,28 @@ const PrivateMessageThreadListItem = () => {
     [markReadInDB, user]
   );
 
-  const handleStartConnection = (otherUser:string) => {
-    console.log("STARTED FOR " + otherUser)
-    markReadNavbar(otherUser)
-    // console.log(toJS(listOfMessagesInFocus![1]));
+  const handleStartConnection = (otherUser: string) => {
+    markReadNavbar(otherUser);
     markRead(listOfMessagesInFocus![1]);
     createHubConnection(otherUser);
-  }
-  const handleStopConnection = (otherUser:string) => {
-    console.log("STOPPED FOR " + otherUser)
+  };
+  const handleStopConnection = (otherUser: string) => {
+    console.log("STOPPED FOR " + otherUser);
     stopHubConnection();
-  }
+  };
 
   useEffect(() => {
+    let otherUser = listOfMessagesInFocus![1].find(
+      (m) => m.recipientUsername !== user?.userName
+    );
+    setOtherUser(otherUser?.recipientUsername!);
+    handleStartConnection(otherUser?.recipientUsername!);
 
-    // console.log(toJS(listOfMessagesInFocus![1].map(m => m.recipientUsername)))
-
-    let otherUser = listOfMessagesInFocus![1].find(m => m.recipientUsername !== user?.userName);
-    // console.log("OUN: ", toJS(otherUser?.recipientUsername))
-    setOtherUser(otherUser?.recipientUsername!)
-    handleStartConnection(otherUser?.recipientUsername!)
-    
     return () => {
       cleanOtherUser();
-      handleStopConnection(otherUser?.recipientUsername!)
-  }
-    // createHubConnection(otherUser?.recipientUsername!);
-
-    // createHubConnection(listOfMessagesInFocus![0]);
-    // markRead(listOfMessagesInFocus![1]);
-  }, [user, setOtherUser, cleanOtherUser, listOfMessagesInFocus]);//, markRead
-  // }, [createHubConnection,  listOfMessagesInFocus, user]);//, markRead
-
-
+      handleStopConnection(otherUser?.recipientUsername!);
+    };
+  }, [user, setOtherUser, cleanOtherUser, listOfMessagesInFocus]); 
 
   return (
     <>
@@ -179,7 +160,6 @@ const PrivateMessageThreadListItem = () => {
                               content={message.content}
                               recipientUsername={message.recipientUsername!}
                               senderPhotoUrl={message.senderPhotoUrl}
-
                             />
                           );
                         }}

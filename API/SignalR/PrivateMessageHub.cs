@@ -39,23 +39,15 @@ namespace API.SignalR
             var httpContext = Context.GetHttpContext();
             var otherUser = httpContext.Request.Query["user"].ToString();
             var groupName = GetGroupName(username, otherUser);
-            //or optionally                 var currentUsername = _userAccessor.GetCurrentUsername();
 
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
             await AddToGroup(Context, groupName);
-           
-            // await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
-
-
-            // await Clients.Group(groupName).SendAsync("ReceiveMessageThread", messages);
-            // await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             await RemoveFromGroup(Context.ConnectionId);
-            // await Clients.Group(group.Name).SendAsync("UpdatedGroup", group);
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -69,19 +61,19 @@ namespace API.SignalR
 
             var groupName = GetGroupName(username, command.RecipientUsername);
 
-            var group = await _mediator.Send(new GetMessageGroup.Query{GroupName = groupName});
+            var group = await _mediator.Send(new GetMessageGroup.Query { GroupName = groupName });
 
-            if(group.Connections.Any(x => x.Username == command.RecipientUsername))
+            if (group.Connections.Any(x => x.Username == command.RecipientUsername))
             {
                 message.DateRead = DateTime.UtcNow;
             }
             else
             {
                 var connections = await _tracker.GetConnectionsForUser(command.RecipientUsername);
-                if(connections != null)
+                if (connections != null)
                 {
-                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", 
-                        new{username = username});
+                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived",
+                        message);
                 }
             }
 
@@ -129,7 +121,7 @@ namespace API.SignalR
             {
                 group = new Group(groupName);
                 await _mediator.Send(new AddGroup.Command { Group = group });
-                
+
             }
 
             group.Connections.Add(connection);
@@ -149,14 +141,6 @@ namespace API.SignalR
             await _mediator.Send(new RemoveConnection.Command { Connection = connection });
 
             var success = await _context.SaveChangesAsync() > 0;
-            // await Groups
-            //     .RemoveFromGroupAsync(Context.ConnectionId, messageThreadId);
-
-            // var username = GetUsername();
-
-            // await Clients
-            //     .Group(messageThreadId)
-            //     .SendAsync("Send", $"{username} has left the group");
         }
 
         private string GetUsername()

@@ -2,8 +2,6 @@
 
 body {
   background-color: rgb(234, 234, 234) !important;
-  /* font-family: 'Josefin Sans', cursive; */
-  /* font-family: 'Jost', sans-serif; */
   font-family: "Montserrat", sans-serif;
 }
 
@@ -30,20 +28,10 @@ body {
 .react-datepicker-wrapper,
 .react-datepicker__input-container,
 .react-datepicker__input-container input {
-  /* display: block; */
   width: 70px;
   border: none;
 }
 
-/* .datePicker {
-  display: block;
-  width: 50%;
-  color: red;
-}
-
-.prudence {
-  background-color: red;
-} */
 .hideScroll {
   overflow-y: hidden;
 }
@@ -56,25 +44,14 @@ body {
 }
 
 /* scrollable details style */
-/* :hover */
 .sideScroll {
-  /* overflow-y: auto;
-  float: left; */
   height: 80vh;
-  /* width: '100%'; */
   position: relative;
-  /* scroll-behavior: 'revert' */
-  /* display: flex;
-  flex-direction: column-reverse; */
-  /* color: inherit; */
 }
 .scrollRevert {
-  /* overflow-y: auto; */
   overflow: scroll;
-  /* float: left; */
   height: 70vh;
   width: 100%;
-  /* position: absolute; */
   display: flex;
   flex-direction: column-reverse;
 }
@@ -113,56 +90,28 @@ a {
 
 @media only screen and (max-width: 767px) {
   .mobview {
-    /* color: red;
-    background-color: blue; */
     display: flex;
     justify-content: center;
-    /* text-align:justify; */
   }
   .btnview {
     width: fit-content;
-    /* background-color: blue; */
   }
   .btnview_show {
     width: fit-content;
-    /* background-color: blue; */
   }
   .btnview_hide {
     display: none;
   }
   .btnview_show {
-    /* width: fit-content; */
     display: none;
   }
 }
 @media only screen and (min-width: 767px) {
   .btnview_show {
     display: none;
-    /* background-color: blue; */
   }
 }
 
-/* Dropdown messages */
-/* .messagesDropdown {
-  color: darkgoldenrod !Important;
-}
-
-.ui.dropdown .menu>.item  {
-  border-bottom: 1px solid #3F72AF !Important;
-  color: darkgoldenrod !Important;
-} */
-/* .a.item>.messagesDropdown {
-  background-color: darkgoldenrod;
-}
-.a.item {
-  background-color: darkgoldenrod;
-}
-.ui.dropdown .menu>.item .messagesDropdown {
-  background-color: darkgoldenrod;
-}
-.ui.menu .ui.dropdown .menu>.item>.messagesDropdown{
-  background-color: darkgoldenrod;
-} */
 
 .picker-container {
   position: relative;
@@ -173,10 +122,7 @@ a {
   display: flex;
   justify-content: center;
   font-size: larger;
-  /* position: relative; */
-  /* top: -45px; */
-  /* left: 5px; */
-  /* right: -700px; */
+ 
 }
 .input-style {
   padding: 7px 30px 7px 10px;
@@ -207,7 +153,6 @@ a {
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
-  /* color: rgba(4, 42, 129, 0.87); */
 }
 
 /* Fix messenger area */
@@ -231,18 +176,12 @@ a {
   min-height: 16px;
   resize: none;
   font-size: 16px;
-  /* border: 3px solid red; */
 }
 
 .message-list-item {
   font-size: 16px;
 }
 
-/* .inside {
-  min-height: 12px;
-  max-height: 14px;
-  border-radius: 20px;
-} */
 
 @media only screen and (max-width: 767px) {
   .send-button,
@@ -253,7 +192,6 @@ a {
     font-size: 12px;
   }
   .textareaRef {
-    /* max-height: 2rem; */
     height: 1.5rem;
     max-width: 98%;
   }

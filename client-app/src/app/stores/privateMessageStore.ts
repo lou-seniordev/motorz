@@ -1,14 +1,11 @@
 import { IPrivateMessageToDelete, IPrivateMessageToEdit } from './../models/privatemessages';
-// import { toJS } from 'mobx';
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { observable, action, computed, runInAction, toJS } from 'mobx';
+import { observable, action, computed, runInAction } from 'mobx';
 import { history } from '../..';
 
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
 import { IPrivateMessage } from '../models/privatemessages';
-import { toast } from 'react-toastify';
-// import { IUser } from '../models/user';
 
 
 const LIMIT = 10;
@@ -34,7 +31,6 @@ export default class PrivateMessageStore {
     @observable page = 0;
     @observable totalPages = 0;
 
-    // @observable counterUnread: number = 0;
 
     @observable listOfMessagesInFocus: [string, IPrivateMessage[]] | undefined = undefined;
     @observable index: number;
@@ -45,19 +41,13 @@ export default class PrivateMessageStore {
     @action setOtherUser = async (otherUser: string) => {
         runInAction(() => {
             this.otherUser = otherUser;
-            // console.log("in store: ", toJS(this.otherUser))
         })
     }
     @action cleanOtherUser = () => {
         runInAction(() => {
             this.otherUser = '';
-            // console.log("in store: ", toJS(this.otherUser))
         })
     }
-
-    // @computed get unreadPrivateMessages() {
-    //     return this.counterUnread;
-    // }
 
     @computed get messagesByThreadId() {
         return this.groupMessagesByThreadId(Array.from(this.messageRegistry.values()));
@@ -86,17 +76,8 @@ export default class PrivateMessageStore {
             .configureLogging(LogLevel.Information)
             .build();
 
-        //!! try await 
         this.hubConnection
             .start()
-            .then(() => console.log("CONN STATE: ", this.hubConnection!.state))
-            // .then(() => {
-            //     // console.log('Attempting to join group');
-            //     //!!temp timeout
-            //     // setTimeout(() => {
-            //     //     this.hubConnection!.invoke('AddToGroup')//, messageThreadId
-            //     // }, 300);
-            // })
             .catch(error => console.log('Error establishing connection: ', error));
 
         this.hubConnection.on('ReceiveMessage', message => {
@@ -105,7 +86,7 @@ export default class PrivateMessageStore {
                 this.messageRegistry.set(message.id, message);
 
             });
-            this.setView(message.privateMessageThreadId)
+            this.setViewUponNewMessage(message.privateMessageThreadId)
         })
         this.hubConnection.on('MessageDeleted', (messageToDelete: IPrivateMessageToDelete) => {
 
@@ -118,23 +99,13 @@ export default class PrivateMessageStore {
 
         this.hubConnection.on('MessageEdited', (messageToEdit: IPrivateMessageToEdit) => {
 
-            this.resetView(messageToEdit);
+            this.resetViewAfterEdit(messageToEdit);
         })
 
-
-        // this.hubConnection.on('Send', message => {
-        //     console.log(message);
-        //     toast.info(message)
-        // })
     }
 
     @action stopHubConnection = () => {
-        // this.hubConnection?.invoke('RemoveFromGroup', messageThreadId)
-        //     .then(() => {
-        //         this.hubConnection!.stop();
-        //     })
-        //     .then(() => console.log('Connection stopped'))
-        //     .catch(err => console.log(err));
+
         this.hubConnection?.stop();
     }
 
@@ -185,20 +156,6 @@ export default class PrivateMessageStore {
         }
     }
 
-    // @action getUnreadPrivate = async () => {
-        
-    //     try {
-    //         const result = await agent.PrivateMessages.checkUnread();
-    //         runInAction(() => {
-    //             if(result){
-    //                 this.counterUnread = result;
-    //             }
-    //         })
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
     @action loadMessages = async () => {
         this.loadingInitial = true;
         try {
@@ -238,13 +195,23 @@ export default class PrivateMessageStore {
 
         runInAction(() => {
             this.index = this.messagesByThreadId.findIndex(m => m[0] === id);
+            this.listOfMessagesInFocus = this.messagesByThreadId[this.index];
         })
-        this.listOfMessagesInFocus = this.messagesByThreadId[this.index];
         return this.listOfMessagesInFocus;
+    }
+    @action setViewUponNewMessage = (id?: string) => {
+
+        this.index = this.messagesByThreadId.findIndex(m => m[0] === id);
+
+        runInAction(() => {
+            if(this.listOfMessagesInFocus![0] === id){
+                this.listOfMessagesInFocus = this.messagesByThreadId[this.index];
+            }
+        })
     }
 
 
-    private resetView(messageToEdit: IPrivateMessageToEdit) {
+    private resetViewAfterEdit(messageToEdit: IPrivateMessageToEdit) {
         runInAction(() => {
             var index = this.listOfMessagesInFocus![1].findIndex(m => m.id === messageToEdit.id);
             this.listOfMessagesInFocus![1][index].content = messageToEdit.content;

@@ -36,12 +36,7 @@ namespace Application.PrivateMessages
 
                 var queryable =  _context.PrivateMessages.AsQueryable();
 
-                // int counter =  queryable
-                // .Where(x => x.DateRead == null && x.RecipientUsername == user.UserName)
-                // .Count();
-
                 var usernames = new List<string>();
-                // string [] usernames;
 
                 usernames =  queryable
                 .Where(x => x.DateRead == null && x.RecipientUsername == user.UserName)
@@ -49,8 +44,6 @@ namespace Application.PrivateMessages
                 .Distinct()
                 .ToList();
 
-                // usernames = names;
-            //   throw new System.Exception();
                 return usernames;
                 
             }

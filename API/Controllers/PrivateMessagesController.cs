@@ -11,8 +11,6 @@ namespace API.Controllers
     public class PrivateMessagesController : BaseController
     {
         [HttpGet("checkUnread")]
-        // public async Task<ActionResult<string[]>> CheckUnread()
-        // public async Task<ActionResult<int>> CheckUnread()
         public async Task<ActionResult<List<string>>> CheckUnread()
         {
             return await Mediator.Send(new CheckUnread.Query());

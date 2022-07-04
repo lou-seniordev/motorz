@@ -14,7 +14,6 @@ const PrivateMessageThreadList = () => {
      markReadInDB,
     setInitialView,
     setView,
-    createHubConnection,
   } = rootStore.privateMessageStore;
 
   useEffect(() => {
@@ -24,7 +23,6 @@ const PrivateMessageThreadList = () => {
   const markRead = (messages: IPrivateMessage[]) => {
     messages.forEach((m) => {
       if (m.senderUsername !== user?.userName && m.dateRead === null) {
-        // console.log(toJS(m));
         markReadInDB(m.id);
       }
     });
@@ -44,7 +42,6 @@ const PrivateMessageThreadList = () => {
                 onClick={() => {
                   markRead(messages);
                   setView(messages[0].privateMessageThreadId);
-                  // createHubConnection(messages[0].privateMessageThreadId);
                 }}
                 divided
                 style={{ cursor: "pointer" }}
@@ -66,7 +63,6 @@ const PrivateMessageThreadList = () => {
                       || "/assets/user.png"
                     } 
                    
-                    // src={messages[0].senderPhotoUrl || "/assets/user.png"}
                     alt='sender'
                   />
                 </Grid.Column>
@@ -76,8 +72,6 @@ const PrivateMessageThreadList = () => {
                     size='mini'
                     circular
                     verticalAlign='middle'
-                    // src={messages[0].senderPhotoUrl || "/assets/user.png"}
-                    // src={"/assets/user.png"}
                     src={(messages[0].senderUsername === user?.userName 
                       ? 
                      messages[0].recipientPhotoUrl
@@ -96,8 +90,6 @@ const PrivateMessageThreadList = () => {
                 <Grid.Column width={12} className='mobile hidden'>
                   <Grid.Row
                     style={
-                      // unreadPrivateMessages > 0 &&
-
                       messages[0].dateRead === null &&
                       messages[0].senderUsername !== user?.userName
                         ? { fontWeight: "bold", color: "rgb(211, 81, 21)" }
