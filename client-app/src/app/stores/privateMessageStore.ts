@@ -1,5 +1,4 @@
 import { IPrivateMessageToDelete, IPrivateMessageToEdit } from './../models/privatemessages';
-// import { toJS } from 'mobx';
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { observable, action, computed, runInAction } from 'mobx';
 import { history } from '../..';
@@ -32,14 +31,22 @@ export default class PrivateMessageStore {
     @observable page = 0;
     @observable totalPages = 0;
 
-    @observable counterUnread: number = 0;
 
     @observable listOfMessagesInFocus: [string, IPrivateMessage[]] | undefined = undefined;
     @observable index: number;
     @observable.ref hubConnection: HubConnection | null = null;
 
-    @computed get unreadPrivateMessages() {
-        return this.counterUnread;
+    @observable otherUser: string = '';
+
+    @action setOtherUser = async (otherUser: string) => {
+        runInAction(() => {
+            this.otherUser = otherUser;
+        })
+    }
+    @action cleanOtherUser = () => {
+        runInAction(() => {
+            this.otherUser = '';
+        })
     }
 
     @computed get messagesByThreadId() {
@@ -57,29 +64,20 @@ export default class PrivateMessageStore {
         }, {} as { [key: string]: IPrivateMessage[] }));
     }
 
-    @action createHubConnection = (messageThreadId: string) => {
+    @action createHubConnection = ( otherUsername: string) => {//messageThreadId: string
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_API_MESSAGE_URL!, {
+            .withUrl(process.env.REACT_APP_API_MESSAGE_URL! + '?user=' + otherUsername, {
                 skipNegotiation: true,
                 transport: HttpTransportType.WebSockets,
                 accessTokenFactory: () => this.rootStore.commonStore.token!
 
             })
-            // .withAutomaticReconnect()
+            .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
 
-        //!! try await 
         this.hubConnection
             .start()
-            .then(() => console.log(this.hubConnection!.state))
-            .then(() => {
-                // console.log('Attempting to join group');
-                //!!temp timeout
-                setTimeout(() => {
-                    this.hubConnection!.invoke('AddToGroup', messageThreadId)
-                }, 300);
-            })
             .catch(error => console.log('Error establishing connection: ', error));
 
         this.hubConnection.on('ReceiveMessage', message => {
@@ -88,7 +86,7 @@ export default class PrivateMessageStore {
                 this.messageRegistry.set(message.id, message);
 
             });
-            this.setView(message.privateMessageThreadId)
+            this.setViewUponNewMessage(message.privateMessageThreadId)
         })
         this.hubConnection.on('MessageDeleted', (messageToDelete: IPrivateMessageToDelete) => {
 
@@ -101,22 +99,14 @@ export default class PrivateMessageStore {
 
         this.hubConnection.on('MessageEdited', (messageToEdit: IPrivateMessageToEdit) => {
 
-            this.resetView(messageToEdit);
+            this.resetViewAfterEdit(messageToEdit);
         })
 
-
-        this.hubConnection.on('SendMessage', message => {
-            console.log(message);
-        })
     }
 
-    @action stopHubConnection = (messageThreadId: string) => {
-        this.hubConnection?.invoke('RemoveFromGroup', messageThreadId)
-            .then(() => {
-                this.hubConnection!.stop();
-            })
-            .then(() => console.log('Connection stopped'))
-            .catch(err => console.log(err));
+    @action stopHubConnection = () => {
+
+        this.hubConnection?.stop();
     }
 
     @action addReply = async () => {
@@ -135,11 +125,12 @@ export default class PrivateMessageStore {
         }
     };
 
-    @action deleteSingleMessage = async (id: string, privateMessageThreadId: string) => {
+    @action deleteSingleMessage = async (id: string, privateMessageThreadId: string, recipientUsername: string) => {
 
         let messageToSend = {
             id,
-            privateMessageThreadId
+            privateMessageThreadId,
+            recipientUsername
         }
         try {
             await this.hubConnection!.invoke('DeleteMessage', messageToSend)
@@ -162,20 +153,6 @@ export default class PrivateMessageStore {
 
         } catch (error) {
             console.log(error);
-        }
-    }
-
-    @action getUnreadPrivate = async () => {
-        
-        try {
-            const result = await agent.PrivateMessages.checkUnread();
-            runInAction(() => {
-                if(result){
-                    this.counterUnread = result;
-                }
-            })
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -218,13 +195,23 @@ export default class PrivateMessageStore {
 
         runInAction(() => {
             this.index = this.messagesByThreadId.findIndex(m => m[0] === id);
+            this.listOfMessagesInFocus = this.messagesByThreadId[this.index];
         })
-        this.listOfMessagesInFocus = this.messagesByThreadId[this.index];
         return this.listOfMessagesInFocus;
+    }
+    @action setViewUponNewMessage = (id?: string) => {
+
+        this.index = this.messagesByThreadId.findIndex(m => m[0] === id);
+
+        runInAction(() => {
+            if(this.listOfMessagesInFocus![0] === id){
+                this.listOfMessagesInFocus = this.messagesByThreadId[this.index];
+            }
+        })
     }
 
 
-    private resetView(messageToEdit: IPrivateMessageToEdit) {
+    private resetViewAfterEdit(messageToEdit: IPrivateMessageToEdit) {
         runInAction(() => {
             var index = this.listOfMessagesInFocus![1].findIndex(m => m.id === messageToEdit.id);
             this.listOfMessagesInFocus![1][index].content = messageToEdit.content;

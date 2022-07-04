@@ -38,6 +38,9 @@ namespace Persistence
         public DbSet<PrivateMessageThread> PrivateMessageThreads { get; set; }
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
 
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Connection> Connections { get; set; }
+
         //=== COMMENTS FOR THE REST OF THE SECTIONS ===
         public DbSet<CommentMotofy> CommentMotofies { get; set; }
         public DbSet<CommentMechanic> CommentMechanics { get; set; }
@@ -96,7 +99,7 @@ namespace Persistence
                 .WithMany(u => u.UserMotofies)
                 .HasForeignKey(m => m.MotofyId);
 
-           
+
 
             // ==== end ====
 
@@ -115,8 +118,8 @@ namespace Persistence
                 .HasForeignKey(m => m.MechanicId);
 
 
-            builder.Entity<MechanicBrand>(x => x.HasKey(mb => 
-                new { mb.MechanicId, mb.BrandId}));
+            builder.Entity<MechanicBrand>(x => x.HasKey(mb =>
+                new { mb.MechanicId, mb.BrandId }));
 
             builder.Entity<MechanicBrand>()
                 .HasOne(b => b.Brand)
@@ -129,8 +132,8 @@ namespace Persistence
                 .HasForeignKey(m => m.MechanicId);
 
 
-            builder.Entity<ProductViewer>(x => x.HasKey(pm => 
-                new { pm.AppUserId, pm.ProductId}));
+            builder.Entity<ProductViewer>(x => x.HasKey(pm =>
+                new { pm.AppUserId, pm.ProductId }));
 
             builder.Entity<ProductViewer>()
                 .HasOne(u => u.AppUser)
@@ -142,7 +145,7 @@ namespace Persistence
                 .WithMany(v => v.Viewers)
                 .HasForeignKey(m => m.ProductId);
 
-           
+
 
 
 
@@ -183,7 +186,7 @@ namespace Persistence
             .HasOne(a => a.ProductPhoto)
             .WithOne(m => m.Product)
             .HasForeignKey<ProductPhoto>(m => m.ProductForeignKey);
-           
+
             builder.Entity<DiaryEntry>()
             .HasOne(a => a.DiaryPhoto)
             .WithOne(m => m.DiaryEntry)
@@ -192,7 +195,7 @@ namespace Persistence
             builder.Entity<PrivateMessage>()
             .HasOne(u => u.Recipient)
             .WithMany(m => m.PrivateMessagesReceived)
-            .OnDelete(DeleteBehavior.Restrict); 
+            .OnDelete(DeleteBehavior.Restrict);
             //--recipient
             builder.Entity<PrivateMessage>()
             .HasOne(u => u.Sender)

@@ -20,10 +20,11 @@ const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
-  const { unreadPrivateMessages
-    , getUnreadPrivate 
-  } =
-    rootStore.privateMessageStore;
+  const {
+    unreadIncomingMessages,
+    getUnreadItems,
+  } = rootStore.presenceStore;
+  const { setInitialView } = rootStore.privateMessageStore;
 
   // const { createHubConnection } = rootStore.presenceStore;
 
@@ -31,7 +32,8 @@ const NavBar: React.FC = () => {
 
   const menuRef: any = useRef();
 
-  const closeStackableMenu = () => {//e: any
+  const closeStackableMenu = () => {
+    //e: any
     var actionMenu = menuRef.current.parentNode;
     var actionIcon = menuRef.current;
     actionMenu.classList.remove("active");
@@ -42,8 +44,6 @@ const NavBar: React.FC = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      //  //==03
-      // createHubConnection();
       menuRef.current.onclick = function (e: any) {
         var menu = menuRef.current.parentNode;
 
@@ -64,22 +64,23 @@ const NavBar: React.FC = () => {
     if (localStorage.getItem("i18nextLng")?.length! > 2) {
       i18next.changeLanguage("en");
     }
-    //temp comment trying presence
     if (isLoggedIn) {
-      setInterval(() => {
-        getUnreadPrivate();
-      }, 2000);
+      getUnreadItems();
     }
   }, [
-    getUnreadPrivate, 
-    isLoggedIn
+    getUnreadItems,
+    isLoggedIn,
   ]);
 
   const handleLanguageChange = (e: string) => {
     i18n.changeLanguage(e);
-    closeStackableMenu()
+    closeStackableMenu();
   };
-  
+
+  const handleViewUnread = () => {
+    closeStackableMenu();
+    setInitialView();
+  };
 
   return (
     <>
@@ -104,7 +105,6 @@ const NavBar: React.FC = () => {
           {isLoggedIn && (
             <>
               <Menu.Item
-                // name='Motorcycle Diaries'
                 exact
                 as={NavLink}
                 to='/activities'
@@ -121,7 +121,6 @@ const NavBar: React.FC = () => {
                 Motofy!
               </Menu.Item>
               <Menu.Item
-                // name='forum'
                 exact
                 as={NavLink}
                 onClick={closeStackableMenu}
@@ -137,70 +136,68 @@ const NavBar: React.FC = () => {
                 to='/mechanics'
                 onClick={closeStackableMenu}
               >
-                 {t("mechanics")}
+                {t("mechanics")}
               </Menu.Item>
               <Menu.Item
                 name='market'
-                text='Motoranza market'
-                // exact
                 value='Market'
                 as={Link}
                 to='/shop'
                 onClick={closeStackableMenu}
-              >   {t("market")}
+              >
+                {" "}
+                {t("market")}
               </Menu.Item>
               <Menu.Item>
-                <Dropdown  text={t("social")} className='icon' floating labeled>
+                <Dropdown text={t("social")} className='icon' floating labeled>
                   <Dropdown.Menu>
                     <Dropdown.Item
                       name='people'
-                      // text='People'
-                      // exact
                       as={Link}
                       onClick={closeStackableMenu}
                       to='/people'
-                      >   {t("people")}
-                      </Dropdown.Item>
+                    >
+                      {" "}
+                      {t("people")}
+                    </Dropdown.Item>
                     <Dropdown.Item
                       name='people'
-                      // text='Private messages'
                       onClick={closeStackableMenu}
                       as={Link}
                       to='/privateMessages'
-                      >   {t("private messages")}
-                      </Dropdown.Item>
+                    >
+                      {" "}
+                      {t("private messages")}
+                    </Dropdown.Item>
                     <Dropdown.Item
                       name='feed'
-                      // text='Feed'
-                      // exact
                       as={Link}
                       onClick={closeStackableMenu}
                       to='/feed'
-                      >   Feed
-                      </Dropdown.Item>
+                    >
+                      {" "}
+                      Feed
+                    </Dropdown.Item>
                   </Dropdown.Menu>
-                   
                 </Dropdown>
-                {unreadPrivateMessages > 0 && (
+                {unreadIncomingMessages > 0 && (
                   <Label
                     as={Link}
                     to='/privateMessages'
                     color='orange'
-                    onClick={closeStackableMenu}
+                    onClick={() => handleViewUnread()}
                   >
-                    {unreadPrivateMessages}
+                    {unreadIncomingMessages}
                   </Label>
                 )}
               </Menu.Item>
               <div className='right menu'>
-                {/* {user && ( */}
                 <Menu.Item>
-                  <Dropdown text= {t("new")}className='icon' floating labeled>
+                  <Dropdown text={t("new")} className='icon' floating labeled>
                     <Dropdown.Menu>
                       <Popup
                         size='mini'
                         position='right center'
-                        // className="mobile hidden"
                         trigger={
                           <Dropdown.Item
                             text={t("motorcycle diary")}
@@ -211,36 +208,36 @@ const NavBar: React.FC = () => {
                           />
                         }
                         content={t("motorcycle diary pop")}
-                        />
+                      />
                       <Popup
                         size='mini'
                         position='right center'
                         trigger={
                           <Dropdown.Item
-                          text='Motofy!'
+                            text='Motofy!'
                             value='Motofy'
                             as={Link}
                             onClick={closeStackableMenu}
                             to='/galleryForm'
-                            />
-                          }
-                          content={t("motofy pop")}
                           />
+                        }
+                        content={t("motofy pop")}
+                      />
 
                       <Popup
                         size='mini'
                         position='right center'
                         trigger={
                           <Dropdown.Item
-                          text={t("mechanic shop")}
-                          value='Mecanic'
-                          as={Link}
-                          onClick={closeStackableMenu}
-                          to='/mechanicForm'
+                            text={t("mechanic shop")}
+                            value='Mecanic'
+                            as={Link}
+                            onClick={closeStackableMenu}
+                            to='/mechanicForm'
                           />
                         }
                         content={t("mechanic shop pop")}
-                        />
+                      />
                       <Popup
                         size='mini'
                         position='right center'
@@ -251,20 +248,20 @@ const NavBar: React.FC = () => {
                             as={Link}
                             onClick={closeStackableMenu}
                             to='/forumform'
-                            />
-                          }
-                          content={t("forumpost pop")}
                           />
+                        }
+                        content={t("forumpost pop")}
+                      />
                       <Popup
                         size='mini'
                         position='right center'
                         trigger={
                           <Dropdown.Item
-                          text={t("product to sell")}
-                          value='Product'
-                          as={Link}
-                          onClick={closeStackableMenu}
-                          to='/productform'
+                            text={t("product to sell")}
+                            value='Product'
+                            as={Link}
+                            onClick={closeStackableMenu}
+                            to='/productform'
                           />
                         }
                         content={t("product to sell pop")}
@@ -272,40 +269,35 @@ const NavBar: React.FC = () => {
                     </Dropdown.Menu>
                   </Dropdown>
                 </Menu.Item>
-                {/* )}*/}
                 {user && (
-                      // placeholder='Select your country'
                   <>
                     <Menu.Item position='right'>
-
-                       <Dropdown pointing='top left' text={t('Select language')} >
-                        <Dropdown.Menu >
+                      <Dropdown pointing='top left' text={t("Select language")}>
+                        <Dropdown.Menu>
                           <Dropdown.Item
                             text={t("English")}
-                            onClick={()=>handleLanguageChange('en')}
+                            onClick={() => handleLanguageChange("en")}
                             flag='uk'
                           />
                           <Dropdown.Item
                             text={t("Italian")}
-                            onClick={()=>handleLanguageChange('it')}
+                            onClick={() => handleLanguageChange("it")}
                             flag='italy'
                           />
                           <Dropdown.Item
                             text={t("German")}
-                            onClick={()=>handleLanguageChange('de')}
+                            onClick={() => handleLanguageChange("de")}
                             flag='germany'
                           />
                           <Dropdown.Item
                             text={t("French")}
-                            onClick={()=>handleLanguageChange('fr')}
+                            onClick={() => handleLanguageChange("fr")}
                             flag='france'
                           />
-                        
                         </Dropdown.Menu>
                       </Dropdown>
-                     
                     </Menu.Item>
-  
+
                     <Menu.Item position='right'>
                       <Image
                         avatar

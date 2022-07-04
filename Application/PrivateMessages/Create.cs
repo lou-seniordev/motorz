@@ -15,7 +15,7 @@ namespace Application.PrivateMessages
 {
     public class Create
     {
-        public class Command : IRequest<PrivateMessageDto>//<MessageDto>
+        public class Command : IRequest<PrivateMessageDto>
         {
             public string RecipientUsername { get; set; }
             public string PrivateMessageThreadId { get; set; }

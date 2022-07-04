@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useContext, useEffect } from "react";
+import React, { Fragment, useCallback, useEffect, useContext } from "react";
 import {
   Segment,
   Image,
@@ -22,7 +22,11 @@ const PrivateMessageThreadListItem = () => {
     markReadInDB,
     createHubConnection,
     stopHubConnection,
+    setOtherUser,
+    cleanOtherUser,
   } = rootStore.privateMessageStore;
+
+  const { markReadNavbar } = rootStore.presenceStore;
 
   const { openModal, setSize } = rootStore.modalStore;
 
@@ -59,10 +63,28 @@ const PrivateMessageThreadListItem = () => {
     [markReadInDB, user]
   );
 
-  useEffect(() => {
-    createHubConnection(listOfMessagesInFocus![0]);
+  const handleStartConnection = (otherUser: string) => {
+    markReadNavbar(otherUser);
     markRead(listOfMessagesInFocus![1]);
-  }, [createHubConnection, stopHubConnection, listOfMessagesInFocus, markRead]);
+    createHubConnection(otherUser);
+  };
+  const handleStopConnection = (otherUser: string) => {
+    console.log("STOPPED FOR " + otherUser);
+    stopHubConnection();
+  };
+
+  useEffect(() => {
+    let otherUser = listOfMessagesInFocus![1].find(
+      (m) => m.recipientUsername !== user?.userName
+    );
+    setOtherUser(otherUser?.recipientUsername!);
+    handleStartConnection(otherUser?.recipientUsername!);
+
+    return () => {
+      cleanOtherUser();
+      handleStopConnection(otherUser?.recipientUsername!);
+    };
+  }, [user, setOtherUser, cleanOtherUser, listOfMessagesInFocus]); 
 
   return (
     <>
@@ -119,6 +141,7 @@ const PrivateMessageThreadListItem = () => {
                               privateMessageThreadId={
                                 message.privateMessageThreadId
                               }
+                              recipientUsername={message.recipientUsername!}
                             />
                           );
                         }}
@@ -137,7 +160,6 @@ const PrivateMessageThreadListItem = () => {
                               content={message.content}
                               recipientUsername={message.recipientUsername!}
                               senderPhotoUrl={message.senderPhotoUrl}
-
                             />
                           );
                         }}

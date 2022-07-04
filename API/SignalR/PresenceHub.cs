@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace API.SignalR
         public override async Task OnConnectedAsync()
         {
             await _tracker.UserConnected(GetUsername(), Context.ConnectionId);
-            await Clients.Others.SendAsync("UserIsOnline", GetUsername());
+            // await Clients.Others.SendAsync("UserIsOnline", GetUsername());
 
             var currentUsers = await _tracker.GetOnlineUsers();
             await Clients.All.SendAsync("GetOnlineUsers", currentUsers);
@@ -28,7 +27,7 @@ namespace API.SignalR
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             await _tracker.UserDisconnected(GetUsername(), Context.ConnectionId);
-            await Clients.Others.SendAsync("UserIsOffline", GetUsername());
+            // await Clients.Others.SendAsync("UserIsOffline", GetUsername());
 
             var currentUsers = await _tracker.GetOnlineUsers();
             await Clients.All.SendAsync("GetOnlineUsers", currentUsers);

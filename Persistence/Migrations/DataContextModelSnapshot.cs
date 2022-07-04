@@ -315,6 +315,24 @@ namespace Persistence.Migrations
                     b.ToTable("CommentMotofies");
                 });
 
+            modelBuilder.Entity("Domain.Connection", b =>
+                {
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GroupName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("ConnectionId");
+
+                    b.HasIndex("GroupName");
+
+                    b.ToTable("Connections");
+                });
+
             modelBuilder.Entity("Domain.Country", b =>
                 {
                     b.Property<Guid>("Id")
@@ -506,6 +524,16 @@ namespace Persistence.Migrations
                     b.HasIndex("ForumpostId");
 
                     b.ToTable("ForumpostRatings");
+                });
+
+            modelBuilder.Entity("Domain.Group", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Domain.Mechanic", b =>
@@ -1288,6 +1316,13 @@ namespace Persistence.Migrations
                     b.Navigation("Motofy");
                 });
 
+            modelBuilder.Entity("Domain.Connection", b =>
+                {
+                    b.HasOne("Domain.Group", null)
+                        .WithMany("Connections")
+                        .HasForeignKey("GroupName");
+                });
+
             modelBuilder.Entity("Domain.DiaryEntry", b =>
                 {
                     b.HasOne("Domain.Activity", "Activity")
@@ -1729,6 +1764,11 @@ namespace Persistence.Migrations
                     b.Navigation("CommentForumPosts");
 
                     b.Navigation("ForumpostRatings");
+                });
+
+            modelBuilder.Entity("Domain.Group", b =>
+                {
+                    b.Navigation("Connections");
                 });
 
             modelBuilder.Entity("Domain.Mechanic", b =>
