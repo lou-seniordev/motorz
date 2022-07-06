@@ -20,10 +20,8 @@ const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
-  const {
-    unreadIncomingMessages,
-    getUnreadItems,
-  } = rootStore.presenceStore;
+  const { unreadIncomingMessages, getUnreadItems } = rootStore.presenceStore;
+  const { loadFeed, unseenFeedItems } = rootStore.feedStore;
   const { setInitialView } = rootStore.privateMessageStore;
 
   // const { createHubConnection } = rootStore.presenceStore;
@@ -66,11 +64,9 @@ const NavBar: React.FC = () => {
     }
     if (isLoggedIn) {
       getUnreadItems();
+      loadFeed();
     }
-  }, [
-    getUnreadItems,
-    isLoggedIn,
-  ]);
+  }, [getUnreadItems, loadFeed, isLoggedIn]);
 
   const handleLanguageChange = (e: string) => {
     i18n.changeLanguage(e);
@@ -156,28 +152,17 @@ const NavBar: React.FC = () => {
                       as={Link}
                       onClick={closeStackableMenu}
                       to='/people'
-                    >
-                      {" "}
-                      {t("people")}
-                    </Dropdown.Item>
+                      icon='users'
+                      text={t("people")}
+                    />
                     <Dropdown.Item
                       name='people'
                       onClick={closeStackableMenu}
                       as={Link}
                       to='/privateMessages'
-                    >
-                      {" "}
-                      {t("private messages")}
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      name='feed'
-                      as={Link}
-                      onClick={closeStackableMenu}
-                      to='/feed'
-                    >
-                      {" "}
-                      Feed
-                    </Dropdown.Item>
+                      icon='envelope outline'
+                      text={t("private messages")}
+                    />
                   </Dropdown.Menu>
                 </Dropdown>
                 {unreadIncomingMessages > 0 && (
@@ -314,12 +299,30 @@ const NavBar: React.FC = () => {
                             icon='user'
                           />
                           <Dropdown.Item
+                            name='feed'
+                            as={Link}
+                            onClick={closeStackableMenu}
+                            to='/feed'
+                            icon='info'
+                            text='Feed'
+                          />
+                          <Dropdown.Item
                             onClick={logout}
                             text={t("logout")}
                             icon='power'
                           />
                         </Dropdown.Menu>
                       </Dropdown>
+                      {unseenFeedItems > 0 && (
+                        <Label
+                          as={Link}
+                          to='/feed'
+                          color='orange'
+                          // onClick={() => handleViewUnread()}
+                        >
+                          {unseenFeedItems}
+                        </Label>
+                      )}
                     </Menu.Item>
                   </>
                 )}

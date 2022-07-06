@@ -15,7 +15,7 @@ import { ICountry } from '../models/country';
 import { postDiaryEntry, postMotofy } from './agentUtil';
 import { postProduct } from './agentUtil';
 import { postMechanic } from './agentUtil';
-import { IFeedEnvelope } from '../models/feed';
+import { IFeedEnvelope, IFeedsToMarkSeen } from '../models/feed';
 import { IPrivateMessageEnvelope, IPrivateMessageToSend } from '../models/privatemessages';
 // import { resolve } from 'dns';
 
@@ -183,6 +183,7 @@ const Feed = {
   list: (limit: number, page: number): Promise<IFeedEnvelope> =>
     requests.get(`/feeds?limit=${limit}&offset=${page ? page * limit! : 0}`),
   addFeedItem: (id: string, info: string, username?: string) => requests.post(`/feeds/${id}/${info}/${username}/addFeedItem`, {}),
+  markSeenInDB: (ids: IFeedsToMarkSeen) => requests.put('/feeds/markseenindb', ids)
 };
 
 const PrivateMessages = {

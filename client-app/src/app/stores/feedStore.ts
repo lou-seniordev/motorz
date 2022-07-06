@@ -1,3 +1,5 @@
+import { toJS } from 'mobx';
+import { IFeedsToMarkSeen } from './../models/feed';
 import { action, computed, observable, runInAction } from 'mobx';//computed,
 import { toast } from 'react-toastify';
 
@@ -32,6 +34,20 @@ export default class FeedStore {
     return this.groupFeedItemsByDate(Array.from(this.feedRegistry.values()));
   }
 
+  @computed get unseenFeedItems() {
+    return this.countUnseenItems(Array.from(this.feedRegistry.values()));
+    // return this.feedCount;
+  }
+
+  countUnseenItems (feeds: IFeed[]){
+    let count = 0;
+    for(var i = 0, len = feeds.length; i < len; i++){
+      if(feeds[i].isSeen === false)
+        count ++;
+    }
+    return count
+  }
+
   groupFeedItemsByDate(feeds: IFeed[]) {
     const sortedFeeds = feeds.sort(
       (a, b) => Date.parse(b.dateTriggered!) - Date.parse(a.dateTriggered!)
@@ -54,8 +70,7 @@ export default class FeedStore {
   }
 
   @action addFeedItem = async (id: string, info: string, username?: string) => {
-    console.log('id', 'info', 'username')
-    console.log(id, info, username)
+
     try {
       await agent.Feed.addFeedItem(id, info, username);
       toast.info('Successfully ' + info);
@@ -67,21 +82,30 @@ export default class FeedStore {
   }
 
 
+  @action markSeenInDB = async (ids: any) => {
+    let idsToSend: IFeedsToMarkSeen = ids;
+    // console.log(idsToSend);
+    try {
+      // await agent.Feed.markSeenInDB(idsToSend)
+    } catch (error) {
+      console.log('error in the seen')
+      console.log(error)
+    }
+  }
+
+
 
   @action loadFeed = async () => {
     this.loadingInitial = true;
     try {
       const feedEnvelope = await agent.Feed.list(LIMIT, this.page);
       const { feeds, feedCount } = feedEnvelope;
-      // console.log(feeds);
       runInAction('loading feed', () => {
         feeds.forEach((feed) => {
           this.formatDate(feed);
           this.feedRegistry.set(feed.id, feed);
-          // console.log('feed', feed)
 
         });
-        // this.feeds = feeds;
         this.feedCount = feedCount;
         this.loadingInitial = false;
 

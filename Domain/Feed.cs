@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Domain
 {
-   
+
     public class Feed
     {
         public Guid Id { get; set; }
@@ -15,5 +13,7 @@ namespace Domain
         public Guid ObjectId { get; set; }
         public DateTime DateTriggered { get; set; }
         public virtual string FeedType { get; set; }
+        public bool IsSeen { get; set; } = false;
+        public DateTime? DateSeen { get; set; }
     }
 }

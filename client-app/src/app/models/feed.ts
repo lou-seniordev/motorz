@@ -16,5 +16,11 @@ export interface IFeed {
     ojectId: string;
     dateTriggered?: string;
     // dateTriggered: Date;// | string;
+    isSeen: boolean;
+    dateSeen?:string;
     
+}
+
+export interface IFeedsToMarkSeen {
+    ids: string [];
 }
