@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";//, useState
 import "./Navbar.css";
-
+import { useHistory } from "react-router";
 import { Link, NavLink } from "react-router-dom";
 import {
   Container,
@@ -21,17 +21,20 @@ const NavBar: React.FC = () => {
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
   const { unreadIncomingMessages, getUnreadItems } = rootStore.presenceStore;
-  const { loadFeed, unseenFeedItems } = rootStore.feedStore;
+  const { loadFeed, unseenFeedItems, feedByDate, markSeenInDB, feedMounted } =
+    rootStore.feedStore;
   const { setInitialView } = rootStore.privateMessageStore;
 
-  // const { createHubConnection } = rootStore.presenceStore;
+  const { createHubConnection, stopHubConnection } = rootStore.feedStore;
 
   const { i18n, t } = useTranslation(["navbar"]);
 
   const menuRef: any = useRef();
 
+
+  let history = useHistory();
+
   const closeStackableMenu = () => {
-    //e: any
     var actionMenu = menuRef.current.parentNode;
     var actionIcon = menuRef.current;
     actionMenu.classList.remove("active");
@@ -55,8 +58,9 @@ const NavBar: React.FC = () => {
 
         e.preventDefault();
       };
+      createHubConnection();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, createHubConnection]);
 
   useEffect(() => {
     if (localStorage.getItem("i18nextLng")?.length! > 2) {
@@ -66,7 +70,10 @@ const NavBar: React.FC = () => {
       getUnreadItems();
       loadFeed();
     }
-  }, [getUnreadItems, loadFeed, isLoggedIn]);
+    return () => {
+      stopHubConnection();
+    };
+  }, [getUnreadItems, loadFeed, isLoggedIn, stopHubConnection]);
 
   const handleLanguageChange = (e: string) => {
     i18n.changeLanguage(e);
@@ -76,6 +83,25 @@ const NavBar: React.FC = () => {
   const handleViewUnread = () => {
     closeStackableMenu();
     setInitialView();
+  };
+
+  const markSeen = async () => {
+    let ids: string[] = [];
+    for (var i = 0, len = feedByDate.length; i < len; i++) {
+      if (feedByDate[i][1][0].isSeen === false)
+        ids.push(feedByDate[i][1][0].id);
+      markSeenInDB(ids);
+    }
+  };
+  const handleViewUnseen = () => {
+    // console.log("feedMounted", feedMounted);
+    closeStackableMenu();
+    markSeen();
+    if (feedMounted) {
+      history.go(0);
+    } else {
+      history.push(`/feed`);
+    }
   };
 
   return (
@@ -315,10 +341,9 @@ const NavBar: React.FC = () => {
                       </Dropdown>
                       {unseenFeedItems > 0 && (
                         <Label
-                          as={Link}
-                          to='/feed'
                           color='orange'
-                          // onClick={() => handleViewUnread()}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleViewUnseen()}
                         >
                           {unseenFeedItems}
                         </Label>

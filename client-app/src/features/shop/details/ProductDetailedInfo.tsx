@@ -33,20 +33,14 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
         setProductFollowed();
       }
     });
-  }, [
-    product.sellerUsername,
-    product.id,
-    setProductFollowed,
-    product.viewers,
-    user,
-  ]);
+  }, [setProductFollowed, product.viewers, user]);
 
   const handleDeleteProduct = (id: string) => {
     openModal(<ConfirmDelete productId={id} />);
   };
   const handleFollowProduct = (id: string) => {
     followProduct(id, user!.userName, user!.displayName);
-    addFeedItem(id, "Added to favorites");
+    addFeedItem(id, "Added to favorites", product.sellerUsername);
   };
   const handleMarkSold = (id: string) => {
     markSold(id, product);
@@ -54,7 +48,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   };
   const handleUnfollowProduct = (id: string) => {
     unfollowProduct(id);
-    addFeedItem(id, "Removed from favorites");
+    addFeedItem(id, "Removed from favorites", product.sellerUsername);
   };
   const styles = { minWidth: "10em" };
 
@@ -254,7 +248,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                         disabled={product.isSold}
                         onClick={() => handleMarkSold(product.id!)}
                       />
-                        <Button
+                      <Button
                         as={Link}
                         to={`/manageProduct/${product.id}`}
                         color='pink'
@@ -272,7 +266,6 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                         {t("Delete")}
                       </Button>
 
-                    
                       <Button
                         onClick={() => {
                           setManaging(false);

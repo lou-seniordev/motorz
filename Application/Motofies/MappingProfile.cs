@@ -11,7 +11,10 @@ namespace Application.Motofies
             // .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Url));
             CreateMap<Motofy, MotofyDto>()
             .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.MotofyPhoto.Url))
-            .ForMember(d => d.AverageRating, o => o.MapFrom(s => s.AverageRating.Average));
+            .ForMember(d => d.AverageRating, o => o.MapFrom(s => s.AverageRating.Average))
+            .ForMember(d => d.PublisherUsername, o => o.MapFrom(s => s.Publisher.UserName))
+            .ForMember(d => d.PublisherDisplayName, o => o.MapFrom(s => s.Publisher.DisplayName));
+
             CreateMap<UserMotofy, EmbracerDto>()
             .ForMember(d => d.Username , o => o.MapFrom(s => s.AppUser.UserName))
             .ForMember(d => d.DisplayName , o => o.MapFrom(s => s.AppUser.DisplayName))

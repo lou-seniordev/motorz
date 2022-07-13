@@ -63,15 +63,11 @@ const PrivateMessageThreadListItem = () => {
     [markReadInDB, user]
   );
 
-  const handleStartConnection = (otherUser: string) => {
+  const handleStartConnection = useCallback((otherUser: string) => {
     markReadNavbar(otherUser);
     markRead(listOfMessagesInFocus![1]);
     createHubConnection(otherUser);
-  };
-  const handleStopConnection = (otherUser: string) => {
-    console.log("STOPPED FOR " + otherUser);
-    stopHubConnection();
-  };
+  }, [markReadNavbar, markRead, createHubConnection, listOfMessagesInFocus]);
 
   useEffect(() => {
     let otherUser = listOfMessagesInFocus![1].find(
@@ -82,9 +78,13 @@ const PrivateMessageThreadListItem = () => {
 
     return () => {
       cleanOtherUser();
+      const handleStopConnection = (otherUser: string) => {
+        console.log("STOPPED FOR " + otherUser);
+        stopHubConnection();
+      };
       handleStopConnection(otherUser?.recipientUsername!);
     };
-  }, [user, setOtherUser, cleanOtherUser, listOfMessagesInFocus]); 
+  }, [user, setOtherUser, cleanOtherUser, listOfMessagesInFocus, handleStartConnection, stopHubConnection]); 
 
   return (
     <>
@@ -129,7 +129,6 @@ const PrivateMessageThreadListItem = () => {
                 <Grid style={userStyles} textAlign='right' floated='right'>
                   <GridRow className='mobile hidden'>
                     <GridColumn width={1}>
-                      {/* ellipsis vertical */}
                       <Icon
                         name='delete'
                         style={{ cursor: "pointer" }}

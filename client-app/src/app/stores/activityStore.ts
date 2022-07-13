@@ -188,11 +188,7 @@ export default class ActivityStore {
       const { activities, activityCount } = activitiesEnvelope;
 
       runInAction('loading activities', () => {
-        // if(activities.length > 0) {
-        //   this.activityHit = true;
-        // } else {
-        //   this.activityHit = false;
-        // }
+
         activities.forEach((activity) => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
@@ -233,7 +229,6 @@ export default class ActivityStore {
       this.loadingInitial = true;
       try {
         activity = await agent.Activities.details(id);
-        // console.log(toJS(activity));
         runInAction('getting activity', () => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activity = activity;
@@ -329,7 +324,7 @@ export default class ActivityStore {
   @action deactivateActivity = async (id: string) => {
     try {
       await agent.Activities.deactivate(id);
-      // await agent.Feed.addFeedItem(this.activity!.id, 'Deactivated Motocycle Diary');
+
       runInAction('deactivating activity', () => {
         this.activityRegistry.delete(id);
       });

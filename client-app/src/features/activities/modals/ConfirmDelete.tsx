@@ -17,16 +17,13 @@ const ConfirmDelete: React.FC<IProps> = ({ activityId }) => {
 
   const handleDeleteActivity = (id: string) => {
     deleteActivity(id)
-    //   .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
       .then(() => closeModal());
-    //   .finally(() => history.push(`/activities`));
   };
 
   const cancelDeleteActivity = () => {
     closeModal();
   };
 
-  // let history = useHistory();
 
   return (
     <Grid>

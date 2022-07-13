@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Interfaces;
 
 namespace API.SignalR
 {
     //224
-    public class PresenceTracker
+    public class PresenceTracker 
     {
         private static readonly Dictionary<string, List<string>> OnlineUsers
             = new Dictionary<string, List<string>>();

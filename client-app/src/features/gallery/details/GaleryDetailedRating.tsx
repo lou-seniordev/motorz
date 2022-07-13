@@ -14,6 +14,7 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
   const rootStore = useContext(RootStoreContext);
   const { rateMotofy } = rootStore.motofyStore;
   const { user } = rootStore.userStore;
+  const { addFeedItem } = rootStore.feedStore;
 
   const { t } = useTranslation(["gallery"]);
 
@@ -21,9 +22,12 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
   let username = user?.userName;
   const [rated, setRated] = useState(false);
   const [userRated, setUserRated] = useState<string | number | undefined>();
+  
+  const [notifyeeUsername, setNotifyeeUsername] = useState('');
 
 
   useEffect(() => {
+    setNotifyeeUsername(motofy.publisherUsername);
 
     if(motofy.motofyScores.length > 0) {
 
@@ -37,7 +41,7 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
     }
 
 
-  }, [motofy.motofyScores, username]); 
+  }, [motofy.motofyScores, username, motofy.publisherUsername]); 
 
 
   const handleRate = (e: any, rating: RatingProps) => {
@@ -46,6 +50,8 @@ const GaleryDetailedRating: React.FC<IProps> = ({ motofy }) => {
     setUserRated(rating.rating);
     e.preventDefault();
     setRated(true);
+    addFeedItem(motofy.id, 'Rated Motofy', notifyeeUsername)
+
   };
   return (
     <Segment.Group>

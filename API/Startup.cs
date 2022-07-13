@@ -1,5 +1,3 @@
-// using Application.Activities;
-// using Application.Brands;
 using System.Text;
 using System;
 using API.Middleware;
@@ -28,6 +26,7 @@ using Application.Profiles;
 using Coravel;
 using API.Workers;
 using Infrastructure.Email;
+using Application.Feeds.FeedHub;
 
 namespace API
 {
@@ -123,6 +122,9 @@ namespace API
             services.AddTransient<ProcessExpiredProducts>();
             services.AddTransient<ProcessInactiveProducts>();
 
+
+            // services.AddServerSentEvents();
+
             // ===  MEDIATOR ===
             // comment
             services.AddMediatR(typeof(List.Handler).Assembly);
@@ -187,7 +189,10 @@ namespace API
                             var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken)
-                                && ((path.StartsWithSegments("/chat") || (path.StartsWithSegments("/message")) || (path.StartsWithSegments("/presence"))))
+                                && ((path.StartsWithSegments("/chat") 
+                                    || (path.StartsWithSegments("/message")) 
+                                    || (path.StartsWithSegments("/feed")) 
+                                    || (path.StartsWithSegments("/presence"))))
                                 )
                             {
                                 context.Token = accessToken;
@@ -198,7 +203,8 @@ namespace API
                     };
                 });
 
-            services.AddSingleton<PresenceTracker>();
+            services.AddSingleton< PresenceTracker>();
+            services.AddSingleton<FeedPresenceTracker>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
@@ -261,6 +267,8 @@ namespace API
 
             app.UseAuthorization();
 
+            // app.MapServerSentEvents("/default-sse-endpoint");
+
             app.UseEndpoints(endpoints =>
             {
                 // === routing provided by route controllers ===
@@ -270,10 +278,12 @@ namespace API
                 endpoints.MapHub<ChatHub>("/chat");
 
                 endpoints.MapHub<PrivateMessageHub>("/message");
-                // endpoints.MapHub<MessageHub>("/newmessage"); 
-                endpoints.MapHub<PresenceHub>("/presence");
 
-                // === 
+                endpoints.MapHub<PresenceHub>("/presence");
+                
+                endpoints.MapHub<FeedHub>("/feed");
+
+                // === Fallback ===
                 endpoints.MapFallbackToController("Index", "Fallback");
             });
         }

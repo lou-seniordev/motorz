@@ -1,11 +1,9 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Segment,
   Button,
-  // Grid,
-  // GridColumn,
 } from "semantic-ui-react"; 
 import { IActivity } from "../../../app/models/activity";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -13,6 +11,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import ConfirmDeactivate from "../modals/ConfirmDeactivate";
 import ConfirmDelete from "../modals/ConfirmDelete";
 import { useTranslation } from "react-i18next";
+// import { toJS } from "mobx";
 
 
 const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) => {
@@ -27,6 +26,15 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
 
   const { openModal } = rootStore.modalStore;
 
+  const [username, setUsername] = useState('');
+  
+  
+  useEffect(()=> {
+    let user = activity.attendees.filter(u => u.isHost);
+    setUsername(user[0].username)
+ 
+  },[activity.attendees])
+
   const handleCompleteActivity = (id: string) => {
     openModal(<ConfirmDeactivate activityId={id} />);
     setManaging(false);
@@ -37,12 +45,14 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
   };
   const handleCancelAttendance = (id: string) => {
     cancelAttendance();
-    addFeedItem(id, "Left Motorcycle Diary");
+    console.log(username)
+    addFeedItem(id, "Left Motorcycle Diary", username);
     setManaging(false);
   };
   const handleAttendActivity = (id: string) => {
     attendActivity();
-    addFeedItem(id, "Joined Motorcycle Diary");
+    console.log(username)
+    addFeedItem(id, "Joined Motorcycle Diary", username);
     setManaging(false);
   };
 
@@ -51,7 +61,6 @@ const ActivityDetailedManager: React.FC<{ activity: IActivity }> = ({activity}) 
   };
   return (
     <Segment.Group raised>
-      {/* {activity.isActive && ( */}
         <Segment clearing attached='bottom'>
           {activity.isHost ? (
             <Fragment>

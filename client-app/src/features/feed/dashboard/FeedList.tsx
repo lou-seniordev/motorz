@@ -6,35 +6,37 @@ import FeedListItem from "./FeedListItem";
 
 const FeedList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { feedByDate, markSeenInDB } = rootStore.feedStore;
+  const { feedByDate, markSeenInDB
+    , 
+    setFeedMounted, setFeedUnmounted 
+  } = rootStore.feedStore;
 
-
-useEffect(() => {
-  const markSeen = async () => {
-    let ids: string[] = [];
-  
-    for(var i = 0, len = feedByDate.length; i < len; i++){
-      if(feedByDate[i][1][0].isSeen === false)
-          ids.push(feedByDate[i][1][0].id)
-    }
-
-    markSeenInDB(ids);
-  }
-  markSeen()
-  
-}, [markSeenInDB, feedByDate]);
-
-
+  useEffect(() => {
+     setFeedMounted();
+      const markSeen = async () => {
+        let ids: string[] = [];
+        for (var i = 0, len = feedByDate.length; i < len; i++) {
+          if (feedByDate[i][1][0].isSeen === false)
+            ids.push(feedByDate[i][1][0].id);
+        }
+        markSeenInDB(ids);
+      };
+      markSeen();
+    // }
+    return(()=> {
+      setFeedUnmounted();
+    })
+  }, [markSeenInDB, feedByDate, setFeedMounted, setFeedUnmounted]);
 
   return (
     <Fragment>
       {feedByDate.map(([gr, feeds]) => (
         <Fragment key={gr}>
-            <Item.Group divided>
-              {feeds.map((feed:any) => (
-                <FeedListItem feed={feed} key={feed.id} />
-              ))}
-            </Item.Group>
+          <Item.Group divided>
+            {feeds.map((feed: any) => (
+              <FeedListItem feed={feed} key={feed.id} />
+            ))}
+          </Item.Group>
         </Fragment>
       ))}
     </Fragment>

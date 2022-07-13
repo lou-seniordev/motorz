@@ -1,4 +1,3 @@
-// import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,27 +11,8 @@ const PeopleListItem: React.FC<{ member: IProfile }> = ({ member }) => {
   const { onlineUsers } = rootStore.presenceStore;
 
   const { t } = useTranslation(["social"]);
-  // console.log("onlineUsers", onlineUsers);
-  // console.log("member.username", member.username);
-
-  //  console.log('onlineUsers', toJS(onlineUsers))
-  // const styles = {
-  //   borderColor: "green",
-  //   borderWidth: 3,
-  // };
+ 
   return (
-    // <Card as={Link} to={`/profile/${member.username}`}>
-    //     <Image src={member.image || '/assets/user.png'} size='tiny' circular/>
-    //     <Card.Content>
-    //       <Card.Header>{member.displayName || 'display name'}</Card.Header>
-    //     </Card.Content>
-    //     <Card.Meta>
-    //       {/* <div> */}
-    //         <Icon name='user' />
-    //         {member.followersCount} Followers
-    //       {/* </div> */}
-    //     </Card.Meta>
-    //   </Card>
 
     <Card as={Link} to={`/profile/${member.username}`} raised>
       <Card.Content>
@@ -42,8 +22,6 @@ const PeopleListItem: React.FC<{ member: IProfile }> = ({ member }) => {
           src={member.image || "/assets/user.png"}
           circular
           bordered
-          // style={ styles}
-          // style={onlineUsers.includes(member.username) ? styles : null}
         />
         <Card.Header>
           {onlineUsers.includes(member.username) && (

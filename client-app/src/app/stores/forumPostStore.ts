@@ -155,11 +155,11 @@ export default class ForumPostStore {
     }
   };
 
-  @action setRating = async (forumpostId: string, rating: string) => {
+  @action setRating = async (forumpostId: string, value: string) => {
    
     const rate :IRateForumpost = {
       id: forumpostId,
-      rating: rating,
+      value: value,
     }
     try {
       await agent.Forumposts.rate(rate);
@@ -173,21 +173,13 @@ export default class ForumPostStore {
     return this.formatForumpostsDate(
       Array.from(this.forumPostRegistry.values())
     );
-    // return this.forumPostRegistry;
   }
 
   formatForumpostsDate(forumposts: IForumpost[]) {
-    // const sortedForumposts = forumposts.sort(
-    //   (a, b) => Date.parse(a.dateAdded) - Date.parse(b.dateAdded)
-    //   // (a, b) => a.dateAdded.getTime() - b.dateAdded.getTime()
-    // );
+ 
     return Object.entries(
-      // sortedForumposts.reduce((forumposts, forumpost) => {
         forumposts.reduce((forumposts, forumpost) => {
-          // console.log('forumpost.dateAdded: ', forumpost.dateAdded);
         const date = forumpost.dateAdded.split('T')[0];
-        // const date = forumpost.dateAdded.toISOString().split('T')[0];
-        // console.log('date: ', date);
 
         forumposts[date] = forumposts[date]
           ? [...forumposts[date], forumpost]
@@ -290,7 +282,6 @@ export default class ForumPostStore {
       runInAction('creating forumposts', () => {
         this.forumPostRegistry.set(forumpost.id, forumpost);
         this.forumposts.push(forumpost);
-        // this.editMode = false;
         this.submitting = false;
       });
       history.push(`/forum/${forumpost.id}`);
@@ -322,11 +313,9 @@ export default class ForumPostStore {
   };
 
   @action deleteForumpost = async (
-    // event: SyntheticEvent<HTMLButtonElement>,
     id: string
   ) => {
     this.submitting = true;
-    // this.target = event.currentTarget.name;
     try {
       await agent.Forumposts.delete(id);
       runInAction('deleting forumpost', () => {

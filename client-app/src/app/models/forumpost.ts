@@ -10,7 +10,6 @@ export interface IForumpost {
   id: string;
   title: string;
   body: string;
-  // dateAdded: Date;
   dateAdded: string;
   displayName: string;
   userName: string;
@@ -27,9 +26,7 @@ export class ForumpostFormValues {
   id?: string;
   title: string = '';
   body: string = '';
-  // dateAdded: Date = '';
   dateAdded: string = '';
-  // displayName: string = '';
   category: string = '';
 
   constructor(init?: ForumpostFormValues) {
@@ -40,5 +37,5 @@ export class ForumpostFormValues {
 
 export interface IRateForumpost {
   id: string;
-  rating: string;
+  value: string;
 }

@@ -21,7 +21,7 @@ const ConfirmDeactivate: React.FC<IProps> = ({ activityId }) => {
 
   const handleDeactivateActivity = (id: string) => {
     deactivateActivity(id)
-      .then(() => addFeedItem(id, "Deactivated Motocycle Diary"))
+      .then(() => addFeedItem(id, "Completed Motocycle Diary"))
       .then(() => closeModal())
       .finally(() => history.push(`/activities`));
   };
