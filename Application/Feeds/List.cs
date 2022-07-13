@@ -8,6 +8,7 @@ using Persistence;
 using AutoMapper;
 using System.Linq;
 using Application.Interfaces;
+using System;
 
 namespace Application.Feeds
 {
@@ -49,7 +50,10 @@ namespace Application.Feeds
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 var queryable = _context.Feeds
-                .Where(x => x.Notifyees.Any(u => u.AppUserId == user.Id))
+                .Where(x => x.Notifyees.Any(u => u.AppUserId == user.Id) 
+                    // &&  x.IsSeen == false 
+                    && (x.DateSeen == null || x.DateSeen > DateTime.Now.AddDays(-1))
+                    )
                 .OrderByDescending(x => x.DateTriggered)
                 .AsQueryable();
 

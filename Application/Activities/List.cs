@@ -58,15 +58,11 @@ namespace Application.Activities
 
             public async Task<ActivitiesEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                // === Eager loading -> this plus virtual keyword ===
-                // .Include(x => x.UserActivities)
-                // .ThenInclude(x => x.AppUser)
+
                 var user = await _context.Users.SingleOrDefaultAsync(
                    x => x.UserName == _userAccessor.GetCurrentUsername());
 
                 var queryable = _context.Activities
-                // .Where(x => x.Date >= request.StartDate)
-                // .Where(x => x.IsActive == true)
                 .OrderBy(x => x.Date)
                 .AsQueryable();
 
@@ -99,26 +95,14 @@ namespace Application.Activities
                 }
                 if (request.IsCompleted)
                 {
-                    // queryable = queryable.Where(x => x.UserActivities.Any(
-                    //     a => a.AppUser.UserName == _userAccessor.GetCurrentUsername() && a.IsHost));
                     queryable = _context.Activities
-                        // .Where(x => x.Date >= request.StartDate)
                         .Where(x => x.IsActive == false && x.IsCompleted == true)
                         .OrderBy(x => x.Date)
                         .AsQueryable();
                     activities = await GetActivityList(request, queryable, activities);
 
                 }
-                // if (!string.IsNullOrEmpty(request.StartDate.ToString()))
-                // {
-                //     queryable = _context.Activities
-                //         .Where(x => x.Date == request.StartDate)
-                //         // .Where(x => x.IsActive == true)
-                //         .OrderBy(x => x.Date)
-                //         .AsQueryable();
-                //     activities = await GetActivityList(request, queryable, activities);
 
-                // }
                 if (request.IFollow)
                 {
                     var followings = await _context.Followings
@@ -156,8 +140,6 @@ namespace Application.Activities
                     activities = await GetActivityList(request, queryable, activities);
 
                 }
-
-                // activities = await GetActivityList(request, queryable, activities);
 
                 return new ActivitiesEnvelope
                 {

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Segment, Item, Header, Button, Image, Icon } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
@@ -50,16 +50,24 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
 
   const { t } = useTranslation(["gallery"]);
 
+  const [username, setUsername] = useState('');
+
+  useEffect(()=> {
+    let user = motofy.publisherUsername;
+    setUsername(user)
+   
+  },[motofy])
+
   const handleDeleteMotofy = (id: string) => {
     openModal(<ConfirmDelete motofyId={id} />);
   };
   const handleEmbraceMotofy = (id: string) => {
     embraceMotofy(id);
-    addFeedItem(id, "Embraced Motofy");
+    addFeedItem(id, "Embraced Motofy", username);
   };
   const handleUnembraceMotofy = (id: string) => {
     unembraceMotofy(id);
-    addFeedItem(id, "Unembraced Motofy");
+    addFeedItem(id, "Unembraced Motofy", username);
   };
 
   const toggleManaging = () => {
@@ -118,8 +126,6 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
                   onClick={() => {
                     setManaging(false);
                   }}
-                  // color='grey'
-                  // basic
                 >
                   {t("Cancel")}
                 </Button>

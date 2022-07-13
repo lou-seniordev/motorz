@@ -14,19 +14,6 @@ const {  addFeedItem,
 
   const { closeModal } = rootStore.modalStore;
 
-//   const handleDeactivateActivity = (id: string) => {
-//     deactivateActivity(id);
-//     addFeedItem(id, 'Deactivated Motocycle Diary');
-//     closeModal();
-//     history.push(`/activities`);
-//   };
-
-//   const cancelDeactivateActivity = () => {
-//     closeModal();
-//   };
-
-//   let history = useHistory();
-
   return (
     <Grid>
       <Grid.Column width={16}>

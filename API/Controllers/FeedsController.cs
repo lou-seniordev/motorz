@@ -24,6 +24,12 @@ namespace API.Controllers
             return await Mediator.Send(new List.Query(limit, offset));
         }
 
+        [HttpPut("markseenindb")]
+        public async Task<ActionResult<Unit>> MarkSeenInDB( string[] ids)
+        {
+            return await Mediator.Send(new MarkSeenInDB.Command {Ids = ids});
+        }
+
        
     }
 }

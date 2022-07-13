@@ -1,3 +1,4 @@
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,8 +17,12 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
   const [rated, setRated] = useState(false);
   const { t } = useTranslation(["forum"]);
 
+  const [username, setUsername] = useState('');
+
 
   useEffect(() => {
+
+    setUsername(forumpost.userName)
 
     if (forumpost.forumpostRatings!.length > 0) {
       
@@ -27,15 +32,17 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
         } 
       });
     }
-  }, [forumpost, user]);
+    console.log(toJS(username));
+
+  }, [forumpost, user, username]);
 
   const handleRating = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     data: any
   ) => {
     setRated(true);
-    setRating(forumpost.id, data.content);
-    addFeedItem(forumpost.id, 'Rated Forumpost')
+    setRating(forumpost.id, data.value);
+    addFeedItem(forumpost.id, 'Rated Forumpost', username)
   };
 
   return (
@@ -49,6 +56,7 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
                 fluid
                 onClick={(e, data) => handleRating(e, data)}
                 content={t('Interesting')}
+                value={'3'}
               />
             </Grid.Column>
 
@@ -57,6 +65,7 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
                 fluid
                 onClick={(e, data) => handleRating(e, data)}
                 content={t('Usefull')}
+                value={'4'}
               />
             </Grid.Column>
 
@@ -65,6 +74,7 @@ const ForumDetailedRating: React.FC<{ forumpost: IForumpost }> = ({
                 fluid
                 onClick={(e, data) => handleRating(e, data)}
                 content={t('Helping')}
+                value={'5'}
               />
             </Grid.Column>
           </Grid>

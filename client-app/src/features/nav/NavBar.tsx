@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";//, useState
 import "./Navbar.css";
-
+import { useHistory } from "react-router";
 import { Link, NavLink } from "react-router-dom";
 import {
   Container,
@@ -20,20 +20,21 @@ const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
 
   const { user, logout, isLoggedIn } = rootStore.userStore;
-  const {
-    unreadIncomingMessages,
-    getUnreadItems,
-  } = rootStore.presenceStore;
+  const { unreadIncomingMessages, getUnreadItems } = rootStore.presenceStore;
+  const { loadFeed, unseenFeedItems, feedByDate, markSeenInDB, feedMounted } =
+    rootStore.feedStore;
   const { setInitialView } = rootStore.privateMessageStore;
 
-  // const { createHubConnection } = rootStore.presenceStore;
+  const { createHubConnection, stopHubConnection } = rootStore.feedStore;
 
   const { i18n, t } = useTranslation(["navbar"]);
 
   const menuRef: any = useRef();
 
+
+  let history = useHistory();
+
   const closeStackableMenu = () => {
-    //e: any
     var actionMenu = menuRef.current.parentNode;
     var actionIcon = menuRef.current;
     actionMenu.classList.remove("active");
@@ -57,8 +58,9 @@ const NavBar: React.FC = () => {
 
         e.preventDefault();
       };
+      createHubConnection();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, createHubConnection]);
 
   useEffect(() => {
     if (localStorage.getItem("i18nextLng")?.length! > 2) {
@@ -66,11 +68,12 @@ const NavBar: React.FC = () => {
     }
     if (isLoggedIn) {
       getUnreadItems();
+      loadFeed();
     }
-  }, [
-    getUnreadItems,
-    isLoggedIn,
-  ]);
+    return () => {
+      stopHubConnection();
+    };
+  }, [getUnreadItems, loadFeed, isLoggedIn, stopHubConnection]);
 
   const handleLanguageChange = (e: string) => {
     i18n.changeLanguage(e);
@@ -80,6 +83,25 @@ const NavBar: React.FC = () => {
   const handleViewUnread = () => {
     closeStackableMenu();
     setInitialView();
+  };
+
+  const markSeen = async () => {
+    let ids: string[] = [];
+    for (var i = 0, len = feedByDate.length; i < len; i++) {
+      if (feedByDate[i][1][0].isSeen === false)
+        ids.push(feedByDate[i][1][0].id);
+      markSeenInDB(ids);
+    }
+  };
+  const handleViewUnseen = () => {
+    // console.log("feedMounted", feedMounted);
+    closeStackableMenu();
+    markSeen();
+    if (feedMounted) {
+      history.go(0);
+    } else {
+      history.push(`/feed`);
+    }
   };
 
   return (
@@ -156,28 +178,17 @@ const NavBar: React.FC = () => {
                       as={Link}
                       onClick={closeStackableMenu}
                       to='/people'
-                    >
-                      {" "}
-                      {t("people")}
-                    </Dropdown.Item>
+                      icon='users'
+                      text={t("people")}
+                    />
                     <Dropdown.Item
                       name='people'
                       onClick={closeStackableMenu}
                       as={Link}
                       to='/privateMessages'
-                    >
-                      {" "}
-                      {t("private messages")}
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      name='feed'
-                      as={Link}
-                      onClick={closeStackableMenu}
-                      to='/feed'
-                    >
-                      {" "}
-                      Feed
-                    </Dropdown.Item>
+                      icon='envelope outline'
+                      text={t("private messages")}
+                    />
                   </Dropdown.Menu>
                 </Dropdown>
                 {unreadIncomingMessages > 0 && (
@@ -314,12 +325,29 @@ const NavBar: React.FC = () => {
                             icon='user'
                           />
                           <Dropdown.Item
+                            name='feed'
+                            as={Link}
+                            onClick={closeStackableMenu}
+                            to='/feed'
+                            icon='info'
+                            text='Feed'
+                          />
+                          <Dropdown.Item
                             onClick={logout}
                             text={t("logout")}
                             icon='power'
                           />
                         </Dropdown.Menu>
                       </Dropdown>
+                      {unseenFeedItems > 0 && (
+                        <Label
+                          color='orange'
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleViewUnseen()}
+                        >
+                          {unseenFeedItems}
+                        </Label>
+                      )}
                     </Menu.Item>
                   </>
                 )}

@@ -11,6 +11,9 @@ using System.Linq;
 using System.Collections.Generic;
 using Application.Errors;
 using System.Net;
+using Microsoft.AspNetCore.SignalR;
+using Application.Feeds.FeedHub;
+using AutoMapper;
 
 namespace Application.Feeds
 {
@@ -38,15 +41,25 @@ namespace Application.Feeds
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            private readonly IHubContext<FeedHub.FeedHub> _feedHub;
+            private readonly FeedPresenceTracker _tracker;
+            private readonly IMapper _mapper;
+
+            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper,
+            IHubContext<FeedHub.FeedHub> feedHub, FeedPresenceTracker tracker)
             {
+                _tracker = tracker;
+                _feedHub = feedHub;
                 _userAccessor = userAccessor;
                 _context = context;
-
+                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
+                var users = await _tracker.GetOnlineUsers();
+
 
                 var notifier = await _context.Users.SingleOrDefaultAsync(
                      x => x.UserName == _userAccessor.GetCurrentUsername());
@@ -72,7 +85,9 @@ namespace Application.Feeds
 
                         if (notifyeeIds.Count() > 0)
                         {
-                            CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                            var feed = CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                            await SendFeedToMany(notifyeeIds, feed);
+
                         }
                         else
                         {
@@ -90,9 +105,8 @@ namespace Application.Feeds
 
                         if (notifyeeIds.Count() > 0)
                         {
-                            CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
-
-                            // FillNotifyeeList(notifees, feedId, notifyeeIds);
+                            var feed = CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                            await SendFeedToMany(notifyeeIds, feed);
 
                         }
                         else
@@ -111,7 +125,9 @@ namespace Application.Feeds
 
                         if (notifyeeIds.Count() > 0)
                         {
-                            CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                            var feed = CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+
+                            await SendFeedToMany(notifyeeIds, feed);
 
                         }
                         else
@@ -130,7 +146,8 @@ namespace Application.Feeds
 
                         if (notifyeeIds.Count() > 0)
                         {
-                            CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                            var feed = CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                            await SendFeedToMany(notifyeeIds, feed);
 
                         }
                         else
@@ -149,8 +166,8 @@ namespace Application.Feeds
 
                         if (notifyeeIds.Count() > 0)
                         {
-                            CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
-
+                            var feed = CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                            await SendFeedToMany(notifyeeIds, feed);
                         }
                         else
                         {
@@ -159,10 +176,92 @@ namespace Application.Feeds
                     }
                     #endregion
                 }
+
+                #region Deleted Motofy
+                else if (request.Info == "Deleted Motofy")
+                {
+
+                    var embracersIds = await _context.UserMotofies
+                                        .Where(x => x.MotofyId == request.ObjectId && x.AppUserId != notifier.Id)
+                                        .Select(x => x.AppUserId)
+                                        .ToListAsync();
+
+                    notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
+
+                    notifyeeIds.AddRange(embracersIds);
+
+                    if (notifyeeIds.Count() > 0)
+                    {
+                        var motofy = await _context.Motofies
+                                      .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                        var info = " has deleted the " + motofy.Name + ", Motofy! on " + DateTime.Now;
+
+                        var feed = CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                        await SendFeedToMany(notifyeeIds, feed);
+
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Completed Motocycle Diary
+                else if (request.Info == "Completed Motocycle Diary")
+                {
+                    notifyeeIds = await _context.UserActivities
+                            .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
+                            .Select(x => x.AppUser.Id)
+                            .ToListAsync();
+
+                    var info = " has completed motocycle diary on " + DateTime.Now;
+
+
+                    var diary = await _context.Activities
+                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);//;
+
+                    if (notifyeeIds.Count() > 0)
+                    {
+
+                        var feed = CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                        await SendFeedToMany(notifyeeIds, feed);
+
+                        _context.Feeds.Add(feed);
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+                #region Marked Sold
+                else if (request.Info == "Marked Sold")
+                {
+                    notifyeeIds = await _context.ProductViewers
+                                        .Where(x => x.ProductId == request.ObjectId)
+                                        .Select(x => x.AppUserId)
+                                        .ToListAsync();
+                    var product = await _context.Products
+                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+                    if (notifyeeIds.Count() > 0)
+                    {
+                        var info = " has marked the " + product.Title + " sold on " + DateTime.Now;
+
+                        var feed = CreateFeed(request, notifier, notifees, feedId, feedType, notifyeeIds, info);
+                        await SendFeedToMany(notifyeeIds, feed);
+
+                    }
+                    else
+                    {
+                        return Unit.Value;
+                    }
+                }
+                #endregion
+
                 #region Started Following You
                 if (request.Info == "Started Following You")
                 {
-                    var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
 
                     var notifee = new FeedNotifyee
                     {
@@ -180,12 +279,17 @@ namespace Application.Feeds
                             Id = feedId,
                             Info = " started following you on " + DateTime.Now,
                             Notifier = notifier,
+                            ObjectId = request.ObjectId,
                             DateTriggered = DateTime.Now,
                             FeedType = feedType,
+                            IsSeen = false,
                             Notifyees = notifees
                         };
 
                         _context.Feeds.Add(feed);
+
+                        await SendFeedToSingle(user, feed);
+
                     }
                     else
                     {
@@ -196,17 +300,14 @@ namespace Application.Feeds
                 #region Unfollows You
                 if (request.Info == "Unfollows You")
                 {
-                    var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
                     var type = "Started Following You";
                     var feedToRemove = await _context.Feeds
                             .SingleOrDefaultAsync(x => x.FeedType == type
-                            //    && x.ObjectId == request.ObjectId
                             && x.Notifier.Id == notifier.Id
                             && x.Notifyees.Any(u => u.AppUserId == user.Id));
 
                     if (feedToRemove != null)
                         _context.Feeds.Remove(feedToRemove);
-
 
                 }
                 #endregion
@@ -246,6 +347,7 @@ namespace Application.Feeds
                         };
 
                         _context.Feeds.Add(feed);
+                        await SendFeedToSingle(user, feed);
                     }
                     else
                     {
@@ -271,7 +373,8 @@ namespace Application.Feeds
                         _context.Feeds.Remove(feedToRemove);
 
                         notifyeeIds = await _context.UserActivities
-                                        .Where(x => x.IsHost == true)
+                                        .Where(x => x.IsHost == true
+                                        && x.ActivityId == request.ObjectId)
                                         .Select(x => x.AppUserId)
                                         .ToListAsync();
 
@@ -295,6 +398,7 @@ namespace Application.Feeds
                             };
 
                             _context.Feeds.Add(feed);
+                            await SendFeedToSingle(user, feed);
                         }
                         else
                         {
@@ -304,42 +408,7 @@ namespace Application.Feeds
 
                 }
                 #endregion
-                #region Deactivated Motocycle Diary
-                else if (request.Info == "Deactivated Motocycle Diary")
-                {
-                    // var 
-                    notifyeeIds = await _context.UserActivities
-                                        .Where(x => x.ActivityId == request.ObjectId && x.AppUserId != notifier.Id)
-                                        .Select(x => x.AppUserId)
-                                        .ToListAsync();
 
-                    var diary = await _context.Activities
-                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);//;
-
-                    if (notifyeeIds.Count() > 0)
-                    {
-
-                        FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                        var feed = new Feed
-                        {
-                            Id = feedId,
-                            Info = " has completed the " + diary.Title + " on " + DateTime.Now,
-                            Notifier = notifier,
-                            ObjectId = request.ObjectId,
-                            DateTriggered = DateTime.Now,
-                            FeedType = feedType,
-                            Notifyees = notifees
-                        };
-
-                        _context.Feeds.Add(feed);
-                    }
-                    else
-                    {
-                        return Unit.Value;
-                    }
-                }
-                #endregion
                 #region Embraced Motofy
                 else if (request.Info == "Embraced Motofy")
                 {
@@ -375,6 +444,8 @@ namespace Application.Feeds
                         };
 
                         _context.Feeds.Add(feed);
+                        await SendFeedToSingle(user, feed);
+
                     }
                     else
                     {
@@ -396,48 +467,14 @@ namespace Application.Feeds
 
                 }
                 #endregion
-                #region Deleted Motofy
-                else if (request.Info == "Deleted Motofy")
-                {
 
-                    var embracersIds = await _context.UserMotofies
-                                        .Where(x => x.MotofyId == request.ObjectId && x.AppUserId != notifier.Id)
-                                        .Select(x => x.AppUserId)
-                                        .ToListAsync();
-
-                    notifyeeIds = await GetNotifyeeIdsFromFollowers(notifier);
-
-                    notifyeeIds.AddRange(embracersIds);
-
-                    if (notifyeeIds.Count() > 0)
-                    {
-                        var motofy = await _context.Motofies
-                                      .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
-
-                        FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                        var feed = new Feed//"User " + notifier.DisplayName + 
-                        {
-                            Id = feedId,
-                            Info = " has deleted the " + motofy.Name + ", Motofy! on " + DateTime.Now,
-                            Notifier = notifier,
-                            ObjectId = request.ObjectId,
-                            DateTriggered = DateTime.Now,
-                            FeedType = feedType,
-                            Notifyees = notifees
-                        };
-
-                        _context.Feeds.Add(feed);
-                    }
-                    else
-                    {
-                        return Unit.Value;
-                    }
-                }
-                #endregion
                 #region Rated Forumpost
                 else if (request.Info == "Rated Forumpost")
                 {
+                    var tmpid = _context.Forumposts
+                    .Where(x => x.Id == request.ObjectId && x.Author.Id == user.Id);
+
+
                     notifyeeIds = await _context.Forumposts
                                         .Where(x => x.Id == request.ObjectId)
                                         .Select(x => x.Author.Id)
@@ -460,9 +497,42 @@ namespace Application.Feeds
                     };
 
                     _context.Feeds.Add(feed);
-
+                    await SendFeedToSingle(user, feed);
                 }
                 #endregion
+                #region Rated Motofy
+                else if (request.Info == "Rated Motofy")
+                {
+                    var tmpid = _context.Motofies
+                    .Where(x => x.Id == request.ObjectId && x.Publisher.Id == user.Id);
+
+
+                    notifyeeIds = await _context.Motofies
+                                    .Where(x => x.Id == request.ObjectId)
+                                    .Select(x => x.Publisher.Id)
+                                    .ToListAsync();
+
+                    var motofy = await _context.Motofies
+                                  .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
+
+                    FillNotifyeeList(notifees, feedId, notifyeeIds);
+
+                    var feed = new Feed
+                    {
+                        Id = feedId,
+                        Info = " has rated the " + motofy.Name + " Motofy! on " + DateTime.Now,
+                        Notifier = notifier,
+                        ObjectId = request.ObjectId,
+                        DateTriggered = DateTime.Now,
+                        FeedType = feedType,
+                        Notifyees = notifees
+                    };
+
+                    _context.Feeds.Add(feed);
+                    await SendFeedToSingle(user, feed);
+                }
+                #endregion
+
                 #region Added to Favorites
                 else if (request.Info == "Added to favorites")
                 {
@@ -485,7 +555,7 @@ namespace Application.Feeds
 
                         FillNotifyeeList(notifees, feedId, notifyeeIds);
 
-                        var feed = new Feed//"User " + notifier.DisplayName + 
+                        var feed = new Feed
                         {
                             Id = feedId,
                             Info = " has added the " + product.Title + " to favorites on " + DateTime.Now,
@@ -497,6 +567,8 @@ namespace Application.Feeds
                         };
 
                         _context.Feeds.Add(feed);
+                        await SendFeedToSingle(user, feed);
+
                     }
                     else
                     {
@@ -543,6 +615,7 @@ namespace Application.Feeds
                             };
 
                             _context.Feeds.Add(feed);
+                            await SendFeedToSingle(user, feed);
                         }
                         else
                         {
@@ -553,39 +626,7 @@ namespace Application.Feeds
 
                 }
                 #endregion
-                #region Marked Sold
-                else if (request.Info == "Marked Sold")
-                {
-                    notifyeeIds = await _context.ProductViewers
-                                        .Where(x => x.ProductId == request.ObjectId)
-                                        .Select(x => x.AppUserId)
-                                        .ToListAsync();
-                    var product = await _context.Products
-                                        .SingleOrDefaultAsync(x => x.Id == request.ObjectId);
-                    if (notifyeeIds.Count() > 0)
-                    {
-
-                        FillNotifyeeList(notifees, feedId, notifyeeIds);
-
-                        var feed = new Feed//"User " + notifier.DisplayName + 
-                        {
-                            Id = feedId,
-                            Info = " has marked the " + product.Title + " sold on " + DateTime.Now,
-                            Notifier = notifier,
-                            ObjectId = request.ObjectId,
-                            DateTriggered = DateTime.Now,
-                            FeedType = feedType,
-                            Notifyees = notifees
-                        };
-
-                        _context.Feeds.Add(feed);
-                    }
-                    else
-                    {
-                        return Unit.Value;
-                    }
-                }
-                #endregion
+               
                 #region Registered
                 else if (request.Info == "Registered")
                 {
@@ -625,9 +666,33 @@ namespace Application.Feeds
                 if (success) return Unit.Value;
 
                 throw new Exception("Problem Saving Changes");
+
+                async Task SendFeedToSingle(AppUser user, Feed feed)
+                {
+
+                    if (users.Contains(user.UserName))
+                    {
+                        var connections = await _tracker.GetConnectionsForUser(user.UserName);
+                        if (connections != null)
+                        {
+                            await _feedHub.Clients.Clients(connections).SendAsync("SendFeed",
+                            _mapper.Map<Feed, FeedDto>(feed));
+                        }
+                    }
+                }
+
+                async Task SendFeedToMany(List<string> notifyeeIds, Feed feed)
+                {
+                    var notifee = new AppUser();
+                    for (var i = 0; i < notifyeeIds.Count(); i++)
+                    {
+                        notifee = await _context.Users.SingleOrDefaultAsync(x => x.Id == notifyeeIds[i]);
+                        await SendFeedToSingle(notifee, feed);
+                    }
+                }
             }
 
-            private void CreateFeed(Command request, AppUser notifier, List<FeedNotifyee> notifees, Guid feedId, string feedType, List<string> notifyeeIds, string info)
+            private Feed CreateFeed(Command request, AppUser notifier, List<FeedNotifyee> notifees, Guid feedId, string feedType, List<string> notifyeeIds, string info)
             {
                 FillNotifyeeList(notifees, feedId, notifyeeIds);
 
@@ -643,6 +708,7 @@ namespace Application.Feeds
                 };
 
                 _context.Feeds.Add(feed);
+                return feed;
             }
 
             private async Task<List<string>> GetNotifyeeIdsFromFollowers(AppUser notifier)

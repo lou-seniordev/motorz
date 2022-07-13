@@ -94,7 +94,7 @@ namespace Application.Motofies
                     Brand = brand,
                     Model = request.Model,
                     CubicCentimeters = request.CubicCentimeters,
-                    // PhotoUrl = request.PhotoUrl,
+                    Publisher = user,
                     Description = request.Description,
                     YearOfProduction = request.YearOfProduction,
                     NumberOfKilometers = request.NumberOfKilometers,

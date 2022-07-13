@@ -2,27 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Interfaces;
 
-namespace API.SignalR
+namespace Application.Feeds.FeedHub
 {
     //224
-    public class PresenceTracker 
+    public class FeedPresenceTracker
     {
-        private static readonly Dictionary<string, List<string>> OnlineUsers
+        private static readonly Dictionary<string, List<string>> ListOfOnlineUsers
             = new Dictionary<string, List<string>>();
 
         public Task UserConnected(string username, string connectionId)
         {
-            lock (OnlineUsers)
+            lock (ListOfOnlineUsers)
             {
-                if (OnlineUsers.ContainsKey(username))
+                if (ListOfOnlineUsers.ContainsKey(username))
                 {
-                    OnlineUsers[username].Add(connectionId);
+                    ListOfOnlineUsers[username].Add(connectionId);
                 }
                 else
                 {
-                    OnlineUsers.Add(username, new List<string> { connectionId });
+                    ListOfOnlineUsers.Add(username, new List<string> { connectionId });
                 }
             }
             return Task.CompletedTask;
@@ -30,14 +29,14 @@ namespace API.SignalR
 
         public Task UserDisconnected(string username, string connectionId)
         {
-            lock (OnlineUsers)
+            lock (ListOfOnlineUsers)
             {
-                if (!OnlineUsers.ContainsKey(username)) return Task.CompletedTask;
+                if (!ListOfOnlineUsers.ContainsKey(username)) return Task.CompletedTask;
 
-                OnlineUsers[username].Remove(connectionId);
-                if (OnlineUsers[username].Count == 0)
+                ListOfOnlineUsers[username].Remove(connectionId);
+                if (ListOfOnlineUsers[username].Count == 0)
                 {
-                    OnlineUsers.Remove(username);
+                    ListOfOnlineUsers.Remove(username);
                 }
             }
             return Task.CompletedTask;
@@ -46,9 +45,9 @@ namespace API.SignalR
         public Task<string[]> GetOnlineUsers() 
         {
             string[] onlineUsers;
-            lock(OnlineUsers)
+            lock(ListOfOnlineUsers)
             {
-                onlineUsers = OnlineUsers.OrderBy(k => k.Key).Select(k => k.Key).ToArray();
+                onlineUsers = ListOfOnlineUsers.OrderBy(k => k.Key).Select(k => k.Key).ToArray();
             }
 
             return Task.FromResult(onlineUsers);
@@ -57,9 +56,9 @@ namespace API.SignalR
         public Task<List<string>> GetConnectionsForUser(string username)
         {
             List<string> connectionIds;
-            lock(OnlineUsers)
+            lock(ListOfOnlineUsers)
             {
-                connectionIds = OnlineUsers.GetValueOrDefault(username);
+                connectionIds = ListOfOnlineUsers.GetValueOrDefault(username);
             }
 
             return Task.FromResult(connectionIds);

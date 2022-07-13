@@ -19,7 +19,7 @@ namespace Application.Forumposts
         {
             public Guid Id { get; set; }
 
-            public string Rating { get; set; }
+            public string Value { get; set; }
 
         }
 
@@ -28,7 +28,7 @@ namespace Application.Forumposts
             public CommandValidator()
             {
                 RuleFor(x => x.Id).NotEmpty();
-                RuleFor(x => x.Rating).NotEmpty();
+                RuleFor(x => x.Value).NotEmpty();
 
             }
         }
@@ -54,27 +54,26 @@ namespace Application.Forumposts
                 var forumpost = await _context.Forumposts.SingleOrDefaultAsync(x => x.Id == request.Id);
 
                 int rating = 0;
-                // string ratingLevel = "";
 
                 if (forumpost == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new { forumpost = "NotFound" });
 
-                switch (request.Rating)
+                switch (request.Value)
                 {
-                    case "Interesting":
-                        {
-                            rating = 1;
-                            setRating(user, forumpost, rating);
-                            break;
-                        }
-                    case "Usefull":
+                    case "3":
                         {
                             rating = 3;
                             setRating(user, forumpost, rating);
                             break;
                         }
-                    case "Helping":
+                    case "4":
+                        {
+                            rating = 4;
+                            setRating(user, forumpost, rating);
+                            break;
+                        }
+                    case "5":
                         {
                             rating = 5;
                             setRating(user, forumpost, rating);
@@ -104,10 +103,10 @@ namespace Application.Forumposts
 
                 switch (rating)
                 {
-                    case 1:
+                    case 3:
                         forumpostRating.IsInteresting = true;
                         break;
-                    case 3:
+                    case 4:
                         forumpostRating.IsUsefull = true;
                         break;
                     case 5:

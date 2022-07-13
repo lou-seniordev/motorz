@@ -16,5 +16,8 @@ namespace Application.Feeds
         public string Title { get; set; }
         public Guid ObjectId { get; set; }
         public DateTime DateTriggered { get; set; }
+        public bool IsSeen { get; set; }
+        public DateTime DateSeen { get; set; }
+
     }
 }

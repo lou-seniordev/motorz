@@ -22,7 +22,7 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
                 {feed.notifierDisplayname} 
               </Feed.User>
               {" "} 
-              <Feed.Meta>{feed.info}</Feed.Meta>
+              <Feed.Meta style={feed.isSeen ? {color: 'instagram'}:{color: 'brown'}}>{feed.info}</Feed.Meta>
               {/* <Feed.Date>
                 {feed.dateTriggered}
               </Feed.Date> */}
@@ -30,6 +30,7 @@ const FeedListItem: React.FC<{ feed: IFeed }> = ({ feed }) => {
           </Feed.Content>
         </Feed.Event>
       </Feed>
+              {/* // { fontWeight: 'bold'} : {fontWeight: 'normal'} */}
     </Segment.Group>
   );
 };
