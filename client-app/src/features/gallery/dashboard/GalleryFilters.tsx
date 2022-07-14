@@ -99,6 +99,7 @@ const GalleryFilters = () => {
         <Menu.Item
           style={styles}
           content={t('Most Embraced')}
+          icon={"chess queen"}
           onClick={() => handleOpenChamps('Most Embraced')}
         />
 
@@ -106,6 +107,7 @@ const GalleryFilters = () => {
           style={styles}
           content={t('Highest Rated')}
           onClick={() => handleOpenChamps('Highest Rated')}
+          icon={"chess king"}
         />
       </Menu>
     </Fragment>

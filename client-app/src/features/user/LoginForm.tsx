@@ -85,7 +85,6 @@ const LoginForm = () => {
         >
           {t("Forgot your password?")}
         </Button>
-        {/* onClick={ openModal(<RegisterForm />)} */}
         <Button color='teal' onClick={()=>{closeModal(); setSize("mini"); openModal(<RegisterForm />)}}>
           {t("Don't have an account yet? Sign Up!")}
         </Button>

@@ -313,7 +313,7 @@ const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     positive
                     floated='right'
                     type='submit'
-                    content={toast("Submit")}
+                    content={t("Submit")}
                   />
                   <Button
                     onClick={

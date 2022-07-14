@@ -51,7 +51,6 @@ export default class ActivityStore {
   @observable info: string = '';
 
   @action setPredicate = (predicate: string, value: string | Date) => {
-    // this.setInfo(predicate);
     this.predicate.clear();
     if (predicate !== 'all') {
       this.predicate.set(predicate, value);
@@ -63,26 +62,6 @@ export default class ActivityStore {
       this.info = info;
     })
   }
-
-  // @action setInfo = (prodicate: string) => {
-  //   switch (prodicate) {
-  //     case 'isCompleted':
-  //       this.info = 'Completed diaries'
-  //       break;
-  //     case 'isGoing':
-  //       this.info = 'Diaries I Follow'
-  //       break;
-  //     case 'isHost':
-  //       this.info = 'My diaries'
-  //       break;
-  //     case 'calendar':
-  //       this.info = 'Search diaries'
-  //       break;
-  //     default:
-  //       this.info = 'Active diaries'
-  //       break;
-  //   }
-  // }
 
   @computed get axiosParams() {
     const params = new URLSearchParams();
@@ -136,7 +115,7 @@ export default class ActivityStore {
     });
 
     this.hubConnection.on('Send', (message) => {
-      toast.info(message);
+      console.log(message)
     });
   };
 

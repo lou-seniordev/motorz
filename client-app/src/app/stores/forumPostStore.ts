@@ -1,6 +1,5 @@
 import { IRateForumpost } from './../models/forumpost';
 import { observable, action, computed, runInAction, reaction } from 'mobx';
-// import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import agent from '../api/agent';
 import { IForumpost } from '../models/forumpost';
@@ -37,8 +36,6 @@ export default class ForumPostStore {
   
   
   @observable rated = false;
-  // @observable commented = false;
-
   @observable info: string = ''
 
 
@@ -52,19 +49,11 @@ export default class ForumPostStore {
       console.log(error)
     }
   }
-  // @action setCommented = async (status: boolean) => {
-  //   try {
-  //     runInAction('seting commented', () => {
-  //       this.commented = status;
-  //     })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+
 
 
   //delete?
-  @observable target = '';
+  // @observable target = '';
   @observable.ref hubConnection: HubConnection | null = null;
   @observable forumPostCount = 0;
   @observable page = 0;
@@ -132,7 +121,7 @@ export default class ForumPostStore {
     });
 
     this.hubConnection.on('Send', (message) => {
-      toast.info(message);
+      console.log(message)
     });
   };
 
@@ -321,12 +310,12 @@ export default class ForumPostStore {
       runInAction('deleting forumpost', () => {
         this.forumPostRegistry.delete(id);
         this.submitting = false;
-        this.target = '';
+        // this.target = '';
       });
     } catch (error) {
       runInAction('delete forumpost error', () => {
         this.submitting = false;
-        this.target = '';
+        // this.target = '';
       });
       console.log(error);
     }

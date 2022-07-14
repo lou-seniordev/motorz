@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Segment, Item, Header, Button, Image, Icon } from "semantic-ui-react";
+import { Segment, Header, Button, Image, Icon } from "semantic-ui-react";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
@@ -14,10 +14,6 @@ const motofyImageStyle = {
   border: "white solid 1px",
   borderRadius: "5px",
 };
-// const buttonOwnerStyle = {
-//   borderRadius: "7px",
-//   width: "40%",
-// };
 const buttonVisitorStyle = {
   borderRadius: "7px",
   backgroundColor: "rgb(29, 115, 152)",
@@ -25,12 +21,13 @@ const buttonVisitorStyle = {
 
 const motofyImageTextStyle = {
   position: "absolute",
-  top: "10%",
-  left: "10%",
-  fontSize: "1rem",
-  color: "#FFD700",
-  backgroundColor: "lightblue",
-  borderRadius: "50%",
+  top: "1%",
+  right: "4%",
+  fontSize: "1.6vw",
+  padding: '.7vw',
+  color: "#FA5",
+  background: "rgba(51, 170, 51, .1)",
+  borderRadius: "30%",
 };
 
 interface IProps {
@@ -83,17 +80,11 @@ const GaleryDetailedHeader: React.FC<IProps> = ({ motofy }) => {
           style={motofyImageStyle}
         />
         <Segment basic style={motofyImageTextStyle}>
-          <Item.Group>
-            <Item>
-              <Item.Content>
                 <Header
                   size='large'
                   content={motofy.name}
-                  style={{ color: "white" }}
+                  style={{ color: "#FA5" }}
                 />
-              </Item.Content>
-            </Item>
-          </Item.Group>
         </Segment>
       </Segment>
       <Segment clearing attached='bottom'>

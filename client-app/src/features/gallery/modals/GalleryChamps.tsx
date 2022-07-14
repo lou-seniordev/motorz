@@ -5,53 +5,51 @@ import { Link } from "react-router-dom";
 import { IMotofy } from "../../../app/models/motofy";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
-const GalleryChamps: React.FC<{ motofy: IMotofy, info:string }> = ({
+const GalleryChamps: React.FC<{ motofy: IMotofy; info: string }> = ({
   motofy,
-  info
+  info,
 }) => {
-  // const motofy = { ...champ };
   const rootStore = useContext(RootStoreContext);
 
   const { closeModal } = rootStore.modalStore;
+  const { setPredicate } = rootStore.motofyStore;
 
   return (
     <Segment.Group>
       <Segment attached='top'>
-        <Link to={`/gallery/${motofy.id}`} onClick={() => closeModal()}>
+        <Link
+          to={`/gallery/${motofy.id}`}
+          onClick={() => {
+            closeModal();
+            setPredicate("all", "true");
+          }}
+        >
           <Grid>
             <Grid.Column width={16}>
               <Header
-                // icon={"certificate"}
-                attached
-                color={"teal"}
-                content={info}
+                content={motofy.name}
+                style={{ fontSize: "2em", textAlign: "center" }}
               />
             </Grid.Column>
             <Grid.Column width={16}>
-              <Grid.Row>
-              <Item.Image src={motofy.photoUrl} bordered fluid/>
-              </Grid.Row>
-              <Grid.Row>
-                <Item.Group>
-                  <Item>
-                    <Item.Content>
-                      <Item.Header>
-                        <p>{motofy.name}</p>
-                      </Item.Header>
-                      <Item.Description>
-                        {/* {motofy.model}, */}
-                        <p>
-                          {/* {motofy.brandName}, {" "} */}
-                          {motofy.city}, {motofy.countryName},{" "}
-                        </p>
-                        {/* {motofy.yearOfProduction} */}
-                      </Item.Description>
-
-                      {/* <p>{motofy.name}</p> */}
-                    </Item.Content>
-                  </Item>
-                </Item.Group>
-              </Grid.Row>
+              <img
+                className='ui centered massive image rounded'
+                src={motofy.photoUrl!}
+                alt={motofy.name!}
+              />
+              <Item.Group>
+                <Item>
+                  <Item.Content style={{ textAlign: "center" }}>
+                    <Item.Description>
+                      {motofy.model},
+                      <p>
+                        {motofy.brandName}, {motofy.city}, {motofy.countryName},{" "}
+                      </p>
+                      {motofy.yearOfProduction}
+                    </Item.Description>
+                  </Item.Content>
+                </Item>
+              </Item.Group>
             </Grid.Column>
           </Grid>
         </Link>

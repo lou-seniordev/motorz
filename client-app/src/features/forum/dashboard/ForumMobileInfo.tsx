@@ -8,7 +8,7 @@ const ForumMobileInfo = () => {
   const { info } = rootStore.forumPostStore;
 
   return (
-    <div className="mobileInfo" >{info}</div>
+    <div className="mobileInfo" >{info.toUpperCase()}</div>
   );
 };
 

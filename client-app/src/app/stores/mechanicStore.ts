@@ -68,7 +68,6 @@ export default class MechanicStore {
   }  
 
   @observable isCustomer: boolean;
-  // @observable hasNotCancelledCustomer: boolean = true;
   @observable openCustomerForm: boolean = false;
   @observable confirmCustomer: boolean = false;
 
@@ -130,7 +129,7 @@ export default class MechanicStore {
     });
 
     this.hubConnection.on('Send', (message) => {
-      toast.info(message);
+      console.log(message)
     });
   };
 

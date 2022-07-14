@@ -8,7 +8,7 @@ const ProductMobileInfo = () => {
   const { info } = rootStore.productStore;
 
   return (
-    <div className="mobileInfo" >{info}</div>
+    <div className="mobileInfo" >{info.toUpperCase()}</div>
   );
 };
 

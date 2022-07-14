@@ -8,7 +8,7 @@ const ActivityMobileInfo = () => {
   const { info } = rootStore.activityStore;
 
   return (
-    <div className="mobileInfo" >{info}</div>
+    <div className="mobileInfo" >{info.toUpperCase()}</div>
 
   );
 };

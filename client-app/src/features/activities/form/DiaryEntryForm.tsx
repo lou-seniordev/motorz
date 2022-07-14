@@ -59,7 +59,7 @@ const DiaryEntryForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const motomoto = motoOptions[random];
 
-  const { t } = useTranslation(["diaries"]);
+  const { t } = useTranslation(["forms"]);
   const validate = combineValidators({
     locationCity: isRequired({ message: t("The location city is required")}),
     locationCountry: isRequired({ message: t("The location country is required") }),

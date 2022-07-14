@@ -69,7 +69,7 @@ export default class MotofyStore {
     });
 
     this.hubConnection.on('Send', (message) => {
-      toast.info(message);
+      console.log(message)
     });
   };
 

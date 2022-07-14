@@ -12,7 +12,7 @@ import ConfirmDelete from "../modals/ConfirmDelete";
 const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   const rootStore = useContext(RootStoreContext);
 
-  const { openModal } = rootStore.modalStore;
+  const { openModal, setSize } = rootStore.modalStore;
   const {
     followProduct,
     productFollowed,
@@ -36,6 +36,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
   }, [setProductFollowed, product.viewers, user]);
 
   const handleDeleteProduct = (id: string) => {
+    setSize("mini")
     openModal(<ConfirmDelete productId={id} />);
   };
   const handleFollowProduct = (id: string) => {
@@ -209,6 +210,7 @@ const ProductDetailedInfo: React.FC<{ product: IProduct }> = ({ product }) => {
                     content={t("Contact the seller")}
                     color='blue'
                     onClick={() => {
+                      setSize("small")
                       openModal(
                         <ContactForm
                           recipientUsername={product.sellerUsername}
