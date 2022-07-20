@@ -23,7 +23,7 @@ export default class FeedStore {
 
   @observable loadingInitial = false;
   @observable feedMounted = false;
-  @observable key = 0;  
+  // @observable key = 0;  
 
   @observable.ref hubConnection: HubConnection | null = null;
 

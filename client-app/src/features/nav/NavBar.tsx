@@ -94,7 +94,6 @@ const NavBar: React.FC = () => {
     }
   };
   const handleViewUnseen = () => {
-    // console.log("feedMounted", feedMounted);
     closeStackableMenu();
     markSeen();
     if (feedMounted) {

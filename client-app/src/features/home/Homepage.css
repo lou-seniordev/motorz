@@ -1,5 +1,4 @@
 /*home page styles*/
-
 .masthead {
   display: flex;
   align-items: center;
@@ -62,21 +61,12 @@
   opacity: 0.9;
 }
 
-/* .home-container:hover {
-  background-color: rgb(49, 49, 68);
-  opacity: 0.5;
-} */
-
-
 
 @media only screen and (max-width: 767px) {
 
   .container.home-container {
-    /* padding-bottom: 2rem;
-    padding-top: 12rem; */
     border: solid 1px white;
     padding: 2rem !important; 
-    /* min-height: 30rem !important; */
 
   }
   .ui.container {

@@ -9,7 +9,7 @@ import FeedListItemPlaceholder from "./FeedListItemPlaceholder";
 
 const FeedDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadFeed, loadingInitial, setPage, page, totalPages, key } =
+  const { loadFeed, loadingInitial, setPage, page, totalPages} =//, key 
     rootStore.feedStore;
 
   const [loadingNext, setLoadingNext] = useState(false);
@@ -20,6 +20,8 @@ const FeedDashboard = () => {
     loadFeed().then(() => setLoadingNext(false));
   };
 
+  // let key = 1;
+  // const [key, setKey] = useState(1);
 
   useEffect(() => {
     loadFeed();
@@ -38,7 +40,8 @@ const FeedDashboard = () => {
             hasMore={!loadingNext && page + 1 < totalPages}
             initialLoad={false}
           >
-            <FeedList key={key}/>
+            <FeedList />
+            {/* key={key} */}
           </InfiniteScroll>
             )}
         </Grid.Column>
