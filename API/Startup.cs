@@ -191,7 +191,7 @@ namespace API
                             if (!string.IsNullOrEmpty(accessToken)
                                 && ((path.StartsWithSegments("/chat") 
                                     || (path.StartsWithSegments("/message")) 
-                                    || (path.StartsWithSegments("/feed")) 
+                                    || (path.StartsWithSegments("/feedhub")) 
                                     || (path.StartsWithSegments("/presence"))))
                                 )
                             {
@@ -281,7 +281,7 @@ namespace API
 
                 endpoints.MapHub<PresenceHub>("/presence");
                 
-                endpoints.MapHub<FeedHub>("/feed");
+                endpoints.MapHub<FeedHub>("/feedhub");
 
                 // === Fallback ===
                 endpoints.MapFallbackToController("Index", "Fallback");
