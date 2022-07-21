@@ -20,7 +20,7 @@ namespace Infrastructure.Email
 
             var msg = new SendGridMessage
             {
-                From = new EmailAddress("motofy.world@gmail.com", _settings.Value.User),
+                From = new EmailAddress("motoranza@outlook.com", _settings.Value.User),
                 Subject = emailSubject,
                 PlainTextContent = message,
                 HtmlContent = message,
