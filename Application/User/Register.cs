@@ -82,6 +82,7 @@ namespace Application.User
                     throw new RestException(HttpStatusCode.BadRequest,
                         new { UserName = "UserName already exists" });
 
+
                 var user =
                     new AppUser
                     {
@@ -89,6 +90,11 @@ namespace Application.User
                         Email = request.Email,
                         UserName = request.UserName
                     };
+
+                var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+                
+                if(!roleResult.Succeeded)
+                    throw new RestException(HttpStatusCode.BadRequest, new {AppRole = "Not added to role"});
 
                 var result =
                     await _userManager.CreateAsync(user, request.Password);

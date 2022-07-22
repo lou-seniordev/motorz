@@ -9,7 +9,8 @@ namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
+        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager, 
+            RoleManager<AppRole> roleManager)
         {
             bool initialRun = false;
 
@@ -320,6 +321,18 @@ namespace Persistence
 
             if (!userManager.Users.Any())
             {
+                var roles = new List<AppRole>
+                {
+                    new AppRole{Name = "Member"},
+                    new AppRole{Name = "Moderator"},
+                    new AppRole{Name = "Admin"}
+                };
+
+                foreach(var role in roles)
+                {
+                    await roleManager.CreateAsync(role);
+                }
+
                 var users = new List<AppUser>
                 {
                     new AppUser
@@ -684,6 +697,7 @@ namespace Persistence
                         DisplayName = "test_user_1",
                         UserName = "test_user_1",
                         Email = "test_user_1@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ia",
@@ -698,6 +712,7 @@ namespace Persistence
                         DisplayName = "test_user_2",
                         UserName = "test_user_2",
                         Email = "test_user_2@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ib",
@@ -726,6 +741,7 @@ namespace Persistence
                         DisplayName = "test_user_4",
                         UserName = "test_user_4",
                         Email = "test_user_4@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "id",
@@ -740,6 +756,7 @@ namespace Persistence
                         DisplayName = "test_user_5",
                         UserName = "test_user_5",
                         Email = "test_user_5@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ie",
@@ -754,6 +771,7 @@ namespace Persistence
                         DisplayName = "test_user_6",
                         UserName = "test_user_6",
                         Email = "test_user_6@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "if",
@@ -768,6 +786,7 @@ namespace Persistence
                         DisplayName = "test_user_7",
                         UserName = "test_user_7",
                         Email = "test_user_7@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ig",
@@ -782,6 +801,7 @@ namespace Persistence
                         DisplayName = "test_user_8",
                         UserName = "test_user_8",
                         Email = "test_user_8@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ih",
@@ -796,6 +816,7 @@ namespace Persistence
                         DisplayName = "test_user_9",
                         UserName = "test_user_9",
                         Email = "test_user_9@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ii",
@@ -810,6 +831,7 @@ namespace Persistence
                         DisplayName = "test_user_10",
                         UserName = "test_user_10",
                         Email = "test_user_10@test.com",
+                        EmailConfirmed = true,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ij",
@@ -822,10 +844,34 @@ namespace Persistence
                 foreach (var user in users)
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
+                    await userManager.AddToRoleAsync(user, "Member");
                 }
+                //==ADMIN===
+                var admin = new AppUser
+                {
+                    Id = "aaa001",
+                    DisplayName = "Admin001",
+                    UserName = "admin001",
+                    Email = "motoranza@outlook.com",
+                    EmailConfirmed = true
+                };
+                await userManager.CreateAsync(admin, "$3cr3tPa$$w0rd");
+                await userManager.AddToRolesAsync(admin, new[] {"Admin", "Moderator"});
+                
+                //==MODERATOR===
+                var moderator = new AppUser
+                {
+                    Id = "mmm001",
+                    DisplayName = "Moderator001",
+                    UserName = "moderator001",
+                    Email = "motoranza@yahoo.com",
+                    EmailConfirmed = true
+                };
+                await userManager.CreateAsync(moderator, "$3cr3tPa$$w0rd");
+                await userManager.AddToRoleAsync(moderator, "Moderator");
             }
+
             //==TEST PRODUCT 
-            // bool shouldAddTestingData = false;
             if (initialRun)
             {
 
@@ -865,7 +911,7 @@ namespace Persistence
 
                
                 var moreUsers = new List<AppUser>();
-                for(int i = 1; i < 35; i++)
+                for(int i = 1; i < 75; i++)
                     {
                         var tempUsr = new AppUser
                         {
@@ -873,6 +919,7 @@ namespace Persistence
                             DisplayName = "test_user " + i,
                             UserName = "test_user " + i,
                             Email = "test_user."+ i +"@test.com",
+                            EmailConfirmed = true,
                             Photos = new List<Photo> {
                                 new Photo {
                                     Id = "test_user" + i,
@@ -886,6 +933,7 @@ namespace Persistence
                     foreach (var user in moreUsers)
                     {
                         await userManager.CreateAsync(user, "Pa$$w0rd");
+                        await userManager.AddToRoleAsync(user, "Member");
                     }
                     await context.Users.AddRangeAsync(moreUsers);
                     await context.SaveChangesAsync();
@@ -941,396 +989,7 @@ namespace Persistence
                 await context.ProductViewers.AddRangeAsync(productViewers);
                 await context.SaveChangesAsync();
             }
-            // //==PRODUCT MESSAGES===
-            // if (!context.Messages.Any())
-            // {
-
-            //     var messages1 = new List<Message>
-            //     {
-            //         new Message
-            //         {
-            //         Id= Guid.Parse("15C1E352-FAC6-4756-B915-B7D3A67347F3"),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "b",
-            //         RecipientUsername= "jane",
-            //         Content= "First Message from Bob to Jane 1!",
-            //         DateSent = DateTime.Now.AddMinutes(-11),
-            //         DateRead = DateTime.Now
-            //         },
-
-            //         new Message
-            //         {
-            //         Id= Guid.Parse("AD0B7BD5-856C-4BA4-B242-151E052138C5"),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "b",
-            //         RecipientUsername= "jane",
-            //         Content= "Second Message from Bob to Jane! 2",
-            //         DateSent = DateTime.Now.AddMinutes(-9),
-            //         DateRead = DateTime.Now
-            //         },
-
-            //         new Message
-            //         {
-            //         Id= Guid.Parse("270C01F8-D970-46DB-8F1C-B5141B535F1E"),
-            //         SenderId= "b",
-            //         SenderUsername= "jane",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "First Message from Jane to Bob! 1",
-            //         DateSent = DateTime.Now.AddMinutes(-10),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= Guid.Parse("B6064B38-EE20-40FC-A248-D2563DD43779"),
-            //         SenderId= "b",
-            //         SenderUsername= "jane",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "Second Messages Jane 2 Bob! 2",
-            //         DateSent = DateTime.Now.AddMinutes(-8),
-            //         DateRead = DateTime.Now
-            //         },
-            //          new Message
-            //         {
-            //         Id= Guid.Parse("FF510862-5C6F-43A0-B2BE-E0B3749B730F"),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "b",
-            //         RecipientUsername= "jane",
-            //         Content= "Third Message from Bob to Jane 3!",
-            //         DateSent = DateTime.Now.AddMinutes(-5),
-            //         DateRead = DateTime.Now
-            //         },
-            //     };
-            //     var messages2 = new List<Message>
-            //     {
-            //         new Message
-            //         {
-            //         Id= Guid.Parse("C0571EC4-EC3C-4377-9836-ECD3E1AACED1"),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "c",
-            //         RecipientUsername= "tom",
-            //         Content= "First Message from Bob to Tom 1",
-            //         DateSent = DateTime.Now.AddMinutes(-11),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= Guid.Parse("1888250C-4112-4DD8-8D29-37405E8FB7F5"),
-            //         SenderId= "c",
-            //         SenderUsername= "tom",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "First Message from Tom to Bob 1",
-            //         DateSent = DateTime.Now.AddMinutes(-10),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= Guid.Parse("75729DD9-BC90-45D7-AF7A-CD6074B5D821"),
-            //         SenderId= "c",
-            //         SenderUsername= "tom",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "Second Message from Tom to Bob 2",
-            //         DateSent = DateTime.Now.AddMinutes(-7),
-            //         DateRead = DateTime.Now
-            //         },
-            //     };
-            //     var messages3 = new List<Message>
-            //     {
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "f",
-            //         RecipientUsername= "emir",
-            //         Content= "First Message from Bob to Emir 1",
-            //         DateSent = DateTime.Now.AddMinutes(-11),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "f",
-            //         SenderUsername= "emir",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "First Message from Emir to Bob 1",
-            //         DateSent = DateTime.Now.AddMinutes(-12),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "f",
-            //         SenderUsername= "emir",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "Second Message from Emir to Bob 2",
-            //         DateSent = DateTime.Now.AddMinutes(-13),
-            //         DateRead = DateTime.Now
-            //         },
-            //     };
-            //     var messages4 = new List<Message>
-            //     {
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "g",
-            //         RecipientUsername= "nina",
-            //         Content= "First Message from Bob to Nina 1",
-            //         DateSent = DateTime.Now.AddMinutes(-11),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "g",
-            //         SenderUsername= "nina",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "First Message from Nina to Bob 1",
-            //         DateSent = DateTime.Now.AddMinutes(-12),
-            //         DateRead = DateTime.Now
-            //         }
-            //     };
-            //     var messages5 = new List<Message>
-            //     {
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "h",
-            //         SenderUsername= "cato",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "First Message from Cato to Bob 1",
-            //         DateSent = DateTime.Now.AddMinutes(-11),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "h",
-            //         RecipientUsername= "cato",
-            //         Content= "First Message from Bob to Cato 1",
-            //         DateSent = DateTime.Now.AddMinutes(-12),
-            //         DateRead = DateTime.Now
-            //         }
-            //     };
-            //     var messages6 = new List<Message>
-            //     {
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "i",
-            //         SenderUsername= "giulietta",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "First Message from Giulietta to Bob 1",
-            //         DateSent = DateTime.Now.AddMinutes(-11),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "i",
-            //         RecipientUsername= "giulietta",
-            //         Content= "First Message from Bob to Giulietta 1",
-            //         DateSent = DateTime.Now.AddMinutes(-12),
-            //         DateRead = DateTime.Now
-            //         }
-            //     };
-            //     var messages7 = new List<Message>
-            //     {
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "d",
-            //         SenderUsername= "jerry",
-            //         RecipientId= "a",
-            //         RecipientUsername= "bob",
-            //         Content= "First Message from Jerry to Bob 1",
-            //         DateSent = DateTime.Now.AddMinutes(-11),
-            //         DateRead = DateTime.Now
-            //         },
-            //         new Message
-            //         {
-            //         Id= new Guid(),
-            //         SenderId= "a",
-            //         SenderUsername= "bob",
-            //         RecipientId= "d",
-            //         RecipientUsername= "jerry",
-            //         Content= "First Message from Bob to Jerry 1",
-            //         DateSent = DateTime.Now.AddMinutes(-12),
-            //         DateRead = DateTime.Now
-            //         }
-            //     };
-
-
-            //     await context.Messages.AddRangeAsync(messages1);
-            //     // await context.SaveChangesAsync();
-            //     await context.Messages.AddRangeAsync(messages2);
-            //     // await context.SaveChangesAsync();
-            //     await context.Messages.AddRangeAsync(messages3);
-            //     // await context.SaveChangesAsync();
-            //     await context.Messages.AddRangeAsync(messages4);
-            //     // await context.SaveChangesAsync();
-            //     await context.Messages.AddRangeAsync(messages5);
-            //     // await context.SaveChangesAsync();
-            //     await context.Messages.AddRangeAsync(messages6);
-            //     // await context.SaveChangesAsync();
-            //     await context.Messages.AddRangeAsync(messages7);
-
-            //     await context.SaveChangesAsync();
-
-            //     Product product1 = context.Products.Find(Guid.Parse("AEE0C4FD-C8C8-4184-B91C-7BAC64213821"));
-            //     if (product1 != null)
-            //     {
-            //         product1.Messages = messages1;
-            //         await context.SaveChangesAsync();
-            //     }
-            //     else
-            //     {
-            //         throw new Exception();
-            //     }
-            //     Product product2 = context.Products.Find(Guid.Parse("D938C1D0-3321-4357-B7C3-D5144C4EEB68"));
-            //     if (product2 != null)
-            //     {
-            //         product2.Messages = messages2;
-            //         await context.SaveChangesAsync();
-            //     }
-            //     else
-            //     {
-            //         throw new Exception();
-            //     }
-            //     Product product3 = context.Products.Find(Guid.Parse("F84B3E8E-1F1D-45A6-8ED2-7BED090E0D3F"));
-            //     if (product3 != null)
-            //     {
-            //         product3.Messages = messages3;
-            //         await context.SaveChangesAsync();
-            //     }
-            //     else
-            //     {
-            //         throw new Exception();
-            //     }
-            //     Product product4 = context.Products.Find(Guid.Parse("0C75E9A7-B737-4838-8D59-04F2B07509C2"));
-            //     if (product4 != null)
-            //     {
-            //         product4.Messages = messages4;
-            //         await context.SaveChangesAsync();
-            //     }
-            //     else
-            //     {
-            //         throw new Exception();
-            //     }
-            //     Product product5 = context.Products.Find(Guid.Parse("811F1598-0D5A-4CF3-91BF-2EC44CCBB7B0"));
-            //     if (product5 != null)
-            //     {
-            //         product5.Messages = messages5;
-            //         await context.SaveChangesAsync();
-            //     }
-            //     else
-            //     {
-            //         throw new Exception();
-            //     }
-            //     Product product6 = context.Products.Find(Guid.Parse("FDC7BB35-4A57-4491-AD47-9B0AD9B18637"));
-            //     if (product6 != null)
-            //     {
-            //         product6.Messages = messages6;
-            //         await context.SaveChangesAsync();
-            //     }
-            //     else
-            //     {
-            //         throw new Exception();
-            //     }
-            //     Product product7 = context.Products.Find(Guid.Parse("484920EB-71BA-4D83-834B-0CA4A8F85A68"));
-            //     if (product7 != null)
-            //     {
-            //         product7.Messages = messages7;
-            //         await context.SaveChangesAsync();
-            //     }
-            //     else
-            //     {
-            //         throw new Exception();
-            //     }
-            //     if (!context.MessageThreads.Any())
-            //     {
-            //         var messageThreads = new List<MessageThread>
-            //     {
-            //         new MessageThread
-            //         {
-            //             Id = Guid.Parse("603FDB55-2DE3-4624-AA9F-2F98D336875A"),
-            //             Messages = messages1,
-            //             InitUsername= "bob",
-            //             ReceiverUsername = "jane",
-            //             DateUpdated = DateTime.Now
-            //         },
-            //         new MessageThread
-            //         {
-            //             Id = Guid.Parse("D5759CCD-CD56-4F18-890C-8C522C76C4E4"),
-            //             Messages = messages2,
-            //             InitUsername= "bob",
-            //             ReceiverUsername = "tom",
-            //             DateUpdated = DateTime.Now.AddMinutes(-6)
-            //         },
-            //         new MessageThread
-            //         {
-            //             Id = Guid.Parse("57def104-1c95-40b9-a615-1b6950dd8937"),
-            //             Messages = messages3,
-            //             InitUsername= "bob",
-            //             ReceiverUsername = "emir",
-            //             DateUpdated = DateTime.Now.AddMinutes(-5)
-            //         },
-            //         new MessageThread
-            //         {
-            //             Id = Guid.Parse("ab770c79-96de-40b5-b456-fd7485eb0518"),
-            //             Messages = messages4,
-            //             InitUsername= "bob",
-            //             ReceiverUsername = "nina",
-            //             DateUpdated = DateTime.Now.AddMinutes(-4)
-            //         },
-            //         new MessageThread
-            //         {
-            //             Id = Guid.Parse("21cd5373-d899-48f3-90f3-5e57cbaf0d64"),
-            //             Messages = messages5,
-            //             InitUsername= "cato",
-            //             ReceiverUsername = "bob",
-            //             DateUpdated = DateTime.Now.AddMinutes(-3)
-            //         },
-            //         new MessageThread
-            //         {
-            //             Id = Guid.Parse("c7392c80-a1cb-4661-b9b0-e4062c4d635e"),
-            //             Messages = messages6,
-            //             InitUsername= "giulietta",
-            //             ReceiverUsername = "bob",
-            //             DateUpdated = DateTime.Now.AddMinutes(-2)
-            //         },
-            //         new MessageThread
-            //         {
-            //             Id = Guid.Parse("4f381b17-b16c-49c0-a83b-e67df409e2b9"),
-            //             Messages = messages7,
-            //             InitUsername= "jerry",
-            //             ReceiverUsername = "bob",
-            //             DateUpdated = DateTime.Now.AddMinutes(-1)
-            //         }
-            //     };
-            //         await context.MessageThreads.AddRangeAsync(messageThreads);
-            //         await context.SaveChangesAsync();
-
-            //     }
-            // }
+          
             //==PRIVATE MESSAGES===
 
             if (!context.PrivateMessages.Any())
@@ -2352,48 +2011,6 @@ namespace Persistence
                 await context.SaveChangesAsync();
             }
 
-            // bool shouldAddBrands = false;
-
-
-
-            // if (!context.MotofyPhotos.Any())
-            // {
-            //     var motofyPhotos = new List<MotofyPhoto>
-            //     {
-            //         new MotofyPhoto
-            //         {
-            //             // Id = context.Motofies.FirstOrDefault(m => m.Name == "Lillie").Id,
-            //             Id = Guid.Parse("084c3b38-6ded-4d5f-ad49-63dd9dca46ae"),
-            //             Url = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
-            //             DateUploaded = DateTime.Now
-            //         },
-            //         new MotofyPhoto
-            //         {
-            //             // Id = context.Motofies.FirstOrDefault(m => m.Name == "King").Id,
-            //             Id = Guid.Parse("62d2f63a-46d3-4dd1-84d1-67cdf3c9fb92"),
-            //             Url = "https://res.cloudinary.com/motofy/image/upload/v1542881277/hr1axmxfrz6hnnjzmqdl.jpg",
-            //             DateUploaded = DateTime.Now
-
-            //         },
-            //         new MotofyPhoto
-            //         {
-            //             // Id = context.Motofies.FirstOrDefault(m => m.Name == "Fly").Id,
-            //             Id = Guid.Parse("edc693f8-90b7-4c0a-af6b-5b2c6947becf"),
-            //             Url = "https://res.cloudinary.com/motofy/image/upload/v1543859124/qwg8b9xd4z1h9nzjvuzi.jpg",
-            //             DateUploaded = DateTime.Now
-            //         },
-            //         new MotofyPhoto
-            //         {
-            //             // Id = context.Motofies.FirstOrDefault(m => m.Name == "Tripp").Id,
-            //             Id = Guid.Parse("c525b36c-ab52-4e04-8d87-6facd3d70234"),
-            //             Url = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
-            //             DateUploaded = DateTime.Now
-            //         },
-
-            //     };
-            //     context.MotofyPhotos.AddRange(motofyPhotos);
-            //     context.SaveChanges();
-            // }
             if (!context.Motofies.Any())
             {
                 var motofies = new List<Motofy>
@@ -3021,11 +2638,9 @@ namespace Persistence
                       Publisher = context.Users.SingleOrDefault(x => x.Id == "h"),
                       IsOwner = false,
                       Owner = "Zenit",
-                      //PhotoUrl = "https://static.cargurus.com/images/article/2019/09/13/14/35/how_to_talk_to_a_mechanic-pic-8471425371895651297-1600x1200.jpeg",
                       Description = "Many individuals choose to have a reliable auto repair technician come at their home or garage in case of problem with their vehicle. Automobile shops often nail their expenses like rent and other charges for performing repair of your vehicle. An auto repair mechanic can offer a great arrangement for their services. ",
                       YearOfStart = "2017",//DateTime.Now.AddYears(-2),
                       DatePublished = DateTime.Now.AddDays(-35),
-                    //   Country = "Italy",
                       Country = context.Countries.SingleOrDefault(x => x.Name == "Italy"),
                       City = "Milan",
                       Address = "Via Del Liberta 10",
