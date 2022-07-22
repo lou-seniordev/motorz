@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,6 +8,13 @@ namespace Domain
     {
         public string DisplayName { get; set; }
         public string Bio { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public DateTime JoinedUs { get; set; } = DateTime.Now;
+        public DateTime LastActive { get; set; } = DateTime.Now;
+        public string Gender { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public virtual ICollection<Brand> FavoriteBrands { get; set; }
         public virtual ICollection<UserActivity> UserActivities { get; set; } //virtual??
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<UserFollowing> Followings { get; set; }

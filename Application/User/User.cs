@@ -1,8 +1,3 @@
-using System.Linq;
-using System.Text.Json.Serialization;
-using Application.Interfaces;
-using Domain;
-
 namespace Application.User
 {
 

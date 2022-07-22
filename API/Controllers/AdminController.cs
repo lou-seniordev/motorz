@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Administration;
+using AutoMapper;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,9 +16,38 @@ namespace API.Controllers
     public class AdminController : BaseController
     {
         private readonly UserManager<AppUser> _userManager;
-        public AdminController(UserManager<AppUser> userManager)
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+
+        public AdminController(
+            IUserRepository userRepository, 
+            IMapper mapper, UserManager<AppUser> userManager)
         {
+            _mapper = mapper;
+            _userRepository = userRepository;
             _userManager = userManager;
+        }
+
+        [HttpGet("get-all-users")]
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()//[FromQuery] UserParams userParams
+        {
+            var users = await _userRepository.GetMembersAsync();
+
+            return Ok(users);
+        }
+
+        [HttpGet("get-user-by-id/{id}")]
+        public async Task<ActionResult<MemberDto>> GetUserById(string id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id);
+            
+            return  _mapper.Map<MemberDto>(user);
+        }
+
+        [HttpGet("get-user-by-username/{username}")]
+        public async Task<ActionResult<MemberDto>> GetUserByUsername(string username)
+        {
+            return await _userRepository.GetMemberAsync(username);
         }
 
         [HttpGet("users-with-roles")]
@@ -69,7 +101,7 @@ namespace API.Controllers
             return await LockoutOptions(username, lockoutEndDate);
         }
 
-       
+
 
         [HttpPost("reactivate-user/{username}")]
         public async Task<ActionResult> ReactivateUser(string username)

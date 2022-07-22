@@ -27,6 +27,8 @@ using Coravel;
 using API.Workers;
 using Infrastructure.Email;
 using Application.Feeds.FeedHub;
+using Application.Administration;
+
 
 namespace API
 {
@@ -130,6 +132,8 @@ namespace API
             services.AddMediatR(typeof(List.Handler).Assembly);
 
             // === AUTOMAPPER ===
+            // services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
             services.AddAutoMapper(typeof(List.Handler));
 
             // === SIGNAL R ===
@@ -178,6 +182,11 @@ namespace API
 
             // === AddTransient() - only for the life time of operation, not the complete request ===
             services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
+
+
+            services.AddScoped<IUserRepository, UserRepository>();
+
+
 
             // === AUTHENTICATION === 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));

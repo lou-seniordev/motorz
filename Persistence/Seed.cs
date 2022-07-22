@@ -342,6 +342,11 @@ namespace Persistence
                         UserName = "bob",
                         Email = "bob@test.com",
                         EmailConfirmed = true,
+                        City = "London",
+                        Country = "UK",
+                        Gender = "M",
+                        DateOfBirth = DateTime.Now.AddYears(-50),
+                        JoinedUs = DateTime.Now.AddMonths(-2),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "zfma0utdfu2ce5wyrrmq",
@@ -433,6 +438,11 @@ namespace Persistence
                         UserName = "jane",
                         Email = "jane@test.com",
                         EmailConfirmed = true,
+                        City = "London",
+                        Country = "UK",
+                        Gender = "F",
+                        DateOfBirth = DateTime.Now.AddYears(-35),
+                        JoinedUs = DateTime.Now.AddMonths(-1),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "qc4p1rr7qfymo8pap6ig",
@@ -525,6 +535,11 @@ namespace Persistence
                         UserName = "tom",
                         Email = "tom@test.com",
                         EmailConfirmed = true,
+                        City = "London",
+                        Country = "UK",
+                        Gender = "M",
+                        DateOfBirth = DateTime.Now.AddYears(-55),
+                        JoinedUs = DateTime.Now.AddMonths(-1),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ahy5hc8yd7cmeck8xnf7",
@@ -609,6 +624,11 @@ namespace Persistence
                         UserName = "jerry",
                         Email = "jerry@test.com",
                         EmailConfirmed = true,
+                        City = "London",
+                        Country = "UK",
+                        Gender = "M",
+                        DateOfBirth = DateTime.Now.AddYears(-50),
+                        JoinedUs = DateTime.Now.AddMonths(-2),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "nzgorptzllx41uflfmal",
@@ -651,6 +671,11 @@ namespace Persistence
                         UserName = "joe",
                         Email = "joe@test.com",
                         EmailConfirmed = true,
+                        City = "London",
+                        Country = "UK",
+                        Gender = "M",
+                        DateOfBirth = DateTime.Now.AddYears(-50),
+                        JoinedUs = DateTime.Now.AddMonths(-2),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "Joe",
@@ -666,6 +691,11 @@ namespace Persistence
                         UserName = "emir",
                         Email = "emir@test.com",
                         EmailConfirmed = true,
+                        City = "Italy",
+                        Country = "Rome",
+                        Gender = "M",
+                        DateOfBirth = DateTime.Now.AddYears(-50),
+                        JoinedUs = DateTime.Now.AddMonths(-2),
                     },
                     new AppUser
                     {
@@ -674,6 +704,11 @@ namespace Persistence
                         UserName = "nina",
                         Email = "nina@test.com",
                         EmailConfirmed = true,
+                        City = "Ljubljana",
+                        Country = "Slovenia",
+                        Gender = "F",
+                        DateOfBirth = DateTime.Now.AddYears(-50),
+                        JoinedUs = DateTime.Now.AddMonths(-2),
                     },
                     new AppUser
                     {
@@ -682,6 +717,11 @@ namespace Persistence
                         UserName = "cato",
                         Email = "cato@test.com",
                         EmailConfirmed = true,
+                        City = "Wien",
+                        Country = "Austria",
+                        Gender = "M",
+                        DateOfBirth = DateTime.Now.AddYears(-8),
+                        JoinedUs = DateTime.Now.AddMonths(-3),
                     },
                     new AppUser
                     {
@@ -690,6 +730,11 @@ namespace Persistence
                         UserName = "giulietta",
                         Email = "giulietta@test.com",
                         EmailConfirmed = true,
+                        City = "Paris",
+                        Country = "France",
+                        Gender = "F",
+                        DateOfBirth = DateTime.Now.AddYears(-15),
+                        JoinedUs = DateTime.Now.AddMonths(-1),
                     },
                     new AppUser
                     {
