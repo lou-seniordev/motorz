@@ -42,6 +42,7 @@ import VerifyEmail from "../../features/user/VerifyEmail";
 import { useTranslation } from "react-i18next";
 import SendRequestResetPasswordSuccess from "../../features/user/SendRequestResetPasswordSuccess";
 import ResetPasswordForm from "../../features/user/ResetPasswordForm";
+import AdminPage from "../../features/admin/AdminPage";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -157,6 +158,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute
                   path='/profile/:username'
                   component={ProfilePage}
+                />
+                <PrivateRoute
+                  path='/admin/:username'
+                  component={AdminPage}
                 />
                 <Route
                   path='/user/registerSuccess'

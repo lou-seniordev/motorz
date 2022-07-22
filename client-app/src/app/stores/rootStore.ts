@@ -16,6 +16,7 @@ import FeedStore from './feedStore';
 import PeopleStore from './peopleStore';
 import PrivateMessageStore from './privateMessageStore';
 import PresenceStore from './presenceStore';
+import AdminStore from './adminStore';
 
 // === mobx === //
 configure({ enforceActions: 'always' });
@@ -38,6 +39,7 @@ export class RootStore {
     peopleStore: PeopleStore;
     privateMessageStore: PrivateMessageStore;
     presenceStore: PresenceStore;
+    adminStore: AdminStore;
 
 
     constructor () {
@@ -57,6 +59,7 @@ export class RootStore {
         this.peopleStore = new PeopleStore(this);
         this.privateMessageStore = new PrivateMessageStore(this);
         this.presenceStore = new PresenceStore(this);
+        this.adminStore = new AdminStore(this);
     }
 }
 

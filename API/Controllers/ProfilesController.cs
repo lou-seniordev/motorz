@@ -16,7 +16,6 @@ namespace API.Controllers
         }
 
         [HttpGet("people")]
-        // [AllowAnonymous]
         public async Task<ActionResult<ListPeople.PeopleEnvelope>> ListPeople(int? limit, int? offset, string search)
         {
             return await Mediator.Send(new ListPeople.Query(limit, offset, search));

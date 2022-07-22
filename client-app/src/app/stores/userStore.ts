@@ -15,13 +15,16 @@ export default class UserStore {
 
     @observable user: IUser | null = null;
 
-    @computed get isLoggedIn() { return !!this.user };
+    @computed get isLoggedIn() {return !!this.user};
 
     @action login = async (values: IUserFormValues) => {
         try {
             const user = await agent.User.login(values);
             runInAction(() => {
                 this.user = user;
+                const claims = JSON.parse(atob(user.token.split('.')[1]));
+                const roles = claims['role']
+                this.user.userRoles = roles;
             });
             this.rootStore.commonStore.setToken(user.token);
             this.rootStore.modalStore.closeModal();
@@ -38,6 +41,9 @@ export default class UserStore {
             const user = await agent.User.current();
             runInAction(() => {
                 this.user = user;
+                const claims = JSON.parse(atob(user.token.split('.')[1]));
+                const roles = claims['role']
+                this.user.userRoles = roles;
             });
         } catch (error) {
             console.log(error);
@@ -63,7 +69,7 @@ export default class UserStore {
     }
 
     @action handleForgottenPassword = async (values: IUserFormValues) => {
-       
+
         try {
             await agent.User.handleForgottenPassword(values.email);
             this.rootStore.modalStore.closeModal();

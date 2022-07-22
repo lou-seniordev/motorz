@@ -67,7 +67,9 @@ namespace Application.Profiles
                 }
 
                 people = await queryable
-                .Where(x => x.Id != user.Id && x.EmailConfirmed == true)
+                .Where(x => x.Id != user.Id 
+                    && x.EmailConfirmed == true 
+                    && x.UserRoles.Any(r => r.Role.Name == "Member"))
                 .Skip(request.Offset ?? 0)
                 .Take(request.Limit ?? 3)
                 .ToListAsync();

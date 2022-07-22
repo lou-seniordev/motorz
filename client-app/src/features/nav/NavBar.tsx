@@ -59,6 +59,7 @@ const NavBar: React.FC = () => {
         e.preventDefault();
       };
       createHubConnection();
+
     }
   }, [isLoggedIn, createHubConnection]);
 
@@ -316,13 +317,21 @@ const NavBar: React.FC = () => {
                       />
                       <Dropdown pointing='top left' text={user!.displayName}>
                         <Dropdown.Menu>
-                          <Dropdown.Item
+                          {user.userRoles?.includes("Member")  && <Dropdown.Item
                             as={Link}
                             to={`/profile/${user!.userName}`}
                             text={t("my profile")}
                             onClick={closeStackableMenu}
                             icon='user'
-                          />
+                            />}
+                            {/* // text={t("my profile")} */}
+                          {(user.userRoles?.includes("Admin") || user.userRoles?.includes("Moderator")) &&  <Dropdown.Item
+                            as={Link}
+                            to={`/admin/${user!.userName}`}
+                            text={"Admin area"}
+                            onClick={closeStackableMenu}
+                            icon='user secret'
+                          />}
                           <Dropdown.Item
                             name='feed'
                             as={Link}

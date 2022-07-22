@@ -169,6 +169,13 @@ namespace API
                     policy.Requirements.Add(new IsOwnerRequirement());
                 });
             });
+            // === ROLES ===
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                opt.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Admin", "Moderator"));
+            });
+
             // === AddTransient() - only for the life time of operation, not the complete request ===
             services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
 
