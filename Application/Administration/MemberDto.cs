@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain;
 
 namespace Application.Administration
 {
@@ -11,6 +7,7 @@ namespace Application.Administration
         public string Id { get; set; }
         public string Username { get; set; }
         public string DisplayName { get; set; }
+        public string Email { get; set; }
         public string PhotoUrl { get; set; }
         public string Bio { get; set; }
         public int Age { get; set; }

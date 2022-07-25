@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using AutoMapper.QueryableExtensions;
 using AutoMapper;
+using Application.AdministrationTools;
 
 namespace Application.Administration
 {
@@ -42,10 +43,7 @@ namespace Application.Administration
         {
             _context.Entry(user).State = EntityState.Modified;
         }
-        // public Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
-        // {
-        //     throw new NotImplementedException();
-        // }
+
         public async Task<MemberDto> GetMemberAsync(string username)
         {
             return await _context.Users
@@ -54,11 +52,14 @@ namespace Application.Administration
             .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users
+            var query =  _context.Users
             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            .AsNoTracking();
+
+            return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+            
         }
     }
 }

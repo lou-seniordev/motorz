@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Administration;
+using Application.AdministrationTools;
 using AutoMapper;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -29,9 +30,12 @@ namespace API.Controllers
         }
 
         [HttpGet("get-all-users")]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()//[FromQuery] UserParams userParams
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
-            var users = await _userRepository.GetMembersAsync();
+            var users = await _userRepository.GetMembersAsync(userParams);
+
+
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(users);
         }

@@ -1,3 +1,4 @@
+import { IMember } from './../models/member';
 import { IProfileEnvelope } from './../models/profile';
 import { IRateMotofy } from './../models/motofy';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy'; 
@@ -186,6 +187,7 @@ const Feed = {
   markSeenInDB: (ids: IFeedsToMarkSeen) => requests.put('/feeds/markseenindb', ids)
 };
 
+
 const PrivateMessages = {
   list: (limit: number, page: number): Promise<IPrivateMessageEnvelope> =>
     requests.get(`/privatemessages?limit=${limit}&offset=${page ? page * limit! : 0}`),
@@ -269,7 +271,14 @@ const Profiles = {
     requests.get(`/profiles/${username}/mechanics?predicate=${predicate}`),
   listProducts: (username: string, predicate: string) =>
     requests.get(`/profiles/${username}/products?predicate=${predicate}`)
+};
 
+const Admin = {
+  list:():Promise<IMember[]> => requests.get('/admin/get-all-users')
+  // list: (limit: number, page: number): Promise<IFeedEnvelope> =>
+  //   requests.get(`/feeds?limit=${limit}&offset=${page ? page * limit! : 0}`),
+  // addFeedItem: (id: string, info: string, username?: string) => requests.post(`/feeds/${id}/${info}/${username}/addFeedItem`, {}),
+  // markSeenInDB: (ids: IFeedsToMarkSeen) => requests.put('/feeds/markseenindb', ids)
 };
 
 export default {
@@ -284,5 +293,6 @@ export default {
   Countries,
   Feed,
   DiaryEntries,
-  PrivateMessages
+  PrivateMessages,
+  Admin
 };

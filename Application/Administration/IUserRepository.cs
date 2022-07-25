@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.AdministrationTools;
 using Domain;
 
 namespace Application.Administration
@@ -11,7 +12,7 @@ namespace Application.Administration
         Task<AppUser> GetUserByIdAsync(string id);
         Task<AppUser> GetUserByUsernameAsync(string username);
         Task<bool> SaveAllAsync();
-        Task<IEnumerable<MemberDto>> GetMembersAsync();
+        Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
         Task<MemberDto> GetMemberAsync(string username);
 
     }
