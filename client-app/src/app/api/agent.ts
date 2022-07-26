@@ -1,7 +1,7 @@
 import { IMember } from './../models/member';
 import { IProfileEnvelope } from './../models/profile';
 import { IRateMotofy } from './../models/motofy';
-import { IMotofy, IMotofyEnvelope } from './../models/motofy'; 
+import { IMotofy, IMotofyEnvelope } from './../models/motofy';
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
 import { IActivity, IActivitiesEnvelope, IDiaryEntry } from '../models/activity';
@@ -60,7 +60,7 @@ axios.interceptors.response.use(undefined, (error) => {
   if (status === 500) {
     toast.error('Server error - check the terminal for more info!');
   }
-  // console.log(error.response);
+  console.log(error.response);
   throw error.response;
 });
 
@@ -151,6 +151,14 @@ const Products = {
   toogleActivate: (id: string) => requests.put(`/products/${id}/toogleActivate`, {}),
   visitCounter: (id: string) => requests.put(`/products/${id}/visitCounter`, {})
 }
+
+const Admin = {
+  // list: (params: URLSearchParams): Promise<IMember[]> => 
+  // axios.get(`/admin/get-all-users`, { params: params }).then(responseBody),
+  listUsers: (params: URLSearchParams): Promise<any> => 
+  axios.get(`/admin/get-all-users`, { params: params })//.then(responseBody)
+
+};
 
 const Activities = {
 
@@ -273,13 +281,7 @@ const Profiles = {
     requests.get(`/profiles/${username}/products?predicate=${predicate}`)
 };
 
-const Admin = {
-  list:():Promise<IMember[]> => requests.get('/admin/get-all-users')
-  // list: (limit: number, page: number): Promise<IFeedEnvelope> =>
-  //   requests.get(`/feeds?limit=${limit}&offset=${page ? page * limit! : 0}`),
-  // addFeedItem: (id: string, info: string, username?: string) => requests.post(`/feeds/${id}/${info}/${username}/addFeedItem`, {}),
-  // markSeenInDB: (ids: IFeedsToMarkSeen) => requests.put('/feeds/markseenindb', ids)
-};
+
 
 export default {
   Activities,

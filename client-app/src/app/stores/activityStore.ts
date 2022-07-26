@@ -73,7 +73,6 @@ export default class ActivityStore {
       } else {
         params.append(key, value)
       }
-      // console.log('params', params.keys)
     })
     return params;
   }

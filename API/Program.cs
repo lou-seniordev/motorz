@@ -10,8 +10,6 @@ using Persistence;
 using Coravel;
 using API.Workers;
 using Serilog;
-// using Serilog;
-
 
 namespace API
 {

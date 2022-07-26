@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Administration;
 using Application.AdministrationTools;
+using Application.Interfaces;
 using AutoMapper;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -19,21 +20,26 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IUserAccessor _userAccessor;
 
         public AdminController(
-            IUserRepository userRepository, 
+            IUserRepository userRepository, IUserAccessor userAccessor,
             IMapper mapper, UserManager<AppUser> userManager)
         {
             _mapper = mapper;
             _userRepository = userRepository;
             _userManager = userManager;
+            _userAccessor = userAccessor;
         }
 
         [HttpGet("get-all-users")]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
-            var users = await _userRepository.GetMembersAsync(userParams);
+            userParams.CurrentUsername = _userAccessor.GetCurrentUsername();
 
+            // if(string.IsNullOrEmpty)
+
+            var users = await _userRepository.GetMembersAsync(userParams);
 
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 

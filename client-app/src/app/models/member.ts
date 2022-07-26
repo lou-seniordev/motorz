@@ -11,9 +11,7 @@ export interface IMember {
     joinedUs?: string,
     lastActive?: string,
     image: string,
-    following: boolean;
     followersCount: number;
-    followingCount: number;
     photos: IMemberPhoto[]
 } 
 

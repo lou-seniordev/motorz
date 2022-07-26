@@ -7,5 +7,7 @@ namespace Application.AdministrationTools
         public int MinAge { get; set; } = 18;
         public int MaxAge { get; set; } = 150;
         public string OrderBy { get; set; } = "lastActive";
+        public string Country { get; set; }
+        public string City { get; set; }
     }
 }

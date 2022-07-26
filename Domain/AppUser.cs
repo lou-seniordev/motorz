@@ -25,7 +25,6 @@ namespace Domain
         public virtual ICollection<PrivateMessage> PrivateMessagesSent { get; set; }
         public virtual ICollection<PrivateMessage> PrivateMessagesReceived { get; set; }
         public virtual ICollection<ProductViewer> ViewingProducts { get; set; }
-
         public virtual ICollection<AppUserRole> UserRoles { get; set; }
 
 

@@ -114,7 +114,7 @@ namespace API
                 {
                     policy.AllowAnyHeader()
                           .AllowAnyMethod()
-                          .WithExposedHeaders("WWW-Authenticate")
+                          .WithExposedHeaders("WWW-Authenticate", "Pagination")
                           .WithOrigins("http://localhost:3000")
                           .AllowCredentials();
                 });
