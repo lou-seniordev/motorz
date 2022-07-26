@@ -29,7 +29,8 @@ namespace Infrastructure.Security
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
             };
 
             var roles = await _userManager.GetRolesAsync(user);

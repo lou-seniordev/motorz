@@ -28,7 +28,7 @@ using API.Workers;
 using Infrastructure.Email;
 using Application.Feeds.FeedHub;
 using Application.Administration;
-
+using API.ActionFilters;
 
 namespace API
 {
@@ -183,7 +183,7 @@ namespace API
             // === AddTransient() - only for the life time of operation, not the complete request ===
             services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
 
-
+            services.AddScoped<LogUserActivity>();
             services.AddScoped<IUserRepository, UserRepository>();
 
 

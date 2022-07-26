@@ -58,10 +58,20 @@ namespace Application.Administration
             
             .AsQueryable();
 
-            query = query.Where(u => u.UserName != userParams.CurrentUsername);
-            query = query.Where(u => u.Gender == userParams.Gender);
-            query = query.Where(u => u.Country == userParams.Country);
-            query = query.Where(u => u.City == userParams.City);
+            if(!string.IsNullOrEmpty(userParams.CurrentUsername))
+                query = query.Where(u => u.UserName != userParams.CurrentUsername);
+            if(!string.IsNullOrEmpty(userParams.Gender))
+                query = query.Where(u => u.Gender == userParams.Gender);
+            if(!string.IsNullOrEmpty(userParams.Country))
+                query = query.Where(u => u.Country == userParams.Country);
+            if(!string.IsNullOrEmpty(userParams.City))
+                query = query.Where(u => u.City == userParams.City);
+
+            query = userParams.OrderBy switch 
+            {
+                "joined" => query.OrderByDescending(u => u.JoinedUs),
+                _ => query.OrderByDescending(u => u.LastActive)
+            };
             
 
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper
