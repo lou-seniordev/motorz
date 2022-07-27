@@ -348,7 +348,7 @@ namespace Persistence
                     },
                     new Rank
                     {
-                        Id= "platinium-thunde",
+                        Id= "platinium-thunder",
                         Title = "Platinium Thunder",
                         LogoUrl="https://res.cloudinary.com/motofy/image/upload/v1658926892/platinium-thunder.png"
                     },

@@ -104,9 +104,20 @@ namespace API.Controllers
         [HttpPost("suspend-user/{username}")]
         public async Task<ActionResult> SuspendUser(string username)
         {
-            var lockoutEndDate = DateTime.Now.AddDays(7);
+            var user = await _userManager.FindByNameAsync(username);
+                        
+            if (user == null) return NotFound("Could not find user");
 
-            return await LockoutOptions(username, lockoutEndDate);
+            user.Suspended = true;
+
+            var success = _userRepository.SaveAllAsync();
+
+            return Ok("User suspended");
+
+
+            // var lockoutEndDate = DateTime.Now.AddDays(7);
+
+            // return await LockoutOptions(username, lockoutEndDate);
         }
 
 
@@ -114,9 +125,18 @@ namespace API.Controllers
         [HttpPost("reactivate-user/{username}")]
         public async Task<ActionResult> ReactivateUser(string username)
         {
-            var lockoutEndDate = DateTime.Now;
+            var user = await _userManager.FindByNameAsync(username);
+                        
+            if (user == null) return NotFound("Could not find user");
 
-            return await LockoutOptions(username, lockoutEndDate);
+            user.Suspended = false;
+
+            var success = _userRepository.SaveAllAsync();
+
+            return Ok("User account reactivated");
+            // var lockoutEndDate = DateTime.Now;
+
+            // return await LockoutOptions(username, lockoutEndDate);
 
         }
 

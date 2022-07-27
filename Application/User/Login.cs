@@ -51,6 +51,13 @@ namespace Application.User
                 {
                     throw new RestException(HttpStatusCode.Unauthorized);
                 }
+                if (user.Suspended)
+                {
+                    throw new RestException(HttpStatusCode.BadRequest, new 
+                    {
+                        Acount = "This account has been suspended!"
+                    });
+                }
 
                 if(!user.EmailConfirmed)
                 {

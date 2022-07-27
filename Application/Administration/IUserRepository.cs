@@ -14,6 +14,8 @@ namespace Application.Administration
         Task<bool> SaveAllAsync();
         Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
         Task<MemberDto> GetMemberAsync(string username);
+        Task SuspendUser(string username);
+        Task ReactivateUser(string username);
 
     }
 }

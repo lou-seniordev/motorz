@@ -13,6 +13,8 @@ import {
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IMember } from "../../../app/models/member";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import { gender } from "../../../app/common/options/genderOptions";
+import { rank } from "../../../app/common/options/rankingOptions";
 
 const UsersOverview = () => {
   const rootStore = useContext(RootStoreContext);
@@ -66,18 +68,16 @@ const UsersOverview = () => {
             fluid
             search
             options={countries}
-            // onChange={handleOnChange}
             clearable
           />
         </Menu.Item>
         <Menu.Item>
           <Dropdown
-            placeholder={"filter by city"}
+            placeholder={"filter by ranking"}
             selection
             fluid
             search
-            options={countries}
-            // onChange={handleOnChange}
+            options={rank}
             clearable
           />
         </Menu.Item>
@@ -87,10 +87,10 @@ const UsersOverview = () => {
             selection
             fluid
             search
-            options={countries}
-            // onChange={handleOnChange}
+            options={gender}
             clearable
           />
+       
         </Menu.Item>
       </Menu>
       <div className='ui three buttons'>

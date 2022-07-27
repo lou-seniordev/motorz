@@ -159,7 +159,8 @@ const Admin = {
   axios.get(`/admin/get-all-users`, { params: params }),
 
   details: (username: string) => requests.get(`/admin/get-user-by-username/${username}`),
-  //get-user-by-username/{username
+  suspend: (username: string) => requests.post(`/admin/suspend-user/${username}`, {}),
+  reactivate: (username: string) => requests.post(`/admin/reactivate-user/${username}`, {})
 
 };
 

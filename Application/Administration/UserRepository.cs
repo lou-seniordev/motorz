@@ -80,5 +80,15 @@ namespace Application.Administration
                 userParams.PageNumber, userParams.PageSize);
             
         }
+
+        public Task SuspendUser(string username)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task ReactivateUser(string username)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

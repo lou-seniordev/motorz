@@ -9,8 +9,10 @@ export interface IMember {
     email?: string,
     gender?: string,
     joinedUs?: string,
+    rank: string;
+    points: string;
+    suspended: boolean;
     lastActive?: string,
-    image: string,
     followersCount: number;
     photoUrl: string;
 } 

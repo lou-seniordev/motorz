@@ -19,10 +19,9 @@ export default class AdminStore {
   @observable member: IMember;
   @observable loadingMembers = false;
   @observable loadingMember = false;
+  @observable suspending = false;
+  @observable reactivating = false;
   @observable membersRegistry = new Map();
-
-  // @observable page = 0;
-  // @observable membersCount = 0;
 
   @observable actualPage: number = 1;
   totalPages: number;
@@ -74,14 +73,46 @@ export default class AdminStore {
       let member = await agent.Admin.details(username);
       runInAction(() => {
         this.member= member;
-        console.log('member', member)
         this.loadingMember = false;
+        console.log('member', member)
+
       })
     } catch (error) {
       console.log(error)
       this.loadingMember = false;
     }
+  }
+  @action suspendMember = async (member: IMember) => {
+    this.suspending = true;
+    member.suspended = true;
+    // member.suspended = true;
+    console.log('member', member)
+    try {
+      await agent.Admin.suspend(member.username);
+      runInAction(() => {
+        this.membersRegistry.set(member.id, member);
+        this.suspending = false;
+      })
+    } catch (error) {
+      console.log(error)
+      this.suspending = false;
+    }
+  }
 
+  @action reactivateMember = async (member: IMember) => {
+    this.reactivating = true;
+    member.suspended = false;
+    console.log('member', member)
+    try {
+      await agent.Admin.reactivate(member.username);
+      runInAction(() => {
+        this.membersRegistry.set(member.id, member);
+        this.reactivating = false;
+      })
+    } catch (error) {
+      console.log(error)
+      this.reactivating = false;
+    }
   }
 
   @action changePage = async (pageNumber: string) => {
