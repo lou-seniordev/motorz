@@ -220,11 +220,11 @@ a {
 }
 .action-button-container {
   display: flex  !important;
-  /* flex-direction: row !important; */
   justify-content: space-around !important;
+  flex-wrap: wrap;
 }
 .action-button {
   box-shadow: 2px 6px 4px #e5e3e3 !important;
   border: .5px solid gray !important;
-  width: 14rem;
+  flex-grow: 1;
 }

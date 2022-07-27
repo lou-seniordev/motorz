@@ -318,6 +318,56 @@ namespace Persistence
                 context.SaveChanges();
                 // }
             }
+            if(!context.Ranks.Any())
+            {
+                var ranks = new List<Rank>
+                {
+                    new Rank
+                    {
+                        Id= "new-member",
+                        Title = "New Member",
+                        LogoUrl="https://res.cloudinary.com/motofy/image/upload/v1658926892/new-member.png"
+                    },
+                    new Rank
+                    {
+                        Id= "silver-eagle",
+                        Title = "Silver Eagle",
+                        LogoUrl="https://res.cloudinary.com/motofy/image/upload/v1658926892/silver-eagle.png"
+                    },
+                    new Rank
+                    {
+                        Id= "blue-dragon",
+                        Title = "Blue Dragon",
+                        LogoUrl="https://res.cloudinary.com/motofy/image/upload/v1658926892/blue-dragon.png"
+                    },
+                    new Rank
+                    {
+                        Id= "gold-lightning",
+                        Title = "Gold Lightning",
+                        LogoUrl="https://res.cloudinary.com/motofy/image/upload/v1658926892/gold-lightning.png"
+                    },
+                    new Rank
+                    {
+                        Id= "platinium-thunde",
+                        Title = "Platinium Thunder",
+                        LogoUrl="https://res.cloudinary.com/motofy/image/upload/v1658926892/platinium-thunder.png"
+                    },
+                    new Rank
+                    {
+                        Id= "diamond-rider",
+                        Title = "Diamond Rider",
+                        LogoUrl="https://res.cloudinary.com/motofy/image/upload/v1658926892/diamond-rider.png"
+                    },
+                    new Rank
+                    {
+                        Id= "unicorn",
+                        Title = "Unicorn",
+                        LogoUrl="https://res.cloudinary.com/motofy/image/upload/v1658926893/unicorn.png"
+                    }
+                };
+                context.Ranks.AddRange(ranks);
+                context.SaveChanges();
+            }
 
             if (!userManager.Users.Any())
             {
@@ -347,6 +397,8 @@ namespace Persistence
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "blue-dragon"),
+                        Points = 15,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "zfma0utdfu2ce5wyrrmq",
@@ -443,6 +495,8 @@ namespace Persistence
                         Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-35),
                         JoinedUs = DateTime.Now.AddMonths(-1),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "blue-dragon"),
+                        Points = 15,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "qc4p1rr7qfymo8pap6ig",
@@ -540,6 +594,8 @@ namespace Persistence
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-55),
                         JoinedUs = DateTime.Now.AddMonths(-1),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "blue-dragon"),
+                        Points = 15,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ahy5hc8yd7cmeck8xnf7",
@@ -629,6 +685,8 @@ namespace Persistence
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "blue-dragon"),
+                        Points = 15,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "nzgorptzllx41uflfmal",
@@ -676,6 +734,8 @@ namespace Persistence
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "silver-eagle"),
+                        Points = 50,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "Joe",
@@ -696,6 +756,8 @@ namespace Persistence
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "unicorn"),
+                        Points = 800,
                     },
                     new AppUser
                     {
@@ -709,6 +771,8 @@ namespace Persistence
                         Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "unicorn"),
+                        Points = 750,
                     },
                     new AppUser
                     {
@@ -720,8 +784,10 @@ namespace Persistence
                         City = "Wienna",
                         Country = "Austria",
                         Gender = "Masculine",
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "silver-eagle"),
                         DateOfBirth = DateTime.Now.AddYears(-8),
                         JoinedUs = DateTime.Now.AddMonths(-3),
+                        Points = 125,
                     },
                     new AppUser
                     {
@@ -735,6 +801,8 @@ namespace Persistence
                         Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-15),
                         JoinedUs = DateTime.Now.AddMonths(-1),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "silver-eagle"),
+                        Points = 25,
                     },
                     new AppUser
                     {
@@ -747,6 +815,9 @@ namespace Persistence
                         Country = "France",
                         Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-25),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ia",
@@ -766,6 +837,9 @@ namespace Persistence
                         Country = "France",
                         Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-35),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ib",
@@ -785,6 +859,9 @@ namespace Persistence
                         Country = "Italy",
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-54),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ic",
@@ -804,6 +881,9 @@ namespace Persistence
                         Country = "Italy",
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-45),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "id",
@@ -823,6 +903,9 @@ namespace Persistence
                         Country = "Bosnia",
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-60),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ie",
@@ -842,6 +925,9 @@ namespace Persistence
                         Country = "Bosnia",
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-35),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "if",
@@ -861,6 +947,9 @@ namespace Persistence
                         Country = "Serbia",
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-19),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ig",
@@ -880,6 +969,9 @@ namespace Persistence
                         Country = "Croatia",
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-21),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ih",
@@ -899,6 +991,9 @@ namespace Persistence
                         Country = "Austria",
                         Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-29),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ii",
@@ -918,6 +1013,9 @@ namespace Persistence
                         Country = "Austria",
                         Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-33),
+                        JoinedUs = DateTime.Now.AddDays(-10),
+                        Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                        Points = 5,
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ij",
@@ -978,6 +1076,9 @@ namespace Persistence
                             Country = "Germany",
                             Gender = "Masculine",
                             DateOfBirth = DateTime.Now.AddYears(-52),
+                            JoinedUs = DateTime.Now.AddDays(-10),
+                            Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
+                            Points = 5,
                             Photos = new List<Photo> {
                                 new Photo {
                                     Id = "test_user_" + i,

@@ -69,6 +69,8 @@ namespace Persistence
         public DbSet<Feed> Feeds { get; set; }
         public DbSet<FeedNotifyee> FeedNotifyees { get; set; }
 
+        // === User Ranking ===
+        public DbSet<Rank> Ranks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

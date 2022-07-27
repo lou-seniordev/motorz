@@ -9,9 +9,10 @@
       rgb(32, 167, 172, 9)
     ),
     url("https://res.cloudinary.com/motofy/image/upload/v1542881348/bjpdqdis9vwcagtxffa5.jpg") !important;
-  background-size: cover !important;
+  /* background-size: cover !important; */
   background-position: center !important;
   height: 100vh;
+  flex-wrap: wrap;
 }
 
 .masthead .ui.menu .ui.button,
@@ -75,6 +76,9 @@
   }
   .ui inverted header {
     margin: 0rem !important;
+  }
+  .masthead {
+    background-size: cover !important;
   }
   .masthead h1.ui.header {
     font-size: 3em;

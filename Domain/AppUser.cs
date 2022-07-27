@@ -14,6 +14,8 @@ namespace Domain
         public string Gender { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public int Points { get; set; } = 0;
+        public virtual Rank Rank { get; set; }
         public virtual ICollection<Brand> FavoriteBrands { get; set; }
         public virtual ICollection<UserActivity> UserActivities { get; set; } //virtual??
         public virtual ICollection<Photo> Photos { get; set; }

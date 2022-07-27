@@ -100,7 +100,7 @@ const UsersOverview = () => {
           Sort by Display Name
         </Button>
         <Button basic color='grey'>
-          Sort by ...
+          Sort by Rank
         </Button>
       </div>
       <Table celled>
