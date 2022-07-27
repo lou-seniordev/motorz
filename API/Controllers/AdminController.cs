@@ -37,8 +37,6 @@ namespace API.Controllers
         {
             userParams.CurrentUsername = _userAccessor.GetCurrentUsername();
 
-            // if(string.IsNullOrEmpty)
-
             var users = await _userRepository.GetMembersAsync(userParams);
 
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);

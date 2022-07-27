@@ -16,38 +16,40 @@ export default class AdminStore {
   }
 
   @observable members: IMember[] = [];
+  @observable member: IMember;
   @observable loadingMembers = false;
+  @observable loadingMember = false;
   @observable membersRegistry = new Map();
-  
+
   // @observable page = 0;
   // @observable membersCount = 0;
-  
-  @observable actualPage: number=1;
+
+  @observable actualPage: number = 1;
   totalPages: number;
 
   @action setActualPage = (actualPage: number) => {
     this.actualPage = actualPage;
   }
 
-  @computed get memberList () {
+  @computed get memberList() {
     return Array.from(this.membersRegistry.values());
-  } 
+  }
 
 
   @action loadMembers = async () => {
 
     let params = new URLSearchParams();
 
-      params.append('pageNumber', PAGENUMBER.toString());
-      params.append('pageSize', PAGESIZE.toString());
+    params.append('pageNumber', PAGENUMBER.toString());
+    params.append('pageSize', PAGESIZE.toString());
 
     this.loadingMembers = true;
     try {
 
       await agent.Admin.listUsers(params).then((response) => {
         runInAction(() => {
-          
-          if(response.headers.pagination !== null){
+
+          if (response.headers.pagination !== null) {
             this.members = response.data;
             this.totalPages = JSON.parse(response.headers.pagination).totalPages;
             this.members.forEach(member => {
@@ -55,7 +57,7 @@ export default class AdminStore {
             })
             this.loadingMembers = false;
           }
-        });     
+        });
       });
     } catch (error) {
       console.log(error);
@@ -66,16 +68,32 @@ export default class AdminStore {
     }
   }
 
+  @action loadMember = async (username: string) => {
+    this.loadingMember = true;
+    try {
+      let member = await agent.Admin.details(username);
+      runInAction(() => {
+        this.member= member;
+        console.log('member', member)
+        this.loadingMember = false;
+      })
+    } catch (error) {
+      console.log(error)
+      this.loadingMember = false;
+    }
+
+  }
+
   @action changePage = async (pageNumber: string) => {
     let params = new URLSearchParams();
-      params.append('pageNumber', pageNumber);
-      params.append('pageSize', PAGESIZE.toString());
+    params.append('pageNumber', pageNumber);
+    params.append('pageSize', PAGESIZE.toString());
     this.loadingMembers = true;
     try {
       await agent.Admin.listUsers(params).then((response) => {
         runInAction(() => {
-          if(response.headers.pagination !== null){
-            this.members = response.data;          
+          if (response.headers.pagination !== null) {
+            this.members = response.data;
             this.totalPages = JSON.parse(response.headers.pagination).totalPages;
             this.membersRegistry.clear();
             this.members.forEach(member => {
@@ -92,5 +110,5 @@ export default class AdminStore {
       })
       toast.error('Problem re-loading members');
     }
-  } 
+  }
 }

@@ -212,7 +212,7 @@ namespace Persistence
                     new Country { Name = "Saudi Arabia", CountryCode = "sa" },
                     new Country { Name = "Scotland", CountryCode = "gb sct" },
                     new Country { Name = "Senegal", CountryCode = "sn" },
-                    new Country { Name = "Serbia", CountryCode = "cs" },
+                    // new Country { Name = "Serbia", CountryCode = "cs" },
                     new Country { Name = "Serbia", CountryCode = "rs" },
                     new Country { Name = "Seychelles", CountryCode = "sc" },
                     new Country { Name = "Sierra Leone", CountryCode = "sl" },
@@ -344,7 +344,7 @@ namespace Persistence
                         EmailConfirmed = true,
                         City = "London",
                         Country = "UK",
-                        Gender = "M",
+                        Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
                         Photos = new List<Photo> {
@@ -440,7 +440,7 @@ namespace Persistence
                         EmailConfirmed = true,
                         City = "London",
                         Country = "UK",
-                        Gender = "F",
+                        Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-35),
                         JoinedUs = DateTime.Now.AddMonths(-1),
                         Photos = new List<Photo> {
@@ -537,7 +537,7 @@ namespace Persistence
                         EmailConfirmed = true,
                         City = "London",
                         Country = "UK",
-                        Gender = "M",
+                        Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-55),
                         JoinedUs = DateTime.Now.AddMonths(-1),
                         Photos = new List<Photo> {
@@ -626,7 +626,7 @@ namespace Persistence
                         EmailConfirmed = true,
                         City = "London",
                         Country = "UK",
-                        Gender = "M",
+                        Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
                         Photos = new List<Photo> {
@@ -673,7 +673,7 @@ namespace Persistence
                         EmailConfirmed = true,
                         City = "London",
                         Country = "UK",
-                        Gender = "M",
+                        Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
                         Photos = new List<Photo> {
@@ -693,7 +693,7 @@ namespace Persistence
                         EmailConfirmed = true,
                         City = "Rome",
                         Country = "Italy",
-                        Gender = "M",
+                        Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
                     },
@@ -706,7 +706,7 @@ namespace Persistence
                         EmailConfirmed = true,
                         City = "Ljubljana",
                         Country = "Slovenia",
-                        Gender = "F",
+                        Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-50),
                         JoinedUs = DateTime.Now.AddMonths(-2),
                     },
@@ -717,9 +717,9 @@ namespace Persistence
                         UserName = "cato",
                         Email = "cato@test.com",
                         EmailConfirmed = true,
-                        City = "Wien",
+                        City = "Wienna",
                         Country = "Austria",
-                        Gender = "M",
+                        Gender = "Masculine",
                         DateOfBirth = DateTime.Now.AddYears(-8),
                         JoinedUs = DateTime.Now.AddMonths(-3),
                     },
@@ -732,7 +732,7 @@ namespace Persistence
                         EmailConfirmed = true,
                         City = "Paris",
                         Country = "France",
-                        Gender = "F",
+                        Gender = "Feminine",
                         DateOfBirth = DateTime.Now.AddYears(-15),
                         JoinedUs = DateTime.Now.AddMonths(-1),
                     },
@@ -743,6 +743,10 @@ namespace Persistence
                         UserName = "test_user_1",
                         Email = "test_user_1@test.com",
                         EmailConfirmed = true,
+                        City = "Lyon",
+                        Country = "France",
+                        Gender = "Feminine",
+                        DateOfBirth = DateTime.Now.AddYears(-25),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ia",
@@ -758,6 +762,10 @@ namespace Persistence
                         UserName = "test_user_2",
                         Email = "test_user_2@test.com",
                         EmailConfirmed = true,
+                        City = "Marseille",
+                        Country = "France",
+                        Gender = "Feminine",
+                        DateOfBirth = DateTime.Now.AddYears(-35),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ib",
@@ -772,6 +780,11 @@ namespace Persistence
                         DisplayName = "test_user_3",
                         UserName = "test_user_3",
                         Email = "test_user_3@test.com",
+                        EmailConfirmed = true,
+                        City = "Milan",
+                        Country = "Italy",
+                        Gender = "Masculine",
+                        DateOfBirth = DateTime.Now.AddYears(-54),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ic",
@@ -787,6 +800,10 @@ namespace Persistence
                         UserName = "test_user_4",
                         Email = "test_user_4@test.com",
                         EmailConfirmed = true,
+                        City = "Turin",
+                        Country = "Italy",
+                        Gender = "Masculine",
+                        DateOfBirth = DateTime.Now.AddYears(-45),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "id",
@@ -802,6 +819,10 @@ namespace Persistence
                         UserName = "test_user_5",
                         Email = "test_user_5@test.com",
                         EmailConfirmed = true,
+                        City = "Sarajevo",
+                        Country = "Bosnia",
+                        Gender = "Masculine",
+                        DateOfBirth = DateTime.Now.AddYears(-60),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ie",
@@ -817,6 +838,10 @@ namespace Persistence
                         UserName = "test_user_6",
                         Email = "test_user_6@test.com",
                         EmailConfirmed = true,
+                        City = "Mostar",
+                        Country = "Bosnia",
+                        Gender = "Masculine",
+                        DateOfBirth = DateTime.Now.AddYears(-35),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "if",
@@ -832,6 +857,10 @@ namespace Persistence
                         UserName = "test_user_7",
                         Email = "test_user_7@test.com",
                         EmailConfirmed = true,
+                        City = "Belgrade",
+                        Country = "Serbia",
+                        Gender = "Masculine",
+                        DateOfBirth = DateTime.Now.AddYears(-19),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ig",
@@ -847,6 +876,10 @@ namespace Persistence
                         UserName = "test_user_8",
                         Email = "test_user_8@test.com",
                         EmailConfirmed = true,
+                        City = "Zagreb",
+                        Country = "Croatia",
+                        Gender = "Masculine",
+                        DateOfBirth = DateTime.Now.AddYears(-21),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ih",
@@ -862,6 +895,10 @@ namespace Persistence
                         UserName = "test_user_9",
                         Email = "test_user_9@test.com",
                         EmailConfirmed = true,
+                        City = "Wienna",
+                        Country = "Austria",
+                        Gender = "Feminine",
+                        DateOfBirth = DateTime.Now.AddYears(-29),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ii",
@@ -877,6 +914,10 @@ namespace Persistence
                         UserName = "test_user_10",
                         Email = "test_user_10@test.com",
                         EmailConfirmed = true,
+                        City = "Wienna",
+                        Country = "Austria",
+                        Gender = "Masculine",
+                        DateOfBirth = DateTime.Now.AddYears(-33),
                         Photos = new List<Photo> {
                             new Photo {
                                 Id = "ij",
@@ -898,7 +939,11 @@ namespace Persistence
                     DisplayName = "Admin001",
                     UserName = "admin001",
                     Email = "motoranza@outlook.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    City = "Ljubljana",
+                    Country = "Slovenia",
+                    Gender = "Masculine",
+                    DateOfBirth = DateTime.Now.AddYears(-55)
                 };
                 await userManager.CreateAsync(admin, "$3cr3tPa$$w0rd");
                 await userManager.AddToRolesAsync(admin, new[] {"Admin", "Moderator"});
@@ -910,10 +955,46 @@ namespace Persistence
                     DisplayName = "Moderator001",
                     UserName = "moderator001",
                     Email = "motoranza@yahoo.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    City = "Ljubljana",
+                    Country = "Slovenia",
+                    Gender = "Feminine",
+                    DateOfBirth = DateTime.Now.AddYears(-25),
                 };
                 await userManager.CreateAsync(moderator, "$3cr3tPa$$w0rd");
                 await userManager.AddToRoleAsync(moderator, "Moderator");
+
+                 var moreUsers = new List<AppUser>();
+                for(int i = 1; i < 75; i++)
+                    {
+                        var tempUsr = new AppUser
+                        {
+                            Id = "user_" + i,
+                            DisplayName = "Test_user nr." + i,
+                            UserName = "test_user " + i,
+                            Email = "test_user_"+ i +"@test.com",
+                            EmailConfirmed = true,
+                            City = "Berlin",
+                            Country = "Germany",
+                            Gender = "Masculine",
+                            DateOfBirth = DateTime.Now.AddYears(-52),
+                            Photos = new List<Photo> {
+                                new Photo {
+                                    Id = "test_user_" + i,
+                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
+                                    IsMain = true,
+                                }
+                            },
+                        };
+                        moreUsers.Add(tempUsr);
+                    }
+                    foreach (var user in moreUsers)
+                    {
+                        await userManager.CreateAsync(user, "Pa$$w0rd");
+                        await userManager.AddToRoleAsync(user, "Member");
+                    }
+                    await context.Users.AddRangeAsync(moreUsers);
+                    await context.SaveChangesAsync();
             }
 
             //==TEST PRODUCT 
@@ -955,33 +1036,7 @@ namespace Persistence
                 await context.SaveChangesAsync();
 
                
-                var moreUsers = new List<AppUser>();
-                for(int i = 1; i < 75; i++)
-                    {
-                        var tempUsr = new AppUser
-                        {
-                            Id = "user_" + i,
-                            DisplayName = "test_user " + i,
-                            UserName = "test_user " + i,
-                            Email = "test_user."+ i +"@test.com",
-                            EmailConfirmed = true,
-                            Photos = new List<Photo> {
-                                new Photo {
-                                    Id = "test_user" + i,
-                                    Url = "https://res.cloudinary.com/motofy/image/upload/v1646211270/rmbhtcq0tbgmzm6ge3dc.jpg",
-                                    IsMain = true,
-                                }
-                            },
-                        };
-                        moreUsers.Add(tempUsr);
-                    }
-                    foreach (var user in moreUsers)
-                    {
-                        await userManager.CreateAsync(user, "Pa$$w0rd");
-                        await userManager.AddToRoleAsync(user, "Member");
-                    }
-                    await context.Users.AddRangeAsync(moreUsers);
-                    await context.SaveChangesAsync();
+               
 
             }
 

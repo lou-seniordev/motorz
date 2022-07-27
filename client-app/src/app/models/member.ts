@@ -12,7 +12,7 @@ export interface IMember {
     lastActive?: string,
     image: string,
     followersCount: number;
-    photos: IMemberPhoto[]
+    photoUrl: string;
 } 
 
 export interface IMemberPhoto {

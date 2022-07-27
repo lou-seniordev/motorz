@@ -1,12 +1,8 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
-// import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
 import { Grid } from "semantic-ui-react";
-// import LoadingComponent from "../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../app/stores/rootStore";
-// import ProfileContent from "./ProfileContent";
-// import ProfileHeader from "./ProfileHeader";
 import { Tab } from "semantic-ui-react";
 import UsersOverview from "./user-administration/UsersOverview";
 import LoadingComponent from "../../app/layout/LoadingComponent";
@@ -23,13 +19,8 @@ const AdminPage: React.FC<IProps> = ({ match }) => {
 
   useEffect(() => {
     loadMembers();
-    // loadMembers().then(() => console.log("hokoho", paginatedResult.pagination));
-    // if(loadingMembers) {
-    //   console.log("hokoho", pagination)
-    // }
   }, [loadMembers]);
 
-  //
   const panes = [
 
     { menuItem: "Users", render: () => <Tab.Pane><UsersOverview /></Tab.Pane> },
@@ -42,10 +33,6 @@ const AdminPage: React.FC<IProps> = ({ match }) => {
   return (
     <Grid>
       <Grid.Column width={16}>
-        {/* <Tab
-          menu={{ fluid: true, vertical: true, tabular: true }}
-          panes={panes}
-        /> */}
         <Tab menu={{ pointing: true }} panes={panes} />
       </Grid.Column>
     </Grid>

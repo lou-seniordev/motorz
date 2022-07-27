@@ -1,8 +1,18 @@
-import React, { useContext } from "react";
-import { Dropdown, Icon, Input, Menu, Pagination, Table } from "semantic-ui-react";
+import { formatDistance } from "date-fns";
+import React, { useContext, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
+import {
+  Button,
+  Dropdown,
+  Icon,
+  Input,
+  Menu,
+  Pagination,
+  Table,
+} from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { IMember } from "../../../app/models/member";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-
 
 const UsersOverview = () => {
   const rootStore = useContext(RootStoreContext);
@@ -15,14 +25,24 @@ const UsersOverview = () => {
     changePage,
   } = rootStore.adminStore;
 
+  const { countries, loadCountriesToSelect } = rootStore.countryStore;
+
+  const history = useHistory();
+
   const handlePaginationChange = (e: any, data: any) => {
-    setActualPage(data.activePage)
+    setActualPage(data.activePage);
     changePage(data.activePage);
   };
 
-  // useEffect(()=> {
-  //   console.log("actualPage: ", actualPage);
-  // })
+  const handleGetUserDetailed = (username: string) => {
+    console.log(username);
+    history.push(`/member/${username}`);
+  };
+
+  //!!Warning Mem Leak
+  useEffect(() => {
+    loadCountriesToSelect();
+  }, [loadCountriesToSelect]);
 
   if (loadingMembers)
     return <LoadingComponent content={"Loading members..."} />;
@@ -37,74 +57,91 @@ const UsersOverview = () => {
         //   value={input}
         //   onInput={(e: any) => setInput(e.target.value)}
         //   onKeyDown={(e: any) => handleSearchResults(e)}
-      /> 
+      />
       <Menu fluid widths={3} style={{ top: "200px" }}>
-       
         <Menu.Item>
           <Dropdown
-            placeholder={'filter by country'}
+            placeholder={"filter by country"}
             selection
             fluid
             search
-            // options={category}
+            options={countries}
             // onChange={handleOnChange}
             clearable
           />
         </Menu.Item>
         <Menu.Item>
           <Dropdown
-            placeholder={'filter by city'}
+            placeholder={"filter by city"}
             selection
             fluid
             search
-            // options={category}
+            options={countries}
             // onChange={handleOnChange}
             clearable
           />
         </Menu.Item>
         <Menu.Item>
           <Dropdown
-            placeholder={'filter by gender'}
+            placeholder={"filter by gender"}
             selection
             fluid
             search
-            // options={category}
+            options={countries}
             // onChange={handleOnChange}
             clearable
           />
         </Menu.Item>
-       
-
-  
       </Menu>
+      <div className='ui three buttons'>
+        <Button basic color='grey' content='Sort by Date Joined' />
+
+        <Button color='grey' basic>
+          Sort by Display Name
+        </Button>
+        <Button basic color='grey'>
+          Sort by ...
+        </Button>
+      </div>
       <Table celled>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>ID</Table.HeaderCell>
             <Table.HeaderCell>User Name</Table.HeaderCell>
             <Table.HeaderCell>Display Name</Table.HeaderCell>
+            <Table.HeaderCell>Age</Table.HeaderCell>
             <Table.HeaderCell>City</Table.HeaderCell>
             <Table.HeaderCell>Country</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Member Since</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {memberList.map((member) => (
-            <Table.Row key={member.id} style={{cursor: 'pointer'}}>
+            <Table.Row
+              key={member.id}
+              style={{ cursor: "pointer" }}
+              // onClick={history.push(`/member/${member.username}`)}
+              onClick={()=> handleGetUserDetailed(member.username)}
+              // as={Link}
+              // to={`/admin/user/${member.username}`}
+            >
               <Table.Cell>{member.id}</Table.Cell>
               <Table.Cell>{member.username}</Table.Cell>
               <Table.Cell>{member.displayName}</Table.Cell>
+              <Table.Cell>{member.age}</Table.Cell>
               <Table.Cell>{member.city}</Table.Cell>
               <Table.Cell>{member.country}</Table.Cell>
               <Table.Cell>{member.email}</Table.Cell>
+              <Table.Cell>{formatDistance(new Date(member.joinedUs), new Date)}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
 
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell colSpan='6'>
+            <Table.HeaderCell colSpan='8'>
               {totalPages !== undefined && (
                 <Pagination
                   // defaultActivePage={1}

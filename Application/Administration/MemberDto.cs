@@ -16,6 +16,7 @@ namespace Application.Administration
         public string Gender { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+                
         // public ICollection<Activity> MyActivities { get; set; } //virtual??
         // public ICollection<PhotoDto> Photos { get; set; }
         // // public virtual ICollection<UserFollowing> Followings { get; set; }

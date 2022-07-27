@@ -70,6 +70,7 @@ namespace Application.Administration
             query = userParams.OrderBy switch 
             {
                 "joined" => query.OrderByDescending(u => u.JoinedUs),
+                "displayName" => query.OrderByDescending(u => u.DisplayName),
                 _ => query.OrderByDescending(u => u.LastActive)
             };
             

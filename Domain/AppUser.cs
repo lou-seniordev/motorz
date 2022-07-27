@@ -8,7 +8,7 @@ namespace Domain
     {
         public string DisplayName { get; set; }
         public string Bio { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public DateTime JoinedUs { get; set; } = DateTime.Now;
         public DateTime LastActive { get; set; } = DateTime.Now;
         public string Gender { get; set; }

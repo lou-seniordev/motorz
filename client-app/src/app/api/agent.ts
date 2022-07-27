@@ -156,7 +156,10 @@ const Admin = {
   // list: (params: URLSearchParams): Promise<IMember[]> => 
   // axios.get(`/admin/get-all-users`, { params: params }).then(responseBody),
   listUsers: (params: URLSearchParams): Promise<any> => 
-  axios.get(`/admin/get-all-users`, { params: params })//.then(responseBody)
+  axios.get(`/admin/get-all-users`, { params: params }),
+
+  details: (username: string) => requests.get(`/admin/get-user-by-username/${username}`),
+  //get-user-by-username/{username
 
 };
 
