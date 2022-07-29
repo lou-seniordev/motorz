@@ -1,7 +1,6 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Header, Button, Grid, Input, GridRow } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-// import { useTranslation } from "react-i18next";
 
 interface IProps {
   username: string;
@@ -13,8 +12,6 @@ const ConfirmLockout: React.FC<IProps> = ({ username }) => {
   const { closeModal } = rootStore.modalStore;
 
   const [time, setTime] = useState<number>(0);
-
-  // const { t } = useTranslation(["modals"]);
 
   const handleLockoutMember = () => {
     lockoutMember(username, time)
@@ -49,13 +46,11 @@ const ConfirmLockout: React.FC<IProps> = ({ username }) => {
             fluid
             type='number'
             min="0"
-            // id='timevalue'
             name='timevalue'
             onChange={handleChange}
           />
         </GridRow>
         <GridRow style={{marginTop: "10px"}}>
-          {/* <Fragment> */}
             <Button
               onClick={handleLockoutMember}
               color='teal'
@@ -68,7 +63,6 @@ const ConfirmLockout: React.FC<IProps> = ({ username }) => {
               content={"No, don't lockout"}
               floated='right'
             />
-          {/* </Fragment> */}
         </GridRow>
       </Grid.Column>
     </Grid>

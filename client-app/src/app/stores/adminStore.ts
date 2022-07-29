@@ -1,4 +1,5 @@
-import { action, computed, observable, runInAction } from 'mobx';
+import { roles } from './../common/options/rolesOptions';
+import { action, computed, observable, runInAction, toJS } from 'mobx';
 import { toast } from 'react-toastify';
 
 import agent from '../api/agent';
@@ -24,6 +25,7 @@ export default class AdminStore {
   @observable suspending = false;
   @observable reactivating = false;
   @observable deleting = false;
+  @observable editing = false;
   @observable membersRegistry = new Map();
 
   @observable actualPage: number = 1;
@@ -79,7 +81,7 @@ export default class AdminStore {
       runInAction(() => {
         this.member= member;
         this.loadingMember = false;
-        console.log('member', member)
+        this.membersRegistry.set(member.id, member);
 
       })
     } catch (error) {
@@ -92,8 +94,7 @@ export default class AdminStore {
   @action suspendMember = async (member: IMember) => {
     this.suspending = true;
     member.suspended = true;
-    // member.suspended = true;
-    console.log('member', member)
+    // console.log('member', member)
     try {
       await agent.Admin.suspend(member.username);
       runInAction(() => {
@@ -109,7 +110,7 @@ export default class AdminStore {
   @action reactivateMember = async (member: IMember) => {
     this.reactivating = true;
     member.suspended = false;
-    console.log('member', member)
+    // console.log('member', member)
     try {
       await agent.Admin.reactivate(member.username);
       runInAction(() => {
@@ -121,17 +122,17 @@ export default class AdminStore {
       this.reactivating = false;
     }
   }
-  
+
   @action lockoutMember = async (id: string, time: number) => {
     runInAction(() => {
       this.deleting = true;
     })
-    let admin = this.rootStore.userStore.user!
+    // let admin = this.rootStore.userStore.user!
     try {
       await agent.Admin.lockoutUser(id, time);
       runInAction(() => {
         this.membersRegistry.delete(id);
-        history.push(`/admin/${admin.userName}`)
+        // history.push(`/admin/${admin.userName}`)
         this.deleting = false;
       })
     } catch (error) {
@@ -151,13 +152,31 @@ export default class AdminStore {
       await agent.Admin.unlockUser(id);
       runInAction(() => {
         this.membersRegistry.delete(id);
-        history.push(`/admin/${admin.userName}`)
+        // history.push(`/admin/${admin.userName}`)
         this.deleting = false;
       })
     } catch (error) {
       console.log(error)
       runInAction(()=> {
         this.deleting = false;
+      })
+    }
+  }
+  @action editRoles = async (member: IMember, roles: string[]) => {
+    runInAction(() => {
+      this.editing = true;
+    })
+    member.userRoles = roles;
+    try {
+      await agent.Admin.editRoles(member.username, roles);
+      runInAction(() => {
+        this.membersRegistry.set(member.id, member);
+        this.editing = false;
+      })
+    } catch (error) {
+      console.log(error)
+      runInAction(()=> {
+        this.editing = false;
       })
     }
   }

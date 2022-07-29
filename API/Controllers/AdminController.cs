@@ -78,8 +78,8 @@ namespace API.Controllers
             return Ok(users);
         }
 
-        [HttpPost("edit-roles/{username}")]
-        public async Task<ActionResult> EditRoles(string username, [FromQuery] string roles)
+        [HttpPost("edit-roles/{username}/{roles}")]
+        public async Task<ActionResult> EditRoles(string username,  string roles)
         {
             var selectedRoles = roles.Split(",").ToArray();
 

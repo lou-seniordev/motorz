@@ -9,6 +9,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import ConfirmLockout from "../modals/ConfirmLockout";
 import ConfirmUnlock from "../modals/ConfirmUnlock";
 import { useHistory } from "react-router-dom";
+import ConfirmRoles from "../modals/ConfirmRoles";
 
 interface DetailParams {
   username: string;
@@ -53,6 +54,10 @@ const UserDetailedInfo: React.FC<RouteComponentProps<DetailParams>> = ({
   const handleUnlockUser = (username: string) => {
     setSize("tiny");
     openModal(<ConfirmUnlock username={username} />);
+  };
+  const handleEditRoles = (member: IMember) => {
+    setSize("tiny");
+    openModal(<ConfirmRoles member={member} />);
   };
 
   if (loadingMember || !member)
@@ -172,13 +177,15 @@ const UserDetailedInfo: React.FC<RouteComponentProps<DetailParams>> = ({
               disabled={member.userRoles.includes("Admin")}
               className='ui button basic action-button'
               onClick={() => handleUnlockUser(member.username)}
-            >
+              >
               Unlock{" "}
             </button>
             <button className='ui button basic action-button'>
               Send User A Message{" "}
             </button>
-            <button className='ui button basic action-button'>
+            <button className='ui button basic action-button'
+              onClick={() => handleEditRoles(member)}
+            >
               Manage Roles{" "}
             </button>
           </div>

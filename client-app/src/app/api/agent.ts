@@ -162,8 +162,8 @@ const Admin = {
   suspend: (username: string) => requests.post(`/admin/suspend-user/${username}`, {}),
   reactivate: (username: string) => requests.post(`/admin/reactivate-user/${username}`, {}),
   lockoutUser: (id: string, time: number) => requests.post(`/admin/lockout-user/${id}/${time}`, {}),
-  unlockUser: (id: string) => requests.post(`/admin/unlock-user/${id}`, {})
-
+  unlockUser: (id: string) => requests.post(`/admin/unlock-user/${id}`, {}),
+  editRoles: (username: string, roles: string[]) => requests.post(`/admin/edit-roles/${username}/${roles}`, {})
 };
 
 const Activities = {
