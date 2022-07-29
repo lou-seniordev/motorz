@@ -1079,6 +1079,7 @@ namespace Persistence
                             JoinedUs = DateTime.Now.AddDays(-10),
                             Rank = context.Ranks.FirstOrDefault(m => m.Id == "new-member"),
                             Points = 5,
+                            LockoutEnabled = true,
                             Photos = new List<Photo> {
                                 new Photo {
                                     Id = "test_user_" + i,

@@ -17,5 +17,9 @@ namespace Application.Administration
         Task SuspendUser(string username);
         Task ReactivateUser(string username);
 
+        #region Possible Delete User
+        // Task<AppUser> DeleteUser(string username);
+        #endregion
+
     }
 }

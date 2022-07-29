@@ -160,7 +160,9 @@ const Admin = {
 
   details: (username: string) => requests.get(`/admin/get-user-by-username/${username}`),
   suspend: (username: string) => requests.post(`/admin/suspend-user/${username}`, {}),
-  reactivate: (username: string) => requests.post(`/admin/reactivate-user/${username}`, {})
+  reactivate: (username: string) => requests.post(`/admin/reactivate-user/${username}`, {}),
+  lockoutUser: (id: string, time: number) => requests.post(`/admin/lockout-user/${id}/${time}`, {}),
+  unlockUser: (id: string) => requests.post(`/admin/unlock-user/${id}`, {})
 
 };
 

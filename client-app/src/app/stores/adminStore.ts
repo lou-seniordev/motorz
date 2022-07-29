@@ -1,10 +1,12 @@
-import { toJS } from 'mobx';
 import { action, computed, observable, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 
 import agent from '../api/agent';
 import { IMember } from '../models/member';
 import { RootStore } from './rootStore';
+
+import { history } from '../..';
+
 
 const PAGENUMBER = 1;
 const PAGESIZE = 10;
@@ -21,10 +23,13 @@ export default class AdminStore {
   @observable loadingMember = false;
   @observable suspending = false;
   @observable reactivating = false;
+  @observable deleting = false;
   @observable membersRegistry = new Map();
 
   @observable actualPage: number = 1;
   totalPages: number;
+
+
 
   @action setActualPage = (actualPage: number) => {
     this.actualPage = actualPage;
@@ -78,8 +83,10 @@ export default class AdminStore {
 
       })
     } catch (error) {
+      runInAction('error get member', () => {
+        this.loadingMember = false;
+      });
       console.log(error)
-      this.loadingMember = false;
     }
   }
   @action suspendMember = async (member: IMember) => {
@@ -112,6 +119,46 @@ export default class AdminStore {
     } catch (error) {
       console.log(error)
       this.reactivating = false;
+    }
+  }
+  
+  @action lockoutMember = async (id: string, time: number) => {
+    runInAction(() => {
+      this.deleting = true;
+    })
+    let admin = this.rootStore.userStore.user!
+    try {
+      await agent.Admin.lockoutUser(id, time);
+      runInAction(() => {
+        this.membersRegistry.delete(id);
+        history.push(`/admin/${admin.userName}`)
+        this.deleting = false;
+      })
+    } catch (error) {
+      console.log(error)
+      runInAction(()=> {
+        this.deleting = false;
+      })
+    }
+  }
+
+  @action unlockMember = async (id: string) => {
+    runInAction(() => {
+      this.deleting = true;
+    })
+    let admin = this.rootStore.userStore.user!
+    try {
+      await agent.Admin.unlockUser(id);
+      runInAction(() => {
+        this.membersRegistry.delete(id);
+        history.push(`/admin/${admin.userName}`)
+        this.deleting = false;
+      })
+    } catch (error) {
+      console.log(error)
+      runInAction(()=> {
+        this.deleting = false;
+      })
     }
   }
 

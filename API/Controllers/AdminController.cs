@@ -48,8 +48,8 @@ namespace API.Controllers
         public async Task<ActionResult<MemberDto>> GetUserById(string id)
         {
             var user = await _userRepository.GetUserByIdAsync(id);
-            
-            return  _mapper.Map<MemberDto>(user);
+
+            return _mapper.Map<MemberDto>(user);
         }
 
         [HttpGet("get-user-by-username/{username}")]
@@ -105,7 +105,7 @@ namespace API.Controllers
         public async Task<ActionResult> SuspendUser(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-                        
+
             if (user == null) return NotFound("Could not find user");
 
             user.Suspended = true;
@@ -126,7 +126,7 @@ namespace API.Controllers
         public async Task<ActionResult> ReactivateUser(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-                        
+
             if (user == null) return NotFound("Could not find user");
 
             user.Suspended = false;
@@ -139,6 +139,31 @@ namespace API.Controllers
             // return await LockoutOptions(username, lockoutEndDate);
 
         }
+
+        [HttpPost("lockout-user/{username}/{time}")]
+        public async Task<ActionResult> LockoutUser(string username, int time)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null) return NotFound("Could not find user");
+
+            var lockoutEndDate = DateTime.Now.AddDays(time);
+
+            return await LockoutOptions(username, lockoutEndDate);
+        }
+
+        [HttpPost("unlock-user/{username}")]
+        public async Task<ActionResult> UnlockUser(string username, int time)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null) return NotFound("Could not find user");
+
+            var lockoutEndDate = DateTime.Now;
+
+            return await LockoutOptions(username, lockoutEndDate);
+        }
+
 
         private async Task<ActionResult> LockoutOptions(string username, DateTime lockoutEndDate)
         {

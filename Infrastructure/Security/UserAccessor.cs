@@ -22,10 +22,10 @@ namespace Infrastructure.Security
         }
         public string GetCurrentUserId()
         {
-            var username = _httpContextAccessor.HttpContext
+            var id = _httpContextAccessor.HttpContext
                 .User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            return username;
+            return id;
         }
     }
 }

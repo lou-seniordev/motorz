@@ -14,8 +14,10 @@ export interface IMember {
     suspended: boolean;
     lastActive?: string,
     followersCount: number;
+    followingsCount: number;
     photoUrl: string;
-} 
+    userRoles: string[];
+}
 
 export interface IMemberPhoto {
     id: string,

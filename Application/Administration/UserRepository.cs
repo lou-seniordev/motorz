@@ -90,5 +90,20 @@ namespace Application.Administration
         {
             throw new System.NotImplementedException();
         }
+
+        #region Possible Delete User
+        // public async Task<AppUser> DeleteUser(string id)
+        // {
+        //     var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+        //     _context.Remove(user);
+
+        //      var success = await _context.SaveChangesAsync() > 0;
+
+        //     if (success) return user;
+
+        //     throw new System.NullReferenceException();
+        // }
+        #endregion          
     }
 }

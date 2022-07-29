@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Domain;
 
 namespace Application.Administration
 {
@@ -19,6 +21,10 @@ namespace Application.Administration
         public string Rank { get; set; }
         public string Points { get; set; }
         public bool Suspended { get; set; }
+        public ICollection<string> UserRoles { get; set; }
+        public int FollowersCount { get; set; }
+        public int FollowingsCount { get; set; }
+
                 
         // public ICollection<Activity> MyActivities { get; set; } //virtual??
         // public ICollection<PhotoDto> Photos { get; set; }
