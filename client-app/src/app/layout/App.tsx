@@ -44,6 +44,11 @@ import SendRequestResetPasswordSuccess from "../../features/user/SendRequestRese
 import ResetPasswordForm from "../../features/user/ResetPasswordForm";
 import AdminPage from "../../features/admin/AdminPage";
 import UserDetailedInfo from "../../features/admin/user-administration/UserDetailedInfo";
+import UserActivities from "../../features/admin/user-items/UserActivities";
+import UserMotofies from "../../features/admin/user-items/UserMotofies";
+import UserForumposts from "../../features/admin/user-items/UserForumposts";
+import UserMechanics from "../../features/admin/user-items/UserMechanics";
+import UserProducts from "../../features/admin/user-items/UserProducts";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -170,6 +175,37 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path='/member/:username'
                   component={UserDetailedInfo}
                 />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/activities'
+                  component={UserActivities}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/activities'
+                  component={UserActivities}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/motofies'
+                  component={UserMotofies}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/forumposts'
+                  component={UserForumposts}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/mechanics'
+                  component={UserMechanics}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/products'
+                  component={UserProducts}
+                />
+
                 <Route
                   path='/user/registerSuccess'
                   component={RegisterSuccess}

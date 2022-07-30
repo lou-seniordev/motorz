@@ -1,7 +1,7 @@
 import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Card, Segment, Image, Icon, Grid, Button } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IMember } from "../../../app/models/member";
@@ -126,21 +126,46 @@ const UserDetailedInfo: React.FC<RouteComponentProps<DetailParams>> = ({
         </Grid.Column>
         <Grid.Column width={6}>
           <div className='admin-button-container'>
-            <button className='ui button fluid basic admin-button' color='grey'>
-              Get {member.displayName}'s Activities{" "}
-            </button>
-            <button className='ui button fluid basic admin-button' color='grey'>
-              Get {member.displayName}'s Motofies{" "}
-            </button>
-            <button className='ui button fluid basic admin-button' color='grey'>
-              Get {member.displayName}'s Forumposts{" "}
-            </button>
-            <button className='ui button fluid basic admin-button' color='grey'>
-              Get {member.displayName}'s Mechanics{" "}
-            </button>
-            <button className='ui button fluid basic admin-button' color='grey'>
-              Get {member.displayName}'s Products{" "}
-            </button>
+            <Link to={`/member/${member.username}/activities`}>
+              <button
+                className='ui button fluid basic admin-button'
+                color='grey'
+              >
+                Get {member.displayName}'s Activities{" "}
+              </button>
+            </Link>
+            <Link to={`/member/${member.username}/motofies`}>
+              <button
+                className='ui button fluid basic admin-button'
+                color='grey'
+              >
+                Get {member.displayName}'s Motofies{" "}
+              </button>
+            </Link>
+            <Link to={`/member/${member.username}/forumposts`}>
+              <button
+                className='ui button fluid basic admin-button'
+                color='grey'
+              >
+                Get {member.displayName}'s Forumposts{" "}
+              </button>
+            </Link>
+            <Link to={`/member/${member.username}/mechanics`}>
+              <button
+                className='ui button fluid basic admin-button'
+                color='grey'
+              >
+                Get {member.displayName}'s Mechanics{" "}
+              </button>
+            </Link>
+            <Link to={`/member/${member.username}/products`}>
+              <button
+                className='ui button fluid basic admin-button'
+                color='grey'
+              >
+                Get {member.displayName}'s Products{" "}
+              </button>
+            </Link>
           </div>
         </Grid.Column>
         <Grid.Column width={16}>
@@ -177,13 +202,14 @@ const UserDetailedInfo: React.FC<RouteComponentProps<DetailParams>> = ({
               disabled={member.userRoles.includes("Admin")}
               className='ui button basic action-button'
               onClick={() => handleUnlockUser(member.username)}
-              >
+            >
               Unlock{" "}
             </button>
             <button className='ui button basic action-button'>
               Send User A Message{" "}
             </button>
-            <button className='ui button basic action-button'
+            <button
+              className='ui button basic action-button'
               onClick={() => handleEditRoles(member)}
             >
               Manage Roles{" "}
