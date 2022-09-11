@@ -6,7 +6,6 @@ export interface IMechanicsEnvelope {
 }
 export interface IMechanic {
     id: string;
-    // author: string | null;
     photoUrl: string | null;
     name: string;
     publisher: string;
@@ -29,6 +28,25 @@ export interface IMechanic {
     averageRating: string;
     ratings: IRating[];
     brands: any;
+}
+
+export interface IAdminMechanic {
+    id: string;
+    photoUrl: string | null;
+    name: string;
+    publisher: string;
+    owner: string;
+    description: string;
+    yearOfStart: string;//Date;
+    datePublished: string;// Date | undefined;
+    countryName: string;
+    city: string;
+    address: string;
+    email: string;
+    phone: string;
+    website: string;
+    totalRecommended: number;
+    averageRating: string;
 
 }
 

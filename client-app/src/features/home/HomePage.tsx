@@ -17,7 +17,7 @@ const HomePage = () => {
 
   return (
     <Segment inverted textAlign='center' vertical className='masthead'>
-      <Container textAlign='center' className="home-container" style={{    marginLeft:"auto", marginRight:"auto"}}>
+      <Container textAlign='center' className="home-container" style={{ marginLeft:"auto", marginRight:"auto"}}>
         <Header as='h1' inverted style={{marginLeft:"5rem"}}>
           <span style={{ color: "#FA5" }}>M</span>OTORANZA
         </Header>

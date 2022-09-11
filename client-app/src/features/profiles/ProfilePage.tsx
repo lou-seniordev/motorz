@@ -38,7 +38,6 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
     <Grid>
       <Grid.Column width={16}>
         <ProfileHeader
-          // username={user?.userName!}
           profile={profile!}
           isCurrentUser={isCurrentUser}
           follow={follow}

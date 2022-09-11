@@ -1,6 +1,7 @@
+// import { IMember } from './../models/member';
 import { IProfileEnvelope } from './../models/profile';
 import { IRateMotofy } from './../models/motofy';
-import { IMotofy, IMotofyEnvelope } from './../models/motofy'; 
+import { IMotofy, IMotofyEnvelope } from './../models/motofy';
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
 import { IActivity, IActivitiesEnvelope, IDiaryEntry } from '../models/activity';
@@ -59,7 +60,7 @@ axios.interceptors.response.use(undefined, (error) => {
   if (status === 500) {
     toast.error('Server error - check the terminal for more info!');
   }
-  // console.log(error.response);
+  console.log(error.response);
   throw error.response;
 });
 
@@ -151,6 +152,34 @@ const Products = {
   visitCounter: (id: string) => requests.put(`/products/${id}/visitCounter`, {})
 }
 
+const Admin = {
+
+  listUsers: (params: URLSearchParams): Promise<any> => axios.get(`/admin/get-all-users`, { params: params }),
+  details: (username: string) => requests.get(`/admin/get-user-by-username/${username}`),
+  suspend: (username: string) => requests.post(`/admin/suspend-user/${username}`, {}),
+  reactivate: (username: string) => requests.post(`/admin/reactivate-user/${username}`, {}),
+  lockoutUser: (id: string, time: number) => requests.post(`/admin/lockout-user/${id}/${time}`, {}),
+  unlockUser: (id: string) => requests.post(`/admin/unlock-user/${id}`, {}),
+  editRoles: (username: string, roles: string[]) => requests.post(`/admin/edit-roles/${username}/${roles}`, {}),
+
+  activities: (username: string) => requests.get(`/admin/user-activity-list/${username}`),
+  activityDetails: (id: string) => requests.get(`/admin/user-activity-by-id/${id}`),
+
+  motofies: (username: string) => requests.get(`/admin/user-motofy-list/${username}`),
+  motofyDetails: (id: string) => requests.get(`/admin/user-motofy-by-id/${id}`),
+
+  forumposts: (username: string) => requests.get(`/admin/user-forumpost-list/${username}`),
+  forumpostDetails: (id: string) => requests.get(`/admin/user-forumpost-by-id/${id}`),
+
+  mechanics: (username: string) => requests.get(`/admin/user-mechanic-list/${username}`),
+  mechanicDetails: (id: string) => requests.get(`/admin/user-mechanic-by-id/${id}`),
+
+  products: (username: string) => requests.get(`/admin/user-product-list/${username}`),
+  productDetails: (id: string) => requests.get(`/admin/user-product-by-id/${id}`),
+
+  
+};
+
 const Activities = {
 
   list: (params: URLSearchParams): Promise<IActivitiesEnvelope> =>
@@ -185,6 +214,7 @@ const Feed = {
   addFeedItem: (id: string, info: string, username?: string) => requests.post(`/feeds/${id}/${info}/${username}/addFeedItem`, {}),
   markSeenInDB: (ids: IFeedsToMarkSeen) => requests.put('/feeds/markseenindb', ids)
 };
+
 
 const PrivateMessages = {
   list: (limit: number, page: number): Promise<IPrivateMessageEnvelope> =>
@@ -269,8 +299,9 @@ const Profiles = {
     requests.get(`/profiles/${username}/mechanics?predicate=${predicate}`),
   listProducts: (username: string, predicate: string) =>
     requests.get(`/profiles/${username}/products?predicate=${predicate}`)
-
 };
+
+
 
 export default {
   Activities,
@@ -284,5 +315,6 @@ export default {
   Countries,
   Feed,
   DiaryEntries,
-  PrivateMessages
+  PrivateMessages,
+  Admin
 };

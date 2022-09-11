@@ -27,6 +27,8 @@ using Coravel;
 using API.Workers;
 using Infrastructure.Email;
 using Application.Feeds.FeedHub;
+using Application.Administration;
+using API.ActionFilters;
 
 namespace API
 {
@@ -45,54 +47,54 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // // // == COMMENTED AND REPLACED WITH HEROKU CONFIG
-            // services.AddDbContext<DataContext>(opt =>
-            // {
-            //     // === must add in order to use Lazy Loading Proxies ===
-            //     opt.UseLazyLoadingProxies();
-            //     // opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-            //     opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-            // });
-
-
-            services.AddDbContext<DataContext>(options =>
+            // // == COMMENTED AND REPLACED WITH HEROKU CONFIG
+            services.AddDbContext<DataContext>(opt =>
             {
-                options.UseLazyLoadingProxies();
-
-                var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-                string connStr;
-
-                // Depending on if in development or production, use either Heroku-provided
-                // connection string, or development connection string from env var.
-                if (env == "Development")
-                {
-                    // Use connection string from file.
-                    connStr = _configuration.GetConnectionString("DefaultConnection");
-                }
-                else
-                {
-                    // Use connection string provided at runtime by Heroku.
-                    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-
-                    // Parse connection URL to connection string for Npgsql
-                    connUrl = connUrl.Replace("postgres://", string.Empty);
-                    var pgUserPass = connUrl.Split("@")[0];
-                    var pgHostPortDb = connUrl.Split("@")[1];
-                    var pgHostPort = pgHostPortDb.Split("/")[0];
-                    var pgDb = pgHostPortDb.Split("/")[1];
-                    var pgUser = pgUserPass.Split(":")[0];
-                    var pgPass = pgUserPass.Split(":")[1];
-                    var pgHost = pgHostPort.Split(":")[0];
-                    var pgPort = pgHostPort.Split(":")[1];
-
-                    connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
-                }
-
-                // Whether the connection string came from the local development configuration file
-                // or from the environment variable from Heroku, use it to set up your DbContext.
-                options.UseNpgsql(connStr);
+                // === must add in order to use Lazy Loading Proxies ===
+                opt.UseLazyLoadingProxies();
+                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                // opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+
+            // services.AddDbContext<DataContext>(options =>
+            // {
+            //     options.UseLazyLoadingProxies();
+
+            //     var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            //     string connStr;
+
+            //     // Depending on if in development or production, use either Heroku-provided
+            //     // connection string, or development connection string from env var.
+            //     if (env == "Development")
+            //     {
+            //         // Use connection string from file.
+            //         connStr = _configuration.GetConnectionString("DefaultConnection");
+            //     }
+            //     else
+            //     {
+            //         // Use connection string provided at runtime by Heroku.
+            //         var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+            //         // Parse connection URL to connection string for Npgsql
+            //         connUrl = connUrl.Replace("postgres://", string.Empty);
+            //         var pgUserPass = connUrl.Split("@")[0];
+            //         var pgHostPortDb = connUrl.Split("@")[1];
+            //         var pgHostPort = pgHostPortDb.Split("/")[0];
+            //         var pgDb = pgHostPortDb.Split("/")[1];
+            //         var pgUser = pgUserPass.Split(":")[0];
+            //         var pgPass = pgUserPass.Split(":")[1];
+            //         var pgHost = pgHostPort.Split(":")[0];
+            //         var pgPort = pgHostPort.Split(":")[1];
+
+            //         connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
+            //     }
+
+            //     // Whether the connection string came from the local development configuration file
+            //     // or from the environment variable from Heroku, use it to set up your DbContext.
+            //     options.UseNpgsql(connStr);
+            // });
 
 
             services.AddControllers(opt =>
@@ -112,7 +114,7 @@ namespace API
                 {
                     policy.AllowAnyHeader()
                           .AllowAnyMethod()
-                          .WithExposedHeaders("WWW-Authenticate")
+                          .WithExposedHeaders("WWW-Authenticate", "Pagination")
                           .WithOrigins("http://localhost:3000")
                           .AllowCredentials();
                 });
@@ -130,6 +132,8 @@ namespace API
             services.AddMediatR(typeof(List.Handler).Assembly);
 
             // === AUTOMAPPER ===
+            // services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
             services.AddAutoMapper(typeof(List.Handler));
 
             // === SIGNAL R ===
@@ -138,7 +142,13 @@ namespace API
             var builder = services.AddIdentityCore<AppUser>(options =>
             {
                 options.SignIn.RequireConfirmedEmail = true;
-            });
+            })
+                .AddRoles<AppRole>()
+                .AddRoleManager<RoleManager<AppRole>>()
+                .AddSignInManager<SignInManager<AppUser>>()
+                .AddRoleValidator<RoleValidator<AppRole>>()
+                .AddEntityFrameworkStores<DataContext>();
+
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
@@ -163,8 +173,21 @@ namespace API
                     policy.Requirements.Add(new IsOwnerRequirement());
                 });
             });
+            // === ROLES ===
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                opt.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Admin", "Moderator"));
+            });
+
             // === AddTransient() - only for the life time of operation, not the complete request ===
             services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
+
+            services.AddScoped<LogUserActivity>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
+
+
 
             // === AUTHENTICATION === 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
@@ -189,9 +212,9 @@ namespace API
                             var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken)
-                                && ((path.StartsWithSegments("/chat") 
-                                    || (path.StartsWithSegments("/message")) 
-                                    || (path.StartsWithSegments("/feedhub")) 
+                                && ((path.StartsWithSegments("/chat")
+                                    || (path.StartsWithSegments("/message"))
+                                    || (path.StartsWithSegments("/feedhub"))
                                     || (path.StartsWithSegments("/presence"))))
                                 )
                             {
@@ -203,7 +226,7 @@ namespace API
                     };
                 });
 
-            services.AddSingleton< PresenceTracker>();
+            services.AddSingleton<PresenceTracker>();
             services.AddSingleton<FeedPresenceTracker>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
@@ -280,7 +303,7 @@ namespace API
                 endpoints.MapHub<PrivateMessageHub>("/message");
 
                 endpoints.MapHub<PresenceHub>("/presence");
-                
+
                 endpoints.MapHub<FeedHub>("/feedhub");
 
                 // === Fallback ===

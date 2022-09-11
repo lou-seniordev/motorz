@@ -13,18 +13,34 @@ export interface IActivity {
   date: Date;
   city: string;
   countryName: string;
-  countryId: string;
+  country: string;
+  countryId: string; //maybe new
   departure: string;
   destination: string;
   isGoing: boolean;
   isHost: boolean;
   isActive: boolean;
+  isCompleted: boolean;//maybe new??
   attendees: IAttendee[];
   comments: IComment[];
   diaryEntries: IDiaryEntry[];
   motorcycleBrandId: string;
   motorcycleBrandName: string;
   motorcycleBrandLogoUrl: string;
+}
+
+export interface IAdminActivity {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  date: Date;
+  city: string;
+  country: string;
+  departure: string;
+  destination: string;
+  isActive: boolean;
+  isCompleted: boolean;//maybe new??
 }
 
 

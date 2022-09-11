@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -82,19 +83,30 @@ namespace Application.User
                     throw new RestException(HttpStatusCode.BadRequest,
                         new { UserName = "UserName already exists" });
 
+                var rank =  _context.Ranks.FirstOrDefault(m => m.Id == "new-member");
+
+
                 var user =
                     new AppUser
                     {
                         DisplayName = request.DisplayName,
                         Email = request.Email,
-                        UserName = request.UserName
+                        UserName = request.UserName,
+                        DateOfBirth = DateTime.Now.AddYears(-1000),
+                        Rank = rank
                     };
+
 
                 var result =
                     await _userManager.CreateAsync(user, request.Password);
 
                 if (!result.Succeeded)
                     throw new Exception("Problem creating user  ");
+
+                var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+                
+                if(!roleResult.Succeeded)
+                    throw new RestException(HttpStatusCode.BadRequest, new {AppRole = "Not added to role"});
 
                 var token =
                     await _userManager

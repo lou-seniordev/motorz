@@ -42,6 +42,16 @@ import VerifyEmail from "../../features/user/VerifyEmail";
 import { useTranslation } from "react-i18next";
 import SendRequestResetPasswordSuccess from "../../features/user/SendRequestResetPasswordSuccess";
 import ResetPasswordForm from "../../features/user/ResetPasswordForm";
+import AdminPage from "../../features/admin/AdminPage";
+import UserDetailedInfo from "../../features/admin/user-administration/UserDetailedInfo";
+// import UserActivities from "../../features/admin/user-items/UserActivities";
+// import UserMotofies from "../../features/admin/user-items/UserMotofies";
+// import UserForumposts from "../../features/admin/user-items/UserForumposts";
+// import UserMechanics from "../../features/admin/user-items/UserMechanics";
+// import UserProducts from "../../features/admin/user-items/UserProducts";
+import ManageUserActivityItem from "../../features/admin/user-items/activities/ManageUserActivityItem";
+
+// import ListUserActivities from "../../features/admin/user-items/activities/ListUserActivities";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -158,13 +168,55 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path='/profile/:username'
                   component={ProfilePage}
                 />
+                <PrivateRoute
+                  exact
+                  path='/admin/:username'
+                  component={AdminPage}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username'
+                  component={UserDetailedInfo}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:id/activities'
+                  component={ManageUserActivityItem}
+                />
+                {/* <PrivateRoute
+                  exact
+                  path='/member/:username/motofies'
+                  component={UserMotofies}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/forumposts'
+                  component={UserForumposts}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/mechanics'
+                  component={UserMechanics}
+                />
+                <PrivateRoute
+                  exact
+                  path='/member/:username/products'
+                  component={UserProducts}
+                /> */}
+
                 <Route
                   path='/user/registerSuccess'
                   component={RegisterSuccess}
                 />
                 <Route path='/user/verifyEmail' component={VerifyEmail} />
-                <Route path='/user/sendRequestResetPasswordSuccess' component={SendRequestResetPasswordSuccess} />
-                <Route path='/user/ResetPasswordForm' component={ResetPasswordForm} />
+                <Route
+                  path='/user/sendRequestResetPasswordSuccess'
+                  component={SendRequestResetPasswordSuccess}
+                />
+                <Route
+                  path='/user/ResetPasswordForm'
+                  component={ResetPasswordForm}
+                />
                 <Route path='/login' component={LoginForm} />
                 <Route path='/confirmDelete' component={ConfirmDelete} />
                 <Route component={NotFound} />

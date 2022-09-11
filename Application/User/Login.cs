@@ -51,6 +51,13 @@ namespace Application.User
                 {
                     throw new RestException(HttpStatusCode.Unauthorized);
                 }
+                if (user.Suspended)
+                {
+                    throw new RestException(HttpStatusCode.BadRequest, new 
+                    {
+                        Acount = "This account has been suspended!"
+                    });
+                }
 
                 if(!user.EmailConfirmed)
                 {
@@ -68,9 +75,9 @@ namespace Application.User
                     return new User
                     {
                         DisplayName = user.DisplayName,
-                        Token = _jwtGenerator.CreateToken(user),
+                        Token = await _jwtGenerator.CreateToken(user),
                         UserName = user.UserName,
-                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                     };
                 }
 

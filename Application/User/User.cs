@@ -1,8 +1,3 @@
-using System.Linq;
-using System.Text.Json.Serialization;
-using Application.Interfaces;
-using Domain;
-
 namespace Application.User
 {
 
@@ -14,6 +9,5 @@ namespace Application.User
         public string UserName { get; set; }
         public string Image { get; set; }
 
-      
     }
 }

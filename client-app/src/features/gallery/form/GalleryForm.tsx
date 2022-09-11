@@ -37,9 +37,6 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 import { useTranslation } from "react-i18next";
 
-
-
-
 interface DetailParams {
   id: string;
 }

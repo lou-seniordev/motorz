@@ -5,7 +5,6 @@ using Application.Interfaces;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Persistence;
 
 namespace Application.User
 {
@@ -28,6 +27,7 @@ namespace Application.User
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
+
                 if (user != null)
                 {
 
@@ -35,8 +35,8 @@ namespace Application.User
                     {
                         DisplayName = user.DisplayName,
                         UserName = user.UserName,
-                        Token = _jwtGenerator.CreateToken(user),
-                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                        Token = await _jwtGenerator.CreateToken(user),
+                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                     };
                 }
                 else

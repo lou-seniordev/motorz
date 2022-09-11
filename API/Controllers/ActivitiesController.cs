@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    // [Route("api/[controller]")]
-    // [ApiController]
     public class ActivitiesController : BaseController
     {
 
@@ -48,7 +46,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "IsActivityHost")]
+        // [Authorize(Policy = "IsActivityHost")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
 

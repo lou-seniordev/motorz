@@ -1,10 +1,13 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
-    public class DataContext : IdentityDbContext<AppUser>
+    public class DataContext : IdentityDbContext<AppUser, AppRole,  string, 
+    IdentityUserClaim<string>, AppUserRole, IdentityUserLogin<string>, 
+    IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -66,6 +69,8 @@ namespace Persistence
         public DbSet<Feed> Feeds { get; set; }
         public DbSet<FeedNotifyee> FeedNotifyees { get; set; }
 
+        // === User Ranking ===
+        public DbSet<Rank> Ranks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -145,9 +150,18 @@ namespace Persistence
                 .WithMany(v => v.Viewers)
                 .HasForeignKey(m => m.ProductId);
 
+            // === define m2m relationship for users and roles ===
+            builder.Entity<AppUser>()
+                .HasMany(ur => ur.UserRoles)
+                .WithOne(u => u.User)
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
 
-
-
+            builder.Entity<AppRole>()
+                .HasMany(ur => ur.UserRoles)
+                .WithOne(r => r.Role)
+                .HasForeignKey(r => r.RoleId)
+                .IsRequired();
 
             // === define one2many relationship ===
             // builder.Entity<Motofy>()

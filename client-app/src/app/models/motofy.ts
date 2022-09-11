@@ -37,6 +37,26 @@ export interface IMotofy {
     motofyScores: any[];
     averageRating: string;
 }
+export interface IAdminMotofy {
+    id: string;
+    name: string;
+    publisherDisplayName: string;
+    brandName: string;
+    brandLogoUrl: string;
+    model: string;
+    cubicCentimeters: string;
+    photoUrl?: string | null;
+    description?: string;
+    yearOfProduction: Date;
+    datePublished: string;
+    city: string;
+    countryName: string;
+    pricePaid: string;
+    estimatedValue: string;
+    numberOfKilometers: string; 
+    totalEmbraced: number;
+    averageRating: number;
+}
 
 export interface IMotofyFormValues extends Partial<IMotofy>{//, Partial<IBrand> 
 

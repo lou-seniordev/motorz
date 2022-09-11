@@ -3,8 +3,8 @@ export interface IUser {
     userName: string;
     displayName: string;
     token: string;
-    image?: string
-    
+    image?: string;
+    userRoles?: string[];    
 }
 
 export interface IUserFormValues {
