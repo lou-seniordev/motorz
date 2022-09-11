@@ -22,6 +22,17 @@ export interface IForumpost {
   forumpostRating: number;
 }
 
+export interface IAdminForumpost {
+  id: string;
+  displayName: string;
+  authorPhotoUrl: string;
+  dateAdded: string;
+  title: string;
+  body: string;
+  category: string;
+  forumpostRating: number;
+}
+
 export class ForumpostFormValues {
   id?: string;
   title: string = '';

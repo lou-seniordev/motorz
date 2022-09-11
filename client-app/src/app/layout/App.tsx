@@ -44,11 +44,14 @@ import SendRequestResetPasswordSuccess from "../../features/user/SendRequestRese
 import ResetPasswordForm from "../../features/user/ResetPasswordForm";
 import AdminPage from "../../features/admin/AdminPage";
 import UserDetailedInfo from "../../features/admin/user-administration/UserDetailedInfo";
-import UserActivities from "../../features/admin/user-items/UserActivities";
-import UserMotofies from "../../features/admin/user-items/UserMotofies";
-import UserForumposts from "../../features/admin/user-items/UserForumposts";
-import UserMechanics from "../../features/admin/user-items/UserMechanics";
-import UserProducts from "../../features/admin/user-items/UserProducts";
+// import UserActivities from "../../features/admin/user-items/UserActivities";
+// import UserMotofies from "../../features/admin/user-items/UserMotofies";
+// import UserForumposts from "../../features/admin/user-items/UserForumposts";
+// import UserMechanics from "../../features/admin/user-items/UserMechanics";
+// import UserProducts from "../../features/admin/user-items/UserProducts";
+import ManageUserActivityItem from "../../features/admin/user-items/activities/ManageUserActivityItem";
+
+// import ListUserActivities from "../../features/admin/user-items/activities/ListUserActivities";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -177,15 +180,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 />
                 <PrivateRoute
                   exact
-                  path='/member/:username/activities'
-                  component={UserActivities}
+                  path='/member/:id/activities'
+                  component={ManageUserActivityItem}
                 />
-                <PrivateRoute
-                  exact
-                  path='/member/:username/activities'
-                  component={UserActivities}
-                />
-                <PrivateRoute
+                {/* <PrivateRoute
                   exact
                   path='/member/:username/motofies'
                   component={UserMotofies}
@@ -204,7 +202,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   exact
                   path='/member/:username/products'
                   component={UserProducts}
-                />
+                /> */}
 
                 <Route
                   path='/user/registerSuccess'

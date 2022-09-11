@@ -32,7 +32,31 @@ export interface IProduct {
   typeAdvertising: string;
   photoUrl: string;
   file: Blob;
-
+}
+export interface IAdminProduct {
+  id: string;
+  sellerDisplayName: string;
+  title: string;
+  model: string;
+  description: string;
+  price: string;
+  brand: string;
+  category: string;
+  city: string;
+  countryName: string;
+  phoneNumber: string;
+  isActive: boolean;
+  isSold: boolean;
+  isAdvertised: boolean;
+  numberSeen: number;
+  numberFollowed: number;
+  viewers: IProductViewer [];
+  datePublished: string;
+  dateActivated: Date;
+  dateAdvertised: Date;
+  advertisingEndDate?: Date;
+  typeAdvertising: string;
+  photoUrl: string;
 }
 
 export interface IProductViewer {

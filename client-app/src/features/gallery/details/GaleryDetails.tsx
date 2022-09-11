@@ -27,7 +27,7 @@ const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadMotofy, match.params.id]);
 
   if (loadingInitial || !motofy)
-    return <LoadingComponent content={t('Loading motofies...')} />;
+    return <LoadingComponent content={t('Loading motofy...')} />;
 
   return (
     <Grid>     

@@ -2,7 +2,7 @@ import { formatDistance } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Card, Segment, Image, Icon, Grid, Button } from "semantic-ui-react";
+import { Card, Segment, Image, Icon, Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { IMember } from "../../../app/models/member";
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -10,6 +10,11 @@ import ConfirmLockout from "../modals/ConfirmLockout";
 import ConfirmUnlock from "../modals/ConfirmUnlock";
 import { useHistory } from "react-router-dom";
 import ConfirmRoles from "../modals/ConfirmRoles";
+import TableUserActivity from "../user-items/activities/TableUserActivity";
+import TableUserMotofy from "../user-items/motofies/TableUserMotofy";
+import TableUserForumpost from "../user-items/forumposts/TableUserForumpost";
+import TableUserMechanic from "../user-items/mechanics/TableUserMechanic";
+import TableUserProduct from "../user-items/products/TableUserProduct";
 
 interface DetailParams {
   username: string;
@@ -23,23 +28,55 @@ const UserDetailedInfo: React.FC<RouteComponentProps<DetailParams>> = ({
   const adminStore = rootStore.adminStore;
   const modalStore = rootStore.modalStore;
 
+  // const { loadActivities, loadingActivities, activities } =
+  // rootStore.adminStore;  setActivityView
+
   const {
     loadMember,
     member,
     loadingMember,
     suspendMember,
     reactivateMember,
-    lockoutMember,
-    unlockMember,
+    loadActivities,
+    activities,
+    showActivityView,
+    activityView,
+    loadMotofies,
+    motofies,
+    showMotofyView,
+    motofyView,
+    loadForumposts,
+    forumposts,
+    showForumpostView,
+    forumpostView,
+    loadMechanics,
+    mechanics,
+    showMechanicView,
+    mechanicView,
+    loadProducts,
+    products,
+    showProductView,
+    productView
   } = adminStore;
 
   const { openModal, setSize } = modalStore;
 
+  const classesPosts = 'ui button fluid basic admin-button';
+  const classesUserActions = 'ui button basic action-button';
+
   let back = useHistory();
 
   useEffect(() => {
+    // console.log(member)
     loadMember(match.params.username);
+    loadActivities(match.params.username);
+    loadMotofies(match.params.username);
+    loadForumposts(match.params.username);
+    loadMechanics(match.params.username);
+    loadProducts(match.params.username);
   }, [loadMember, match.params.username, history]);
+
+  // const [activityView, showActivityView] = useState(false);
 
   const handleSuspendUser = (member: IMember) => {
     suspendMember(member);
@@ -60,12 +97,62 @@ const UserDetailedInfo: React.FC<RouteComponentProps<DetailParams>> = ({
     openModal(<ConfirmRoles member={member} />);
   };
 
+
   if (loadingMember || !member)
     return <LoadingComponent content={"Loading member..."} />;
 
   return (
     <Segment attached='top' textAlign='center' raised>
+      {!activityView && !motofyView && !forumpostView && !mechanicView && !productView &&
       <Grid>
+        <Grid.Column width={16}>
+          <div className='action-button-container'>
+            <button
+              className={classesUserActions}
+              onClick={() => back.goBack()}
+            >
+              Back
+            </button>
+
+            <button
+              className={classesUserActions}
+              disabled={member.suspended}
+              onClick={() => handleSuspendUser(member)}
+            >
+              Suspend User{" "}
+            </button>
+            <button
+              className={classesUserActions}
+              disabled={!member.suspended}
+              onClick={() => handleReactivateUser(member)}
+            >
+              Reactivate User{" "}
+            </button>
+            <button
+              disabled={member.userRoles.includes("Admin")}
+              className={classesUserActions}
+              onClick={() => handleLockoutUser(member.username)}
+            >
+              Lockout User{" "}
+            </button>
+            <button
+              disabled={member.userRoles.includes("Admin")}
+              className={classesUserActions}
+              onClick={() => handleUnlockUser(member.username)}
+            >
+              Unlock{" "}
+            </button>
+            <button className={classesUserActions}>
+              Send User A Message{" "}
+            </button>
+            <button
+              className={classesUserActions}
+              onClick={() => handleEditRoles(member)}
+            >
+              Manage Roles{" "}
+            </button>
+          </div>
+        </Grid.Column>
         <Grid.Column width={4}>
           <Card>
             <Image
@@ -126,97 +213,67 @@ const UserDetailedInfo: React.FC<RouteComponentProps<DetailParams>> = ({
         </Grid.Column>
         <Grid.Column width={6}>
           <div className='admin-button-container'>
-            <Link to={`/member/${member.username}/activities`}>
+
+
               <button
-                className='ui button fluid basic admin-button'
+                className={classesPosts}
                 color='grey'
+                onClick={()=>showActivityView(true)}
               >
                 Get {member.displayName}'s Activities{" "}
               </button>
-            </Link>
-            <Link to={`/member/${member.username}/motofies`}>
+
               <button
-                className='ui button fluid basic admin-button'
+                className={classesPosts}
                 color='grey'
+                onClick={()=>showMotofyView(true)}
               >
                 Get {member.displayName}'s Motofies{" "}
               </button>
-            </Link>
-            <Link to={`/member/${member.username}/forumposts`}>
               <button
-                className='ui button fluid basic admin-button'
+                className={classesPosts}
                 color='grey'
+                onClick={()=> showForumpostView(true)}
               >
                 Get {member.displayName}'s Forumposts{" "}
               </button>
-            </Link>
-            <Link to={`/member/${member.username}/mechanics`}>
               <button
-                className='ui button fluid basic admin-button'
+                className={classesPosts}
                 color='grey'
+                onClick={()=>showMechanicView(true)}
               >
                 Get {member.displayName}'s Mechanics{" "}
               </button>
-            </Link>
-            <Link to={`/member/${member.username}/products`}>
               <button
-                className='ui button fluid basic admin-button'
+                className={classesPosts}
                 color='grey'
+                onClick={()=>showProductView(true)}
               >
                 Get {member.displayName}'s Products{" "}
               </button>
-            </Link>
-          </div>
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <div className='action-button-container'>
-            <button
-              className='ui button basic action-button'
-              onClick={() => back.goBack()}
-            >
-              Back
-            </button>
-
-            <button
-              className='ui button basic action-button'
-              disabled={member.suspended}
-              onClick={() => handleSuspendUser(member)}
-            >
-              Suspend User{" "}
-            </button>
-            <button
-              className='ui button basic action-button'
-              disabled={!member.suspended}
-              onClick={() => handleReactivateUser(member)}
-            >
-              Reactivate User{" "}
-            </button>
-            <button
-              disabled={member.userRoles.includes("Admin")}
-              className='ui button basic action-button'
-              onClick={() => handleLockoutUser(member.username)}
-            >
-              Lockout User{" "}
-            </button>
-            <button
-              disabled={member.userRoles.includes("Admin")}
-              className='ui button basic action-button'
-              onClick={() => handleUnlockUser(member.username)}
-            >
-              Unlock{" "}
-            </button>
-            <button className='ui button basic action-button'>
-              Send User A Message{" "}
-            </button>
-            <button
-              className='ui button basic action-button'
-              onClick={() => handleEditRoles(member)}
-            >
-              Manage Roles{" "}
-            </button>
           </div>
         </Grid.Column>
       </Grid>
+       }
+       {activityView && 
+       <TableUserActivity activities={activities}/>
+       }
+       {motofyView && 
+       <TableUserMotofy motofies={motofies}/>
+
+       }
+       {forumpostView && 
+       <TableUserForumpost forumposts={forumposts}/>
+
+       }
+       {mechanicView && 
+       <TableUserMechanic mechanics={mechanics}/>
+
+       }
+       {productView && 
+       <TableUserProduct products={products}/>
+
+       }
     </Segment>
   );
 };

@@ -14,6 +14,14 @@ body {
   ) !important;
   position: fixed;
   z-index: 1000;
+  /* P */
+  font-size: 1.2rem;
+}
+
+/* playing */
+.ui.container {
+
+  margin-top: 5rem !important;
 }
 
 .button.ui.positive.button {

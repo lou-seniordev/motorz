@@ -185,6 +185,7 @@ namespace API
 
             services.AddScoped<LogUserActivity>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
 
 
 

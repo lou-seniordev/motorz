@@ -1,4 +1,4 @@
-import { IMember } from './../models/member';
+// import { IMember } from './../models/member';
 import { IProfileEnvelope } from './../models/profile';
 import { IRateMotofy } from './../models/motofy';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy';
@@ -160,7 +160,24 @@ const Admin = {
   reactivate: (username: string) => requests.post(`/admin/reactivate-user/${username}`, {}),
   lockoutUser: (id: string, time: number) => requests.post(`/admin/lockout-user/${id}/${time}`, {}),
   unlockUser: (id: string) => requests.post(`/admin/unlock-user/${id}`, {}),
-  editRoles: (username: string, roles: string[]) => requests.post(`/admin/edit-roles/${username}/${roles}`, {})
+  editRoles: (username: string, roles: string[]) => requests.post(`/admin/edit-roles/${username}/${roles}`, {}),
+
+  activities: (username: string) => requests.get(`/admin/user-activity-list/${username}`),
+  activityDetails: (id: string) => requests.get(`/admin/user-activity-by-id/${id}`),
+
+  motofies: (username: string) => requests.get(`/admin/user-motofy-list/${username}`),
+  motofyDetails: (id: string) => requests.get(`/admin/user-motofy-by-id/${id}`),
+
+  forumposts: (username: string) => requests.get(`/admin/user-forumpost-list/${username}`),
+  forumpostDetails: (id: string) => requests.get(`/admin/user-forumpost-by-id/${id}`),
+
+  mechanics: (username: string) => requests.get(`/admin/user-mechanic-list/${username}`),
+  mechanicDetails: (id: string) => requests.get(`/admin/user-mechanic-by-id/${id}`),
+
+  products: (username: string) => requests.get(`/admin/user-product-list/${username}`),
+  productDetails: (id: string) => requests.get(`/admin/user-product-by-id/${id}`),
+
+  
 };
 
 const Activities = {

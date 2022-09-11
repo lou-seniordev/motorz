@@ -11,7 +11,7 @@ import {
   Table,
 } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import { IMember } from "../../../app/models/member";
+// import { IMember } from "../../../app/models/member";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { gender } from "../../../app/common/options/genderOptions";
 import { rank } from "../../../app/common/options/rankingOptions";
@@ -37,7 +37,7 @@ const UsersOverview = () => {
   };
 
   const handleGetUserDetailed = (username: string) => {
-    console.log(username);
+    // console.log(username);
     history.push(`/member/${username}`);
   };
 
