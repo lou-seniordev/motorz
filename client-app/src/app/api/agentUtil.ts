@@ -1,4 +1,4 @@
-import { IDiaryEntry } from './../models/activity';
+import { IDiaryEntry, IActivity } from './../models/activity';
 import axios, { AxiosResponse } from "axios";
 import { IMechanic } from "../models/mechanic";
 import { IMotofy } from "../models/motofy";
@@ -50,7 +50,32 @@ export const postProduct = {
       .then(responseBody);
   }
 };
+
+export const postActivity = {
+
+  activityForm: (url: string, activity: IActivity) => {
+    let activityData = new FormData();
+    activityData.append('Id', activity.id!)
+    activityData.append('Title', activity.title)
+    activityData.append('MotorcycleBrandName', activity.motorcycleBrandName)
+    activityData.append('Description', activity.description!)
+    activityData.append('Category', activity.category!)
+    activityData.append('Date', activity.date.toISOString())
+    activityData.append('City', String(activity.city!))
+    activityData.append('CountryName', activity.countryName) 
+    activityData.append('Departure', activity.departure)
+    activityData.append('Destination', activity.destination)
+    activityData.append('File', activity.file)
+
+    return axios.post(url, activityData, {
+      headers: { 'Content-type': 'multipart/form-data' }
+    })
+      .then(responseBody);
+  }
+};
+
 export const postDiaryEntry = {
+
   diaryEntryForm: (url: string, diaryEntry: IDiaryEntry) => {
     let diaryEntryData = new FormData();
     diaryEntryData.append('Id', diaryEntry.id!)

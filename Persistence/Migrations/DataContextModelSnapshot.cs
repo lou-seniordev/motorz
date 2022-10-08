@@ -52,6 +52,9 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("MotorcycleBrandId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
@@ -62,6 +65,25 @@ namespace Persistence.Migrations
                     b.HasIndex("MotorcycleBrandId");
 
                     b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("Domain.ActivityPhoto", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ActivityForeignKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityForeignKey")
+                        .IsUnique();
+
+                    b.ToTable("ActivityPhotos");
                 });
 
             modelBuilder.Entity("Domain.AppRole", b =>
@@ -1292,6 +1314,17 @@ namespace Persistence.Migrations
                     b.Navigation("MotorcycleBrand");
                 });
 
+            modelBuilder.Entity("Domain.ActivityPhoto", b =>
+                {
+                    b.HasOne("Domain.Activity", "Activity")
+                        .WithOne("ActivityPhoto")
+                        .HasForeignKey("Domain.ActivityPhoto", "ActivityForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
+                });
+
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
                     b.HasOne("Domain.Rank", "Rank")
@@ -1781,6 +1814,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Activity", b =>
                 {
+                    b.Navigation("ActivityPhoto");
+
                     b.Navigation("CommentActivities");
 
                     b.Navigation("Comments");

@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220727131712_RanksAdded")]
-    partial class RanksAdded
+    [Migration("20221007204931_DiaryPhotoAdded")]
+    partial class DiaryPhotoAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,9 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("MotorcycleBrandId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
@@ -64,6 +67,25 @@ namespace Persistence.Migrations
                     b.HasIndex("MotorcycleBrandId");
 
                     b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("Domain.ActivityPhoto", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ActivityForeignKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityForeignKey")
+                        .IsUnique();
+
+                    b.ToTable("ActivityPhotos");
                 });
 
             modelBuilder.Entity("Domain.AppRole", b =>
@@ -158,11 +180,17 @@ namespace Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Points")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("RankId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Suspended")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
@@ -1288,6 +1316,17 @@ namespace Persistence.Migrations
                     b.Navigation("MotorcycleBrand");
                 });
 
+            modelBuilder.Entity("Domain.ActivityPhoto", b =>
+                {
+                    b.HasOne("Domain.Activity", "Activity")
+                        .WithOne("ActivityPhoto")
+                        .HasForeignKey("Domain.ActivityPhoto", "ActivityForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
+                });
+
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
                     b.HasOne("Domain.Rank", "Rank")
@@ -1777,6 +1816,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Activity", b =>
                 {
+                    b.Navigation("ActivityPhoto");
+
                     b.Navigation("CommentActivities");
 
                     b.Navigation("Comments");

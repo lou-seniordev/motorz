@@ -71,7 +71,13 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
               src={host.image || "/assets/user.png"}
               style={{ marginBottom: 3 }}
             />
-            {/* </Item.Content> */}
+              {/* </temp proving> */}
+            <Item.Image
+              size='tiny'
+              circular
+              src={activity.photoUrl || "/assets/user.png"}
+              style={{ marginBottom: 3 }}
+            />
             <Item.Content
               verticalAlign='middle'
               style={{ textAlign: "center" }}

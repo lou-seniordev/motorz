@@ -119,12 +119,11 @@ namespace Application.Motofies
 
                 var motofyId = motofy.Id;
                 var photoUploadResult = _entityPhotoAccessor.AddPhoto(request.File, 400, 500);
-                // var motofyForPhoto = await _context.Motofies.SingleOrDefaultAsync(m => m.Id == MotorfyId);
+
                 var photoForMotofy = new MotofyPhoto
                 {
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId,
-                    // DateUploaded = DateTime.Now,
                     MotofyForeignKey = motofyId
                 };
 

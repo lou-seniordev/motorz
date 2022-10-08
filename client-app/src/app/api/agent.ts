@@ -1,4 +1,3 @@
-// import { IMember } from './../models/member';
 import { IProfileEnvelope } from './../models/profile';
 import { IRateMotofy } from './../models/motofy';
 import { IMotofy, IMotofyEnvelope } from './../models/motofy';
@@ -13,12 +12,9 @@ import { IMechanic, IMechanicCustomerToBecome, IMechanicRate, IMechanicRecommend
 import { IBrand } from '../models/brand';
 import { IProduct, IProductsEnvelope } from '../models/product';
 import { ICountry } from '../models/country';
-import { postDiaryEntry, postMotofy } from './agentUtil';
-import { postProduct } from './agentUtil';
-import { postMechanic } from './agentUtil';
+import { postDiaryEntry, postMotofy, postProduct, postMechanic, postActivity } from './agentUtil';
 import { IFeedEnvelope, IFeedsToMarkSeen } from '../models/feed';
 import { IPrivateMessageEnvelope, IPrivateMessageToSend } from '../models/privatemessages';
-// import { resolve } from 'dns';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -102,6 +98,26 @@ const requests = {
 };
 
 
+const Activities = {
+
+  list: (params: URLSearchParams): Promise<IActivitiesEnvelope> =>
+    axios.get('/activities', { params: params })
+      // .then(sleep(1000))
+      .then(responseBody),
+
+  details: (id: string) => requests.get(`/activities/${id}`),
+  // create: (activity: IActivity) => requests.post('/activities', activity),
+  create: (activity: IActivity) => postActivity.activityForm('/activities', activity),
+  update: (activity: IActivity) =>
+    requests.put(`/activities/${activity.id}`, activity),
+  delete: (id: string) => requests.delete(`/activities/${id}`),
+  deactivate: (id: string) => requests.put(`/activities/${id}/deactivate`, {}),
+  attend: (id: string) => requests.post(`/activities/${id}/attend`, {}),
+  unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
+
+
+};
+
 const Motofies = {
   // list: (limit?: number, page?: number): Promise<IMotofyEnvelope> => 
   // requests.get(`motofies?limit=${limit}&offset=${page ? page * limit! : 0}`),
@@ -178,25 +194,6 @@ const Admin = {
   productDetails: (id: string) => requests.get(`/admin/user-product-by-id/${id}`),
 
   
-};
-
-const Activities = {
-
-  list: (params: URLSearchParams): Promise<IActivitiesEnvelope> =>
-    axios.get('/activities', { params: params })
-      // .then(sleep(1000))
-      .then(responseBody),
-
-  details: (id: string) => requests.get(`/activities/${id}`),
-  create: (activity: IActivity) => requests.post('/activities', activity),
-  update: (activity: IActivity) =>
-    requests.put(`/activities/${activity.id}`, activity),
-  delete: (id: string) => requests.delete(`/activities/${id}`),
-  deactivate: (id: string) => requests.put(`/activities/${id}/deactivate`, {}),
-  attend: (id: string) => requests.post(`/activities/${id}/attend`, {}),
-  unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
-
-
 };
 
 const DiaryEntries = {

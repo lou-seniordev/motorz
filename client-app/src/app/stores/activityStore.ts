@@ -168,6 +168,7 @@ export default class ActivityStore {
       runInAction('loading activities', () => {
 
         activities.forEach((activity) => {
+          // console.log('activity <-::->', activity);
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
 
@@ -183,19 +184,6 @@ export default class ActivityStore {
     }
   };
 
-  //   ==== example promise chaining version ====
-  //   @action loadActivities = () => {
-  //     this.loadingInitial = true;
-  //     agent.Activities.list()
-  //       .then((activities) => {
-  //         activities.forEach((activity) => {
-  //           activity.date = activity.date.split('.')[0];
-  //           this.activities.push(activity);
-  //         });
-  //       })
-  //       .catch(error => console.log(error))
-  //       .finally(() => (this.loadingInitial = false));
-  //   };
 
   @action loadActivity = async (id: string) => {
     let activity = this.getActivity(id);

@@ -72,10 +72,6 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
     city: isRequired( { message: t("City is required") }),
     countryName: isRequired({ message: t("Country is required") }),
     model: isRequired( { message: t("Model is required") }),
-    // pricePaid: composeValidators(
-    //   isNumeric("Price paid"),
-    //   isRequired("Price paid")
-    // )(),
     cubicCentimeters: composeValidators(
       isNumeric({ message: t("Power of engine must be numeric value") }),
       isRequired( { message: t("Power of engine is required") })
@@ -85,18 +81,12 @@ const GalleryForm: React.FC<RouteComponentProps<DetailParams>> = ({
       isNumeric({ message: t("Number of kilometers must be numeric value") }),
       isRequired({ message: t("Number of kilometers is required") })
     )(),
-    // estimatedValue: composeValidators(
-    //   isNumeric("Estimated valude"),
-    //   isRequired("Estimated valude")
-    // )(),
   });
 
   const [motofy, setMotofy] = useState(new MotofyFormValues());
   const [loading, setLoading] = useState(false);
 
   const [editMode, setEditMode] = useState(false);
-
-
   const [uploaded, setUploaded] = useState(false);
 
   const [edited, setEdited] = useState(false);

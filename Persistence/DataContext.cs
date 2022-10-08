@@ -13,6 +13,7 @@ namespace Persistence
         {
         }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<ActivityPhoto> ActivityPhotos { get; set; }
         public DbSet<UserActivity> UserActivities { get; set; }
         public DbSet<DiaryEntry> DiaryEntries { get; set; }
         public DbSet<DiaryPhoto> DiaryPhotos { get; set; }
@@ -190,6 +191,11 @@ namespace Persistence
             .HasOne(a => a.MotofyPhoto)
             .WithOne(m => m.Motofy)
             .HasForeignKey<MotofyPhoto>(m => m.MotofyForeignKey);
+           
+            builder.Entity<Activity>()
+            .HasOne(a => a.ActivityPhoto)
+            .WithOne(m => m.Activity)
+            .HasForeignKey<ActivityPhoto>(m => m.ActivityForeignKey);
 
             builder.Entity<Mechanic>()
             .HasOne(a => a.MechanicPhoto)

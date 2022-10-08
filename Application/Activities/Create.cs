@@ -7,6 +7,7 @@ using Persistence;
 using FluentValidation;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Activities
 {
@@ -24,6 +25,7 @@ namespace Application.Activities
             public string CountryName { get; set; }
             public string Departure { get; set; }
             public string Destination { get; set; }
+            public IFormFile File { get; set; }
 
         }
 
@@ -46,11 +48,12 @@ namespace Application.Activities
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            private readonly IEntityPhotoAccessor _entityPhotoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IEntityPhotoAccessor entityPhotoAccessor)
             {
+                _entityPhotoAccessor = entityPhotoAccessor;
                 _userAccessor = userAccessor;
                 _context = context;
-
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -78,6 +81,16 @@ namespace Application.Activities
                     Destination = request.Destination,
                     IsActive = true
                 };
+                var photoUploadResult = _entityPhotoAccessor.AddPhoto(request.File, 400, 500);
+
+                var photoForActivity = new ActivityPhoto 
+                {
+                    Url = photoUploadResult.Url,
+                    Id = photoUploadResult.PublicId,
+                    ActivityForeignKey = activity.Id
+                };
+
+                activity.ActivityPhoto = photoForActivity;
 
                 _context.Activities.Add(activity);
 

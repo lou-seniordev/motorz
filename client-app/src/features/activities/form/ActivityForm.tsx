@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form, Grid, Label, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Label, Segment, Sticky, Image } from 'semantic-ui-react';
 import { ActivityFormValues } from '../../../app/models/activity';
 import { v4 as uuid } from 'uuid';
 import { observer } from 'mobx-react-lite';
@@ -19,6 +19,8 @@ import {
   isRequired,
 } from 'revalidate';
 import { useTranslation } from "react-i18next";
+import PhotoUploadWidget from '../../../app/common/photoUpload/PhotoUploadWidget';
+import { toast } from 'react-toastify';
 
 
 
@@ -43,6 +45,16 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   const {loadBrandsToSelect, brands } = rootStore.brandStore;
   const [editMode, setEditMode] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
+  const [imageToUpload, setImageToUpload] = useState(null);
+
+  let image: any;
+  const [previewImage, setPreviewImage] = useState();
+
+  const [activity, setActivity] = useState(new ActivityFormValues());
+  const [loading, setLoading] = useState(false);
+
+  // const [edited, setEdited] = useState(false);
 
 
   const { t } = useTranslation(["forms"]);
@@ -62,8 +74,6 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     date: isRequired({ message: t("Date is required") }),
     time: isRequired( { message: t("Time is required") }),
   });
-  const [activity, setActivity] = useState(new ActivityFormValues());
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadBrandsToSelect();
@@ -73,6 +83,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     if (match.params.id) {
       setEditMode(true);
       setLoading(true);
+      // setEdited(true);
       loadActivity(match.params.id)
       .then((activity) => setActivity(new ActivityFormValues(activity)))
       .finally(() => setLoading(false));
@@ -84,13 +95,13 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     const dateAndTime = combineDateAndTime(values.date, values.time);
     const { date, time, ...activity } = values;
     activity.date = dateAndTime;
-    // console.log('brands in edit',toJS(brands));
     if (!activity.id) {
       let newActivity = {
         ...activity,
         id: newId,
         isHost: true,
         isActive: true,
+        file: imageToUpload,
         diaryEntries: []
       };
       createActivity(newActivity);
@@ -100,9 +111,36 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     }
   };
 
+  const setPreview = (imageToSet: any) => {
+    Object.assign(image, {
+      preview: URL.createObjectURL(imageToSet),
+    });
+    setPreviewImage(image.preview);
+  };
+
+  const handleUploadImage = (photo: any) => {
+    setImageToUpload(photo);
+    image = photo;
+    setPreview(photo);
+    setUploaded(true);
+    toast.info(t("Your image is uploaded, please give us more details"));
+  };
+
   return (
     <Grid>
-      <Grid.Column width={3} />
+      {/* <Grid.Column width={3} /> */}
+      {!uploaded && !editMode && (
+        <Grid.Column width={16}>
+          <Segment>
+            <PhotoUploadWidget
+              uploadPhoto={handleUploadImage}
+              loading={uploaded}
+            />
+          </Segment>
+        </Grid.Column>
+      )}
+      {uploaded && (
+
       <Grid.Column 
       computer={10} mobile={16}
       >
@@ -147,7 +185,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 />{editMode && <Label content={t('Date and Time')}/>}
                 <Form.Group widths='equal'>
                   <Field
-                    placeholder={t('Date')}
+                    placeholder={t('Starting date')}
                     component={DateInput}
                     name='date'
                     date={true}
@@ -157,7 +195,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     component={DateInput}
                     name='time'
                     time={true}
-                    placeholder={t('Time')}
+                    placeholder={t('Starting time')}
                     value={activity.time}
                   />
                 </Form.Group>
@@ -214,7 +252,28 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
           />
         </Segment>
       </Grid.Column>
-      <Grid.Column width={3} />
+      )}
+      {/* <Grid.Column width={3} /> */}
+      {uploaded && !editMode && (
+        <Grid.Column width={6}>
+          <Sticky style={{ marginRight: 30, position: "fixed" }}>
+            <Segment>
+              {/* <Header as='h2'>{motomoto}</Header> */}
+              <Image size='large' bordered src={previewImage} />
+            </Segment>
+          </Sticky>
+        </Grid.Column>
+      )}
+      {uploaded && editMode && (
+        <Grid.Column width={6}>
+          <Sticky style={{ marginRight: 30, position: "fixed" }}>
+            <Segment>
+              <Header as='h2'>{activity.title}</Header>
+              <Image size='large' bordered src={activity.photoUrl} />
+            </Segment>
+          </Sticky>
+        </Grid.Column>
+      )}
     </Grid>
   );
 };

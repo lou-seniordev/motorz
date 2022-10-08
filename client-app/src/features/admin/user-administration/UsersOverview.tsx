@@ -134,7 +134,7 @@ const UsersOverview = () => {
               <Table.Cell>{member.city}</Table.Cell>
               <Table.Cell>{member.country}</Table.Cell>
               <Table.Cell>{member.email}</Table.Cell>
-              <Table.Cell>{formatDistance(new Date(member.joinedUs), new Date)}</Table.Cell>
+              <Table.Cell>{formatDistance(new Date(member.joinedUs), new Date())}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

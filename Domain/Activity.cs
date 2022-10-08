@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-    public class Activity//: BaseEntity
+    public class Activity
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -14,15 +14,15 @@ namespace Domain
         public virtual Country Country { get; set; }
         public string Departure { get; set; }
         public string Destination { get; set; }
+        public string PhotoUrl { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsCompleted { get; set; } = false;
         public virtual ICollection<UserActivity> UserActivities { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ActivityPhoto ActivityPhoto { get; set; }
         public virtual ICollection<CommentActivity> CommentActivities { get; set; }
         public virtual ICollection<DiaryEntry> DiaryEntries { get; set; }
         public virtual Brand MotorcycleBrand { get; set; }
-
-
 
     }
 }

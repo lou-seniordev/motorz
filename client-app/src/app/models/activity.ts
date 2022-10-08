@@ -17,6 +17,7 @@ export interface IActivity {
   countryId: string; //maybe new
   departure: string;
   destination: string;
+  photoUrl: string;
   isGoing: boolean;
   isHost: boolean;
   isActive: boolean;
@@ -27,6 +28,7 @@ export interface IActivity {
   motorcycleBrandId: string;
   motorcycleBrandName: string;
   motorcycleBrandLogoUrl: string;
+  file: Blob;
 }
 
 export interface IAdminActivity {
@@ -63,6 +65,7 @@ export class ActivityFormValues implements IActivityFormValues {
   countryId: string = '';
   departure: string = '';
   destination: string = '';
+  photoUrl: string = '';
   //TODO:motorcycleBrandId, name etc...
 
 
